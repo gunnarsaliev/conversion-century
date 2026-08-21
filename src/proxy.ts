@@ -11,6 +11,10 @@ const handleI18nRouting = createMiddleware(routing)
 // Rewrite requests for those paths to the folder matching the resolved locale.
 const LOCALIZED_DOCS_SECTIONS = ['technical-seo', 'workflow']
 
+// getting-started/page.md is likewise split into per-locale folders
+// (getting-started/<locale>/page.md), with the URL staying /getting-started.
+const LOCALIZED_TOP_LEVEL_PAGES = ['getting-started']
+
 export default function proxy(request: NextRequest) {
   const response = handleI18nRouting(request)
 
@@ -22,6 +26,15 @@ export default function proxy(request: NextRequest) {
 
     if (rest[0] === 'docs' && LOCALIZED_DOCS_SECTIONS.includes(rest[1])) {
       const localizedPathname = ['', locale, 'docs', locale, ...rest.slice(1)].join(
+        '/',
+      )
+      return NextResponse.rewrite(new URL(localizedPathname, request.url), {
+        headers: response.headers,
+      })
+    }
+
+    if (LOCALIZED_TOP_LEVEL_PAGES.includes(rest[0])) {
+      const localizedPathname = ['', locale, rest[0], locale, ...rest.slice(1)].join(
         '/',
       )
       return NextResponse.rewrite(new URL(localizedPathname, request.url), {

@@ -6,23 +6,23 @@ nextjs:
     description: Comprehensive technical SEO audit recommendations and implementation guidelines for website optimization.
 ---
 
-Below is the comprehensive overview of technical SEO audit recommendations, organized by category and priority level for systematic implementation.
+По-долу е представен цялостният преглед на препоръките от техническия SEO одит, организирани по категория и приоритет за систематично внедряване.
 
 {% quick-links %}
 
-{% quick-link title="General Requirements" icon="installation" href="/docs/technical-seo/general" description="Core technical SEO requirements including Yoast SEO, HTML5, and basic setup." /%}
+{% quick-link title="Общи изисквания" icon="installation" href="/docs/technical-seo/general" description="Основни технически SEO изисквания, включващи Yoast SEO, HTML5 и базова настройка." /%}
 
-{% quick-link title="Navigation & Architecture" icon="presets" href="/docs/technical-seo/navigation" description="Site structure optimization, navigation elements, and internal linking strategy." /%}
+{% quick-link title="Навигация и архитектура" icon="presets" href="/docs/technical-seo/navigation" description="Оптимизация на структурата на сайта, навигационните елементи и стратегията за вътрешно линкване." /%}
 
-{% quick-link title="Schema Markup" icon="plugins" href="/docs/technical-seo/schema-markup" description="Structured data implementation for rich results and search visibility." /%}
+{% quick-link title="Schema Markup" icon="plugins" href="/docs/technical-seo/schema-markup" description="Внедряване на структурирани данни за rich results и по-добра видимост в търсачките." /%}
 
-{% quick-link title="Site Speed" icon="theming" href="/docs/technical-seo/site-speed" description="Performance optimization tools and techniques for faster loading times." /%}
+{% quick-link title="Скорост на сайта" icon="theming" href="/docs/technical-seo/site-speed" description="Инструменти и техники за оптимизация на производителността за по-бързо зареждане." /%}
 
 {% /quick-links %}
 
 ---
 
-## General Technical Requirements
+## Общи технически изисквания
 
 **Category:** General | **Team:** Dev team | **Type:** Техническа
 
@@ -48,7 +48,7 @@ Below is the comprehensive overview of technical SEO audit recommendations, orga
 
 ---
 
-## Legal & Compliance
+## Правни и нормативни изисквания
 
 **Category:** General | **Team:** Dev team | **Type:** Техническа
 
@@ -67,7 +67,7 @@ GDPR и правни изисквания:
 
 ---
 
-## Navigation & Architecture
+## Навигация и архитектура
 
 **Category:** Navigation | **Team:** Dev team | **Type:** Техническа
 
@@ -87,7 +87,7 @@ GDPR и правни изисквания:
 
 ---
 
-## Meta Optimization
+## Оптимизация на мета данни
 
 **Category:** Meta titles and descriptions | **Team:** SEO team | **Type:** Техническа
 
@@ -137,7 +137,7 @@ GDPR и правни изисквания:
 
 ---
 
-## Site Speed & Performance
+## Скорост и производителност
 
 **Category:** Site speed | **Team:** Dev team | **Type:** Техническа
 
@@ -161,7 +161,7 @@ GDPR и правни изисквания:
 
 ---
 
-## Additional Categories
+## Допълнителни категории
 
 Допълнителни технически SEO области за оптимизация:
 
