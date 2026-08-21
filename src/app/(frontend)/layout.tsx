@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google'
 import localFont from 'next/font/local'
 import clsx from 'clsx'
 
-import { Providers } from '@/app/providers'
+import { Providers } from '@/app/(frontend)/providers'
 import { Layout } from '@/components/Layout'
 
 import '@/styles/tailwind.css'
