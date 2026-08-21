@@ -38,7 +38,7 @@ export function AvatarMenu() {
         <Menu.Positioner side="bottom" align="end" sideOffset={8}>
           <Menu.Popup
             className={cn(
-              "min-w-32 rounded-lg border border-slate-200 bg-white py-1 shadow-lg outline-none",
+              "z-[60] min-w-32 rounded-lg border border-slate-200 bg-white py-1 shadow-lg outline-none",
               "dark:border-slate-700 dark:bg-slate-800",
             )}
           >
