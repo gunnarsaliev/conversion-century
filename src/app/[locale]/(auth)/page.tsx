@@ -1,5 +1,6 @@
 import { headers as getHeaders } from "next/headers";
-import { redirect } from "next/navigation";
+import { getLocale } from "next-intl/server";
+import { redirect } from "@/i18n/navigation";
 import { getPayload } from "payload";
 
 import config from "@payload-config";
@@ -9,9 +10,10 @@ export default async function LoginPage() {
   const headers = await getHeaders();
   const payload = await getPayload({ config });
   const { user } = await payload.auth({ headers });
+  const locale = await getLocale();
 
   if (user) {
-    redirect("/getting-started");
+    redirect({ href: "/getting-started", locale });
   }
 
   return <Signup10 />;

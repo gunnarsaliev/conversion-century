@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import clsx from 'clsx'
 
 import { type Section, type Subsection } from '@/lib/sections'

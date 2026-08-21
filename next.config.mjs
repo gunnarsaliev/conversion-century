@@ -1,7 +1,10 @@
 import withMarkdoc from '@markdoc/next.js'
 import { withPayload } from '@payloadcms/next/withPayload'
+import createNextIntlPlugin from 'next-intl/plugin'
 
 import withSearch from './src/markdoc/search.mjs'
+
+const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts')
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -9,9 +12,11 @@ const nextConfig = {
 }
 
 export default withPayload(
-  withSearch(
-    withMarkdoc({ schemaPath: './src/markdoc', nextjsExports: ['revalidate'] })(
-      nextConfig,
+  withNextIntl(
+    withSearch(
+      withMarkdoc({ schemaPath: './src/markdoc', nextjsExports: ['revalidate'] })(
+        nextConfig,
+      ),
     ),
   ),
 )

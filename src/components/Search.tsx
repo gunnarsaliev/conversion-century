@@ -11,7 +11,9 @@ import {
   useState,
 } from 'react'
 import Highlighter from 'react-highlight-words'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
+
+import { usePathname, useRouter } from '@/i18n/navigation'
 import {
   type AutocompleteApi,
   type AutocompleteCollection,

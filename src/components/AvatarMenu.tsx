@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { Menu } from "@base-ui/react/menu";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
