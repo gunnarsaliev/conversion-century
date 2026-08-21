@@ -59,7 +59,7 @@ const Signup10 = ({ className }: Signup10Props) => {
   };
 
   return (
-    <section className={cn("bg-background", className)}>
+    <section className={cn("w-full bg-background", className)}>
       <div className="flex min-h-screen flex-col items-center justify-between gap-20 py-16 lg:flex-row lg:gap-0 lg:py-0">
         <div className="mx-auto flex w-full max-w-xl flex-col items-center gap-6 px-6 lg:w-1/2 lg:px-0">
           <div className="flex h-14 w-14 items-center justify-center">
