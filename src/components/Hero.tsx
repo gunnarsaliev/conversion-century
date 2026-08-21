@@ -82,7 +82,7 @@ export function Hero() {
                 src={blurIndigoImage}
                 alt=""
                 width={567}
-                height={567}
+                height={568}
                 unoptimized
                 priority
               />

@@ -1,6 +1,5 @@
 import { type Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import localFont from 'next/font/local'
+import { Inter, Lato } from 'next/font/google'
 import clsx from 'clsx'
 
 import { Providers } from '@/app/(frontend)/providers'
@@ -14,9 +13,9 @@ const inter = Inter({
   variable: '--font-inter',
 })
 
-// Use local version of Lexend so that we can use OpenType features
-const lexend = localFont({
-  src: '../fonts/lexend.woff2',
+const lexend = Lato({
+  subsets: ['latin'],
+  weight: ['400', '700', '900'],
   display: 'swap',
   variable: '--font-lexend',
 })
