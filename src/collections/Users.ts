@@ -8,19 +8,42 @@ export const Users: CollectionConfig = {
   },
   access: {
     // Allow public signup: anyone (including logged-out users) can create
-    // a new account via POST /api/users.
+    // a new account via POST /api/users. New accounts default to the
+    // 'user' role (see the `roles` field below) — never 'admin'.
     create: () => true,
-    // Any authenticated user may read/update user records. There is no
-    // roles concept yet, so this is intentionally permissive-if-logged-in
-    // rather than restricted to "self" (known limitation, not a bug).
+    // Any authenticated user may read user records. There is no
+    // self-vs-others distinction yet, so this is intentionally
+    // permissive-if-logged-in rather than restricted to "self" (known
+    // limitation, not a bug).
     read: ({ req: { user } }) => Boolean(user),
-    update: ({ req: { user } }) => Boolean(user),
+    // Only admins may update user records (including roles) — this
+    // prevents a public signup from granting itself the admin role via
+    // the API.
+    update: ({ req: { user } }) => Boolean(user) && user?.role === 'admin',
     // No one may delete user records via the API.
     delete: () => false,
-    // Public signups must never be able to log into /admin. Without this,
-    // every signed-up user is a full Payload admin because this collection
-    // (slug "users") is the implicit admin user collection.
-    admin: () => false,
+    // Only accounts with the 'admin' role may log into /admin. Without
+    // this, every signed-up user would be a full Payload admin, because
+    // this collection (slug "users") is the implicit admin user
+    // collection.
+    admin: ({ req: { user } }) => user?.role === 'admin',
   },
-  fields: [],
+  fields: [
+    {
+      name: 'role',
+      type: 'select',
+      required: true,
+      defaultValue: 'user',
+      // Only admins may set/change this field — enforced at the field
+      // level so it also applies to updates that pass the collection's
+      // `update` access check (e.g. an admin editing another user).
+      access: {
+        update: ({ req: { user } }) => user?.role === 'admin',
+      },
+      options: [
+        { label: 'User', value: 'user' },
+        { label: 'Admin', value: 'admin' },
+      ],
+    },
+  ],
 }
