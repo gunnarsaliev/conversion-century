@@ -8,8 +8,10 @@ import { type Section, type Subsection } from '@/lib/sections'
 
 export function TableOfContents({
   tableOfContents,
+  className,
 }: {
   tableOfContents: Array<Section>
+  className?: string
 }) {
   let [currentSection, setCurrentSection] = useState(tableOfContents[0]?.id)
 
@@ -62,7 +64,12 @@ export function TableOfContents({
   }
 
   return (
-    <div className="hidden xl:sticky xl:top-19 xl:-mr-6 xl:block xl:h-[calc(100vh-4.75rem)] xl:flex-none xl:overflow-y-auto xl:py-16 xl:pr-6">
+    <div
+      className={clsx(
+        'hidden xl:sticky xl:top-19 xl:-mr-6 xl:block xl:h-[calc(100vh-4.75rem)] xl:flex-none xl:overflow-y-auto xl:py-16 xl:pr-6',
+        className,
+      )}
+    >
       <nav aria-labelledby="on-this-page-title" className="w-56">
         {tableOfContents.length > 0 && (
           <>

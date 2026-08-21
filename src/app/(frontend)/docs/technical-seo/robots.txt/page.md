@@ -8,6 +8,8 @@ nextjs:
 
 Below is the structured technical overview for `robots.txt` configuration, search engine indexing controls, and sitemap directives extracted from the website audit.
 
+{% youtube id="https://www.youtube.com/watch?v=RyJYGpVyl0o" title="Robots.txt explained" /%}
+
 ---
 
 ## Формат

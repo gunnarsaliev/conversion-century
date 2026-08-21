@@ -1,6 +1,7 @@
 import { Callout } from '@/components/Callout'
 import { QuickLink, QuickLinks } from '@/components/QuickLinks'
 import { Recommendation } from '@/components/Recommendation'
+import { YouTube } from '@/components/YouTube'
 
 const tags = {
   callout: {
@@ -45,6 +46,14 @@ const tags = {
   },
   recommendation: {
     render: Recommendation,
+  },
+  youtube: {
+    selfClosing: true,
+    render: YouTube,
+    attributes: {
+      id: { type: String },
+      title: { type: String },
+    },
   },
 }
 

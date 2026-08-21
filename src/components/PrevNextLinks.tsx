@@ -50,7 +50,7 @@ function PageLink({
   )
 }
 
-export function PrevNextLinks() {
+export function PrevNextLinks({ className }: { className?: string }) {
   let pathname = usePathname()
   let allLinks = navigation.flatMap((section) => section.links)
   let linkIndex = allLinks.findIndex((link) => link.href === pathname)
@@ -62,7 +62,12 @@ export function PrevNextLinks() {
   }
 
   return (
-    <dl className="mt-12 flex border-t border-slate-200 pt-6 dark:border-slate-800">
+    <dl
+      className={clsx(
+        'mt-12 flex border-t border-slate-200 pt-6 dark:border-slate-800',
+        className,
+      )}
+    >
       {previousPage && <PageLink dir="previous" {...previousPage} />}
       {nextPage && <PageLink className="ml-auto text-right" {...nextPage} />}
     </dl>

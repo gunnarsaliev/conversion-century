@@ -1,7 +1,28 @@
 'use client'
 
-import { useState } from 'react'
+import { isValidElement, useState } from 'react'
+import type { ReactNode } from 'react'
 import clsx from 'clsx'
+
+function getTextContent(node: ReactNode): string {
+  if (node === null || node === undefined || typeof node === 'boolean') {
+    return ''
+  }
+
+  if (typeof node === 'string' || typeof node === 'number') {
+    return String(node)
+  }
+
+  if (Array.isArray(node)) {
+    return node.map(getTextContent).join('')
+  }
+
+  if (isValidElement<{ children?: ReactNode }>(node)) {
+    return getTextContent(node.props.children)
+  }
+
+  return ''
+}
 
 export function Recommendation({
   children,
@@ -11,7 +32,7 @@ export function Recommendation({
   const [copied, setCopied] = useState(false)
 
   const handleCopy = async () => {
-    const text = typeof children === 'string' ? children : String(children)
+    const text = getTextContent(children).trim()
     try {
       await navigator.clipboard.writeText(text)
       setCopied(true)
