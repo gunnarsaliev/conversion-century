@@ -7,10 +7,9 @@ export const Users: CollectionConfig = {
     useAsTitle: 'email',
   },
   access: {
-    // Allow public signup: anyone (including logged-out users) can create
-    // a new account via POST /api/users. New accounts default to the
-    // 'user' role (see the `roles` field below) — never 'admin'.
-    create: () => true,
+    // Public signup is disabled — accounts are created by admins only
+    // (via /admin or the API while authenticated as an admin).
+    create: ({ req: { user } }) => user?.role === 'admin',
     // Any authenticated user may read user records. There is no
     // self-vs-others distinction yet, so this is intentionally
     // permissive-if-logged-in rather than restricted to "self" (known

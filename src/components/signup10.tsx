@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,38 +9,14 @@ import { cn } from "@/lib/utils";
 
 interface Signup10Props {
   className?: string;
-  mode?: "signup" | "login";
 }
 
-const COPY = {
-  signup: {
-    heading: "Create your free account",
-    submitLabel: "Continue",
-    submittingLabel: "Creating account…",
-    endpoint: "/api/users",
-    footerPrompt: "Already a user?",
-    footerLinkLabel: "Log in",
-    footerLinkHref: "/login",
-  },
-  login: {
-    heading: "Log in to your account",
-    submitLabel: "Log in",
-    submittingLabel: "Logging in…",
-    endpoint: "/api/users/login",
-    footerPrompt: "New here?",
-    footerLinkLabel: "Sign up",
-    footerLinkHref: "/signup",
-  },
-} as const;
-
-const Signup10 = ({ className, mode = "signup" }: Signup10Props) => {
+const Signup10 = ({ className }: Signup10Props) => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
-
-  const copy = COPY[mode];
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -49,7 +24,7 @@ const Signup10 = ({ className, mode = "signup" }: Signup10Props) => {
     setSubmitting(true);
 
     try {
-      const res = await fetch(copy.endpoint, {
+      const res = await fetch("/api/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -57,24 +32,6 @@ const Signup10 = ({ className, mode = "signup" }: Signup10Props) => {
       });
 
       if (res.ok) {
-        if (mode === "signup") {
-          // Signup only creates the account; it does not establish a
-          // session. Log the user in immediately after so the redirect
-          // below reflects reality (an authenticated session).
-          try {
-            await fetch("/api/users/login", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              credentials: "include",
-              body: JSON.stringify({ email, password }),
-            });
-          } catch (err) {
-            console.error(err);
-            // Account was created successfully; proceed with the redirect
-            // even if the follow-up login failed.
-          }
-        }
-
         router.push("/");
         return;
       }
@@ -112,7 +69,7 @@ const Signup10 = ({ className, mode = "signup" }: Signup10Props) => {
           </div>
 
           <h1 className="mb-8 w-full text-center text-3xl font-medium tracking-tighter text-foreground md:text-4xl">
-            {copy.heading}
+            Log in to your account
           </h1>
 
           <form
@@ -133,9 +90,7 @@ const Signup10 = ({ className, mode = "signup" }: Signup10Props) => {
               className="h-14 rounded-full border-none bg-muted px-5 py-4 font-medium"
               placeholder="Enter Your Password"
               type="password"
-              autoComplete={
-                mode === "signup" ? "new-password" : "current-password"
-              }
+              autoComplete="current-password"
               required
               value={password}
               onChange={(event) => setPassword(event.target.value)}
@@ -153,23 +108,16 @@ const Signup10 = ({ className, mode = "signup" }: Signup10Props) => {
               className="h-14 w-full rounded-full bg-foreground text-background hover:bg-foreground/90"
             >
               <span className="font-medium tracking-tight">
-                {submitting ? copy.submittingLabel : copy.submitLabel}
+                {submitting ? "Logging in…" : "Log in"}
               </span>
             </Button>
           </form>
 
-          <p className="mb-8 w-full text-center text-sm tracking-tight text-foreground/40">
+          <p className="mb-20 w-full text-center text-sm tracking-tight text-foreground/40">
             <span>By proceeding, you accept the shadcnblocks.com</span>{" "}
             <span className="cursor-pointer underline">Terms</span>
             <span> and </span>
             <span className="cursor-pointer underline">Privacy Policy</span>
-          </p>
-
-          <p className="mb-20 w-full text-center text-sm font-medium tracking-tight">
-            {copy.footerPrompt}{" "}
-            <Link href={copy.footerLinkHref} className="underline">
-              {copy.footerLinkLabel}
-            </Link>
           </p>
         </div>
         <div className="hidden h-screen w-full bg-muted lg:block">
