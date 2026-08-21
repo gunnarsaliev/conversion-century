@@ -57,6 +57,24 @@ const Signup10 = ({ className, mode = "signup" }: Signup10Props) => {
       });
 
       if (res.ok) {
+        if (mode === "signup") {
+          // Signup only creates the account; it does not establish a
+          // session. Log the user in immediately after so the redirect
+          // below reflects reality (an authenticated session).
+          try {
+            await fetch("/api/users/login", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              credentials: "include",
+              body: JSON.stringify({ email, password }),
+            });
+          } catch (err) {
+            console.error(err);
+            // Account was created successfully; proceed with the redirect
+            // even if the follow-up login failed.
+          }
+        }
+
         router.push("/");
         return;
       }
@@ -64,8 +82,10 @@ const Signup10 = ({ className, mode = "signup" }: Signup10Props) => {
       let message = "Something went wrong, please try again.";
       try {
         const data = await res.json();
-        if (data?.errors?.[0]?.message) {
-          message = data.errors[0].message;
+        const err = data?.errors?.[0];
+        const nestedMessage = err?.data?.errors?.[0]?.message;
+        if (nestedMessage ?? err?.message) {
+          message = nestedMessage ?? err.message;
         }
       } catch {
         // response had no JSON body; keep generic message
