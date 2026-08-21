@@ -1,12 +1,12 @@
 import { type Metadata } from 'next'
-import { Inter, Lato } from 'next/font/google'
+import { Open_Sans, Lato } from 'next/font/google'
 import clsx from 'clsx'
 
 import { Providers } from '@/app/(frontend)/providers'
 
 import '@/styles/tailwind.css'
 
-const inter = Inter({
+const inter = Open_Sans({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-inter',
