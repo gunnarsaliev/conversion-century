@@ -34,7 +34,7 @@ const Signup10 = ({ className }: Signup10Props) => {
       });
 
       if (res.ok) {
-        router.push("/");
+        router.push("/getting-started");
         return;
       }
 
