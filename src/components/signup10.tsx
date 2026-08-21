@@ -2,10 +2,12 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import officeImage from "@/images/office.jpg";
 
 interface Signup10Props {
   className?: string;
@@ -120,11 +122,14 @@ const Signup10 = ({ className }: Signup10Props) => {
             <span className="cursor-pointer underline">Privacy Policy</span>
           </p>
         </div>
-        <div className="hidden h-screen w-full bg-muted lg:block">
-          <img
-            src="https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-dark-7-tall.svg"
-            className="size-full object-cover"
+        <div className="relative hidden h-screen w-full bg-muted lg:block">
+          <Image
+            src={officeImage}
             alt=""
+            fill
+            sizes="50vw"
+            className="object-cover"
+            priority
           />
         </div>
       </div>
