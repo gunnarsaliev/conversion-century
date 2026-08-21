@@ -20,8 +20,8 @@ export const Users: CollectionConfig = {
     // prevents a public signup from granting itself the admin role via
     // the API.
     update: ({ req: { user } }) => Boolean(user) && user?.role === 'admin',
-    // No one may delete user records via the API.
-    delete: () => false,
+    // Only admins may delete user records via the API.
+    delete: ({ req: { user } }) => user?.role === 'admin',
     // Only accounts with the 'admin' role may log into /admin. Without
     // this, every signed-up user would be a full Payload admin, because
     // this collection (slug "users") is the implicit admin user
