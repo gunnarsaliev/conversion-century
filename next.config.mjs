@@ -9,6 +9,14 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts')
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   pageExtensions: ['js', 'jsx', 'md', 'ts', 'tsx'],
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'pub-05efc1b2acd64b71beacdf66eed34654.r2.dev',
+      },
+    ],
+  },
 }
 
 export default withPayload(

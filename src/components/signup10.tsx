@@ -7,7 +7,10 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import officeImage from "@/images/office.jpg";
+import { Logo } from "@/components/Logo";
+
+const officeImage =
+  "https://pub-05efc1b2acd64b71beacdf66eed34654.r2.dev/office-yellow-chair.jpg";
 
 interface Signup10Props {
   className?: string;
@@ -62,12 +65,8 @@ const Signup10 = ({ className }: Signup10Props) => {
     <section className={cn("w-full bg-background", className)}>
       <div className="flex min-h-screen flex-col items-center justify-between gap-20 py-16 lg:flex-row lg:gap-0 lg:py-0">
         <div className="mx-auto flex w-full max-w-xl flex-col items-center gap-6 px-6 lg:w-1/2 lg:px-0">
-          <div className="flex h-14 w-14 items-center justify-center">
-            <img
-              className="h-14 w-12"
-              alt="Logo"
-              src="https://deifkwefumgah.cloudfront.net/shadcnblocks/block/block-1.svg"
-            />
+          <div className="flex items-center justify-center">
+            <Logo className="h-auto w-36" width={144} height={144} priority />
           </div>
 
           <h1 className="mb-8 w-full text-center text-3xl font-medium tracking-tighter text-foreground md:text-4xl">

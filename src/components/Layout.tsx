@@ -41,8 +41,8 @@ function Header() {
       </div>
       <div className="relative flex grow basis-0 items-center">
         <Link href="/" aria-label="Home page">
-          <Logomark className="h-9 w-9 lg:hidden" />
-          <Logo className="hidden h-9 w-auto fill-slate-700 lg:block dark:fill-sky-100" />
+          <Logomark className="h-12 w-12 lg:hidden" />
+          <Logo className="hidden h-12 w-auto fill-slate-700 lg:block dark:fill-sky-100" />
         </Link>
       </div>
       <div className="-my-5 mr-6 sm:mr-8 md:mr-0">

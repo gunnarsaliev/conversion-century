@@ -1,3 +1,5 @@
+import Image, { type ImageProps } from "next/image"
+
 function LogomarkPaths() {
   return (
     <g fill="none" stroke="#38BDF8" strokeLinejoin="round" strokeWidth={3}>
@@ -15,10 +17,12 @@ export function Logomark(props: React.ComponentPropsWithoutRef<'svg'>) {
   )
 }
 
-import logo from '../images/logo-full.png'
+const logo: string = 'https://pub-05efc1b2acd64b71beacdf66eed34654.r2.dev/conversion-century-logo-wide.png'
 
-export function Logo(props: React.ComponentPropsWithoutRef<'img'>) {
-  return (
-   <img src={logo.src} alt="Logo" {...props} />
-  )
+type LogoProps = Omit<ImageProps, 'src' | 'alt'> & { alt?: string }
+
+export function Logo({ alt = 'Logo', width = 100, height = 100, ...props }: LogoProps) {
+    return (
+    <Image src={logo} alt={alt} width={width} height={height} {...props} />
+    )
 }

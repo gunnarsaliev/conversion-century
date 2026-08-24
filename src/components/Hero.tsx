@@ -1,37 +1,9 @@
-import { Fragment } from 'react'
 import Image from 'next/image'
-import clsx from 'clsx'
-import { Highlight } from 'prism-react-renderer'
 
 import { Button } from '@/components/Button'
 import { HeroBackground } from '@/components/HeroBackground'
 import blurCyanImage from '@/images/blur-cyan.png'
 import blurIndigoImage from '@/images/blur-indigo.png'
-import seoScoreImage from '@/images/seo-score.png'
-
-const codeLanguage = 'javascript'
-const code = `export default {
-  strategy: 'predictive',
-  engine: {
-    cpus: 12,
-    backups: ['./storage/cache.wtf'],
-  },
-}`
-
-const tabs = [
-  { name: 'cache-advance.config.js', isActive: true },
-  { name: 'package.json', isActive: false },
-]
-
-function TrafficLightsIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
-  return (
-    <svg aria-hidden="true" viewBox="0 0 42 10" fill="none" {...props}>
-      <circle cx="5" cy="5" r="4.5" />
-      <circle cx="21" cy="5" r="4.5" />
-      <circle cx="37" cy="5" r="4.5" />
-    </svg>
-  )
-}
 
 export function Hero() {
   return (
