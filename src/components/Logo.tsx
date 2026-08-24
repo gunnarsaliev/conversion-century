@@ -1,5 +1,7 @@
 import Image, { type ImageProps } from "next/image"
 
+import { cn } from "@/lib/utils"
+
 function LogomarkPaths() {
   return (
     <g fill="none" stroke="#38BDF8" strokeLinejoin="round" strokeWidth={3}>
@@ -21,8 +23,21 @@ const logo: string = 'https://pub-05efc1b2acd64b71beacdf66eed34654.r2.dev/conver
 
 type LogoProps = Omit<ImageProps, 'src' | 'alt'> & { alt?: string }
 
-export function Logo({ alt = 'Logo', width = 100, height = 100, ...props }: LogoProps) {
-    return (
-    <Image src={logo} alt={alt} width={width} height={height} {...props} />
-    )
+export function Logo({
+  alt = 'Logo',
+  width = 100,
+  height = 100,
+  className,
+  ...props
+}: LogoProps) {
+  return (
+    <Image
+      src={logo}
+      alt={alt}
+      width={width}
+      height={height}
+      className={cn('dark:bg-white dark:rounded-md dark:p-1', className)}
+      {...props}
+    />
+  )
 }

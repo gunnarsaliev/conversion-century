@@ -10,6 +10,7 @@ import { Logo, Logomark } from '@/components/Logo'
 import { MobileNavigation } from '@/components/MobileNavigation'
 import { Navigation } from '@/components/Navigation'
 import { Search } from '@/components/Search'
+import { Topbar } from '@/components/Topbar'
 
 function Header() {
   let [isScrolled, setIsScrolled] = useState(false)
@@ -53,12 +54,19 @@ function Header() {
   )
 }
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export function Layout({
+  children,
+  isAdmin = false,
+}: {
+  children: React.ReactNode
+  isAdmin?: boolean
+}) {
   let pathname = usePathname()
   let isHomePage = pathname === '/'
 
   return (
     <div className="flex w-full flex-col">
+      {isAdmin && <Topbar />}
       <Header />
 
       {isHomePage && <Hero />}
