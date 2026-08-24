@@ -61,7 +61,7 @@ export default async function LocaleLayout({ children, params }: Props) {
       className={clsx('h-full antialiased', inter.variable, lexend.variable)}
       suppressHydrationWarning
     >
-      <body className="flex min-h-full bg-white dark:bg-slate-900">
+      <body className="isolate flex min-h-full bg-white dark:bg-slate-900">
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>
     </html>
