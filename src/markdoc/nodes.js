@@ -8,6 +8,11 @@ import { Fence } from '@/components/Fence'
 let documentSlugifyMap = new Map()
 
 const nodes = {
+  // DocsLayout renders the docs sidebar/TOC chrome for every Markdoc page in
+  // the app — @markdoc/next.js only supports a single global schema
+  // (schemaPath), so there's no per-folder override available here. Keep all
+  // page.md files under src/app/**/docs/** so this assumption holds; a page.md
+  // added elsewhere would incorrectly inherit this layout.
   document: {
     ...defaultNodes.document,
     render: DocsLayout,

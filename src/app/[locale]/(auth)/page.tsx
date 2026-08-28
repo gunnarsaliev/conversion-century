@@ -13,7 +13,7 @@ export default async function LoginPage() {
   const locale = await getLocale();
 
   if (user) {
-    redirect({ href: "/getting-started", locale });
+    redirect({ href: "/docs/getting-started", locale });
   }
 
   return <Signup10 />;

@@ -5,15 +5,12 @@ import { routing } from '@/i18n/routing'
 
 const handleI18nRouting = createMiddleware(routing)
 
-// docs/technical-seo and docs/workflow content is split into per-locale
-// folders on disk (docs/<locale>/technical-seo/..., docs/<locale>/workflow/...),
-// but URLs stay locale-agnostic (/docs/technical-seo/..., /docs/workflow/...).
+// docs/technical-seo, docs/workflow, and docs/getting-started content is
+// split into per-locale folders on disk (docs/<locale>/technical-seo/...,
+// docs/<locale>/workflow/..., docs/<locale>/getting-started/...), but URLs
+// stay locale-agnostic (/docs/technical-seo/..., /docs/getting-started).
 // Rewrite requests for those paths to the folder matching the resolved locale.
-const LOCALIZED_DOCS_SECTIONS = ['technical-seo', 'workflow']
-
-// getting-started/page.md is likewise split into per-locale folders
-// (getting-started/<locale>/page.md), with the URL staying /getting-started.
-const LOCALIZED_TOP_LEVEL_PAGES = ['getting-started']
+const LOCALIZED_DOCS_SECTIONS = ['technical-seo', 'workflow', 'getting-started']
 
 export default function proxy(request: NextRequest) {
   const response = handleI18nRouting(request)
@@ -32,15 +29,6 @@ export default function proxy(request: NextRequest) {
         headers: response.headers,
       })
     }
-
-    if (LOCALIZED_TOP_LEVEL_PAGES.includes(rest[0])) {
-      const localizedPathname = ['', locale, rest[0], locale, ...rest.slice(1)].join(
-        '/',
-      )
-      return NextResponse.rewrite(new URL(localizedPathname, request.url), {
-        headers: response.headers,
-      })
-    }
   }
 
   return response
@@ -49,9 +37,9 @@ export default function proxy(request: NextRequest) {
 export const config = {
   matcher: [
     // Match all pathnames except for
-    // - … if they start with `/api`, `/admin`, `/_next` or `/_vercel`
+    // - … if they start with `/api`, `/admin`, `/tools`, `/_next` or `/_vercel`
     // - … the ones containing a dot (e.g. `favicon.ico`)
-    '/((?!api|admin|_next|_vercel|.*\\..*).*)',
+    '/((?!api|admin|tools|_next|_vercel|.*\\..*).*)',
 
     // However, always match the `robots.txt` doc page (a page slug, not a
     // static file) — it would otherwise be excluded by the dot above.

@@ -1,11 +1,10 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Link, usePathname } from '@/i18n/navigation'
+import { Link } from '@/i18n/navigation'
 import clsx from 'clsx'
 
 import { AvatarMenu } from '@/components/AvatarMenu'
-import { Hero } from '@/components/Hero'
 import { Logo, Logomark } from '@/components/Logo'
 import { MobileNavigation } from '@/components/MobileNavigation'
 import { Navigation } from '@/components/Navigation'
@@ -61,15 +60,10 @@ export function Layout({
   children: React.ReactNode
   isAdmin?: boolean
 }) {
-  let pathname = usePathname()
-  let isHomePage = pathname === '/'
-
   return (
     <div className="flex w-full flex-col">
       {isAdmin && <Topbar />}
       <Header />
-
-      {isHomePage && <Hero />}
 
       <div className="relative mx-auto flex w-full max-w-8xl flex-auto justify-center sm:px-2 lg:px-8 xl:px-12">
         <div className="hidden lg:relative lg:block lg:flex-none">
