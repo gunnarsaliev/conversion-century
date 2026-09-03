@@ -29,6 +29,11 @@ export const Users: CollectionConfig = {
   },
   fields: [
     {
+      name: 'profileImage',
+      type: 'upload',
+      relationTo: 'media',
+    },
+    {
       name: 'role',
       type: 'select',
       required: true,

@@ -8,6 +8,7 @@ import { Menu } from "@base-ui/react/menu";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
+import type { Media, User } from "../../payload-types";
 
 const themes = [
   { name: "Light", value: "light" },
@@ -45,12 +46,18 @@ function CheckIcon(props: React.ComponentPropsWithoutRef<"svg">) {
   );
 }
 
-export function AvatarMenu() {
+export function AvatarMenu({ user }: { user?: User | null }) {
   const router = useRouter();
   const pathname = usePathname();
   const locale = useLocale();
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+
+  const profileImage =
+    user?.profileImage && typeof user.profileImage === "object"
+      ? (user.profileImage as Media)
+      : null;
+  const initial = user?.email?.[0]?.toUpperCase() ?? "U";
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -80,8 +87,10 @@ export function AvatarMenu() {
         aria-label="Account menu"
       >
         <Avatar className="rounded-lg">
-          <AvatarImage alt="" src="https://github.com/haydenbleasel.png" />
-          <AvatarFallback className="rounded-lg">U</AvatarFallback>
+          {profileImage?.url && (
+            <AvatarImage alt={profileImage.alt ?? ""} src={profileImage.url} />
+          )}
+          <AvatarFallback className="rounded-lg">{initial}</AvatarFallback>
         </Avatar>
       </Menu.Trigger>
       <Menu.Portal>

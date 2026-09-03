@@ -6,7 +6,8 @@
     "dev": "next dev --webpack",
     "build": "next build --webpack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "generate:types": "node scripts/generate-types.mjs"
   },
   "browserslist": "defaults, not ie <= 11",
   "dependencies": {

@@ -10,8 +10,9 @@ import { MobileNavigation } from '@/components/MobileNavigation'
 import { Navigation } from '@/components/Navigation'
 import { Search } from '@/components/Search'
 import { Topbar } from '@/components/Topbar'
+import type { User } from '../../payload-types'
 
-function Header() {
+function Header({ user }: { user?: User | null }) {
   let [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
@@ -47,7 +48,7 @@ function Header() {
         <Search />
       </div>
       <div className="relative flex basis-0 justify-end gap-6 sm:gap-8 md:grow">
-        <AvatarMenu />
+        <AvatarMenu user={user} />
       </div>
     </header>
   )
@@ -56,14 +57,16 @@ function Header() {
 export function Layout({
   children,
   isAdmin = false,
+  user,
 }: {
   children: React.ReactNode
   isAdmin?: boolean
+  user?: User | null
 }) {
   return (
     <div className="flex w-full flex-col">
       {isAdmin && <Topbar />}
-      <Header />
+      <Header user={user} />
 
       <div className="relative mx-auto flex w-full max-w-8xl flex-auto justify-center sm:px-2 lg:px-8 xl:px-12">
         <div className="hidden lg:relative lg:block lg:flex-none">

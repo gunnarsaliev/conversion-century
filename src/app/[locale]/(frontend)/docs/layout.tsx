@@ -13,5 +13,19 @@ export default async function DocsLayout({
   const payload = await getPayload({ config })
   const { user } = await payload.auth({ headers })
 
-  return <Layout isAdmin={user?.role === 'admin'}>{children}</Layout>
+  // Re-fetch with depth so `profileImage` resolves to a populated Media
+  // document (payload.auth() does not populate relationship depth).
+  const fullUser = user
+    ? await payload.findByID({
+        collection: 'users',
+        id: user.id,
+        depth: 1,
+      })
+    : null
+
+  return (
+    <Layout isAdmin={user?.role === 'admin'} user={fullUser}>
+      {children}
+    </Layout>
+  )
 }
