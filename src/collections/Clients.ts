@@ -37,16 +37,34 @@ export const Clients: CollectionConfig = {
       type: 'text',
     },
     {
-      name: 'websiteLink',
-      type: 'text',
+      name: 'websiteLinks',
+      type: 'array',
+      fields: [
+        {
+          name: 'url',
+          type: 'text',
+        },
+      ],
     },
     {
-      name: 'websiteLoginLink',
-      type: 'text',
+      name: 'websiteLoginLinks',
+      type: 'array',
+      fields: [
+        {
+          name: 'url',
+          type: 'text',
+        },
+      ],
     },
     {
-      name: 'reportUrl',
-      type: 'text',
+      name: 'reportUrls',
+      type: 'array',
+      fields: [
+        {
+          name: 'url',
+          type: 'text',
+        },
+      ],
     },
     {
       name: 'status',
@@ -84,6 +102,15 @@ export const Clients: CollectionConfig = {
       type: 'relationship',
       relationTo: 'services',
       hasMany: true,
+    },
+    {
+      name: 'checklistProgress',
+      type: 'join',
+      collection: 'client-checklist-progress',
+      on: 'client',
+      admin: {
+        defaultColumns: ['checklistItem', 'status', 'completedAt'],
+      },
     },
   ],
 }

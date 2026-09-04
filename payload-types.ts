@@ -72,18 +72,27 @@ export interface Config {
     services: Service;
     media: Media;
     'work-checklist': WorkChecklist;
+    'client-checklist-progress': ClientChecklistProgress;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    clients: {
+      checklistProgress: 'client-checklist-progress';
+    };
+    'work-checklist': {
+      clientUsage: 'client-checklist-progress';
+    };
+  };
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     clients: ClientsSelect<false> | ClientsSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'work-checklist': WorkChecklistSelect<false> | WorkChecklistSelect<true>;
+    'client-checklist-progress': ClientChecklistProgressSelect<false> | ClientChecklistProgressSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -199,9 +208,24 @@ export interface Client {
   contactName?: string | null;
   email?: string | null;
   phone?: string | null;
-  websiteLink?: string | null;
-  websiteLoginLink?: string | null;
-  reportUrl?: string | null;
+  websiteLinks?:
+    | {
+        url?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  websiteLoginLinks?:
+    | {
+        url?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  reportUrls?:
+    | {
+        url?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   status: 'lead' | 'active' | 'inactive';
   notes?: string | null;
   description?: {
@@ -222,6 +246,11 @@ export interface Client {
   'Account Manager'?: (number | null) | User;
   Publisher?: (number | User)[] | null;
   services?: (number | Service)[] | null;
+  checklistProgress?: {
+    docs?: (number | ClientChecklistProgress)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -279,6 +308,20 @@ export interface Service {
         id?: string | null;
       }[]
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "client-checklist-progress".
+ */
+export interface ClientChecklistProgress {
+  id: number;
+  client: number | Client;
+  checklistItem: number | WorkChecklist;
+  status: 'pending' | 'in-progress' | 'done';
+  completedAt?: string | null;
+  notes?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -353,6 +396,11 @@ export interface WorkChecklist {
   priority?: ('low' | 'medium' | 'high') | null;
   label?: ('technical' | 'copyright') | null;
   team?: ('content' | 'dev' | 'seo') | null;
+  clientUsage?: {
+    docs?: (number | ClientChecklistProgress)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -399,6 +447,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'work-checklist';
         value: number | WorkChecklist;
+      } | null)
+    | ({
+        relationTo: 'client-checklist-progress';
+        value: number | ClientChecklistProgress;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -476,15 +528,31 @@ export interface ClientsSelect<T extends boolean = true> {
   contactName?: T;
   email?: T;
   phone?: T;
-  websiteLink?: T;
-  websiteLoginLink?: T;
-  reportUrl?: T;
+  websiteLinks?:
+    | T
+    | {
+        url?: T;
+        id?: T;
+      };
+  websiteLoginLinks?:
+    | T
+    | {
+        url?: T;
+        id?: T;
+      };
+  reportUrls?:
+    | T
+    | {
+        url?: T;
+        id?: T;
+      };
   status?: T;
   notes?: T;
   description?: T;
   'Account Manager'?: T;
   Publisher?: T;
   services?: T;
+  checklistProgress?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -577,6 +645,20 @@ export interface WorkChecklistSelect<T extends boolean = true> {
   priority?: T;
   label?: T;
   team?: T;
+  clientUsage?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "client-checklist-progress_select".
+ */
+export interface ClientChecklistProgressSelect<T extends boolean = true> {
+  client?: T;
+  checklistItem?: T;
+  status?: T;
+  completedAt?: T;
+  notes?: T;
   updatedAt?: T;
   createdAt?: T;
 }

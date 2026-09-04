@@ -89,5 +89,14 @@ export const WorkChecklist: CollectionConfig = {
         { label: 'SEO', value: 'seo' },
       ],
     },
+    {
+      name: 'clientUsage',
+      type: 'join',
+      collection: 'client-checklist-progress',
+      on: 'checklistItem',
+      admin: {
+        defaultColumns: ['client', 'status'],
+      },
+    },
   ],
 }

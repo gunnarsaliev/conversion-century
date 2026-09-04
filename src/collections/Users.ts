@@ -29,6 +29,20 @@ export const Users: CollectionConfig = {
   },
   fields: [
     {
+      name: 'firstName',
+      type: 'text',
+      required: true,
+    },
+    {
+      name: 'lastName',
+      type: 'text',
+      required: true,
+    },
+    {
+      name: 'jobTitle',
+      type: 'text',
+    },
+    {
       name: 'profileImage',
       type: 'upload',
       relationTo: 'media',
