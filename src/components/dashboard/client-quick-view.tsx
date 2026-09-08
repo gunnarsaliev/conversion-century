@@ -9,11 +9,13 @@ import {
   Trash2,
   X,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 
 import { deleteClient } from "@/app/[locale]/(frontend)/dashboard/clients/actions";
+import { AccountManagerBadge } from "@/components/dashboard/account-manager-badge";
 import { ClientFormDrawer } from "@/components/dashboard/client-form-drawer";
 import { ClientLogo } from "@/components/dashboard/client-logo";
 import { Badge } from "@/components/ui/badge";
@@ -57,7 +59,9 @@ type ClientQuickViewData = {
   contactName?: string | null;
   email?: string | null;
   phone?: string | null;
+  accountManagerId?: string | number | null;
   accountManagerName?: string | null;
+  accountManagerAvatarUrl?: string | null;
   services?: string[];
 };
 
@@ -99,7 +103,11 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger render={trigger} />
-      <SheetContent showCloseButton={false} aria-describedby={undefined}>
+      <SheetContent
+        showCloseButton={false}
+        aria-describedby={undefined}
+        className="gap-0"
+      >
         <SheetHeader className="flex-row items-center justify-between border-b">
           <SheetTitle className="text-lg">Client Quick View</SheetTitle>
           <SheetClose render={<Button size="icon" variant="secondary" />}>
@@ -107,55 +115,78 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
           </SheetClose>
         </SheetHeader>
 
-        <div className="no-scrollbar min-h-0 flex-1 overflow-auto px-5 pt-5 pb-5">
-          <div className="flex flex-col gap-3">
-            <div>
-              <div className="flex items-center justify-between gap-2">
-                <Link
-                  href={`${basePath}/${client.id}`}
-                  className="text-lg font-semibold hover:underline"
-                >
-                  {client.companyName}
-                </Link>
-                <DropdownMenu>
-                  <DropdownMenuTrigger
-                    render={
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="size-7 shrink-0"
-                        aria-label="Client actions"
-                      />
-                    }
-                  >
-                    <MoreVertical className="size-4" />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <ClientFormDrawer
-                      mode="edit"
-                      client={client}
-                      trigger={
-                        <DropdownMenuItem
-                          render={<button type="button" />}
-                          onClick={(event) => event.preventDefault()}
-                        >
-                          <Pencil className="size-3.5" aria-hidden="true" />
-                          Edit
-                        </DropdownMenuItem>
-                      }
-                    />
-                    <DropdownMenuItem
-                      variant="destructive"
-                      disabled={isDeleting}
-                      onClick={handleDelete}
-                    >
-                      <Trash2 className="size-3.5" aria-hidden="true" />
-                      {isDeleting ? "Deleting…" : "Delete"}
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+        <div className="no-scrollbar min-h-0 flex-1 overflow-auto">
+          {/* Cover band */}
+          <div className="relative h-24 bg-muted">
+            <Image
+              src="https://pub-05efc1b2acd64b71beacdf66eed34654.r2.dev/banner-fallback.jpg"
+              alt=""
+              fill
+              className="object-cover object-top"
+            />
+          </div>
+
+          <div className="relative px-5 pb-5">
+            {/* Logo — overlapping cover, actions menu top-right */}
+            <div className="-mt-10 mb-3 flex items-end justify-between">
+              <div className="rounded-md border-4 border-card bg-card">
+                <ClientLogo
+                  companyName={client.companyName}
+                  logoUrl={client.logoUrl}
+                  logoWidth={client.logoWidth}
+                  logoHeight={client.logoHeight}
+                  size={80}
+                />
               </div>
-              <div className="mt-1">
+              <DropdownMenu>
+                <DropdownMenuTrigger
+                  render={
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="size-8 shrink-0"
+                      aria-label="Client actions"
+                    />
+                  }
+                >
+                  <MoreVertical className="size-4" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <ClientFormDrawer
+                    mode="edit"
+                    client={client}
+                    trigger={
+                      <DropdownMenuItem
+                        render={<button type="button" />}
+                        nativeButton
+                        onClick={(event) => event.preventDefault()}
+                      >
+                        <Pencil className="size-3.5" aria-hidden="true" />
+                        Edit
+                      </DropdownMenuItem>
+                    }
+                  />
+                  <DropdownMenuItem
+                    variant="destructive"
+                    disabled={isDeleting}
+                    onClick={handleDelete}
+                  >
+                    <Trash2 className="size-3.5" aria-hidden="true" />
+                    {isDeleting ? "Deleting…" : "Delete"}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+
+            {/* Name and status */}
+            <div className="space-y-1">
+              <Link
+                href={`${basePath}/${client.id}`}
+                className="text-xl font-bold hover:underline"
+              >
+                {client.companyName}
+              </Link>
+              <div className="flex flex-wrap items-center gap-2 text-muted-foreground">
                 <Badge
                   className={
                     statusBadgeClassName[client.status] ??
@@ -164,65 +195,64 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
                 >
                   <span className="capitalize">{client.status}</span>
                 </Badge>
+                {client.accountManagerName && (
+                  <span className="flex items-center gap-1.5">
+                    managed by
+                    <AccountManagerBadge
+                      id={client.accountManagerId}
+                      name={client.accountManagerName}
+                      avatarUrl={client.accountManagerAvatarUrl}
+                    />
+                  </span>
+                )}
               </div>
             </div>
-            <ClientLogo
-              companyName={client.companyName}
-              logoUrl={client.logoUrl}
-              logoWidth={client.logoWidth}
-              logoHeight={client.logoHeight}
-              size={96}
-            />
-          </div>
 
-          <dl className="mt-6 space-y-4 text-sm">
+            {/* Contact name (bio-equivalent) */}
             {client.contactName ? (
-              <div>
-                <dt className="text-muted-foreground">Contact</dt>
-                <dd className="mt-0.5">{client.contactName}</dd>
-              </div>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                Primary contact: {client.contactName}
+              </p>
             ) : null}
-            {client.email ? (
-              <div>
-                <dt className="text-muted-foreground">Email</dt>
-                <dd className="mt-0.5 flex items-center gap-2">
-                  <Mail className="size-3.5 text-muted-foreground" aria-hidden="true" />
-                  <a href={`mailto:${client.email}`} className="hover:underline">
-                    {client.email}
+
+            {/* Meta info */}
+            {(client.email || client.phone) && (
+              <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
+                {client.email && (
+                  <a
+                    href={`mailto:${client.email}`}
+                    className="flex items-center gap-1.5 hover:text-foreground"
+                  >
+                    <Mail className="size-3.5" />
+                    <span>{client.email}</span>
                   </a>
-                </dd>
-              </div>
-            ) : null}
-            {client.phone ? (
-              <div>
-                <dt className="text-muted-foreground">Phone</dt>
-                <dd className="mt-0.5 flex items-center gap-2">
-                  <Phone className="size-3.5 text-muted-foreground" aria-hidden="true" />
-                  <a href={`tel:${client.phone}`} className="hover:underline">
-                    {client.phone}
+                )}
+                {client.phone && (
+                  <a
+                    href={`tel:${client.phone}`}
+                    className="flex items-center gap-1.5 hover:text-foreground"
+                  >
+                    <Phone className="size-3.5" />
+                    <span>{client.phone}</span>
                   </a>
-                </dd>
+                )}
               </div>
-            ) : null}
-            {client.accountManagerName ? (
-              <div>
-                <dt className="text-muted-foreground">Account Manager</dt>
-                <dd className="mt-0.5">{client.accountManagerName}</dd>
-              </div>
-            ) : null}
-            {client.services && client.services.length > 0 ? (
-              <div>
-                <dt className="text-muted-foreground">Services</dt>
-                <dd className="mt-1.5 flex flex-wrap gap-1.5">
+            )}
+
+            {/* Services (skills-equivalent) */}
+            {client.services && client.services.length > 0 && (
+              <div className="mt-6 border-t pt-6">
+                <h3 className="mb-3 text-sm font-medium">Services</h3>
+                <div className="flex flex-wrap gap-2">
                   {client.services.map((service) => (
-                    <Badge key={service} variant="outline">
+                    <Badge key={service} variant="secondary">
                       {service}
                     </Badge>
                   ))}
-                </dd>
+                </div>
               </div>
-            ) : null}
-          </dl>
+            )}
+          </div>
         </div>
       </SheetContent>
     </Sheet>

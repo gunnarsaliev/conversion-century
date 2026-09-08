@@ -48,11 +48,17 @@ export default async function ClientsPage() {
       contactName: client.contactName,
       email: client.email,
       phone: client.phone,
+      accountManagerId: accountManager?.id ?? null,
       accountManagerName: accountManager
         ? [accountManager.firstName, accountManager.lastName]
             .filter(Boolean)
             .join(" ") || accountManager.email
         : null,
+      accountManagerAvatarUrl:
+        accountManager?.profileImage &&
+        typeof accountManager.profileImage === "object"
+          ? accountManager.profileImage.url
+          : null,
       services,
     };
   });

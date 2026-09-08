@@ -19,6 +19,8 @@ export default async function TeamPage() {
   const teamMemberListItems: TeamMemberListItem[] = users.docs.map(
     (user) => ({
       id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
       name: [user.firstName, user.lastName].filter(Boolean).join(" "),
       jobTitle: user.jobTitle,
       email: user.email,

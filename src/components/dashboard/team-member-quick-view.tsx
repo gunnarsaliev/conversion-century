@@ -1,17 +1,25 @@
 "use client";
 
-import { ExternalLink, Mail, X } from "lucide-react";
+import { Mail, MoreVertical, Pencil, Trash2, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import * as React from "react";
 
+import { deleteTeamMember } from "@/app/[locale]/(frontend)/dashboard/team/actions";
+import { TeamMemberFormDrawer } from "@/components/dashboard/team-member-form-drawer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -21,8 +29,9 @@ import {
 // Team member quick view (drawer)
 // ---------------------------------------------------------------------------
 //
-// Mirrors client-quick-view.tsx's Sheet-based drawer for previewing a team
-// member without leaving the list.
+// Mirrors client-quick-view.tsx's Sheet-based drawer (cover band, overlapping
+// avatar, actions menu, name link, meta info) for previewing a team member
+// without leaving the list.
 
 const roleBadgeClassName: Record<string, string> = {
   admin: "bg-primary/10 text-primary",
@@ -31,6 +40,8 @@ const roleBadgeClassName: Record<string, string> = {
 
 type TeamMemberQuickViewData = {
   id: string | number;
+  firstName: string;
+  lastName: string;
   name: string;
   jobTitle?: string | null;
   email?: string | null;
@@ -47,10 +58,40 @@ const TeamMemberQuickView = ({
   member,
   trigger,
 }: TeamMemberQuickViewProps) => {
+  const router = useRouter();
+  const [open, setOpen] = React.useState(false);
+  const [isDeleting, setIsDeleting] = React.useState(false);
+
+  const handleDelete = async () => {
+    if (
+      !window.confirm(
+        `Delete ${member.name}? This action cannot be undone.`,
+      )
+    ) {
+      return;
+    }
+
+    setIsDeleting(true);
+    const result = await deleteTeamMember(member.id);
+    setIsDeleting(false);
+
+    if (!result.success) {
+      window.alert(result.error);
+      return;
+    }
+
+    setOpen(false);
+    router.refresh();
+  };
+
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger render={trigger} />
-      <SheetContent showCloseButton={false} aria-describedby={undefined}>
+      <SheetContent
+        showCloseButton={false}
+        aria-describedby={undefined}
+        className="gap-0"
+      >
         <SheetHeader className="flex-row items-center justify-between border-b">
           <SheetTitle className="text-lg">Team Member</SheetTitle>
           <SheetClose render={<Button size="icon" variant="secondary" />}>
@@ -58,60 +99,107 @@ const TeamMemberQuickView = ({
           </SheetClose>
         </SheetHeader>
 
-        <div className="no-scrollbar min-h-0 flex-1 overflow-auto px-5 pt-5 pb-5">
-          <div className="flex items-center justify-between gap-3">
-            <div>
-              <p className="text-lg font-semibold">{member.name}</p>
-              {member.jobTitle ? (
-                <p className="text-sm text-muted-foreground">
-                  {member.jobTitle}
-                </p>
-              ) : null}
-              <Badge
-                className={`mt-1 ${
-                  roleBadgeClassName[member.role] ?? roleBadgeClassName.user
-                }`}
-              >
-                <span className="capitalize">{member.role}</span>
-              </Badge>
+        <div className="no-scrollbar min-h-0 flex-1 overflow-auto">
+          {/* Cover band */}
+          <div className="relative h-24 bg-muted">
+            <Image
+              src="https://pub-05efc1b2acd64b71beacdf66eed34654.r2.dev/banner-fallback.jpg"
+              alt=""
+              fill
+              className="object-cover object-top"
+            />
+          </div>
+
+          <div className="relative px-5 pb-5">
+            {/* Avatar — overlapping cover, actions menu top-right */}
+            <div className="-mt-10 mb-3 flex items-end justify-between">
+              {member.avatarUrl ? (
+                <div className="relative size-20 shrink-0 overflow-hidden rounded-full border-4 border-card">
+                  <Image
+                    src={member.avatarUrl}
+                    alt={member.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="flex size-20 shrink-0 items-center justify-center rounded-full border-4 border-card bg-muted text-lg font-medium text-muted-foreground">
+                  {member.name.slice(0, 2).toUpperCase()}
+                </div>
+              )}
+              <DropdownMenu>
+                <DropdownMenuTrigger
+                  render={
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="size-8 shrink-0"
+                      aria-label="Team member actions"
+                    />
+                  }
+                >
+                  <MoreVertical className="size-4" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <TeamMemberFormDrawer
+                    member={member}
+                    trigger={
+                      <DropdownMenuItem
+                        render={<button type="button" />}
+                        nativeButton
+                        onClick={(event) => event.preventDefault()}
+                      >
+                        <Pencil className="size-3.5" aria-hidden="true" />
+                        Edit
+                      </DropdownMenuItem>
+                    }
+                  />
+                  <DropdownMenuItem
+                    variant="destructive"
+                    disabled={isDeleting}
+                    onClick={handleDelete}
+                  >
+                    <Trash2 className="size-3.5" aria-hidden="true" />
+                    {isDeleting ? "Deleting…" : "Delete"}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
-            {member.avatarUrl ? (
-              <div className="relative size-24 shrink-0 overflow-hidden rounded-full">
-                <Image
-                  src={member.avatarUrl}
-                  alt={member.name}
-                  fill
-                  className="object-cover"
-                />
+
+            {/* Name and role */}
+            <div className="space-y-1">
+              <Link
+                href={`/dashboard/team/${member.id}`}
+                className="text-xl font-bold hover:underline"
+              >
+                {member.name}
+              </Link>
+              <div className="flex flex-wrap items-center gap-2 text-muted-foreground">
+                <Badge
+                  className={
+                    roleBadgeClassName[member.role] ?? roleBadgeClassName.user
+                  }
+                >
+                  <span className="capitalize">{member.role}</span>
+                </Badge>
+                {member.jobTitle && <span>{member.jobTitle}</span>}
               </div>
-            ) : (
-              <div className="flex size-24 shrink-0 items-center justify-center rounded-full border bg-muted text-lg font-medium text-muted-foreground">
-                {member.name.slice(0, 2).toUpperCase()}
+            </div>
+
+            {/* Meta info */}
+            {member.email && (
+              <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
+                <a
+                  href={`mailto:${member.email}`}
+                  className="flex items-center gap-1.5 hover:text-foreground"
+                >
+                  <Mail className="size-3.5" />
+                  <span>{member.email}</span>
+                </a>
               </div>
             )}
           </div>
-
-          <dl className="mt-6 space-y-4 text-sm">
-            {member.email ? (
-              <div>
-                <dt className="text-muted-foreground">Email</dt>
-                <dd className="mt-0.5 flex items-center gap-2">
-                  <Mail className="size-3.5 text-muted-foreground" aria-hidden="true" />
-                  <a href={`mailto:${member.email}`} className="hover:underline">
-                    {member.email}
-                  </a>
-                </dd>
-              </div>
-            ) : null}
-          </dl>
         </div>
-
-        <SheetFooter>
-          <Button render={<Link href={`/dashboard/team/${member.id}`} />}>
-            <ExternalLink className="size-3.5" aria-hidden="true" />
-            View full profile
-          </Button>
-        </SheetFooter>
       </SheetContent>
     </Sheet>
   );

@@ -1,19 +1,26 @@
 "use client";
 
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
 import {
   TeamMemberQuickView,
   type TeamMemberQuickViewData,
 } from "@/components/dashboard/team-member-quick-view";
+import { Badge } from "@/components/ui/badge";
 
 // ---------------------------------------------------------------------------
 // Team member list (card grid)
 // ---------------------------------------------------------------------------
 //
-// Adapted from team55.tsx's editorial card grid: each team member is
-// rendered as a photo + name/role card, opening the quick-view drawer on
-// click (same interaction as client-list.tsx).
+// Mirrors client-list.tsx's card grid: each team member is rendered as a
+// card with an avatar, name/job title, and a role badge, opening the
+// quick-view drawer on click.
+
+const roleBadgeClassName: Record<string, string> = {
+  admin: "bg-primary/10 text-primary",
+  user: "bg-muted text-muted-foreground",
+};
 
 type TeamMemberListItem = TeamMemberQuickViewData;
 
@@ -28,25 +35,38 @@ const TeamMemberCard = ({ member }: TeamMemberCardProps) => {
       trigger={
         <button
           type="button"
-          className="flex w-full cursor-pointer overflow-hidden rounded-2xl border border-border bg-card text-left outline-none transition-all hover:shadow-md focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+          className="group flex w-full cursor-pointer flex-col gap-4 rounded-lg border p-4 text-left outline-none transition-all hover:bg-muted/30 hover:shadow-md focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
         >
-          {member.avatarUrl ? (
-            <Image
-              src={member.avatarUrl}
-              alt={member.name}
-              width={144}
-              height={192}
-              className="min-h-48 w-28 shrink-0 self-stretch object-cover sm:w-36"
-            />
-          ) : (
-            <div className="flex min-h-48 w-28 shrink-0 items-center justify-center self-stretch bg-muted text-2xl font-medium text-muted-foreground sm:w-36">
-              {member.name.slice(0, 2).toUpperCase()}
+          <div className="flex items-start justify-between gap-4">
+            {member.avatarUrl ? (
+              <div className="relative size-16 shrink-0 overflow-hidden rounded-full">
+                <Image
+                  src={member.avatarUrl}
+                  alt={member.name}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            ) : (
+              <div className="flex size-16 shrink-0 items-center justify-center rounded-full border bg-muted text-sm font-medium text-muted-foreground">
+                {member.name.slice(0, 2).toUpperCase()}
+              </div>
+            )}
+            <div className="flex items-center gap-2">
+              <Badge
+                className={
+                  roleBadgeClassName[member.role] ?? roleBadgeClassName.user
+                }
+              >
+                <span className="capitalize">{member.role}</span>
+              </Badge>
+              <div className="opacity-0 group-hover:opacity-100">
+                <ArrowRight className="size-5 text-muted-foreground" />
+              </div>
             </div>
-          )}
-          <div className="flex flex-col justify-center gap-0.5 py-6 pr-6 pl-6">
-            <p className="font-serif text-lg leading-tight font-medium tracking-tight sm:text-xl">
-              {member.name}
-            </p>
+          </div>
+          <div className="flex-1 text-base">
+            <p className="font-medium">{member.name}</p>
             {member.jobTitle ? (
               <p className="text-sm text-muted-foreground">
                 {member.jobTitle}
@@ -73,7 +93,7 @@ const TeamMemberList = ({ members }: TeamMemberListProps) => {
   }
 
   return (
-    <ul className="mt-8 grid gap-8 sm:grid-cols-2">
+    <ul className="mt-8 grid gap-4 sm:grid-cols-2 md:grid-cols-3">
       {members.map((member) => (
         <li key={member.id}>
           <TeamMemberCard member={member} />
