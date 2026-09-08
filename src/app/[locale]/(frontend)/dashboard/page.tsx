@@ -1,3 +1,5 @@
+import { Dashboard16 } from "@/components/dashboard16";
+
 export default function Dashboard() {
-  return <div>Dashboard</div>
+  return <Dashboard16 />
 }
