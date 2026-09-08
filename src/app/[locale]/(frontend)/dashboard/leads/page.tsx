@@ -5,15 +5,16 @@ import config from "@payload-config";
 import { ClientList, type ClientListItem } from "@/components/dashboard/client-list";
 import { Button } from "@/components/ui/button";
 
-export default async function ClientsPage() {
+export default async function LeadsPage() {
   const payload = await getPayload({ config });
-  const clients = await payload.find({
+  const leads = await payload.find({
     collection: "clients",
+    where: { status: { equals: "lead" } },
     depth: 2,
     limit: 100,
   });
 
-  const clientListItems: ClientListItem[] = clients.docs.map((client) => {
+  const leadListItems: ClientListItem[] = leads.docs.map((client) => {
     const accountManager =
       client["Account Manager"] && typeof client["Account Manager"] === "object"
         ? client["Account Manager"]
@@ -63,7 +64,7 @@ export default async function ClientsPage() {
             <LayoutDashboard className="size-3.5" aria-hidden="true" />
             <span>Overview</span>
             <ChevronRight className="size-3.5" aria-hidden="true" />
-            <span className="text-foreground">Clients</span>
+            <span className="text-foreground">Leads</span>
           </div>
           <div className="ml-auto flex items-center gap-2">
             <Button
@@ -87,20 +88,20 @@ export default async function ClientsPage() {
         <div className="mt-3 flex flex-wrap items-end justify-between gap-3">
           <div>
             <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-              Clients
+              Leads
             </h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              Manage your clients
+              Track prospective clients before they convert
             </p>
           </div>
           <Button className="h-9 gap-1.5 px-3 text-sm">
             <Plus className="size-3.5" aria-hidden="true" />
-            New Client
+            New Lead
           </Button>
         </div>
       </section>
 
-      <ClientList clients={clientListItems} />
+      <ClientList clients={leadListItems} />
     </>
   );
 }

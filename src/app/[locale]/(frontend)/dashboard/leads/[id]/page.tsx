@@ -29,11 +29,11 @@ const statusVariant: Record<string, "default" | "secondary" | "outline"> = {
   inactive: "outline",
 };
 
-type ClientPageProps = {
+type LeadPageProps = {
   params: Promise<{ id: string }>;
 };
 
-export default async function ClientPage({ params }: ClientPageProps) {
+export default async function LeadPage({ params }: LeadPageProps) {
   const { id } = await params;
 
   const payload = await getPayload({ config });
@@ -46,7 +46,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
     })
     .catch(() => null);
 
-  if (!client) {
+  if (!client || client.status !== "lead") {
     notFound();
   }
 
@@ -77,8 +77,8 @@ export default async function ClientPage({ params }: ClientPageProps) {
             <LayoutDashboard className="size-3.5" aria-hidden="true" />
             <span>Overview</span>
             <ChevronRight className="size-3.5" aria-hidden="true" />
-            <Link href="/dashboard/clients" className="hover:text-foreground">
-              Clients
+            <Link href="/dashboard/leads" className="hover:text-foreground">
+              Leads
             </Link>
             <ChevronRight className="size-3.5" aria-hidden="true" />
             <span className="text-foreground">{client.companyName}</span>

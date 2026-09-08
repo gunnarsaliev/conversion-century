@@ -51,6 +51,9 @@ type ClientQuickViewProps = {
 };
 
 const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
+  const basePath =
+    client.status === "lead" ? "/dashboard/leads" : "/dashboard/clients";
+
   return (
     <Sheet>
       <SheetTrigger render={trigger} />
@@ -135,7 +138,7 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
         </div>
 
         <SheetFooter>
-          <Button render={<Link href={`/dashboard/clients/${client.id}`} />}>
+          <Button render={<Link href={`${basePath}/${client.id}`} />}>
             <ExternalLink className="size-3.5" aria-hidden="true" />
             View full profile
           </Button>

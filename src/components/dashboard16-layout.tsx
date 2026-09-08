@@ -8,6 +8,7 @@ import {
   CreditCard,
   DoorOpen,
   Globe,
+  Handshake,
   KeyRound,
   LayoutDashboard,
   LogOut,
@@ -115,6 +116,7 @@ const sidebarData: SidebarData = {
           isActive: true,
         },
         { label: "Clients", icon: Users, href: "/dashboard/clients" },
+        { label: "Leads", icon: Handshake, href: "/dashboard/leads" },
         { label: "Check-in / Check-out", icon: DoorOpen, href: "#" },
         {
           label: "Guest Profiles",

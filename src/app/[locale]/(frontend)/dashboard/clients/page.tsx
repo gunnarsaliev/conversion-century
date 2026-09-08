@@ -9,6 +9,7 @@ export default async function ClientsPage() {
   const payload = await getPayload({ config });
   const clients = await payload.find({
     collection: "clients",
+    where: { status: { not_equals: "lead" } },
     depth: 2,
     limit: 100,
   });

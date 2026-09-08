@@ -46,7 +46,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
     })
     .catch(() => null);
 
-  if (!client) {
+  if (!client || client.status === "lead") {
     notFound();
   }
 
