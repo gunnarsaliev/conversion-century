@@ -6,6 +6,12 @@ export const Media: CollectionConfig = {
     read: () => true,
   },
   upload: {
+    // Files live in R2 (see s3Storage in payload.config.ts), not on local
+    // disk. Without this, Payload also tries to read/write to `staticDir`
+    // locally — which is empty outside of environments that uploaded there
+    // directly — and admin thumbnails / the `/api/media/file/:filename`
+    // route 500 with "missing on the disk".
+    disableLocalStorage: true,
     staticDir: 'media',
     mimeTypes: ['image/*'],
     imageSizes: [
