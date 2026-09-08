@@ -1,7 +1,12 @@
 "use client";
 
 import {
+  CheckCircle2,
+  Circle,
+  CircleDashed,
   Eye,
+  KeyRound,
+  Link as LinkIcon,
   Mail,
   MoreVertical,
   Pencil,
@@ -49,6 +54,17 @@ const statusBadgeClassName: Record<string, string> = {
   inactive: "bg-muted text-muted-foreground",
 };
 
+type ClientLink = {
+  id?: string | number | null;
+  url?: string | null;
+};
+
+type ChecklistSummary = {
+  id: string | number;
+  name: string;
+  status: string;
+};
+
 type ClientQuickViewData = {
   id: string | number;
   companyName: string;
@@ -63,6 +79,12 @@ type ClientQuickViewData = {
   accountManagerName?: string | null;
   accountManagerAvatarUrl?: string | null;
   services?: string[];
+  websiteLinks?: ClientLink[];
+  websiteLoginLinks?: ClientLink[];
+  reportUrls?: ClientLink[];
+  checklist?: ChecklistSummary[];
+  checklistDoneCount?: number;
+  checklistTotalCount?: number;
 };
 
 type ClientQuickViewProps = {
@@ -250,6 +272,132 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
                     </Badge>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {/* Website / login / report links */}
+            {((client.websiteLinks && client.websiteLinks.length > 0) ||
+              (client.websiteLoginLinks &&
+                client.websiteLoginLinks.length > 0) ||
+              (client.reportUrls && client.reportUrls.length > 0)) && (
+              <div className="mt-6 space-y-4 border-t pt-6">
+                {client.websiteLinks && client.websiteLinks.length > 0 ? (
+                  <div>
+                    <h3 className="mb-2 text-sm font-medium">
+                      Website Links
+                    </h3>
+                    <ul className="flex flex-col gap-1.5 text-sm">
+                      {client.websiteLinks.map((link, index) => (
+                        <li key={link.id ?? index}>
+                          <a
+                            href={link.url ?? "#"}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="flex items-center gap-2 text-muted-foreground hover:text-foreground hover:underline"
+                          >
+                            <LinkIcon
+                              className="size-3.5 shrink-0"
+                              aria-hidden="true"
+                            />
+                            <span className="truncate">{link.url}</span>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+
+                {client.websiteLoginLinks &&
+                client.websiteLoginLinks.length > 0 ? (
+                  <div>
+                    <h3 className="mb-2 text-sm font-medium">Login Links</h3>
+                    <ul className="flex flex-col gap-1.5 text-sm">
+                      {client.websiteLoginLinks.map((link, index) => (
+                        <li key={link.id ?? index}>
+                          <a
+                            href={link.url ?? "#"}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="flex items-center gap-2 text-muted-foreground hover:text-foreground hover:underline"
+                          >
+                            <KeyRound
+                              className="size-3.5 shrink-0"
+                              aria-hidden="true"
+                            />
+                            <span className="truncate">{link.url}</span>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+
+                {client.reportUrls && client.reportUrls.length > 0 ? (
+                  <div>
+                    <h3 className="mb-2 text-sm font-medium">Reports</h3>
+                    <ul className="flex flex-col gap-1.5 text-sm">
+                      {client.reportUrls.map((link, index) => (
+                        <li key={link.id ?? index}>
+                          <a
+                            href={link.url ?? "#"}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="flex items-center gap-2 text-muted-foreground hover:text-foreground hover:underline"
+                          >
+                            <LinkIcon
+                              className="size-3.5 shrink-0"
+                              aria-hidden="true"
+                            />
+                            <span className="truncate">{link.url}</span>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+              </div>
+            )}
+
+            {/* Checklist summary */}
+            {client.checklist && client.checklist.length > 0 && (
+              <div className="mt-6 border-t pt-6">
+                <h3 className="mb-3 text-sm font-medium">
+                  Checklist ({client.checklistDoneCount ?? 0}/
+                  {client.checklistTotalCount ?? client.checklist.length}{" "}
+                  done)
+                </h3>
+                <ul className="flex flex-col gap-1.5 text-sm">
+                  {client.checklist.map((entry) => (
+                    <li key={entry.id} className="flex items-center gap-2">
+                      {entry.status === "done" ? (
+                        <CheckCircle2
+                          className="size-3.5 shrink-0 text-emerald-600"
+                          aria-hidden="true"
+                        />
+                      ) : entry.status === "in-progress" ? (
+                        <CircleDashed
+                          className="size-3.5 shrink-0 text-amber-600"
+                          aria-hidden="true"
+                        />
+                      ) : (
+                        <Circle
+                          className="size-3.5 shrink-0 text-muted-foreground"
+                          aria-hidden="true"
+                        />
+                      )}
+                      <span className="truncate">{entry.name}</span>
+                    </li>
+                  ))}
+                </ul>
+                {client.checklistTotalCount &&
+                client.checklistTotalCount > client.checklist.length ? (
+                  <Link
+                    href={`${basePath}/${client.id}`}
+                    className="mt-2 inline-block text-xs text-muted-foreground hover:underline"
+                  >
+                    View all {client.checklistTotalCount} items
+                  </Link>
+                ) : null}
               </div>
             )}
           </div>

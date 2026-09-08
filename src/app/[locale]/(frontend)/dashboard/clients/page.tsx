@@ -13,6 +13,15 @@ export default async function ClientsPage() {
     where: { status: { not_equals: "lead" } },
     depth: 2,
     limit: 100,
+    joins: {
+      // High limit so done/total counts are accurate for realistic
+      // checklist sizes; the drawer only ever displays the first few
+      // entries client-side.
+      checklistProgress: {
+        limit: 500,
+        count: true,
+      },
+    },
   });
 
   const clientListItems: ClientListItem[] = clients.docs.map((client) => {
@@ -27,6 +36,25 @@ export default async function ClientsPage() {
           typeof service === "object" && service !== null,
       )
       .map((service) => service.name);
+
+    const checklistDocs = (client.checklistProgress?.docs ?? []).filter(
+      (entry): entry is Exclude<typeof entry, number> =>
+        typeof entry === "object" && entry !== null,
+    );
+    const checklist = checklistDocs
+      .map((entry) => ({
+        id: entry.id,
+        status: entry.status,
+        name:
+          entry.checklistItem && typeof entry.checklistItem === "object"
+            ? entry.checklistItem.name
+            : null,
+      }))
+      .filter((entry) => Boolean(entry.name)) as {
+      id: string | number;
+      status: string;
+      name: string;
+    }[];
 
     return {
       id: client.id,
@@ -60,6 +88,17 @@ export default async function ClientsPage() {
           ? accountManager.profileImage.url
           : null,
       services,
+      websiteLinks: client.websiteLinks ?? [],
+      websiteLoginLinks: client.websiteLoginLinks ?? [],
+      reportUrls: client.reportUrls ?? [],
+      // Not-done items first so the quick view surfaces what's outstanding.
+      checklist: [...checklist]
+        .sort((a, b) => Number(a.status === "done") - Number(b.status === "done"))
+        .slice(0, 5),
+      checklistDoneCount: checklistDocs.filter(
+        (entry) => entry.status === "done",
+      ).length,
+      checklistTotalCount: client.checklistProgress?.totalDocs ?? 0,
     };
   });
 

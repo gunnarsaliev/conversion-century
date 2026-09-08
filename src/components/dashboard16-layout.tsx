@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
@@ -36,6 +37,7 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -169,7 +171,9 @@ const sidebarData: SidebarData = {
   ],
   footerGroup: {
     title: "Settings",
-    items: [{ label: "Settings", icon: Settings, href: "#" }],
+    items: [
+      { label: "Settings", icon: Settings, href: "/dashboard/settings" },
+    ],
   },
   user: {
     name: "Robert Austin",
@@ -242,6 +246,22 @@ const NavMenuItem = ({ item }: { item: NavItem }) => {
 };
 
 const NavUser = ({ user }: { user: UserData }) => {
+  const router = useRouter();
+  const [isLoggingOut, setIsLoggingOut] = React.useState(false);
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    try {
+      await fetch("/api/users/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+    } finally {
+      router.push("/");
+      router.refresh();
+    }
+  };
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -266,6 +286,7 @@ const NavUser = ({ user }: { user: UserData }) => {
             align="end"
             sideOffset={4}
           >
+            <DropdownMenuGroup>
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="size-8 rounded-lg">
@@ -285,15 +306,16 @@ const NavUser = ({ user }: { user: UserData }) => {
                 </div>
               </div>
             </DropdownMenuLabel>
+            </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem render={<Link href="/dashboard/settings" />}>
               <User className="mr-2 size-4" aria-hidden="true" />
-              Account
+              Profile Settings
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem disabled={isLoggingOut} onClick={handleLogout}>
               <LogOut className="mr-2 size-4" aria-hidden="true" />
-              Log Out
+              {isLoggingOut ? "Logging out…" : "Log Out"}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -302,7 +324,10 @@ const NavUser = ({ user }: { user: UserData }) => {
   );
 };
 
-const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
+const AppSidebar = ({
+  user,
+  ...props
+}: React.ComponentProps<typeof Sidebar> & { user?: UserData }) => {
   return (
     <Sidebar variant="inset" collapsible="icon" {...props}>
       <SidebarHeader>
@@ -327,9 +352,7 @@ const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
           ))}
         </ScrollArea>
       </SidebarContent>
-      <SidebarFooter>
-        {sidebarData.user && <NavUser user={sidebarData.user} />}
-      </SidebarFooter>
+      <SidebarFooter>{user && <NavUser user={user} />}</SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );
@@ -342,9 +365,11 @@ const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
 const DashboardLayout = ({
   children,
   className,
+  user,
 }: {
   children: React.ReactNode;
   className?: string;
+  user?: UserData;
 }) => {
   return (
     <SidebarProvider className={cn("bg-sidebar", className)}>
@@ -354,7 +379,7 @@ const DashboardLayout = ({
       >
         Skip to main content
       </a>
-      <AppSidebar />
+      <AppSidebar user={user ?? sidebarData.user} />
       <div className="h-svh w-full overflow-hidden lg:p-2">
         <div className="flex h-full w-full flex-col bg-background lg:rounded-xl lg:border">
           <div className="min-h-0 flex-1 overflow-hidden">
