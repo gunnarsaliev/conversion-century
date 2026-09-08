@@ -13,6 +13,7 @@ import { Services } from './src/collections/Services'
 import { Media } from './src/collections/Media'
 import { WorkChecklist } from './src/collections/WorkChecklist'
 import { ClientChecklistProgress } from './src/collections/ClientChecklistProgress'
+import { clearUploadedFileAfterProcessing } from './src/utilities/clearUploadedFile'
 
 export default buildConfig({
   editor: lexicalEditor(),
@@ -49,6 +50,16 @@ export default buildConfig({
       collections: [{ slug: 'clients' }, { slug: 'work-checklist' }],
       // Keep the generated imports/exports collections out of the root
       // sidebar and restrict them to admins, same as Clients.ts.
+      //
+      // Both collections are plain Payload upload collections, so every CSV
+      // a user imports or exports is written to local disk (`./imports` /
+      // `./exports`) by default. We only need that file for the duration of
+      // the import/export job itself, so `clearUploadedFileAfterProcessing`
+      // is appended to each collection's existing `afterChange` hooks (the
+      // plugin's own hooks, which do the actual processing, must run first)
+      // to delete the file from disk and clear the doc's file fields once
+      // processing has finished — the status/summary (imports) or doc
+      // metadata (exports) stay in the admin UI, but the raw file doesn't.
       overrideImportCollection: ({ collection }) => ({
         ...collection,
         admin: {
@@ -61,6 +72,13 @@ export default buildConfig({
           read: ({ req: { user } }) => user?.role === 'admin',
           update: ({ req: { user } }) => user?.role === 'admin',
           delete: ({ req: { user } }) => user?.role === 'admin',
+        },
+        hooks: {
+          ...collection.hooks,
+          afterChange: [
+            ...(collection.hooks?.afterChange ?? []),
+            clearUploadedFileAfterProcessing('imports'),
+          ],
         },
       }),
       overrideExportCollection: ({ collection }) => ({
@@ -75,6 +93,13 @@ export default buildConfig({
           read: ({ req: { user } }) => user?.role === 'admin',
           update: ({ req: { user } }) => user?.role === 'admin',
           delete: ({ req: { user } }) => user?.role === 'admin',
+        },
+        hooks: {
+          ...collection.hooks,
+          afterChange: [
+            ...(collection.hooks?.afterChange ?? []),
+            clearUploadedFileAfterProcessing('exports'),
+          ],
         },
       }),
     }),
