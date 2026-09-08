@@ -12,6 +12,7 @@ import {
   KeyRound,
   LayoutDashboard,
   LogOut,
+  Palette,
   Settings,
   ShieldCheck,
   Sparkles,
@@ -311,6 +312,10 @@ const NavUser = ({ user }: { user: UserData }) => {
             <DropdownMenuItem render={<Link href="/dashboard/settings" />}>
               <User className="mr-2 size-4" aria-hidden="true" />
               Profile Settings
+            </DropdownMenuItem>
+            <DropdownMenuItem render={<Link href="/dashboard/preferences" />}>
+              <Palette className="mr-2 size-4" aria-hidden="true" />
+              Preferences
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem disabled={isLoggingOut} onClick={handleLogout}>
