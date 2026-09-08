@@ -25,6 +25,7 @@
     "@markdoc/next.js": "^0.5.0",
     "@payloadcms/db-postgres": "^3.88.0",
     "@payloadcms/next": "^3.88.0",
+    "@payloadcms/plugin-import-export": "^3.88.0",
     "@payloadcms/richtext-lexical": "^3.88.0",
     "@payloadcms/storage-s3": "3.88.0",
     "@sindresorhus/slugify": "^2.2.1",

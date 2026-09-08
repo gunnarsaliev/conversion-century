@@ -2,6 +2,7 @@ import sharp from 'sharp'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { s3Storage } from '@payloadcms/storage-s3'
+import { importExportPlugin } from '@payloadcms/plugin-import-export'
 import { buildConfig } from 'payload'
 import { en } from '@payloadcms/translations/languages/en'
 import { bg } from '@payloadcms/translations/languages/bg'
@@ -43,6 +44,40 @@ export default buildConfig({
         forcePathStyle: true,
       },
     }),
+
+    importExportPlugin({
+      collections: [{ slug: 'clients' }, { slug: 'work-checklist' }],
+      // Keep the generated imports/exports collections out of the root
+      // sidebar and restrict them to admins, same as Clients.ts.
+      overrideImportCollection: ({ collection }) => ({
+        ...collection,
+        admin: {
+          ...collection.admin,
+          group: 'Data Management',
+        },
+        access: {
+          ...collection.access,
+          create: ({ req: { user } }) => user?.role === 'admin',
+          read: ({ req: { user } }) => user?.role === 'admin',
+          update: ({ req: { user } }) => user?.role === 'admin',
+          delete: ({ req: { user } }) => user?.role === 'admin',
+        },
+      }),
+      overrideExportCollection: ({ collection }) => ({
+        ...collection,
+        admin: {
+          ...collection.admin,
+          group: 'Data Management',
+        },
+        access: {
+          ...collection.access,
+          create: ({ req: { user } }) => user?.role === 'admin',
+          read: ({ req: { user } }) => user?.role === 'admin',
+          update: ({ req: { user } }) => user?.role === 'admin',
+          delete: ({ req: { user } }) => user?.role === 'admin',
+        },
+      }),
+    }),
   ],
 
   // Admin panel UI language.
@@ -58,6 +93,20 @@ export default buildConfig({
     ],
     defaultLocale: 'en',
     fallback: true,
+  },
+
+  // Without this, jobs queued by the import/export plugin (and anything
+  // else using payload.jobs.queue) just sit in the `payload-jobs`
+  // collection with status "pending" forever — nothing runs them.
+  // autoRun both schedules and processes the default queue every minute
+  // inside this same Next.js process.
+  jobs: {
+    autoRun: [
+      {
+        cron: '* * * * *',
+        queue: 'default',
+      },
+    ],
   },
 
   secret: process.env.PAYLOAD_SECRET || '',
