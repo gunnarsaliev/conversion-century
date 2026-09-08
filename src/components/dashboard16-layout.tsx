@@ -161,7 +161,7 @@ const sidebarData: SidebarData = {
       title: "Administration",
       defaultOpen: false,
       items: [
-        { label: "Staff & Roles", icon: ShieldCheck, href: "#" },
+        { label: "Staff & Roles", icon: ShieldCheck, href: "/dashboard/team" },
         { label: "Maintenance Logs", icon: Wrench, href: "#" },
         { label: "Security & Access", icon: KeyRound, href: "#" },
       ],
