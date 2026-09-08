@@ -118,45 +118,45 @@ const sidebarData: SidebarData = {
         { label: "Clients", icon: Users, href: "/dashboard/clients" },
         { label: "Leads", icon: Handshake, href: "/dashboard/leads" },
         { label: "Check-in / Check-out", icon: DoorOpen, href: "#" },
-        {
-          label: "Guest Profiles",
-          icon: Users,
-          href: "#",
-          children: [
-            { label: "All Guests", icon: Users, href: "#" },
-            { label: "Loyalty Members", icon: Users, href: "#" },
-            { label: "Corporate Accounts", icon: Users, href: "#" },
-          ],
-        },
+        // {
+        //   label: "Guest Profiles",
+        //   icon: Users,
+        //   href: "#",
+        //   children: [
+        //     { label: "All Guests", icon: Users, href: "#" },
+        //     { label: "Loyalty Members", icon: Users, href: "#" },
+        //     { label: "Corporate Accounts", icon: Users, href: "#" },
+        //   ],
+        // },
       ],
     },
-    {
-      title: "Property",
-      defaultOpen: true,
-      items: [
-        {
-          label: "Rooms & Suites",
-          icon: BedDouble,
-          href: "#",
-          children: [
-            { label: "Floor Plan", icon: BedDouble, href: "#" },
-            { label: "Room Types", icon: BedDouble, href: "#" },
-            { label: "Availability", icon: BedDouble, href: "#" },
-          ],
-        },
-        { label: "Housekeeping", icon: Sparkles, href: "#" },
-        { label: "Dining & Events", icon: UtensilsCrossed, href: "#" },
-      ],
-    },
-    {
-      title: "Revenue",
-      defaultOpen: false,
-      items: [
-        { label: "Rate Manager", icon: CreditCard, href: "#" },
-        { label: "Billing & Invoices", icon: Wallet, href: "#" },
-        { label: "Channel Distribution", icon: Globe, href: "#" },
-      ],
-    },
+    // {
+    //   title: "Property",
+    //   defaultOpen: true,
+    //   items: [
+    //     {
+    //       label: "Rooms & Suites",
+    //       icon: BedDouble,
+    //       href: "#",
+    //       children: [
+    //         { label: "Floor Plan", icon: BedDouble, href: "#" },
+    //         { label: "Room Types", icon: BedDouble, href: "#" },
+    //         { label: "Availability", icon: BedDouble, href: "#" },
+    //       ],
+    //     },
+    //     { label: "Housekeeping", icon: Sparkles, href: "#" },
+    //     { label: "Dining & Events", icon: UtensilsCrossed, href: "#" },
+    //   ],
+    // },
+    // {
+    //   title: "Revenue",
+    //   defaultOpen: false,
+    //   items: [
+    //     { label: "Rate Manager", icon: CreditCard, href: "#" },
+    //     { label: "Billing & Invoices", icon: Wallet, href: "#" },
+    //     { label: "Channel Distribution", icon: Globe, href: "#" },
+    //   ],
+    // },
     {
       title: "Administration",
       defaultOpen: false,

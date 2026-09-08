@@ -1,17 +1,33 @@
 "use client";
 
-import { Eye, ExternalLink, Mail, Phone, X } from "lucide-react";
+import {
+  Eye,
+  Mail,
+  MoreVertical,
+  Pencil,
+  Phone,
+  Trash2,
+  X,
+} from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import * as React from "react";
 
+import { deleteClient } from "@/app/[locale]/(frontend)/dashboard/clients/actions";
+import { ClientFormDrawer } from "@/components/dashboard/client-form-drawer";
 import { ClientLogo } from "@/components/dashboard/client-logo";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -51,11 +67,37 @@ type ClientQuickViewProps = {
 };
 
 const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
+  const router = useRouter();
+  const [open, setOpen] = React.useState(false);
+  const [isDeleting, setIsDeleting] = React.useState(false);
+
   const basePath =
     client.status === "lead" ? "/dashboard/leads" : "/dashboard/clients";
 
+  const handleDelete = async () => {
+    if (
+      !window.confirm(
+        `Delete ${client.companyName}? This action cannot be undone.`,
+      )
+    ) {
+      return;
+    }
+
+    setIsDeleting(true);
+    const result = await deleteClient(client.id);
+    setIsDeleting(false);
+
+    if (!result.success) {
+      window.alert(result.error);
+      return;
+    }
+
+    setOpen(false);
+    router.refresh();
+  };
+
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger render={trigger} />
       <SheetContent showCloseButton={false} aria-describedby={undefined}>
         <SheetHeader className="flex-row items-center justify-between border-b">
@@ -66,17 +108,63 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
         </SheetHeader>
 
         <div className="no-scrollbar min-h-0 flex-1 overflow-auto px-5 pt-5 pb-5">
-          <div className="flex items-center justify-between gap-3">
+          <div className="flex flex-col gap-3">
             <div>
-              <p className="text-lg font-semibold">{client.companyName}</p>
-              <Badge
-                className={
-                  statusBadgeClassName[client.status] ??
-                  statusBadgeClassName.inactive
-                }
-              >
-                <span className="capitalize">{client.status}</span>
-              </Badge>
+              <div className="flex items-center justify-between gap-2">
+                <Link
+                  href={`${basePath}/${client.id}`}
+                  className="text-lg font-semibold hover:underline"
+                >
+                  {client.companyName}
+                </Link>
+                <DropdownMenu>
+                  <DropdownMenuTrigger
+                    render={
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="size-7 shrink-0"
+                        aria-label="Client actions"
+                      />
+                    }
+                  >
+                    <MoreVertical className="size-4" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <ClientFormDrawer
+                      mode="edit"
+                      client={client}
+                      trigger={
+                        <DropdownMenuItem
+                          render={<button type="button" />}
+                          onClick={(event) => event.preventDefault()}
+                        >
+                          <Pencil className="size-3.5" aria-hidden="true" />
+                          Edit
+                        </DropdownMenuItem>
+                      }
+                    />
+                    <DropdownMenuItem
+                      variant="destructive"
+                      disabled={isDeleting}
+                      onClick={handleDelete}
+                    >
+                      <Trash2 className="size-3.5" aria-hidden="true" />
+                      {isDeleting ? "Deleting…" : "Delete"}
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+              <div className="mt-1">
+                <Badge
+                  className={
+                    statusBadgeClassName[client.status] ??
+                    statusBadgeClassName.inactive
+                  }
+                >
+                  <span className="capitalize">{client.status}</span>
+                </Badge>
+              </div>
             </div>
             <ClientLogo
               companyName={client.companyName}
@@ -136,13 +224,6 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
             ) : null}
           </dl>
         </div>
-
-        <SheetFooter>
-          <Button render={<Link href={`${basePath}/${client.id}`} />}>
-            <ExternalLink className="size-3.5" aria-hidden="true" />
-            View full profile
-          </Button>
-        </SheetFooter>
       </SheetContent>
     </Sheet>
   );

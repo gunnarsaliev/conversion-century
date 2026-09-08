@@ -2,6 +2,7 @@ import { Bell, ChevronRight, LayoutDashboard, Plus, Search } from "lucide-react"
 import { getPayload } from "payload";
 import config from "@payload-config";
 
+import { ClientFormDrawer } from "@/components/dashboard/client-form-drawer";
 import { ClientList, type ClientListItem } from "@/components/dashboard/client-list";
 import { Button } from "@/components/ui/button";
 
@@ -94,10 +95,17 @@ export default async function ClientsPage() {
               Manage your clients
             </p>
           </div>
-          <Button className="h-9 gap-1.5 px-3 text-sm">
-            <Plus className="size-3.5" aria-hidden="true" />
-            New Client
-          </Button>
+          <ClientFormDrawer
+            trigger={
+              <button
+                type="button"
+                className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-primary px-3 text-sm font-medium text-primary-foreground outline-none transition-all hover:bg-primary/80 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+              >
+                <Plus className="size-3.5" aria-hidden="true" />
+                New Client
+              </button>
+            }
+          />
         </div>
       </section>
 
