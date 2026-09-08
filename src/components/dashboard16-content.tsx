@@ -1561,14 +1561,14 @@ const Dashboard16Content = ({ userName }: { userName?: string }) => {
       <DashboardHeader
         section="Dashboard"
         userName={userName}
-        action={
-          <Button className="h-9 gap-1.5 px-3 text-sm">
-            <Plus className="size-3.5" aria-hidden="true" />
-            New Reservation
-          </Button>
-        }
+        // action={
+        //   <Button className="h-9 gap-1.5 px-3 text-sm">
+        //     <Plus className="size-3.5" aria-hidden="true" />
+        //     New Reservation
+        //   </Button>
+        // }
       />
-      <div className="grid gap-4 sm:gap-6 lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] lg:items-start">
+      {/* <div className="grid gap-4 sm:gap-6 lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] lg:items-start">
         <div
           ref={topLeftStackRef}
           className="flex min-h-0 flex-col gap-4 sm:gap-6 lg:self-start"
@@ -1584,8 +1584,8 @@ const Dashboard16Content = ({ userName }: { userName?: string }) => {
         >
           <LatestUpdatesPanel />
         </div>
-      </div>
-      <RecentArrivalsTableCard />
+      </div> */}
+      {/* <RecentArrivalsTableCard /> */}
     </div>
   );
 };

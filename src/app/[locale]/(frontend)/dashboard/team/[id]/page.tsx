@@ -108,6 +108,7 @@ export default async function TeamMemberPage({
               src="https://pub-05efc1b2acd64b71beacdf66eed34654.r2.dev/banner-fallback.jpg"
               alt=""
               fill
+              sizes="100vw"
               className="object-cover object-bottom"
               priority
             />

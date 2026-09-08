@@ -120,7 +120,7 @@ const sidebarData: SidebarData = {
         },
         { label: "Clients", icon: Users, href: "/dashboard/clients" },
         { label: "Leads", icon: Handshake, href: "/dashboard/leads" },
-        { label: "Check-in / Check-out", icon: DoorOpen, href: "#" },
+        // { label: "Check-in / Check-out", icon: DoorOpen, href: "#" },
         // {
         //   label: "Guest Profiles",
         //   icon: Users,
@@ -165,8 +165,8 @@ const sidebarData: SidebarData = {
       defaultOpen: false,
       items: [
         { label: "Staff & Roles", icon: ShieldCheck, href: "/dashboard/team" },
-        { label: "Maintenance Logs", icon: Wrench, href: "#" },
-        { label: "Security & Access", icon: KeyRound, href: "#" },
+        // { label: "Maintenance Logs", icon: Wrench, href: "#" },
+        // { label: "Security & Access", icon: KeyRound, href: "#" },
       ],
     },
   ],
