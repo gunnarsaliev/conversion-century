@@ -331,8 +331,28 @@ const NavUser = ({ user }: { user: UserData }) => {
 
 const AppSidebar = ({
   user,
+  isAdmin,
   ...props
-}: React.ComponentProps<typeof Sidebar> & { user?: UserData }) => {
+}: React.ComponentProps<typeof Sidebar> & {
+  user?: UserData;
+  isAdmin?: boolean;
+}) => {
+  const navGroups = React.useMemo(() => {
+    if (!isAdmin) return sidebarData.navGroups;
+
+    return sidebarData.navGroups.map((group) => {
+      if (group.title !== "Administration") return group;
+
+      return {
+        ...group,
+        items: [
+          ...group.items,
+          { label: "Admin", icon: ShieldCheck, href: "/admin" },
+        ],
+      };
+    });
+  }, [isAdmin]);
+
   return (
     <Sidebar variant="inset" collapsible="icon" {...props}>
       <SidebarHeader>
@@ -343,7 +363,7 @@ const AppSidebar = ({
       </SidebarHeader>
       <SidebarContent>
         <ScrollArea className="h-full">
-          {sidebarData.navGroups.map((group) => (
+          {navGroups.map((group) => (
             <SidebarGroup key={group.title}>
               <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
               <SidebarGroupContent>
@@ -371,10 +391,12 @@ const DashboardLayout = ({
   children,
   className,
   user,
+  isAdmin,
 }: {
   children: React.ReactNode;
   className?: string;
   user?: UserData;
+  isAdmin?: boolean;
 }) => {
   return (
     <SidebarProvider className={cn("bg-sidebar", className)}>
@@ -384,7 +406,7 @@ const DashboardLayout = ({
       >
         Skip to main content
       </a>
-      <AppSidebar user={user ?? sidebarData.user} />
+      <AppSidebar user={user ?? sidebarData.user} isAdmin={isAdmin} />
       <div className="h-svh w-full overflow-hidden lg:p-2">
         <div className="flex h-full w-full flex-col bg-background lg:rounded-xl lg:border">
           <div className="min-h-0 flex-1 overflow-hidden">

@@ -39,5 +39,9 @@ export default async function Dashboard({
     };
   }
 
-  return <DashboardLayout user={sidebarUser}>{children}</DashboardLayout>;
+  return (
+    <DashboardLayout user={sidebarUser} isAdmin={user?.role === "admin"}>
+      {children}
+    </DashboardLayout>
+  );
 }

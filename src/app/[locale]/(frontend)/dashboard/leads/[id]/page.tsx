@@ -261,9 +261,12 @@ export default async function LeadPage({ params }: LeadPageProps) {
               </CardHeader>
               <CardContent className="flex flex-wrap gap-2">
                 {services.map((service) => (
-                  <Badge key={service.id} variant="outline">
-                    {service.name}
-                  </Badge>
+                  <Link
+                    key={service.id}
+                    href={`/dashboard/services/${service.id}`}
+                  >
+                    <Badge variant="outline">{service.name}</Badge>
+                  </Link>
                 ))}
               </CardContent>
             </Card>

@@ -1,10 +1,6 @@
 import {
   Bell,
-  CheckCircle2,
   ChevronRight,
-  Circle,
-  CircleDashed,
-  FileText,
   Globe,
   Info,
   LayoutDashboard,
@@ -12,7 +8,6 @@ import {
   Mail,
   Phone,
   Search,
-  Users,
 } from "lucide-react";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import type { SerializedEditorState } from "lexical";
@@ -23,6 +18,8 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 
 import { AccountManagerBadge } from "@/components/dashboard/account-manager-badge";
+import { ChecklistItemCheckbox } from "@/components/dashboard/checklist-item-checkbox";
+import { ChecklistProgressChart } from "@/components/dashboard/checklist-progress-chart";
 import { ClientLogo } from "@/components/dashboard/client-logo";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -66,7 +63,7 @@ type ChecklistEntry = {
   priority?: string | null;
   team?: string | null;
   label?: string | null;
-  shortDescription?: SerializedEditorState | null;
+  description?: SerializedEditorState | null;
 };
 
 const ChecklistEntryHoverCard = ({ entry }: { entry: ChecklistEntry }) => {
@@ -90,9 +87,9 @@ const ChecklistEntryHoverCard = ({ entry }: { entry: ChecklistEntry }) => {
             {checklistStatusLabel[entry.status] ?? entry.status}
           </Badge>
         </div>
-        {entry.shortDescription ? (
+        {entry.description ? (
           <div className="prose prose-sm dark:prose-invert mt-2 max-w-none text-xs [&_p]:my-1">
-            <RichText data={entry.shortDescription} />
+            <RichText data={entry.description} />
           </div>
         ) : null}
         <dl className="mt-2 space-y-1.5 text-xs text-muted-foreground">
@@ -191,7 +188,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
         priority: checklistItem?.priority ?? null,
         team: checklistItem?.team ?? null,
         label: checklistItem?.label ?? null,
-        shortDescription: checklistItem?.shortDescription ?? null,
+        description: checklistItem?.description ?? null,
       };
     })
     .filter((entry) => Boolean(entry.name)) as {
@@ -204,7 +201,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
     priority?: string | null;
     team?: string | null;
     label?: string | null;
-    shortDescription?: SerializedEditorState | null;
+    description?: SerializedEditorState | null;
   }[];
 
   const doneItems = checklistEntries.filter((entry) => entry.status === "done");
@@ -232,23 +229,6 @@ export default async function ClientPage({ params }: ClientPageProps) {
     client.logo && typeof client.logo === "object" ? client.logo : null;
 
   const websiteLinks = client.websiteLinks ?? [];
-  const reportUrls = client.reportUrls ?? [];
-
-  const stats: {
-    label: string;
-    value: number;
-    icon: typeof Users;
-  }[] = [
-    { label: "Services", value: services.length, icon: FileText },
-    { label: "Publishers", value: publishers.length, icon: Users },
-    { label: "Website Links", value: websiteLinks.length, icon: Globe },
-    { label: "Reports", value: reportUrls.length, icon: FileText },
-    {
-      label: "Checklist Done",
-      value: doneItems.length,
-      icon: CheckCircle2,
-    },
-  ];
 
   return (
     <>
@@ -376,25 +356,14 @@ export default async function ClientPage({ params }: ClientPageProps) {
           </CardContent>
         </Card>
 
-        {/* Stats grid */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {stats.map((stat) => {
-            const Icon = stat.icon;
-            return (
-              <Card key={stat.label}>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-muted-foreground">
-                    {stat.label}
-                  </CardTitle>
-                  <Icon className="size-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{stat.value}</div>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
+        {checklistEntries.length > 0 && (
+          <div className="flex justify-start pb-4">
+            <ChecklistProgressChart
+              done={doneItems.length}
+              remaining={notDoneItems.length}
+            />
+          </div>
+        )}
       </div>
 
       <div className="mt-4 grid gap-4 sm:mt-6 sm:gap-6 lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] lg:items-start">
@@ -423,9 +392,12 @@ export default async function ClientPage({ params }: ClientPageProps) {
               </CardHeader>
               <CardContent className="flex flex-wrap gap-2">
                 {services.map((service) => (
-                  <Badge key={service.id} variant="outline">
-                    {service.name}
-                  </Badge>
+                  <Link
+                    key={service.id}
+                    href={`/dashboard/services/${service.id}`}
+                  >
+                    <Badge variant="outline">{service.name}</Badge>
+                  </Link>
                 ))}
               </CardContent>
             </Card>
@@ -451,11 +423,14 @@ export default async function ClientPage({ params }: ClientPageProps) {
                           key={entry.id}
                           className="flex items-center gap-2"
                         >
-                          <CheckCircle2
-                            className="size-3.5 shrink-0 text-emerald-600"
-                            aria-hidden="true"
+                          <ChecklistItemCheckbox
+                            key={`${entry.id}-${entry.status}`}
+                            progressId={entry.id}
+                            clientId={client.id}
+                            done
+                            label={entry.name}
                           />
-                          <span className="flex-1 truncate">
+                          <span className="min-w-0 truncate">
                             {entry.name}
                           </span>
                           <ChecklistEntryHoverCard entry={entry} />
@@ -477,20 +452,24 @@ export default async function ClientPage({ params }: ClientPageProps) {
                           key={entry.id}
                           className="flex items-center gap-2"
                         >
-                          {entry.status === "in-progress" ? (
-                            <CircleDashed
-                              className="size-3.5 shrink-0 text-amber-600"
-                              aria-hidden="true"
-                            />
-                          ) : (
-                            <Circle
-                              className="size-3.5 shrink-0 text-muted-foreground"
-                              aria-hidden="true"
-                            />
-                          )}
-                          <span className="flex-1 truncate">
+                          <ChecklistItemCheckbox
+                            key={`${entry.id}-${entry.status}`}
+                            progressId={entry.id}
+                            clientId={client.id}
+                            done={false}
+                            label={entry.name}
+                          />
+                          <span className="min-w-0 truncate">
                             {entry.name}
                           </span>
+                          {entry.status === "in-progress" && (
+                            <Badge
+                              variant="outline"
+                              className="shrink-0 text-amber-600"
+                            >
+                              In progress
+                            </Badge>
+                          )}
                           <ChecklistEntryHoverCard entry={entry} />
                         </li>
                       ))}

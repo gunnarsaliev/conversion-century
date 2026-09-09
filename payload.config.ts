@@ -47,7 +47,11 @@ export default buildConfig({
     }),
 
     importExportPlugin({
-      collections: [{ slug: 'clients' }, { slug: 'work-checklist' }],
+      collections: [
+        { slug: 'clients' },
+        { slug: 'work-checklist' },
+        { slug: 'client-checklist-progress' },
+      ],
       // Keep the generated imports/exports collections out of the root
       // sidebar and restrict them to admins, same as Clients.ts.
       //

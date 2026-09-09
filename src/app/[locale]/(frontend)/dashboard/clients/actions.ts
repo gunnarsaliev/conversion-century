@@ -129,4 +129,47 @@ async function deleteClient(
   }
 }
 
-export { createClient, updateClient, deleteClient };
+// ---------------------------------------------------------------------------
+// Checklist progress status toggle
+// ---------------------------------------------------------------------------
+
+type UpdateChecklistProgressResult =
+  | { success: true; status: "pending" | "done" }
+  | { success: false; error: string };
+
+async function setChecklistProgressDone(
+  progressId: string | number,
+  clientId: string | number,
+  done: boolean,
+): Promise<UpdateChecklistProgressResult> {
+  const status = done ? "done" : "pending";
+
+  try {
+    const payload = await getPayload({ config });
+
+    await payload.update({
+      collection: "client-checklist-progress",
+      id: progressId,
+      data: {
+        status,
+        completedAt: done ? new Date().toISOString() : null,
+      },
+    });
+
+    revalidatePath(`/dashboard/clients/${clientId}`);
+
+    return { success: true, status };
+  } catch {
+    return {
+      success: false,
+      error: "Something went wrong while updating the checklist item.",
+    };
+  }
+}
+
+export {
+  createClient,
+  updateClient,
+  deleteClient,
+  setChecklistProgressDone,
+};
