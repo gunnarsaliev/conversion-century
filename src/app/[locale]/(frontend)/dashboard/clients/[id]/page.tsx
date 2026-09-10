@@ -21,6 +21,7 @@ import { AccountManagerBadge } from "@/components/dashboard/account-manager-badg
 import { ChecklistItemCheckbox } from "@/components/dashboard/checklist-item-checkbox";
 import { ChecklistProgressChart } from "@/components/dashboard/checklist-progress-chart";
 import { ClientLogo } from "@/components/dashboard/client-logo";
+import { ServicesCountChart } from "@/components/dashboard/services-count-chart";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -356,12 +357,17 @@ export default async function ClientPage({ params }: ClientPageProps) {
           </CardContent>
         </Card>
 
-        {checklistEntries.length > 0 && (
-          <div className="flex justify-start pb-4">
-            <ChecklistProgressChart
-              done={doneItems.length}
-              remaining={notDoneItems.length}
-            />
+        {(checklistEntries.length > 0 || services.length > 0) && (
+          <div className="flex flex-wrap justify-start gap-4 pb-4">
+            {checklistEntries.length > 0 && (
+              <ChecklistProgressChart
+                done={doneItems.length}
+                remaining={notDoneItems.length}
+              />
+            )}
+            {services.length > 0 && (
+              <ServicesCountChart count={services.length} />
+            )}
           </div>
         )}
       </div>

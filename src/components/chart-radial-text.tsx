@@ -10,62 +10,43 @@ import {
 
 import { type ChartConfig, ChartContainer } from "@/components/ui/chart";
 
-// ---------------------------------------------------------------------------
-// Checklist progress chart
-// ---------------------------------------------------------------------------
-//
-// Gauge-style radial chart (based on chart-radial-text.tsx) showing the
-// share of done checklist items against a background track representing
-// the remainder.
+export const title = "A radial chart with text";
+
+const chartData = [
+  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
+];
 
 const chartConfig = {
-  done: {
-    label: "Done",
-    color: "#10b981",
+  visitors: {
+    label: "Visitors",
   },
-  remaining: {
-    label: "Remaining",
-    color: "#eab308",
+  safari: {
+    label: "Safari",
+    color: "var(--chart-2)",
   },
 } satisfies ChartConfig;
 
-type ChecklistProgressChartProps = {
-  done: number;
-  remaining: number;
-};
-
-const ChecklistProgressChart = ({
-  done,
-  remaining,
-}: ChecklistProgressChartProps) => {
-  const total = done + remaining;
-  const chartData = [{ item: "checklist", done }];
-
-  return (
+const ChartRadialText = () => (
+  <div className="w-full max-w-xl rounded-md border bg-background p-4">
     <ChartContainer
-      className="mx-auto aspect-square max-h-[200px] w-full max-w-[200px]"
+      className="mx-auto aspect-square max-h-[250px]"
       config={chartConfig}
     >
       <RadialBarChart
         data={chartData}
-        startAngle={0}
         endAngle={250}
-        innerRadius={65}
-        outerRadius={90}
+        innerRadius={80}
+        outerRadius={110}
+        startAngle={0}
       >
         <PolarGrid
           className="first:fill-muted last:fill-background"
           gridType="circle"
-          polarRadius={[70, 60]}
+          polarRadius={[86, 74]}
           radialLines={false}
           stroke="none"
         />
-        <RadialBar
-          background={{ fill: "var(--color-remaining)" }}
-          cornerRadius={10}
-          dataKey="done"
-          fill="var(--color-done)"
-        />
+        <RadialBar background cornerRadius={10} dataKey="visitors" />
         <PolarRadiusAxis axisLine={false} tick={false} tickLine={false}>
           <Label
             content={({ viewBox }) => {
@@ -78,18 +59,18 @@ const ChecklistProgressChart = ({
                     y={viewBox.cy}
                   >
                     <tspan
-                      className="fill-foreground text-3xl font-bold"
+                      className="fill-foreground text-4xl font-bold"
                       x={viewBox.cx}
                       y={viewBox.cy}
                     >
-                      {total > 0 ? `${done}/${total}` : "0/0"}
+                      {chartData[0].visitors.toLocaleString()}
                     </tspan>
                     <tspan
                       className="fill-muted-foreground"
                       x={viewBox.cx}
-                      y={(viewBox.cy || 0) + 20}
+                      y={(viewBox.cy || 0) + 24}
                     >
-                      Done
+                      Visitors
                     </tspan>
                   </text>
                 );
@@ -99,7 +80,7 @@ const ChecklistProgressChart = ({
         </PolarRadiusAxis>
       </RadialBarChart>
     </ChartContainer>
-  );
-};
+  </div>
+);
 
-export { ChecklistProgressChart };
+export default ChartRadialText;

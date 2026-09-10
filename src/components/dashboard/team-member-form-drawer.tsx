@@ -30,7 +30,6 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@/components/ui/sheet";
 
 // ---------------------------------------------------------------------------
@@ -40,6 +39,12 @@ import {
 // Sheet-based form mirroring client-form-drawer.tsx's layout. Edit only —
 // new team members are added via /admin, since creating a user means
 // setting a password, which this dashboard doesn't collect.
+//
+// Controlled from outside via `open`/`onOpenChange` rather than an internal
+// trigger: its only caller opens it from a DropdownMenuItem, and nesting a
+// Dialog trigger's own click handling inside a Menu item isn't a supported
+// composition (see Base UI's Menu docs, "Open a dialog") — the menu's item
+// click handling and the dialog trigger's click handling don't coordinate.
 
 const teamMemberFormSchema = z.object({
   firstName: z.string().trim().min(1, "First name is required"),
@@ -51,7 +56,8 @@ const teamMemberFormSchema = z.object({
 type TeamMemberFormValues = z.infer<typeof teamMemberFormSchema>;
 
 type TeamMemberFormDrawerProps = {
-  trigger: React.ReactElement;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
   member: {
     id: string | number;
     firstName: string;
@@ -62,11 +68,11 @@ type TeamMemberFormDrawerProps = {
 };
 
 const TeamMemberFormDrawer = ({
-  trigger,
+  open,
+  onOpenChange,
   member,
 }: TeamMemberFormDrawerProps) => {
   const router = useRouter();
-  const [open, setOpen] = React.useState(false);
   const [serverError, setServerError] = React.useState<string | null>(null);
 
   const defaultValues: TeamMemberFormValues = {
@@ -96,7 +102,7 @@ const TeamMemberFormDrawer = ({
       return;
     }
 
-    setOpen(false);
+    onOpenChange(false);
     router.refresh();
   };
 
@@ -104,14 +110,13 @@ const TeamMemberFormDrawer = ({
     <Sheet
       open={open}
       onOpenChange={(nextOpen) => {
-        setOpen(nextOpen);
+        onOpenChange(nextOpen);
         if (!nextOpen) {
           reset(defaultValues);
           setServerError(null);
         }
       }}
     >
-      <SheetTrigger render={trigger} />
       <SheetContent showCloseButton={false} aria-describedby={undefined}>
         <SheetHeader className="flex-row items-center justify-between border-b">
           <SheetTitle className="text-lg">Edit Team Member</SheetTitle>

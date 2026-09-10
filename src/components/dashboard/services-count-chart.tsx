@@ -11,35 +11,27 @@ import {
 import { type ChartConfig, ChartContainer } from "@/components/ui/chart";
 
 // ---------------------------------------------------------------------------
-// Checklist progress chart
+// Services count chart
 // ---------------------------------------------------------------------------
 //
 // Gauge-style radial chart (based on chart-radial-text.tsx) showing the
-// share of done checklist items against a background track representing
-// the remainder.
+// number of services a client has, colored distinctly from
+// ChecklistProgressChart since it's a plain count rather than a
+// done/remaining split.
 
 const chartConfig = {
-  done: {
-    label: "Done",
-    color: "#10b981",
-  },
-  remaining: {
-    label: "Remaining",
-    color: "#eab308",
+  services: {
+    label: "Services",
+    color: "#3b82f6",
   },
 } satisfies ChartConfig;
 
-type ChecklistProgressChartProps = {
-  done: number;
-  remaining: number;
+type ServicesCountChartProps = {
+  count: number;
 };
 
-const ChecklistProgressChart = ({
-  done,
-  remaining,
-}: ChecklistProgressChartProps) => {
-  const total = done + remaining;
-  const chartData = [{ item: "checklist", done }];
+const ServicesCountChart = ({ count }: ServicesCountChartProps) => {
+  const chartData = [{ item: "services", services: count }];
 
   return (
     <ChartContainer
@@ -61,10 +53,10 @@ const ChecklistProgressChart = ({
           stroke="none"
         />
         <RadialBar
-          background={{ fill: "var(--color-remaining)" }}
+          background
           cornerRadius={10}
-          dataKey="done"
-          fill="var(--color-done)"
+          dataKey="services"
+          fill="var(--color-services)"
         />
         <PolarRadiusAxis axisLine={false} tick={false} tickLine={false}>
           <Label
@@ -82,14 +74,14 @@ const ChecklistProgressChart = ({
                       x={viewBox.cx}
                       y={viewBox.cy}
                     >
-                      {total > 0 ? `${done}/${total}` : "0/0"}
+                      {count}
                     </tspan>
                     <tspan
                       className="fill-muted-foreground"
                       x={viewBox.cx}
                       y={(viewBox.cy || 0) + 20}
                     >
-                      Done
+                      Services
                     </tspan>
                   </text>
                 );
@@ -102,4 +94,4 @@ const ChecklistProgressChart = ({
   );
 };
 
-export { ChecklistProgressChart };
+export { ServicesCountChart };

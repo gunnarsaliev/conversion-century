@@ -5,10 +5,13 @@ import {
   Circle,
   CircleDashed,
   Eye,
+  FileText,
   KeyRound,
   Link as LinkIcon,
+  Link2,
   Mail,
   MoreVertical,
+  Newspaper,
   Pencil,
   Phone,
   Trash2,
@@ -82,6 +85,8 @@ type ClientQuickViewData = {
   websiteLinks?: ClientLink[];
   websiteLoginLinks?: ClientLink[];
   reportUrls?: ClientLink[];
+  linkBuildingDocsUrl?: string | null;
+  blogDocsUrl?: string | null;
   checklist?: ChecklistSummary[];
   checklistDoneCount?: number;
   checklistTotalCount?: number;
@@ -96,6 +101,7 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
   const [isDeleting, setIsDeleting] = React.useState(false);
+  const [editOpen, setEditOpen] = React.useState(false);
 
   const basePath =
     client.status === "lead" ? "/dashboard/leads" : "/dashboard/clients";
@@ -175,20 +181,10 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
                   <MoreVertical className="size-4" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <ClientFormDrawer
-                    mode="edit"
-                    client={client}
-                    trigger={
-                      <DropdownMenuItem
-                        render={<button type="button" />}
-                        nativeButton
-                        onClick={(event) => event.preventDefault()}
-                      >
-                        <Pencil className="size-3.5" aria-hidden="true" />
-                        Edit
-                      </DropdownMenuItem>
-                    }
-                  />
+                  <DropdownMenuItem onClick={() => setEditOpen(true)}>
+                    <Pencil className="size-3.5" aria-hidden="true" />
+                    Edit
+                  </DropdownMenuItem>
                   <DropdownMenuItem
                     variant="destructive"
                     disabled={isDeleting}
@@ -199,6 +195,17 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
+              {/* Controlled separately from the dropdown menu — nesting a
+                  Dialog trigger's own click handling inside a Menu item
+                  isn't a supported composition (see Base UI's Menu docs,
+                  "Open a dialog"), so the drawer is opened imperatively
+                  from a plain onClick above instead. */}
+              <ClientFormDrawer
+                mode="edit"
+                client={client}
+                open={editOpen}
+                onOpenChange={setEditOpen}
+              />
             </div>
 
             {/* Name and status */}
@@ -276,35 +283,34 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
               </div>
             )}
 
-            {/* Website / login / report links */}
+            {/* Website / login / report / docs links */}
             {((client.websiteLinks && client.websiteLinks.length > 0) ||
               (client.websiteLoginLinks &&
                 client.websiteLoginLinks.length > 0) ||
-              (client.reportUrls && client.reportUrls.length > 0)) && (
+              (client.reportUrls && client.reportUrls.length > 0) ||
+              client.linkBuildingDocsUrl ||
+              client.blogDocsUrl) && (
               <div className="mt-6 space-y-4 border-t pt-6">
                 {client.websiteLinks && client.websiteLinks.length > 0 ? (
                   <div>
                     <h3 className="mb-2 text-sm font-medium">
                       Website Links
                     </h3>
-                    <ul className="flex flex-col gap-1.5 text-sm">
+                    <div className="flex flex-wrap gap-2">
                       {client.websiteLinks.map((link, index) => (
-                        <li key={link.id ?? index}>
-                          <a
-                            href={link.url ?? "#"}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="flex items-center gap-2 text-muted-foreground hover:text-foreground hover:underline"
-                          >
-                            <LinkIcon
-                              className="size-3.5 shrink-0"
-                              aria-hidden="true"
-                            />
-                            <span className="truncate">{link.url}</span>
-                          </a>
-                        </li>
+                        <a
+                          key={link.id ?? index}
+                          href={link.url ?? "#"}
+                          target="_blank"
+                          rel="noreferrer"
+                          title={link.url ?? undefined}
+                          aria-label={link.url ?? "Website link"}
+                          className="flex size-8 items-center justify-center rounded-md border text-muted-foreground hover:bg-muted hover:text-foreground"
+                        >
+                          <LinkIcon className="size-3.5" aria-hidden="true" />
+                        </a>
                       ))}
-                    </ul>
+                    </div>
                   </div>
                 ) : null}
 
@@ -312,48 +318,74 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
                 client.websiteLoginLinks.length > 0 ? (
                   <div>
                     <h3 className="mb-2 text-sm font-medium">Login Links</h3>
-                    <ul className="flex flex-col gap-1.5 text-sm">
+                    <div className="flex flex-wrap gap-2">
                       {client.websiteLoginLinks.map((link, index) => (
-                        <li key={link.id ?? index}>
-                          <a
-                            href={link.url ?? "#"}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="flex items-center gap-2 text-muted-foreground hover:text-foreground hover:underline"
-                          >
-                            <KeyRound
-                              className="size-3.5 shrink-0"
-                              aria-hidden="true"
-                            />
-                            <span className="truncate">{link.url}</span>
-                          </a>
-                        </li>
+                        <a
+                          key={link.id ?? index}
+                          href={link.url ?? "#"}
+                          target="_blank"
+                          rel="noreferrer"
+                          title={link.url ?? undefined}
+                          aria-label={link.url ?? "Login link"}
+                          className="flex size-8 items-center justify-center rounded-md border text-muted-foreground hover:bg-muted hover:text-foreground"
+                        >
+                          <KeyRound className="size-3.5" aria-hidden="true" />
+                        </a>
                       ))}
-                    </ul>
+                    </div>
                   </div>
                 ) : null}
 
                 {client.reportUrls && client.reportUrls.length > 0 ? (
                   <div>
                     <h3 className="mb-2 text-sm font-medium">Reports</h3>
-                    <ul className="flex flex-col gap-1.5 text-sm">
+                    <div className="flex flex-wrap gap-2">
                       {client.reportUrls.map((link, index) => (
-                        <li key={link.id ?? index}>
-                          <a
-                            href={link.url ?? "#"}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="flex items-center gap-2 text-muted-foreground hover:text-foreground hover:underline"
-                          >
-                            <LinkIcon
-                              className="size-3.5 shrink-0"
-                              aria-hidden="true"
-                            />
-                            <span className="truncate">{link.url}</span>
-                          </a>
-                        </li>
+                        <a
+                          key={link.id ?? index}
+                          href={link.url ?? "#"}
+                          target="_blank"
+                          rel="noreferrer"
+                          title={link.url ?? undefined}
+                          aria-label={link.url ?? "Report"}
+                          className="flex size-8 items-center justify-center rounded-md border text-muted-foreground hover:bg-muted hover:text-foreground"
+                        >
+                          <FileText className="size-3.5" aria-hidden="true" />
+                        </a>
                       ))}
-                    </ul>
+                    </div>
+                  </div>
+                ) : null}
+
+                {client.linkBuildingDocsUrl || client.blogDocsUrl ? (
+                  <div>
+                    <h3 className="mb-2 text-sm font-medium">Docs</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {client.linkBuildingDocsUrl ? (
+                        <a
+                          href={client.linkBuildingDocsUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          title={client.linkBuildingDocsUrl}
+                          aria-label="Link Building Docs"
+                          className="flex size-8 items-center justify-center rounded-md border text-muted-foreground hover:bg-muted hover:text-foreground"
+                        >
+                          <Link2 className="size-3.5" aria-hidden="true" />
+                        </a>
+                      ) : null}
+                      {client.blogDocsUrl ? (
+                        <a
+                          href={client.blogDocsUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          title={client.blogDocsUrl}
+                          aria-label="Blog Docs"
+                          className="flex size-8 items-center justify-center rounded-md border text-muted-foreground hover:bg-muted hover:text-foreground"
+                        >
+                          <Newspaper className="size-3.5" aria-hidden="true" />
+                        </a>
+                      ) : null}
+                    </div>
                   </div>
                 ) : null}
               </div>

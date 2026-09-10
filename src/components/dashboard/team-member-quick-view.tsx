@@ -61,6 +61,7 @@ const TeamMemberQuickView = ({
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
   const [isDeleting, setIsDeleting] = React.useState(false);
+  const [editOpen, setEditOpen] = React.useState(false);
 
   const handleDelete = async () => {
     if (
@@ -142,19 +143,10 @@ const TeamMemberQuickView = ({
                   <MoreVertical className="size-4" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <TeamMemberFormDrawer
-                    member={member}
-                    trigger={
-                      <DropdownMenuItem
-                        render={<button type="button" />}
-                        nativeButton
-                        onClick={(event) => event.preventDefault()}
-                      >
-                        <Pencil className="size-3.5" aria-hidden="true" />
-                        Edit
-                      </DropdownMenuItem>
-                    }
-                  />
+                  <DropdownMenuItem onClick={() => setEditOpen(true)}>
+                    <Pencil className="size-3.5" aria-hidden="true" />
+                    Edit
+                  </DropdownMenuItem>
                   <DropdownMenuItem
                     variant="destructive"
                     disabled={isDeleting}
@@ -165,6 +157,16 @@ const TeamMemberQuickView = ({
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
+              {/* Controlled separately from the dropdown menu — nesting a
+                  Dialog trigger's own click handling inside a Menu item
+                  isn't a supported composition (see Base UI's Menu docs,
+                  "Open a dialog"), so the drawer is opened imperatively
+                  from a plain onClick above instead. */}
+              <TeamMemberFormDrawer
+                member={member}
+                open={editOpen}
+                onOpenChange={setEditOpen}
+              />
             </div>
 
             {/* Name and role */}

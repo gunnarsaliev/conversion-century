@@ -69,7 +69,15 @@ const emptyValues: ClientFormValues = {
 };
 
 type ClientFormDrawerProps = {
-  trigger: React.ReactElement;
+  // Either pass `trigger` to render an uncontrolled Sheet with its own
+  // trigger element, or pass `open`/`onOpenChange` to drive the Sheet from
+  // outside (e.g. a menu item that opens it imperatively — nesting a
+  // Dialog trigger's own click handling inside a Menu item isn't a
+  // supported composition per Base UI's docs, since the menu's item click
+  // handling and the dialog trigger's click handling don't coordinate).
+  trigger?: React.ReactElement;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 } & (
   | { mode?: "create" }
   | {
@@ -88,7 +96,10 @@ type ClientFormDrawerProps = {
 const ClientFormDrawer = (props: ClientFormDrawerProps) => {
   const { trigger, mode = "create" } = props;
   const router = useRouter();
-  const [open, setOpen] = React.useState(false);
+  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(false);
+  const isControlled = props.open !== undefined;
+  const open = isControlled ? props.open! : uncontrolledOpen;
+  const setOpen = isControlled ? props.onOpenChange! : setUncontrolledOpen;
   const [serverError, setServerError] = React.useState<string | null>(null);
 
   const defaultValues: ClientFormValues =
@@ -144,7 +155,7 @@ const ClientFormDrawer = (props: ClientFormDrawerProps) => {
         }
       }}
     >
-      <SheetTrigger render={trigger} />
+      {trigger && <SheetTrigger render={trigger} />}
       <SheetContent showCloseButton={false} aria-describedby={undefined}>
         <SheetHeader className="flex-row items-center justify-between border-b">
           <SheetTitle className="text-lg">

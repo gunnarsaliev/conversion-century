@@ -91,6 +91,8 @@ export default async function ClientsPage() {
       websiteLinks: client.websiteLinks ?? [],
       websiteLoginLinks: client.websiteLoginLinks ?? [],
       reportUrls: client.reportUrls ?? [],
+      linkBuildingDocsUrl: client["Link Building Docs"] ?? null,
+      blogDocsUrl: client["Blog Docs"] ?? null,
       // Not-done items first so the quick view surfaces what's outstanding.
       checklist: [...checklist]
         .sort((a, b) => Number(a.status === "done") - Number(b.status === "done"))

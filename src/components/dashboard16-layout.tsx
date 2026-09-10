@@ -1,26 +1,17 @@
 "use client";
 
 import {
-  BedDouble,
-  CalendarRange,
+  BookOpen,
   ChevronRight,
   ChevronsUpDown,
-  CreditCard,
-  DoorOpen,
-  Globe,
   Handshake,
-  KeyRound,
   LayoutDashboard,
   LogOut,
   Palette,
   Settings,
   ShieldCheck,
-  Sparkles,
   User,
   Users,
-  UtensilsCrossed,
-  Wallet,
-  Wrench,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -165,7 +156,11 @@ const sidebarData: SidebarData = {
       defaultOpen: false,
       items: [
         { label: "Staff & Roles", icon: ShieldCheck, href: "/dashboard/team" },
-        // { label: "Maintenance Logs", icon: Wrench, href: "#" },
+        {
+          label: "Docs",
+          icon: BookOpen,
+          href: "http://localhost:3000/en/docs/getting-started",
+        },
         // { label: "Security & Access", icon: KeyRound, href: "#" },
       ],
     },
@@ -175,12 +170,6 @@ const sidebarData: SidebarData = {
     items: [
       { label: "Settings", icon: Settings, href: "/dashboard/settings" },
     ],
-  },
-  user: {
-    name: "Robert Austin",
-    email: "robert@grandview.hotel",
-    avatar:
-      "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar/avatar22.jpg",
   },
 };
 
@@ -406,7 +395,7 @@ const DashboardLayout = ({
       >
         Skip to main content
       </a>
-      <AppSidebar user={user ?? sidebarData.user} isAdmin={isAdmin} />
+      <AppSidebar user={user} isAdmin={isAdmin} />
       <div className="h-svh w-full overflow-hidden lg:p-2">
         <div className="flex h-full w-full flex-col bg-background lg:rounded-xl lg:border">
           <div className="min-h-0 flex-1 overflow-hidden">

@@ -65,7 +65,7 @@ export function Layout({
 }) {
   return (
     <div className="flex w-full flex-col">
-      {isAdmin && <Topbar />}
+      {user && <Topbar isAdmin={isAdmin} />}
       <Header user={user} />
 
       <div className="relative mx-auto flex w-full max-w-8xl flex-auto justify-center sm:px-2 lg:px-8 xl:px-12">
