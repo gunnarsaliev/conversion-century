@@ -36,9 +36,9 @@ const hasManyRelationshipBeforeImport = ({
 // email, not by opaque Payload IDs, so this collection-level hook runs at
 // save time (import included, since import ultimately calls
 // payload.create) and resolves any email string(s) on `Account Manager` /
-// `Publisher` into the matching user ID(s). Values that already look like
-// IDs (not containing "@") are left untouched, so the field keeps working
-// normally from the admin UI relationship picker.
+// `Publisher` / `Copywriter` into the matching user ID(s). Values that
+// already look like IDs (not containing "@") are left untouched, so the
+// field keeps working normally from the admin UI relationship picker.
 const resolveAccountManagerAndPublisherEmails: CollectionBeforeValidateHook = async ({
   data,
   req,
@@ -58,6 +58,7 @@ const resolveAccountManagerAndPublisherEmails: CollectionBeforeValidateHook = as
   const emails = [
     ...collectEmails(data['Account Manager']),
     ...collectEmails(data['Publisher']),
+    ...collectEmails(data['Copywriter']),
   ]
 
   if (emails.length === 0) return data
@@ -90,6 +91,9 @@ const resolveAccountManagerAndPublisherEmails: CollectionBeforeValidateHook = as
   }
   if ('Publisher' in data) {
     data['Publisher'] = resolveMany(data['Publisher'])
+  }
+  if ('Copywriter' in data) {
+    data['Copywriter'] = resolveMany(data['Copywriter'])
   }
 
   return data
@@ -184,6 +188,53 @@ export const Clients: CollectionConfig = {
       ],
     },
     {
+      name: 'country',
+      label: 'Country',
+      type: 'select',
+      options: [
+        { label: 'Albania', value: 'AL' },
+        { label: 'Austria', value: 'AT' },
+        { label: 'Belgium', value: 'BE' },
+        { label: 'Bosnia and Herzegovina', value: 'BA' },
+        { label: 'Bulgaria', value: 'BG' },
+        { label: 'Croatia', value: 'HR' },
+        { label: 'Cyprus', value: 'CY' },
+        { label: 'Czech Republic', value: 'CZ' },
+        { label: 'Denmark', value: 'DK' },
+        { label: 'Estonia', value: 'EE' },
+        { label: 'Finland', value: 'FI' },
+        { label: 'France', value: 'FR' },
+        { label: 'Germany', value: 'DE' },
+        { label: 'Greece', value: 'GR' },
+        { label: 'Hungary', value: 'HU' },
+        { label: 'Ireland', value: 'IE' },
+        { label: 'Italy', value: 'IT' },
+        { label: 'Latvia', value: 'LV' },
+        { label: 'Lithuania', value: 'LT' },
+        { label: 'Luxembourg', value: 'LU' },
+        { label: 'Malta', value: 'MT' },
+        { label: 'Moldova', value: 'MD' },
+        { label: 'Montenegro', value: 'ME' },
+        { label: 'Netherlands', value: 'NL' },
+        { label: 'North Macedonia', value: 'MK' },
+        { label: 'Norway', value: 'NO' },
+        { label: 'Poland', value: 'PL' },
+        { label: 'Portugal', value: 'PT' },
+        { label: 'Romania', value: 'RO' },
+        { label: 'Serbia', value: 'RS' },
+        { label: 'Slovakia', value: 'SK' },
+        { label: 'Slovenia', value: 'SI' },
+        { label: 'Spain', value: 'ES' },
+        { label: 'Sweden', value: 'SE' },
+        { label: 'Switzerland', value: 'CH' },
+        { label: 'Turkey', value: 'TR' },
+        { label: 'Ukraine', value: 'UA' },
+        { label: 'United Kingdom', value: 'GB' },
+        { label: 'United States', value: 'US' },
+        { label: 'Other', value: 'OTHER' },
+      ],
+    },
+    {
       name: 'notes',
       type: 'textarea',
     },
@@ -199,6 +250,20 @@ export const Clients: CollectionConfig = {
     },
     {
       name: 'Publisher',
+      type: 'relationship',
+      relationTo: 'users',
+      hasMany: true,
+      custom: {
+        'plugin-import-export': {
+          hooks: {
+            beforeExport: hasManyRelationshipBeforeExport,
+            beforeImport: hasManyRelationshipBeforeImport,
+          },
+        },
+      },
+    },
+    {
+      name: 'Copywriter',
       type: 'relationship',
       relationTo: 'users',
       hasMany: true,

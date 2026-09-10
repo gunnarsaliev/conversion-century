@@ -151,8 +151,8 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: number;
-  firstName: string;
-  lastName: string;
+  firstName?: string | null;
+  lastName?: string | null;
   jobTitle?: string | null;
   profileImage?: (number | null) | Media;
   role: 'user' | 'admin';
@@ -245,6 +245,50 @@ export interface Client {
   'Link Building Docs'?: string | null;
   'Blog Docs'?: string | null;
   status: 'lead' | 'active' | 'inactive';
+  country?:
+    | (
+        | 'AL'
+        | 'AT'
+        | 'BE'
+        | 'BA'
+        | 'BG'
+        | 'HR'
+        | 'CY'
+        | 'CZ'
+        | 'DK'
+        | 'EE'
+        | 'FI'
+        | 'FR'
+        | 'DE'
+        | 'GR'
+        | 'HU'
+        | 'IE'
+        | 'IT'
+        | 'LV'
+        | 'LT'
+        | 'LU'
+        | 'MT'
+        | 'MD'
+        | 'ME'
+        | 'NL'
+        | 'MK'
+        | 'NO'
+        | 'PL'
+        | 'PT'
+        | 'RO'
+        | 'RS'
+        | 'SK'
+        | 'SI'
+        | 'ES'
+        | 'SE'
+        | 'CH'
+        | 'TR'
+        | 'UA'
+        | 'GB'
+        | 'US'
+        | 'OTHER'
+      )
+    | null;
   notes?: string | null;
   description?: {
     root: {
@@ -263,6 +307,7 @@ export interface Client {
   } | null;
   'Account Manager'?: (number | null) | User;
   Publisher?: (number | User)[] | null;
+  Copywriter?: (number | User)[] | null;
   services?: (number | Service)[] | null;
   checklistProgress?: {
     docs?: (number | ClientChecklistProgress)[];
@@ -737,10 +782,12 @@ export interface ClientsSelect<T extends boolean = true> {
   'Link Building Docs'?: T;
   'Blog Docs'?: T;
   status?: T;
+  country?: T;
   notes?: T;
   description?: T;
   'Account Manager'?: T;
   Publisher?: T;
+  Copywriter?: T;
   services?: T;
   checklistProgress?: T;
   updatedAt?: T;
