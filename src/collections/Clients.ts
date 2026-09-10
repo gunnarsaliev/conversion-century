@@ -87,7 +87,7 @@ const resolveAccountManagerAndPublisherEmails: CollectionBeforeValidateHook = as
   }
 
   if ('Account Manager' in data) {
-    data['Account Manager'] = resolveOne(data['Account Manager'])
+    data['Account Manager'] = resolveMany(data['Account Manager'])
   }
   if ('Publisher' in data) {
     data['Publisher'] = resolveMany(data['Publisher'])
@@ -188,51 +188,64 @@ export const Clients: CollectionConfig = {
       ],
     },
     {
-      name: 'country',
-      label: 'Country',
+      name: 'region',
+      label: 'Region',
       type: 'select',
+      hasMany: true,
+      admin: {
+        position: 'sidebar',
+      },
       options: [
-        { label: 'Albania', value: 'AL' },
-        { label: 'Austria', value: 'AT' },
-        { label: 'Belgium', value: 'BE' },
-        { label: 'Bosnia and Herzegovina', value: 'BA' },
-        { label: 'Bulgaria', value: 'BG' },
-        { label: 'Croatia', value: 'HR' },
-        { label: 'Cyprus', value: 'CY' },
-        { label: 'Czech Republic', value: 'CZ' },
-        { label: 'Denmark', value: 'DK' },
-        { label: 'Estonia', value: 'EE' },
-        { label: 'Finland', value: 'FI' },
-        { label: 'France', value: 'FR' },
-        { label: 'Germany', value: 'DE' },
-        { label: 'Greece', value: 'GR' },
-        { label: 'Hungary', value: 'HU' },
-        { label: 'Ireland', value: 'IE' },
-        { label: 'Italy', value: 'IT' },
-        { label: 'Latvia', value: 'LV' },
-        { label: 'Lithuania', value: 'LT' },
-        { label: 'Luxembourg', value: 'LU' },
-        { label: 'Malta', value: 'MT' },
-        { label: 'Moldova', value: 'MD' },
-        { label: 'Montenegro', value: 'ME' },
-        { label: 'Netherlands', value: 'NL' },
-        { label: 'North Macedonia', value: 'MK' },
-        { label: 'Norway', value: 'NO' },
-        { label: 'Poland', value: 'PL' },
-        { label: 'Portugal', value: 'PT' },
-        { label: 'Romania', value: 'RO' },
-        { label: 'Serbia', value: 'RS' },
-        { label: 'Slovakia', value: 'SK' },
-        { label: 'Slovenia', value: 'SI' },
-        { label: 'Spain', value: 'ES' },
-        { label: 'Sweden', value: 'SE' },
-        { label: 'Switzerland', value: 'CH' },
-        { label: 'Turkey', value: 'TR' },
-        { label: 'Ukraine', value: 'UA' },
-        { label: 'United Kingdom', value: 'GB' },
-        { label: 'United States', value: 'US' },
-        { label: 'Other', value: 'OTHER' },
+        { label: '🇪🇺 Europe', value: 'EU' },
+        { label: '🇦🇱 Albania', value: 'AL' },
+        { label: '🇦🇹 Austria', value: 'AT' },
+        { label: '🇧🇪 Belgium', value: 'BE' },
+        { label: '🇧🇦 Bosnia and Herzegovina', value: 'BA' },
+        { label: '🇧🇬 Bulgaria', value: 'BG' },
+        { label: '🇭🇷 Croatia', value: 'HR' },
+        { label: '🇨🇾 Cyprus', value: 'CY' },
+        { label: '🇨🇿 Czech Republic', value: 'CZ' },
+        { label: '🇩🇰 Denmark', value: 'DK' },
+        { label: '🇪🇪 Estonia', value: 'EE' },
+        { label: '🇫🇮 Finland', value: 'FI' },
+        { label: '🇫🇷 France', value: 'FR' },
+        { label: '🇩🇪 Germany', value: 'DE' },
+        { label: '🇬🇷 Greece', value: 'GR' },
+        { label: '🇭🇺 Hungary', value: 'HU' },
+        { label: '🇮🇪 Ireland', value: 'IE' },
+        { label: '🇮🇹 Italy', value: 'IT' },
+        { label: '🇱🇻 Latvia', value: 'LV' },
+        { label: '🇱🇹 Lithuania', value: 'LT' },
+        { label: '🇱🇺 Luxembourg', value: 'LU' },
+        { label: '🇲🇹 Malta', value: 'MT' },
+        { label: '🇲🇩 Moldova', value: 'MD' },
+        { label: '🇲🇪 Montenegro', value: 'ME' },
+        { label: '🇳🇱 Netherlands', value: 'NL' },
+        { label: '🇲🇰 North Macedonia', value: 'MK' },
+        { label: '🇳🇴 Norway', value: 'NO' },
+        { label: '🇵🇱 Poland', value: 'PL' },
+        { label: '🇵🇹 Portugal', value: 'PT' },
+        { label: '🇷🇴 Romania', value: 'RO' },
+        { label: '🇷🇸 Serbia', value: 'RS' },
+        { label: '🇸🇰 Slovakia', value: 'SK' },
+        { label: '🇸🇮 Slovenia', value: 'SI' },
+        { label: '🇪🇸 Spain', value: 'ES' },
+        { label: '🇸🇪 Sweden', value: 'SE' },
+        { label: '🇨🇭 Switzerland', value: 'CH' },
+        { label: '🇹🇷 Turkey', value: 'TR' },
+        { label: '🇺🇦 Ukraine', value: 'UA' },
+        { label: '🇬🇧 United Kingdom', value: 'GB' },
+        { label: '🇺🇸 United States', value: 'US' },
+        { label: '🏳️ Other', value: 'OTHER' },
       ],
+      custom: {
+        'plugin-import-export': {
+          hooks: {
+            beforeExport: hasManyRelationshipBeforeExport,
+            beforeImport: hasManyRelationshipBeforeImport,
+          },
+        },
+      },
     },
     {
       name: 'notes',
@@ -246,13 +259,27 @@ export const Clients: CollectionConfig = {
       name: 'Account Manager',
       type: 'relationship',
       relationTo: 'users',
-      hasMany: false,
+      hasMany: true,
+      admin: {
+        position: 'sidebar',
+      },
+      custom: {
+        'plugin-import-export': {
+          hooks: {
+            beforeExport: hasManyRelationshipBeforeExport,
+            beforeImport: hasManyRelationshipBeforeImport,
+          },
+        },
+      },
     },
     {
       name: 'Publisher',
       type: 'relationship',
       relationTo: 'users',
       hasMany: true,
+      admin: {
+        position: 'sidebar',
+      },
       custom: {
         'plugin-import-export': {
           hooks: {
@@ -267,6 +294,9 @@ export const Clients: CollectionConfig = {
       type: 'relationship',
       relationTo: 'users',
       hasMany: true,
+      admin: {
+        position: 'sidebar',
+      },
       custom: {
         'plugin-import-export': {
           hooks: {
@@ -281,6 +311,9 @@ export const Clients: CollectionConfig = {
       type: 'relationship',
       relationTo: 'services',
       hasMany: true,
+      admin: {
+        position: 'sidebar',
+      },
       custom: {
         'plugin-import-export': {
           hooks: {

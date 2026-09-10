@@ -5,6 +5,7 @@ import config from "@payload-config";
 import { ClientFormDrawer } from "@/components/dashboard/client-form-drawer";
 import { ClientList, type ClientListItem } from "@/components/dashboard/client-list";
 import { Button } from "@/components/ui/button";
+import type { User } from "../../../../../../payload-types";
 
 export default async function ClientsPage() {
   const payload = await getPayload({ config });
@@ -24,11 +25,30 @@ export default async function ClientsPage() {
     },
   });
 
+  const toPerson = (entry: number | User) => {
+    if (typeof entry !== "object") return null;
+    return {
+      id: entry.id,
+      name:
+        [entry.firstName, entry.lastName].filter(Boolean).join(" ") ||
+        entry.email,
+      avatarUrl:
+        entry.profileImage && typeof entry.profileImage === "object"
+          ? entry.profileImage.url
+          : null,
+    };
+  };
+
   const clientListItems: ClientListItem[] = clients.docs.map((client) => {
-    const accountManager =
-      client["Account Manager"] && typeof client["Account Manager"] === "object"
-        ? client["Account Manager"]
-        : null;
+    const accountManagers = (client["Account Manager"] ?? [])
+      .map(toPerson)
+      .filter((person): person is NonNullable<typeof person> => person !== null);
+    const publishers = (client["Publisher"] ?? [])
+      .map(toPerson)
+      .filter((person): person is NonNullable<typeof person> => person !== null);
+    const copywriters = (client["Copywriter"] ?? [])
+      .map(toPerson)
+      .filter((person): person is NonNullable<typeof person> => person !== null);
 
     const services = (client.services ?? [])
       .filter(
@@ -76,18 +96,11 @@ export default async function ClientsPage() {
       contactName: client.contactName,
       email: client.email,
       phone: client.phone,
-      accountManagerId: accountManager?.id ?? null,
-      accountManagerName: accountManager
-        ? [accountManager.firstName, accountManager.lastName]
-            .filter(Boolean)
-            .join(" ") || accountManager.email
-        : null,
-      accountManagerAvatarUrl:
-        accountManager?.profileImage &&
-        typeof accountManager.profileImage === "object"
-          ? accountManager.profileImage.url
-          : null,
+      accountManagers,
+      publishers,
+      copywriters,
       services,
+      regions: client.region ?? [],
       websiteLinks: client.websiteLinks ?? [],
       websiteLoginLinks: client.websiteLoginLinks ?? [],
       reportUrls: client.reportUrls ?? [],

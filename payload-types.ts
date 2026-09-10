@@ -245,8 +245,9 @@ export interface Client {
   'Link Building Docs'?: string | null;
   'Blog Docs'?: string | null;
   status: 'lead' | 'active' | 'inactive';
-  country?:
+  region?:
     | (
+        | 'EU'
         | 'AL'
         | 'AT'
         | 'BE'
@@ -287,7 +288,7 @@ export interface Client {
         | 'GB'
         | 'US'
         | 'OTHER'
-      )
+      )[]
     | null;
   notes?: string | null;
   description?: {
@@ -305,7 +306,7 @@ export interface Client {
     };
     [k: string]: unknown;
   } | null;
-  'Account Manager'?: (number | null) | User;
+  'Account Manager'?: (number | User)[] | null;
   Publisher?: (number | User)[] | null;
   Copywriter?: (number | User)[] | null;
   services?: (number | Service)[] | null;
@@ -782,7 +783,7 @@ export interface ClientsSelect<T extends boolean = true> {
   'Link Building Docs'?: T;
   'Blog Docs'?: T;
   status?: T;
-  country?: T;
+  region?: T;
   notes?: T;
   description?: T;
   'Account Manager'?: T;

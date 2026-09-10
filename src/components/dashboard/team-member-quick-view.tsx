@@ -7,7 +7,12 @@ import { useRouter } from "next/navigation";
 import * as React from "react";
 
 import { deleteTeamMember } from "@/app/[locale]/(frontend)/dashboard/team/actions";
+import {
+  AvatarGroup,
+  AvatarMore,
+} from "@/components/shadcnblocks/avatar-group";
 import { TeamMemberFormDrawer } from "@/components/dashboard/team-member-form-drawer";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -38,6 +43,12 @@ const roleBadgeClassName: Record<string, string> = {
   user: "bg-muted text-muted-foreground",
 };
 
+type ClientAvatar = {
+  id: string | number;
+  companyName: string;
+  logoUrl?: string | null;
+};
+
 type TeamMemberQuickViewData = {
   id: string | number;
   firstName: string;
@@ -47,11 +58,48 @@ type TeamMemberQuickViewData = {
   email?: string | null;
   role: string;
   avatarUrl?: string | null;
+  managedClients?: ClientAvatar[];
+  publishingFor?: ClientAvatar[];
+  copywritingFor?: ClientAvatar[];
 };
 
 type TeamMemberQuickViewProps = {
   member: TeamMemberQuickViewData;
   trigger: React.ReactElement;
+};
+
+// Overlapping client logos (based on avatar-group-max-1.tsx) capped to 4
+// visible avatars, with a "+N" indicator for the rest.
+const MAX_VISIBLE_CLIENTS = 4;
+
+const ClientAvatarGroup = ({
+  label,
+  clients,
+}: {
+  label: string;
+  clients: ClientAvatar[];
+}) => {
+  if (clients.length === 0) return null;
+
+  const visible = clients.slice(0, MAX_VISIBLE_CLIENTS);
+  const overflow = clients.length - visible.length;
+
+  return (
+    <div>
+      <h3 className="mb-2 text-sm font-medium">{label}</h3>
+      <AvatarGroup size={32}>
+        {visible.map((client) => (
+          <Avatar key={client.id}>
+            <AvatarImage src={client.logoUrl ?? undefined} alt={client.companyName} />
+            <AvatarFallback className="text-xs">
+              {client.companyName.slice(0, 2).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+        ))}
+        {overflow > 0 && <AvatarMore count={overflow} size={32} />}
+      </AvatarGroup>
+    </div>
+  );
 };
 
 const TeamMemberQuickView = ({
@@ -199,6 +247,26 @@ const TeamMemberQuickView = ({
                   <Mail className="size-3.5" />
                   <span>{member.email}</span>
                 </a>
+              </div>
+            )}
+
+            {/* Clients */}
+            {((member.managedClients && member.managedClients.length > 0) ||
+              (member.publishingFor && member.publishingFor.length > 0) ||
+              (member.copywritingFor && member.copywritingFor.length > 0)) && (
+              <div className="mt-6 space-y-4 border-t pt-6">
+                <ClientAvatarGroup
+                  label="Managing"
+                  clients={member.managedClients ?? []}
+                />
+                <ClientAvatarGroup
+                  label="Publishing For"
+                  clients={member.publishingFor ?? []}
+                />
+                <ClientAvatarGroup
+                  label="Copywriting For"
+                  clients={member.copywritingFor ?? []}
+                />
               </div>
             )}
           </div>

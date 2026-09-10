@@ -1,10 +1,12 @@
 import {
   Bell,
-  Building2,
   ChevronRight,
+  FileEdit,
   LayoutDashboard,
   Mail,
+  Megaphone,
   Search,
+  Users,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,6 +14,7 @@ import { notFound } from "next/navigation";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
+import { ClientLogo } from "@/components/dashboard/client-logo";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -49,12 +52,27 @@ export default async function TeamMemberPage({
     notFound();
   }
 
-  const managedClients = await payload.find({
-    collection: "clients",
-    where: { "Account Manager": { equals: id } },
-    depth: 0,
-    limit: 100,
-  });
+  const [managedClients, publishedClients, copywritingClients] =
+    await Promise.all([
+      payload.find({
+        collection: "clients",
+        where: { "Account Manager": { equals: id } },
+        depth: 1,
+        limit: 100,
+      }),
+      payload.find({
+        collection: "clients",
+        where: { Publisher: { equals: id } },
+        depth: 1,
+        limit: 100,
+      }),
+      payload.find({
+        collection: "clients",
+        where: { Copywriter: { equals: id } },
+        depth: 1,
+        limit: 100,
+      }),
+    ]);
 
   const name = [user.firstName, user.lastName].filter(Boolean).join(" ");
 
@@ -63,8 +81,22 @@ export default async function TeamMemberPage({
       ? user.profileImage
       : null;
 
-  const stats: { label: string; value: number }[] = [
-    { label: "Managed Clients", value: managedClients.docs.length },
+  const clientGroups: {
+    label: string;
+    icon: typeof Users;
+    docs: (typeof managedClients)["docs"];
+  }[] = [
+    { label: "Managed Clients", icon: Users, docs: managedClients.docs },
+    {
+      label: "Publishing For",
+      icon: Megaphone,
+      docs: publishedClients.docs,
+    },
+    {
+      label: "Copywriting For",
+      icon: FileEdit,
+      docs: copywritingClients.docs,
+    },
   ];
 
   return (
@@ -167,19 +199,24 @@ export default async function TeamMemberPage({
 
         {/* Stats grid */}
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {stats.map((stat) => (
-            <Card key={stat.label}>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
-                  {stat.label}
-                </CardTitle>
-                <Building2 className="size-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{stat.value}</div>
-              </CardContent>
-            </Card>
-          ))}
+          {clientGroups.map((group) => {
+            const Icon = group.icon;
+            return (
+              <Card key={group.label}>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium text-muted-foreground">
+                    {group.label}
+                  </CardTitle>
+                  <Icon className="size-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">
+                    {group.docs.length}
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
       </div>
 
@@ -209,30 +246,45 @@ export default async function TeamMemberPage({
         </div>
 
         <div className="flex min-h-0 flex-col gap-4 sm:gap-6">
-          {managedClients.docs.length > 0 ? (
-            <Card>
-              <CardHeader>
-                <CardTitle>Managed Clients</CardTitle>
-              </CardHeader>
-              <CardContent className="flex flex-col gap-2 text-sm">
-                {managedClients.docs.map((client) => (
-                  <Link
-                    key={client.id}
-                    href={`/dashboard/${
-                      client.status === "lead" ? "leads" : "clients"
-                    }/${client.id}`}
-                    className="flex items-center gap-2 hover:underline"
-                  >
-                    <Building2
-                      className="size-3.5 text-muted-foreground"
-                      aria-hidden="true"
-                    />
-                    {client.companyName}
-                  </Link>
-                ))}
-              </CardContent>
-            </Card>
-          ) : null}
+          {clientGroups.map((group) =>
+            group.docs.length > 0 ? (
+              <Card key={group.label}>
+                <CardHeader>
+                  <CardTitle>{group.label}</CardTitle>
+                </CardHeader>
+                <CardContent className="flex flex-col text-sm">
+                  {group.docs.map((client, index) => {
+                    const logo =
+                      client.logo && typeof client.logo === "object"
+                        ? client.logo
+                        : null;
+
+                    return (
+                      <Link
+                        key={client.id}
+                        href={`/dashboard/${
+                          client.status === "lead" ? "leads" : "clients"
+                        }/${client.id}`}
+                        className={`flex items-center justify-between gap-2 py-2 hover:underline ${
+                          index < group.docs.length - 1 ? "border-b" : ""
+                        }`}
+                      >
+                        <span>{client.companyName}</span>
+                        <ClientLogo
+                          companyName={client.companyName}
+                          logoUrl={logo?.url}
+                          logoWidth={logo?.width}
+                          logoHeight={logo?.height}
+                          size={20}
+                          className="rounded-sm text-[10px]"
+                        />
+                      </Link>
+                    );
+                  })}
+                </CardContent>
+              </Card>
+            ) : null,
+          )}
         </div>
       </div>
     </>

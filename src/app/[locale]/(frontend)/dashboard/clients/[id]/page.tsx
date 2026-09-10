@@ -22,6 +22,7 @@ import { ChecklistItemCheckbox } from "@/components/dashboard/checklist-item-che
 import { ChecklistProgressChart } from "@/components/dashboard/checklist-progress-chart";
 import { ClientLogo } from "@/components/dashboard/client-logo";
 import { ServicesCountChart } from "@/components/dashboard/services-count-chart";
+import { regionLabel } from "@/lib/regions";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -210,11 +211,10 @@ export default async function ClientPage({ params }: ClientPageProps) {
     (entry) => entry.status !== "done",
   );
 
-  const accountManager =
-    client["Account Manager"] &&
-    typeof client["Account Manager"] === "object"
-      ? client["Account Manager"]
-      : null;
+  const accountManagers = (client["Account Manager"] ?? []).filter(
+    (manager): manager is Exclude<typeof manager, string | number> =>
+      typeof manager === "object" && manager !== null,
+  );
 
   const publishers = (client["Publisher"] ?? []).filter(
     (publisher): publisher is Exclude<typeof publisher, string | number> =>
@@ -409,6 +409,21 @@ export default async function ClientPage({ params }: ClientPageProps) {
             </Card>
           )}
 
+          {client.region && client.region.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Region</CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-wrap gap-2">
+                {client.region.map((region) => (
+                  <Badge key={region} variant="outline">
+                    {regionLabel(region)}
+                  </Badge>
+                ))}
+              </CardContent>
+            </Card>
+          )}
+
           {checklistEntries.length > 0 && (
             <Card>
               <CardHeader>
@@ -532,26 +547,30 @@ export default async function ClientPage({ params }: ClientPageProps) {
                   </a>
                 </div>
               ) : null}
-              {accountManager ? (
+              {accountManagers.length > 0 ? (
                 <div>
-                  <p className="text-muted-foreground">Account Manager</p>
-                  <div className="mt-1">
-                    <AccountManagerBadge
-                      id={accountManager.id}
-                      name={
-                        [accountManager.firstName, accountManager.lastName]
-                          .filter(Boolean)
-                          .join(" ") || accountManager.email
-                      }
-                      avatarUrl={
-                        accountManager.profileImage &&
-                        typeof accountManager.profileImage === "object"
-                          ? accountManager.profileImage.url
-                          : null
-                      }
-                      avatarSize="6"
-                    />
-                  </div>
+                  <p className="text-muted-foreground">Account Managers</p>
+                  <ul className="mt-1 flex flex-col gap-2">
+                    {accountManagers.map((manager) => (
+                      <li key={manager.id}>
+                        <AccountManagerBadge
+                          id={manager.id}
+                          name={
+                            [manager.firstName, manager.lastName]
+                              .filter(Boolean)
+                              .join(" ") || manager.email
+                          }
+                          avatarUrl={
+                            manager.profileImage &&
+                            typeof manager.profileImage === "object"
+                              ? manager.profileImage.url
+                              : null
+                          }
+                          avatarSize="6"
+                        />
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               ) : null}
               {publishers.length > 0 ? (

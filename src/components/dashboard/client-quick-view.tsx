@@ -23,9 +23,10 @@ import { useRouter } from "next/navigation";
 import * as React from "react";
 
 import { deleteClient } from "@/app/[locale]/(frontend)/dashboard/clients/actions";
-import { AccountManagerBadge } from "@/components/dashboard/account-manager-badge";
 import { ClientFormDrawer } from "@/components/dashboard/client-form-drawer";
 import { ClientLogo } from "@/components/dashboard/client-logo";
+import { PersonAvatarGroup, type Person } from "@/components/dashboard/person-avatar-group";
+import { regionLabel } from "@/lib/regions";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -78,10 +79,11 @@ type ClientQuickViewData = {
   contactName?: string | null;
   email?: string | null;
   phone?: string | null;
-  accountManagerId?: string | number | null;
-  accountManagerName?: string | null;
-  accountManagerAvatarUrl?: string | null;
+  accountManagers?: Person[];
+  publishers?: Person[];
+  copywriters?: Person[];
   services?: string[];
+  regions?: string[];
   websiteLinks?: ClientLink[];
   websiteLoginLinks?: ClientLink[];
   reportUrls?: ClientLink[];
@@ -225,16 +227,6 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
                 >
                   <span className="capitalize">{client.status}</span>
                 </Badge>
-                {client.accountManagerName && (
-                  <span className="flex items-center gap-1.5">
-                    managed by
-                    <AccountManagerBadge
-                      id={client.accountManagerId}
-                      name={client.accountManagerName}
-                      avatarUrl={client.accountManagerAvatarUrl}
-                    />
-                  </span>
-                )}
               </div>
             </div>
 
@@ -269,6 +261,36 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
               </div>
             )}
 
+            {/* Team (account managers / publishers / copywriters) */}
+            {((client.accountManagers && client.accountManagers.length > 0) ||
+              (client.publishers && client.publishers.length > 0) ||
+              (client.copywriters && client.copywriters.length > 0)) && (
+              <div className="mt-6 space-y-4 border-t pt-6">
+                {client.accountManagers && client.accountManagers.length > 0 ? (
+                  <div>
+                    <h3 className="mb-2 text-sm font-medium">
+                      Account Managers
+                    </h3>
+                    <PersonAvatarGroup people={client.accountManagers} />
+                  </div>
+                ) : null}
+
+                {client.publishers && client.publishers.length > 0 ? (
+                  <div>
+                    <h3 className="mb-2 text-sm font-medium">Publishers</h3>
+                    <PersonAvatarGroup people={client.publishers} />
+                  </div>
+                ) : null}
+
+                {client.copywriters && client.copywriters.length > 0 ? (
+                  <div>
+                    <h3 className="mb-2 text-sm font-medium">Copywriters</h3>
+                    <PersonAvatarGroup people={client.copywriters} />
+                  </div>
+                ) : null}
+              </div>
+            )}
+
             {/* Services (skills-equivalent) */}
             {client.services && client.services.length > 0 && (
               <div className="mt-6 border-t pt-6">
@@ -277,6 +299,20 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
                   {client.services.map((service) => (
                     <Badge key={service} variant="secondary">
                       {service}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Region */}
+            {client.regions && client.regions.length > 0 && (
+              <div className="mt-6 border-t pt-6">
+                <h3 className="mb-3 text-sm font-medium">Region</h3>
+                <div className="flex flex-wrap gap-2">
+                  {client.regions.map((region) => (
+                    <Badge key={region} variant="outline">
+                      {regionLabel(region)}
                     </Badge>
                   ))}
                 </div>

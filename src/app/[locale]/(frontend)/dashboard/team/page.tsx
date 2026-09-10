@@ -10,11 +10,53 @@ import { Button } from "@/components/ui/button";
 
 export default async function TeamPage() {
   const payload = await getPayload({ config });
-  const users = await payload.find({
-    collection: "users",
-    depth: 1,
-    limit: 100,
+  const [users, clients] = await Promise.all([
+    payload.find({
+      collection: "users",
+      depth: 1,
+      limit: 100,
+    }),
+    payload.find({
+      collection: "clients",
+      depth: 1,
+      limit: 500,
+    }),
+  ]);
+
+  // Group clients by user id for each relationship, so each team member's
+  // quick view can show which clients they manage / publish for / write
+  // for without a separate query per member.
+  const clientAvatar = (client: (typeof clients.docs)[number]) => ({
+    id: client.id,
+    companyName: client.companyName,
+    logoUrl:
+      client.logo && typeof client.logo === "object"
+        ? client.logo.url
+        : null,
   });
+
+  const addToGroup = (
+    map: Map<string | number, ReturnType<typeof clientAvatar>[]>,
+    userIds: (number | { id: number })[] | null | undefined,
+    client: (typeof clients.docs)[number],
+  ) => {
+    for (const entry of userIds ?? []) {
+      const userId = typeof entry === "object" ? entry.id : entry;
+      const existing = map.get(userId) ?? [];
+      existing.push(clientAvatar(client));
+      map.set(userId, existing);
+    }
+  };
+
+  const managedByUser = new Map<string | number, ReturnType<typeof clientAvatar>[]>();
+  const publishedByUser = new Map<string | number, ReturnType<typeof clientAvatar>[]>();
+  const copywrittenByUser = new Map<string | number, ReturnType<typeof clientAvatar>[]>();
+
+  for (const client of clients.docs) {
+    addToGroup(managedByUser, client["Account Manager"], client);
+    addToGroup(publishedByUser, client["Publisher"], client);
+    addToGroup(copywrittenByUser, client["Copywriter"], client);
+  }
 
   const teamMemberListItems: TeamMemberListItem[] = users.docs.map(
     (user) => ({
@@ -29,6 +71,9 @@ export default async function TeamPage() {
         user.profileImage && typeof user.profileImage === "object"
           ? user.profileImage.url
           : null,
+      managedClients: managedByUser.get(user.id) ?? [],
+      publishingFor: publishedByUser.get(user.id) ?? [],
+      copywritingFor: copywrittenByUser.get(user.id) ?? [],
     }),
   );
 
