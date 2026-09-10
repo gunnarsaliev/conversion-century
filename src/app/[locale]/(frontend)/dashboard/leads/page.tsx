@@ -150,6 +150,9 @@ export default async function LeadsPage() {
           <div>
             <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
               Leads
+              <span className="ml-2 text-lg font-normal text-muted-foreground">
+                ({leads.totalDocs})
+              </span>
             </h1>
             <p className="mt-1 text-sm text-muted-foreground">
               Track prospective clients before they convert

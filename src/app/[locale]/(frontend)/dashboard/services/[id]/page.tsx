@@ -13,6 +13,7 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 
+import { ClientLogo } from "@/components/dashboard/client-logo";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -46,7 +47,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
   const clientsUsingService = await payload.find({
     collection: "clients",
     where: { services: { equals: id } },
-    depth: 0,
+    depth: 1,
     limit: 100,
   });
 
@@ -233,22 +234,37 @@ export default async function ServicePage({ params }: ServicePageProps) {
               <CardHeader>
                 <CardTitle>Clients</CardTitle>
               </CardHeader>
-              <CardContent className="flex flex-col gap-2 text-sm">
-                {clientsUsingService.docs.map((client) => (
-                  <Link
-                    key={client.id}
-                    href={`/dashboard/${
-                      client.status === "lead" ? "leads" : "clients"
-                    }/${client.id}`}
-                    className="flex items-center gap-2 hover:underline"
-                  >
-                    <Building2
-                      className="size-3.5 text-muted-foreground"
-                      aria-hidden="true"
-                    />
-                    {client.companyName}
-                  </Link>
-                ))}
+              <CardContent className="flex flex-col text-sm">
+                {clientsUsingService.docs.map((client, index) => {
+                  const logo =
+                    client.logo && typeof client.logo === "object"
+                      ? client.logo
+                      : null;
+
+                  return (
+                    <Link
+                      key={client.id}
+                      href={`/dashboard/${
+                        client.status === "lead" ? "leads" : "clients"
+                      }/${client.id}`}
+                      className={`flex items-center justify-between gap-2 py-2 hover:underline ${
+                        index < clientsUsingService.docs.length - 1
+                          ? "border-b"
+                          : ""
+                      }`}
+                    >
+                      <span>{client.companyName}</span>
+                      <ClientLogo
+                        companyName={client.companyName}
+                        logoUrl={logo?.url}
+                        logoWidth={logo?.width}
+                        logoHeight={logo?.height}
+                        size={20}
+                        className="rounded-sm text-[10px]"
+                      />
+                    </Link>
+                  );
+                })}
               </CardContent>
             </Card>
           ) : null}

@@ -51,8 +51,8 @@ type ClientAvatar = {
 
 type TeamMemberQuickViewData = {
   id: string | number;
-  firstName: string;
-  lastName: string;
+  firstName?: string | null;
+  lastName?: string | null;
   name: string;
   jobTitle?: string | null;
   email?: string | null;

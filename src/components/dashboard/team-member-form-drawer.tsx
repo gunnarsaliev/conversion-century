@@ -60,8 +60,8 @@ type TeamMemberFormDrawerProps = {
   onOpenChange: (open: boolean) => void;
   member: {
     id: string | number;
-    firstName: string;
-    lastName: string;
+    firstName?: string | null;
+    lastName?: string | null;
     jobTitle?: string | null;
     role: string;
   };
@@ -76,8 +76,8 @@ const TeamMemberFormDrawer = ({
   const [serverError, setServerError] = React.useState<string | null>(null);
 
   const defaultValues: TeamMemberFormValues = {
-    firstName: member.firstName,
-    lastName: member.lastName,
+    firstName: member.firstName ?? "",
+    lastName: member.lastName ?? "",
     jobTitle: member.jobTitle ?? "",
     role: (member.role as TeamMemberFormValues["role"]) ?? "user",
   };
