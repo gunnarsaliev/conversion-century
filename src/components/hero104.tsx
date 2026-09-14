@@ -2,11 +2,37 @@
 import { Check } from "lucide-react";
 import { cn } from "cn";
 
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 interface Hero104Props {
   className?: string;
 }
+
+const MAX_AVATARS = 5;
+
+const proofAvatars = [
+  {
+    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-1.webp",
+    alt: "Customer avatar",
+  },
+  {
+    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-2.webp",
+    alt: "Customer avatar",
+  },
+  {
+    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-3.webp",
+    alt: "Customer avatar",
+  },
+  {
+    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-4.webp",
+    alt: "Customer avatar",
+  },
+  {
+    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-5.webp",
+    alt: "Customer avatar",
+  },
+];
 
 const Hero104 = ({ className }: Hero104Props) => {
   return (
@@ -17,20 +43,37 @@ const Hero104 = ({ className }: Hero104Props) => {
             <h1 className="font-poppins mb-[0.625rem] text-center text-4xl leading-tight font-semibold tracking-[-1px] sm:text-5xl md:text-6xl md:leading-[1.1] lg:text-left">
               Organic Growth Built on Expertise, Trust and Genuine Commitment
             </h1>
-            <p className="mb-10 text-center text-2xl leading-9 font-medium lg:text-left">
-              We streamlines your ad management tasks, letting you focus on
-              achieving results more quickly.
+            <p className="mb-4 text-center text-lg leading-9 lg:text-left">
+              Conversion Century helps ambitious businesses grow across Google, AI-powered search and international markets through sustainable SEO strategies tailored to their goals.
+            </p>
+            <p className="mb-10 text-center text-lg font-thin leading-9 lg:text-left">
+              We combine strategic thinking, technical expertise, quality content and digital authority with something just as important: genuine commitment to every client’s success.
             </p>
             <div className="flex flex-col items-center justify-center gap-5 sm:flex-row lg:justify-normal">
               <Button variant="default" className="h-fit w-full rounded-lg border-2 border-primary px-8 py-4 text-lg font-semibold sm:w-fit" render={<a href="#" />} nativeButton={false}>Discuss Your Growth Goals</Button>
               <Button variant="ghost" className="h-fit w-full rounded-lg border-2 px-8 py-4 text-lg font-semibold hover:border-primary hover:bg-transparent sm:w-fit" render={<a href="#" />} nativeButton={false}>Explore Our Results</Button>
             </div>
+            <div className="flex items-center justify-center gap-3 pt-6 lg:justify-normal">
+              <div className="flex -space-x-2">
+                {proofAvatars.slice(0, MAX_AVATARS).map((avatar) => (
+                  <Avatar
+                    key={avatar.src}
+                    className="size-8 border-2 border-background"
+                  >
+                    <AvatarImage src={avatar.src} alt={avatar.alt} />
+                  </Avatar>
+                ))}
+              </div>
+              <p className="text-sm font-medium text-muted-foreground">
+                Trusted by 100+ businesses worldwide
+              </p>
+            </div>
             <div className="mt-6 flex flex-wrap justify-center gap-7 lg:justify-normal">
               {[
-                "30-day free trial",
-                "No credit card required",
-                "Cancel anytime",
-              ].map((text, i) => (
+                "Established in 2016",
+                "Client relationships lasting 7+ years",
+                "International experience",
+              ].map((text, i) => ( 
                 <div key={`${i}`} className="flex items-center gap-2">
                   <Check className="h-3 w-3 stroke-muted-foreground" />
                   <p className="text-sm text-muted-foreground">{text}</p>
