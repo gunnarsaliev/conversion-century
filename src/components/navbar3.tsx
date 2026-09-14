@@ -476,9 +476,10 @@ const Navbar3 = ({ className }: Navbar3Props) => {
               </NavigationMenuItem>
             </NavigationMenuList>
 
-            <div className="hidden items-center gap-2 lg:flex">
-              <Button variant="ghost">Login</Button>
-              <Button variant="default">Sign Up</Button>
+            <div className="hidden items-center  lg:flex">
+              <Button variant="default" size="lg" className="px-6 py-6">
+                Book a Consultation
+              </Button>
             </div>
 
             <div className="flex items-center gap-4 lg:hidden">

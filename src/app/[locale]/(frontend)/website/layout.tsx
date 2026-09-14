@@ -8,7 +8,7 @@ export default function FrontendLayout({
 }) {
   return (
     <Providers>
-      <div className="flex mx-auto max-w-7xl">
+      <div className="flex mx-auto max-w-9xl">
         <div className="flex-1">
           <Navbar3 />
           {children}
