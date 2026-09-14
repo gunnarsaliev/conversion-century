@@ -28,7 +28,19 @@ export const Media: CollectionConfig = {
         position: 'centre',
       },
     ],
-    adminThumbnail: 'thumbnail',
+    // A string here (e.g. 'thumbnail') resolves via `sizes.<name>.url` on the
+    // raw doc, which our S3/R2 adapter never populates — only the top-level
+    // `url` gets rewritten to R2 in `generateFileURL` above. Left as a
+    // string, Payload falls back to its local `/api/media/file/:filename`
+    // route, which 500s because `disableLocalStorage: true` leaves nothing
+    // on disk. A function bypasses that fallback entirely.
+    adminThumbnail: ({ doc }) => {
+      const size = (doc as { sizes?: Record<string, { filename?: string }> }).sizes?.thumbnail
+      const filename = size?.filename || (doc as { filename?: string }).filename
+      const prefix = (doc as { prefix?: string }).prefix
+      const key = prefix ? `${prefix}/${filename}` : filename
+      return `${process.env.R2_PUBLIC_URL}/${key}`
+    },
     focalPoint: true,
   },
   fields: [
