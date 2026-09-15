@@ -4,6 +4,7 @@ import {
   BookOpen,
   ChevronRight,
   ChevronsUpDown,
+  Globe,
   Handshake,
   LayoutDashboard,
   LogOut,
@@ -111,7 +112,7 @@ const sidebarData: SidebarData = {
         },
         { label: "Clients", icon: Users, href: "/dashboard/clients" },
         { label: "Leads", icon: Handshake, href: "/dashboard/leads" },
-        // { label: "Check-in / Check-out", icon: DoorOpen, href: "#" },
+        { label: "Website", icon: Globe, href: "/website" },
         // {
         //   label: "Guest Profiles",
         //   icon: Users,

@@ -343,13 +343,13 @@ const Navbar3 = ({ className }: Navbar3Props) => {
   return (
     <section
       className={cn(
-        "sticky top-0 z-100 w-full self-start bg-background py-4",
+        "sticky top-0 z-100 w-full self-start bg-white py-4 dark:bg-background",
         className,
       )}
     >
       <div className="container">
         <NavigationMenu className="min-w-full items-start [&>div:last-child]:left-1/2 [&>div:last-child]:-translate-x-1/2">
-          <div className="relative z-110 flex w-full items-center justify-between gap-12 bg-background">
+          <div className="relative z-110 flex w-full items-center justify-between gap-12">
             {/* Logo */}
             <div>
               <Logo url="https://shadcnblocks.com">

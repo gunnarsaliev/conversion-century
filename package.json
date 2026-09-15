@@ -55,6 +55,7 @@
     "react-dom": "19.2.6",
     "react-highlight-words": "^0.21.0",
     "react-hook-form": "^7.87.0",
+    "react-icons": "^5.7.0",
     "recharts": "3.8.0",
     "shadcn": "^4.18.0",
     "simple-functional-loader": "^1.2.1",
