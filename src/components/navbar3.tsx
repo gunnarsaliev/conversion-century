@@ -347,7 +347,7 @@ const Navbar3 = ({ className }: Navbar3Props) => {
         className,
       )}
     >
-      <div className="container">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <NavigationMenu className="min-w-full items-start [&>div:last-child]:left-1/2 [&>div:last-child]:-translate-x-1/2">
           <div className="relative z-110 flex w-full items-center justify-between gap-12">
             {/* Logo */}

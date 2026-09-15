@@ -329,6 +329,10 @@ export interface Client {
 export interface Service {
   id: number;
   name: string;
+  /**
+   * Leave blank to auto-generate from the name (Cyrillic is transliterated to Latin characters).
+   */
+  slug?: string | null;
   shortDescription?: string | null;
   image?: (number | null) | Media;
   price?: number | null;
@@ -805,6 +809,7 @@ export interface ClientsSelect<T extends boolean = true> {
  */
 export interface ServicesSelect<T extends boolean = true> {
   name?: T;
+  slug?: T;
   shortDescription?: T;
   image?: T;
   price?: T;

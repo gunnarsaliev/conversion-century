@@ -1,5 +1,23 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, FieldHook } from 'payload'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import slugify from 'slugify'
+
+// Falls back to slugifying `name` when the editor leaves `slug` blank.
+// `slugify`'s locale option transliterates Cyrillic (and other non-Latin
+// scripts) to Latin characters rather than stripping them, so a Bulgarian
+// service name still produces a readable, URL-safe slug.
+const generateSlugFromName: FieldHook = ({ value, data, req }) => {
+  if (typeof value === 'string' && value.trim().length > 0) return value
+
+  const name = data?.name
+  if (typeof name !== 'string' || name.trim().length === 0) return value
+
+  return slugify(name, {
+    lower: true,
+    strict: true,
+    locale: req.locale === 'bg' ? 'bg' : 'en',
+  })
+}
 
 export const Services: CollectionConfig = {
   slug: 'services',
@@ -12,6 +30,21 @@ export const Services: CollectionConfig = {
       type: 'text',
       required: true,
       localized: true,
+    },
+    {
+      name: 'slug',
+      type: 'text',
+      localized: true,
+      unique: true,
+      index: true,
+      admin: {
+        position: 'sidebar',
+        description:
+          'Leave blank to auto-generate from the name (Cyrillic is transliterated to Latin characters).',
+      },
+      hooks: {
+        beforeValidate: [generateSlugFromName],
+      },
     },
     {
       name: 'shortDescription',

@@ -7,36 +7,37 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Cta28 } from "@/components/cta28";
+import { SeoCta } from "./cta-seo";
 
 const sections = [
   {
-    title: "Product",
+    title: "Services",
     links: [
-      { name: "Overview", href: "#" },
-      { name: "Pricing", href: "#" },
-      { name: "Marketplace", href: "#" },
-      { name: "Features", href: "#" },
-      { name: "Integrations", href: "#" },
-      { name: "Pricing", href: "#" },
+      { name: "Ongoing SEO Management", href: "#" },
+      { name: "AI Search Optimization", href: "#" },
+      { name: "SEO Audit", href: "#" },
+      { name: "International SEO", href: "#" },
+      { name: "Local SEO", href: "#" },
+      { name: "Technical SEO", href: "#" },
     ],
   },
   {
-    title: "Company",
+    title: "Industries",
     links: [
-      { name: "About", href: "#" },
+      { name: "B2B", href: "#" },
+      { name: "Ecommerce", href: "#" },
+      { name: "Professional Services", href: "#" },
+      { name: "Financial Sector", href: "#" },
+      { name: "Real Estate", href: "#" },
+      { name: "Healthcare", href: "#" },
+    ],
+  },
+  {
+    title: "About",
+    links: [
+      { name: "Our Story", href: "#" },
+      { name: "Career", href: "#" },
       { name: "Team", href: "#" },
-      { name: "Blog", href: "#" },
-      { name: "Careers", href: "#" },
-      { name: "Contact", href: "#" },
-      { name: "Privacy", href: "/legal/privacy-policy" },
-    ],
-  },
-  {
-    title: "Resources",
-    links: [
-      { name: "Help", href: "#" },
-      { name: "Sales", href: "#" },
-      { name: "Advertise", href: "#" },
     ],
   },
 ];
@@ -61,8 +62,8 @@ const Footer3 = ({
 }: Footer3Props) => {
   return (
     <section className={cn("py-32", className)}>
-      <Cta28 />
-      <div className="mx-auto max-w-7xl mt-10">
+     <SeoCta />
+      <div className="mx-auto mt-10 max-w-7xl px-4 sm:px-6 lg:px-8">
         <footer>
           <Logo url={logo.url}>
             <LogoImage
@@ -72,7 +73,7 @@ const Footer3 = ({
               className="h-10"
             />
           </Logo>
-          <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-5 xl:grid-cols-4">
+          <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {sections.map((section, sectionIdx) => (
               <div key={sectionIdx}>
                 <h3 className="mb-4 font-bold">{section.title}</h3>
@@ -92,7 +93,7 @@ const Footer3 = ({
                 </ul>
               </div>
             ))}
-            <div className="lg:col-span-2 xl:col-span-1">
+            <div className="sm:col-span-2 lg:col-span-1">
               <ul className="mb-10 flex items-center gap-2 text-muted-foreground">
                 <li className="font-medium">
                   <a

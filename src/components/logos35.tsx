@@ -49,7 +49,7 @@ const Logos35 = (props: Props) => {
 
   return (
     <section className={cn("py-32", className)}>
-      <div className="container mx-auto">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
           <p className="mb-3 text-xs font-semibold tracking-widest text-muted-foreground uppercase">
             {eyebrow}

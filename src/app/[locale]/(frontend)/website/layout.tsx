@@ -9,14 +9,10 @@ export default function FrontendLayout({
 }) {
   return (
     <Providers>
-      <div>
-      <div className="flex mx-auto max-w-7xl">
-        <div className="flex-1">
-          <Navbar3 />
-          {children}
-        </div>
-      </div>
-      <Footer3 />
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <Navbar3 />
+        {children}
+        <Footer3 />
       </div>
     </Providers>
   )

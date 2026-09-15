@@ -73,7 +73,7 @@ const Cta28 = ({ className }: Cta28Props) => {
     <section
       className={cn("dark bg-background py-32 text-foreground", className)}
     >
-      <div className="container">
+      <div className="px-4 sm:px-6 lg:px-8">
         <div className="relative grid grid-cols-1 overflow-hidden rounded-[0.75rem] px-8 pt-10 pb-12 xl:grid-cols-2 xl:px-15.5 xl:pb-15.5">
           <div className="flex flex-col gap-6 md:gap-9">
             <p className="font-serif text-4xl md:text-6xl lg:text-7xl">

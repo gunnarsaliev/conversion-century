@@ -4,7 +4,6 @@ import config from "@payload-config";
 import { Hero104 } from "@/components/hero104";
 import { Logos35 } from "@/components/logos35";
 import type { Media } from "../../../../../payload-types";
-import { Footer3 } from "@/components/footer3";
 
 export default async function WebsitePage() {
   const payload = await getPayload({ config });
