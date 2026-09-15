@@ -13,12 +13,18 @@ const sections = [
   {
     title: "Services",
     links: [
-      { name: "Ongoing SEO Management", href: "#" },
-      { name: "AI Search Optimization", href: "#" },
-      { name: "SEO Audit", href: "#" },
-      { name: "International SEO", href: "#" },
-      { name: "Local SEO", href: "#" },
-      { name: "Technical SEO", href: "#" },
+      {
+        name: "Ongoing SEO Management",
+        href: "/website/services/ongoing-seo-management",
+      },
+      {
+        name: "AI Search Optimization",
+        href: "/website/services/ai-search-optimization",
+      },
+      { name: "SEO Audit", href: "/website/services/seo-audit" },
+      { name: "International SEO", href: "/website/services" },
+      { name: "Local SEO", href: "/website/services/local-seo" },
+      { name: "Technical SEO", href: "/website/services/technical-seo" },
     ],
   },
   {

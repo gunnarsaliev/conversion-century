@@ -56,57 +56,57 @@ const platformFeatures = [
   {
     title: "Ongoing SEO Management",
     description: "Scalable cloud solutions built for modern businesses.",
-    href: "#",
+    href: "/website/services/ongoing-seo-management",
     icon: TrendingUp,
   },
   {
     title: "AI Search Optimization",
     description: "Enterprise-grade security with automated compliance.",
-    href: "#",
+    href: "/website/services/ai-search-optimization",
     icon: Bot,
   },
   {
     title: "SEO Audit",
     description: "Advanced authentication and access control systems.",
-    href: "#",
+    href: "/website/services/seo-audit",
     icon: FileSearch,
   },
   {
     title: "International SEO",
     description:
       "Unified storage, pipelines, and analytics for your workloads.",
-    href: "#",
+    href: "/website/services",
     icon: Globe2,
   },
   {
     title: "Local SEO",
     description: "Scalable cloud solutions built for modern businesses.",
-    href: "#",
+    href: "/website/services/local-seo",
     icon: MapPin,
   },
   {
     title: "Technical SEO",
     description: "Enterprise-grade security with automated compliance.",
-    href: "#",
+    href: "/website/services/technical-seo",
     icon: Wrench,
   },
   {
     title: "Content Strategy and Copywriting",
     description: "Advanced authentication and access control systems.",
-    href: "#",
+    href: "/website/services/content-strategy-and-copywriting",
     icon: PenTool,
   },
   {
     title: "Link Building and Digital PR",
     description:
       "Unified storage, pipelines, and analytics for your workloads.",
-    href: "#",
+    href: "/website/services/link-building-and-digital-pr",
     icon: Link2,
   },
   {
     title: "Organic Search Training",
     description: "Scalable cloud solutions built for modern businesses.",
-    href: "#",
+    href: "/website/services/organic-search-training",
     icon: GraduationCap,
   },
 ];
