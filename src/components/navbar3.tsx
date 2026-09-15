@@ -352,7 +352,7 @@ const Navbar3 = ({ className }: Navbar3Props) => {
           <div className="relative z-110 flex w-full items-center justify-between gap-12">
             {/* Logo */}
             <div>
-              <Logo url="https://shadcnblocks.com">
+              <Logo url="/website">
                 <LogoImageDesktop
                   src="https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/conversion-century-logo.svg"
                   className="h-7"
