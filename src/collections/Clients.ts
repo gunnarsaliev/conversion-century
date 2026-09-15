@@ -109,8 +109,17 @@ export const Clients: CollectionConfig = {
   },
   access: {
     // Internal CRM data — only admins may read or write client records.
+    // Read is the one exception: a client explicitly marked
+    // `showOnWebsite` is also readable by logged-out visitors, so the
+    // public site can pull its name/logo into a trust/logo strip without
+    // exposing the rest of the CRM record to anyone else (field-level
+    // access below still hides everything but companyName/logo/
+    // showOnWebsite from a public request).
     create: ({ req: { user } }) => user?.role === 'admin',
-    read: ({ req: { user } }) => user?.role === 'admin',
+    read: ({ req: { user } }) => {
+      if (user?.role === 'admin') return true
+      return { showOnWebsite: { equals: true } }
+    },
     update: ({ req: { user } }) => user?.role === 'admin',
     delete: ({ req: { user } }) => user?.role === 'admin',
     admin: ({ req: { user } }) => user?.role === 'admin',
@@ -120,11 +129,31 @@ export const Clients: CollectionConfig = {
       name: 'companyName',
       type: 'text',
       required: true,
+      access: {
+        read: () => true,
+      },
     },
     {
       name: 'logo',
       type: 'upload',
       relationTo: 'media',
+      access: {
+        read: () => true,
+      },
+    },
+    {
+      name: 'showOnWebsite',
+      label: 'Show logo on public website',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+        description:
+          'When checked, this client’s name and logo become publicly readable (e.g. for a homepage trust/logo strip). All other fields on this record stay admin-only.',
+      },
+      access: {
+        read: () => true,
+      },
     },
     {
       name: 'contactName',

@@ -221,6 +221,10 @@ export interface Client {
   id: number;
   companyName: string;
   logo?: (number | null) | Media;
+  /**
+   * When checked, this client’s name and logo become publicly readable (e.g. for a homepage trust/logo strip). All other fields on this record stay admin-only.
+   */
+  showOnWebsite?: boolean | null;
   contactName?: string | null;
   email?: string | null;
   phone?: string | null;
@@ -759,6 +763,7 @@ export interface UsersSelect<T extends boolean = true> {
 export interface ClientsSelect<T extends boolean = true> {
   companyName?: T;
   logo?: T;
+  showOnWebsite?: T;
   contactName?: T;
   email?: T;
   phone?: T;

@@ -73,7 +73,7 @@ const Logos35 = (props: Props) => {
               <img
                 src={brand.src}
                 alt={brand.name}
-                className="h-6 w-auto opacity-50 grayscale transition-all duration-200 hover:opacity-100 hover:grayscale-0 dark:invert"
+                className="h-10 w-36 object-contain opacity-50 grayscale transition-all duration-200 hover:opacity-100 hover:grayscale-0 dark:invert"
               />
             </div>
           ))}

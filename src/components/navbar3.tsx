@@ -568,7 +568,7 @@ const Navbar3 = ({ className }: Navbar3Props) => {
 
             <div className="hidden items-center  lg:flex">
               <Button variant="default" size="lg" className="px-6 py-6">
-                Contact
+             Book a Consultation
               </Button>
             </div>
 
