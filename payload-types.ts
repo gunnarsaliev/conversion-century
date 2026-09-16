@@ -71,6 +71,7 @@ export interface Config {
     clients: Client;
     services: Service;
     media: Media;
+    blog: Blog;
     'work-checklist': WorkChecklist;
     'client-checklist-progress': ClientChecklistProgress;
     exports: Export;
@@ -94,6 +95,7 @@ export interface Config {
     clients: ClientsSelect<false> | ClientsSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    blog: BlogSelect<false> | BlogSelect<true>;
     'work-checklist': WorkChecklistSelect<false> | WorkChecklistSelect<true>;
     'client-checklist-progress': ClientChecklistProgressSelect<false> | ClientChecklistProgressSelect<true>;
     exports: ExportsSelect<false> | ExportsSelect<true>;
@@ -119,6 +121,7 @@ export interface Config {
     tasks: {
       createCollectionExport: TaskCreateCollectionExport;
       createCollectionImport: TaskCreateCollectionImport;
+      schedulePublish: TaskSchedulePublish;
       inline: {
         input: unknown;
         output: unknown;
@@ -478,6 +481,44 @@ export interface WorkChecklist {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog".
+ */
+export interface Blog {
+  id: number;
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  /**
+   * Short summary shown in blog listings and previews.
+   */
+  excerpt?: string | null;
+  featuredImage?: (number | null) | Media;
+  author?: (number | null) | User;
+  publishedAt?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "exports".
  */
 export interface Export {
@@ -620,7 +661,7 @@ export interface PayloadJob {
     | {
         executedAt: string;
         completedAt: string;
-        taskSlug: 'inline' | 'createCollectionExport' | 'createCollectionImport';
+        taskSlug: 'inline' | 'createCollectionExport' | 'createCollectionImport' | 'schedulePublish';
         taskID: string;
         input?:
           | {
@@ -653,7 +694,7 @@ export interface PayloadJob {
         id?: string | null;
       }[]
     | null;
-  taskSlug?: ('inline' | 'createCollectionExport' | 'createCollectionImport') | null;
+  taskSlug?: ('inline' | 'createCollectionExport' | 'createCollectionImport' | 'schedulePublish') | null;
   queue?: string | null;
   waitUntil?: string | null;
   processing?: boolean | null;
@@ -682,6 +723,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'blog';
+        value: number | Blog;
       } | null)
     | ({
         relationTo: 'work-checklist';
@@ -877,6 +922,23 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog_select".
+ */
+export interface BlogSelect<T extends boolean = true> {
+  title?: T;
+  generateSlug?: T;
+  slug?: T;
+  excerpt?: T;
+  featuredImage?: T;
+  author?: T;
+  publishedAt?: T;
+  content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "work-checklist_select".
  */
 export interface WorkChecklistSelect<T extends boolean = true> {
@@ -1064,6 +1126,7 @@ export interface TaskCreateCollectionExport {
       | 'clients'
       | 'services'
       | 'media'
+      | 'blog'
       | 'work-checklist'
       | 'client-checklist-progress'
       | 'exports'
@@ -1105,6 +1168,23 @@ export interface TaskCreateCollectionImport {
     debug?: boolean | null;
     defaultVersionStatus?: ('draft' | 'published') | null;
     maxLimit?: number | null;
+  };
+  output?: unknown;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskSchedulePublish".
+ */
+export interface TaskSchedulePublish {
+  input: {
+    type?: ('publish' | 'unpublish') | null;
+    locale?: string | null;
+    doc?: {
+      relationTo: 'blog';
+      value: number | Blog;
+    } | null;
+    global?: string | null;
+    user?: (number | null) | User;
   };
   output?: unknown;
 }

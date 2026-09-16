@@ -1,5 +1,6 @@
-import { cn } from "cn";
 "use client";
+
+import { cn } from "cn";
 
 interface Post {
   date: string;

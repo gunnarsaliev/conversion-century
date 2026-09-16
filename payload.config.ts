@@ -11,6 +11,7 @@ import { Users } from './src/collections/Users'
 import { Clients } from './src/collections/Clients'
 import { Services } from './src/collections/Services'
 import { Media } from './src/collections/Media'
+import { Blog } from './src/collections/Blog'
 import { WorkChecklist } from './src/collections/WorkChecklist'
 import { ClientChecklistProgress } from './src/collections/ClientChecklistProgress'
 import { clearUploadedFileAfterProcessing } from './src/utilities/clearUploadedFile'
@@ -18,7 +19,15 @@ import { clearUploadedFileAfterProcessing } from './src/utilities/clearUploadedF
 export default buildConfig({
   editor: lexicalEditor(),
 
-  collections: [Users, Clients, Services, Media, WorkChecklist, ClientChecklistProgress],
+  collections: [
+    Users,
+    Clients,
+    Services,
+    Media,
+    Blog,
+    WorkChecklist,
+    ClientChecklistProgress,
+  ],
 
   plugins: [
     s3Storage({
