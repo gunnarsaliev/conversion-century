@@ -208,7 +208,7 @@ const documentationLinks = [
 const aboutLinks = [
   {
     title: "Our Story",
-    href: "#",
+    href: "/website/about",
     icon: FileText,
   },
   {
@@ -218,7 +218,7 @@ const aboutLinks = [
   },
   {
     title: "Team",
-    href: "#",
+    href: "/website/team",
     icon: Users,
   },
 ];
@@ -566,8 +566,8 @@ const Navbar3 = ({ className }: Navbar3Props) => {
               </NavigationMenuItem>
             </NavigationMenuList>
 
-            <div className="hidden items-center  lg:flex">
-              <Button variant="default" size="lg" className="px-6 py-6">
+            <div className="hidden items-center lg:flex">
+              <Button variant="default" size="lg" className="px-6 text-white bg-green-800 py-6">
              Book a Consultation
               </Button>
             </div>
