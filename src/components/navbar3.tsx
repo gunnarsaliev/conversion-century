@@ -226,7 +226,7 @@ const aboutLinks = [
 const resourceLinks = [
   {
     title: "Blog",
-    href: "#",
+    href: "/website/blog",
     icon: Newspaper,
   },
   {
@@ -241,7 +241,7 @@ const resourceLinks = [
   },
 ];
 
-const blogPosts = [
+const defaultBlogPosts = [
   {
     title: "Designing dashboards teams actually use",
     href: "#",
@@ -256,7 +256,15 @@ const blogPosts = [
   },
 ];
 
+interface NavbarBlogPost {
+  title: string;
+  href: string;
+  image: string;
+  alt: string;
+}
+
 interface Navbar3Props {
+  blogPosts?: NavbarBlogPost[];
   className?: string;
 }
 
@@ -283,7 +291,8 @@ const mobileMenuShellClassName =
 const mobileMenuPanelClassName =
   "absolute inset-0 flex h-full w-full flex-col overflow-x-hidden overflow-y-auto overscroll-y-contain bg-popover will-change-transform";
 
-const Navbar3 = ({ className }: Navbar3Props) => {
+const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
+  const blogPosts = blogPostsProp ?? defaultBlogPosts;
   const [open, setOpen] = useState(false);
   const [submenu, setSubmenu] = useState<
     | "services"

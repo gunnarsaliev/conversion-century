@@ -1,10 +1,10 @@
 "use client";
 
-import { Facebook, Home, Lightbulb, Linkedin, Twitter } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { Home } from "lucide-react";
+import { FaFacebookF, FaLinkedin, FaXTwitter } from "react-icons/fa6";
 import { cn } from "cn";
+import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import {
   Breadcrumb,
@@ -15,53 +15,32 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+import { PostRichText } from "@/components/blog-rich-text";
+import { TableOfContents } from "@/components/table-of-contents";
+
 interface Blogpost5Props {
+  title: string;
+  authorName?: string;
+  authorAvatar?: string;
+  authorId?: number | string;
+  dateLabel?: string;
+  featuredImage?: string;
+  content?: SerializedEditorState;
+  locale?: "en" | "bg";
   className?: string;
 }
 
-const Blogpost5 = ({ className }: Blogpost5Props) => {
-  const [activeSection, setActiveSection] = useState<string | null>(null);
-  const sectionRefs = useRef<Record<string, HTMLElement>>({});
-
-  useEffect(() => {
-    const sections = Object.keys(sectionRefs.current);
-
-    const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        }
-      });
-    };
-
-    let observer: IntersectionObserver | null = new IntersectionObserver(
-      observerCallback,
-      {
-        root: null,
-        rootMargin: "0px",
-        threshold: 1,
-      },
-    );
-
-    sections.forEach((sectionId) => {
-      const element = sectionRefs.current[sectionId];
-      if (element) {
-        observer?.observe(element);
-      }
-    });
-
-    return () => {
-      observer?.disconnect();
-      observer = null;
-    };
-  }, []);
-
-  const addSectionRef = (id: string, ref: HTMLElement | null) => {
-    if (ref) {
-      sectionRefs.current[id] = ref;
-    }
-  };
+const Blogpost5 = ({
+  title,
+  authorName,
+  authorAvatar,
+  authorId,
+  dateLabel,
+  featuredImage,
+  content,
+  locale = "en",
+  className,
+}: Blogpost5Props) => {
   return (
     <section className={cn("py-32", className)}>
       <div className="container">
@@ -74,212 +53,61 @@ const Blogpost5 = ({ className }: Blogpost5Props) => {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/">Components</BreadcrumbLink>
+              <BreadcrumbLink href="/website/blog">Blog</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>Blog</BreadcrumbPage>
+              <BreadcrumbPage>{title}</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
         <h1 className="mt-9 mb-7 max-w-3xl text-4xl font-bold md:mb-10 md:text-7xl">
-          The royal decree that made everyone laugh
+          {title}
         </h1>
-        <div className="flex items-center gap-3 text-sm md:text-base">
-          <Avatar className="h-8 w-8 border">
-            <AvatarImage src="https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-1.webp" />
-          </Avatar>
-          <span>
-            <a href="#" className="font-medium">
-              John Doe
-            </a>
-            <span className="ml-1 text-muted-foreground">
-              on September 23, 2024
+        {(authorName || dateLabel) && (
+          <div className="flex items-center gap-3 text-sm md:text-base">
+            {authorAvatar && (
+              <Avatar className="h-8 w-8 border">
+                <AvatarImage src={authorAvatar} />
+              </Avatar>
+            )}
+            <span>
+              {authorName &&
+                (authorId ? (
+                  <a
+                    href={`/website/authors/${authorId}`}
+                    className="font-medium hover:underline"
+                  >
+                    {authorName}
+                  </a>
+                ) : (
+                  <span className="font-medium">{authorName}</span>
+                ))}
+              {dateLabel && (
+                <span className="ml-1 text-muted-foreground">
+                  on {dateLabel}
+                </span>
+              )}
             </span>
-          </span>
-        </div>
+          </div>
+        )}
         <div className="relative mt-12 grid max-w-7xl gap-14 lg:mt-14 lg:grid lg:grid-cols-12 lg:gap-6">
           <div className="order-2 lg:order-none lg:col-span-8">
-            <div>
+            {featuredImage && (
               <img
-                src="https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-1.svg"
-                alt="placeholder"
+                src={featuredImage}
+                alt={title}
                 className="mt-0 mb-8 aspect-video w-full rounded-lg border object-cover"
               />
-              <div className="space-y-4 text-sm text-muted-foreground">
-                <p>
-                  In a quiet river valley, guilds documented every trade route
-                  and tariff in shared ledgers so neighboring towns could audit
-                  disputes without sending couriers.
-                </p>
-                <p>
-                  When a new excise threatened ferry operators, mayors asked for
-                  simulations before the policy went live, which gave engineers
-                  time to adjust weigh stations.
-                </p>
-                <p>
-                  The council paired each change with a public FAQ, mirrored the
-                  answers inside town halls, and saw compliance climb within two
-                  seasons.
-                </p>
-                <p>
-                  Product teams later reused that cadence for in-app
-                  announcements: clear headline, numbered steps, then a link to
-                  the statute for anyone who needed the verbatim language.
-                </p>
+            )}
+            {content && (
+              <div className="prose dark:prose-invert max-w-none">
+                <PostRichText data={content} locale={locale} />
               </div>
-            </div>
-            <section
-              id="section1"
-              ref={(ref) => addSectionRef("section1", ref)}
-              className="my-8 prose dark:prose-invert"
-            >
-              <h2>How Taxes Work and Why They Matter</h2>
-              <p>
-                The king thought long and hard, and finally came up with{" "}
-                <a href="#">a brilliant plan</a>: he would tax the jokes in the
-                kingdom.
-              </p>
-              <blockquote>
-                &ldquo;After all,&rdquo; he said, &ldquo;everyone enjoys a good
-                joke, so it&apos;s only fair that they should pay for the
-                privilege.&rdquo;
-              </blockquote>
-              <p>
-                The king&apos;s subjects were not amused. They grumbled and
-                complained, but the king was firm
-              </p>
-              <Alert>
-                <Lightbulb className="h-4 w-4" />
-                <AlertTitle>Royal Decree!</AlertTitle>
-                <AlertDescription>
-                  Remember, all jokes must be registered at the Royal Jest
-                  Office before telling them
-                </AlertDescription>
-              </Alert>
-            </section>
-
-            <section
-              id="section2"
-              ref={(ref) => addSectionRef("section2", ref)}
-              className="prose mb-8 dark:prose-invert"
-            >
-              <h2>The Great People&apos;s Rebellion</h2>
-              <p>
-                The people of the kingdom, feeling uplifted by the laughter,
-                started to tell jokes and puns again, and soon the entire
-                kingdom was in on the joke.
-              </p>
-              <div>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>King&apos;s Treasury</th>
-                      <th>People&apos;s happiness</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Empty</td>
-                      <td>Overflowing</td>
-                    </tr>
-                    <tr className="m-0 border-t p-0 even:bg-muted">
-                      <td>Modest</td>
-                      <td>Satisfied</td>
-                    </tr>
-                    <tr className="m-0 border-t p-0 even:bg-muted">
-                      <td>Full</td>
-                      <td>Ecstatic</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <p>
-                The king, seeing how much happier his subjects were, realized
-                the error of his ways and repealed the joke tax. Jokester was
-                declared a hero, and the kingdom lived happily ever after.
-              </p>
-            </section>
-
-            <section
-              id="section3"
-              ref={(ref) => addSectionRef("section3", ref)}
-              className="prose mb-8 dark:prose-invert"
-            >
-              <h2>The King&apos;s Plan</h2>
-              <p>
-                The king thought long and hard, and finally came up with{" "}
-                <a href="#">a brilliant plan</a>: he would tax the jokes in the
-                kingdom.
-              </p>
-              <blockquote>
-                &ldquo;After all,&rdquo; he said, &ldquo;everyone enjoys a good
-                joke, so it&apos;s only fair that they should pay for the
-                privilege.&rdquo;
-              </blockquote>
-              <p>
-                The king&apos;s subjects were not amused. They grumbled and
-                complained, but the king was firm. Royal accountants circulated
-                a tiered fee card so the treasury could weigh nightly intake
-                from puns, standard jokes, and premium one-liners alike.
-              </p>
-              <p>
-                As a result, people stopped telling jokes, and the kingdom fell
-                into a gloom. But there was one person who refused to let the
-                king&apos;s foolishness get him down: a court jester named
-                Jokester.
-              </p>
-            </section>
+            )}
           </div>
           <div className="order-1 flex h-fit flex-col text-sm lg:sticky lg:top-8 lg:order-none lg:col-span-3 lg:col-start-10 lg:text-xs">
-            <div className="order-3 lg:order-none">
-              <span className="text-xs font-medium">ON THIS PAGE</span>
-              <nav className="mt-2 lg:mt-4">
-                <ul className="space-y-1">
-                  <li>
-                    <a
-                      href="#section1"
-                      className={cn(
-                        "block py-1 transition-colors duration-200",
-                        activeSection === "section1"
-                          ? "text-muted-foreground lg:text-primary"
-                          : "text-muted-foreground hover:text-primary",
-                      )}
-                    >
-                      How Taxes Work and Why They Matter
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#section2"
-                      className={cn(
-                        "block py-1 transition-colors duration-200",
-                        activeSection === "section2"
-                          ? "text-muted-foreground lg:text-primary"
-                          : "text-muted-foreground hover:text-primary",
-                      )}
-                    >
-                      The Great People&apos;s Rebellion
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#section3"
-                      className={cn(
-                        "block py-1 transition-colors duration-200",
-                        activeSection === "section3"
-                          ? "text-muted-foreground lg:text-primary"
-                          : "text-muted-foreground hover:text-primary",
-                      )}
-                    >
-                      The King&apos;s Plan
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-            <Separator className="order-2 mt-8 mb-11 lg:hidden" />
-            <div className="order-1 flex flex-col gap-2 lg:order-none lg:mt-9">
+            <div className="order-1 flex flex-col gap-2 lg:order-none">
               <p className="font-medium text-muted-foreground">
                 Share this article:
               </p>
@@ -291,7 +119,7 @@ const Blogpost5 = ({ className }: Blogpost5Props) => {
                     className="group rounded-full"
                   >
                     <a href="#">
-                      <Facebook className="h-4 w-4 fill-muted-foreground text-muted-foreground transition-colors group-hover:fill-primary group-hover:text-primary" />
+                      <FaFacebookF className="h-4 w-4 fill-muted-foreground text-muted-foreground transition-colors group-hover:fill-primary group-hover:text-primary" />
                     </a>
                   </Button>
                 </li>
@@ -302,7 +130,7 @@ const Blogpost5 = ({ className }: Blogpost5Props) => {
                     className="group rounded-full"
                   >
                     <a href="#">
-                      <Linkedin className="h-4 w-4 fill-muted-foreground text-muted-foreground transition-colors group-hover:fill-primary group-hover:text-primary" />
+                      <FaLinkedin className="h-4 w-4 fill-muted-foreground text-muted-foreground transition-colors group-hover:fill-primary group-hover:text-primary" />
                     </a>
                   </Button>
                 </li>
@@ -313,12 +141,17 @@ const Blogpost5 = ({ className }: Blogpost5Props) => {
                     className="group rounded-full"
                   >
                     <a href="#">
-                      <Twitter className="h-4 w-4 fill-muted-foreground text-muted-foreground transition-colors group-hover:fill-primary group-hover:text-primary" />
+                      <FaXTwitter className="h-4 w-4 fill-muted-foreground text-muted-foreground transition-colors group-hover:fill-primary group-hover:text-primary" />
                     </a>
                   </Button>
                 </li>
               </ul>
             </div>
+            {content && (
+              <div className="order-2 mt-8 lg:order-none">
+                <TableOfContents content={content} locale={locale} />
+              </div>
+            )}
           </div>
         </div>
       </div>

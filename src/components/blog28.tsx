@@ -66,42 +66,69 @@ const posts: Post[] = [
 ];
 
 interface Blog28Props {
+  heading?: string;
+  posts?: Post[];
   className?: string;
 }
 
-const Blog28 = ({ className }: Blog28Props) => {
+const Blog28 = ({
+  heading = "Latest Tech Blog",
+  posts: postsProp,
+  className,
+}: Blog28Props) => {
+  const items = postsProp ?? posts;
+
+  if (items.length === 0) {
+    return (
+      <section className={cn("py-32", className)}>
+        <div className="container">
+          {heading && (
+            <h1 className="mb-12 text-center text-4xl font-medium md:text-7xl">
+              {heading}
+            </h1>
+          )}
+          <p className="text-center text-muted-foreground">
+            No posts published yet.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className={cn("py-32", className)}>
       <div className="container">
-        <h1 className="mb-12 text-center text-4xl font-medium md:text-7xl">
-          Latest Tech Blog
-        </h1>
+        {heading && (
+          <h1 className="mb-12 text-center text-4xl font-medium md:text-7xl">
+            {heading}
+          </h1>
+        )}
 
         <div className="xs:grid-cols-1 mt-24 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <div className="relative md:row-span-2 lg:col-span-2">
             <a
-              href={posts[0].link}
+              href={items[0].link}
               className="block h-fit rounded-lg p-3 md:top-0"
             >
               <img
-                src={posts[0].image}
-                alt={posts[0].title}
+                src={items[0].image}
+                alt={items[0].title}
                 className="h-48 w-full rounded-lg object-cover hover:opacity-80 md:h-80 lg:h-96"
               />
               <div className="mt-5">
                 <div className="mb-2.5 flex items-center gap-1 text-sm text-muted-foreground">
-                  <time>{posts[0].date}</time>·<span>{posts[0].author}</span>
+                  <time>{items[0].date}</time>·<span>{items[0].author}</span>
                 </div>
                 <h3 className="text-lg md:text-3xl lg:text-4xl">
-                  {posts[0].title}
+                  {items[0].title}
                 </h3>
                 <p className="mt-4 text-muted-foreground">
-                  {posts[0].description}
+                  {items[0].description}
                 </p>
               </div>
             </a>
           </div>
-          {posts.slice(1).map((post, idx) => (
+          {items.slice(1).map((post, idx) => (
             <a key={idx} href={post.link} className="rounded-lg p-3">
               <img
                 src={post.image}
@@ -123,3 +150,4 @@ const Blog28 = ({ className }: Blog28Props) => {
 };
 
 export { Blog28 };
+export type { Post as Blog28Post };

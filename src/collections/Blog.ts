@@ -46,12 +46,22 @@ export const Blog: CollectionConfig = {
       // non-Latin scripts) to Latin characters rather than stripping them,
       // so a Bulgarian post title still produces a readable, URL-safe
       // slug. Falls back to English rules for any other locale.
-      slugify: ({ valueToSlugify, req }) =>
-        slugify(valueToSlugify, {
+      //
+      // Payload calls this on every save (including autosave/create before
+      // a title has been entered, or when a locale's title is still
+      // blank), so `valueToSlugify` may be undefined — the `slugify`
+      // package throws on non-string input, so guard for that first.
+      slugify: ({ valueToSlugify, req }) => {
+        if (typeof valueToSlugify !== 'string' || valueToSlugify.trim().length === 0) {
+          return undefined
+        }
+
+        return slugify(valueToSlugify, {
           lower: true,
           strict: true,
           locale: req.locale === 'bg' ? 'bg' : 'en',
-        }),
+        })
+      },
     }),
     {
       name: 'excerpt',
