@@ -313,6 +313,21 @@ export interface Client {
     };
     [k: string]: unknown;
   } | null;
+  testimonial?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   'Account Manager'?: (number | User)[] | null;
   Publisher?: (number | User)[] | null;
   Copywriter?: (number | User)[] | null;
@@ -840,6 +855,7 @@ export interface ClientsSelect<T extends boolean = true> {
   region?: T;
   notes?: T;
   description?: T;
+  testimonial?: T;
   'Account Manager'?: T;
   Publisher?: T;
   Copywriter?: T;

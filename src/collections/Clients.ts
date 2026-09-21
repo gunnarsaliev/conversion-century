@@ -1,4 +1,5 @@
 import type { CollectionBeforeValidateHook, CollectionConfig } from 'payload'
+import { lexicalEditor } from '@payloadcms/richtext-lexical'
 
 // CSV can't express a hasMany relationship as a native array, so we
 // serialize it to a single `;`-separated column of related IDs on export,
@@ -283,6 +284,11 @@ export const Clients: CollectionConfig = {
     {
       name: 'description',
       type: 'richText',
+    },
+    {
+      name: 'testimonial',
+      type: 'richText',
+      editor: lexicalEditor(),
     },
     {
       name: 'Account Manager',

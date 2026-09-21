@@ -38,6 +38,7 @@ import {
 import { useEffect, useState } from "react";
 import { cn } from "cn";
 
+import { Link } from "@/i18n/navigation";
 import {
   Logo,
   LogoImageDesktop,
@@ -576,9 +577,11 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
             </NavigationMenuList>
 
             <div className="hidden items-center lg:flex">
-              <Button variant="default" size="lg" className="px-6 text-white bg-green-800 py-6">
-             Book a Consultation
-              </Button>
+              <Link href="/website/book-a-consultation">
+                <Button variant="default" size="lg" className="px-6 text-white bg-green-800 py-6 cursor-pointer hover:bg-green-700">
+                  Book a Consultation
+                </Button>
+              </Link>
             </div>
 
             <div className="flex items-center gap-4 lg:hidden">
@@ -655,9 +658,11 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                             ))}
                           </div>
                           <div className="mx-8 mt-auto flex flex-col gap-4 py-12">
-                            <Button className="relative" size="lg">
-                              Contact
-                            </Button>
+                            <Link href="/website/book-a-consultation">
+                              <Button className="relative w-full" size="lg">
+                                Book a Consultation
+                              </Button>
+                            </Link>
                           </div>
                         </>
                       )}

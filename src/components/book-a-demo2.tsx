@@ -126,54 +126,44 @@ const BookADemo2ContactForm = () => {
       <form className="grid grid-cols-2 gap-x-3 gap-y-6">
         <FormGroup className="col-span-2 sm:col-span-1">
           <Label>First Name</Label>
-          <Input type="text" placeholder="Bruce" />
+          <Input type="text" placeholder="Jane" />
         </FormGroup>
         <FormGroup className="col-span-2 sm:col-span-1">
           <Label>Last Name</Label>
-          <Input type="text" placeholder="Wayne" />
+          <Input type="text" placeholder="Doe" />
         </FormGroup>
         <FormGroup className="col-span-2">
           <Label>Email</Label>
-          <Input type="email" placeholder="bruce@wayne.com" />
+          <Input type="email" placeholder="jane@yourcompany.com" />
         </FormGroup>
         <FormGroup className="col-span-2 sm:col-span-1">
-          <Label>Company size</Label>
-          <Select>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select a company size" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="1-10">1-10</SelectItem>
-              <SelectItem value="11-50">11-50</SelectItem>
-              <SelectItem value="51-100">51-100</SelectItem>
-              <SelectItem value="101-500">101-500</SelectItem>
-              <SelectItem value="501-1000">501-1000</SelectItem>
-            </SelectContent>
-          </Select>
+          <Label>Website URL</Label>
+          <Input type="url" placeholder="https://yourcompany.com" />
         </FormGroup>
         <FormGroup className="col-span-2 sm:col-span-1">
-          <Label>Role</Label>
+          <Label>Monthly ad/marketing budget</Label>
           <Select>
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select a role" />
+              <SelectValue placeholder="Select a budget range" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="CEO">CEO</SelectItem>
-              <SelectItem value="CTO">CTO</SelectItem>
-              <SelectItem value="CFO">CFO</SelectItem>
-              <SelectItem value="Other">Other</SelectItem>
+              <SelectItem value="under-1k">Under $1,000</SelectItem>
+              <SelectItem value="1k-5k">$1,000 - $5,000</SelectItem>
+              <SelectItem value="5k-10k">$5,000 - $10,000</SelectItem>
+              <SelectItem value="10k-25k">$10,000 - $25,000</SelectItem>
+              <SelectItem value="25k-plus">$25,000+</SelectItem>
             </SelectContent>
           </Select>
         </FormGroup>
         <FormGroup className="col-span-2">
           <Label>Message</Label>
           <Textarea
-            placeholder="Share more about your use case, product, tech stack and what you want to accomplish"
+            placeholder="Tell us about your SEO goals — rankings, organic traffic, keywords you want to target, or any challenges you're facing"
             className="min-h-32"
           />
         </FormGroup>
         <Button type="submit" className="col-span-2" size="lg">
-          Continue <ArrowRight />
+          Book My Consultation <ArrowRight />
         </Button>
       </form>
     </div>
@@ -254,7 +244,7 @@ const BookADemo2Testimonials = ({ testimonials }: TestimonialsProps) => {
                 <img
                   src={testimonial.companyLogo}
                   alt={`${testimonial.author.name} company logo`}
-                  className="h-6 w-auto object-contain md:h-8 dark:invert"
+                  className="h-16 w-auto object-contain md:h-16 dark:invert"
                 />
               </div>
 
@@ -308,39 +298,10 @@ const BookADemo2Testimonials = ({ testimonials }: TestimonialsProps) => {
   );
 };
 
-interface Footer {
-  heading: string;
-  logos: string[];
-}
-
-const BookADemo2Footer = ({ heading, logos }: Footer) => {
-  return (
-    <div className="flex w-full max-w-6xl flex-col items-center gap-14 text-center">
-      <h3 className="text-sm font-medium text-muted-foreground">{heading}</h3>
-      <div className="flex w-full flex-wrap items-center justify-center gap-10 md:grid md:grid-cols-5">
-        {logos.map((logo, index) => {
-          return (
-            <img
-              key={`bookademo2-footer-logo-${index}`}
-              src={logo}
-              alt={`logo ${index + 1}`}
-              className={cn(
-                "h-6 place-self-center object-contain md:h-8 dark:invert",
-                index > 5 && "hidden md:block",
-              )}
-            />
-          );
-        })}
-      </div>
-    </div>
-  );
-};
-
 interface BookADemo2Props {
   className?: string;
   header?: Header;
   testimonials?: Testimonial[];
-  footer?: Footer;
 }
 
 const BookADemo2 = ({
@@ -360,7 +321,7 @@ const BookADemo2 = ({
       },
       {
         image:
-          "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/portraits/christian-buehner-DItYlc26zVI-unsplash 1.jpg",
+          "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/portraits/nima-motaghian-nejad-_omdf_EgRUo-unsplash.jpg",
         avatarClassName: "border-blue-500",
         cursorClassName: "text-blue-500 fill-blue-500",
       },
@@ -463,21 +424,6 @@ const BookADemo2 = ({
       },
     },
   ],
-  footer = {
-    heading: "Trusted by development teams worldwide",
-    logos: [
-      "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/company/fictional-company-logo-1.svg",
-      "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/company/fictional-company-logo-2.svg",
-      "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/company/fictional-company-logo-3.svg",
-      "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/company/fictional-company-logo-4.svg",
-      "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/company/fictional-company-logo-5.svg",
-      "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/company/fictional-company-logo-6.svg",
-      "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/company/fictional-company-logo-7.svg",
-      "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/company/fictional-company-logo-8.svg",
-      "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/company/fictional-company-logo-9.svg",
-      "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/company/fictional-company-logo-10.svg",
-    ],
-  },
   className,
 }: BookADemo2Props) => {
   return (
@@ -489,7 +435,6 @@ const BookADemo2 = ({
             <BookADemo2ContactForm />
             <BookADemo2Testimonials testimonials={testimonials} />
           </div>
-          <BookADemo2Footer {...footer} />
         </div>
       </div>
     </section>

@@ -5,6 +5,7 @@ import { cn } from "cn";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 interface Hero104Props {
   className?: string;
 }
@@ -50,9 +51,9 @@ const Hero104 = ({ className }: Hero104Props) => {
               We combine strategic thinking, technical expertise, quality content and digital authority with something just as important: genuine commitment to every client’s success.
             </p>
             <div className="flex flex-col items-center justify-center gap-5 sm:flex-row lg:justify-normal">
-              <Button variant="default" className="h-fit w-full rounded-lg border-2 border-primary px-8 py-4 text-lg bg-green-800 text-white font-semibold sm:w-fit hover:bg-green-700" render={<a href="#" />} nativeButton={false}>Discuss Your Growth Goals</Button>
+              <Button variant="default" className="h-fit w-full rounded-lg border-2 border-primary px-8 py-4 text-lg bg-green-800 text-white font-semibold sm:w-fit hover:bg-green-700" render={<Link  href="/website/book-a-consultation" />} nativeButton={false}>Discuss Your Growth Goals</Button>
               <Button variant="ghost" className="h-fit w-full rounded-lg border-2 px-8 py-4 text-lg font-semibold hover:border-green-800 hover:bg-transparent sm:w-fit" render={<a href="#" />} nativeButton={false}>Explore Our Results</Button>
-            </div>
+            </div>  
             <div className="flex items-center justify-center gap-3 pt-6 lg:justify-normal">
               <div className="flex -space-x-2">
                 {proofAvatars.slice(0, MAX_AVATARS).map((avatar) => (
