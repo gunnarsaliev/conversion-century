@@ -14,9 +14,10 @@ const officeImage =
 
 interface Signup10Props {
   className?: string;
+  redirectTo?: string;
 }
 
-const Signup10 = ({ className }: Signup10Props) => {
+const Signup10 = ({ className, redirectTo }: Signup10Props) => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,7 +38,7 @@ const Signup10 = ({ className }: Signup10Props) => {
       });
 
       if (res.ok) {
-        router.push("/dashboard");
+        router.push(redirectTo || "/dashboard");
         return;
       }
 

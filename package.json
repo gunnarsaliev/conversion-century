@@ -37,6 +37,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cn": "^0.2.6",
+    "embla-carousel-react": "^8.6.0",
     "fast-glob": "^3.3.3",
     "flexsearch": "^0.8.205",
     "framer-motion": "^13.2.0",

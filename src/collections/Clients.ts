@@ -161,6 +161,11 @@ export const Clients: CollectionConfig = {
       type: 'text',
     },
     {
+      name: 'contactRole',
+      label: 'Contact Person Role',
+      type: 'text',
+    },
+    {
       name: 'email',
       type: 'email',
     },

@@ -38,7 +38,7 @@ const ClientCard = ({ client }: ClientCardProps) => {
       trigger={
         <button
           type="button"
-          className="group flex w-full cursor-pointer flex-col gap-4 rounded-lg border p-4 text-left outline-none transition-all hover:bg-muted/30 hover:shadow-md focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+          className="group flex h-48 w-full cursor-pointer flex-col gap-4 rounded-lg border bg-white dark:bg-gray-800 p-4 text-left outline-none transition-all hover:shadow-md focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
         >
           <div className="flex items-start justify-between gap-4">
             <ClientLogo
@@ -62,10 +62,10 @@ const ClientCard = ({ client }: ClientCardProps) => {
               </div>
             </div>
           </div>
-          <div className="flex-1 text-base">
-            <p className="font-medium">{client.companyName}</p>
+          <div className="min-h-0 flex-1 text-base">
+            <p className="truncate font-medium">{client.companyName}</p>
             {client.description ? (
-              <p className="text-sm text-muted-foreground">
+              <p className="line-clamp-2 text-sm text-muted-foreground">
                 {client.description}
               </p>
             ) : null}

@@ -229,6 +229,7 @@ export interface Client {
    */
   showOnWebsite?: boolean | null;
   contactName?: string | null;
+  contactRole?: string | null;
   email?: string | null;
   phone?: string | null;
   websiteLinks?:
@@ -829,6 +830,7 @@ export interface ClientsSelect<T extends boolean = true> {
   logo?: T;
   showOnWebsite?: T;
   contactName?: T;
+  contactRole?: T;
   email?: T;
   phone?: T;
   websiteLinks?:

@@ -12,6 +12,15 @@ const handleI18nRouting = createMiddleware(routing)
 // Rewrite requests for those paths to the folder matching the resolved locale.
 const LOCALIZED_DOCS_SECTIONS = ['technical-seo', 'workflow', 'getting-started']
 
+// /dashboard and /website (and everything under them) require a signed-in
+// session. Payload issues its session as a `payload-token` cookie (default
+// `${cookiePrefix}-token` name, see payload.config.ts's default
+// `cookiePrefix: 'payload'`); its mere presence is enough for this
+// route-level gate — the dashboard layout and individual pages still do the
+// authoritative `payload.auth()` check server-side.
+const PROTECTED_SECTIONS = ['dashboard', 'website']
+const SESSION_COOKIE_NAME = 'payload-token'
+
 export default function proxy(request: NextRequest) {
   const response = handleI18nRouting(request)
 
@@ -20,6 +29,18 @@ export default function proxy(request: NextRequest) {
       response.headers.get('x-middleware-rewrite') || request.url,
     )
     const [, locale, ...rest] = rewritten.pathname.split('/')
+
+    if (
+      PROTECTED_SECTIONS.includes(rest[0]) &&
+      !request.cookies.has(SESSION_COOKIE_NAME)
+    ) {
+      // localePrefix is 'as-needed': the default locale (bg) has no prefix,
+      // so the login page lives at "/" for bg and "/en" for en.
+      const loginPathname = locale === routing.defaultLocale ? '/' : `/${locale}`
+      const loginUrl = new URL(loginPathname, request.url)
+      loginUrl.searchParams.set('redirect', rewritten.pathname)
+      return NextResponse.redirect(loginUrl)
+    }
 
     if (rest[0] === 'docs' && LOCALIZED_DOCS_SECTIONS.includes(rest[1])) {
       const localizedPathname = ['', locale, 'docs', locale, ...rest.slice(1)].join(
