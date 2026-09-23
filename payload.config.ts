@@ -16,6 +16,7 @@ import { WorkChecklist } from './src/collections/WorkChecklist'
 import { ClientChecklistProgress } from './src/collections/ClientChecklistProgress'
 import { JobListings } from './src/collections/JobListings'
 import { JobApplicants } from './src/collections/JobApplicants'
+import { CaseStudies } from './src/collections/CaseStudies'
 import { clearUploadedFileAfterProcessing } from './src/utilities/clearUploadedFile'
 
 export default buildConfig({
@@ -31,6 +32,7 @@ export default buildConfig({
     ClientChecklistProgress,
     JobListings,
     JobApplicants,
+    CaseStudies,
   ],
 
   plugins: [

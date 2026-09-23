@@ -196,7 +196,7 @@ const documentationLinks = [
   },
   {
     title: "Case Studies",
-    href: "#",
+    href: "/website/case-studies",
     icon: ClipboardList,
   },
   {

@@ -23,7 +23,7 @@ interface JobListingProps {
 
 export default function JobListing({ title, type, location, requirements, offer }: JobListingProps) {
   return (
-    <main className="min-h-screen bg-white px-6 py-9 text-[#2f2e3e] sm:px-12 sm:py-[47px]">
+    <main className="min-h-screen px-6 py-9 text-[#2f2e3e] sm:px-12 sm:py-[47px]">
       <div className="mx-auto grid max-w-[1315px] items-start gap-14 lg:grid-cols-[minmax(0,1fr)_445px]">
         <article className="pt-0.5">
           <p className="mb-3 text-base font-bold tracking-[.01em]">POSITION</p>
