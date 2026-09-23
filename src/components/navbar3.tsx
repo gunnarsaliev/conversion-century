@@ -201,7 +201,7 @@ const documentationLinks = [
   },
   {
     title: "Reviews",
-    href: "#",
+    href: "/website/reviews",
     icon: MessageSquareQuote,
   },
 ];
@@ -232,7 +232,7 @@ const resourceLinks = [
   },
   {
     title: "Checklists",
-    href: "#",
+    href: "/docs/getting-started",
     icon: ListChecks,
   },
   {

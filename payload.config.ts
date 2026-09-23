@@ -14,6 +14,8 @@ import { Media } from './src/collections/Media'
 import { Blog } from './src/collections/Blog'
 import { WorkChecklist } from './src/collections/WorkChecklist'
 import { ClientChecklistProgress } from './src/collections/ClientChecklistProgress'
+import { JobListings } from './src/collections/JobListings'
+import { JobApplicants } from './src/collections/JobApplicants'
 import { clearUploadedFileAfterProcessing } from './src/utilities/clearUploadedFile'
 
 export default buildConfig({
@@ -27,6 +29,8 @@ export default buildConfig({
     Blog,
     WorkChecklist,
     ClientChecklistProgress,
+    JobListings,
+    JobApplicants,
   ],
 
   plugins: [

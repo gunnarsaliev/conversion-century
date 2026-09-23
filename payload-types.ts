@@ -74,6 +74,8 @@ export interface Config {
     blog: Blog;
     'work-checklist': WorkChecklist;
     'client-checklist-progress': ClientChecklistProgress;
+    'job-listings': JobListing;
+    'job-applicants': JobApplicant;
     exports: Export;
     imports: Import;
     'payload-kv': PayloadKv;
@@ -98,6 +100,8 @@ export interface Config {
     blog: BlogSelect<false> | BlogSelect<true>;
     'work-checklist': WorkChecklistSelect<false> | WorkChecklistSelect<true>;
     'client-checklist-progress': ClientChecklistProgressSelect<false> | ClientChecklistProgressSelect<true>;
+    'job-listings': JobListingsSelect<false> | JobListingsSelect<true>;
+    'job-applicants': JobApplicantsSelect<false> | JobApplicantsSelect<true>;
     exports: ExportsSelect<false> | ExportsSelect<true>;
     imports: ImportsSelect<false> | ImportsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -535,6 +539,80 @@ export interface Blog {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "job-listings".
+ */
+export interface JobListing {
+  id: number;
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  type: 'part-time' | 'full-time';
+  location?: string | null;
+  requirements?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  offer?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "job-applicants".
+ */
+export interface JobApplicant {
+  id: number;
+  fullName: string;
+  email: string;
+  status: 'new' | 'reviewing' | 'shortlisted' | 'rejected' | 'hired';
+  message?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "exports".
  */
 export interface Export {
@@ -751,6 +829,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'client-checklist-progress';
         value: number | ClientChecklistProgress;
+      } | null)
+    | ({
+        relationTo: 'job-listings';
+        value: number | JobListing;
+      } | null)
+    | ({
+        relationTo: 'job-applicants';
+        value: number | JobApplicant;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -992,6 +1078,33 @@ export interface ClientChecklistProgressSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "job-listings_select".
+ */
+export interface JobListingsSelect<T extends boolean = true> {
+  title?: T;
+  generateSlug?: T;
+  slug?: T;
+  type?: T;
+  location?: T;
+  requirements?: T;
+  offer?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "job-applicants_select".
+ */
+export interface JobApplicantsSelect<T extends boolean = true> {
+  fullName?: T;
+  email?: T;
+  status?: T;
+  message?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "exports_select".
  */
 export interface ExportsSelect<T extends boolean = true> {
@@ -1147,6 +1260,8 @@ export interface TaskCreateCollectionExport {
       | 'blog'
       | 'work-checklist'
       | 'client-checklist-progress'
+      | 'job-listings'
+      | 'job-applicants'
       | 'exports'
       | 'imports';
     drafts?: ('yes' | 'no') | null;

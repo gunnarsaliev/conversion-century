@@ -1,30 +1,21 @@
-import { ArrowRight, Clock, MapPin, Timer } from "lucide-react";
+import { ArrowRight, Clock, MapPin } from "lucide-react";
 import { cn } from "cn";
 
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
-const jobs = [
-  {
-    title: "Part-time position",
-    hours: "20 h/week",
-    city: "Sofia, Bulgaria",
-    type: "Part-time",
-    link: "#",
-  },
-  {
-    title: "Full-time position",
-    hours: "40 h/week",
-    city: "Sofia, Bulgaria",
-    type: "Full-time",
-    link: "#",
-  },
-];
+export interface Careers2Job {
+  title: string;
+  type: string;
+  location?: string | null;
+  link: string;
+}
 
 interface Careers2Props {
+  jobs: Careers2Job[];
   className?: string;
 }
 
-const Careers2 = ({ className }: Careers2Props) => {
+const Careers2 = ({ jobs, className }: Careers2Props) => {
   return (
     <section className={cn("py-32", className)}>
       <div className="container px-1">
@@ -50,9 +41,14 @@ const Careers2 = ({ className }: Careers2Props) => {
             </div>
           </div>
           <div>
+            {jobs.length === 0 && (
+              <p className="border-b border-dashed px-6 py-10 text-center text-muted-foreground">
+                There are no open positions right now.
+              </p>
+            )}
             {jobs.map((job) => (
               <div
-                key={job.title}
+                key={job.link}
                 className="grid items-center gap-6 border-b border-dashed px-6 py-10 lg:grid-cols-4"
               >
                 <h2 className="text-lg">{job.title}</h2>
@@ -61,14 +57,12 @@ const Careers2 = ({ className }: Careers2Props) => {
                     <Clock className="h-auto w-4" />
                     {job.type}
                   </div>
-                  <div className="flex gap-2">
-                    <MapPin className="h-auto w-4" />
-                    {job.city}
-                  </div>
-                  <div className="flex gap-2">
-                    <Timer className="h-auto w-4" />
-                    {job.hours}
-                  </div>
+                  {job.location && (
+                    <div className="flex gap-2">
+                      <MapPin className="h-auto w-4" />
+                      {job.location}
+                    </div>
+                  )}
                 </div>
                 <a
                   href={job.link}
