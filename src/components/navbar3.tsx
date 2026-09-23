@@ -214,7 +214,7 @@ const aboutLinks = [
   },
   {
     title: "Career",
-    href: "#",
+    href: "/website/open-positions",
     icon: CalendarClock,
   },
   {
