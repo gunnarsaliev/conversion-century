@@ -78,6 +78,7 @@ export interface Config {
     'job-applicants': JobApplicant;
     'case-studies': CaseStudy;
     industries: Industry;
+    solutions: Solution;
     exports: Export;
     imports: Import;
     'payload-kv': PayloadKv;
@@ -106,6 +107,7 @@ export interface Config {
     'job-applicants': JobApplicantsSelect<false> | JobApplicantsSelect<true>;
     'case-studies': CaseStudiesSelect<false> | CaseStudiesSelect<true>;
     industries: IndustriesSelect<false> | IndustriesSelect<true>;
+    solutions: SolutionsSelect<false> | SolutionsSelect<true>;
     exports: ExportsSelect<false> | ExportsSelect<true>;
     imports: ImportsSelect<false> | ImportsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -701,6 +703,41 @@ export interface CaseStudy {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "solutions".
+ */
+export interface Solution {
+  id: number;
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  image?: (number | null) | Media;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "exports".
  */
 export interface Export {
@@ -933,6 +970,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'industries';
         value: number | Industry;
+      } | null)
+    | ({
+        relationTo: 'solutions';
+        value: number | Solution;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1250,6 +1291,25 @@ export interface IndustriesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "solutions_select".
+ */
+export interface SolutionsSelect<T extends boolean = true> {
+  title?: T;
+  generateSlug?: T;
+  slug?: T;
+  image?: T;
+  description?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "exports_select".
  */
 export interface ExportsSelect<T extends boolean = true> {
@@ -1409,6 +1469,7 @@ export interface TaskCreateCollectionExport {
       | 'job-applicants'
       | 'case-studies'
       | 'industries'
+      | 'solutions'
       | 'exports'
       | 'imports';
     drafts?: ('yes' | 'no') | null;

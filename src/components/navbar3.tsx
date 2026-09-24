@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "motion/react";
 import {
+  ArrowRight,
   Bot,
   Briefcase,
   Building2,
@@ -115,42 +116,42 @@ const platformFeatures = [
 const solutions = [
   {
     title: "Grow Organic Revenue",
-    href: "#",
+    href: "/website/solutions/grow-organic-revenue",
     icon: TrendingUp,
   },
   {
     title: "Enter New Markets",
-    href: "#",
+    href: "/website/solutions/enter-new-markets",
     icon: Compass,
   },
   {
     title: "Recover Lost Traffic",
-    href: "#",
+    href: "/website/solutions/recover-lost-traffic",
     icon: TrendingDown,
   },
   {
     title: "Migrate without losing SEO",
-    href: "#",
+    href: "/website/solutions/migrate-without-losing-seo",
     icon: Map,
   },
   {
     title: "Improve visibility in AI",
-    href: "#",
+    href: "/website/solutions/improve-visibility-in-ai",
     icon: Bot,
   },
   {
     title: "Build an Outsourced SEO Department",
-    href: "#",
+    href: "/website/solutions/build-an-outsourced-seo-department",
     icon: Users,
   },
   {
     title: "Reduce Dependence on Ads",
-    href: "#",
+    href: "/website/solutions/reduce-dependence-on-ads",
     icon: Rocket,
   },
   {
     title: "Launch an SEO-Ready Website",
-    href: "#",
+    href: "/website/solutions/launch-an-seo-ready-website",
     icon: Search,
   },
 ];
@@ -158,32 +159,32 @@ const solutions = [
 const industries = [
   {
     title: "B2B",
-    href: "#",
+    href: "/website/industries/b2b",
     icon: Handshake,
   },
   {
     title: "Ecommerce",
-    href: "#",
+    href: "/website/industries/ecommerce",
     icon: ShoppingCart,
   },
   {
     title: "Professional Services",
-    href: "#",
+    href: "/website/industries/professional-services",
     icon: Briefcase,
   },
   {
     title: "Financial Sector",
-    href: "#",
+    href: "/website/industries/financial-sector",
     icon: Landmark,
   },
   {
     title: "Real Estate",
-    href: "#",
+    href: "/website/industries/real-estate",
     icon: Building2,
   },
   {
     title: "Healthcare",
-    href: "#",
+    href: "/website/industries/healthcare",
     icon: HeartPulse,
   },
 ];
@@ -191,7 +192,7 @@ const industries = [
 const documentationLinks = [
   {
     title: "Clients",
-    href: "#",
+    href: "/website/clients",
     icon: Users,
   },
   {
@@ -426,6 +427,13 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                       </NavigationMenuLink>
                     ))}
                   </div>
+                  <NavigationMenuLink
+                    href="/website/solutions"
+                    className="mt-3 flex w-fit flex-row items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
+                  >
+                    View all solutions
+                    <ArrowRight className="size-3.5" />
+                  </NavigationMenuLink>
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
@@ -453,6 +461,13 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                       </NavigationMenuLink>
                     ))}
                   </div>
+                  <NavigationMenuLink
+                    href="/website/industries"
+                    className="mt-3 flex w-fit flex-row items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
+                  >
+                    See all industries
+                    <ArrowRight className="size-3.5" />
+                  </NavigationMenuLink>
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
@@ -578,7 +593,7 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
 
             <div className="hidden items-center lg:flex">
               <Link href="/website/book-a-consultation">
-                <Button variant="default" size="lg" className="px-6 text-white bg-green-800 py-6 cursor-pointer hover:bg-green-700">
+                <Button variant="default" size="lg" className="px-6 py-6 cursor-pointer bg-yellow-300 hover:bg-yellow-200">
                   Book a Consultation
                 </Button>
               </Link>
@@ -723,6 +738,13 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                                 </div>
                               </a>
                             ))}
+                            <Link
+                              href="/website/solutions"
+                              className="flex w-full items-center gap-x-2 border-t border-border px-8 py-7 text-base font-medium transition-colors hover:bg-muted/30 dark:hover:bg-muted/25"
+                            >
+                              View all solutions
+                              <ArrowRight className="size-4" />
+                            </Link>
                           </div>
                         </>
                       )}
@@ -750,6 +772,13 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                                 </div>
                               </a>
                             ))}
+                            <Link
+                              href="/website/industries"
+                              className="flex w-full items-center gap-x-2 border-t border-border px-8 py-7 text-base font-medium transition-colors hover:bg-muted/30 dark:hover:bg-muted/25"
+                            >
+                              See all industries
+                              <ArrowRight className="size-4" />
+                            </Link>
                           </div>
                         </>
                       )}

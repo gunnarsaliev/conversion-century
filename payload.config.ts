@@ -18,6 +18,7 @@ import { JobListings } from './src/collections/JobListings'
 import { JobApplicants } from './src/collections/JobApplicants'
 import { CaseStudies } from './src/collections/CaseStudies'
 import { Industries } from './src/collections/Industries'
+import { Solutions } from './src/collections/Solutions'
 import { clearUploadedFileAfterProcessing } from './src/utilities/clearUploadedFile'
 
 export default buildConfig({
@@ -35,6 +36,7 @@ export default buildConfig({
     JobApplicants,
     CaseStudies,
     Industries,
+    Solutions,
   ],
 
   plugins: [

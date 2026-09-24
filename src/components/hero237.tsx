@@ -1,6 +1,9 @@
 import React from "react";
 import { cn } from "cn";
 
+import { Link } from "@/i18n/navigation";
+import { Button } from "@/components/ui/button";
+
 import { OrbitingCircles } from "@/components/ui/orbiting-circles";
 
 interface Image {
@@ -15,15 +18,19 @@ interface HeroIntegrationsProps {
   heading: string;
   description: string;
   icons: Image[];
+  cta?: {
+    text: string;
+    href: string;
+  };
 }
 
 type Props = Partial<HeroIntegrationsProps>;
 
 const defaultProps: HeroIntegrationsProps = {
-  kicker: "Just Copy Paste",
-  heading: "Blocks that connect your workflow.",
+  kicker: "Various markets and industries",
+  heading: "Our SEO Clients",
   description:
-    "Connect your favorite tools to to the worlds largest collection of Shadcn blocks and components.",
+    "We have worked with companies operating in more than 42 industries worldwide, thus, gathering knowledge and expertise in various market segments and niches.",
   icons: [
     {
       src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/image-set/placeholder/integrations/airtable-icon.svg",
@@ -103,7 +110,7 @@ const defaultProps: HeroIntegrationsProps = {
 };
 
 const Hero237 = (props: Props) => {
-  const { className, kicker, heading, description, icons } = {
+  const { className, kicker, heading, description, icons, cta } = {
     ...defaultProps,
     ...props,
   };
@@ -132,6 +139,16 @@ const Hero237 = (props: Props) => {
           <p className="max-w-lg text-lg text-muted-foreground">
             {description}
           </p>
+          {cta && (
+            <Button
+              variant="default"
+              nativeButton={false}
+              className="h-fit w-full rounded-lg border-2 border-primary bg-green-800 px-8 py-4 text-lg font-semibold text-white hover:bg-green-700 sm:w-fit"
+              render={<Link href={cta.href} />}
+            >
+              {cta.text}
+            </Button>
+          )}
         </div>
         <div className="relative h-112 lg:w-1/2">
           <div className="relative -left-35 flex h-[1100px] w-[1500px] flex-col items-center justify-center lg:absolute lg:left-0">

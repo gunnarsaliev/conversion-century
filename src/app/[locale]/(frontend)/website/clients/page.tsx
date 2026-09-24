@@ -172,7 +172,10 @@ export default async function ClientsPage() {
     <div className="py-32">
       <div className="container mx-auto mb-12">
       </div>
-      <Hero237 icons={heroLogos} />
+      <Hero237
+        icons={heroLogos}
+        cta={{ text: "Book a Consultation", href: "/website/book-a-consultation" }}
+      />
       <TrustStrip4 />
       <div className="container mx-auto grid max-w-5xl gap-6 py-16 md:grid-cols-2">
         <ChartCard5

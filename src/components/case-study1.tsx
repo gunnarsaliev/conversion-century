@@ -28,6 +28,7 @@ interface CaseStudy1Props {
   client?: {
     name: string;
     logo?: string;
+    industries?: { title: string; href: string }[];
   };
   className?: string;
 }
@@ -119,6 +120,23 @@ const CaseStudy1 = ({
                   <p className="mb-5 text-sm text-muted-foreground">
                     {client.name}
                   </p>
+                  {client.industries && client.industries.length > 0 && (
+                    <>
+                      <p className="mb-1.5 text-sm font-semibold">Industry</p>
+                      <ul className="mb-5 flex flex-wrap gap-x-3 gap-y-1 text-sm">
+                        {client.industries.map((industry) => (
+                          <li key={industry.href}>
+                            <Link
+                              href={industry.href}
+                              className="text-muted-foreground underline underline-offset-4 hover:text-foreground"
+                            >
+                              {industry.title}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
                 </>
               )}
               {(overview || client) && <Separator className="my-5" />}
