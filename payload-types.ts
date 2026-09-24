@@ -341,6 +341,7 @@ export interface Client {
   Publisher?: (number | User)[] | null;
   Copywriter?: (number | User)[] | null;
   services?: (number | Service)[] | null;
+  businessSize?: ('small-business' | 'midmarket' | 'enterprise') | null;
   industries?: (number | Industry)[] | null;
   checklistProgress?: {
     docs?: (number | ClientChecklistProgress)[];
@@ -1043,6 +1044,7 @@ export interface ClientsSelect<T extends boolean = true> {
   Publisher?: T;
   Copywriter?: T;
   services?: T;
+  businessSize?: T;
   industries?: T;
   checklistProgress?: T;
   updatedAt?: T;

@@ -364,6 +364,19 @@ export const Clients: CollectionConfig = {
       },
     },
     {
+      name: 'businessSize',
+      label: 'Business size',
+      type: 'select',
+      options: [
+        { label: 'Small business', value: 'small-business' },
+        { label: 'Midmarket', value: 'midmarket' },
+        { label: 'Enterprise', value: 'enterprise' },
+      ],
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
       name: 'industries',
       type: 'relationship',
       relationTo: 'industries',
