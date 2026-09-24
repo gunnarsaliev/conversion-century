@@ -77,6 +77,7 @@ export interface Config {
     'job-listings': JobListing;
     'job-applicants': JobApplicant;
     'case-studies': CaseStudy;
+    industries: Industry;
     exports: Export;
     imports: Import;
     'payload-kv': PayloadKv;
@@ -104,6 +105,7 @@ export interface Config {
     'job-listings': JobListingsSelect<false> | JobListingsSelect<true>;
     'job-applicants': JobApplicantsSelect<false> | JobApplicantsSelect<true>;
     'case-studies': CaseStudiesSelect<false> | CaseStudiesSelect<true>;
+    industries: IndustriesSelect<false> | IndustriesSelect<true>;
     exports: ExportsSelect<false> | ExportsSelect<true>;
     imports: ImportsSelect<false> | ImportsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -339,6 +341,7 @@ export interface Client {
   Publisher?: (number | User)[] | null;
   Copywriter?: (number | User)[] | null;
   services?: (number | Service)[] | null;
+  industries?: (number | Industry)[] | null;
   checklistProgress?: {
     docs?: (number | ClientChecklistProgress)[];
     hasNextPage?: boolean;
@@ -405,6 +408,41 @@ export interface Service {
         id?: string | null;
       }[]
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "industries".
+ */
+export interface Industry {
+  id: number;
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  image?: (number | null) | Media;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -890,6 +928,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'case-studies';
         value: number | CaseStudy;
+      } | null)
+    | ({
+        relationTo: 'industries';
+        value: number | Industry;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1001,6 +1043,7 @@ export interface ClientsSelect<T extends boolean = true> {
   Publisher?: T;
   Copywriter?: T;
   services?: T;
+  industries?: T;
   checklistProgress?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1186,6 +1229,25 @@ export interface CaseStudiesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "industries_select".
+ */
+export interface IndustriesSelect<T extends boolean = true> {
+  title?: T;
+  generateSlug?: T;
+  slug?: T;
+  image?: T;
+  description?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "exports_select".
  */
 export interface ExportsSelect<T extends boolean = true> {
@@ -1344,6 +1406,7 @@ export interface TaskCreateCollectionExport {
       | 'job-listings'
       | 'job-applicants'
       | 'case-studies'
+      | 'industries'
       | 'exports'
       | 'imports';
     drafts?: ('yes' | 'no') | null;

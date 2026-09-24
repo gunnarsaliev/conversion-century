@@ -364,6 +364,23 @@ export const Clients: CollectionConfig = {
       },
     },
     {
+      name: 'industries',
+      type: 'relationship',
+      relationTo: 'industries',
+      hasMany: true,
+      admin: {
+        position: 'sidebar',
+      },
+      custom: {
+        'plugin-import-export': {
+          hooks: {
+            beforeExport: hasManyRelationshipBeforeExport,
+            beforeImport: hasManyRelationshipBeforeImport,
+          },
+        },
+      },
+    },
+    {
       name: 'checklistProgress',
       type: 'join',
       collection: 'client-checklist-progress',
