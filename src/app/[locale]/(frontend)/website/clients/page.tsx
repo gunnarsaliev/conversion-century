@@ -7,6 +7,8 @@ import type { Industry, Media } from "../../../../../../payload-types";
 import { Hero237 } from "@/components/hero237";
 import { ChartCard5, type ChartCard5Item } from "@/components/chart-card5";
 import { TrustStrip4 } from "@/components/trust-strip4";
+import { Hero104 } from "@/components/hero104";
+import hero104Data from "@/data/hero104.json";
 
 // `fallbackPercent` is shown until clients have a business size set.
 const BUSINESS_SIZES = [
@@ -170,8 +172,7 @@ export default async function ClientsPage() {
 
   return (
     <div className="py-32">
-      <div className="container mx-auto mb-12">
-      </div>
+      <Hero104 {...hero104Data} containerClassName="lg:px-0" />
       <Hero237
         icons={heroLogos}
         cta={{ text: "Book a Consultation", href: "/website/book-a-consultation" }}

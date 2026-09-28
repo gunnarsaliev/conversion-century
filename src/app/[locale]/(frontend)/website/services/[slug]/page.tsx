@@ -9,10 +9,14 @@ import config from "@payload-config";
 
 import { Faq28 } from "@/components/faq28";
 import { Hero104 } from "@/components/hero104";
+import hero104Data from "@/data/hero104.json";
 import { Logos35 } from "@/components/logos35";
 import { Testimonial30 } from "@/components/testimonial30";
 import { findByLocalizedSlug } from "@/utilities/findByLocalizedSlug";
 import type { Media } from "../../../../../../../payload-types";
+import { Hero297 } from "@/components/hero297";
+import { Feature67 } from "@/components/feature67";
+import { Feature99 } from "@/components/feature99";
 
 type ServiceDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -39,6 +43,8 @@ function Paragraphs({ text }: { text?: string | null }) {
     </p>
   ));
 }
+
+
 
 function CheckList({ items }: { items?: ListItem[] | null }) {
   if (!items?.length) return null;
@@ -158,6 +164,8 @@ export default async function ServiceDetailPage({
         heading={hero?.heading || service.name}
         description={hero?.description ?? undefined}
         highlights={hero?.highlights?.map((h) => h.text)}
+        avatars={hero104Data.avatars}
+        socialProof={hero104Data.socialProof}
         image={
           image?.url
             ? { src: image.url, alt: image.alt ?? service.name }
@@ -165,23 +173,21 @@ export default async function ServiceDetailPage({
         }
       />
 
+      {partnership?.heading && (
+        <Hero297
+          badge={
+            partnership.eyebrow ? { text: partnership.eyebrow } : undefined
+          }
+          heading={partnership.heading}
+          description={partnership.paragraphs ?? ""}
+        />
+      )}
+
       <Logos35 logos={clientLogos.length > 0 ? clientLogos : undefined} />
-
+<Feature67 />   
       <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
-        {partnership?.heading && (
-          <section>
-            {partnership.eyebrow && (
-              <span className="text-xs font-semibold tracking-[0.18em] text-muted-foreground uppercase">
-                {partnership.eyebrow}
-              </span>
-            )}
-            <SectionHeading>{partnership.heading}</SectionHeading>
-            <Paragraphs text={partnership.paragraphs} />
-          </section>
-        )}
-
         {whatIs?.heading && (
-          <section className="mt-24">
+          <section>
             <SectionHeading>{whatIs.heading}</SectionHeading>
             <Paragraphs text={whatIs.paragraphs} />
           </section>
@@ -210,33 +216,17 @@ export default async function ServiceDetailPage({
         )}
 
         <HeadingListSection section={service.priorities} />
+      </div>
 
-        {process?.heading && (
-          <section className="mt-24">
-            <SectionHeading>{process.heading}</SectionHeading>
-            <ol className="mt-8 flex flex-col gap-6">
-              {process.steps?.map((step, i) => (
-                <li key={step.id ?? i} className="flex gap-4">
-                  <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary/10 font-semibold text-primary">
-                    {i + 1}
-                  </span>
-                  <div>
-                    <h3 className="font-semibold">{step.title}</h3>
-                    {step.description && (
-                      <p className="mt-1 text-muted-foreground">
-                        {step.description}
-                      </p>
-                    )}
-                  </div>
-                </li>
-              ))}
-            </ol>
-            {process.note && (
-              <p className="mt-8 text-muted-foreground">{process.note}</p>
-            )}
-          </section>
-        )}
+      {process?.heading && process.steps && process.steps.length > 0 && (
+        <Feature99
+          heading={process.heading}
+          steps={process.steps}
+          note={process.note}
+        />
+      )}
 
+      <div className="mx-auto max-w-4xl px-4 pb-16 sm:px-6 lg:px-8">
         {(fit?.rightChoice?.heading || fit?.notRight?.heading) && (
           <section className="mt-24 grid grid-cols-1 gap-6 md:grid-cols-2">
             {fit.rightChoice?.heading && (

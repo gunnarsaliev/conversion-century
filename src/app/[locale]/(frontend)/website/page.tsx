@@ -3,6 +3,7 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 
 import { Hero104 } from "@/components/hero104";
+import hero104Data from "@/data/hero104.json";
 import { Logos35 } from "@/components/logos35";
 import type { Media, User } from "../../../../../payload-types";
 import { Feature13 } from "@/components/feature13";
@@ -122,7 +123,7 @@ export default async function WebsitePage() {
 
   return (
     <div>
-      <Hero104 />
+      <Hero104 {...hero104Data} />
       <Logos35 logos={clientLogos.length > 0 ? clientLogos : undefined} />
       <Hero262 />      
       <Feature278 />
