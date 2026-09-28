@@ -254,6 +254,9 @@ export interface Client {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Looker Studio (Data Studio) report links are embedded on the client dashboard page. Make sure the report is shared and embedding is enabled (File → Embed report).
+   */
   reportUrls?:
     | {
         url?: string | null;
@@ -361,56 +364,151 @@ export interface Service {
   id: number;
   name: string;
   /**
-   * Leave blank to auto-generate from the name (Cyrillic is transliterated to Latin characters).
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
    */
-  slug?: string | null;
-  shortDescription?: string | null;
+  generateSlug?: boolean | null;
+  slug: string;
   image?: (number | null) | Media;
-  price?: number | null;
-  about?:
-    | {
-        name?: string | null;
-        icon?: string | null;
-        description?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  description?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
+  hero?: {
+    eyebrow?: string | null;
+    heading?: string | null;
+    description?: string | null;
+    highlights?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  partnership?: {
+    eyebrow?: string | null;
+    heading?: string | null;
+    /**
+     * Separate paragraphs with a blank line.
+     */
+    paragraphs?: string | null;
+  };
+  whatIs?: {
+    heading?: string | null;
+    /**
+     * Separate paragraphs with a blank line.
+     */
+    paragraphs?: string | null;
+  };
+  includes?: {
+    heading?: string | null;
+    description?: string | null;
+    items?:
+      | {
+          title: string;
+          /**
+           * Separate paragraphs with a blank line.
+           */
+          paragraphs?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  priorities?: {
+    heading?: string | null;
+    /**
+     * Separate paragraphs with a blank line.
+     */
+    paragraphs?: string | null;
+    listIntro?: string | null;
+    list?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  process?: {
+    heading?: string | null;
+    steps?:
+      | {
+          title: string;
+          description?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    note?: string | null;
+  };
+  fit?: {
+    rightChoice?: {
+      heading?: string | null;
+      listIntro?: string | null;
+      list?:
+        | {
+            text: string;
+            id?: string | null;
+          }[]
+        | null;
     };
-    [k: string]: unknown;
-  } | null;
-  includes?:
-    | {
-        name?: string | null;
-        description?: {
-          root: {
-            type: string;
-            children: {
-              type: any;
-              version: number;
-              [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        } | null;
-        id?: string | null;
-      }[]
-    | null;
+    notRight?: {
+      heading?: string | null;
+      /**
+       * Separate paragraphs with a blank line.
+       */
+      paragraphs?: string | null;
+      cta?: {
+        label?: string | null;
+        href?: string | null;
+      };
+    };
+  };
+  whyUs?: {
+    heading?: string | null;
+    items?:
+      | {
+          title: string;
+          description?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  measurement?: {
+    heading?: string | null;
+    /**
+     * Separate paragraphs with a blank line.
+     */
+    paragraphs?: string | null;
+    listIntro?: string | null;
+    list?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  teamExtension?: {
+    heading?: string | null;
+    /**
+     * Separate paragraphs with a blank line.
+     */
+    paragraphs?: string | null;
+    listIntro?: string | null;
+    list?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  faq?: {
+    heading?: string | null;
+    items?:
+      | {
+          question: string;
+          answer: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -1097,25 +1195,157 @@ export interface ClientsSelect<T extends boolean = true> {
  */
 export interface ServicesSelect<T extends boolean = true> {
   name?: T;
+  generateSlug?: T;
   slug?: T;
-  shortDescription?: T;
   image?: T;
-  price?: T;
-  about?:
+  hero?:
     | T
     | {
-        name?: T;
-        icon?: T;
+        eyebrow?: T;
+        heading?: T;
         description?: T;
-        id?: T;
+        highlights?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
       };
-  description?: T;
+  partnership?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+        paragraphs?: T;
+      };
+  whatIs?:
+    | T
+    | {
+        heading?: T;
+        paragraphs?: T;
+      };
   includes?:
     | T
     | {
-        name?: T;
+        heading?: T;
         description?: T;
-        id?: T;
+        items?:
+          | T
+          | {
+              title?: T;
+              paragraphs?: T;
+              id?: T;
+            };
+      };
+  priorities?:
+    | T
+    | {
+        heading?: T;
+        paragraphs?: T;
+        listIntro?: T;
+        list?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+      };
+  process?:
+    | T
+    | {
+        heading?: T;
+        steps?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              id?: T;
+            };
+        note?: T;
+      };
+  fit?:
+    | T
+    | {
+        rightChoice?:
+          | T
+          | {
+              heading?: T;
+              listIntro?: T;
+              list?:
+                | T
+                | {
+                    text?: T;
+                    id?: T;
+                  };
+            };
+        notRight?:
+          | T
+          | {
+              heading?: T;
+              paragraphs?: T;
+              cta?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                  };
+            };
+      };
+  whyUs?:
+    | T
+    | {
+        heading?: T;
+        items?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              id?: T;
+            };
+      };
+  measurement?:
+    | T
+    | {
+        heading?: T;
+        paragraphs?: T;
+        listIntro?: T;
+        list?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+      };
+  teamExtension?:
+    | T
+    | {
+        heading?: T;
+        paragraphs?: T;
+        listIntro?: T;
+        list?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+      };
+  faq?:
+    | T
+    | {
+        heading?: T;
+        items?:
+          | T
+          | {
+              question?: T;
+              answer?: T;
+              id?: T;
+            };
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
       };
   updatedAt?: T;
   createdAt?: T;

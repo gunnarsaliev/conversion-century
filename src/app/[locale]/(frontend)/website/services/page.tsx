@@ -69,9 +69,9 @@ export default async function ServicesPage() {
                     <CardTitle className="text-lg">{service.name}</CardTitle>
                   </CardHeader>
                   <CardContent className="flex flex-1 flex-col justify-between gap-4">
-                    {service.shortDescription && (
+                    {service.hero?.description && (
                       <p className="text-sm text-muted-foreground">
-                        {service.shortDescription}
+                        {service.hero?.description}
                       </p>
                     )}
                     <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">

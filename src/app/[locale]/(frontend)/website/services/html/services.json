@@ -1,0 +1,317 @@
+[
+  {
+    "slug": "ongoing-seo-management",
+    "name": "Ongoing SEO Management",
+    "breadcrumbs": [
+      { "label": "Home", "href": "/website" },
+      { "label": "Services", "href": "/website/services" },
+      { "label": "Ongoing SEO Management" }
+    ],
+    "hero": {
+      "eyebrow": "Ongoing SEO Management",
+      "heading": "Ongoing SEO Management",
+      "description": "Conversion Century provides complete ongoing SEO management across strategy, technical performance, content, authority and AI-powered search. We become an active part of your team, implement the work and continuously adapt the strategy as your business, market and customers evolve.",
+      "primaryCta": { "label": "Discuss Your SEO Goals", "href": "/website/book-a-consultation" },
+      "secondaryCta": { "label": "Explore Our Results", "href": "/website/case-studies" },
+      "highlights": [
+        "Established in 2016",
+        "Client relationships lasting 7+ years",
+        "International experience"
+      ],
+      "image": { "src": "assets/handshake.png", "alt": "" }
+    },
+    "partnership": {
+      "eyebrow": "More Than a Monthly SEO Retainer",
+      "heading": "A Long-Term Organic Growth Partnership",
+      "paragraphs": [
+        "Our approach is different.",
+        "Many SEO retainers are built around repeating the same activities every month. Reports are delivered, tasks are completed and the strategy remains unchanged even when the business and search landscape have moved forward.",
+        "We begin by understanding your business, customers, website and commercial priorities. From there, we create a focused roadmap and continuously decide what will make the greatest difference next.",
+        "One month, the priority may be resolving a technical indexing problem. The next may focus on a new service, important category, international market or content opportunity. When customer behaviour, competitors or search technologies change, we adjust the strategy accordingly.",
+        "Our role is not simply to keep your SEO account active. It is to keep your organic growth moving forward."
+      ]
+    },
+    "whatIs": {
+      "heading": "What Is Ongoing SEO Management?",
+      "paragraphs": [
+        "Ongoing SEO management brings the different parts of organic search into one coordinated monthly strategy. Instead of hiring separate providers for research, technical SEO, content, optimisation and reporting, you work with a dedicated team that understands how each activity supports the wider business objective.",
+        "The service combines strategic direction with hands-on implementation. We investigate opportunities, set priorities, complete the agreed work, measure its effect and refine the roadmap using new data.",
+        "It is designed for businesses that want SEO to become a dependable long-term growth channel rather than a series of disconnected projects."
+      ]
+    },
+    "includes": {
+      "heading": "What Our Ongoing SEO Management Includes?",
+      "description": "The exact combination of activities is tailored to your website and objectives. Priorities may change throughout the partnership, but the work is coordinated across the following areas.",
+      "items": [
+        {
+          "title": "SEO Strategy and Prioritised Roadmap",
+          "paragraphs": [
+            "We connect search opportunities with your commercial objectives and turn them into a realistic plan. The roadmap is prioritised by expected impact, urgency, required resources and relevance to the business.",
+            "It is continuously reviewed. Not created once and forgotten."
+          ]
+        },
+        {
+          "title": "Keyword and Search-Demand Research",
+          "paragraphs": [
+            "We identify how potential customers search, which topics influence their decisions and where meaningful opportunities exist across the buying journey.",
+            "Research may cover products, services, informational needs, locations, industries, competitors and emerging AI-search behaviour."
+          ]
+        },
+        {
+          "title": "Competitor and Market Monitoring",
+          "paragraphs": [
+            "We monitor more than rankings. We analyse how competitors structure their websites, develop content, acquire authority, enter new markets and respond to changes in customer demand.",
+            "This helps us identify both immediate opportunities and risks that may affect future performance."
+          ]
+        },
+        {
+          "title": "Technical SEO Monitoring and Improvement",
+          "paragraphs": [
+            "We continuously review the technical foundations that influence crawling, indexing, performance and organic visibility.",
+            "Depending on the website, this may include indexation, internal linking, redirects, canonicalisation, structured data, Core Web Vitals, duplicate content, and website architecture."
+          ]
+        },
+        {
+          "title": "On-Page SEO",
+          "paragraphs": [
+            "We improve the relevance, structure and performance of priority pages. This may include headings, metadata, copy, internal links, search intent, media, calls to action and the relationship between pages.",
+            "Optimisation is guided by data and user needs. Not mechanical keyword insertion."
+          ]
+        },
+        {
+          "title": "Content Strategy and Optimisation",
+          "paragraphs": [
+            "We identify the content your audience needs and create a plan that supports both discovery and conversion.",
+            "The work can include content briefs, new landing pages, expert articles, content refreshes, topic clusters and the consolidation of competing or outdated pages. Content is developed for people while remaining accessible to traditional and AI-powered search."
+          ]
+        },
+        {
+          "title": "AI Search Visibility",
+          "paragraphs": [
+            "We evaluate how your business is represented across AI-powered discovery and identify opportunities to strengthen the content, entities, authority and brand signals influencing visibility.",
+            "AI search is integrated into the wider organic strategy rather than treated as an isolated trend or short-term tactic."
+          ]
+        },
+        {
+          "title": "Authority and Link Profile Development",
+          "paragraphs": [
+            "We evaluate your existing link profile and identify relevant opportunities to strengthen authority through digital PR, industry publications, editorial links and trusted brand mentions.",
+            "Link building is planned separately where publication and outreach budgets are required. We focus on relevance, quality and long-term value."
+          ]
+        },
+        {
+          "title": "Reporting and Performance Measurement",
+          "paragraphs": [
+            "We report on progress clearly and explain what the data means for your business. Measurement may include qualified organic traffic, commercial keyword visibility, conversions, leads, revenue, landing-page performance, authority and AI-search referrals or mentions.",
+            "Reporting is used to guide the next decisions."
+          ]
+        },
+        {
+          "title": "Coordination and Implementation Support",
+          "paragraphs": [
+            "SEO often involves developers, writers, designers, marketing teams and other agencies. We coordinate closely with everyone involved, provide clear requirements and support implementation through to completion.",
+            "Where the work is within our expertise and access, we can implement it directly."
+          ]
+        }
+      ]
+    },
+    "priorities": {
+      "heading": "SEO Priorities Built Around Your Business",
+      "paragraphs": [
+        "There is no universal package that makes sense for every website.",
+        "An e-commerce business may need category optimisation, product discovery and technical scalability. A B2B company may need to build authority across a longer decision-making journey. A financial or healthcare organisation may require expert-led content, stronger trust signals and careful quality control. A company entering a new country may need market research, localisation and international technical implementation."
+      ],
+      "listIntro": "We consider:",
+      "list": [
+        "Your business model and commercial objectives",
+        "Your most profitable products or services",
+        "Your audience and customer journey",
+        "Current website performance and limitations",
+        "Available development and content resources",
+        "Competitor activity and market conditions",
+        "Industry regulation and seasonality",
+        "International growth plans",
+        "Changes across traditional and AI-powered search"
+      ]
+    },
+    "process": {
+      "heading": "What the First Months Usually Look Like?",
+      "steps": [
+        {
+          "title": "Understand and Evaluate",
+          "description": "We begin with your objectives, website history, previous SEO activity, audience, market and internal resources. We establish what success should mean and whether SEO is the right investment for the business."
+        },
+        {
+          "title": "Establish the Baseline",
+          "description": "We analyse technical health, content, rankings, organic traffic, conversions, competitors, authority and current AI-search visibility where relevant."
+        },
+        {
+          "title": "Build the Roadmap",
+          "description": "We prioritise opportunities and problems according to their potential business impact, urgency and implementation requirements."
+        },
+        {
+          "title": "Start With the Highest-Impact Work",
+          "description": "We begin implementation rather than waiting for every possible analysis to be completed. Critical issues and meaningful opportunities move first."
+        },
+        {
+          "title": "Measure, Learn and Adapt",
+          "description": "As results and new data emerge, we refine the roadmap. SEO becomes an ongoing cycle of implementation, measurement and improvement."
+        }
+      ],
+      "note": "The exact order depends on the website. A migration, traffic decline or serious technical issue may require a different first-stage priority."
+    },
+    "fit": {
+      "rightChoice": {
+        "heading": "When Ongoing SEO Management Is the Right Choice?",
+        "listIntro": "This service may be a strong fit if:",
+        "list": [
+          "You want organic search to become a long-term growth channel.",
+          "Your website has opportunities but lacks a clear SEO roadmap.",
+          "You need both strategic direction and implementation support.",
+          "Your internal team needs experienced SEO leadership.",
+          "Your business is entering new services, categories or markets.",
+          "Your organic performance has slowed or become inconsistent.",
+          "You need to adapt your strategy for AI-powered search.",
+          "You want to reduce long-term dependence on paid acquisition.",
+          "You value transparent communication and active collaboration."
+        ]
+      },
+      "notRight": {
+        "heading": "When It May Not Be the Right Service?",
+        "paragraphs": [
+          "Ongoing SEO management may not be appropriate if you need immediate results within a few days, want guaranteed rankings or are looking for aggressive shortcuts that put the website at risk.",
+          "It may also be unnecessary if your business currently has a more urgent problem that another marketing channel can solve better.",
+          "That is why every potential partnership begins with an honest consultation. We evaluate whether SEO can create meaningful value before recommending an ongoing engagement."
+        ],
+        "cta": { "label": "Book an Initial Consultation", "href": "/website/book-a-consultation" }
+      }
+    },
+    "whyUs": {
+      "heading": "Why Work With Conversion Century?",
+      "items": [
+        {
+          "title": "Priorities That Evolve",
+          "description": "We continuously adjust the roadmap around new data, business needs and search developments."
+        },
+        {
+          "title": "Strategy and Implementation",
+          "description": "We identify what needs to happen, complete the work and follow it through to results."
+        },
+        {
+          "title": "Senior Specialists Involved",
+          "description": "Your ongoing strategy is managed directly by experienced SEO and content specialists."
+        },
+        {
+          "title": "Complete Organic Support",
+          "description": "Technical SEO, content, AI visibility, authority and reporting work together under one strategy."
+        },
+        {
+          "title": "Proactive SEO Management",
+          "description": "We monitor performance, investigate changes and identify opportunities before they become urgent."
+        },
+        {
+          "title": "Transparent Measurement",
+          "description": "You receive clear reporting that connects completed work with organic and business performance."
+        }
+      ]
+    },
+    "clients": {
+      "heading": "Trusted by Growing Businesses and Established Brands",
+      "names": ["KBC", "Allianz", "TradingView", "Pluxee", "Forton", "Walltopia", "DPD"],
+      "cta": { "label": "See all our clients", "href": "/website/clients" }
+    },
+    "measurement": {
+      "heading": "How We Measure Success?",
+      "paragraphs": [
+        "There is no single metric that defines SEO success for every business. Before the work begins, we agree on the outcomes that matter and establish an appropriate measurement framework.",
+        "We report honestly. SEO performance rarely moves in a perfectly straight line, so we explain changes, investigate setbacks and revise the strategy when necessary."
+      ],
+      "listIntro": "Depending on your objectives, we may monitor:",
+      "list": [
+        "Qualified organic traffic",
+        "Non-branded search visibility",
+        "Rankings for commercially important searches",
+        "Leads, enquiries or booked consultations",
+        "Online sales and organic revenue",
+        "Assisted conversions",
+        "Visibility by product, service, market or location",
+        "New pages and opportunities gaining traction",
+        "Website authority and relevant brand mentions",
+        "AI-search referrals, mentions and citations",
+        "Reduced reliance on paid acquisition"
+      ]
+    },
+    "teamExtension": {
+      "heading": "Working as an Extension of Your Team",
+      "paragraphs": [
+        "Successful SEO cannot operate separately from the rest of the business.",
+        "We communicate requirements clearly, respect existing responsibilities and remain focused on the shared objective. Our job is not to compete for control—it is to help everyone involved make stronger decisions for the website and business."
+      ],
+      "listIntro": "We can work alongside your:",
+      "list": [
+        "Marketing and content teams",
+        "Developers and technical partners",
+        "Designers and UX specialists",
+        "Public relations team",
+        "Paid-media agency",
+        "Product and sales departments",
+        "Management and leadership team"
+      ]
+    },
+    "faq": {
+      "heading": "Frequently Asked Questions",
+      "items": [
+        {
+          "question": "What is included in ongoing SEO management?",
+          "answer": "The service may include strategy, keyword and competitor research, technical SEO, on-page optimisation, content planning, performance monitoring, reporting, AI-search visibility and implementation support. The exact priorities depend on your website, market and objectives."
+        },
+        {
+          "question": "Is content writing included?",
+          "answer": "Content planning and optimisation can form part of the ongoing strategy. The required volume of new writing, localisation or expert review is agreed according to your needs and resources."
+        },
+        {
+          "question": "Is link building included?",
+          "answer": "Link-profile analysis and authority strategy may be included. Publisher fees, extensive outreach, digital PR campaigns and article production are normally planned separately so that the budget and quality criteria remain transparent."
+        },
+        {
+          "question": "Will you implement the recommendations?",
+          "answer": "Where possible, yes. We can implement many content and on-page improvements directly and collaborate closely with your developers on technical changes. Responsibilities and access are agreed at the beginning of the partnership."
+        },
+        {
+          "question": "How long does SEO take to show results?",
+          "answer": "The timeframe depends on the website’s history, competition, technical condition, available resources and type of opportunity. Some improvements can produce early movement, while meaningful growth in competitive markets generally requires consistent work over several months."
+        },
+        {
+          "question": "Do you guarantee first-position rankings?",
+          "answer": "No responsible SEO agency can control or guarantee a specific ranking. We provide evidence-led strategies, transparent implementation and clear measurement, but search engines ultimately determine their results."
+        },
+        {
+          "question": "Do you also optimise for AI search?",
+          "answer": "Yes. We consider AI-powered discovery as part of the wider organic ecosystem. Where relevant, we analyse and strengthen the content, authority, brand and entity signals that influence visibility across AI-search experiences."
+        },
+        {
+          "question": "Can you work with our internal team or other agencies?",
+          "answer": "Yes. We regularly collaborate with internal teams, developers and specialist agencies. Clear communication and shared responsibilities are essential parts of the service."
+        },
+        {
+          "question": "Can we begin with an SEO audit?",
+          "answer": "Yes. For some businesses, a standalone SEO audit is the right first step. It establishes the current position, identifies priorities and helps both teams determine whether ongoing management is required."
+        }
+      ]
+    },
+    "consultation": {
+      "heading": "Let’s Find Out Whether SEO Is the Right Next Step",
+      "description": "Every potential partnership begins with an honest conversation. We will learn about your business, review your current position and explore whether organic search can support your goals.",
+      "cta": { "label": "Book an Initial Consultation", "href": "/website/book-a-consultation" },
+      "nextSteps": {
+        "heading": "What happens next?",
+        "steps": [
+          "You tell us about your business, website and objectives.",
+          "We review whether the project fits our expertise and approach.",
+          "We arrange a consultation with a senior member of the team.",
+          "If there is a strong mutual fit, we prepare the recommended next steps."
+        ]
+      }
+    }
+  }
+]

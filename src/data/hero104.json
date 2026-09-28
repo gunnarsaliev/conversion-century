@@ -1,0 +1,30 @@
+{
+  "heading": "AI Search Optimization",
+  "description": "Conversion Century helps ambitious businesses grow across Google, AI-powered search and international markets through sustainable SEO strategies tailored to their goals.",
+  "secondaryDescription": "We combine strategic thinking, technical expertise, quality content and digital authority with something just as important: genuine commitment to every client’s success.",
+  "primaryCta": {
+    "label": "Discuss Your Growth Goals",
+    "href": "/website/book-a-consultation"
+  },
+  "secondaryCta": {
+    "label": "Explore Our Results",
+    "href": "#"
+  },
+  "avatars": [
+    { "src": "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/bld.png", "alt": "Customer avatar" },
+    { "src": "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/bozov-stil-400x300.png", "alt": "Customer avatar" },
+    { "src": "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/adellaclinic.svg", "alt": "Customer avatar" },
+    { "src": "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/lg-logo-1.png", "alt": "Customer avatar" },
+    { "src": "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/Speedy.png", "alt": "Customer avatar" }
+  ],
+  "socialProof": "Trusted by 100+ businesses worldwide",
+  "highlights": [
+    "Established in 2016",
+    "Client relationships lasting 7+ years",
+    "International experience"
+  ],
+  "image": {
+    "src": "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/mascot-rocket.png",
+    "alt": ""
+  }
+}

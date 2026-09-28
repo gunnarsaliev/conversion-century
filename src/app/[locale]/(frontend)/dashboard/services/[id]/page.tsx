@@ -2,7 +2,6 @@ import {
   Bell,
   Building2,
   ChevronRight,
-  Euro,
   LayoutDashboard,
   Search,
 } from "lucide-react";
@@ -11,7 +10,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPayload } from "payload";
 import config from "@payload-config";
-import { RichText } from "@payloadcms/richtext-lexical/react";
 
 import { ClientLogo } from "@/components/dashboard/client-logo";
 import { Badge } from "@/components/ui/badge";
@@ -120,18 +118,12 @@ export default async function ServicePage({ params }: ServicePageProps) {
               </div>
               <div className="flex-1 space-y-1">
                 <h1 className="text-2xl font-bold">{service.name}</h1>
-                {service.shortDescription && (
+                {service.hero?.description && (
                   <p className="text-muted-foreground">
-                    {service.shortDescription}
+                    {service.hero?.description}
                   </p>
                 )}
               </div>
-              {typeof service.price === "number" && (
-                <Badge className="gap-1 bg-primary/10 text-primary">
-                  <Euro className="size-3.5" aria-hidden="true" />
-                  {service.price}
-                </Badge>
-              )}
             </div>
           </CardContent>
         </Card>
@@ -161,10 +153,10 @@ export default async function ServicePage({ params }: ServicePageProps) {
               <CardTitle>About</CardTitle>
             </CardHeader>
             <CardContent>
-              {service.description ? (
-                <div className="prose prose-sm dark:prose-invert max-w-none">
-                  <RichText data={service.description} />
-                </div>
+              {service.whatIs?.paragraphs ? (
+                <p className="text-sm whitespace-pre-line text-muted-foreground">
+                  {service.whatIs.paragraphs}
+                </p>
               ) : (
                 <p className="text-sm text-muted-foreground">
                   No description yet.
@@ -173,53 +165,38 @@ export default async function ServicePage({ params }: ServicePageProps) {
             </CardContent>
           </Card>
 
-          {service.about && service.about.length > 0 && (
+          {service.hero?.highlights && service.hero.highlights.length > 0 && (
             <Card>
               <CardHeader>
                 <CardTitle>Highlights</CardTitle>
               </CardHeader>
-              <CardContent className="grid gap-4 sm:grid-cols-2">
-                {service.about.map((entry, index) => (
-                  <div key={entry.id ?? index} className="flex gap-3">
-                    {entry.icon && (
-                      <Badge
-                        variant="outline"
-                        className="h-fit shrink-0 font-normal text-muted-foreground"
-                      >
-                        {entry.icon}
-                      </Badge>
-                    )}
-                    <div className="space-y-0.5">
-                      {entry.name && (
-                        <p className="text-sm font-medium">{entry.name}</p>
-                      )}
-                      {entry.description && (
-                        <p className="text-sm text-muted-foreground">
-                          {entry.description}
-                        </p>
-                      )}
-                    </div>
-                  </div>
+              <CardContent className="flex flex-wrap gap-2">
+                {service.hero.highlights.map((entry, index) => (
+                  <Badge
+                    key={entry.id ?? index}
+                    variant="outline"
+                    className="font-normal text-muted-foreground"
+                  >
+                    {entry.text}
+                  </Badge>
                 ))}
               </CardContent>
             </Card>
           )}
 
-          {service.includes && service.includes.length > 0 && (
+          {service.includes?.items && service.includes.items.length > 0 && (
             <Card>
               <CardHeader>
                 <CardTitle>What&apos;s Included</CardTitle>
               </CardHeader>
               <CardContent className="flex flex-col gap-4">
-                {service.includes.map((entry, index) => (
+                {service.includes.items.map((entry, index) => (
                   <div key={entry.id ?? index}>
-                    {entry.name && (
-                      <p className="text-sm font-medium">{entry.name}</p>
-                    )}
-                    {entry.description && (
-                      <div className="prose prose-sm dark:prose-invert max-w-none">
-                        <RichText data={entry.description} />
-                      </div>
+                    <p className="text-sm font-medium">{entry.title}</p>
+                    {entry.paragraphs && (
+                      <p className="text-sm whitespace-pre-line text-muted-foreground">
+                        {entry.paragraphs}
+                      </p>
                     )}
                   </div>
                 ))}
