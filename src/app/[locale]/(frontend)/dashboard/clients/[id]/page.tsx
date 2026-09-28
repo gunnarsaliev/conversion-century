@@ -22,6 +22,7 @@ import { ChecklistItemCheckbox } from "@/components/dashboard/checklist-item-che
 import { ChecklistProgressChart } from "@/components/dashboard/checklist-progress-chart";
 import { ClientLogo } from "@/components/dashboard/client-logo";
 import { ServicesCountChart } from "@/components/dashboard/services-count-chart";
+import { toLookerStudioEmbedUrl } from "@/lib/looker-studio";
 import { regionLabel } from "@/lib/regions";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -230,6 +231,11 @@ export default async function ClientPage({ params }: ClientPageProps) {
     client.logo && typeof client.logo === "object" ? client.logo : null;
 
   const websiteLinks = client.websiteLinks ?? [];
+
+  const embeddedReports = (client.reportUrls ?? []).flatMap((link, index) => {
+    const embedUrl = toLookerStudioEmbedUrl(link.url);
+    return embedUrl ? [{ key: link.id ?? index, embedUrl }] : [];
+  });
 
   return (
     <>
@@ -647,6 +653,33 @@ export default async function ClientPage({ params }: ClientPageProps) {
           ) : null}
         </div>
       </div>
+
+      {embeddedReports.length > 0 && (
+        <div className="mt-4 flex flex-col gap-4 sm:mt-6 sm:gap-6">
+          {embeddedReports.map((report, index) => (
+            <Card key={report.key}>
+              <CardHeader>
+                <CardTitle>
+                  Report
+                  {embeddedReports.length > 1 ? ` ${index + 1}` : ""}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <iframe
+                  src={report.embedUrl}
+                  title={`${client.companyName} report${
+                    embeddedReports.length > 1 ? ` ${index + 1}` : ""
+                  }`}
+                  className="h-[1500px] w-full rounded-md border-0"
+                  loading="lazy"
+                  allowFullScreen
+                  sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+                />
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
     </>
   );
 }

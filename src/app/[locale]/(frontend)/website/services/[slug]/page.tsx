@@ -6,7 +6,11 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 
-import { Button } from "@/components/ui/button";
+import { Faq28 } from "@/components/faq28";
+import { Logos35 } from "@/components/logos35";
+import { Testimonial30 } from "@/components/testimonial30";
+import type { Media } from "../../../../../../../payload-types";
+import { Hero104 } from "@/components/hero104";
 
 type ServiceDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -35,6 +39,26 @@ export default async function ServiceDetailPage({
 
   const image =
     service.image && typeof service.image === "object" ? service.image : null;
+
+  const { docs: clients } = await payload.find({
+    collection: "clients",
+    where: {
+      showOnWebsite: { equals: true },
+      logo: { exists: true },
+    },
+    depth: 1,
+    limit: 50,
+  });
+
+  const clientLogos = clients
+    .filter(
+      (client): client is typeof client & { logo: Media } =>
+        typeof client.logo === "object" && client.logo !== null && !!client.logo.url,
+    )
+    .map((client) => ({
+      name: client.companyName,
+      src: client.logo.url as string,
+    }));
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
@@ -89,6 +113,12 @@ export default async function ServiceDetailPage({
           <RichText data={service.description} />
         </div>
       )}
+
+
+<Hero104 />
+      <Logos35 logos={clientLogos.length > 0 ? clientLogos : undefined} />
+      <Testimonial30 />
+      <Faq28 />
 
       {service.includes && service.includes.length > 0 && (
         <div className="mt-16">

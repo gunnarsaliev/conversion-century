@@ -196,6 +196,10 @@ export const Clients: CollectionConfig = {
     {
       name: 'reportUrls',
       type: 'array',
+      admin: {
+        description:
+          'Looker Studio (Data Studio) report links are embedded on the client dashboard page. Make sure the report is shared and embedding is enabled (File → Embed report).',
+      },
       fields: [
         {
           name: 'url',

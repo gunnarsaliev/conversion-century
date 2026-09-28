@@ -14,23 +14,23 @@ const MAX_AVATARS = 5;
 
 const proofAvatars = [
   {
-    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-1.webp",
+    src: "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/bld.png",
     alt: "Customer avatar",
   },
   {
-    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-2.webp",
+    src: "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/bozov-stil-400x300.png",
     alt: "Customer avatar",
   },
   {
-    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-3.webp",
+    src: "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/adellaclinic.svg",
     alt: "Customer avatar",
   },
   {
-    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-4.webp",
+    src: "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/lg-logo-1.png",
     alt: "Customer avatar",
   },
   {
-    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-5.webp",
+    src: "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/Speedy.png",
     alt: "Customer avatar",
   },
 ];
