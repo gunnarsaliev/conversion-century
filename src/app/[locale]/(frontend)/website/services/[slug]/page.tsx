@@ -17,6 +17,8 @@ import type { Media } from "../../../../../../../payload-types";
 import { Hero297 } from "@/components/hero297";
 import { Feature67 } from "@/components/feature67";
 import { Feature99 } from "@/components/feature99";
+import { Feature18 } from "@/components/feature18";
+import { RightChoice } from "@/components/right-choice";
 
 type ServiceDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -184,37 +186,25 @@ export default async function ServiceDetailPage({
       )}
 
       <Logos35 logos={clientLogos.length > 0 ? clientLogos : undefined} />
-<Feature67 />   
+      {whatIs?.heading && (
+        <Hero297
+          heading={whatIs.heading}
+          description={whatIs.paragraphs ?? ""}
+        />
+      )}
+
+      {includes?.heading && includes.items && includes.items.length > 0 && (
+        <Feature18
+          heading={includes.heading}
+          description={includes.description}
+          features={includes.items.map((item) => ({
+            title: item.title,
+            description: item.paragraphs,
+          }))}
+        />
+      )}
+
       <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
-        {whatIs?.heading && (
-          <section>
-            <SectionHeading>{whatIs.heading}</SectionHeading>
-            <Paragraphs text={whatIs.paragraphs} />
-          </section>
-        )}
-
-        {includes?.heading && (
-          <section className="mt-24">
-            <SectionHeading>{includes.heading}</SectionHeading>
-            {includes.description && (
-              <p className="mt-4 text-muted-foreground">
-                {includes.description}
-              </p>
-            )}
-            <div className="mt-8 flex flex-col gap-8">
-              {includes.items?.map((item, i) => (
-                <div key={item.id ?? i} className="flex gap-3">
-                  <Check className="mt-1 size-5 shrink-0 text-primary" />
-                  <div>
-                    <h3 className="font-semibold">{item.title}</h3>
-                    <Paragraphs text={item.paragraphs} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
         <HeadingListSection section={service.priorities} />
       </div>
 
@@ -226,38 +216,20 @@ export default async function ServiceDetailPage({
         />
       )}
 
+      {(fit?.rightChoice?.heading || fit?.notRight?.heading) && (
+        <RightChoice
+          rightChoice={{
+            ...fit.rightChoice,
+            list: fit.rightChoice?.list?.map((item) => item.text),
+          }}
+          notRight={{
+            ...fit.notRight,
+            paragraphs: splitParagraphs(fit.notRight?.paragraphs),
+          }}
+        />
+      )}
+
       <div className="mx-auto max-w-4xl px-4 pb-16 sm:px-6 lg:px-8">
-        {(fit?.rightChoice?.heading || fit?.notRight?.heading) && (
-          <section className="mt-24 grid grid-cols-1 gap-6 md:grid-cols-2">
-            {fit.rightChoice?.heading && (
-              <div className="rounded-2xl border p-6">
-                <h2 className="text-xl font-semibold">
-                  {fit.rightChoice.heading}
-                </h2>
-                {fit.rightChoice.listIntro && (
-                  <p className="mt-4 text-muted-foreground">
-                    {fit.rightChoice.listIntro}
-                  </p>
-                )}
-                <CheckList items={fit.rightChoice.list} />
-              </div>
-            )}
-            {fit.notRight?.heading && (
-              <div className="rounded-2xl border p-6">
-                <h2 className="text-xl font-semibold">{fit.notRight.heading}</h2>
-                <Paragraphs text={fit.notRight.paragraphs} />
-                {fit.notRight.cta?.label && fit.notRight.cta.href && (
-                  <Link
-                    href={fit.notRight.cta.href}
-                    className="mt-6 inline-block font-medium text-primary hover:underline"
-                  >
-                    {fit.notRight.cta.label}
-                  </Link>
-                )}
-              </div>
-            )}
-          </section>
-        )}
 
         {whyUs?.heading && (
           <section className="mt-24">

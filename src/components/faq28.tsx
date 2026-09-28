@@ -154,8 +154,6 @@ const Faq28 = (props: Props) => {
 
           {filtered.length > 0 ? (
             <Accordion
-              type="single"
-              collapsible
               className="mx-auto mt-6 w-full max-w-2xl"
             >
               {filtered.map((item, index) => (
