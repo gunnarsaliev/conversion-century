@@ -24,11 +24,11 @@ const Feature18 = ({
   return (
     <section
       className={cn(
-        "relative py-32 before:absolute before:inset-0 before:bg-primary/10 before:[mask-image:url('https://deifkwefumgah.cloudfront.net/shadcnblocks/block/patterns/waves.svg')] before:[mask-size:64px_32px] before:[mask-repeat:repeat]",
+        "relative py-32 before:absolute before:inset-y-0 before:left-1/2 before:w-screen before:-translate-x-1/2 before:bg-primary/10 before:[mask-image:url('https://deifkwefumgah.cloudfront.net/shadcnblocks/block/patterns/waves.svg')] before:[mask-size:64px_32px] before:[mask-repeat:repeat]",
         className,
       )}
     >
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-stops))] from-transparent to-background"></div>
+      <div className="absolute inset-y-0 left-1/2 w-screen -translate-x-1/2 bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-stops))] from-transparent to-background"></div>
       <div className="container">
         <div className="relative">
           <h2 className="mb-8 max-w-xl text-2xl font-semibold tracking-tight text-balance lg:text-4xl">

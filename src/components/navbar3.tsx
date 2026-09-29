@@ -77,7 +77,7 @@ const platformFeatures = [
     title: "International SEO",
     description:
       "Unified storage, pipelines, and analytics for your workloads.",
-    href: "/website/services",
+    href: "/website/services/international-seo",
     icon: Globe2,
   },
   {

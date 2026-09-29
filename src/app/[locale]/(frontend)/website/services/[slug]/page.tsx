@@ -12,6 +12,7 @@ import { Hero104 } from "@/components/hero104";
 import hero104Data from "@/data/hero104.json";
 import { Logos35 } from "@/components/logos35";
 import { Testimonial30 } from "@/components/testimonial30";
+import { getClientTestimonials } from "@/lib/client-testimonials";
 import { findByLocalizedSlug } from "@/utilities/findByLocalizedSlug";
 import type { Media } from "../../../../../../../payload-types";
 import { Hero297 } from "@/components/hero297";
@@ -19,6 +20,8 @@ import { Feature67 } from "@/components/feature67";
 import { Feature99 } from "@/components/feature99";
 import { Feature18 } from "@/components/feature18";
 import { RightChoice } from "@/components/right-choice";
+import Priorities from "@/components/priorities";
+import { WhyUs } from "@/components/why-us";
 
 type ServiceDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -142,6 +145,8 @@ export default async function ServiceDetailPage({
       src: client.logo.url as string,
     }));
 
+  const testimonials = await getClientTestimonials(payload);
+
   const { hero, partnership, whatIs, includes, process, fit, whyUs, faq } =
     service;
 
@@ -185,7 +190,19 @@ export default async function ServiceDetailPage({
         />
       )}
 
-      <Logos35 logos={clientLogos.length > 0 ? clientLogos : undefined} />
+
+
+      {includes?.heading && includes.items && includes.items.length > 0 && (
+        <Feature18
+        heading={includes.heading}
+        description={includes.description}
+        features={includes.items.map((item) => ({
+          title: item.title,
+          description: item.paragraphs,
+        }))}
+        />
+      )}
+
       {whatIs?.heading && (
         <Hero297
           heading={whatIs.heading}
@@ -193,20 +210,7 @@ export default async function ServiceDetailPage({
         />
       )}
 
-      {includes?.heading && includes.items && includes.items.length > 0 && (
-        <Feature18
-          heading={includes.heading}
-          description={includes.description}
-          features={includes.items.map((item) => ({
-            title: item.title,
-            description: item.paragraphs,
-          }))}
-        />
-      )}
-
-      <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
-        <HeadingListSection section={service.priorities} />
-      </div>
+      <Priorities section={service.priorities} />
 
       {process?.heading && process.steps && process.steps.length > 0 && (
         <Feature99
@@ -229,31 +233,12 @@ export default async function ServiceDetailPage({
         />
       )}
 
-      <div className="mx-auto max-w-4xl px-4 pb-16 sm:px-6 lg:px-8">
+      <WhyUs />
+      <Logos35 logos={clientLogos.length > 0 ? clientLogos : undefined} />
+      <Priorities section={service.measurement} />
+      <Priorities section={service.teamExtension} className="bg-yellow-50 py-16" />
 
-        {whyUs?.heading && (
-          <section className="mt-24">
-            <SectionHeading>{whyUs.heading}</SectionHeading>
-            <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
-              {whyUs.items?.map((item, i) => (
-                <div key={item.id ?? i} className="rounded-2xl border p-6">
-                  <h3 className="text-lg font-semibold">{item.title}</h3>
-                  {item.description && (
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      {item.description}
-                    </p>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        <HeadingListSection section={service.measurement} />
-        <HeadingListSection section={service.teamExtension} />
-      </div>
-
-      <Testimonial30 />
+      <Testimonial30 testimonials={testimonials} />
 
       {faq?.items && faq.items.length > 0 ? (
         <Faq28

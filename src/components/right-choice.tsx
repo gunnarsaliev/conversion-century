@@ -15,7 +15,7 @@ type RightChoiceProps = {
 
 export function RightChoice({ rightChoice, notRight }: RightChoiceProps) {
   return (
-    <section className="bg-[#edf3ef] px-5 py-10 sm:px-8 sm:py-16 lg:px-[3.4rem] lg:py-[6.25rem]">
+    <section className="bg-[#edf3ef] shadow-[0_0_0_100vmax_#edf3ef] [clip-path:inset(0_-100vmax)] px-5 py-10 sm:px-8 sm:py-16 lg:px-[3.4rem] lg:py-[6.25rem]">
       <div className="mx-auto grid max-w-[119rem] items-start gap-8 lg:grid-cols-2">
         {rightChoice?.heading && (
           <div className="rounded-[2.25rem] bg-white px-8 py-12 text-[#17201d] shadow-sm sm:px-12 sm:py-16 lg:px-[3.75rem] lg:py-[4.25rem]">

@@ -116,8 +116,8 @@ const Hero104 = ({
                   src={image.src}
                   alt={image.alt}
                   className="h-full w-full object-contain"
-                  width={208}
-                  height={208}
+                  width={416}
+                  height={416}
                 />
               </div>
             </div>

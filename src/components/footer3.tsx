@@ -67,7 +67,13 @@ const Footer3 = ({
   className,
 }: Footer3Props) => {
   return (
-    <section className={cn("py-32", className)}>
+    <section
+      className={cn(
+        // The before: layer copies the section's background out to the viewport edges.
+        "relative isolate bg-yellow-50 py-32 before:absolute before:inset-y-0 before:left-1/2 before:-z-10 before:w-screen before:-translate-x-1/2 before:bg-inherit",
+        className,
+      )}
+    >
      <SeoCta />
       <div className="mx-auto mt-10 max-w-7xl px-4 sm:px-6 lg:px-8">
         <footer>

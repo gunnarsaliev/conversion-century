@@ -11,6 +11,7 @@ import { Feature278 } from "@/components/feature278";
 import { Feature104 } from "@/components/feature104";
 import { Testimonial17, type Testimonial17Item } from "@/components/testimonial17";
 import { richTextToPlainText } from "@/lib/rich-text-to-plain-text";
+import { getClientTestimonials } from "@/lib/client-testimonials";
 import { Blog12, type Blog12Post } from "@/components/blog12";
 import { Hero80 } from "@/components/hero80"; 
 import { FounderLetter } from "@/components/founder-letter";
@@ -30,11 +31,6 @@ const authorAvatar = (author: number | User | null | undefined) => {
     ? author.profileImage.url
     : undefined;
 };
-
-// Hand-picked clients whose testimonial should appear in the homepage
-// carousel, in display order — not tied to `showOnWebsite` (that flag only
-// governs the logo strip above).
-const TESTIMONIAL_CLIENT_IDS = [47, 75, 90];
 
 export default async function WebsitePage() {
   const locale = await getLocale();
@@ -59,35 +55,9 @@ export default async function WebsitePage() {
       src: client.logo.url as string,
     }));
 
-  const { docs: testimonialClients } = await payload.find({
-    collection: "clients",
-    where: {
-      id: { in: TESTIMONIAL_CLIENT_IDS },
-    },
-    depth: 1,
-    limit: TESTIMONIAL_CLIENT_IDS.length,
-    overrideAccess: true,
-  });
-
-  const testimonials: Testimonial17Item[] = TESTIMONIAL_CLIENT_IDS.map(
-    (id): Testimonial17Item | null => {
-      const client = testimonialClients.find((doc) => doc.id === id);
-      if (!client) return null;
-
-      const quote = richTextToPlainText(client.testimonial);
-      if (!quote) return null;
-
-      return {
-        quote,
-        name: client.contactName || client.companyName,
-        role: client.contactRole || client.companyName,
-        logoUrl:
-          typeof client.logo === "object" && client.logo?.url
-            ? client.logo.url
-            : undefined,
-      };
-    },
-  ).filter((item): item is Testimonial17Item => item !== null);
+  const testimonials: Testimonial17Item[] = (
+    await getClientTestimonials(payload)
+  ).map(({ quote, name, role, logoUrl }) => ({ quote, name, role, logoUrl }));
 
   const { docs: blogPosts } = await payload.find({
     collection: "blog",

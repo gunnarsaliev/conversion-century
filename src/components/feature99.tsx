@@ -34,7 +34,7 @@ const Feature99 = ({ heading, steps, note, className }: Feature99Props) => {
           ))}
           {note && (
             <div className="flex items-center rounded-lg bg-yellow-50 p-6 md:p-8">
-              <p className="text-sm text-muted-foreground">{note}</p>
+              <p className="text-sm text-muted-foreground"><span className="font-bold">Note:</span> {note}</p>
             </div>
           )}
         </div>

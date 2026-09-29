@@ -43,7 +43,7 @@ export default async function FrontendLayout({
 
   return (
     <Providers>
-      <div className="relative isolate w-full min-w-0">
+      <div className="relative isolate w-full min-w-0 overflow-x-clip">
         <BackgroundPattern27 />
         <Navbar3 blogPosts={navbarBlogPosts} />
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
