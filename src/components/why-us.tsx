@@ -31,7 +31,13 @@ const features = [
   },
 ]
 
-export function WhyUs() {
+type WhyUsProps = {
+  items?: { title: string; description?: string | null }[] | null
+}
+
+export function WhyUs({ items }: WhyUsProps = {}) {
+  const cards = items?.length ? items : features
+
   return (
     <div className="my-12">
     <h1 className="mb-16 max-w-2xl font-serif text-5xl font-black leading-[0.98] tracking-[-0.04em] md:text-6xl">
@@ -41,7 +47,7 @@ export function WhyUs() {
     </h1>
 
         <div className="grid grid-cols-1 gap-x-12 gap-y-12 md:grid-cols-3 md:gap-y-10 lg:gap-x-20">
-          {features.map((feature) => (
+          {cards.map((feature) => (
             <article key={feature.title}>
               <h2 className="mb-3 text-lg font-bold leading-snug tracking-[-0.015em] md:text-xl">
                 {feature.title}

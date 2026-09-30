@@ -1,0 +1,432 @@
+{
+  "slug": "recover-lost-traffic",
+  "name": "Recover Lost Traffic",
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "href": "/website"
+    },
+    {
+      "label": "Solutions",
+      "href": "/website/solutions"
+    },
+    {
+      "label": "Recover Lost Traffic"
+    }
+  ],
+  "hero": {
+    "eyebrow": "Recover Lost Traffic",
+    "heading": "Find What Changed and Build a Clear Path to Recovery",
+    "paragraphs": [
+      "When a website that once held strong search positions begins losing traffic, the impact can reach revenue, leads, brand visibility and confidence across the business. Conversion Century helps established companies and multinational enterprises diagnose what happened, protect the organic value that remains and implement a prioritised recovery plan."
+    ],
+    "primaryCta": {
+      "label": "Discuss Your Traffic Decline",
+      "href": "/website/book-a-consultation"
+    },
+    "secondaryCta": {
+      "label": "Explore Our Results",
+      "href": "/website/case-studies"
+    },
+    "highlights": [
+      "Experience with established and multinational websites",
+      "Diagnosis, prioritisation and implementation",
+      "Senior specialists involved from the first investigation"
+    ]
+  },
+  "concerns": {
+    "heading": "The Biggest Concerns Business Leaders Have After Losing Organic Traffic",
+    "items": [
+      {
+        "title": "Not Knowing What Caused the Decline",
+        "description": "Traffic can fall after a website release, migration, algorithm change, competitor improvement, content decline, technical failure or measurement problem. Acting on the wrong explanation wastes valuable time and can make the real issue harder to identify."
+      },
+      {
+        "title": "Watching Revenue and Leads Continue to Fall",
+        "description": "For a website with years of strong visibility, lost traffic can affect commercially important products, services and markets immediately. We identify which losses matter most to the business so the highest-value areas receive attention first."
+      },
+      {
+        "title": "Making a Rushed Change That Causes More Damage",
+        "description": "Pressure to recover quickly can lead teams to rewrite large sections, reverse technical decisions or remove valuable content without enough evidence. We preserve data, investigate patterns and prioritise controlled changes rather than reacting to every possible theory."
+      },
+      {
+        "title": "Losing Years of Organic Value",
+        "description": "Established websites have accumulated rankings, links, content, user signals and brand authority over time. Recovery must protect what is still working while correcting the areas that have weakened."
+      },
+      {
+        "title": "Internal Teams and Agencies Blaming One Another",
+        "description": "Serious declines often involve SEO, development, content, product, analytics and leadership teams. We focus on evidence, timelines and solutions, helping everyone work from the same diagnosis rather than turning the investigation into a search for fault."
+      },
+      {
+        "title": "Receiving a Long Audit Without Urgent Next Steps",
+        "description": "When performance is falling, a list of hundreds of technical warnings is not enough. You need to know what may be connected to the decline, which actions are urgent and what can wait."
+      },
+      {
+        "title": "Never Regaining Previous Positions",
+        "description": "No agency can promise that every former ranking will return. Search results, competitors and customer behaviour may have changed. We establish what can realistically be recovered, what must be rebuilt and where new opportunities may create stronger future performance."
+      }
+    ]
+  },
+  "businessGrowth": {
+    "eyebrow": "More Than Looking for One SEO Error",
+    "heading": "Understand the Decline Before Trying to Reverse It",
+    "lead": "A major traffic loss rarely becomes clear from one graph or one crawl. Several changes may overlap, and the visible decline may begin weeks after the original cause.",
+    "paragraphs": [
+      "We reconstruct what happened across the website and business. We compare analytics, search-engine data, rankings, page groups, markets, devices, releases, migrations, content changes, competitor movement and known search developments. We distinguish an SEO decline from seasonality, tracking changes, demand shifts and reporting errors before recommending action.",
+      "For multinational and enterprise websites, the investigation may need to separate countries, languages, domains, subfolders, platforms, templates and product groups. A global traffic graph can hide serious local problems or make a contained decline appear more widespread than it is.",
+      "Once the likely causes and affected areas are understood, we create a prioritised recovery roadmap and help implement it. The objective is not simply to return a chart to its former shape. It is to restore commercially important visibility and build a stronger website that is less exposed to the same problems in the future."
+    ]
+  },
+  "audience": {
+    "heading": "Built for the People Responsible for Protecting Organic Performance",
+    "paragraphs": [
+      "This solution is designed for business owners, CEOs, CMOs, Heads of SEO, digital directors and marketing leaders responsible for a website that has already achieved valuable organic visibility and now faces a serious decline.",
+      "We turn a complex and emotionally difficult situation into a structured investigation, a clear set of priorities and coordinated implementation."
+    ],
+    "listIntro": "You may be trying to answer questions such as:",
+    "list": [
+      "When did the decline really begin?",
+      "Which pages, products, services or countries lost the most value?",
+      "Was the cause technical, content-related, competitive or connected to a search update?",
+      "Did a migration, redesign or release remove important signals?",
+      "Is the traffic actually lost, or did tracking and reporting change?",
+      "Which actions are urgent and which should wait for more evidence?",
+      "Can previous rankings and revenue be recovered?",
+      "How do we stop different teams from making conflicting changes?",
+      "What should we report to leadership while the investigation continues?",
+      "How can we reduce the risk of another decline?"
+    ]
+  },
+  "partnerNeeds": {
+    "heading": "What You Need From an SEO Recovery Partner?",
+    "paragraphs": [
+      "You need more than a standard audit or a quick opinion based on the date of the latest algorithm update. You need a partner that understands the value of the website, works carefully with incomplete evidence and remains involved after the diagnosis.",
+      "Our role is to bring clarity, coordinate the response and help move the website from diagnosis through implementation and long-term stabilisation."
+    ],
+    "listIntro": "You should be able to see:",
+    "list": [
+      "Whether the decline is caused by SEO, tracking, demand or several factors",
+      "Exactly when the loss began and what changed around that period",
+      "Which markets, page types and search intents were affected",
+      "What remains stable and must be protected",
+      "Which likely causes are supported by evidence",
+      "What needs immediate action and what requires further monitoring",
+      "Who is responsible for each technical, content or authority task",
+      "What has been implemented and how it was validated",
+      "Which indicators show early recovery or continued risk",
+      "What can realistically be recovered and what may require rebuilding"
+    ]
+  },
+  "whyUs": {
+    "heading": "Why Work With Conversion Century?",
+    "items": [
+      {
+        "title": "Experience With Serious Declines",
+        "description": "We have supported established businesses and multinational enterprises where lost organic visibility affected valuable markets and commercial pages."
+      },
+      {
+        "title": "Evidence Before Assumptions",
+        "description": "We reconstruct timelines and compare data sources before deciding why traffic declined or what should change."
+      },
+      {
+        "title": "Business-Critical Prioritisation",
+        "description": "Products, services, pages and markets with the greatest commercial impact receive attention first."
+      },
+      {
+        "title": "Diagnosis and Implementation",
+        "description": "We do not stop with an audit. Our SEO, technical and content specialists help complete and validate the recovery work."
+      },
+      {
+        "title": "Cross-Team Coordination",
+        "description": "We work constructively with internal teams, developers, platform partners and other agencies during the investigation."
+      },
+      {
+        "title": "Honest Recovery Expectations",
+        "description": "We explain what the evidence supports, what remains uncertain and what can realistically be recovered or rebuilt."
+      }
+    ]
+  },
+  "includes": {
+    "heading": "How We Help You Recover Lost Organic Traffic?",
+    "description": "The recovery plan depends on the cause, scale and commercial effect of the decline. Not every website needs the same audit or the same corrective actions.",
+    "items": [
+      {
+        "title": "Traffic-Loss Segmentation",
+        "paragraphs": [
+          "We separate performance by date, country, language, device, page type, directory, template, query group and conversion value. This reveals where the decline is concentrated and prevents a sitewide response to a localised problem."
+        ]
+      },
+      {
+        "title": "Historical Timeline Reconstruction",
+        "paragraphs": [
+          "We compare the decline with website releases, migrations, redesigns, CMS changes, content updates, tracking changes, known search developments and competitor movement. The timeline helps identify relationships that are not visible in current crawl data alone."
+        ]
+      },
+      {
+        "title": "Analytics and Tracking Validation",
+        "paragraphs": [
+          "Before treating every drop as lost search demand, we review whether analytics, consent settings, tags, reporting definitions or attribution have changed. A measurement problem requires a different response from an actual loss of rankings or clicks."
+        ]
+      },
+      {
+        "title": "Technical SEO Investigation",
+        "paragraphs": [
+          "We review crawling, indexation, canonicals, redirects, robots directives, XML sitemaps, internal linking, rendering, performance and template behaviour. Our technical specialists work across WordPress, Shopify, Magento and custom platforms and can implement many corrections directly where access and scope allow."
+        ]
+      },
+      {
+        "title": "Migration and Release Review",
+        "paragraphs": [
+          "If the decline followed a redesign, platform change, domain move or major release, we compare old and new URLs, redirects, content, metadata, internal links, canonicals, hreflang and indexation. We identify signals that may have been removed, weakened or redirected incorrectly."
+        ]
+      },
+      {
+        "title": "Content Quality and Search-Intent Review",
+        "paragraphs": [
+          "We evaluate whether affected pages still satisfy the needs reflected in current search results. Content may have become outdated, repetitive, overly optimised, incomplete or disconnected from the intent for which it previously ranked."
+        ]
+      },
+      {
+        "title": "Website Architecture and Internal Authority",
+        "paragraphs": [
+          "Navigation, hierarchy and internal links can change which pages search engines understand as important. We investigate orphan pages, increased crawl depth, competing sections and structural changes that may have weakened commercially valuable content."
+        ]
+      },
+      {
+        "title": "Competitor and Search-Landscape Analysis",
+        "paragraphs": [
+          "Sometimes a website loses visibility because competitors, marketplaces, publishers or search-result formats have become stronger. We analyse what now appears, what customer intent the results reward and what the website must improve to compete again."
+        ]
+      },
+      {
+        "title": "Link Profile and Authority Review",
+        "paragraphs": [
+          "We examine lost referring domains, changed links, authority gaps, suspicious patterns and the external signals supporting affected pages. Recommendations focus on relevant, sustainable authority rather than compensating for a decline with low-quality link volume."
+        ]
+      },
+      {
+        "title": "International and Multilingual Diagnosis",
+        "paragraphs": [
+          "For multinational websites, we review countries and languages separately. We investigate hreflang, regional cannibalisation, shared templates, localisation quality, country migrations and whether global changes affected some markets differently from others."
+        ]
+      },
+      {
+        "title": "Manual Actions and Security Checks",
+        "paragraphs": [
+          "We review available search-engine notifications and signs of security, spam or manual-action problems. Where a confirmed issue exists, we define the corrective work and appropriate documentation without assuming every decline is a penalty."
+        ]
+      },
+      {
+        "title": "Recovery Implementation and Monitoring",
+        "paragraphs": [
+          "We prioritise the changes, help implement them and monitor the affected segments after release. Recovery is treated as a controlled process of correction, validation, observation and continued improvement."
+        ]
+      }
+    ]
+  },
+  "outcomes": {
+    "heading": "What a Strong Recovery Process Should Give Your Business?",
+    "description": "The outcome should be more than a list of possible reasons. A strong recovery process should help the business regain control, protect remaining value and make better decisions under pressure.",
+    "items": [
+      {
+        "title": "A Clearer Explanation of What Happened",
+        "description": "Leadership and delivery teams receive an evidence-based account of when the decline began, where it occurred and which causes are most credible."
+      },
+      {
+        "title": "Protection for What Still Works",
+        "description": "Stable pages, markets and technical signals are identified so corrective work does not damage the organic value that remains."
+      },
+      {
+        "title": "Priorities Based on Commercial Impact",
+        "description": "The recovery plan focuses first on visibility connected with important products, services, leads and revenue."
+      },
+      {
+        "title": "Coordinated Corrective Action",
+        "description": "SEO, content, development, analytics and other teams understand what must change, who owns each task and how the result will be tested."
+      },
+      {
+        "title": "Realistic Recovery Expectations",
+        "description": "The business understands which losses may return, which require rebuilding and which reflect permanent changes in the market or search landscape."
+      },
+      {
+        "title": "Stronger Protection for the Future",
+        "description": "Monitoring, quality checks and clearer release processes reduce the chance that similar problems remain unnoticed or are repeated."
+      }
+    ]
+  },
+  "process": {
+    "heading": "What the First Months Usually Look Like?",
+    "steps": [
+      {
+        "title": "Confirm the Scale and Urgency",
+        "description": "We begin with the website history, visible decline, commercial impact, recent changes and available data. We identify whether any urgent issue is still actively causing damage and preserve the information needed for deeper investigation."
+      },
+      {
+        "title": "Reconstruct the Timeline and Segment the Loss",
+        "description": "We determine when performance changed and separate the decline by market, language, page type, device, search intent and commercial importance. We compare these patterns with technical, content, tracking and business events."
+      },
+      {
+        "title": "Build the Recovery Roadmap",
+        "description": "We rank likely causes and corrective actions according to evidence, urgency, commercial impact, confidence and implementation requirements. The roadmap distinguishes immediate fixes from longer-term rebuilding."
+      },
+      {
+        "title": "Implement and Validate Priority Changes",
+        "description": "Our specialists complete the SEO and content work within our access and expertise, while coordinating with developers, analytics teams, local markets and other agencies where required. Every significant change is tested."
+      },
+      {
+        "title": "Monitor Recovery and Adapt",
+        "description": "We track the affected segments, indexation, visibility, traffic and commercial outcomes. Early movement and continued weakness both provide evidence, allowing us to refine the plan and address additional causes."
+      }
+    ],
+    "note": "Recovery timelines vary significantly. Technical corrections may be processed relatively quickly, while rebuilding content quality, authority or competitive relevance can require consistent work over several months. No responsible agency can guarantee that every previous ranking will return."
+  },
+  "clients": {
+    "heading": "Trusted by Growing Businesses and Established Brands",
+    "names": [
+      "KBC",
+      "Allianz",
+      "TradingView",
+      "Pluxee",
+      "Forton",
+      "Walltopia",
+      "DPD"
+    ],
+    "cta": {
+      "label": "See all our clients",
+      "href": "/website/clients"
+    }
+  },
+  "teamExtension": {
+    "heading": "Working as an Extension of Your Team",
+    "paragraphs": [
+      "Traffic recovery often requires fast coordination across departments, platforms and markets.",
+      "We establish a shared timeline, communicate evidence clearly and help prevent conflicting changes. Our role is to move the organisation towards the same recovery priorities without creating blame or unnecessary disruption."
+    ],
+    "listIntro": "We can work alongside your:",
+    "list": [
+      "Internal SEO and digital teams",
+      "Marketing and content departments",
+      "Developers and engineering teams",
+      "Platform and hosting partners",
+      "Analytics and data specialists",
+      "E-commerce and product managers",
+      "Public relations and authority teams",
+      "Local country and language teams",
+      "Legal, security and compliance reviewers",
+      "Existing agencies and external consultants",
+      "Management and leadership team"
+    ]
+  },
+  "testimonials": {
+    "heading": "What Long-Term Partnership Looks Like to Our Clients?",
+    "description": "The strongest measure of our work is the trust clients continue to place in us, especially those who choose to work with our team year after year.",
+    "items": [
+      {
+        "quote": "Conversion Century became a trusted part of our team. Their dedication, expertise and personal approach have made a real difference to our online growth.",
+        "author": "Marko",
+        "role": "CEO",
+        "company": "MUZE Music"
+      },
+      {
+        "quote": "The team combines strong project management with a genuinely personal approach. They understand our goals and remain closely involved in achieving them.",
+        "author": "Sofia",
+        "role": "Marketing Manager",
+        "company": "Benefit Nutrition"
+      },
+      {
+        "quote": "Conversion Century helped us increase organic traffic, keyword visibility, conversions and orders, establishing AVVA among the leading results for our most important searches.",
+        "author": "Milena",
+        "role": "Owner",
+        "company": "AVVA"
+      },
+      {
+        "quote": "Within six months, our organic traffic grew by 45%, while our main service keywords consistently reached the top three search results.",
+        "author": "Plamena",
+        "role": "Marketing Specialist",
+        "company": "Carrot Solutions"
+      }
+    ],
+    "cta": {
+      "label": "Read Client Reviews",
+      "href": "/website/reviews"
+    }
+  },
+  "faq": {
+    "heading": "Frequently Asked Questions",
+    "items": [
+      {
+        "question": "Why has our organic traffic suddenly dropped?",
+        "answer": "A decline may be connected to technical changes, migration errors, indexation, content quality, changing search intent, competitor improvements, lost authority, seasonality, tracking or a search update. Several causes can overlap, so we investigate the timeline and affected segments before recommending action."
+      },
+      {
+        "question": "How quickly should we respond to a traffic decline?",
+        "answer": "The initial assessment should begin quickly, especially if the loss followed a release, migration or technical change that may still be causing damage. However, urgent action should still be evidence-led. Large uncontrolled changes can remove useful signals and make diagnosis harder."
+      },
+      {
+        "question": "Can you guarantee that our previous traffic will return?",
+        "answer": "No responsible agency can guarantee complete recovery. Some losses can be reversed, while others reflect stronger competitors, changed demand or different search results. We explain what appears recoverable, what needs rebuilding and what uncertainty remains."
+      },
+      {
+        "question": "Is every decline caused by a Google algorithm update?",
+        "answer": "No. The timing of an update may be relevant, but websites also decline because of technical releases, migrations, content changes, tracking problems, competitors and shifts in customer demand. We do not assign a cause based on timing alone."
+      },
+      {
+        "question": "How do you investigate an enterprise or multinational website?",
+        "answer": "We segment the data by country, language, domain, subfolder, template, page type, device and commercial area. This helps identify whether the problem is global, market-specific or limited to a particular system or release."
+      },
+      {
+        "question": "Can you identify whether a migration caused the decline?",
+        "answer": "We can compare pre-launch and post-launch URLs, redirects, content, internal links, canonicals, hreflang, sitemaps and indexation. Historical access and documentation improve the investigation, but even limited evidence can reveal significant migration patterns."
+      },
+      {
+        "question": "What data do you need from us?",
+        "answer": "Useful access may include analytics, search-engine tools, ranking history, crawl data, change logs, migration plans, release dates, dashboards and information from content and development teams. We begin with what is available and identify any important gaps."
+      },
+      {
+        "question": "Can you implement the recovery recommendations?",
+        "answer": "Yes. Our SEO, technical and content specialists can implement many changes directly where access and scope allow. For work requiring internal development, security or platform teams, we provide clear requirements, coordinate implementation and validate the result."
+      },
+      {
+        "question": "Should we remove or rewrite all content that lost traffic?",
+        "answer": "No. A page can lose traffic for reasons unrelated to its copy, and large-scale removal can destroy valuable history, links and relevance. We evaluate affected content individually and decide whether it should be retained, refreshed, consolidated, redirected or rebuilt."
+      },
+      {
+        "question": "Was our website penalised?",
+        "answer": "Not every ranking loss is a penalty. We review search-engine notifications, security issues, link patterns and other evidence. A confirmed manual action requires a specific response, while ordinary ranking changes should not automatically be described as a penalty."
+      },
+      {
+        "question": "How long does SEO recovery take?",
+        "answer": "The timeframe depends on the cause, severity, website size, implementation speed and how quickly search engines process the changes. Some technical fixes may show early movement, while recovery involving content, authority or competitive position may take several months or longer."
+      },
+      {
+        "question": "Should we stop publishing content during the investigation?",
+        "answer": "Not always. The decision depends on whether the content process is connected to the problem. We may pause specific templates or workflows while allowing safe, valuable activity to continue. The objective is to control risk without freezing the entire business unnecessarily."
+      },
+      {
+        "question": "Can you work with our current SEO agency or internal team?",
+        "answer": "Yes. We can provide an independent diagnosis, support a shared recovery plan or lead the investigation. We work with existing teams constructively and focus on evidence, responsibilities and implementation rather than assigning blame."
+      },
+      {
+        "question": "What if the lost traffic no longer has commercial value?",
+        "answer": "Not every lost visit should be recovered. If demand or search intent has changed, resources may create more value elsewhere. We prioritise commercially meaningful recovery and identify new opportunities where returning to the old traffic level is not the strongest business objective."
+      }
+    ]
+  },
+  "consultation": {
+    "heading": "Let’s Understand What Changed Before More Value Is Lost",
+    "description": "Every recovery project begins with a focused conversation. We will learn when the decline appeared, review the available evidence and determine the most appropriate first steps for protecting and rebuilding your organic visibility.",
+    "cta": {
+      "label": "Book an Initial Consultation",
+      "href": "/website/book-a-consultation"
+    },
+    "nextSteps": {
+      "heading": "What happens next?",
+      "steps": [
+        "You tell us about the decline, website history, recent changes and commercial impact.",
+        "We review the available data and assess the urgency and likely investigation scope.",
+        "We arrange a consultation with a senior SEO specialist.",
+        "If there is a strong mutual fit, we prepare the recommended diagnostic and recovery next steps."
+      ]
+    }
+  }
+}

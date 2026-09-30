@@ -805,28 +805,148 @@ export interface CaseStudy {
  */
 export interface Solution {
   id: number;
-  title: string;
+  name: string;
   /**
    * When enabled, the slug will auto-generate from the title field on save and autosave.
    */
   generateSlug?: boolean | null;
   slug: string;
   image?: (number | null) | Media;
-  description?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+  hero?: {
+    eyebrow?: string | null;
+    heading?: string | null;
+    /**
+     * Separate paragraphs with a blank line.
+     */
+    paragraphs?: string | null;
+    highlights?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  concerns?: {
+    heading?: string | null;
+    items?:
+      | {
+          title: string;
+          description?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  businessGrowth?: {
+    eyebrow?: string | null;
+    heading?: string | null;
+    lead?: string | null;
+    /**
+     * Separate paragraphs with a blank line.
+     */
+    paragraphs?: string | null;
+  };
+  audience?: {
+    heading?: string | null;
+    /**
+     * Separate paragraphs with a blank line.
+     */
+    paragraphs?: string | null;
+    listIntro?: string | null;
+    list?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  partnerNeeds?: {
+    heading?: string | null;
+    /**
+     * Separate paragraphs with a blank line.
+     */
+    paragraphs?: string | null;
+    listIntro?: string | null;
+    list?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  whyUs?: {
+    heading?: string | null;
+    items?:
+      | {
+          title: string;
+          description?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  includes?: {
+    heading?: string | null;
+    description?: string | null;
+    items?:
+      | {
+          title: string;
+          /**
+           * Separate paragraphs with a blank line.
+           */
+          paragraphs?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  outcomes?: {
+    heading?: string | null;
+    description?: string | null;
+    items?:
+      | {
+          title: string;
+          description?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  process?: {
+    heading?: string | null;
+    steps?:
+      | {
+          title: string;
+          description?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    note?: string | null;
+  };
+  teamExtension?: {
+    heading?: string | null;
+    /**
+     * Separate paragraphs with a blank line.
+     */
+    paragraphs?: string | null;
+    listIntro?: string | null;
+    list?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  faq?: {
+    heading?: string | null;
+    items?:
+      | {
+          question: string;
+          answer: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  consultation?: {
+    heading?: string | null;
+    description?: string | null;
+  };
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -1524,11 +1644,151 @@ export interface IndustriesSelect<T extends boolean = true> {
  * via the `definition` "solutions_select".
  */
 export interface SolutionsSelect<T extends boolean = true> {
-  title?: T;
+  name?: T;
   generateSlug?: T;
   slug?: T;
   image?: T;
-  description?: T;
+  hero?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+        paragraphs?: T;
+        highlights?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+      };
+  concerns?:
+    | T
+    | {
+        heading?: T;
+        items?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              id?: T;
+            };
+      };
+  businessGrowth?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+        lead?: T;
+        paragraphs?: T;
+      };
+  audience?:
+    | T
+    | {
+        heading?: T;
+        paragraphs?: T;
+        listIntro?: T;
+        list?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+      };
+  partnerNeeds?:
+    | T
+    | {
+        heading?: T;
+        paragraphs?: T;
+        listIntro?: T;
+        list?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+      };
+  whyUs?:
+    | T
+    | {
+        heading?: T;
+        items?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              id?: T;
+            };
+      };
+  includes?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        items?:
+          | T
+          | {
+              title?: T;
+              paragraphs?: T;
+              id?: T;
+            };
+      };
+  outcomes?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        items?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              id?: T;
+            };
+      };
+  process?:
+    | T
+    | {
+        heading?: T;
+        steps?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              id?: T;
+            };
+        note?: T;
+      };
+  teamExtension?:
+    | T
+    | {
+        heading?: T;
+        paragraphs?: T;
+        listIntro?: T;
+        list?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+      };
+  faq?:
+    | T
+    | {
+        heading?: T;
+        items?:
+          | T
+          | {
+              question?: T;
+              answer?: T;
+              id?: T;
+            };
+      };
+  consultation?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+      };
   meta?:
     | T
     | {

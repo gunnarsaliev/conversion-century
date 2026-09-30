@@ -29,9 +29,17 @@ const Hero297 = ({ badge, heading, description, className }: Hero297Props) => {
             </h1>
           </div>
           <div className="w-full lg:max-w-xl">
-            <p className="max-w-4xl text-lg whitespace-pre-line text-muted-foreground">
-              {description}
-            </p>
+            <div className="flex max-w-4xl flex-col gap-6 text-lg text-muted-foreground">
+              {description
+                .split(/\n\s*\n/)
+                .map((p) => p.trim())
+                .filter(Boolean)
+                .map((p, i) => (
+                  <p key={i} className="whitespace-pre-line">
+                    {p}
+                  </p>
+                ))}
+            </div>
           </div>
         </div>
       </div>

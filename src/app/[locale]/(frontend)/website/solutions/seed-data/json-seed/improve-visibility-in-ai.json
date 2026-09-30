@@ -1,0 +1,433 @@
+{
+  "slug": "improve-visibility-in-ai",
+  "name": "Improve Visibility in AI",
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "href": "/website"
+    },
+    {
+      "label": "Solutions",
+      "href": "/website/solutions"
+    },
+    {
+      "label": "Improve Visibility in AI"
+    }
+  ],
+  "hero": {
+    "eyebrow": "Improve Visibility in AI",
+    "heading": "Become a Brand AI Search Can Understand and Trust",
+    "paragraphs": [
+      "Customers increasingly use AI-generated answers to research problems, compare options and discover companies. Conversion Century helps strengthen the content, expertise, authority and brand signals that improve your chances of being accurately understood, cited and recommended across AI-powered search experiences."
+    ],
+    "primaryCta": {
+      "label": "Discuss Your AI Visibility",
+      "href": "/website/book-a-consultation"
+    },
+    "secondaryCta": {
+      "label": "Explore Our Results",
+      "href": "/website/case-studies"
+    },
+    "highlights": [
+      "AI visibility connected with your wider SEO strategy",
+      "Content, entities, authority and technical access working together",
+      "Evidence-led methods, not untested AI-search shortcuts"
+    ]
+  },
+  "concerns": {
+    "heading": "The Biggest Concerns Business Leaders Have About AI Search",
+    "items": [
+      {
+        "title": "Competitors Being Recommended While Your Brand Is Missing",
+        "description": "A customer may ask an AI system for the best provider, product or solution and receive several competitors without seeing your company. If the brand is not consistently represented across trusted sources, it may remain absent from an increasingly important discovery journey."
+      },
+      {
+        "title": "AI Giving Inaccurate or Outdated Information About the Business",
+        "description": "Incorrect services, locations, pricing, company details or product information can damage trust before a customer reaches your website. We investigate how the brand is represented and strengthen the clarity and consistency of information across relevant owned and external sources."
+      },
+      {
+        "title": "Losing Traditional Search Clicks Without a New Visibility Strategy",
+        "description": "AI-generated answers can satisfy parts of a customer’s research journey before a website visit occurs. Businesses need to understand where direct clicks still matter, where brand exposure happens without a click and how content can remain influential across both experiences."
+      },
+      {
+        "title": "Investing in a Channel That Is Difficult to Measure",
+        "description": "AI visibility is less mature and less predictable than traditional search reporting. We establish a practical baseline, document prompts and outputs, track available referrals and citations, and explain clearly where the data remains incomplete."
+      },
+      {
+        "title": "Chasing Every New AI Trend Without Evidence",
+        "description": "The market is full of new terms, tools and guaranteed visibility claims. We do not rebuild a valuable website around every new theory. Methods are tested and evaluated before they become part of a client strategy."
+      },
+      {
+        "title": "Publishing Large Volumes of AI Content That Damage Quality",
+        "description": "More generated pages do not automatically create authority. Unoriginal, inaccurate or low-value scaled content can weaken the website and brand. We use AI to support research and workflows, while experienced human copywriters rewrite, edit and quality-check every final text."
+      },
+      {
+        "title": "Falling Behind While Waiting for Search to Become Stable Again",
+        "description": "AI-powered discovery will continue changing, but businesses cannot postpone every decision. We focus on durable foundations such as useful content, clear expertise, accessible information, entity consistency and relevant authority that support visibility across changing platforms."
+      }
+    ]
+  },
+  "businessGrowth": {
+    "eyebrow": "More Than Adding AI-Friendly Text to Your Website",
+    "heading": "Strengthen the Signals That Shape How Your Brand Is Represented",
+    "lead": "AI search visibility does not come from inserting a special phrase, adding one schema type or publishing content written for machines. AI-powered systems may draw on websites, search indexes, media, directories, reviews, reference sources and other parts of the wider information ecosystem.",
+    "paragraphs": [
+      "That means your brand must be clear and credible in more than one place.",
+      "We begin by investigating the questions customers ask, the sources visible within AI-generated answers and how your business is currently described. We identify missing information, weak topic coverage, inconsistent entities, authority gaps and content that does not communicate your expertise clearly enough.",
+      "From there, we connect traditional SEO, content strategy, technical accessibility, digital PR, link building and brand consistency around the customer’s changing discovery journey.",
+      "The goal is not to manipulate an AI system or guarantee a mention. It is to make your business easier to understand, verify and select whenever AI-powered experiences shape a customer’s decision."
+    ]
+  },
+  "audience": {
+    "heading": "Built for the People Responsible for Future Visibility",
+    "paragraphs": [
+      "This solution is designed for business owners, CEOs, CMOs, digital leaders, Heads of SEO and brand teams responsible for keeping the company discoverable as search behaviour changes.",
+      "We turn an uncertain and fast-changing subject into practical priorities that leadership can understand and marketing, content, PR and technical teams can implement."
+    ],
+    "listIntro": "You may be trying to answer questions such as:",
+    "list": [
+      "Does our brand appear when customers ask AI systems about our category?",
+      "Which competitors are cited or recommended, and why?",
+      "What information do AI-generated answers provide about our company?",
+      "Which sources appear to influence those answers?",
+      "Does our website explain our expertise clearly enough?",
+      "How should content change without damaging existing SEO performance?",
+      "Do links, mentions, reviews and digital PR affect AI visibility?",
+      "How can we measure progress when platform data is limited?",
+      "Should AI search have a separate strategy from traditional SEO?",
+      "Which new tactics are credible and which create unnecessary risk?"
+    ]
+  },
+  "partnerNeeds": {
+    "heading": "What You Need From an AI Search Partner?",
+    "paragraphs": [
+      "You need more than a report showing a few screenshots or a promise to rank inside an AI answer. You need an honest view of what can be observed, what can be influenced and where uncertainty remains.",
+      "Our role is to provide that clarity, implement the strongest evidence-led improvements and adapt the strategy as platforms and customer behaviour evolve."
+    ],
+    "listIntro": "You should be able to see:",
+    "list": [
+      "Which customer questions and decision journeys matter most",
+      "How often and in what context your brand currently appears",
+      "Which competitors, sources and content formats are visible",
+      "Whether the information about your business is accurate and consistent",
+      "Which content and topic gaps weaken your representation",
+      "Where expertise, authorship and evidence need strengthening",
+      "Which external publications and mentions may support authority",
+      "Whether technical access limits discovery of important information",
+      "How AI-search work supports traditional visibility and conversion",
+      "Which indicators can be monitored without overstating certainty"
+    ]
+  },
+  "whyUs": {
+    "heading": "Why Work With Conversion Century?",
+    "items": [
+      {
+        "title": "AI Search Within the Full Organic Journey",
+        "description": "We connect AI visibility with traditional SEO, content, authority and commercial customer journeys."
+      },
+      {
+        "title": "Evidence Before Trends",
+        "description": "We monitor research, test new approaches and avoid applying unvalidated tactics to valuable client websites."
+      },
+      {
+        "title": "Expert-Led Content",
+        "description": "AI supports deeper research, while experienced human copywriters control every final text and quality decision."
+      },
+      {
+        "title": "Authority Beyond Your Website",
+        "description": "We strengthen relevant links, media coverage and brand mentions across sources customers and AI systems may encounter."
+      },
+      {
+        "title": "Honest Measurement",
+        "description": "We report observable citations, mentions and referrals while explaining the limitations of current AI visibility data."
+      },
+      {
+        "title": "Senior Specialists Involved",
+        "description": "You work directly with experienced SEO, content and authority specialists who understand your business."
+      }
+    ]
+  },
+  "includes": {
+    "heading": "How We Help You Improve Visibility in AI?",
+    "description": "The solution combines the capabilities required by your brand, industry, markets and current digital presence. Not every business needs the same content or authority work.",
+    "items": [
+      {
+        "title": "AI Visibility Baseline",
+        "paragraphs": [
+          "We create a structured set of commercially relevant questions and evaluate how the brand, competitors and category are represented. The baseline documents patterns rather than relying on one isolated prompt or answer."
+        ]
+      },
+      {
+        "title": "Customer Question and Prompt Research",
+        "paragraphs": [
+          "We investigate how people may use natural-language questions to research problems, compare alternatives and make decisions. These journeys can differ from traditional short keyword searches and may reveal new information needs."
+        ]
+      },
+      {
+        "title": "Competitor and Source Analysis",
+        "paragraphs": [
+          "We examine which competitors, publications, directories and reference sources appear within relevant AI-powered experiences. This helps identify authority gaps, missing content and the types of evidence shaping the category narrative."
+        ]
+      },
+      {
+        "title": "Brand and Entity Clarity",
+        "paragraphs": [
+          "We improve how clearly the website communicates who the company is, what it offers, where it operates and how its products, services, experts and locations relate to one another. Consistency across important external profiles and sources is also reviewed."
+        ]
+      },
+      {
+        "title": "Expert Content and Topic Coverage",
+        "paragraphs": [
+          "We identify the questions customers need answered and build useful content around the company’s real expertise. Service pages, product information, comparisons, guides, FAQs and expert resources work together to strengthen understanding across the decision journey."
+        ]
+      },
+      {
+        "title": "Evidence, Authorship and Trust Signals",
+        "paragraphs": [
+          "We strengthen author information, expert review, sources, methodology, dates, company details and other signals that help users evaluate credibility. Sensitive YMYL subjects receive additional accuracy, sourcing and qualified expert-review requirements."
+        ]
+      },
+      {
+        "title": "Technical Accessibility",
+        "paragraphs": [
+          "We assess whether important content can be crawled, rendered and understood by relevant search and discovery systems. Indexation, internal links, structured data, robots controls and website architecture remain part of the foundation."
+        ]
+      },
+      {
+        "title": "Structured Data and Content Relationships",
+        "paragraphs": [
+          "Where appropriate, we implement or improve structured data and clarify relationships between organisations, people, products, services, locations and content. Structured data supports understanding but does not guarantee citations or recommendations."
+        ]
+      },
+      {
+        "title": "Digital PR and Relevant Brand Mentions",
+        "paragraphs": [
+          "We research trusted local media, industry publications and niche websites whose audiences match the client’s customers. Fresh prospecting is completed for each client, with quality, relevance and editorial credibility taking priority over volume."
+        ]
+      },
+      {
+        "title": "Reviews and Third-Party Validation",
+        "paragraphs": [
+          "Depending on the business, reviews, directories, professional profiles and independent coverage may influence how customers assess the brand. We identify where accurate and genuine third-party signals should be strengthened."
+        ]
+      },
+      {
+        "title": "Content Refreshing and Information Accuracy",
+        "paragraphs": [
+          "Outdated or conflicting information can weaken trust across both search and AI experiences. We update important content, improve source transparency and create processes for keeping key business information current."
+        ]
+      },
+      {
+        "title": "Monitoring and Continuous Adaptation",
+        "paragraphs": [
+          "We repeat relevant prompt sets, track available referrals and citations, review emerging sources and assess how platform or market changes affect representation. The strategy develops as stronger evidence becomes available."
+        ]
+      }
+    ]
+  },
+  "outcomes": {
+    "heading": "What Stronger AI Visibility Should Give Your Business?",
+    "description": "The result should be more than appearing once in a generated answer. A strong AI-search strategy should improve how clearly and credibly the business is represented across the wider discovery ecosystem.",
+    "items": [
+      {
+        "title": "Greater Presence in Customer Research",
+        "description": "Your brand has a stronger chance of appearing when customers explore the problems, categories and solutions connected with your business."
+      },
+      {
+        "title": "More Accurate Brand Representation",
+        "description": "Important information about your services, products, expertise and locations becomes clearer and more consistent across relevant sources."
+      },
+      {
+        "title": "Stronger Content and Authority",
+        "description": "The website develops useful expert content, while external publications and mentions reinforce credibility beyond owned channels."
+      },
+      {
+        "title": "Better Preparation for Changing Search Behaviour",
+        "description": "The business builds durable organic foundations instead of depending entirely on traditional blue-link clicks or one AI platform."
+      },
+      {
+        "title": "More Informed Investment Decisions",
+        "description": "Leadership receives a practical view of current visibility, data limitations, credible opportunities and tactics that do not justify the risk."
+      },
+      {
+        "title": "Benefits Across the Wider Brand Journey",
+        "description": "Clearer content, stronger authority and consistent information can support traditional SEO, PR, conversion and customer trust as well as AI discovery."
+      }
+    ]
+  },
+  "process": {
+    "heading": "What the First Months Usually Look Like?",
+    "steps": [
+      {
+        "title": "Define the Customer Questions That Matter",
+        "description": "We begin with the business, audience, products, services and decisions organic visibility should influence. We create a prioritised question set around meaningful commercial and informational journeys."
+      },
+      {
+        "title": "Establish the Visibility Baseline",
+        "description": "We assess current brand mentions, competitor presence, cited sources, website content, authority, technical accessibility and available AI referrals. We document uncertainty rather than treating one output as a fixed ranking."
+      },
+      {
+        "title": "Build the AI Visibility Roadmap",
+        "description": "We prioritise content, entity, technical and authority improvements according to customer importance, existing gaps, likely wider SEO value and implementation requirements."
+      },
+      {
+        "title": "Implement the Highest-Value Improvements",
+        "description": "Our specialists strengthen pages, expert signals, internal relationships, structured data and external authority. We coordinate with developers, writers, PR teams, subject-matter experts and other agencies where required."
+      },
+      {
+        "title": "Monitor, Learn and Adapt",
+        "description": "We review changes in brand representation, citations, source patterns, referrals and traditional organic performance. New evidence and platform developments shape the next priorities."
+      }
+    ],
+    "note": "AI-generated answers can vary by platform, model, location, personalisation, prompt wording and time. No responsible agency can guarantee a fixed citation or recommendation. We focus on strengthening the durable signals that improve discoverability and trust."
+  },
+  "clients": {
+    "heading": "Trusted by Growing Businesses and Established Brands",
+    "names": [
+      "KBC",
+      "Allianz",
+      "TradingView",
+      "Pluxee",
+      "Forton",
+      "Walltopia",
+      "DPD"
+    ],
+    "cta": {
+      "label": "See all our clients",
+      "href": "/website/clients"
+    }
+  },
+  "teamExtension": {
+    "heading": "Working as an Extension of Your Team",
+    "paragraphs": [
+      "AI visibility is influenced by information and decisions across the organisation.",
+      "We connect these teams around a shared view of the brand, clarify responsibilities and help turn company knowledge into useful and verifiable public information. Our role is to strengthen AI visibility without separating it from the wider business and organic strategy."
+    ],
+    "listIntro": "We can work alongside your:",
+    "list": [
+      "SEO and digital marketing teams",
+      "Content strategists, writers and editors",
+      "Developers and technical partners",
+      "Public relations and communications teams",
+      "Brand and reputation specialists",
+      "Product and e-commerce managers",
+      "Customer-service and review teams",
+      "Data and analytics specialists",
+      "Doctors, financial professionals and other subject-matter experts",
+      "Legal and compliance reviewers",
+      "Management and leadership team"
+    ]
+  },
+  "testimonials": {
+    "heading": "What Long-Term Partnership Looks Like to Our Clients?",
+    "description": "The strongest measure of our work is the trust clients continue to place in us, especially those who choose to work with our team year after year.",
+    "items": [
+      {
+        "quote": "Conversion Century became a trusted part of our team. Their dedication, expertise and personal approach have made a real difference to our online growth.",
+        "author": "Marko",
+        "role": "CEO",
+        "company": "MUZE Music"
+      },
+      {
+        "quote": "The team combines strong project management with a genuinely personal approach. They understand our goals and remain closely involved in achieving them.",
+        "author": "Sofia",
+        "role": "Marketing Manager",
+        "company": "Benefit Nutrition"
+      },
+      {
+        "quote": "Conversion Century helped us increase organic traffic, keyword visibility, conversions and orders, establishing AVVA among the leading results for our most important searches.",
+        "author": "Milena",
+        "role": "Owner",
+        "company": "AVVA"
+      },
+      {
+        "quote": "Within six months, our organic traffic grew by 45%, while our main service keywords consistently reached the top three search results.",
+        "author": "Plamena",
+        "role": "Marketing Specialist",
+        "company": "Carrot Solutions"
+      }
+    ],
+    "cta": {
+      "label": "Read Client Reviews",
+      "href": "/website/reviews"
+    }
+  },
+  "faq": {
+    "heading": "Frequently Asked Questions",
+    "items": [
+      {
+        "question": "What does visibility in AI search mean?",
+        "answer": "It means how a brand, product, service or expert is represented within AI-generated discovery experiences. Visibility may include being mentioned, cited, compared, recommended or used as a source when people research relevant questions."
+      },
+      {
+        "question": "Can you guarantee that an AI platform will recommend our company?",
+        "answer": "No. AI outputs are controlled by the platform and can vary between users, prompts and time periods. We strengthen the content, authority, clarity and external signals that may improve visibility, but no responsible agency can guarantee a specific answer."
+      },
+      {
+        "question": "Is AI Search Optimisation different from traditional SEO?",
+        "answer": "It introduces different discovery journeys and measurement challenges, but it shares many foundations with strong SEO: accessible websites, useful content, clear entities, expertise, authority and trusted external references. We connect both areas rather than treating them as competing strategies."
+      },
+      {
+        "question": "How do you measure AI visibility?",
+        "answer": "We may monitor a defined set of questions, brand mentions, citations, competitor presence, cited sources and available referral traffic. The data is less complete and stable than traditional search reporting, so we explain limitations and avoid presenting estimates as exact market share."
+      },
+      {
+        "question": "How quickly can AI visibility improve?",
+        "answer": "The timeframe depends on the brand’s existing authority, content, technical accessibility, external coverage and how frequently relevant systems update their sources. Some changes may appear relatively quickly, while building meaningful authority usually requires sustained work."
+      },
+      {
+        "question": "Do we need to create completely new content for AI search?",
+        "answer": "Not always. Existing pages may need clearer answers, stronger evidence, better structure, improved authorship or updated information. New content is recommended when important customer questions or topic areas are genuinely missing."
+      },
+      {
+        "question": "Does structured data guarantee AI citations?",
+        "answer": "No. Structured data can help clarify information and relationships, but it does not guarantee that a brand will be cited or recommended. It is one supporting element within a much wider content and authority strategy."
+      },
+      {
+        "question": "Do links and digital PR matter for AI visibility?",
+        "answer": "Relevant coverage, links and brand mentions can strengthen authority and place the company within trusted topical contexts. We focus on credible publications whose content and audiences are relevant to the client rather than pursuing artificial volume."
+      },
+      {
+        "question": "Do you use AI to create the content?",
+        "answer": "We use AI to support deeper research, topic exploration and internal workflows. Every final text is rewritten, edited and quality-checked by an experienced human copywriter. Sensitive YMYL content also requires appropriate subject-matter validation."
+      },
+      {
+        "question": "Can AI-generated content harm our website?",
+        "answer": "The use of AI alone does not determine quality. The risk comes from inaccurate, unoriginal, low-value or scaled content created without a clear user purpose. Our process protects usefulness, accuracy, brand voice and human editorial responsibility."
+      },
+      {
+        "question": "Can you correct inaccurate information shown by AI systems?",
+        "answer": "We cannot directly control an external AI answer. We can identify likely source conflicts, correct information on owned properties, improve consistency across relevant profiles and strengthen authoritative content that presents the accurate position clearly."
+      },
+      {
+        "question": "Is this solution suitable for healthcare and financial businesses?",
+        "answer": "Yes, but sensitive YMYL topics require stronger controls. Content should use reliable sources, appropriate expert involvement, careful claims and clear accountability because inaccurate information can affect important personal decisions."
+      },
+      {
+        "question": "Should we reduce our traditional SEO investment and focus only on AI?",
+        "answer": "Usually not. Traditional search remains important and supports many of the same foundations that influence AI discovery. The appropriate balance depends on the business, audience and available evidence, so we integrate AI visibility into the wider organic strategy."
+      },
+      {
+        "question": "Can you monitor competitors in AI-powered search?",
+        "answer": "Yes. We can compare how selected competitors appear across relevant question sets, which topics they are associated with and which sources support their visibility. The analysis informs priorities but does not assume that every competitor mention should be copied."
+      }
+    ]
+  },
+  "consultation": {
+    "heading": "Let’s Find Out How AI Search Currently Sees Your Brand",
+    "description": "Every potential partnership begins with an honest conversation. We will learn about your business, audience and visibility goals, review the current search landscape and identify where stronger content, authority and brand signals can create meaningful value.",
+    "cta": {
+      "label": "Book an Initial Consultation",
+      "href": "/website/book-a-consultation"
+    },
+    "nextSteps": {
+      "heading": "What happens next?",
+      "steps": [
+        "You tell us about your business, customers, competitors and AI visibility concerns.",
+        "We review your current organic presence and the questions most relevant to your market.",
+        "We arrange a consultation with a senior SEO and AI-search specialist.",
+        "If there is a strong mutual fit, we prepare the recommended next steps."
+      ]
+    }
+  }
+}

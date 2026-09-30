@@ -1,52 +1,18 @@
-import type { CollectionConfig, Field } from 'payload'
+import type { CollectionConfig } from 'payload'
 import { localizedSlugField } from '../utilities/localizedSlugField'
+import {
+  ctaField,
+  faqFields,
+  heading,
+  headingSectionFields,
+  listField,
+  metaFields,
+  paragraphs,
+  titleDescriptionItems,
+} from '../fields/sectionFields'
 
 // Each tab mirrors one section of a service page. Tabs are named, so their
 // data is nested under that key (e.g. `service.hero.heading`).
-
-const heading: Field = { name: 'heading', type: 'text', localized: true }
-
-// Paragraphs are stored as one textarea separated by blank lines — much
-// easier to edit than an array with one row per paragraph.
-const paragraphs: Field = {
-  name: 'paragraphs',
-  type: 'textarea',
-  localized: true,
-  admin: { description: 'Separate paragraphs with a blank line.' },
-}
-
-// Payload arrays can't hold plain strings, so each list item is `{ text }`.
-const listField = (name: string): Field => ({
-  name,
-  type: 'array',
-  fields: [{ name: 'text', type: 'text', required: true, localized: true }],
-})
-
-const ctaField = (name: string): Field => ({
-  name,
-  type: 'group',
-  fields: [
-    { name: 'label', type: 'text', localized: true },
-    { name: 'href', type: 'text' },
-  ],
-})
-
-const titleDescriptionItems: Field = {
-  name: 'items',
-  type: 'array',
-  fields: [
-    { name: 'title', type: 'text', required: true, localized: true },
-    { name: 'description', type: 'textarea', localized: true },
-  ],
-}
-
-// Heading, intro paragraphs, then a bulleted list.
-const headingSectionFields: Field[] = [
-  heading,
-  paragraphs,
-  { name: 'listIntro', type: 'text', localized: true },
-  listField('list'),
-]
 
 export const Services: CollectionConfig = {
   slug: 'services',
@@ -159,30 +125,12 @@ export const Services: CollectionConfig = {
         {
           name: 'faq',
           label: 'FAQ',
-          fields: [
-            heading,
-            {
-              name: 'items',
-              type: 'array',
-              fields: [
-                { name: 'question', type: 'text', required: true, localized: true },
-                { name: 'answer', type: 'textarea', required: true, localized: true },
-              ],
-            },
-          ],
+          fields: faqFields,
         },
         {
           name: 'meta',
           label: 'SEO',
-          fields: [
-            { name: 'title', label: 'Meta title', type: 'text', localized: true },
-            {
-              name: 'description',
-              label: 'Meta description',
-              type: 'textarea',
-              localized: true,
-            },
-          ],
+          fields: metaFields,
         },
       ],
     },

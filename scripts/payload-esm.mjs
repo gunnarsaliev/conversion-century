@@ -6,8 +6,11 @@
 // synchronously from a CJS-mode .ts file.
 //
 // Fix: temporarily set "type": "module" in package.json just for the
-// `payload generate:types` subprocess, then always restore the original
-// file content, even if generation fails.
+// `payload` subprocess, then always restore the original file content, even
+// if the command fails.
+//
+// Usage: node scripts/payload-esm.mjs <payload args…>
+//   e.g. node scripts/payload-esm.mjs generate:types
 import { spawnSync } from 'node:child_process'
 import { readFileSync, writeFileSync } from 'node:fs'
 
@@ -19,7 +22,7 @@ try {
   pkg.type = 'module'
   writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n')
 
-  const result = spawnSync('npx', ['payload', 'generate:types'], {
+  const result = spawnSync('npx', ['payload', ...process.argv.slice(2)], {
     stdio: 'inherit',
   })
 
