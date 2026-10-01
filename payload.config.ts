@@ -19,6 +19,7 @@ import { JobApplicants } from './src/collections/JobApplicants'
 import { CaseStudies } from './src/collections/CaseStudies'
 import { Industries } from './src/collections/Industries'
 import { Solutions } from './src/collections/Solutions'
+import { Events } from './src/collections/Events'
 import { clearUploadedFileAfterProcessing } from './src/utilities/clearUploadedFile'
 
 export default buildConfig({
@@ -37,6 +38,7 @@ export default buildConfig({
     CaseStudies,
     Industries,
     Solutions,
+    Events,
   ],
 
   plugins: [
@@ -70,6 +72,7 @@ export default buildConfig({
         { slug: 'clients' },
         { slug: 'work-checklist' },
         { slug: 'client-checklist-progress' },
+        { slug: 'events' },
       ],
       // Keep the generated imports/exports collections out of the root
       // sidebar and restrict them to admins, same as Clients.ts.

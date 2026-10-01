@@ -238,7 +238,7 @@ const resourceLinks = [
   },
   {
     title: "Events and Media",
-    href: "#",
+    href: "/website/events-and-media",
     icon: Calendar,
   },
 ];

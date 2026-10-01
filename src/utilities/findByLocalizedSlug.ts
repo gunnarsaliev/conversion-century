@@ -5,7 +5,7 @@ type Locale = 'en' | 'bg'
 
 // Collections whose `slug` is localized (see localizedSlugField) and whose
 // pages are linked from the navbar by their English slug.
-type SluggedCollection = 'industries' | 'solutions' | 'services'
+type SluggedCollection = 'industries' | 'solutions' | 'services' | 'events'
 
 // Looks the slug up in the current locale first. If it isn't found there,
 // falls back to the English slug and loads that document in the current

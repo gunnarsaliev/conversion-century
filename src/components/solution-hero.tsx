@@ -26,8 +26,8 @@ export default function SolutionHero({
 
   return (
     // The before: layer copies the background out to the viewport edges, past the layout's max-width container.
-    <main className="relative isolate min-h-screen bg-[#0f4637] text-[#fbfaf5] before:absolute before:inset-y-0 before:left-1/2 before:-z-10 before:w-screen before:-translate-x-1/2 before:bg-inherit">
-      <div className="mx-auto flex min-h-screen w-full max-w-[1240px] flex-col px-6 pb-5 sm:px-10 lg:px-0">
+    <main className="relative isolate bg-[#0f4637] text-[#fbfaf5] before:absolute before:inset-y-0 before:left-1/2 before:-z-10 before:w-screen before:-translate-x-1/2 before:bg-inherit">
+      <div className="mx-auto flex w-full max-w-[1240px] flex-col px-6 pb-5 sm:px-10 lg:px-0">
         <nav aria-label="Breadcrumb" className="pt-5 text-sm text-white/60">
           <ol className="flex items-center gap-3">
             <li><Link className="transition-colors hover:text-white" href="/website">Home</Link></li>
@@ -38,7 +38,7 @@ export default function SolutionHero({
           </ol>
         </nav>
 
-        <section className="flex flex-1 flex-col items-center text-center">
+        <section className="flex flex-col items-center pb-16 text-center">
           {eyebrow && (
             <div className="mt-12 rounded-full bg-[#ffb91f] px-5 py-2 text-[12px] font-bold tracking-[0.08em] text-[#102f25] uppercase sm:mt-12">
               {eyebrow}

@@ -79,6 +79,7 @@ export interface Config {
     'case-studies': CaseStudy;
     industries: Industry;
     solutions: Solution;
+    events: Event;
     exports: Export;
     imports: Import;
     'payload-kv': PayloadKv;
@@ -108,6 +109,7 @@ export interface Config {
     'case-studies': CaseStudiesSelect<false> | CaseStudiesSelect<true>;
     industries: IndustriesSelect<false> | IndustriesSelect<true>;
     solutions: SolutionsSelect<false> | SolutionsSelect<true>;
+    events: EventsSelect<false> | EventsSelect<true>;
     exports: ExportsSelect<false> | ExportsSelect<true>;
     imports: ImportsSelect<false> | ImportsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -956,6 +958,57 @@ export interface Solution {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: number;
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  type: 'conference' | 'webinar' | 'workshop' | 'podcast' | 'interview' | 'press';
+  startDate: string;
+  endDate?: string | null;
+  /**
+   * e.g. "Sofia, Bulgaria" or "Online".
+   */
+  location?: string | null;
+  image?: (number | null) | Media;
+  /**
+   * Short summary shown on the event card.
+   */
+  excerpt?: string | null;
+  /**
+   * Registration page, recording, or article URL.
+   */
+  externalUrl?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "exports".
  */
 export interface Export {
@@ -1192,6 +1245,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'solutions';
         value: number | Solution;
+      } | null)
+    | ({
+        relationTo: 'events';
+        value: number | Event;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1800,6 +1857,32 @@ export interface SolutionsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  title?: T;
+  generateSlug?: T;
+  slug?: T;
+  type?: T;
+  startDate?: T;
+  endDate?: T;
+  location?: T;
+  image?: T;
+  excerpt?: T;
+  externalUrl?: T;
+  content?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "exports_select".
  */
 export interface ExportsSelect<T extends boolean = true> {
@@ -1960,6 +2043,7 @@ export interface TaskCreateCollectionExport {
       | 'case-studies'
       | 'industries'
       | 'solutions'
+      | 'events'
       | 'exports'
       | 'imports';
     drafts?: ('yes' | 'no') | null;
@@ -2010,10 +2094,15 @@ export interface TaskSchedulePublish {
   input: {
     type?: ('publish' | 'unpublish') | null;
     locale?: string | null;
-    doc?: {
-      relationTo: 'blog';
-      value: number | Blog;
-    } | null;
+    doc?:
+      | ({
+          relationTo: 'blog';
+          value: number | Blog;
+        } | null)
+      | ({
+          relationTo: 'events';
+          value: number | Event;
+        } | null);
     global?: string | null;
     user?: (number | null) | User;
   };
