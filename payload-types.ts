@@ -660,6 +660,17 @@ export interface Blog {
   excerpt?: string | null;
   featuredImage?: (number | null) | Media;
   author?: (number | null) | User;
+  categories?:
+    | (
+        | 'web-development'
+        | 'seo-performance'
+        | 'content-optimization'
+        | 'blogging'
+        | 'seo-consulting'
+        | 'keyword-research'
+        | 'link-building'
+      )[]
+    | null;
   publishedAt?: string | null;
   content?: {
     root: {
@@ -1585,6 +1596,7 @@ export interface BlogSelect<T extends boolean = true> {
   excerpt?: T;
   featuredImage?: T;
   author?: T;
+  categories?: T;
   publishedAt?: T;
   content?: T;
   meta?:

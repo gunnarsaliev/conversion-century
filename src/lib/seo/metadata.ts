@@ -4,6 +4,7 @@ import {
   IS_INDEXABLE,
   OG_LOCALES,
   SITE_NAME,
+  SITE_URL,
   alternateLanguages,
   localizedUrl,
   type Locale,
@@ -35,7 +36,7 @@ export function buildMetadata({
   const url = localizedUrl(path, locale);
   const otherLocale: Locale = locale === "bg" ? "en" : "bg";
   // Always set explicitly: page-level openGraph replaces the parent's, so
-  // fall back to the generated default image (website/opengraph-image.tsx).
+  // fall back to the generated default image (src/app/og-default.png).
   const images = image?.url
     ? [
         {
@@ -47,7 +48,7 @@ export function buildMetadata({
       ]
     : [
         {
-          url: localizedUrl("/website/opengraph-image", locale),
+          url: `${SITE_URL}/og-default.png`,
           alt: SITE_NAME,
           width: 1200,
           height: 630,

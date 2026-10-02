@@ -61,6 +61,23 @@ export const Blog: CollectionConfig = {
       },
     },
     {
+      name: 'categories',
+      type: 'select',
+      hasMany: true,
+      options: [
+        { label: 'Web development', value: 'web-development' },
+        { label: 'SEO performance', value: 'seo-performance' },
+        { label: 'Content optimization', value: 'content-optimization' },
+        { label: 'Blogging', value: 'blogging' },
+        { label: 'SEO consulting', value: 'seo-consulting' },
+        { label: 'Keyword research', value: 'keyword-research' },
+        { label: 'Link building', value: 'link-building' },
+      ],
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
       name: 'publishedAt',
       type: 'date',
       admin: {
