@@ -8,15 +8,14 @@ export type Locale = (typeof routing.locales)[number];
 // src/proxy.ts). Until then every page is noindex and robots.txt blocks all.
 export const IS_INDEXABLE = process.env.SITE_INDEXABLE === "true";
 
-const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+// Production origin, used for canonical URLs, hreflang, the sitemap and
+// JSON-LD ids. NEXT_PUBLIC_SITE_URL can override it (e.g. for a staging domain).
+const DEFAULT_SITE_URL = "https://www.cc-hub.online";
 
-if (!rawSiteUrl && IS_INDEXABLE) {
-  throw new Error(
-    "NEXT_PUBLIC_SITE_URL must be set when SITE_INDEXABLE=true (canonical URLs, sitemap and JSON-LD depend on it).",
-  );
-}
-
-export const SITE_URL = (rawSiteUrl || "http://localhost:3000").replace(/\/+$/, "");
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || DEFAULT_SITE_URL).replace(
+  /\/+$/,
+  "",
+);
 
 export const SITE_NAME = "Conversion Century";
 
