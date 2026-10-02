@@ -1,5 +1,73 @@
 {
   "LocaleLayout": {
-    "title": "CacheAdvance - Never miss the cache again."
+    "title": "Conversion Century — SEO agency",
+    "description": "Conversion Century is an SEO agency that grows organic traffic, rankings and AI search visibility for ambitious businesses."
+  },
+  "Metadata": {
+    "home": {
+      "name": "Home",
+      "title": "SEO agency for organic growth",
+      "description": "Conversion Century grows organic traffic, rankings and AI search visibility with technical SEO, content and link building tailored to your business."
+    },
+    "about": {
+      "name": "About",
+      "title": "About us",
+      "description": "Meet Conversion Century — the SEO team behind measurable organic growth for businesses across Bulgaria and Europe."
+    },
+    "services": {
+      "name": "Services",
+      "title": "SEO services",
+      "description": "Technical SEO, content, link building and SEO consulting — explore the services we use to grow your organic traffic."
+    },
+    "solutions": {
+      "name": "Solutions",
+      "title": "SEO solutions",
+      "description": "Recover lost traffic, migrate without losing rankings, improve visibility in AI search or build an outsourced SEO department."
+    },
+    "industries": {
+      "name": "Industries",
+      "title": "Industries we serve",
+      "description": "SEO strategies tailored to the industries we work with, from e-commerce to SaaS and professional services."
+    },
+    "caseStudies": {
+      "name": "Case studies",
+      "title": "SEO case studies",
+      "description": "Real results from our clients: traffic, rankings and revenue growth achieved with Conversion Century."
+    },
+    "blog": {
+      "name": "Blog",
+      "title": "SEO blog",
+      "description": "Practical articles on technical SEO, content, link building and AI search from the Conversion Century team."
+    },
+    "team": {
+      "name": "Team",
+      "title": "Our team",
+      "description": "The SEO specialists, strategists and writers behind Conversion Century."
+    },
+    "clients": {
+      "name": "Clients",
+      "title": "Our clients",
+      "description": "Businesses that trust Conversion Century with their organic growth."
+    },
+    "reviews": {
+      "name": "Reviews",
+      "title": "Client reviews",
+      "description": "What our clients say about working with Conversion Century."
+    },
+    "openPositions": {
+      "name": "Open positions",
+      "title": "Careers",
+      "description": "Join the Conversion Century team — see our open positions in SEO, content and marketing."
+    },
+    "bookAConsultation": {
+      "name": "Book a consultation",
+      "title": "Book a free SEO consultation",
+      "description": "Book a consultation with our SEO team and get a clear plan for growing your organic traffic."
+    },
+    "eventsAndMedia": {
+      "name": "Events & Media",
+      "title": "Events & media",
+      "description": "Conferences, webinars, podcasts and press featuring the Conversion Century team."
+    }
   }
 }

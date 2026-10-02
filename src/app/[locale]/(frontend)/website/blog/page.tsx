@@ -4,6 +4,8 @@ import config from "@payload-config";
 
 import { Blog28, type Blog28Post } from "@/components/blog28";
 import type { Media, User } from "../../../../../../payload-types";
+import { StaticPageJsonLd } from "@/components/static-page-json-ld";
+import { staticPageMetadata } from "@/lib/seo/pages";
 
 const formatDate = (value: string | null | undefined, locale: string) => {
   if (!value) return "";
@@ -18,6 +20,10 @@ const authorName = (author: number | User | null | undefined) => {
   if (!author || typeof author !== "object") return "";
   return [author.firstName, author.lastName].filter(Boolean).join(" ") || author.email;
 };
+
+export async function generateMetadata() {
+  return staticPageMetadata("blog");
+}
 
 export default async function BlogPage() {
   const locale = await getLocale();
@@ -50,5 +56,10 @@ export default async function BlogPage() {
     };
   });
 
-  return <Blog28 posts={items} />;
+  return (
+    <>
+      <StaticPageJsonLd page="blog" />
+      <Blog28 posts={items} />
+    </>
+  );
 }

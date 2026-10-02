@@ -1,3 +1,5 @@
+import { cache } from "react";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getLocale } from "next-intl/server";
 import { getPayload } from "payload";
@@ -5,7 +7,12 @@ import config from "@payload-config";
 
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Blog28, type Blog28Post } from "@/components/blog28";
-import type { Media } from "../../../../../../../payload-types";
+import { JsonLd } from "@/components/json-ld";
+import { buildMetadata, mediaImage } from "@/lib/seo/metadata";
+import { pageBreadcrumbs } from "@/lib/seo/pages";
+import { graph, personSchema, profilePageSchema } from "@/lib/seo/schema";
+import { localizedUrl, toLocale } from "@/lib/seo/site";
+import type { Media, User } from "../../../../../../../payload-types";
 
 type AuthorPageProps = {
   params: Promise<{ id: string }>;
@@ -20,12 +27,9 @@ const formatDate = (value: string | null | undefined, locale: string) => {
   }).format(new Date(value));
 };
 
-export default async function AuthorPage({ params }: AuthorPageProps) {
-  const { id } = await params;
-  const locale = await getLocale();
+const getAuthor = cache(async (id: string) => {
   const payload = await getPayload({ config });
-
-  const author = await payload
+  return payload
     .findByID({
       collection: "users",
       id,
@@ -34,6 +38,36 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
       // logged-out visitor can view this public author page.
     })
     .catch(() => null);
+});
+
+// Public name only — never fall back to the email in metadata.
+const publicName = (author: User) =>
+  [author.firstName, author.lastName].filter(Boolean).join(" ");
+
+export async function generateMetadata({
+  params,
+}: AuthorPageProps): Promise<Metadata> {
+  const { id } = await params;
+  const locale = toLocale(await getLocale());
+  const author = await getAuthor(id);
+
+  if (!author || !publicName(author)) return {};
+
+  return buildMetadata({
+    title: publicName(author),
+    description: author.jobTitle,
+    path: `/website/authors/${author.id}`,
+    locale,
+    image: mediaImage(author.profileImage),
+  });
+}
+
+export default async function AuthorPage({ params }: AuthorPageProps) {
+  const { id } = await params;
+  const locale = await getLocale();
+  const payload = await getPayload({ config });
+
+  const author = await getAuthor(id);
 
   if (!author) {
     notFound();
@@ -74,8 +108,30 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
     };
   });
 
+  const seoLocale = toLocale(locale);
+  const authorPath = `/website/authors/${author.id}`;
+  const fullName = publicName(author);
+
   return (
     <div>
+      {fullName && (
+        <JsonLd
+          data={graph(
+            await pageBreadcrumbs(seoLocale, ["blog", { name: fullName, path: authorPath }]),
+            profilePageSchema(
+              seoLocale,
+              localizedUrl(authorPath, seoLocale),
+              personSchema({
+                locale: seoLocale,
+                id: author.id,
+                name: fullName,
+                jobTitle: author.jobTitle,
+                image: avatar?.url,
+              }),
+            ),
+          )}
+        />
+      )}
       <div className="mx-auto max-w-7xl px-4 pt-16 sm:px-6 md:pt-24 lg:px-8">
         <div className="flex flex-col items-center gap-4 text-center">
           <Avatar className="h-20 w-20 border">

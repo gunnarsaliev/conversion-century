@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { localizedSlugField } from '../utilities/localizedSlugField'
+import { metaFields } from '../fields/sectionFields'
 
 export const Blog: CollectionConfig = {
   slug: 'blog',
@@ -74,6 +75,12 @@ export const Blog: CollectionConfig = {
       type: 'richText',
       editor: lexicalEditor(),
       localized: true,
+    },
+    {
+      name: 'meta',
+      label: 'SEO',
+      type: 'group',
+      fields: metaFields,
     },
   ],
 }

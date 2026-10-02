@@ -3,6 +3,12 @@ import config from "@payload-config";
 
 import { Team39 } from "@/components/team39";
 import type { Media } from "../../../../../../payload-types";
+import { StaticPageJsonLd } from "@/components/static-page-json-ld";
+import { staticPageMetadata } from "@/lib/seo/pages";
+
+export async function generateMetadata() {
+  return staticPageMetadata("team");
+}
 
 export default async function TeamPage() {
   const payload = await getPayload({ config });
@@ -47,10 +53,13 @@ export default async function TeamPage() {
   }));
 
   return (
-    <Team39
-      heading="Meet the team behind your growth"
-      description="Real people, real SEO expertise - get to know who works on your account."
-      members={members}
-    />
+    <>
+      <StaticPageJsonLd page="team" />
+      <Team39
+        heading="Meet the team behind your growth"
+        description="Real people, real SEO expertise - get to know who works on your account."
+        members={members}
+      />
+    </>
   );
 }

@@ -4,6 +4,12 @@ import config from "@payload-config";
 
 import { CaseStudies13, type CaseStudies13Item } from "@/components/case-studies13";
 import type { Client, Media } from "../../../../../../payload-types";
+import { StaticPageJsonLd } from "@/components/static-page-json-ld";
+import { staticPageMetadata } from "@/lib/seo/pages";
+
+export async function generateMetadata() {
+  return staticPageMetadata("caseStudies");
+}
 
 export default async function CaseStudiesPage() {
   const locale = await getLocale();
@@ -52,5 +58,10 @@ export default async function CaseStudiesPage() {
     };
   });
 
-  return <CaseStudies13 cases={cases} />;
+  return (
+    <>
+      <StaticPageJsonLd page="caseStudies" />
+      <CaseStudies13 cases={cases} />
+    </>
+  );
 }

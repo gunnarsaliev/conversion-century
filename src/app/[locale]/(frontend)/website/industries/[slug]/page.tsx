@@ -8,7 +8,13 @@ import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical
 
 import { IndustryDetail } from "@/components/industry-detail";
 import { findByLocalizedSlug } from "@/utilities/findByLocalizedSlug";
+import { richTextToPlainText } from "@/lib/rich-text-to-plain-text";
 import type { Media } from "../../../../../../../payload-types";
+import { JsonLd } from "@/components/json-ld";
+import { buildMetadata, mediaImage, truncate } from "@/lib/seo/metadata";
+import { localizedDocPath, pageBreadcrumbs } from "@/lib/seo/pages";
+import { graph, serviceSchema } from "@/lib/seo/schema";
+import { toLocale } from "@/lib/seo/site";
 
 type IndustryPageProps = {
   params: Promise<{ slug: string }>;
@@ -27,10 +33,17 @@ export async function generateMetadata({
 
   if (!industry) return {};
 
-  return {
+  return buildMetadata({
     title: industry.meta?.title || industry.title,
-    description: industry.meta?.description || undefined,
-  };
+    description:
+      industry.meta?.description ||
+      truncate(
+        richTextToPlainText(industry.description as SerializedEditorState | null),
+      ),
+    path: await localizedDocPath("industries", industry.id, "/website/industries"),
+    locale: toLocale(locale),
+    image: mediaImage(industry.image),
+  });
 }
 
 export default async function IndustryPage({ params }: IndustryPageProps) {
@@ -70,20 +83,43 @@ export default async function IndustryPage({ params }: IndustryPageProps) {
       ? (industry.image as Media)
       : null;
 
+  const seoLocale = toLocale(locale);
+  const path = await localizedDocPath("industries", industry.id, "/website/industries");
+
   return (
-    <IndustryDetail
-      title={industry.title}
-      image={image?.url ?? undefined}
-      description={
-        (industry.description as SerializedEditorState | null) ?? undefined
-      }
-      clients={clients.flatMap((client) => {
-        const logo =
-          client.logo && typeof client.logo === "object"
-            ? (client.logo as Media).url
-            : null;
-        return logo ? [{ name: client.companyName, logo }] : [];
-      })}
-    />
+    <>
+      <JsonLd
+        data={graph(
+          await pageBreadcrumbs(seoLocale, ["industries", { name: industry.title, path }]),
+          serviceSchema({
+            locale: seoLocale,
+            path,
+            name: industry.meta?.title || industry.title,
+            description:
+              industry.meta?.description ||
+              truncate(
+                richTextToPlainText(industry.description as SerializedEditorState | null),
+                300,
+              ),
+            image: image?.url,
+            audience: industry.title,
+          }),
+        )}
+      />
+      <IndustryDetail
+        title={industry.title}
+        image={image?.url ?? undefined}
+        description={
+          (industry.description as SerializedEditorState | null) ?? undefined
+        }
+        clients={clients.flatMap((client) => {
+          const logo =
+            client.logo && typeof client.logo === "object"
+              ? (client.logo as Media).url
+              : null;
+          return logo ? [{ name: client.companyName, logo }] : [];
+        })}
+      />
+    </>
   );
 }

@@ -22,6 +22,11 @@ import { Feature18 } from "@/components/feature18";
 import { RightChoice } from "@/components/right-choice";
 import Priorities from "@/components/priorities";
 import { WhyUs } from "@/components/why-us";
+import { JsonLd } from "@/components/json-ld";
+import { buildMetadata, mediaImage, truncate } from "@/lib/seo/metadata";
+import { localizedDocPath, pageBreadcrumbs } from "@/lib/seo/pages";
+import { graph, faqSchema, serviceSchema } from "@/lib/seo/schema";
+import { toLocale } from "@/lib/seo/site";
 
 type ServiceDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -104,10 +109,13 @@ export async function generateMetadata({
 
   if (!service) return {};
 
-  return {
+  return buildMetadata({
     title: service.meta?.title || service.name,
-    description: service.meta?.description || service.hero?.description || undefined,
-  };
+    description: service.meta?.description || truncate(service.hero?.description),
+    path: await localizedDocPath("services", service.id, "/website/services"),
+    locale: toLocale(locale),
+    image: mediaImage(service.image),
+  });
 }
 
 export default async function ServiceDetailPage({
@@ -150,8 +158,24 @@ export default async function ServiceDetailPage({
   const { hero, partnership, whatIs, includes, process, fit, whyUs, faq } =
     service;
 
+  const seoLocale = toLocale(locale);
+  const path = await localizedDocPath("services", service.id, "/website/services");
+
   return (
     <div>
+      <JsonLd
+        data={graph(
+          await pageBreadcrumbs(seoLocale, ["services", { name: service.name, path }]),
+          serviceSchema({
+            locale: seoLocale,
+            path,
+            name: service.name,
+            description: service.meta?.description || service.hero?.description,
+            image: image?.url,
+          }),
+          faqSchema(service.faq?.items),
+        )}
+      />
       <nav
         aria-label="Breadcrumb"
         className="mx-auto max-w-7xl px-4 pt-8 text-sm text-muted-foreground sm:px-6 lg:px-8"

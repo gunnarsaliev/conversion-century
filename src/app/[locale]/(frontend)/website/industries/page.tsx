@@ -4,6 +4,12 @@ import config from "@payload-config";
 
 import { CaseStudies13, type CaseStudies13Item } from "@/components/case-studies13";
 import type { Media } from "../../../../../../payload-types";
+import { StaticPageJsonLd } from "@/components/static-page-json-ld";
+import { staticPageMetadata } from "@/lib/seo/pages";
+
+export async function generateMetadata() {
+  return staticPageMetadata("industries");
+}
 
 export default async function IndustriesPage() {
   const locale = await getLocale();
@@ -38,10 +44,13 @@ export default async function IndustriesPage() {
   });
 
   return (
-    <CaseStudies13
-      eyebrow="Industries"
-      heading="Explore solutions tailored to your industry"
-      cases={items}
-    />
+    <>
+      <StaticPageJsonLd page="industries" />
+      <CaseStudies13
+        eyebrow="Industries"
+        heading="Explore solutions tailored to your industry"
+        cases={items}
+      />
+    </>
   );
 }

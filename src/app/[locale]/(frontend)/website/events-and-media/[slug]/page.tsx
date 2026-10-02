@@ -11,10 +11,19 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { eventTypeLabels, formatEventDate, getEventImage } from "@/lib/events";
 import { findByLocalizedSlug } from "@/utilities/findByLocalizedSlug";
+import { JsonLd } from "@/components/json-ld";
+import { buildMetadata, mediaImage, truncate } from "@/lib/seo/metadata";
+import { localizedDocPath, pageBreadcrumbs } from "@/lib/seo/pages";
+import { graph, articleSchema, eventSchema } from "@/lib/seo/schema";
+import { toLocale } from "@/lib/seo/site";
 
 type EventDetailPageProps = {
   params: Promise<{ slug: string }>;
 };
+
+// Conferences/webinars/workshops are real events (schema.org Event);
+// podcasts, interviews and press are published media (Article).
+const LIVE_EVENT_TYPES = new Set(["conference", "webinar", "workshop"]);
 
 // Local API bypasses access control, so hide drafts explicitly.
 const getEvent = cache(async (slug: string, locale: string) => {
@@ -31,10 +40,16 @@ export async function generateMetadata({
 
   if (!event) return {};
 
-  return {
+  const isArticle = !LIVE_EVENT_TYPES.has(event.type);
+  return buildMetadata({
     title: event.meta?.title || event.title,
-    description: event.meta?.description || event.excerpt || undefined,
-  };
+    description: event.meta?.description || truncate(event.excerpt),
+    path: await localizedDocPath("events", event.id, "/website/events-and-media"),
+    locale: toLocale(locale),
+    image: mediaImage(event.image),
+    type: isArticle ? "article" : "website",
+    publishedTime: isArticle ? event.startDate : undefined,
+  });
 }
 
 export default async function EventDetailPage({ params }: EventDetailPageProps) {
@@ -48,8 +63,38 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
 
   const image = getEventImage(event);
 
+  const seoLocale = toLocale(locale);
+  const path = await localizedDocPath("events", event.id, "/website/events-and-media");
+  const description = event.meta?.description || event.excerpt;
+
   return (
     <article className="mx-auto max-w-4xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
+      <JsonLd
+        data={graph(
+          await pageBreadcrumbs(seoLocale, ["eventsAndMedia", { name: event.title, path }]),
+          LIVE_EVENT_TYPES.has(event.type)
+            ? eventSchema({
+                locale: seoLocale,
+                path,
+                name: event.title,
+                description,
+                image: image?.url,
+                startDate: event.startDate,
+                endDate: event.endDate,
+                location: event.location,
+                externalUrl: event.externalUrl,
+              })
+            : articleSchema({
+                locale: seoLocale,
+                path,
+                headline: event.title,
+                description,
+                image: image?.url,
+                datePublished: event.startDate,
+                dateModified: event.updatedAt,
+              }),
+        )}
+      />
       <p className="text-sm font-semibold text-primary">
         {eventTypeLabels[event.type]}
       </p>

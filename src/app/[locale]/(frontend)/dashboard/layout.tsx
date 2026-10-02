@@ -1,9 +1,15 @@
+import type { Metadata } from "next";
 import { headers as getHeaders } from "next/headers";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
 import { DashboardLayout } from "@/components/dashboard16-layout";
 import type { UserData } from "@/components/dashboard16-layout";
+
+// Internal area: never indexed, even after launch.
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 export default async function Dashboard({
   children,

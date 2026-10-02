@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { getLocale } from "next-intl/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
@@ -11,10 +10,12 @@ import {
   splitEventsByTime,
 } from "@/lib/events";
 import type { Event } from "../../../../../../payload-types";
+import { StaticPageJsonLd } from "@/components/static-page-json-ld";
+import { staticPageMetadata } from "@/lib/seo/pages";
 
-export const metadata: Metadata = {
-  title: "Events & Media",
-};
+export async function generateMetadata() {
+  return staticPageMetadata("eventsAndMedia");
+}
 
 export default async function EventsAndMediaPage() {
   const locale = await getLocale();
@@ -50,36 +51,38 @@ export default async function EventsAndMediaPage() {
   );
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
-      <div className="mx-auto max-w-3xl text-center">
-        <h1 className="font-poppins text-4xl leading-tight font-semibold tracking-[-1px] sm:text-5xl">
-          Events &amp; Media
-        </h1>
-        <p className="mt-4 text-lg text-muted-foreground">
-          Conferences, webinars, podcasts and press featuring our team.
-        </p>
-      </div>
+    <>
+      <StaticPageJsonLd page="eventsAndMedia" />
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
+        <div className="mx-auto max-w-3xl text-center">
+          <h1 className="font-poppins text-4xl leading-tight font-semibold tracking-[-1px] sm:text-5xl">
+            Events &amp; Media
+          </h1>
+          <p className="mt-4 text-lg text-muted-foreground">
+            Conferences, webinars, podcasts and press featuring our team.
+          </p>
+        </div>
 
-      {events.length === 0 ? (
-        <p className="mt-16 text-center text-muted-foreground">
-          No events are available yet.
-        </p>
-      ) : (
-        <>
-          {upcoming.length > 0 && (
-            <section className="mt-16">
-              <h2 className="font-poppins text-2xl font-semibold">Upcoming</h2>
-              {renderGrid(upcoming)}
-            </section>
-          )}
-          {past.length > 0 && (
-            <section className="mt-16">
-              <h2 className="font-poppins text-2xl font-semibold">Past</h2>
-              {renderGrid(past)}
-            </section>
-          )}
-        </>
-      )}
-    </div>
+        {events.length === 0 ? (
+          <p className="mt-16 text-center text-muted-foreground">
+            No events are available yet.
+          </p>
+        ) : (
+          <>
+            {upcoming.length > 0 && (
+              <section className="mt-16">
+                <h2 className="font-poppins text-2xl font-semibold">Upcoming</h2>
+                {renderGrid(upcoming)}
+              </section>
+            )}
+            {past.length > 0 && (
+              <section className="mt-16">
+                {renderGrid(past)}
+              </section>
+            )}
+          </>
+        )}
+      </div>
+    </>
   );
 }

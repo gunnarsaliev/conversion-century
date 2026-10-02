@@ -3,11 +3,17 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 
 import { Careers2, type Careers2Job } from "@/components/careers2";
+import { StaticPageJsonLd } from "@/components/static-page-json-ld";
+import { staticPageMetadata } from "@/lib/seo/pages";
 
 const typeLabels = {
   "part-time": "Part-time",
   "full-time": "Full-time",
 } as const;
+
+export async function generateMetadata() {
+  return staticPageMetadata("openPositions");
+}
 
 export default async function OpenPositionsPage() {
   const locale = await getLocale();
@@ -29,5 +35,10 @@ export default async function OpenPositionsPage() {
     link: `/website/careers/${listing.slug ?? listing.id}`,
   }));
 
-  return <Careers2 jobs={jobs} />;
+  return (
+    <>
+      <StaticPageJsonLd page="openPositions" />
+      <Careers2 jobs={jobs} />
+    </>
+  );
 }

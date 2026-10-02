@@ -6,6 +6,7 @@ import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 
 import { routing } from '@/i18n/routing'
+import { IS_INDEXABLE, SITE_NAME, SITE_URL } from '@/lib/seo/site'
 
 import '@/styles/tailwind.css'
 
@@ -38,12 +39,14 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: 'LocaleLayout' })
 
   return {
+    metadataBase: new URL(SITE_URL),
     title: {
-      template: '%s - Docs',
+      template: `%s | ${SITE_NAME}`,
       default: t('title'),
     },
-    description:
-      'Cache every single thing your app could ever do ahead of time, so your code never even has to run at all.',
+    description: t('description'),
+    applicationName: SITE_NAME,
+    robots: { index: IS_INDEXABLE, follow: IS_INDEXABLE },
   }
 }
 

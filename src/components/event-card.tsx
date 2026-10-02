@@ -1,4 +1,5 @@
-import { CalendarDays, MapPin } from "lucide-react";
+// import { CalendarDays } from "lucide-react";
+import { MapPin } from "lucide-react";
 import Image from "next/image";
 
 import { Link } from "@/i18n/navigation";
@@ -25,7 +26,7 @@ type EventCardProps = {
 export const EventCard = ({
   title,
   href,
-  dateLabel,
+  // dateLabel,
   excerpt,
   image,
   location,
@@ -36,7 +37,7 @@ export const EventCard = ({
       <CardHeader>
         <CardTitle className="text-lg">{title}</CardTitle>
         {excerpt && (
-          <CardDescription className="line-clamp-3">{excerpt}</CardDescription>
+          <CardDescription className="line-clamp-2">{excerpt}</CardDescription>
         )}
       </CardHeader>
       {image?.url && (
@@ -54,9 +55,9 @@ export const EventCard = ({
       )}
       <CardFooter className="mt-auto flex flex-wrap items-center justify-between gap-2">
         <div className="flex flex-wrap items-center gap-2">
-          <EventPill icon={<CalendarDays className="h-4 w-4" />}>
+          {/* <EventPill icon={<CalendarDays className="h-4 w-4" />}>
             {dateLabel}
-          </EventPill>
+          </EventPill> */}
           {location && (
             <EventPill icon={<MapPin className="h-4 w-4" />}>{location}</EventPill>
           )}

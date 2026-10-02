@@ -1,8 +1,15 @@
+import type { Metadata } from 'next'
 import { headers as getHeaders } from 'next/headers'
 import { getPayload } from 'payload'
 
 import config from '@payload-config'
 import { Layout } from '@/components/Layout'
+
+// Internal area: never indexed, even after launch.
+export const metadata: Metadata = {
+  title: { template: '%s - Docs', default: 'Docs' },
+  robots: { index: false, follow: false },
+}
 
 export default async function DocsLayout({
   children,

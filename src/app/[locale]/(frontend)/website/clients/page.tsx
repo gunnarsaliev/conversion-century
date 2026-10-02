@@ -9,6 +9,8 @@ import { ChartCard5, type ChartCard5Item } from "@/components/chart-card5";
 import { TrustStrip4 } from "@/components/trust-strip4";
 import { Hero104 } from "@/components/hero104";
 import hero104Data from "@/data/hero104.json";
+import { StaticPageJsonLd } from "@/components/static-page-json-ld";
+import { staticPageMetadata } from "@/lib/seo/pages";
 
 // `fallbackPercent` is shown until clients have a business size set.
 const BUSINESS_SIZES = [
@@ -23,6 +25,10 @@ const SERIES_COLORS = [1, 2, 3, 4, 5, 6].map((n) => `var(--series-${n})`);
 
 const formatPercent = (value: number, decimals: number) =>
   `${value.toFixed(decimals)}%`;
+
+export async function generateMetadata() {
+  return staticPageMetadata("clients");
+}
 
 export default async function ClientsPage() {
   const locale = await getLocale();
@@ -171,45 +177,48 @@ export default async function ClientsPage() {
   );
 
   return (
-    <div className="py-32">
-      <Hero104 {...hero104Data} containerClassName="lg:px-0" />
-      <Hero237
-        icons={heroLogos}
-        cta={{ text: "Book a Consultation", href: "/website/book-a-consultation" }}
-      />
-      <TrustStrip4 />
-      <div className="container mx-auto grid max-w-5xl gap-6 py-16 md:grid-cols-2">
-        <ChartCard5
-          title="Our experience by business size"
-          description="Share of the clients we've worked with"
-          centerValue={largestSize?.displayValue}
-          centerLabel={largestSize?.name}
-          data={sizeData}
+    <>
+      <StaticPageJsonLd page="clients" />
+      <div className="py-32">
+        <Hero104 {...hero104Data} containerClassName="lg:px-0" />
+        <Hero237
+          icons={heroLogos}
+          cta={{ text: "Book a Consultation", href: "/website/book-a-consultation" }}
         />
-        {industryData.length > 0 && (
+        <TrustStrip4 />
+        <div className="container mx-auto grid max-w-5xl gap-6 py-16 md:grid-cols-2">
           <ChartCard5
-            title="Our experience by industry"
+            title="Our experience by business size"
             description="Share of the clients we've worked with"
-            centerValue={industryCounts.size.toLocaleString(locale)}
-            centerLabel="Industries"
-            data={industryData}
+            centerValue={largestSize?.displayValue}
+            centerLabel={largestSize?.name}
+            data={sizeData}
           />
+          {industryData.length > 0 && (
+            <ChartCard5
+              title="Our experience by industry"
+              description="Share of the clients we've worked with"
+              centerValue={industryCounts.size.toLocaleString(locale)}
+              centerLabel="Industries"
+              data={industryData}
+            />
+          )}
+        </div>
+        {industries.length === 0 ? (
+          <p className="container mx-auto max-w-5xl text-muted-foreground">
+            No clients to show yet.
+          </p>
+        ) : (
+          industries.map(([title, pills]) => (
+            <Integration37
+              key={title}
+              label="Industry"
+              heading={title}
+              pills={pills}
+            />
+          ))
         )}
       </div>
-      {industries.length === 0 ? (
-        <p className="container mx-auto max-w-5xl text-muted-foreground">
-          No clients to show yet.
-        </p>
-      ) : (
-        industries.map(([title, pills]) => (
-          <Integration37
-            key={title}
-            label="Industry"
-            heading={title}
-            pills={pills}
-          />
-        ))
-      )}
-    </div>
+    </>
   );
 }

@@ -4,6 +4,8 @@ import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical
 
 import { Reviews22, type ReviewType } from "@/components/reviews22";
 import type { Media } from "../../../../../../payload-types";
+import { StaticPageJsonLd } from "@/components/static-page-json-ld";
+import { staticPageMetadata } from "@/lib/seo/pages";
 
 // An emptied Lexical editor still saves a root with an empty paragraph,
 // so `exists` alone isn't enough to know a testimonial was written.
@@ -19,6 +21,10 @@ const toExternalUrl = (url: string | null | undefined) => {
   if (!trimmed) return undefined;
   return /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
 };
+
+export async function generateMetadata() {
+  return staticPageMetadata("reviews");
+}
 
 export default async function ReviewsPage() {
   const payload = await getPayload({ config });
@@ -63,5 +69,10 @@ export default async function ReviewsPage() {
       };
     });
 
-  return <Reviews22 reviews={reviews} />;
+  return (
+    <>
+      <StaticPageJsonLd page="reviews" />
+      <Reviews22 reviews={reviews} />
+    </>
+  );
 }

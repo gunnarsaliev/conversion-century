@@ -17,6 +17,8 @@ import { Hero80 } from "@/components/hero80";
 import { FounderLetter } from "@/components/founder-letter";
 import { Hero262 } from "@/components/hero262";
 import { CaseStudies8 } from "@/components/case-studies8";
+import { StaticPageJsonLd } from "@/components/static-page-json-ld";
+import { staticPageMetadata } from "@/lib/seo/pages";
 
 const WORDS_PER_MINUTE = 200;
 
@@ -31,6 +33,10 @@ const authorAvatar = (author: number | User | null | undefined) => {
     ? author.profileImage.url
     : undefined;
 };
+
+export async function generateMetadata() {
+  return staticPageMetadata("home");
+}
 
 export default async function WebsitePage() {
   const locale = await getLocale();
@@ -92,19 +98,22 @@ export default async function WebsitePage() {
   });
 
   return (
-    <div>
-      <Hero104 {...hero104Data} />
-      <Logos35 logos={clientLogos.length > 0 ? clientLogos : undefined} />
-      <Hero262 />      
-      <Feature278 />
-      <CaseStudies8 />
-      <Feature13 />
-      <Feature104 />
-      <FounderLetter />
-      <Testimonial17
-        testimonials={testimonials.length > 0 ? testimonials : undefined}
-      />
-      <Blog12 posts={blogItems.length > 0 ? blogItems : undefined} />
-    </div>
+    <>
+      <StaticPageJsonLd page="home" />
+      <div>
+        <Hero104 {...hero104Data} />
+        <Logos35 logos={clientLogos.length > 0 ? clientLogos : undefined} />
+        <Hero262 />      
+        <Feature278 />
+        <CaseStudies8 />
+        <Feature13 />
+        <Feature104 />
+        <FounderLetter />
+        <Testimonial17
+          testimonials={testimonials.length > 0 ? testimonials : undefined}
+        />
+        <Blog12 posts={blogItems.length > 0 ? blogItems : undefined} />
+      </div>
+    </>
   );
 }

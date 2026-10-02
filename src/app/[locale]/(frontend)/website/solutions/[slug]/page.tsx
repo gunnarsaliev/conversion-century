@@ -17,6 +17,11 @@ import { Feature18 } from "@/components/feature18";
 import Priorities from "@/components/priorities";
 import { WhyUs } from "@/components/why-us";
 import SolutionHero from "@/components/solution-hero";
+import { JsonLd } from "@/components/json-ld";
+import { buildMetadata, mediaImage, truncate } from "@/lib/seo/metadata";
+import { localizedDocPath, pageBreadcrumbs } from "@/lib/seo/pages";
+import { graph, faqSchema, serviceSchema } from "@/lib/seo/schema";
+import { toLocale } from "@/lib/seo/site";
 
 type SolutionDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -43,13 +48,15 @@ export async function generateMetadata({
 
   if (!solution) return {};
 
-  return {
+  return buildMetadata({
     title: solution.meta?.title || solution.name,
     description:
       solution.meta?.description ||
-      splitParagraphs(solution.hero?.paragraphs)[0] ||
-      undefined,
-  };
+      truncate(splitParagraphs(solution.hero?.paragraphs)[0]),
+    path: await localizedDocPath("solutions", solution.id, "/website/solutions"),
+    locale: toLocale(locale),
+    image: mediaImage(solution.image),
+  });
 }
 
 export default async function SolutionDetailPage({
@@ -98,8 +105,26 @@ export default async function SolutionDetailPage({
     consultation,
   } = solution;
 
+  const seoLocale = toLocale(locale);
+  const path = await localizedDocPath("solutions", solution.id, "/website/solutions");
+
   return (
     <div>
+      <JsonLd
+        data={graph(
+          await pageBreadcrumbs(seoLocale, ["solutions", { name: solution.name, path }]),
+          serviceSchema({
+            locale: seoLocale,
+            path,
+            name: solution.name,
+            description:
+              solution.meta?.description ||
+              splitParagraphs(solution.hero?.paragraphs)[0],
+            image: mediaImage(solution.image)?.url,
+          }),
+          faqSchema(faq?.items),
+        )}
+      />
       <SolutionHero
         name={solution.name}
         eyebrow={hero?.eyebrow}

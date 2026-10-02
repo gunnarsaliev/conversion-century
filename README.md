@@ -43,3 +43,20 @@ To learn more about the technologies used in this site template, see the followi
 - [Algolia Autocomplete](https://www.algolia.com/doc/ui-libraries/autocomplete/introduction/what-is-autocomplete/) - the official Algolia Autocomplete documentation
 - [FlexSearch](https://github.com/nextapps-de/flexsearch) - the official FlexSearch documentation
 # conversion-century
+
+## SEO
+
+Metadata (canonical, hreflang, Open Graph), JSON-LD, `robots.txt` and `sitemap.xml` live in `src/lib/seo/`, `src/app/robots.ts` and `src/app/sitemap.ts`.
+
+| Env var | Purpose |
+|---|---|
+| `NEXT_PUBLIC_SITE_URL` | Production origin, e.g. `https://example.com` (no trailing slash). Used for canonical URLs, hreflang, sitemap and JSON-LD ids. Required when `SITE_INDEXABLE=true`. |
+| `SITE_INDEXABLE` | `true` lets search engines in. Anything else: `robots.txt` disallows everything and every page is `noindex`. |
+
+Static page titles/descriptions are in the `Metadata` namespace of `messages/{bg,en}.json`; CMS pages use each document's **SEO** fields, falling back to its title/excerpt.
+
+### Launch checklist
+
+1. Set `NEXT_PUBLIC_SITE_URL` to the real domain and `SITE_INDEXABLE=true` on Vercel (Production only).
+2. In the same deploy, remove `'website'` from `PROTECTED_SECTIONS` in `src/proxy.ts` so crawlers can reach `/website`.
+3. Submit `/sitemap.xml` in Google Search Console and spot-check a blog post, event and job posting in the Rich Results Test.

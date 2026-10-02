@@ -8,6 +8,11 @@ import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical
 
 import { CaseStudy1 } from "@/components/case-study1";
 import type { Client, Industry, Media } from "../../../../../../../payload-types";
+import { JsonLd } from "@/components/json-ld";
+import { buildMetadata, mediaImage, truncate } from "@/lib/seo/metadata";
+import { localizedDocPath, pageBreadcrumbs } from "@/lib/seo/pages";
+import { graph, articleSchema } from "@/lib/seo/schema";
+import { toLocale } from "@/lib/seo/site";
 
 type CaseStudyPageProps = {
   params: Promise<{ slug: string }>;
@@ -45,11 +50,16 @@ export async function generateMetadata({
 
   if (!caseStudy) return {};
 
-  return {
+  return buildMetadata({
     title: caseStudy.meta?.title || caseStudy.title,
-    description:
-      caseStudy.meta?.description || caseStudy.overview || undefined,
-  };
+    description: caseStudy.meta?.description || truncate(caseStudy.overview),
+    path: await localizedDocPath("case-studies", caseStudy.id, "/website/case-studies"),
+    locale: toLocale(locale),
+    image: mediaImage(caseStudy.image),
+    type: "article",
+    publishedTime: caseStudy.createdAt,
+    modifiedTime: caseStudy.updatedAt,
+  });
 }
 
 export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
@@ -74,35 +84,55 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
       ? (client.logo as Media)
       : null;
 
+  const seoLocale = toLocale(locale);
+  const path = await localizedDocPath("case-studies", caseStudy.id, "/website/case-studies");
+
   return (
-    <CaseStudy1
-      title={caseStudy.title}
-      overview={caseStudy.overview ?? undefined}
-      image={image?.url ?? undefined}
-      achievements={(caseStudy.achievements ?? []).map((achievement) => ({
-        value: `${achievement.number}%`,
-        metric: achievement.metric,
-      }))}
-      description={
-        (caseStudy.description as SerializedEditorState | null) ?? undefined
-      }
-      client={
-        client
-          ? {
-              name: client.companyName,
-              logo: clientLogo?.url ?? undefined,
-              industries: (client.industries ?? [])
-                .filter(
-                  (industry): industry is Industry =>
-                    typeof industry === "object",
-                )
-                .map((industry) => ({
-                  title: industry.title,
-                  href: `/website/industries/${industry.slug ?? industry.id}`,
-                })),
-            }
-          : undefined
-      }
-    />
+    <>
+      <JsonLd
+        data={graph(
+          await pageBreadcrumbs(seoLocale, ["caseStudies", { name: caseStudy.title, path }]),
+          articleSchema({
+            locale: seoLocale,
+            path,
+            headline: caseStudy.title,
+            description: caseStudy.meta?.description || caseStudy.overview,
+            image: image?.url,
+            datePublished: caseStudy.createdAt,
+            dateModified: caseStudy.updatedAt,
+            about: client?.companyName,
+          }),
+        )}
+      />
+      <CaseStudy1
+        title={caseStudy.title}
+        overview={caseStudy.overview ?? undefined}
+        image={image?.url ?? undefined}
+        achievements={(caseStudy.achievements ?? []).map((achievement) => ({
+          value: `${achievement.number}%`,
+          metric: achievement.metric,
+        }))}
+        description={
+          (caseStudy.description as SerializedEditorState | null) ?? undefined
+        }
+        client={
+          client
+            ? {
+                name: client.companyName,
+                logo: clientLogo?.url ?? undefined,
+                industries: (client.industries ?? [])
+                  .filter(
+                    (industry): industry is Industry =>
+                      typeof industry === "object",
+                  )
+                  .map((industry) => ({
+                    title: industry.title,
+                    href: `/website/industries/${industry.slug ?? industry.id}`,
+                  })),
+              }
+            : undefined
+        }
+      />
+    </>
   );
 }
