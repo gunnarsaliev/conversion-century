@@ -98,7 +98,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
       <p className="text-sm font-semibold text-primary">
         {eventTypeLabels[event.type]}
       </p>
-      <h1 className="mt-2 font-poppins text-4xl leading-tight font-semibold tracking-[-1px] sm:text-5xl">
+      <h1 className="mt-2 text-4xl leading-tight font-semibold tracking-[-1px] sm:text-5xl">
         {event.title}
       </h1>
       {event.excerpt && (

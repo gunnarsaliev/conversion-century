@@ -56,7 +56,7 @@ const Hero104 = ({
       >
         <div className="flex gap-8">
           <div className="mx-auto max-w-[50rem] lg:max-w-full lg:shrink-0 lg:basis-2/3">
-            <h1 className="font-poppins mb-[0.625rem] text-center text-4xl leading-tight font-semibold tracking-[-1px] sm:text-5xl md:text-6xl md:leading-[1.1] lg:text-left">
+            <h1 className="mb-[0.625rem] text-center text-4xl leading-tight font-semibold tracking-[-1px] sm:text-5xl md:text-6xl md:leading-[1.1] lg:text-left">
               {heading}
             </h1>
             {description && (

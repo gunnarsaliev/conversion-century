@@ -41,8 +41,7 @@ const DETAIL_COLLECTIONS = [
   { collection: 'services', basePath: '/website/services' },
   { collection: 'solutions', basePath: '/website/solutions' },
   { collection: 'industries', basePath: '/website/industries' },
-  // Disabled until the case_studies table exists in the production database.
-  // { collection: 'case-studies', basePath: '/website/case-studies' },
+  { collection: 'case-studies', basePath: '/website/case-studies' },
   { collection: 'job-listings', basePath: '/website/careers' },
 ] as const
 

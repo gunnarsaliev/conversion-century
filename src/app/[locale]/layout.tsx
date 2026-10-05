@@ -1,6 +1,6 @@
 import { type Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { Open_Sans, Lato } from 'next/font/google'
+import { DM_Serif_Display, Lato } from 'next/font/google'
 import clsx from 'clsx'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
@@ -10,17 +10,25 @@ import { IS_INDEXABLE, SITE_NAME, SITE_URL } from '@/lib/seo/site'
 
 import '@/styles/tailwind.css'
 
-const inter = Open_Sans({
-  subsets: ['latin'],
+// Body and UI text. Lato has no Cyrillic glyphs, so Bulgarian text falls
+// back to the system sans-serif.
+const lato = Lato({
+  subsets: ['latin', 'latin-ext'],
+  weight: ['300', '400', '700', '900'],
   display: 'swap',
-  variable: '--font-inter',
+  variable: '--font-lato',
+  fallback: ['system-ui', 'Helvetica Neue', 'Arial', 'sans-serif'],
 })
 
-const lexend = Lato({
-  subsets: ['latin'],
-  weight: ['400', '700', '900'],
+// All h1–h6 headings (see src/styles/tailwind.css). Ships a single weight
+// (400). No Cyrillic either — falls back to Georgia/serif.
+const dmSerifDisplay = DM_Serif_Display({
+  subsets: ['latin', 'latin-ext'],
+  weight: '400',
+  style: ['normal', 'italic'],
   display: 'swap',
-  variable: '--font-lexend',
+  variable: '--font-dm-serif-display',
+  fallback: ['Georgia', 'Times New Roman', 'serif'],
 })
 
 export function generateStaticParams() {
@@ -61,7 +69,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <html
       lang={locale}
-      className={clsx('h-full antialiased', inter.variable, lexend.variable)}
+      className={clsx('h-full antialiased', lato.variable, dmSerifDisplay.variable)}
       suppressHydrationWarning
     >
       <body className="isolate flex min-h-full bg-white dark:bg-slate-900">

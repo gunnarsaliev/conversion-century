@@ -88,7 +88,7 @@ const Reviews22 = ({ reviews, className }: Reviews22Props) => {
     <section className={cn("overflow-hidden py-32", className)}>
       <div className="container">
         <div className="mx-auto mb-10 max-w-100">
-          <h2 className="text-center font-serif text-4xl">
+          <h2 className="text-center text-4xl">
      Positive Reviews From Our Client
           </h2>
         </div>
@@ -158,7 +158,7 @@ const ReviewCard = ({ review }: ReviewCardType) => {
               <AvatarFallback>{getInitials(author.name)}</AvatarFallback>
             </Avatar>
             <div className="space-y-0.5">
-              <h3 className="font-serif text-base leading-normal">
+              <h3 className="text-base leading-normal">
                 {author.name}
               </h3>
               {author.role && (

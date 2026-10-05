@@ -33,7 +33,7 @@ export default function Priorities({ section, className }: PrioritiesProps & { c
     >
       <div className="mx-auto grid max-w-[1310px] items-start gap-12 lg:grid-cols-[1fr_1fr] lg:gap-[5.2%]">
         <div className="max-w-[610px]">
-          <h2 className="max-w-[600px] font-serif text-[42px] font-black leading-[1.12] tracking-[-0.035em] text-balance sm:text-[50px] lg:text-[48px]">
+          <h2 className="max-w-[600px] text-[42px] font-black leading-[1.12] tracking-[-0.035em] text-balance sm:text-[50px] lg:text-[48px]">
             {section.heading}
           </h2>
 

@@ -4,6 +4,7 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 import { z } from "zod";
 
+import { plainTextToLexical } from "@/lib/plain-text-to-lexical";
 import type { JobApplicant } from "../../../../../../payload-types";
 
 // ---------------------------------------------------------------------------
@@ -23,43 +24,6 @@ const applicationFormSchema = z.object({
 type ApplicationFormResult =
   | { success: true }
   | { success: false; error: string };
-
-// The textarea is plain text, but `message` is a Lexical rich text field —
-// turn each non-empty line into its own paragraph.
-function toLexical(text: string): NonNullable<JobApplicant["message"]> {
-  return {
-    root: {
-      type: "root",
-      format: "",
-      indent: 0,
-      version: 1,
-      direction: "ltr",
-      children: text
-        .split(/\r?\n/)
-        .map((line) => line.trim())
-        .filter(Boolean)
-        .map((line) => ({
-          type: "paragraph",
-          format: "",
-          indent: 0,
-          version: 1,
-          direction: "ltr",
-          textFormat: 0,
-          children: [
-            {
-              type: "text",
-              text: line,
-              format: 0,
-              style: "",
-              mode: "normal",
-              detail: 0,
-              version: 1,
-            },
-          ],
-        })),
-    },
-  };
-}
 
 async function submitJobApplication(
   formData: FormData,
@@ -87,7 +51,8 @@ async function submitJobApplication(
         fullName,
         email,
         status: "new",
-        message: toLexical(message),
+        // The textarea is plain text, but `message` is a Lexical rich text field.
+        message: plainTextToLexical(message) as JobApplicant["message"],
       },
     });
 

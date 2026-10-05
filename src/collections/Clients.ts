@@ -166,6 +166,15 @@ export const Clients: CollectionConfig = {
       type: 'text',
     },
     {
+      name: 'profileImage',
+      label: 'Profile image',
+      type: 'upload',
+      relationTo: 'media',
+      admin: {
+        description: 'Photo of the contact person, e.g. shown next to their testimonial.',
+      },
+    },
+    {
       name: 'email',
       type: 'email',
     },

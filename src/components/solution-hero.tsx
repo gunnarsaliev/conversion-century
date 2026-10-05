@@ -44,7 +44,7 @@ export default function SolutionHero({
               {eyebrow}
             </div>
           )}
-          <h1 className="mt-8 max-w-[720px] font-serif text-[54px] font-bold leading-[0.93] tracking-[-0.045em] text-balance sm:text-[72px] lg:text-[80px]">
+          <h1 className="mt-8 max-w-[720px] text-[54px] font-bold leading-[0.93] tracking-[-0.045em] text-balance sm:text-[72px] lg:text-[80px]">
             {heading || name}
           </h1>
           {lead && (

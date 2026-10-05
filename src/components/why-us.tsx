@@ -40,7 +40,7 @@ export function WhyUs({ items }: WhyUsProps = {}) {
 
   return (
     <div className="my-12">
-    <h1 className="mb-16 max-w-2xl font-serif text-5xl font-black leading-[0.98] tracking-[-0.04em] md:text-6xl">
+    <h1 className="mb-16 max-w-2xl text-5xl font-black leading-[0.98] tracking-[-0.04em] md:text-6xl">
       Why Work With
       <br />
       Conversion Century?

@@ -35,7 +35,7 @@ export default async function ServicesPage() {
       <StaticPageJsonLd page="services" />
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
-          <h1 className="font-poppins text-4xl leading-tight font-semibold tracking-[-1px] sm:text-5xl">
+          <h1 className="text-4xl leading-tight font-semibold tracking-[-1px] sm:text-5xl">
             Our Services
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">

@@ -73,7 +73,7 @@ function CheckList({ items }: { items?: ListItem[] | null }) {
 function SectionHeading({ children }: { children?: string | null }) {
   if (!children) return null;
   return (
-    <h2 className="font-poppins text-3xl font-semibold tracking-tight">
+    <h2 className="text-3xl font-semibold tracking-tight">
       {children}
     </h2>
   );

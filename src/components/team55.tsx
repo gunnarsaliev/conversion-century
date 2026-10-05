@@ -70,7 +70,7 @@ const Team55 = (props: Props) => {
             <p className="text-xs font-semibold tracking-widest text-muted-foreground uppercase">
               {label}
             </p>
-            <h2 className="max-w-xl font-serif text-4xl tracking-tight text-balance sm:text-5xl">
+            <h2 className="max-w-xl text-4xl tracking-tight text-balance sm:text-5xl">
               {heading}
             </h2>
           </div>

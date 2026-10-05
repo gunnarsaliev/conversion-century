@@ -80,6 +80,7 @@ export interface Config {
     industries: Industry;
     solutions: Solution;
     events: Event;
+    testimonials: Testimonial;
     exports: Export;
     imports: Import;
     'payload-kv': PayloadKv;
@@ -110,6 +111,7 @@ export interface Config {
     industries: IndustriesSelect<false> | IndustriesSelect<true>;
     solutions: SolutionsSelect<false> | SolutionsSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
+    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     exports: ExportsSelect<false> | ExportsSelect<true>;
     imports: ImportsSelect<false> | ImportsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -242,6 +244,10 @@ export interface Client {
   showOnWebsite?: boolean | null;
   contactName?: string | null;
   contactRole?: string | null;
+  /**
+   * Photo of the contact person, e.g. shown next to their testimonial.
+   */
+  profileImage?: (number | null) | Media;
   email?: string | null;
   phone?: string | null;
   websiteLinks?:
@@ -1023,6 +1029,30 @@ export interface Event {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Submitted from /website/testimonials/new. Approving one copies it onto the client (or creates the new client as a Lead).
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials".
+ */
+export interface Testimonial {
+  id: number;
+  name: string;
+  email: string;
+  profileImage?: (number | null) | Media;
+  testimonial: string;
+  status: 'pending' | 'approved' | 'rejected';
+  clientType: 'existing' | 'new';
+  client?: (number | null) | Client;
+  newClient?: {
+    companyName?: string | null;
+    role?: string | null;
+    website?: string | null;
+    logo?: (number | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "exports".
  */
@@ -1264,6 +1294,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'events';
         value: number | Event;
+      } | null)
+    | ({
+        relationTo: 'testimonials';
+        value: number | Testimonial;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1344,6 +1378,7 @@ export interface ClientsSelect<T extends boolean = true> {
   showOnWebsite?: T;
   contactName?: T;
   contactRole?: T;
+  profileImage?: T;
   email?: T;
   phone?: T;
   websiteLinks?:
@@ -1905,6 +1940,29 @@ export interface EventsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials_select".
+ */
+export interface TestimonialsSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  profileImage?: T;
+  testimonial?: T;
+  status?: T;
+  clientType?: T;
+  client?: T;
+  newClient?:
+    | T
+    | {
+        companyName?: T;
+        role?: T;
+        website?: T;
+        logo?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "exports_select".
  */
 export interface ExportsSelect<T extends boolean = true> {
@@ -2066,6 +2124,7 @@ export interface TaskCreateCollectionExport {
       | 'industries'
       | 'solutions'
       | 'events'
+      | 'testimonials'
       | 'exports'
       | 'imports';
     drafts?: ('yes' | 'no') | null;

@@ -13,7 +13,7 @@ export function SeoCta() {
       <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
         {/* Left column */}
         <div>
-          <h2 className="text-balance font-serif text-4xl font-black leading-[1.05] tracking-tight text-[#12271c] sm:text-5xl">
+          <h2 className="text-balance text-4xl font-black leading-[1.05] tracking-tight text-[#12271c] sm:text-5xl">
             Let&apos;s Find Out Whether SEO Is the Right Next Step
           </h2>
           <p className="mt-6 max-w-md text-lg leading-relaxed text-muted-foreground">
@@ -31,7 +31,7 @@ export function SeoCta() {
 
         {/* Right column */}
         <div className="rounded-[2rem] bg-[#e8efe9] p-8 sm:p-10">
-          <h3 className="font-serif text-2xl font-bold text-[#12271c] sm:text-3xl">
+          <h3 className="text-2xl font-bold text-[#12271c] sm:text-3xl">
             What happens next?
           </h3>
           <ol className="mt-6 space-y-6">
