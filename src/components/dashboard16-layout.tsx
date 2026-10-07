@@ -6,6 +6,7 @@ import {
   ChevronsUpDown,
   Globe,
   Handshake,
+  Images,
   LayoutDashboard,
   LogOut,
   Palette,
@@ -112,6 +113,7 @@ const sidebarData: SidebarData = {
         },
         { label: "Clients", icon: Users, href: "/dashboard/clients" },
         { label: "Leads", icon: Handshake, href: "/dashboard/leads" },
+        { label: "Media", icon: Images, href: "/dashboard/media" },
         { label: "Website", icon: Globe, href: "/website" },
         // {
         //   label: "Guest Profiles",
