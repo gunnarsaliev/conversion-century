@@ -51,9 +51,11 @@ const Logos35 = (props: Props) => {
     <section className={cn("py-32", className)}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
-          <p className="mb-3 text-xs font-semibold tracking-widest text-muted-foreground uppercase">
-            {eyebrow}
-          </p>
+          {eyebrow && (
+            <p className="mb-3 text-xs font-semibold tracking-widest text-muted-foreground uppercase">
+              {eyebrow}
+            </p>
+          )}
           <h2 className="text-3xl font-bold tracking-tight text-balance sm:text-4xl">
             {heading}
           </h2>
@@ -70,18 +72,26 @@ const Logos35 = (props: Props) => {
                 hovered === i && "bg-muted",
               )}
             >
-              <img
-                src={brand.src}
-                alt={brand.name}
-                className="h-10 w-36 object-contain opacity-50 grayscale transition-all duration-200 hover:opacity-100 hover:grayscale-0 dark:invert"
-              />
+              {brand.src ? (
+                <img
+                  src={brand.src}
+                  alt={brand.name}
+                  className="h-10 w-36 object-contain opacity-50 grayscale transition-all duration-200 hover:opacity-100 hover:grayscale-0 dark:invert"
+                />
+              ) : (
+                <span className="text-center text-lg font-semibold tracking-tight text-muted-foreground">
+                  {brand.name}
+                </span>
+              )}
             </div>
           ))}
         </div>
 
-        <p className="mt-8 text-center text-sm text-muted-foreground">
-          {footer}
-        </p>
+        {footer && (
+          <p className="mt-8 text-center text-sm text-muted-foreground">
+            {footer}
+          </p>
+        )}
       </div>
     </section>
   );
