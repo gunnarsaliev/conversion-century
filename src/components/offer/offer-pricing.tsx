@@ -12,15 +12,18 @@ export function OfferPricing({
   pricing: OfferStatic["pricing"];
 }) {
   return (
-    <OfferSection id="pricing" heading={pricing.header}>
+    <OfferSection id="pricing" heading={`${pricing.header} ${offer.siteType}`}>
       <div className="grid gap-8 lg:grid-cols-[1fr_2fr]">
         <div>
           <h3 className="mb-4 font-semibold">{pricing.summaryHeader}</h3>
           <ul className="flex flex-col gap-3 text-sm">
             {offer.scopeSummary.map((item) => (
-              <li key={item} className="flex gap-2">
+              <li key={item.label} className="flex gap-2">
                 <Check aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-primary" />
-                {item}
+                <span>
+                  <strong className="font-semibold">{item.label}:</strong>{" "}
+                  <span className="text-muted-foreground">{item.text}</span>
+                </span>
               </li>
             ))}
           </ul>
@@ -47,7 +50,7 @@ export function OfferPricing({
                 {formatPrice(pkg.price, pkg.currency)}
               </p>
               <p className="mb-6 text-sm text-muted-foreground">
-                {pkg.hours} {pricing.hoursLabel}
+                {pkg.hours !== undefined && `${pkg.hours} ${pricing.hoursLabel}`}
               </p>
               <ul className="flex flex-col gap-2 text-sm">
                 {pkg.features.map((feature) => (

@@ -6,11 +6,10 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 
 import { Faq28 } from "@/components/faq28";
-import { Logos35 } from "@/components/logos35";
+import { ClientLogos } from "@/components/client-logos";
 import { Testimonial30 } from "@/components/testimonial30";
 import { getClientTestimonials } from "@/lib/client-testimonials";
 import { findByLocalizedSlug } from "@/utilities/findByLocalizedSlug";
-import type { Media } from "../../../../../../../payload-types";
 import { Hero297 } from "@/components/hero297";
 import { Feature99 } from "@/components/feature99";
 import { Feature18 } from "@/components/feature18";
@@ -71,25 +70,6 @@ export default async function SolutionDetailPage({
   }
 
   const payload = await getPayload({ config });
-  const { docs: clients } = await payload.find({
-    collection: "clients",
-    where: {
-      showOnWebsite: { equals: true },
-      logo: { exists: true },
-    },
-    depth: 1,
-    limit: 50,
-  });
-
-  const clientLogos = clients
-    .filter(
-      (client): client is typeof client & { logo: Media } =>
-        typeof client.logo === "object" && client.logo !== null && !!client.logo.url,
-    )
-    .map((client) => ({
-      name: client.companyName,
-      src: client.logo.url as string,
-    }));
 
   const testimonials = await getClientTestimonials(payload);
 
@@ -183,7 +163,7 @@ export default async function SolutionDetailPage({
         />
       )}
 
-      <Logos35 logos={clientLogos.length > 0 ? clientLogos : undefined} />
+      <ClientLogos />
       <Priorities section={solution.teamExtension} className="bg-yellow-50 py-16" />
 
       <Testimonial30 testimonials={testimonials} />

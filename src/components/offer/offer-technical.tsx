@@ -13,11 +13,15 @@ export function OfferTechnical({
     ? technical.groups
     : technical.groups.map((group) => ({
         ...group,
-        items: group.items.filter((item) => item !== "Hreflang"),
+        items: group.items.filter((item) => !item.label.startsWith("Hreflang")),
       }));
 
   return (
-    <OfferSection id="technical" heading={technical.header}>
+    <OfferSection
+      id="technical"
+      heading={`${technical.header} ${offer.siteType}`}
+      description={technical.description}
+    >
       <GroupedLists groups={groups} />
     </OfferSection>
   );

@@ -10,11 +10,10 @@ import config from "@payload-config";
 import { Faq28 } from "@/components/faq28";
 import { Hero104 } from "@/components/hero104";
 import hero104Data from "@/data/hero104.json";
-import { Logos35 } from "@/components/logos35";
+import { ClientLogos } from "@/components/client-logos";
 import { Testimonial30 } from "@/components/testimonial30";
 import { getClientTestimonials } from "@/lib/client-testimonials";
 import { findByLocalizedSlug } from "@/utilities/findByLocalizedSlug";
-import type { Media } from "../../../../../../../payload-types";
 import { Hero297 } from "@/components/hero297";
 import { Feature67 } from "@/components/feature67";
 import { Feature99 } from "@/components/feature99";
@@ -53,8 +52,6 @@ function Paragraphs({ text }: { text?: string | null }) {
     </p>
   ));
 }
-
-
 
 function CheckList({ items }: { items?: ListItem[] | null }) {
   if (!items?.length) return null;
@@ -133,25 +130,6 @@ export default async function ServiceDetailPage({
     service.image && typeof service.image === "object" ? service.image : null;
 
   const payload = await getPayload({ config });
-  const { docs: clients } = await payload.find({
-    collection: "clients",
-    where: {
-      showOnWebsite: { equals: true },
-      logo: { exists: true },
-    },
-    depth: 1,
-    limit: 50,
-  });
-
-  const clientLogos = clients
-    .filter(
-      (client): client is typeof client & { logo: Media } =>
-        typeof client.logo === "object" && client.logo !== null && !!client.logo.url,
-    )
-    .map((client) => ({
-      name: client.companyName,
-      src: client.logo.url as string,
-    }));
 
   const testimonials = await getClientTestimonials(payload);
 
@@ -214,8 +192,6 @@ export default async function ServiceDetailPage({
         />
       )}
 
-
-
       {includes?.heading && includes.items && includes.items.length > 0 && (
         <Feature18
         heading={includes.heading}
@@ -258,7 +234,7 @@ export default async function ServiceDetailPage({
       )}
 
       <WhyUs />
-      <Logos35 logos={clientLogos.length > 0 ? clientLogos : undefined} />
+      <ClientLogos />
       <Priorities section={service.measurement} />
       <Priorities section={service.teamExtension} className="bg-yellow-50 py-16" />
 

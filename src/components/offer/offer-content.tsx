@@ -1,11 +1,5 @@
 import type { Offer, OfferStatic } from "@/types/offer";
-import { GroupedLists, OfferSection } from "./offer-ui";
-
-// Replaces `{blogArticles}`-style placeholders with the offer's quantities.
-const fill = (text: string, values: Record<string, number>) =>
-  text.replace(/\{(\w+)\}/g, (match, key: string) =>
-    key in values ? String(values[key]) : match,
-  );
+import { GroupedLists, OfferSection, fillPlaceholders } from "./offer-ui";
 
 export function OfferContent({
   offer,
@@ -18,11 +12,18 @@ export function OfferContent({
 
   const groups = contentStrategy.groups.map((group) => ({
     ...group,
-    items: group.items.map((item) => fill(item, offer.content)),
+    items: group.items.map((item) => ({
+      label: fillPlaceholders(item.label, offer.content),
+      text: fillPlaceholders(item.text, offer.content),
+    })),
   }));
 
   return (
-    <OfferSection id="content" heading={contentStrategy.header}>
+    <OfferSection
+      id="content"
+      heading={`${contentStrategy.header} ${offer.siteType}`}
+      description={contentStrategy.description}
+    >
       <GroupedLists groups={groups} />
     </OfferSection>
   );

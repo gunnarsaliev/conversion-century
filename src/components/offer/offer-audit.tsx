@@ -1,4 +1,6 @@
+import { ChartRadialShape } from "@/components/chart-radial-shape";
 import type { Offer, OfferMetricKey, OfferStatic } from "@/types/offer";
+import { KeywordTable } from "./keyword-table";
 import { OfferSection, formatDate, formatNumber } from "./offer-ui";
 
 const METRIC_ORDER: OfferMetricKey[] = [
@@ -34,34 +36,27 @@ export function OfferAudit({
         {METRIC_ORDER.map((key) => (
           <div key={key} className="rounded-2xl border border-border bg-card p-6">
             <dt className="text-sm text-muted-foreground">{audit.metricLabels[key]}</dt>
-            <dd className="mt-2 text-3xl font-semibold tabular-nums sm:text-4xl">
-              {formatNumber(metrics[key])}
-            </dd>
+            {key === "domainRating" ? (
+              // DR is a 0–100 score, so show it as a gauge.
+              <dd className="mt-2">
+                <ChartRadialShape
+                  value={metrics.domainRating}
+                  max={100}
+                  label="от 100"
+                  className="max-w-none border-0 bg-transparent p-0"
+                />
+              </dd>
+            ) : (
+              <dd className="mt-2 text-3xl font-semibold tabular-nums sm:text-4xl">
+                {formatNumber(metrics[key])}
+              </dd>
+            )}
           </div>
         ))}
       </dl>
 
       <h3 className="mb-4 text-lg font-semibold">{audit.keywordsHeader}</h3>
-      <div className="overflow-x-auto rounded-2xl border border-border">
-        <table className="w-full text-left text-sm">
-          <thead className="bg-muted text-muted-foreground">
-            <tr>
-              <th scope="col" className="px-4 py-3 font-medium">{audit.columns.keyword}</th>
-              <th scope="col" className="px-4 py-3 text-right font-medium">{audit.columns.position}</th>
-              <th scope="col" className="px-4 py-3 text-right font-medium">{audit.columns.volume}</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-border bg-card">
-            {keywords.map((row) => (
-              <tr key={row.keyword}>
-                <td className="px-4 py-3">{row.keyword}</td>
-                <td className="px-4 py-3 text-right tabular-nums">{row.position}</td>
-                <td className="px-4 py-3 text-right tabular-nums">{formatNumber(row.volume)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <KeywordTable keywords={keywords} columns={audit.columns} />
     </OfferSection>
   );
 }

@@ -1,13 +1,8 @@
 import type { OfferStatic } from "@/types/offer";
-import { Logos35 } from "@/components/logos35";
+import { ClientLogos } from "@/components/client-logos";
+import { CountryFlags } from "./country-flags";
 import { LogoOrName } from "./offer-ui";
 import Image from "next/image";
-
-// Iconify's flag sets use ISO 3166 codes, where the UK is "gb".
-const flagCode = (country: string) =>
-  (country === "UK" ? "gb" : country).toLowerCase();
-
-const countryNames = new Intl.DisplayNames(["bg"], { type: "region" });
 
 export function OfferSocialProof({
   socialProof,
@@ -16,14 +11,7 @@ export function OfferSocialProof({
 }) {
   return (
     <section id="clients" className="scroll-mt-24 border-t border-border py-16 sm:py-24">
-      <Logos35
-        heading={socialProof.header}
-        logos={socialProof.clients.map((client) => ({
-          name: client.name,
-          src: client.logo,
-        }))}
-        className="py-0"
-      />
+      <ClientLogos heading={socialProof.header} className="py-0" />
 
       <div className="mt-10 flex flex-wrap justify-center gap-3">
         {socialProof.badges.map((badge) =>
@@ -47,27 +35,14 @@ export function OfferSocialProof({
         )}
       </div>
 
-      <div className="mt-10 flex flex-col items-center gap-3">
-        <h3 className="text-sm font-semibold text-muted-foreground">
+      <div className="mt-16 flex flex-col items-center gap-4 text-center">
+        <h3 className="text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
           {socialProof.countriesHeader}
         </h3>
-        <ul className="flex flex-wrap justify-center gap-4">
-          {socialProof.countries.map((country) => {
-            const name = countryNames.of(flagCode(country).toUpperCase()) ?? country;
-            return (
-              <li key={country}>
-                <img
-                  src={`https://api.iconify.design/flag/${flagCode(country)}-4x3.svg`}
-                  alt={name}
-                  title={name}
-                  width={64}
-                  height={48}
-                  className="h-12 w-16 rounded-md object-cover shadow-sm ring-1 ring-border"
-                />
-              </li>
-            );
-          })}
-        </ul>
+        <p className="max-w-3xl text-pretty text-muted-foreground">
+          {socialProof.countriesDescription}
+        </p>
+        <CountryFlags countries={socialProof.countries} className="mt-4" />
       </div>
     </section>
   );

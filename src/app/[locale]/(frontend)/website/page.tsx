@@ -4,7 +4,7 @@ import config from "@payload-config";
 
 import { Hero104 } from "@/components/hero104";
 import hero104Data from "@/data/hero104.json";
-import { Logos35 } from "@/components/logos35";
+import { ClientLogos } from "@/components/client-logos";
 import type { Media, User } from "../../../../../payload-types";
 import { Feature13 } from "@/components/feature13";
 import { Feature278 } from "@/components/feature278";
@@ -41,25 +41,6 @@ export async function generateMetadata() {
 export default async function WebsitePage() {
   const locale = await getLocale();
   const payload = await getPayload({ config });
-  const { docs: clients } = await payload.find({
-    collection: "clients",
-    where: {
-      showOnWebsite: { equals: true },
-      logo: { exists: true },
-    },
-    depth: 1,
-    limit: 50,
-  });
-
-  const clientLogos = clients
-    .filter(
-      (client): client is typeof client & { logo: Media } =>
-        typeof client.logo === "object" && client.logo !== null && !!client.logo.url,
-    )
-    .map((client) => ({
-      name: client.companyName,
-      src: client.logo.url as string,
-    }));
 
   const testimonials: Testimonial17Item[] = (
     await getClientTestimonials(payload)
@@ -102,7 +83,7 @@ export default async function WebsitePage() {
       <StaticPageJsonLd page="home" />
       <div>
         <Hero104 {...hero104Data} />
-        <Logos35 logos={clientLogos.length > 0 ? clientLogos : undefined} />
+        <ClientLogos />
         <Hero262 />      
         <Feature278 />
         <CaseStudies8 />

@@ -4,7 +4,7 @@ import { convertLexicalToPlaintext } from "@payloadcms/richtext-lexical/plaintex
 
 import { BookADemo2 } from "@/components/book-a-demo2";
 import type { Media } from "../../../../../../payload-types";
-import { Logos35 } from "@/components/logos35";
+import { ClientLogos } from "@/components/client-logos";
 import { StaticPageJsonLd } from "@/components/static-page-json-ld";
 import { staticPageMetadata } from "@/lib/seo/pages";
 
@@ -24,28 +24,6 @@ export async function generateMetadata() {
 
 export default async function BookAConsultationPage() {
   const payload = await getPayload({ config });
-
-  const { docs: logoClients } = await payload.find({
-    collection: "clients",
-    where: {
-      showOnWebsite: { equals: true },
-      logo: { exists: true },
-    },
-    depth: 1,
-    limit: 50,
-  });
-
-  const clientLogos = logoClients
-    .filter(
-      (client): client is typeof client & { logo: Media } =>
-        typeof client.logo === "object" &&
-        client.logo !== null &&
-        !!client.logo.url,
-    )
-    .map((client) => ({
-      name: client.companyName,
-      src: client.logo.url as string,
-    }));
 
   const clients = await Promise.all(
     FEATURED_CLIENT_IDS.map((id) =>
@@ -125,11 +103,10 @@ export default async function BookAConsultationPage() {
           }}
           testimonials={testimonials.length > 0 ? testimonials : undefined}
         />
-        <Logos35
+        <ClientLogos
           eyebrow="Trusted by businesses at"
           heading="Real results for real SEO clients"
           footer="From local SEO to enterprise organic growth — see who we've helped rank higher."
-          logos={clientLogos.length > 0 ? clientLogos : undefined}
         />
       </>
     </>

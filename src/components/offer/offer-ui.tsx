@@ -1,5 +1,13 @@
 import { cn } from "cn";
 
+import type { LabeledItem } from "@/types/offer";
+
+// Replaces `{blogArticles}`-style placeholders with the offer's values.
+export const fillPlaceholders = (text: string, values: Record<string, number>) =>
+  text.replace(/\{(\w+)\}/g, (match, key: string) =>
+    key in values ? String(values[key]) : match,
+  );
+
 export const formatNumber = (value: number) =>
   new Intl.NumberFormat("bg-BG").format(value);
 
@@ -8,7 +16,13 @@ export const formatPrice = (value: number, currency: string) =>
     style: "currency",
     currency,
     maximumFractionDigits: 0,
+    // bg-BG skips the separator for 4-digit numbers; prices read better as "2 500".
+    useGrouping: "always",
   }).format(value);
+
+// Plain amount with a thousands separator, e.g. "2 500".
+export const formatAmount = (value: number) =>
+  new Intl.NumberFormat("bg-BG", { useGrouping: "always" }).format(value);
 
 export const formatDate = (value: string) =>
   new Intl.DateTimeFormat("bg-BG", { dateStyle: "long" }).format(
@@ -86,7 +100,7 @@ export function LogoOrName({
 export function GroupedLists({
   groups,
 }: {
-  groups: { title: string; items: string[] }[];
+  groups: { title: string; items: (string | LabeledItem)[] }[];
 }) {
   return (
     <div className="grid gap-4 md:grid-cols-3">
@@ -98,12 +112,19 @@ export function GroupedLists({
           <h3 className="mb-4 font-semibold">{group.title}</h3>
           <ul className="flex flex-col gap-2 text-sm text-muted-foreground">
             {group.items.map((item) => (
-              <li key={item} className="flex gap-2">
+              <li key={typeof item === "string" ? item : item.label} className="flex gap-2">
                 <span
                   aria-hidden="true"
                   className="mt-2 size-1.5 shrink-0 rounded-full bg-primary"
                 />
-                {item}
+                {typeof item === "string" ? (
+                  item
+                ) : (
+                  <span>
+                    <strong className="font-semibold text-foreground">{item.label}:</strong>{" "}
+                    {item.text}
+                  </span>
+                )}
               </li>
             ))}
           </ul>

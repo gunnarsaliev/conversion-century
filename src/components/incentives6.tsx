@@ -24,6 +24,8 @@ type Incentive = {
 
 type Incentives6Props = {
   incentives: Incentive[];
+  /** Cards per row on desktop; tablet always shows 2. */
+  columns?: 2 | 4;
   className?: string;
 };
 
@@ -52,10 +54,11 @@ const INCENTIVES_SECTION: Incentive[] = [
 
 const Incentives6 = ({
   incentives = INCENTIVES_SECTION,
+  columns = 4,
   className,
 }: Incentives6Props) => {
   return (
-    <section className={cn("py-32", className)}>
+    <section className={cn("py-4", className)}>
       <div className="max-sm:border-y">
         <div className="container">
           <Carousel
@@ -67,10 +70,19 @@ const Incentives6 = ({
               },
             }}
           >
-            <CarouselContent className="ml-0 py-px sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:[&>div]:overflow-auto">
+            <CarouselContent
+              className={cn(
+                "ml-0 py-px sm:grid sm:grid-cols-2 sm:[&>div]:overflow-auto",
+                columns === 4 && "lg:grid-cols-4",
+              )}
+            >
               {incentives.map(({ title, text, icon: Icon }, index) => (
                 <CarouselItem
-                  className="pl-0 not-last:-mr-px sm:-mb-px sm:max-lg:odd:-mr-px"
+                  className={cn(
+                    "pl-0 not-last:-mr-px sm:-mb-px",
+                    // Overlap shared borders between the two columns.
+                    columns === 4 ? "sm:max-lg:odd:-mr-px" : "sm:odd:-mr-px",
+                  )}
                   key={index}
                 >
                   <Item

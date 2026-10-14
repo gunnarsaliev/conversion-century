@@ -5,7 +5,7 @@ import type { OfferStatic } from "@/types/offer";
 
 // One icon per pillar, in the order they appear in static.json:
 // Иновация, Прозрачност, Колаборация, Постоянство.
-const PILLAR_ICONS = [Lightbulb, Eye, Handshake, Repeat];
+export const PILLAR_ICONS = [Lightbulb, Eye, Handshake, Repeat];
 
 export function OfferAgency({ agency }: { agency: OfferStatic["agency"] }) {
   return (
