@@ -9,6 +9,17 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts')
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   pageExtensions: ['js', 'jsx', 'md', 'ts', 'tsx'],
+  // Loaded from node_modules at runtime instead of being bundled; renders the
+  // offer PDF in website/special-offer/pdf.
+  serverExternalPackages: ['@react-pdf/renderer'],
+  // The offer PDF reads its font and images from disk by path, which the
+  // file tracer can't see; ship them with that route.
+  outputFileTracingIncludes: {
+    '/*/website/{special-offer,offers/*}/pdf': [
+      './node_modules/@expo-google-fonts/inter/{400Regular,600SemiBold,700Bold}/*.ttf',
+      './src/app/**/website/offer/*.png',
+    ],
+  },
   experimental: {
     serverActions: {
       // The testimonial form uploads up to two images (2 MB each) via a

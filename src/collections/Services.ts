@@ -39,6 +39,18 @@ export const Services: CollectionConfig = {
       admin: { position: 'sidebar' },
     },
     {
+      // Offer packages are priced as hours × this rate (see the Offers collection).
+      name: 'price',
+      label: 'Price per hour (EUR)',
+      type: 'number',
+      min: 0,
+      admin: { position: 'sidebar' },
+      access: {
+        // Services are public; keep the rate to signed-in users.
+        read: ({ req: { user } }) => Boolean(user),
+      },
+    },
+    {
       type: 'tabs',
       tabs: [
         {

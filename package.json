@@ -8,12 +8,14 @@
     "start": "next start",
     "lint": "eslint",
     "generate:types": "node scripts/payload-esm.mjs generate:types",
-    "seed:solutions": "node scripts/payload-esm.mjs run scripts/seed-solutions.ts"
+    "seed:solutions": "node scripts/payload-esm.mjs run scripts/seed-solutions.ts",
+    "seed:offers": "node scripts/payload-esm.mjs run scripts/seed-offers.ts"
   },
   "browserslist": "defaults, not ie <= 11",
   "dependencies": {
     "@algolia/autocomplete-core": "^1.19.2",
     "@base-ui/react": "^1.7.0",
+    "@expo-google-fonts/inter": "^0.4.2",
     "@headlessui/react": "^2.2.10",
     "@hookform/resolvers": "^5.9.1",
     "@lexical/html": "0.41.0",
@@ -31,6 +33,7 @@
     "@payloadcms/richtext-lexical": "^3.88.0",
     "@payloadcms/storage-s3": "3.88.0",
     "@payloadcms/translations": "^3.88.0",
+    "@react-pdf/renderer": "^4.9.0",
     "@sindresorhus/slugify": "^2.2.1",
     "@tailwindcss/postcss": "^4.3.3",
     "@tailwindcss/typography": "^0.5.16",

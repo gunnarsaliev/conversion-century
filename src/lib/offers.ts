@@ -1,0 +1,143 @@
+import { cache } from "react";
+import { getPayload } from "payload";
+import config from "@payload-config";
+
+import type { Offer } from "@/types/offer";
+import type { Offer as OfferDoc, User } from "../../payload-types";
+
+// Reads client offers from the `offers` collection and maps them onto the
+// `Offer` shape the offer components and PDF were built against.
+// Offers are written in Bulgarian, so related docs (service name) are read
+// in the `bg` locale. Wrapped in React `cache` so the page, its metadata and
+// sections share one query per request.
+
+const OFFER_LOCALE = "bg";
+
+const userName = (user: number | User | null | undefined) =>
+  typeof user === "object" && user
+    ? [user.firstName, user.lastName].filter(Boolean).join(" ") || user.email
+    : undefined;
+
+// Package hours and price come from the collection's virtual fields
+// (fixed price, or Σ hours × each service's hourly rate).
+function toOffer(doc: OfferDoc): Offer {
+  const client = typeof doc.client === "object" ? doc.client : null;
+  const services = doc.services.flatMap((service) =>
+    typeof service === "object" ? [service.name] : [],
+  );
+  const logo = client && typeof client.logo === "object" ? client.logo : null;
+
+  return {
+    id: String(doc.id),
+    client: {
+      slug: String(client?.id ?? ""),
+      name: client?.companyName ?? doc.title,
+      logo: logo?.url ?? "",
+      url: client?.websiteLinks?.[0]?.url ?? "",
+    },
+    service: services.join(", "),
+    services,
+    preparedBy: userName(doc.preparedBy),
+    siteType: doc.siteType,
+    date: doc.date,
+    validUntil: doc.validUntil,
+    metrics: {
+      source: doc.metrics?.source ?? "",
+      date: doc.metrics?.date ?? doc.date,
+      domainRating: doc.metrics?.domainRating ?? 0,
+      backlinks: doc.metrics?.backlinks ?? 0,
+      organicKeywords: doc.metrics?.organicKeywords ?? 0,
+      organicTraffic: doc.metrics?.organicTraffic ?? 0,
+    },
+    keywords: (doc.keywords ?? []).map(({ keyword, position, volume }) => ({
+      keyword,
+      position,
+      volume,
+    })),
+    startLabel: doc.startLabel ?? "",
+    timeline: (doc.timeline ?? []).map((phase) => ({
+      label: phase.label,
+      startWeek: phase.startWeek,
+      endWeek: phase.endWeek,
+      description: phase.description ?? "",
+      tasks: [],
+    })),
+    responsibilities: doc.responsibilities ?? "",
+    // Not stored per offer; only the older /website/offer sections use them.
+    pageTypes: [],
+    competitors: [],
+    includeLocalization: true,
+    content: {
+      blogArticles: doc.content?.blogArticles ?? 0,
+      categoryPages: doc.content?.categoryPages ?? 0,
+      brandPages: doc.content?.brandPages ?? 0,
+    },
+    scopeSummary: (doc.scopeSummary ?? []).map(({ label, text }) => ({ label, text })),
+    supportWeeks: doc.supportWeeks ?? 0,
+    packages: (doc.packages ?? []).map((pkg) => {
+      if (typeof pkg.price !== "number") {
+        console.warn(
+          `Offer ${doc.id}: package "${pkg.name}" has no price (set hours per service and the services' hourly rates, or a fixed price).`,
+        );
+      }
+      return {
+        name: pkg.name,
+        hours: pkg.hours ?? undefined,
+        lines: (pkg.services ?? []).map((line) => ({
+          service: typeof line.service === "object" ? line.service.name : "",
+          hours: line.hours,
+        })),
+        price: pkg.price ?? 0,
+        currency: "EUR",
+        includesContent: true,
+        recommended: Boolean(pkg.recommended),
+        features: (pkg.features ?? []).map((feature) => feature.text),
+      };
+    }),
+    teamUserIds: (doc.team ?? []).map((user) =>
+      typeof user === "object" ? user.id : user,
+    ),
+  };
+}
+
+// One offer by its numeric id, or null when the id is invalid or unknown.
+export const getOffer = cache(async (id: string): Promise<Offer | null> => {
+  if (!/^\d+$/.test(id)) return null;
+  const payload = await getPayload({ config });
+  const doc = await payload
+    .findByID({
+      collection: "offers",
+      id: Number(id),
+      locale: OFFER_LOCALE,
+      // 2 so the client's logo media doc is populated (its `url` is built by
+      // the storage adapter).
+      depth: 2,
+    })
+    .catch(() => null);
+  return doc ? toOffer(doc) : null;
+});
+
+export type OfferListItem = {
+  id: number;
+  title: string;
+  status: OfferDoc["status"];
+  offer: Offer;
+};
+
+// Every offer, newest first, for the /website/offers index.
+export const getOffers = cache(async (): Promise<OfferListItem[]> => {
+  const payload = await getPayload({ config });
+  const { docs } = await payload.find({
+    collection: "offers",
+    locale: OFFER_LOCALE,
+    sort: "-date",
+    depth: 2,
+    limit: 100,
+  });
+  return docs.map((doc) => ({
+    id: doc.id,
+    title: doc.title,
+    status: doc.status,
+    offer: toOffer(doc),
+  }));
+});

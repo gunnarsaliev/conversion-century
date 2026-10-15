@@ -21,6 +21,7 @@ import { Industries } from './src/collections/Industries'
 import { Solutions } from './src/collections/Solutions'
 import { Events } from './src/collections/Events'
 import { Testimonials } from './src/collections/Testimonials'
+import { Offers } from './src/collections/Offers'
 import { clearUploadedFileAfterProcessing } from './src/utilities/clearUploadedFile'
 
 export default buildConfig({
@@ -41,6 +42,7 @@ export default buildConfig({
     Solutions,
     Events,
     Testimonials,
+    Offers,
   ],
 
   plugins: [

@@ -89,6 +89,8 @@ export interface OfferPackage {
   name: string
   /** Omitted when the package isn't quoted in hours. */
   hours?: number
+  /** Hours per service that make up the package. */
+  lines?: { service: string; hours: number }[]
   price: number
   currency: string
   includesContent: boolean
@@ -108,6 +110,10 @@ export interface Offer {
   id: string
   client: { slug: string; name: string; logo: string; url: string }
   service: string
+  /** Each service's name when the offer covers several; `service` joins them. */
+  services?: string[]
+  /** Name of the person who prepared the offer ("Оферта от"). */
+  preparedBy?: string
   /** Kind of site, appended to some headings, e.g. "био магазин". */
   siteType: string
   date: string

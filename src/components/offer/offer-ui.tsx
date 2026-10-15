@@ -24,6 +24,16 @@ export const formatPrice = (value: number, currency: string) =>
 export const formatAmount = (value: number) =>
   new Intl.NumberFormat("bg-BG", { useGrouping: "always" }).format(value);
 
+// "SEO миграция – 15 ч." lines for a package's hours per service, listed
+// before its other features.
+export const packageFeatures = (pkg: {
+  lines?: { service: string; hours: number }[];
+  features: string[];
+}) => [
+  ...(pkg.lines ?? []).map((line) => `${line.service} – ${line.hours} ч.`),
+  ...pkg.features,
+];
+
 export const formatDate = (value: string) =>
   new Intl.DateTimeFormat("bg-BG", { dateStyle: "long" }).format(
     new Date(value),

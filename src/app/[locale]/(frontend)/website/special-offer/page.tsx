@@ -2,6 +2,7 @@ import {
   ArrowRightLeft,
   ChartLine,
   Check,
+  Download,
   FileText,
   LayoutTemplate,
   MessageCircleQuestionMark,
@@ -23,6 +24,7 @@ import { Feature99 } from "@/components/feature99";
 import { Feature229 } from "@/components/feature229";
 import { Pricing117 } from "@/components/pricing117";
 import { Pricing118 } from "@/components/pricing118";
+import { buttonVariants } from "@/components/ui/button";
 
 const content = staticData as OfferStatic;
 
@@ -89,6 +91,15 @@ export default function SpecialOfferPage() {
                   </p>
                   <p className="font-medium">€ 2500</p>
                 </div>
+                {/* Same offer as a PDF, rendered by ./pdf/route.ts. */}
+                <a
+                  href="/website/special-offer/pdf"
+                  download
+                  className={buttonVariants({ className: "w-full" })}
+                >
+                  <Download className="size-4" />
+                  Изтегли офертата (PDF)
+                </a>
               </div>
 
               {/* Navigation */}

@@ -81,6 +81,7 @@ export interface Config {
     solutions: Solution;
     events: Event;
     testimonials: Testimonial;
+    offers: Offer;
     exports: Export;
     imports: Import;
     'payload-kv': PayloadKv;
@@ -112,6 +113,7 @@ export interface Config {
     solutions: SolutionsSelect<false> | SolutionsSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
+    offers: OffersSelect<false> | OffersSelect<true>;
     exports: ExportsSelect<false> | ExportsSelect<true>;
     imports: ImportsSelect<false> | ImportsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -377,6 +379,7 @@ export interface Service {
   generateSlug?: boolean | null;
   slug: string;
   image?: (number | null) | Media;
+  price?: number | null;
   hero?: {
     eyebrow?: string | null;
     heading?: string | null;
@@ -1054,6 +1057,114 @@ export interface Testimonial {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "offers".
+ */
+export interface Offer {
+  id: number;
+  /**
+   * Internal name, e.g. "SEO миграция – Ayurvedabio".
+   */
+  title: string;
+  client: number | Client;
+  /**
+   * Services in this offer. Their hourly rates price the packages.
+   */
+  services: (number | Service)[];
+  /**
+   * Shown as "Оферта от".
+   */
+  preparedBy?: (number | null) | User;
+  status: 'draft' | 'sent' | 'accepted' | 'declined';
+  date: string;
+  validUntil: string;
+  /**
+   * Appended to some headings, e.g. "био магазин".
+   */
+  siteType: string;
+  metrics?: {
+    source?: string | null;
+    date?: string | null;
+    domainRating?: number | null;
+    backlinks?: number | null;
+    organicKeywords?: number | null;
+    organicTraffic?: number | null;
+  };
+  keywords?:
+    | {
+        keyword: string;
+        position: number;
+        volume: number;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * e.g. "Старт 1-ви октомври".
+   */
+  startLabel?: string | null;
+  timeline?:
+    | {
+        label: string;
+        startWeek: number;
+        endWeek: number;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  responsibilities?: string | null;
+  /**
+   * Fills placeholders like {blogArticles} in the content strategy text.
+   */
+  content?: {
+    blogArticles?: number | null;
+    categoryPages?: number | null;
+    brandPages?: number | null;
+  };
+  supportWeeks?: number | null;
+  team?: (number | User)[] | null;
+  /**
+   * Summary points shown above the packages.
+   */
+  scopeSummary?:
+    | {
+        label: string;
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  packages?:
+    | {
+        name: string;
+        services?:
+          | {
+              service: number | Service;
+              hours: number;
+              id?: string | null;
+            }[]
+          | null;
+        /**
+         * Overrides the calculated price.
+         */
+        fixedPrice?: number | null;
+        hours?: number | null;
+        /**
+         * Fixed price, or Σ hours × each service’s hourly rate.
+         */
+        price?: number | null;
+        recommended?: boolean | null;
+        features?:
+          | {
+              text: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "exports".
  */
 export interface Export {
@@ -1298,6 +1409,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'testimonials';
         value: number | Testimonial;
+      } | null)
+    | ({
+        relationTo: 'offers';
+        value: number | Offer;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1425,6 +1540,7 @@ export interface ServicesSelect<T extends boolean = true> {
   generateSlug?: T;
   slug?: T;
   image?: T;
+  price?: T;
   hero?:
     | T
     | {
@@ -1963,6 +2079,90 @@ export interface TestimonialsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "offers_select".
+ */
+export interface OffersSelect<T extends boolean = true> {
+  title?: T;
+  client?: T;
+  services?: T;
+  preparedBy?: T;
+  status?: T;
+  date?: T;
+  validUntil?: T;
+  siteType?: T;
+  metrics?:
+    | T
+    | {
+        source?: T;
+        date?: T;
+        domainRating?: T;
+        backlinks?: T;
+        organicKeywords?: T;
+        organicTraffic?: T;
+      };
+  keywords?:
+    | T
+    | {
+        keyword?: T;
+        position?: T;
+        volume?: T;
+        id?: T;
+      };
+  startLabel?: T;
+  timeline?:
+    | T
+    | {
+        label?: T;
+        startWeek?: T;
+        endWeek?: T;
+        description?: T;
+        id?: T;
+      };
+  responsibilities?: T;
+  content?:
+    | T
+    | {
+        blogArticles?: T;
+        categoryPages?: T;
+        brandPages?: T;
+      };
+  supportWeeks?: T;
+  team?: T;
+  scopeSummary?:
+    | T
+    | {
+        label?: T;
+        text?: T;
+        id?: T;
+      };
+  packages?:
+    | T
+    | {
+        name?: T;
+        services?:
+          | T
+          | {
+              service?: T;
+              hours?: T;
+              id?: T;
+            };
+        fixedPrice?: T;
+        hours?: T;
+        price?: T;
+        recommended?: T;
+        features?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "exports_select".
  */
 export interface ExportsSelect<T extends boolean = true> {
@@ -2125,6 +2325,7 @@ export interface TaskCreateCollectionExport {
       | 'solutions'
       | 'events'
       | 'testimonials'
+      | 'offers'
       | 'exports'
       | 'imports';
     drafts?: ('yes' | 'no') | null;
