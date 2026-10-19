@@ -19,6 +19,8 @@ export interface OfferStatic {
     header: string
     founded: number
     description: string
+    /** Intro paragraphs at the top of the agency section of /website/offers/[id]. */
+    about: string[]
     pillars: { title: string; description: string }[]
   }
   socialProof: {

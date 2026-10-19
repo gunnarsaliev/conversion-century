@@ -9,7 +9,6 @@ import {
   SlidersHorizontal,
 } from "lucide-react";
 
-import { PILLAR_ICONS } from "@/components/offer/offer-agency";
 import { CountryFlags } from "@/components/offer/country-flags";
 import { KeywordTable } from "@/components/offer/keyword-table";
 import staticData from "@/data/offers/static.json";
@@ -19,12 +18,15 @@ import { Logos30 } from "@/components/logos30";
 import { Card, CardContent } from "@/components/ui/card";
 import { fillPlaceholders, formatAmount, formatNumber } from "@/components/offer/offer-ui";
 import offerData from "@/data/offers/ayurvedabio-seo-migration.json";
-import { Timeline6 } from "@/components/timeline6";
 import { Feature99 } from "@/components/feature99";
+import { PILLAR_ICONS } from "@/components/offer/offer-agency";
 import { Feature229 } from "@/components/feature229";
 import { Pricing117 } from "@/components/pricing117";
 import { Pricing118 } from "@/components/pricing118";
 import { buttonVariants } from "@/components/ui/button";
+import { Faq2 } from "@/components/faq2";
+import { List3 } from "@/components/list3";
+import { Pricing78 } from "@/components/pricing78";
 
 const content = staticData as OfferStatic;
 
@@ -95,7 +97,7 @@ export default function SpecialOfferPage() {
                 <a
                   href="/website/special-offer/pdf"
                   download
-                  className={buttonVariants({ className: "w-full" })}
+                  className={buttonVariants({ className: "w-full text-white" })}
                 >
                   <Download className="size-4" />
                   Изтегли офертата (PDF)
@@ -177,32 +179,23 @@ export default function SpecialOfferPage() {
                 />
 
               {/* Outside `prose` so Typography doesn't restyle the cards. */}
-                <h2 id="challenge">Как успяваме?</h2>
+                <h2 id="challenge">За нас</h2>
 
-              {/* Outside `prose` so Typography doesn't restyle the list. */}
-              <div className="not-prose">
-                <Timeline6
-                  heading={null}
-                  items={content.agency.pillars.map((pillar, i) => {
-                    const Icon = PILLAR_ICONS[i % PILLAR_ICONS.length];
-                    return {
-                      label: String(i + 1).padStart(2, "0"),
-                      title: pillar.title.toUpperCase(),
-                      description: pillar.description,
-                      icon: <Icon strokeWidth={1.5} className="size-12" />,
-                    };
-                  })}
-                  className="py-12"
-                />
-              </div>
-                
-              <h3>Market differentiation</h3>
-              <p>
-                With numerous competitors using similar messaging around health
-                and wellness, we needed to find a unique positioning that
-                highlighted Pure Pressed&apos;s commitment to quality ingredients
-                and sustainable practices.
-              </p>
+              {/* Outside `prose` so Typography doesn't restyle the steps. */}
+              <Feature99
+                heading={null}
+                columns={2}
+                steps={content.agency.pillars.map((pillar, i) => {
+                  const Icon = PILLAR_ICONS[i % PILLAR_ICONS.length];
+                  return {
+                    title: pillar.title,
+                    description: pillar.description,
+                    icon: <Icon strokeWidth={1.5} className="size-10 lg:size-12" />,
+                  };
+                })}
+                className="not-prose py-12"
+              />
+                <h3>Част от нашите клиенти</h3>
               <Logos30 />
 
               <h3>Държави, в които работим</h3>
@@ -213,7 +206,7 @@ export default function SpecialOfferPage() {
               {/* Outside `prose` so Typography doesn't add list bullets. */}
               <CountryFlags
                 countries={content.socialProof.countries}
-                className="not-prose mt-6 justify-between"
+                className="not-prose mt-6"
               />
               <h3>SEO метрики на сайта | ayurvedabio.com</h3>
               
@@ -245,6 +238,37 @@ export default function SpecialOfferPage() {
 
 <h2>Обхват на работата</h2>
 <h3>Времева рамка и основни етапи на миграцията: Старт 1-ви октомври</h3>
+
+{/* Lists */}
+
+{/* Outside `prose` so Typography doesn't restyle the rows. */}
+<List3
+  heading={`${content.technical.header} ${offer.siteType}`}
+  description={content.technical.description}
+  numbered
+  groups={content.technical.groups.map((group) => ({
+    title: group.title,
+    rows: group.items.map((item) => ({ title: item.label, text: item.text })),
+  }))}
+  className="not-prose py-12"
+/>
+
+
+
+
+
+
+{/* Outside `prose` so Typography doesn't restyle the questions. */}
+<Faq2
+  heading={`${content.technical.header} ${offer.siteType}`}
+  description={content.technical.description}
+  numbered
+  groups={content.technical.groups.map((group) => ({
+    title: group.title,
+    items: group.items.map((item) => ({ question: item.label, answer: item.text })),
+  }))}
+  className="not-prose py-12"
+/>
 <Feature99 
   heading="Обхват на работата"
   steps={[
@@ -310,6 +334,21 @@ export default function SpecialOfferPage() {
                   </li>
                 ))}
               </ol>
+
+              {/* Outside `prose` so Typography doesn't restyle the pricing cards. */}
+              <Pricing78
+                heading={`${content.pricing.header} ${offer.siteType}`}
+                highlights={offer.scopeSummary}
+                plans={offer.packages.map((pkg, i) => ({
+                  name: `${content.pricing.variantLabel} ${i + 1}: ${pkg.name}${
+                    pkg.hours !== undefined ? ` (${pkg.hours} ${content.pricing.hoursLabel})` : ""
+                  }`,
+                  price: `${formatAmount(pkg.price)} ${content.pricing.currencyLabel}`,
+                  features: pkg.features,
+                  highlighted: pkg.recommended,
+                }))}
+                className="not-prose py-16"
+              />
 {/* Outside `prose` so Typography doesn't restyle the pricing cards. */}
 <Pricing118
   heading={`${content.pricing.header} ${offer.siteType}`}

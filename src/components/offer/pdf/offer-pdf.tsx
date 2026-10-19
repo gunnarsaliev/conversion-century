@@ -2,6 +2,7 @@ import {
   Document,
   Font,
   Image,
+  Link,
   Page,
   StyleSheet,
   Text,
@@ -49,6 +50,7 @@ const colors = {
   muted: "#6b7280",
   border: "#e5e7eb",
   surface: "#f9fafb",
+  header: "#f3f4f6",
   primary: "#111827",
 };
 
@@ -82,9 +84,16 @@ const styles = StyleSheet.create({
   },
   title: { fontSize: 28, fontWeight: 700, lineHeight: 1.2, marginBottom: 12 },
   // The page's lineHeight is inherited as a fixed size, so larger text sets its own.
-  h2: { fontSize: 16, fontWeight: 700, lineHeight: 1.3, marginTop: 24, marginBottom: 10 },
+  h2: {
+    fontSize: 16,
+    fontWeight: 700,
+    lineHeight: 1.3,
+    marginTop: 24,
+    marginBottom: 10,
+  },
   h3: { fontSize: 12, fontWeight: 600, marginTop: 14, marginBottom: 6 },
   muted: { color: colors.muted },
+  link: { color: colors.text, textDecoration: "none" },
   paragraph: { marginBottom: 8 },
   bold: { fontWeight: 600 },
   bigNumber: { fontSize: 18, fontWeight: 700, lineHeight: 1.3 },
@@ -108,6 +117,43 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     borderTopWidth: 1,
     borderTopColor: colors.border,
+  },
+  // A topic panel, matching the web page: a tinted header bar over a bordered body.
+  section: {
+    marginTop: 20,
+    paddingHorizontal: 16,
+    paddingBottom: 12,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 8,
+  },
+  sectionHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    // Spans the full panel width over the panel's own padding.
+    marginHorizontal: -16,
+    marginBottom: 4,
+    backgroundColor: colors.header,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+  },
+  sectionDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: colors.primary,
+  },
+  sectionLabel: {
+    fontSize: 9,
+    fontWeight: 600,
+    letterSpacing: 1.5,
+    textTransform: "uppercase",
+    lineHeight: 1,
   },
   tableRow: {
     flexDirection: "row",
@@ -159,6 +205,36 @@ function MetaItem({ label, value }: { label: string; value: string }) {
   );
 }
 
+// One topic of the offer as a panel; long panels continue onto the next page.
+// `lead` (the heading and first block) is kept on one page with the header
+// bar, so the bar never sits alone above an empty gap at the bottom of a page.
+// (`minPresenceAhead` doesn't do this for views nested inside the panel.)
+function Section({
+  label,
+  lead,
+  children,
+}: {
+  label: string;
+  lead: React.ReactNode;
+  children?: React.ReactNode;
+}) {
+  return (
+    <View style={styles.section}>
+      <View wrap={false}>
+        <View style={styles.sectionHeader}>
+          <View style={styles.sectionDot} />
+          <Text style={styles.sectionLabel}>{label}</Text>
+        </View>
+        {lead}
+      </View>
+      {children}
+    </View>
+  );
+}
+
+// The first heading in a panel sits right under the header bar.
+const firstHeading = { marginTop: 12 };
+
 export interface OfferPdfImages {
   /** The client's logo; react-pdf only embeds PNG and JPEG. Skipped when absent. */
   clientLogo?: { data: Buffer; format: "png" | "jpg" };
@@ -176,8 +252,8 @@ export function OfferPdf({
   images: OfferPdfImages;
 }) {
   const { pricing, audit } = content;
-  const recommended =
-    offer.packages.find((pkg) => pkg.recommended) ?? offer.packages[0];
+  const { contact } = content.trackRecord;
+  const recommended = offer.packages.find((pkg) => pkg.recommended) ?? offer.packages[0];
   const heading = `${pricing.header} ${offer.siteType}`;
   const site = offer.client.url
     ? offer.client.url.replace(/^https?:\/\//, "").replace(/\/$/, "")
@@ -189,7 +265,10 @@ export function OfferPdf({
       value: formatNumber(offer.metrics.domainRating),
       suffix: "от 100",
     },
-    { title: audit.metricLabels.backlinks, value: formatNumber(offer.metrics.backlinks) },
+    {
+      title: audit.metricLabels.backlinks,
+      value: formatNumber(offer.metrics.backlinks),
+    },
     {
       title: audit.metricLabels.organicKeywords,
       value: formatNumber(offer.metrics.organicKeywords),
@@ -201,7 +280,11 @@ export function OfferPdf({
   ];
 
   const groupSections = [
-    { header: content.technical.header, description: content.technical.description, groups: content.technical.groups },
+    {
+      header: content.technical.header,
+      description: content.technical.description,
+      groups: content.technical.groups,
+    },
     {
       header: content.contentStrategy.header,
       description: content.contentStrategy.description,
@@ -215,6 +298,70 @@ export function OfferPdf({
     },
   ];
 
+  const pillarRows = pairs(content.agency.pillars).map((row, r) => (
+    <View key={r} style={[styles.row, { marginBottom: 12 }]} wrap={false}>
+      {row.map((pillar, i) => (
+        <View key={pillar.title} style={styles.card}>
+          <Text style={[styles.muted, { fontSize: 8 }]}>
+            {String(r * 2 + i + 1).padStart(2, "0")}
+          </Text>
+          <Text style={[styles.bold, { fontSize: 12, marginBottom: 4 }]}>
+            {pillar.title.toUpperCase()}
+          </Text>
+          <Text style={styles.muted}>{pillar.description}</Text>
+        </View>
+      ))}
+    </View>
+  ));
+
+  const phaseRows = offer.timeline.map((phase, i) => (
+    <View
+      key={phase.label}
+      wrap={false}
+      style={{
+        flexDirection: "row",
+        gap: 12,
+        paddingVertical: 8,
+        borderBottomWidth: 1,
+        borderBottomColor: colors.border,
+      }}
+    >
+      <Text style={[styles.muted, { width: 90 }]}>
+        {content.timeline.weekLabel}{" "}
+        {phase.startWeek === phase.endWeek
+          ? phase.startWeek
+          : `${phase.startWeek}–${phase.endWeek}`}
+      </Text>
+      <View style={{ flex: 1 }}>
+        <Text style={styles.bold}>
+          {i + 1}. {phase.label}
+        </Text>
+        <Text style={styles.muted}>{phase.description}</Text>
+      </View>
+    </View>
+  ));
+
+  // `start` keeps the numbering when a section's groups are split.
+  const groupBlocks = (groups: (typeof groupSections)[number]["groups"], start = 0) =>
+    groups.map((group, i) => (
+      <View key={group.title} wrap={false}>
+        <Text style={styles.h3}>
+          {start + i + 1}. {group.title}
+        </Text>
+        {group.items.map((item) => (
+          <Bullet key={item.label}>
+            <Labeled item={item} />
+          </Bullet>
+        ))}
+      </View>
+    ));
+
+  const summaryBullets = offer.scopeSummary.map((item) => (
+    <Bullet key={item.label}>
+      <Labeled item={item} />
+    </Bullet>
+  ));
+
   return (
     <Document
       title={`${heading} – ${offer.client.name}`}
@@ -226,10 +373,7 @@ export function OfferPdf({
         {/* react-pdf images have no alt text. */}
         {images.clientLogo && (
           // eslint-disable-next-line jsx-a11y/alt-text
-          <Image
-            src={images.clientLogo}
-            style={{ width: 120, marginBottom: 24 }}
-          />
+          <Image src={images.clientLogo} style={{ width: 120, marginBottom: 24 }} />
         )}
         <Text style={styles.eyebrow}>Специална оферта за {offer.client.name}</Text>
         <Text style={styles.title}>{heading}</Text>
@@ -250,219 +394,248 @@ export function OfferPdf({
           <MetaItem label="Валидна до" value={formatDate(offer.validUntil)} />
         </View>
 
-        {/* Agency */}
-        <Text style={styles.h2}>
-          {offer.service} на {site}
-        </Text>
-        {content.brand.intro.map((paragraph) => (
-          <Text key={paragraph} style={styles.paragraph}>
-            {paragraph}
-          </Text>
-        ))}
-        {/* react-pdf images have no alt text. */}
-        {/* eslint-disable-next-line jsx-a11y/alt-text */}
-        <Image
-          src={{ data: images.certifications, format: "png" }}
-          style={{ width: "100%", marginVertical: 12 }}
-        />
+        <Section
+          label="Въведение"
+          lead={
+            <>
+              <Text style={[styles.h2, firstHeading]}>
+                {offer.service} на {site}
+              </Text>
+              {content.brand.intro.map((paragraph) => (
+                <Text key={paragraph} style={styles.paragraph}>
+                  {paragraph}
+                </Text>
+              ))}
+            </>
+          }
+        >
+          {/* react-pdf images have no alt text. */}
+          {/* eslint-disable-next-line jsx-a11y/alt-text */}
+          <Image
+            src={{ data: images.certifications, format: "png" }}
+            style={{ width: 300, alignSelf: "center", marginVertical: 12 }}
+          />
+        </Section>
 
-        <Text style={styles.h2}>{content.agency.header}</Text>
-        {pairs(content.agency.pillars).map((row, r) => (
-          <View key={r} style={[styles.row, { marginBottom: 12 }]} wrap={false}>
-            {row.map((pillar, i) => (
-              <View key={pillar.title} style={styles.card}>
-                <Text style={[styles.muted, { fontSize: 8 }]}>
-                  {String(r * 2 + i + 1).padStart(2, "0")}
+        <Section
+          label="За нас"
+          lead={
+            <>
+              <Text style={[styles.h2, firstHeading]}>{content.agency.header}</Text>
+              {pillarRows[0]}
+            </>
+          }
+        >
+          {pillarRows.slice(1)}
+
+          <View wrap={false}>
+            <Text style={styles.h3}>{content.socialProof.countriesHeader}</Text>
+            <Text style={styles.paragraph}>
+              {content.socialProof.countriesDescription}
+            </Text>
+            <Text style={styles.muted}>
+              {content.socialProof.countries
+                .map((code) => countryNames.of(code === "UK" ? "GB" : code) ?? code)
+                .join(" · ")}
+            </Text>
+          </View>
+        </Section>
+
+        <Section
+          label="Одит"
+          lead={
+            <View>
+              <Text style={[styles.h2, firstHeading]}>
+                {audit.header} | {site}
+              </Text>
+              {pairs(stats).map((row, r) => (
+                <View key={r} style={[styles.row, { marginBottom: 12 }]}>
+                  {row.map((stat) => (
+                    <View key={stat.title} style={styles.card}>
+                      <Text style={styles.muted}>{stat.title}</Text>
+                      <Text style={styles.bigNumber}>
+                        {stat.value}
+                        {stat.suffix && (
+                          <Text style={[styles.muted, { fontSize: 10, fontWeight: 400 }]}>
+                            {" "}
+                            {stat.suffix}
+                          </Text>
+                        )}
+                      </Text>
+                    </View>
+                  ))}
+                </View>
+              ))}
+              <Text style={[styles.muted, { fontSize: 8 }]}>
+                {offer.metrics.source}, {formatDate(offer.metrics.date)}
+              </Text>
+            </View>
+          }
+        >
+          <View wrap={false}>
+            <Text style={styles.h3}>{audit.keywordsHeader}</Text>
+            <View style={[styles.tableRow, { borderBottomColor: colors.text }]}>
+              <Text style={[styles.bold, { flex: 3 }]}>{audit.columns.keyword}</Text>
+              <Text style={[styles.bold, { flex: 1, textAlign: "right" }]}>
+                {audit.columns.position}
+              </Text>
+              <Text style={[styles.bold, { flex: 2, textAlign: "right" }]}>
+                {audit.columns.volume}
+              </Text>
+            </View>
+            {offer.keywords.map((row) => (
+              <View key={row.keyword} style={styles.tableRow}>
+                <Text style={{ flex: 3 }}>{row.keyword}</Text>
+                <Text style={{ flex: 1, textAlign: "right" }}>{row.position}</Text>
+                <Text style={{ flex: 2, textAlign: "right" }}>
+                  {formatNumber(row.volume)}
                 </Text>
-                <Text style={[styles.bold, { fontSize: 12, marginBottom: 4 }]}>
-                  {pillar.title.toUpperCase()}
-                </Text>
-                <Text style={styles.muted}>{pillar.description}</Text>
               </View>
             ))}
           </View>
-        ))}
+        </Section>
 
-        <View wrap={false}>
-          <Text style={styles.h3}>{content.socialProof.countriesHeader}</Text>
-          <Text style={styles.paragraph}>
-            {content.socialProof.countriesDescription}
-          </Text>
-          <Text style={styles.muted}>
-            {content.socialProof.countries
-              .map((code) => countryNames.of(code === "UK" ? "GB" : code) ?? code)
-              .join(" · ")}
-          </Text>
-        </View>
+        {offer.timeline.length > 0 && (
+          <Section
+            label="План"
+            lead={
+              <>
+                <Text style={[styles.h2, firstHeading]}>
+                  {content.timeline.activityHeader}
+                  {offer.startLabel ? `: ${offer.startLabel}` : ""}
+                </Text>
+                {phaseRows[0]}
+              </>
+            }
+          >
+            {phaseRows.slice(1)}
+            <Text style={[styles.paragraph, { marginTop: 10 }]}>
+              <Text style={styles.bold}>{content.timeline.responsibilitiesHeader}:</Text>{" "}
+              {offer.responsibilities}
+            </Text>
+          </Section>
+        )}
 
-        {/* SEO metrics */}
-        <View wrap={false}>
-          <Text style={styles.h2}>
-            {audit.header} | {site}
-          </Text>
-          {pairs(stats).map((row, r) => (
-            <View key={r} style={[styles.row, { marginBottom: 12 }]}>
-              {row.map((stat) => (
-                <View key={stat.title} style={styles.card}>
-                  <Text style={styles.muted}>{stat.title}</Text>
-                  <Text style={styles.bigNumber}>
-                    {stat.value}
-                    {stat.suffix && (
-                      <Text style={[styles.muted, { fontSize: 10, fontWeight: 400 }]}>
-                        {" "}
-                        {stat.suffix}
-                      </Text>
-                    )}
+        <Section
+          label="Обхват на работата"
+          lead={
+            <>
+              <Text style={[styles.h2, firstHeading]}>
+                {groupSections[0].header} {offer.siteType}
+              </Text>
+              <Text style={[styles.paragraph, styles.muted]}>
+                {groupSections[0].description}
+              </Text>
+              {groupBlocks(groupSections[0].groups.slice(0, 1))}
+            </>
+          }
+        >
+          {/* Technical brief (continued) and content strategy */}
+          {groupSections.map((section, s) => (
+            <View key={section.header}>
+              {s > 0 && (
+                <>
+                  <Text style={styles.h2} minPresenceAhead={80}>
+                    {section.header} {offer.siteType}
                   </Text>
+                  <Text style={[styles.paragraph, styles.muted]}>
+                    {section.description}
+                  </Text>
+                </>
+              )}
+              {s === 0
+                ? groupBlocks(section.groups.slice(1), 1)
+                : groupBlocks(section.groups)}
+            </View>
+          ))}
+
+          {/* Architecture */}
+          <Text style={styles.h2} minPresenceAhead={80}>
+            {content.architecture.header}
+          </Text>
+          {content.architecture.steps.map((step, i) => (
+            <View key={step.title} wrap={false} style={{ marginBottom: 6 }}>
+              <Text style={styles.bold}>
+                {i + 1}. {step.title}
+              </Text>
+              <View style={{ paddingLeft: 14 }}>
+                {step.items.map((item) => (
+                  <Bullet key={item}>{item}</Bullet>
+                ))}
+              </View>
+            </View>
+          ))}
+        </Section>
+
+        <Section
+          label="Цени"
+          lead={
+            <>
+              <Text style={[styles.h2, firstHeading]}>{heading}</Text>
+              {summaryBullets[0]}
+            </>
+          }
+        >
+          {summaryBullets.slice(1)}
+          <View wrap={false}>
+            <Text style={styles.h3}>{pricing.packagesHeader}</Text>
+            <View style={styles.row}>
+              {offer.packages.map((pkg, i) => (
+                <View
+                  key={pkg.name}
+                  style={[
+                    styles.card,
+                    pkg.recommended
+                      ? { borderColor: colors.primary, borderWidth: 2 }
+                      : {},
+                  ]}
+                >
+                  <Text style={styles.muted}>
+                    {pricing.variantLabel} {i + 1}: {pkg.name}
+                    {pkg.hours !== undefined
+                      ? ` (${pkg.hours} ${pricing.hoursLabel})`
+                      : ""}
+                  </Text>
+                  <Text style={[styles.bigNumber, { marginTop: 4, marginBottom: 8 }]}>
+                    {pricing.priceLabel}: {formatAmount(pkg.price)}{" "}
+                    {pricing.currencyLabel}
+                  </Text>
+                  {packageFeatures(pkg).map((feature) => (
+                    <Bullet key={feature}>{feature}</Bullet>
+                  ))}
                 </View>
               ))}
             </View>
-          ))}
-          <Text style={[styles.muted, { fontSize: 8 }]}>
-            {offer.metrics.source}, {formatDate(offer.metrics.date)}
-          </Text>
-        </View>
-
-        <View wrap={false}>
-          <Text style={styles.h3}>{audit.keywordsHeader}</Text>
-          <View style={[styles.tableRow, { borderBottomColor: colors.text }]}>
-            <Text style={[styles.bold, { flex: 3 }]}>{audit.columns.keyword}</Text>
-            <Text style={[styles.bold, { flex: 1, textAlign: "right" }]}>
-              {audit.columns.position}
-            </Text>
-            <Text style={[styles.bold, { flex: 2, textAlign: "right" }]}>
-              {audit.columns.volume}
+            <Text style={[styles.muted, { fontSize: 8, marginTop: 8 }]}>
+              {pricing.vatNote}
             </Text>
           </View>
-          {offer.keywords.map((row) => (
-            <View key={row.keyword} style={styles.tableRow}>
-              <Text style={{ flex: 3 }}>{row.keyword}</Text>
-              <Text style={{ flex: 1, textAlign: "right" }}>{row.position}</Text>
-              <Text style={{ flex: 2, textAlign: "right" }}>
-                {formatNumber(row.volume)}
-              </Text>
-            </View>
-          ))}
-        </View>
-
-        {/* Timeline */}
-        <Text style={styles.h2} minPresenceAhead={120}>
-          {content.timeline.activityHeader}: {offer.startLabel}
-        </Text>
-        {offer.timeline.map((phase, i) => (
-          <View
-            key={phase.label}
-            wrap={false}
-            style={{
-              flexDirection: "row",
-              gap: 12,
-              paddingVertical: 8,
-              borderBottomWidth: 1,
-              borderBottomColor: colors.border,
-            }}
-          >
-            <Text style={[styles.muted, { width: 90 }]}>
-              {content.timeline.weekLabel}{" "}
-              {phase.startWeek === phase.endWeek
-                ? phase.startWeek
-                : `${phase.startWeek}–${phase.endWeek}`}
-            </Text>
-            <View style={{ flex: 1 }}>
-              <Text style={styles.bold}>
-                {i + 1}. {phase.label}
-              </Text>
-              <Text style={styles.muted}>{phase.description}</Text>
-            </View>
-          </View>
-        ))}
-        <Text style={[styles.paragraph, { marginTop: 10 }]}>
-          <Text style={styles.bold}>{content.timeline.responsibilitiesHeader}:</Text>{" "}
-          {offer.responsibilities}
-        </Text>
-
-        {/* Technical brief and content strategy */}
-        {groupSections.map((section) => (
-          <View key={section.header}>
-            <Text style={styles.h2} minPresenceAhead={80}>
-              {section.header} {offer.siteType}
-            </Text>
-            <Text style={[styles.paragraph, styles.muted]}>{section.description}</Text>
-            {section.groups.map((group, i) => (
-              <View key={group.title} wrap={false}>
-                <Text style={styles.h3}>
-                  {i + 1}. {group.title}
-                </Text>
-                {group.items.map((item) => (
-                  <Bullet key={item.label}>
-                    <Labeled item={item} />
-                  </Bullet>
-                ))}
+        </Section>
+        <Section
+          label="Контакт"
+          lead={
+            <>
+              <Text style={[styles.h2, firstHeading]}>Свържете се с нас</Text>
+              <View style={[styles.row, { justifyContent: "space-between" }]}>
+                <View>
+                  <Text style={[styles.bold, { fontSize: 12 }]}>{contact.name}</Text>
+                  <Text style={styles.muted}>{contact.role}</Text>
+                </View>
+                <View style={{ alignItems: "flex-end" }}>
+                  <Link src={`mailto:${contact.email}`} style={styles.link}>
+                    {contact.email}
+                  </Link>
+                  <Link
+                    src={`tel:${contact.phone.replace(/\s/g, "")}`}
+                    style={styles.link}
+                  >
+                    {contact.phone}
+                  </Link>
+                </View>
               </View>
-            ))}
-          </View>
-        ))}
-
-        {/* Architecture */}
-        <Text style={styles.h2} minPresenceAhead={80}>
-          {content.architecture.header}
-        </Text>
-        {content.architecture.steps.map((step, i) => (
-          <View key={step.title} wrap={false} style={{ marginBottom: 6 }}>
-            <Text style={styles.bold}>
-              {i + 1}. {step.title}
-            </Text>
-            <View style={{ paddingLeft: 14 }}>
-              {step.items.map((item) => (
-                <Bullet key={item}>{item}</Bullet>
-              ))}
-            </View>
-          </View>
-        ))}
-
-        {/* Pricing */}
-        <Text style={styles.h2} minPresenceAhead={120}>
-          {heading}
-        </Text>
-        {offer.scopeSummary.map((item) => (
-          <Bullet key={item.label}>
-            <Labeled item={item} />
-          </Bullet>
-        ))}
-        <View wrap={false}>
-          <Text style={styles.h3}>{pricing.packagesHeader}</Text>
-          <View style={styles.row}>
-            {offer.packages.map((pkg, i) => (
-              <View
-                key={pkg.name}
-                style={[
-                  styles.card,
-                  pkg.recommended
-                    ? { borderColor: colors.primary, borderWidth: 2 }
-                    : {},
-                ]}
-              >
-                <Text style={styles.muted}>
-                  {pricing.variantLabel} {i + 1}: {pkg.name}
-                  {pkg.hours !== undefined
-                    ? ` (${pkg.hours} ${pricing.hoursLabel})`
-                    : ""}
-                </Text>
-                <Text style={[styles.bigNumber, { marginTop: 4, marginBottom: 8 }]}>
-                  {pricing.priceLabel}: {formatAmount(pkg.price)}{" "}
-                  {pricing.currencyLabel}
-                </Text>
-                {packageFeatures(pkg).map((feature) => (
-                  <Bullet key={feature}>
-                    {feature}
-                  </Bullet>
-                ))}
-              </View>
-            ))}
-          </View>
-          <Text style={[styles.muted, { fontSize: 8, marginTop: 8 }]}>
-            {pricing.vatNote}
-          </Text>
-        </View>
+            </>
+          }
+        />
         {/* Last child so react-pdf repeats it at the bottom of every page. */}
         <Text
           style={styles.footer}

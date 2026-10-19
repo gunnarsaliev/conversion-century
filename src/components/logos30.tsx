@@ -88,16 +88,17 @@ const Logos30 = (props: Props) => {
   return (
     <section className={cn("py-4", className)}>
       <div className="container mx-auto">
-        <div className="grid w-full grid-cols-2 gap-x-8 gap-y-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 lg:gap-12">
+        <div className="grid w-full grid-cols-2 gap-x-6 gap-y-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 lg:gap-x-8 lg:gap-y-3">
           {logos.map((logo, index) => (
             <div
               key={`${logo.src}-${index}`}
-              className="flex aspect-3/1 items-center justify-center"
+              className="flex h-16 items-center justify-center"
             >
               <img
                 src={logo.src}
                 alt={logo.alt}
-                className="h-auto max-h-7 w-auto object-contain dark:invert"
+                // `m-0` so a surrounding `prose` doesn't add its image margins.
+                className="m-0 h-auto max-h-12 w-auto max-w-full object-contain opacity-70 grayscale dark:invert"
               />
             </div>
           ))}

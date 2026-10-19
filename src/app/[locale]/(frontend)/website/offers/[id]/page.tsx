@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 
 import { OfferArticle } from "@/components/offer/offer-article";
 import staticData from "@/data/offers/static.json";
+import { getClientLogos } from "@/lib/client-logos";
 import { getOffer } from "@/lib/offers";
 import type { OfferStatic } from "@/types/offer";
 
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }: OfferPageProps): Promise<Meta
 // One client's offer, from the `offers` collection.
 export default async function OfferPage({ params }: OfferPageProps) {
   const { id } = await params;
-  const offer = await getOffer(id);
+  const [offer, clientLogos] = await Promise.all([getOffer(id), getClientLogos()]);
   if (!offer) notFound();
 
   return (
@@ -31,6 +32,7 @@ export default async function OfferPage({ params }: OfferPageProps) {
       content={staticData as OfferStatic}
       offer={offer}
       pdfHref={`/website/offers/${id}/pdf`}
+      clientLogos={clientLogos}
     />
   );
 }

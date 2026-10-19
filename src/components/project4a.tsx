@@ -105,13 +105,6 @@ const Project4a = ({ className }: Project4aProps) => {
                 remaining approachable to everyday consumers.
               </p>
 
-              <h3>Market differentiation</h3>
-              <p>
-                With numerous competitors using similar messaging around health
-                and wellness, we needed to find a unique positioning that
-                highlighted Pure Pressed's commitment to quality ingredients and
-                sustainable practices.
-              </p>
 
               <h3>Premium accessibility</h3>
               <p>
