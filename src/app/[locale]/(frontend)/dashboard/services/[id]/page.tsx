@@ -20,6 +20,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { isLeadStatus } from "@/lib/client-status";
 
 type ServicePageProps = {
   params: Promise<{ id: string }>;
@@ -222,7 +223,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
                     <Link
                       key={client.id}
                       href={`/dashboard/${
-                        client.status === "lead" ? "leads" : "clients"
+                        isLeadStatus(client.status) ? "leads" : "clients"
                       }/${client.id}`}
                       className={`flex items-center justify-between gap-2 py-2 hover:underline ${
                         index < clientsUsingService.docs.length - 1

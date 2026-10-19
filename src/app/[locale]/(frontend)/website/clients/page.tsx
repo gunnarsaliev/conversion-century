@@ -11,6 +11,7 @@ import { Hero104 } from "@/components/hero104";
 import hero104Data from "@/data/hero104.json";
 import { StaticPageJsonLd } from "@/components/static-page-json-ld";
 import { staticPageMetadata } from "@/lib/seo/pages";
+import { LEAD_STATUSES } from "@/lib/client-status";
 
 // `fallbackPercent` is shown until clients have a business size set.
 const BUSINESS_SIZES = [
@@ -106,7 +107,7 @@ export default async function ClientsPage() {
   const { docs: pastClients } = await payload.find({
     collection: "clients",
     locale: locale as "en" | "bg",
-    where: { status: { not_equals: "lead" } },
+    where: { status: { not_in: [...LEAD_STATUSES] } },
     depth: 1,
     pagination: false,
     select: {

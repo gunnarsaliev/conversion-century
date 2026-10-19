@@ -2,19 +2,14 @@
 
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowLeft, ArrowRight, MousePointer2 } from "lucide-react";
-import React, { useState } from "react";
+import React, { SubmitEvent, useState, useTransition } from "react";
 import { cn } from "cn";
 
+import { submitConsultationRequest } from "@/app/[locale]/(frontend)/website/book-a-consultation/actions";
+import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 interface Avatar {
   image: string;
@@ -121,49 +116,153 @@ const FormGroup = ({ children, className }: FormGroupProps) => {
 };
 
 const BookADemo2ContactForm = () => {
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
+
+  function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    setError(null);
+
+    startTransition(async () => {
+      const result = await submitConsultationRequest(formData);
+      if (result.success) {
+        setSubmitted(true);
+      } else {
+        setError(result.error);
+      }
+    });
+  }
+
+  if (submitted) {
+    return (
+      <div className="flex flex-col justify-center gap-3 border-b p-8 lg:border-r lg:border-b-0">
+        <h4 className="text-2xl font-semibold">Thank you!</h4>
+        <p className="text-muted-foreground" role="status">
+          We&apos;ve received your consultation request and sent a confirmation
+          to your inbox. One of our SEO strategists will get back to you within
+          1 business day.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="border-b p-8 lg:border-r lg:border-b-0">
-      <form className="grid grid-cols-2 gap-x-3 gap-y-6">
+      <form
+        className="grid grid-cols-2 gap-x-3 gap-y-6"
+        onSubmit={handleSubmit}
+      >
         <FormGroup className="col-span-2 sm:col-span-1">
-          <Label>First Name</Label>
-          <Input type="text" placeholder="Jane" />
-        </FormGroup>
-        <FormGroup className="col-span-2 sm:col-span-1">
-          <Label>Last Name</Label>
-          <Input type="text" placeholder="Doe" />
-        </FormGroup>
-        <FormGroup className="col-span-2">
-          <Label>Email</Label>
-          <Input type="email" placeholder="jane@yourcompany.com" />
-        </FormGroup>
-        <FormGroup className="col-span-2 sm:col-span-1">
-          <Label>Website URL</Label>
-          <Input type="url" placeholder="https://yourcompany.com" />
-        </FormGroup>
-        <FormGroup className="col-span-2 sm:col-span-1">
-          <Label>Monthly ad/marketing budget</Label>
-          <Select>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select a budget range" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="under-1k">Under $1,000</SelectItem>
-              <SelectItem value="1k-5k">$1,000 - $5,000</SelectItem>
-              <SelectItem value="5k-10k">$5,000 - $10,000</SelectItem>
-              <SelectItem value="10k-25k">$10,000 - $25,000</SelectItem>
-              <SelectItem value="25k-plus">$25,000+</SelectItem>
-            </SelectContent>
-          </Select>
-        </FormGroup>
-        <FormGroup className="col-span-2">
-          <Label>Message</Label>
-          <Textarea
-            placeholder="Tell us about your SEO goals — rankings, organic traffic, keywords you want to target, or any challenges you're facing"
-            className="min-h-32"
+          <Label htmlFor="consultation-full-name">Full Name</Label>
+          <Input
+            id="consultation-full-name"
+            name="fullName"
+            type="text"
+            placeholder="Jane Doe"
+            autoComplete="name"
+            required
           />
         </FormGroup>
-        <Button type="submit" className="col-span-2" size="lg">
-          Book My Consultation <ArrowRight />
+        <FormGroup className="col-span-2 sm:col-span-1">
+          <Label htmlFor="consultation-company">Company Name</Label>
+          <Input
+            id="consultation-company"
+            name="companyName"
+            type="text"
+            placeholder="Your Company Ltd."
+            autoComplete="organization"
+            required
+          />
+        </FormGroup>
+        <FormGroup className="col-span-2">
+          <Label htmlFor="consultation-email">Email</Label>
+          <Input
+            id="consultation-email"
+            name="email"
+            type="email"
+            placeholder="jane@yourcompany.com"
+            autoComplete="email"
+            required
+          />
+        </FormGroup>
+        <FormGroup className="col-span-2">
+          <Label htmlFor="consultation-website">Website URL</Label>
+          {/* type="text" so "yourcompany.com" without https:// is accepted;
+              the server action normalises it. */}
+          <Input
+            id="consultation-website"
+            name="website"
+            type="text"
+            inputMode="url"
+            placeholder="https://yourcompany.com"
+            autoComplete="url"
+            required
+          />
+        </FormGroup>
+        <FormGroup className="col-span-2">
+          <Label htmlFor="consultation-message">Message</Label>
+          <Textarea
+            id="consultation-message"
+            name="message"
+            placeholder="Tell us about your SEO goals — rankings, organic traffic, keywords you want to target, or any challenges you're facing"
+            className="min-h-32"
+            required
+          />
+        </FormGroup>
+        {/* Honeypot: hidden from people, filled in by bots. */}
+        <input
+          type="text"
+          name="company_website"
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+          className="hidden"
+        />
+        <div className="col-span-2 flex flex-col gap-3 text-sm text-muted-foreground">
+          <label className="flex items-start gap-2">
+            <input
+              type="checkbox"
+              name="privacyConsent"
+              required
+              className="mt-0.5 size-4 shrink-0 accent-primary"
+            />
+            <span>
+              I agree to the{" "}
+              <Link
+                href="/legal/privacy-policy"
+                className="text-primary underline"
+              >
+                Privacy Policy
+              </Link>{" "}
+              and consent to Conversion Century processing my details to
+              respond to this request.
+            </span>
+          </label>
+          <label className="flex items-start gap-2">
+            <input
+              type="checkbox"
+              name="newsletterOptIn"
+              className="mt-0.5 size-4 shrink-0 accent-primary"
+            />
+            <span>
+              Also send me SEO tips and news. I can unsubscribe at any time.
+            </span>
+          </label>
+        </div>
+        {error && (
+          <p className="col-span-2 text-sm text-destructive" role="alert">
+            {error}
+          </p>
+        )}
+        <Button
+          type="submit"
+          className="col-span-2"
+          size="lg"
+          disabled={isPending}
+        >
+          {isPending ? "Sending…" : "Book My Consultation"} <ArrowRight />
         </Button>
       </form>
     </div>

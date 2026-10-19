@@ -231,6 +231,7 @@ export const Clients: CollectionConfig = {
       defaultValue: 'lead',
       options: [
         { label: 'Lead', value: 'lead' },
+        { label: 'Consultation', value: 'consultation' },
         { label: 'Active', value: 'active' },
         { label: 'Inactive', value: 'inactive' },
       ],

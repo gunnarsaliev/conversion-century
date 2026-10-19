@@ -275,7 +275,7 @@ export interface Client {
     | null;
   'Link Building Docs'?: string | null;
   'Blog Docs'?: string | null;
-  status: 'lead' | 'active' | 'inactive';
+  status: 'lead' | 'consultation' | 'active' | 'inactive';
   region?:
     | (
         | 'EU'

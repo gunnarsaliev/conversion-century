@@ -28,6 +28,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { isLeadStatus } from "@/lib/client-status";
 
 const statusBadgeClassName: Record<string, string> = {
   active: "bg-green-100 text-green-800",
@@ -52,7 +53,7 @@ export default async function LeadPage({ params }: LeadPageProps) {
     })
     .catch(() => null);
 
-  if (!client || client.status !== "lead") {
+  if (!client || !isLeadStatus(client.status)) {
     notFound();
   }
 

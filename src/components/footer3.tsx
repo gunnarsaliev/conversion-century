@@ -3,9 +3,7 @@ import { cn } from "cn";
 
 import { Link } from "@/i18n/navigation";
 import { Logo, LogoImage } from "@/components/shadcnblocks/logo";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { NewsletterForm } from "@/components/newsletter-form";
 import { Cta28 } from "@/components/cta28";
 import { SeoCta } from "./cta-seo";
 
@@ -141,26 +139,7 @@ const Footer3 = ({
                   </a>
                 </li>
               </ul>
-              <div className="grid w-full max-w-sm items-center gap-1.5">
-                <Label htmlFor="email">Subscribe to our newsletter</Label>
-                <div className="flex w-full max-w-sm items-center space-x-2">
-                  <Input
-                    type="email"
-                    placeholder="Email"
-                    className="bg-input/30"
-                  />
-                  <Button type="submit">Subscribe</Button>
-                </div>
-                <span className="mt-1 text-xs text-muted-foreground">
-                  By submitting, you agree to our
-                  <Link
-                    href="/legal/privacy-policy"
-                    className="ml-1 text-primary hover:underline"
-                  >
-                    Privacy Policy
-                  </Link>
-                </span>
-              </div>
+              <NewsletterForm />
             </div>
           </div>
           <div className="mt-24 flex flex-col flex-wrap justify-between gap-4 border-t pt-8 text-sm font-medium text-muted-foreground md:flex-row md:items-center">

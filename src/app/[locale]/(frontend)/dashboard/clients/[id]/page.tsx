@@ -37,6 +37,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import { isLeadStatus } from "@/lib/client-status";
 
 const statusBadgeClassName: Record<string, string> = {
   active: "bg-green-100 text-green-800",
@@ -162,7 +163,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
     })
     .catch(() => null);
 
-  if (!client || client.status === "lead") {
+  if (!client || isLeadStatus(client.status)) {
     notFound();
   }
 

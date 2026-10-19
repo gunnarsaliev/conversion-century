@@ -55,7 +55,7 @@ const clientFormSchema = z.object({
     .optional()
     .or(z.literal("")),
   phone: z.string().trim().optional(),
-  status: z.enum(["lead", "active", "inactive"]),
+  status: z.enum(["lead", "consultation", "active", "inactive"]),
 });
 
 type ClientFormValues = z.infer<typeof clientFormSchema>;
@@ -269,6 +269,7 @@ const ClientFormDrawer = (props: ClientFormDrawerProps) => {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="lead">Lead</SelectItem>
+                        <SelectItem value="consultation">Consultation</SelectItem>
                         <SelectItem value="active">Active</SelectItem>
                         <SelectItem value="inactive">Inactive</SelectItem>
                       </SelectContent>

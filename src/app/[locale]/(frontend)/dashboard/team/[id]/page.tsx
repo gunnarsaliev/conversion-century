@@ -23,6 +23,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { isLeadStatus } from "@/lib/client-status";
 
 const roleBadgeClassName: Record<string, string> = {
   admin: "bg-primary/10 text-primary",
@@ -263,7 +264,7 @@ export default async function TeamMemberPage({
                       <Link
                         key={client.id}
                         href={`/dashboard/${
-                          client.status === "lead" ? "leads" : "clients"
+                          isLeadStatus(client.status) ? "leads" : "clients"
                         }/${client.id}`}
                         className={`flex items-center justify-between gap-2 py-2 hover:underline ${
                           index < group.docs.length - 1 ? "border-b" : ""

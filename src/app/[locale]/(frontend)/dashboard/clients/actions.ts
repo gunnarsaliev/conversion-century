@@ -14,7 +14,7 @@ const clientFormSchema = z.object({
   contactName: z.string().trim().optional(),
   email: z.string().trim().email("Enter a valid email").optional().or(z.literal("")),
   phone: z.string().trim().optional(),
-  status: z.enum(["lead", "active", "inactive"]),
+  status: z.enum(["lead", "consultation", "active", "inactive"]),
 });
 
 type ClientFormInput = z.infer<typeof clientFormSchema>;

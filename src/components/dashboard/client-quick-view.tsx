@@ -43,6 +43,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { isLeadStatus } from "@/lib/client-status";
 
 // ---------------------------------------------------------------------------
 // Client quick view (drawer)
@@ -106,7 +107,7 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
   const [editOpen, setEditOpen] = React.useState(false);
 
   const basePath =
-    client.status === "lead" ? "/dashboard/leads" : "/dashboard/clients";
+    isLeadStatus(client.status) ? "/dashboard/leads" : "/dashboard/clients";
 
   const handleDelete = async () => {
     if (

@@ -6,12 +6,13 @@ import { ClientFormDrawer } from "@/components/dashboard/client-form-drawer";
 import { ClientList, type ClientListItem } from "@/components/dashboard/client-list";
 import { Button } from "@/components/ui/button";
 import type { User } from "../../../../../../payload-types";
+import { LEAD_STATUSES } from "@/lib/client-status";
 
 export default async function ClientsPage() {
   const payload = await getPayload({ config });
   const clients = await payload.find({
     collection: "clients",
-    where: { status: { not_equals: "lead" } },
+    where: { status: { not_in: [...LEAD_STATUSES] } },
     depth: 2,
     limit: 100,
     joins: {
