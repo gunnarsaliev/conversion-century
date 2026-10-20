@@ -7,6 +7,7 @@ import {
   Sparkles,
   Zap,
 } from "lucide-react";
+import type { ElementType } from "react";
 import { cn } from "cn";
 
 import { Button } from "@/components/ui/button";
