@@ -34,6 +34,16 @@ export const packageFeatures = (pkg: {
   ...pkg.features,
 ];
 
+// The pricing heading: "Предложение за SEO миграция и Писане на съдържание"
+// from the offer's services, or the static header for offers without any.
+export const pricingHeading = (
+  pricing: { header: string; servicesHeader: string },
+  offer: { services?: string[]; siteType: string },
+) =>
+  offer.services?.length
+    ? `${pricing.servicesHeader} ${new Intl.ListFormat("bg", { type: "conjunction" }).format(offer.services)}`
+    : `${pricing.header} ${offer.siteType}`.trim();
+
 export const formatDate = (value: string) =>
   new Intl.DateTimeFormat("bg-BG", { dateStyle: "long" }).format(
     new Date(value),

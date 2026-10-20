@@ -23,12 +23,14 @@ import {
   formatDate,
   formatNumber,
   packageFeatures,
+  pricingHeading,
 } from "@/components/offer/offer-ui";
-import { Pricing118 } from "@/components/pricing118";
+import { OfferPricing } from "@/components/offer-pricing";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import type { ClientLogo } from "@/lib/client-logos";
-import type { Offer, OfferStatic } from "@/types/offer";
+import type { Offer, OfferContact, OfferStatic } from "@/types/offer";
 
 // A full client offer in the article layout of /website/special-offer:
 // a sticky sidebar with the key facts and a prose main column. Everything
@@ -40,13 +42,40 @@ const ARCHITECTURE_ICONS = [Search, Target, Network, LayoutTemplate];
 
 const host = (url: string) => url.replace(/^https?:\/\//, "").replace(/\/$/, "");
 
-function SidebarItem({ label, value }: { label: string; value: string }) {
+// "Мария Сивкова" → "МС", for the avatar fallback.
+const initials = (name: string) =>
+  name
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() ?? "")
+    .join("");
+
+function SidebarItem({
+  label,
+  value,
+  avatar,
+}: {
+  label: string;
+  value: string;
+  /** Shows a profile image before the value, e.g. for "Оферта от". */
+  avatar?: { src?: string };
+}) {
   return (
     <div>
       <p className="mb-1 text-xs font-semibold tracking-wider uppercase">
         {label}
       </p>
-      <p className="font-medium">{value}</p>
+      {avatar ? (
+        <div className="flex items-center gap-2">
+          <Avatar className="size-8">
+            {avatar.src && <AvatarImage src={avatar.src} alt={value} />}
+            <AvatarFallback className="text-xs">{initials(value)}</AvatarFallback>
+          </Avatar>
+          <p className="font-medium">{value}</p>
+        </div>
+      ) : (
+        <p className="font-medium">{value}</p>
+      )}
     </div>
   );
 }
@@ -105,10 +134,16 @@ export function OfferArticle({
   clientLogos?: ClientLogo[];
 }) {
   const { pricing, audit } = content;
-  const { contact } = content.trackRecord;
+  // The offer's preparer, or the agency's default contact. The phone is the
+  // agency's for now, since users have no phone number.
+  const contact: OfferContact = {
+    ...(offer.contact ?? content.trackRecord.contact),
+    phone: content.trackRecord.contact.phone,
+  };
   const recommended =
     offer.packages.find((pkg) => pkg.recommended) ?? offer.packages[0];
   const site = offer.client.url ? host(offer.client.url) : offer.client.name;
+  const technicalGroups = offer.technicalGroups ?? content.technical.groups;
   // The client's logo (Clients.logo), shown at the right of most section headers.
   const clientLogo = offer.client.logo ? (
     // eslint-disable-next-line @next/next/no-img-element -- remote media URL
@@ -119,22 +154,19 @@ export function OfferArticle({
     />
   ) : undefined;
 
+  // Unset metrics are stored as 0 (see toOffer), so 0 hides the card.
   const stats: { title: string; value: string; suffix?: string }[] = [
     {
       title: audit.metricLabels.domainRating,
-      value: formatNumber(offer.metrics.domainRating),
+      value: offer.metrics.domainRating,
       suffix: "от 100",
     },
-    { title: audit.metricLabels.backlinks, value: formatNumber(offer.metrics.backlinks) },
-    {
-      title: audit.metricLabels.organicKeywords,
-      value: formatNumber(offer.metrics.organicKeywords),
-    },
-    {
-      title: audit.metricLabels.organicTraffic,
-      value: formatNumber(offer.metrics.organicTraffic),
-    },
-  ];
+    { title: audit.metricLabels.backlinks, value: offer.metrics.backlinks },
+    { title: audit.metricLabels.organicKeywords, value: offer.metrics.organicKeywords },
+    { title: audit.metricLabels.organicTraffic, value: offer.metrics.organicTraffic },
+  ]
+    .filter((stat) => stat.value > 0)
+    .map((stat) => ({ ...stat, value: formatNumber(stat.value) }));
 
   return (
     <section className="py-16">
@@ -155,7 +187,11 @@ export function OfferArticle({
 
               <div className="space-y-6 border-t pt-8">
                 {offer.preparedBy && (
-                  <SidebarItem label="Оферта от" value={offer.preparedBy} />
+                  <SidebarItem
+                    label="Оферта от"
+                    value={offer.preparedBy}
+                    avatar={{ src: offer.contact?.avatar }}
+                  />
                 )}
                 <SidebarItem
                   label={(offer.services?.length ?? 0) > 1 ? "Услуги" : "Услуга"}
@@ -252,12 +288,14 @@ export function OfferArticle({
               />
             </OfferSection>
 
+            {(stats.length > 0 || offer.keywords.length > 0) && (
             <OfferSection
               id="audit"
               eyebrow="Одит"
               description={`${audit.header} | ${site}`}
               aside={clientLogo}
             >
+              {stats.length > 0 && (
               <div className="not-prose my-10 grid gap-4 sm:grid-cols-2">
                 {stats.map((stat) => (
                   <Card key={stat.title}>
@@ -275,6 +313,7 @@ export function OfferArticle({
                   </Card>
                 ))}
               </div>
+              )}
 
               {offer.keywords.length > 0 && (
                 <>
@@ -287,6 +326,7 @@ export function OfferArticle({
                 </>
               )}
             </OfferSection>
+            )}
 
             {offer.timeline.length > 0 && (
               <OfferSection id="plan" eyebrow="План" aside={clientLogo}>
@@ -305,6 +345,7 @@ export function OfferArticle({
               </OfferSection>
             )}
 
+            {technicalGroups.length > 0 && (
             <OfferSection
               id="technical"
               eyebrow={`${content.technical.header} ${offer.siteType}`}
@@ -312,18 +353,17 @@ export function OfferArticle({
               aside={clientLogo}
             >
               {/* Outside `prose` so Typography doesn't restyle the rows. */}
-              {/* All groups' rows as one list, without the group headings. */}
+              {/* One group per service, headed by its name; descriptions in tooltips. */}
               <List3
-                groups={[
-                  {
-                    rows: content.technical.groups.flatMap((group) =>
-                      group.items.map((item) => ({ title: item.label, text: item.text })),
-                    ),
-                  },
-                ]}
+                textAsTooltip
+                groups={technicalGroups.map((group) => ({
+                  title: group.title,
+                  rows: group.items.map((item) => ({ title: item.label, text: item.text })),
+                }))}
                 className="not-prose py-6"
               />
             </OfferSection>
+            )}
 
             <OfferSection
               id="content"
@@ -369,19 +409,22 @@ export function OfferArticle({
             </OfferSection>
 
             <OfferSection id="pricing" eyebrow="Цени" aside={clientLogo}>
-              {/* Outside `prose` so Typography doesn't restyle the pricing cards. */}
-              <Pricing118
-                heading={`${pricing.header} ${offer.siteType}`}
-                highlights={offer.scopeSummary}
-                optionsHeading={pricing.packagesHeader}
-                options={offer.packages.map((pkg) => ({
-                  name: pkg.hours !== undefined ? `${pkg.hours} ${pricing.hoursLabel}` : "",
-                  price: `${pricing.priceLabel}: ${formatAmount(pkg.price)} ${pricing.currencyLabel}`,
-                  features: packageFeatures(pkg),
-                  highlighted: pkg.recommended,
-                }))}
-                className="not-prose py-0"
-              />
+              {/* Outside `prose` so Typography doesn't restyle the price card. */}
+              {recommended && (
+                <OfferPricing
+                  price={formatAmount(recommended.price)}
+                  unit={pricing.currencyLabel}
+                  badge={
+                    recommended.hours !== undefined
+                      ? `${recommended.hours} ${pricing.hoursLabel}`
+                      : undefined
+                  }
+                  title={pricingHeading(pricing, offer)}
+                  subtitle={site}
+                  items={packageFeatures(recommended).map((label) => ({ label }))}
+                  className="not-prose"
+                />
+              )}
               {recommended?.description && <RichText data={recommended.description} />}
               <p className="text-sm">{pricing.vatNote}</p>
             </OfferSection>
@@ -389,9 +432,15 @@ export function OfferArticle({
             <OfferSection id="contact" eyebrow="Контакт" aside={clientLogo}>
               <h2>Свържете се с нас</h2>
               <div className="not-prose flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <p className="text-lg font-semibold">{contact.name}</p>
-                  <p>{contact.role}</p>
+                <div className="flex items-center gap-4">
+                  <Avatar className="size-14">
+                    {contact.avatar && <AvatarImage src={contact.avatar} alt={contact.name} />}
+                    <AvatarFallback>{initials(contact.name)}</AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <p className="text-lg font-semibold">{contact.name}</p>
+                    {contact.role && <p>{contact.role}</p>}
+                  </div>
                 </div>
                 <div className="flex flex-col gap-3">
                   <a
@@ -401,13 +450,15 @@ export function OfferArticle({
                     <Mail className="size-4" />
                     {contact.email}
                   </a>
-                  <a
-                    href={`tel:${contact.phone.replace(/\s/g, "")}`}
-                    className="flex items-center gap-2 hover:underline"
-                  >
-                    <Phone className="size-4" />
-                    {contact.phone}
-                  </a>
+                  {contact.phone && (
+                    <a
+                      href={`tel:${contact.phone.replace(/\s/g, "")}`}
+                      className="flex items-center gap-2 hover:underline"
+                    >
+                      <Phone className="size-4" />
+                      {contact.phone}
+                    </a>
+                  )}
                 </div>
               </div>
             </OfferSection>

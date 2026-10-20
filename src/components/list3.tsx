@@ -1,8 +1,9 @@
 import React from "react";
-import { Check } from "lucide-react";
+import { Check, Info } from "lucide-react";
 import { cn } from "cn";
 
 import { Separator } from "@/components/ui/separator";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 export interface List3Row {
   /** Left column. */
@@ -24,6 +25,8 @@ interface List3Props {
   groups?: List3Group[];
   /** Numbers the group titles ("1. …"); otherwise they get a "/ " prefix. */
   numbered?: boolean;
+  /** Shows each row's text in an "i" tooltip next to its title instead of a second column. */
+  textAsTooltip?: boolean;
   className?: string;
 }
 
@@ -55,6 +58,7 @@ const List3 = ({
   description,
   groups = defaultGroups,
   numbered = false,
+  textAsTooltip = false,
   className,
 }: List3Props) => {
   return (
@@ -75,13 +79,33 @@ const List3 = ({
                 {group.rows.map((row) => (
                   <React.Fragment key={row.title}>
                     <Separator />
-                    <div className="my-1 grid gap-1 text-sm sm:grid-cols-[1fr_2fr]">
-                      <p className="flex items-start gap-2">
+                    {textAsTooltip ? (
+                      <p className="my-1 flex items-start gap-2 text-sm">
                         <Check className="mt-0.5 size-4 shrink-0 text-green-600" />
                         {row.title}
+                        {row.text && (
+                          <Tooltip>
+                            <TooltipTrigger
+                              aria-label={row.text}
+                              className="mt-0.5 shrink-0 rounded-full text-muted-foreground outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
+                            >
+                              <Info className="size-4" />
+                            </TooltipTrigger>
+                            <TooltipContent className="whitespace-pre-line">
+                              {row.text}
+                            </TooltipContent>
+                          </Tooltip>
+                        )}
                       </p>
-                      <p className="text-muted-foreground">{row.text}</p>
-                    </div>
+                    ) : (
+                      <div className="my-1 grid gap-1 text-sm sm:grid-cols-[1fr_2fr]">
+                        <p className="flex items-start gap-2">
+                          <Check className="mt-0.5 size-4 shrink-0 text-green-600" />
+                          {row.title}
+                        </p>
+                        <p className="text-muted-foreground">{row.text}</p>
+                      </div>
+                    )}
                   </React.Fragment>
                 ))}
               </div>

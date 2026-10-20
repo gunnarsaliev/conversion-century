@@ -51,8 +51,9 @@ export async function GET(
   const offer = await getOffer(id);
   if (!offer) return new Response("Not found", { status: 404 });
 
-  const [clientLogo, certifications] = await Promise.all([
+  const [clientLogo, contactAvatar, certifications] = await Promise.all([
     fetchLogo(offer.client.logo, request.url),
+    fetchLogo(offer.contact?.avatar ?? "", request.url),
     readFile(CERTIFICATIONS_PATH),
   ]);
 
@@ -60,7 +61,7 @@ export async function GET(
     createElement(OfferPdf, {
       content: staticData as OfferStatic,
       offer,
-      images: { clientLogo, certifications },
+      images: { clientLogo, contactAvatar, certifications },
     }) as ReactElement<DocumentProps>, // OfferPdf renders a <Document>.
   );
 

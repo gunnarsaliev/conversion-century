@@ -17,8 +17,9 @@ import {
   formatDate,
   formatNumber,
   packageFeatures,
+  pricingHeading,
 } from "@/components/offer/offer-ui";
-import type { LabeledItem, Offer, OfferStatic } from "@/types/offer";
+import type { LabeledItem, Offer, OfferContact, OfferStatic } from "@/types/offer";
 
 // The PDF version of the special-offer page, rendered on the server with
 // @react-pdf/renderer. It reads the same JSON as the page, so the text stays
@@ -190,18 +191,46 @@ function Bullet({
 function Labeled({ item }: { item: LabeledItem }) {
   return (
     <>
-      <Text style={styles.bold}>{item.label}:</Text>{" "}
-      <Text style={styles.muted}>{item.text}</Text>
+      <Text style={styles.bold}>
+        {item.label}
+        {item.text ? ":" : ""}
+      </Text>
+      {item.text ? (
+        <>
+          {" "}
+          <Text style={styles.muted}>{item.text}</Text>
+        </>
+      ) : null}
     </>
   );
 }
 
-function MetaItem({ label, value }: { label: string; value: string }) {
+function MetaItem({
+  label,
+  value,
+  avatar,
+}: {
+  label: string;
+  value: string;
+  /** Profile image shown before the value, e.g. for "Оферта от". */
+  avatar?: OfferPdfImages["contactAvatar"];
+}) {
   // Capped so long values (several services) wrap instead of overlapping.
   return (
     <View style={{ maxWidth: 160 }}>
       <Text style={styles.eyebrow}>{label}</Text>
-      <Text style={styles.bold}>{value}</Text>
+      {avatar ? (
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
+          {/* eslint-disable-next-line jsx-a11y/alt-text -- react-pdf images have no alt text */}
+          <Image
+            src={avatar}
+            style={{ width: 16, height: 16, borderRadius: 8, objectFit: "cover" }}
+          />
+          <Text style={styles.bold}>{value}</Text>
+        </View>
+      ) : (
+        <Text style={styles.bold}>{value}</Text>
+      )}
     </View>
   );
 }
@@ -239,6 +268,8 @@ const firstHeading = { marginTop: 12 };
 export interface OfferPdfImages {
   /** The client's logo; react-pdf only embeds PNG and JPEG. Skipped when absent. */
   clientLogo?: { data: Buffer; format: "png" | "jpg" };
+  /** The contact person's profile image; same format limits. */
+  contactAvatar?: { data: Buffer; format: "png" | "jpg" };
   /** PNG bytes of the combined partner/certification badges. */
   certifications: Buffer;
 }
@@ -253,38 +284,41 @@ export function OfferPdf({
   images: OfferPdfImages;
 }) {
   const { pricing, audit } = content;
-  const { contact } = content.trackRecord;
+  // The offer's preparer, or the agency's default contact. The phone is the
+  // agency's for now, since users have no phone number.
+  const contact: OfferContact = {
+    ...(offer.contact ?? content.trackRecord.contact),
+    phone: content.trackRecord.contact.phone,
+  };
   const recommended = offer.packages.find((pkg) => pkg.recommended) ?? offer.packages[0];
-  const heading = `${pricing.header} ${offer.siteType}`;
+  const heading = pricingHeading(pricing, offer);
   const site = offer.client.url
     ? offer.client.url.replace(/^https?:\/\//, "").replace(/\/$/, "")
     : offer.client.name;
 
-  const stats = [
+  // Unset metrics are stored as 0 (see toOffer), so 0 hides the card.
+  const stats: { title: string; value: string; suffix?: string }[] = [
     {
       title: audit.metricLabels.domainRating,
-      value: formatNumber(offer.metrics.domainRating),
+      value: offer.metrics.domainRating,
       suffix: "от 100",
     },
-    {
-      title: audit.metricLabels.backlinks,
-      value: formatNumber(offer.metrics.backlinks),
-    },
-    {
-      title: audit.metricLabels.organicKeywords,
-      value: formatNumber(offer.metrics.organicKeywords),
-    },
-    {
-      title: audit.metricLabels.organicTraffic,
-      value: formatNumber(offer.metrics.organicTraffic),
-    },
-  ];
+    { title: audit.metricLabels.backlinks, value: offer.metrics.backlinks },
+    { title: audit.metricLabels.organicKeywords, value: offer.metrics.organicKeywords },
+    { title: audit.metricLabels.organicTraffic, value: offer.metrics.organicTraffic },
+  ]
+    .filter((stat) => stat.value > 0)
+    .map((stat) => ({ ...stat, value: formatNumber(stat.value) }));
 
   const groupSections = [
     {
       header: content.technical.header,
       description: content.technical.description,
-      groups: content.technical.groups,
+      // Titles only: the services' descriptions are for the web page's tooltips.
+      groups: (offer.technicalGroups ?? content.technical.groups).map((group) => ({
+        title: group.title,
+        items: group.items.map((item) => ({ label: item.label, text: "" })),
+      })),
     },
     {
       header: content.contentStrategy.header,
@@ -297,7 +331,8 @@ export function OfferPdf({
         })),
       })),
     },
-  ];
+    // Without the technical brief, the content strategy leads.
+  ].filter((section) => section.groups.length > 0);
 
   const pillarRows = pairs(content.agency.pillars).map((row, r) => (
     <View key={r} style={[styles.row, { marginBottom: 12 }]} wrap={false}>
@@ -382,6 +417,7 @@ export function OfferPdf({
           <MetaItem
             label="Оферта от"
             value={offer.preparedBy ?? content.trackRecord.contact.name}
+            avatar={offer.preparedBy ? images.contactAvatar : undefined}
           />
           <MetaItem
             label={(offer.services?.length ?? 0) > 1 ? "Услуги" : "Услуга"}
@@ -442,6 +478,7 @@ export function OfferPdf({
           </View>
         </Section>
 
+        {(stats.length > 0 || offer.keywords.length > 0) && (
         <Section
           label="Одит"
           lead={
@@ -467,12 +504,15 @@ export function OfferPdf({
                   ))}
                 </View>
               ))}
-              <Text style={[styles.muted, { fontSize: 8 }]}>
-                {offer.metrics.source}, {formatDate(offer.metrics.date)}
-              </Text>
+              {stats.length > 0 && (
+                <Text style={[styles.muted, { fontSize: 8 }]}>
+                  {offer.metrics.source}, {formatDate(offer.metrics.date)}
+                </Text>
+              )}
             </View>
           }
         >
+          {offer.keywords.length > 0 && (
           <View wrap={false}>
             <Text style={styles.h3}>{audit.keywordsHeader}</Text>
             <View style={[styles.tableRow, { borderBottomColor: colors.text }]}>
@@ -494,7 +534,9 @@ export function OfferPdf({
               </View>
             ))}
           </View>
+          )}
         </Section>
+        )}
 
         {offer.timeline.length > 0 && (
           <Section
@@ -622,20 +664,31 @@ export function OfferPdf({
             <>
               <Text style={[styles.h2, firstHeading]}>Свържете се с нас</Text>
               <View style={[styles.row, { justifyContent: "space-between" }]}>
-                <View>
-                  <Text style={[styles.bold, { fontSize: 12 }]}>{contact.name}</Text>
-                  <Text style={styles.muted}>{contact.role}</Text>
+                <View style={[styles.row, { alignItems: "center" }]}>
+                  {images.contactAvatar && (
+                    // eslint-disable-next-line jsx-a11y/alt-text -- react-pdf images have no alt text
+                    <Image
+                      src={images.contactAvatar}
+                      style={{ width: 40, height: 40, borderRadius: 20, objectFit: "cover" }}
+                    />
+                  )}
+                  <View>
+                    <Text style={[styles.bold, { fontSize: 12 }]}>{contact.name}</Text>
+                    {contact.role && <Text style={styles.muted}>{contact.role}</Text>}
+                  </View>
                 </View>
                 <View style={{ alignItems: "flex-end" }}>
                   <Link src={`mailto:${contact.email}`} style={styles.link}>
                     {contact.email}
                   </Link>
-                  <Link
-                    src={`tel:${contact.phone.replace(/\s/g, "")}`}
-                    style={styles.link}
-                  >
-                    {contact.phone}
-                  </Link>
+                  {contact.phone && (
+                    <Link
+                      src={`tel:${contact.phone.replace(/\s/g, "")}`}
+                      style={styles.link}
+                    >
+                      {contact.phone}
+                    </Link>
+                  )}
                 </View>
               </View>
             </>

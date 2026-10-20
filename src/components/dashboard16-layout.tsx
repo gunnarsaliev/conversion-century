@@ -4,6 +4,7 @@ import {
   BookOpen,
   ChevronRight,
   ChevronsUpDown,
+  FileText,
   Globe,
   Handshake,
   Images,
@@ -113,6 +114,7 @@ const sidebarData: SidebarData = {
         },
         { label: "Clients", icon: Users, href: "/dashboard/clients" },
         { label: "Leads", icon: Handshake, href: "/dashboard/leads" },
+        { label: "Offers", icon: FileText, href: "/dashboard/offers" },
         { label: "Media", icon: Images, href: "/dashboard/media" },
         { label: "Website", icon: Globe, href: "/website" },
         // {

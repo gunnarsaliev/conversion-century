@@ -64,6 +64,8 @@ export interface OfferStatic {
   }
   pricing: {
     header: string
+    /** "Предложение за", followed by the offer's services. */
+    servicesHeader: string
     summaryHeader: string
     hoursLabel: string
     packagesHeader: string
@@ -88,6 +90,15 @@ export type OfferMetricKey =
   | 'backlinks'
   | 'organicKeywords'
   | 'organicTraffic'
+
+export interface OfferContact {
+  name: string
+  role?: string
+  email: string
+  phone?: string
+  /** Profile image URL. */
+  avatar?: string
+}
 
 export interface OfferPackage {
   name: string
@@ -120,6 +131,8 @@ export interface Offer {
   services?: string[]
   /** Name of the person who prepared the offer ("Оферта от"). */
   preparedBy?: string
+  /** The preparer as the "Контакт" person; fixture offers use the static contact. */
+  contact?: OfferContact
   /** Kind of site, appended to some headings, e.g. "био магазин". */
   siteType: string
   date: string
@@ -138,4 +151,7 @@ export interface Offer {
   packages: OfferPackage[]
   /** IDs from the `users` collection, in display order. */
   teamUserIds: number[]
+  /** Each service's Includes items, grouped by service. Fixture offers omit
+   * it and use the static `technical` groups. */
+  technicalGroups?: { title: string; items: LabeledItem[] }[]
 }

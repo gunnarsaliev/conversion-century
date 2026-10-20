@@ -210,7 +210,7 @@ export const Offers: CollectionConfig = {
               defaultValue: 'manual',
               options: metricsSourceOptions,
             },
-            { name: 'date', type: 'date' },
+            { name: 'date', type: 'date', defaultValue: () => new Date().toISOString() },
           ],
         },
         {
