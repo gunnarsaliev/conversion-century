@@ -39,7 +39,7 @@ export default async function OffersPage() {
           </p>
         ) : (
           <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {offers.map(({ id, title, status, offer }) => {
+            {offers.map(({ id, status, offer }) => {
               const recommended =
                 offer.packages.find((pkg) => pkg.recommended) ?? offer.packages[0];
               return (
@@ -58,10 +58,8 @@ export default async function OffersPage() {
                           </Badge>
                         </div>
                         <div>
-                          <p className="font-semibold">{title}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {offer.client.name} · {offer.service}
-                          </p>
+                          <p className="font-semibold">{offer.client.name}</p>
+                          <p className="text-sm text-muted-foreground">{offer.service}</p>
                         </div>
                         <div className="mt-auto flex items-end justify-between gap-4 border-t pt-4 text-sm">
                           <span className="text-muted-foreground">

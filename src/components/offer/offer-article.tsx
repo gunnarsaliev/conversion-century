@@ -1,3 +1,4 @@
+import { RichText } from "@payloadcms/richtext-lexical/react";
 import {
   Check,
   Download,
@@ -373,16 +374,15 @@ export function OfferArticle({
                 heading={`${pricing.header} ${offer.siteType}`}
                 highlights={offer.scopeSummary}
                 optionsHeading={pricing.packagesHeader}
-                options={offer.packages.map((pkg, i) => ({
-                  name: `${pricing.variantLabel} ${i + 1}: ${pkg.name}${
-                    pkg.hours !== undefined ? ` (${pkg.hours} ${pricing.hoursLabel})` : ""
-                  }`,
+                options={offer.packages.map((pkg) => ({
+                  name: pkg.hours !== undefined ? `${pkg.hours} ${pricing.hoursLabel}` : "",
                   price: `${pricing.priceLabel}: ${formatAmount(pkg.price)} ${pricing.currencyLabel}`,
                   features: packageFeatures(pkg),
                   highlighted: pkg.recommended,
                 }))}
                 className="not-prose py-0"
               />
+              {recommended?.description && <RichText data={recommended.description} />}
               <p className="text-sm">{pricing.vatNote}</p>
             </OfferSection>
 

@@ -1,16 +1,15 @@
 // Imports the Ayurvedabio fixture (src/data/offers/ayurvedabio-seo-migration.json)
 // into the Offers collection, so /website/offers has a real record to show.
-// Safe to re-run: the offer is matched by title and updated.
+// Safe to re-run: the client's offer is matched and updated.
 //
 // Run with: pnpm seed:offers
 //
 // Needs an existing client whose company name contains "Ayurveda" and a
-// service whose Bulgarian or English name contains "миграц"/"migration"; a
-// content-writing service ("съдържан"/"content") is added to the offer when
-// one exists. Package prices are Σ hours × each service's hourly rate; the
-// 25 hours go to the migration service, and if it has no rate yet it's set to
-// 100 €/h (→ 2 500 €). The package without hours keeps its 2 000 € as a fixed
-// price.
+// service whose Bulgarian or English name contains "миграц"/"migration".
+// The fixture's recommended package becomes the offer's services, priced as
+// Σ hours × each service's hourly rate: its 25 hours go to the migration
+// service, and if it has no rate yet it's set to 100 €/h (→ 2 500 €). A
+// package without hours keeps its price as a fixed price.
 import { readFileSync } from 'node:fs'
 import path from 'node:path'
 import { getPayload } from 'payload'
@@ -40,15 +39,6 @@ async function seedOffers() {
     limit: 1,
     depth: 0,
   })
-  const { docs: contentServices } = await payload.find({
-    collection: 'services',
-    locale: 'bg',
-    where: {
-      or: [{ name: { like: 'съдържан' } }, { name: { like: 'content' } }],
-    },
-    limit: 1,
-    depth: 0,
-  })
   const client = clients[0]
   const service = services[0]
   if (!client || !service) {
@@ -73,51 +63,34 @@ async function seedOffers() {
     console.log(`set ${service.name} hourly rate to ${DEFAULT_HOURLY_RATE} €`)
   }
 
-  const title = `${fixture.service} – ${fixture.client.name}`
+  const pkg = fixture.packages.find((p) => p.recommended) ?? fixture.packages[0]
   const data = {
-    title,
     client: client.id,
-    services: [service.id, ...contentServices.map((s) => s.id).filter((id) => id !== service.id)],
     status: 'draft' as const,
     date: fixture.date,
     validUntil: fixture.validUntil,
-    siteType: fixture.siteType,
-    metrics: fixture.metrics,
+    metrics: {
+      ...fixture.metrics,
+      source: fixture.metrics.source.toLowerCase() as 'manual' | 'ahrefs' | 'semrush' | 'other',
+    },
     keywords: fixture.keywords,
-    startLabel: fixture.startLabel,
-    timeline: fixture.timeline.map(({ label, startWeek, endWeek, description }) => ({
-      label,
-      startWeek,
-      endWeek,
-      description,
-    })),
-    responsibilities: fixture.responsibilities,
-    content: fixture.content,
-    supportWeeks: fixture.supportWeeks,
-    team: fixture.teamUserIds,
-    scopeSummary: fixture.scopeSummary,
-    packages: fixture.packages.map((pkg) => ({
-      name: pkg.name,
-      // Quoted in hours → priced from the service rate; otherwise fixed.
-      services: pkg.hours === undefined ? [] : [{ service: service.id, hours: pkg.hours }],
-      fixedPrice: pkg.hours === undefined ? pkg.price : undefined,
-      recommended: pkg.recommended,
-      features: pkg.features.map((text) => ({ text })),
-    })),
+    // Quoted in hours → priced from the service rate; otherwise fixed.
+    services: pkg.hours === undefined ? [] : [{ service: service.id, hours: pkg.hours }],
+    fixedPrice: pkg.hours === undefined ? pkg.price : undefined,
   }
 
   const { docs } = await payload.find({
     collection: 'offers',
-    where: { title: { equals: title } },
+    where: { client: { equals: client.id } },
     limit: 1,
     depth: 0,
   })
   if (docs[0]) {
     await payload.update({ collection: 'offers', id: docs[0].id, data })
-    console.log(`updated offer ${docs[0].id}: ${title}`)
+    console.log(`updated offer ${docs[0].id} for ${client.companyName}`)
   } else {
     const created = await payload.create({ collection: 'offers', data })
-    console.log(`created offer ${created.id}: ${title}`)
+    console.log(`created offer ${created.id} for ${client.companyName}`)
   }
 }
 

@@ -1,3 +1,5 @@
+import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical"
+
 // Shape of a client offer page. `OfferStatic` is the template copy shared by
 // every offer (src/data/offers/static.json); `Offer` holds the per-client
 // values that will later come from an `offers` Payload collection.
@@ -98,6 +100,8 @@ export interface OfferPackage {
   includesContent: boolean
   recommended: boolean
   features: string[]
+  /** Rich text shown under the package (Offers.package.description). */
+  description?: SerializedEditorState | null
 }
 
 export interface OfferPhase {

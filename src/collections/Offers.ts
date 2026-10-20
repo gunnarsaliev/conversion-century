@@ -8,13 +8,27 @@ import type { CollectionConfig, FieldHook, PayloadRequest } from 'payload'
 const isAdmin = ({ req: { user } }: { req: { user?: { role?: string | null } | null } }) =>
   user?.role === 'admin'
 
-type PackageLine = { service?: number | { id: number; price?: number | null } | null; hours?: number | null }
+// Where the audit metrics came from. The offer page prints the label.
+export const metricsSourceOptions = [
+  { label: 'Manual', value: 'manual' },
+  { label: 'Ahrefs', value: 'ahrefs' },
+  { label: 'Semrush', value: 'semrush' },
+  { label: 'Other', value: 'other' },
+]
 
-const lineServiceId = (line: PackageLine) =>
+// How long an offer is valid by default, counted from its date.
+const VALIDITY_WEEKS = 5
+
+const addWeeks = (date: Date, weeks: number) =>
+  new Date(date.getTime() + weeks * 7 * 24 * 60 * 60 * 1000)
+
+type ServiceLine = { service?: number | { id: number; price?: number | null } | null; hours?: number | null }
+
+const lineServiceId = (line: ServiceLine) =>
   typeof line.service === 'object' ? line.service?.id : line.service
 
-// Hourly rates (Services.price) by service id, memoised on the request so an
-// offer with several packages reads the services once.
+// Hourly rates (Services.price) by service id, memoised on the request so a
+// list of offers reads each service once.
 async function getServiceRates(
   ids: number[],
   req: PayloadRequest,
@@ -37,19 +51,19 @@ async function getServiceRates(
   return rates
 }
 
-// A package's total hours: the sum of its service lines.
-const sumPackageHours: FieldHook = ({ siblingData }) => {
-  const lines = (siblingData?.services ?? []) as PackageLine[]
+// The offer's total hours: the sum of its service lines.
+const sumHours: FieldHook = ({ siblingData }) => {
+  const lines = (siblingData?.services ?? []) as ServiceLine[]
   return lines.length > 0 ? lines.reduce((sum, line) => sum + (line.hours ?? 0), 0) : null
 }
 
-// A package's price: its fixed price if set, otherwise the sum of each
+// The offer's price: its fixed price if set, otherwise the sum of each
 // line's hours × that service's hourly rate. Null when a line's service has
 // no rate, so a missing rate is never priced as 0. Computed on read, so
 // changing a service's rate reprices its offers.
-const calculatePackagePrice: FieldHook = async ({ siblingData, req }) => {
+const calculatePrice: FieldHook = async ({ siblingData, req }) => {
   if (typeof siblingData?.fixedPrice === 'number') return siblingData.fixedPrice
-  const lines = (siblingData?.services ?? []) as PackageLine[]
+  const lines = (siblingData?.services ?? []) as ServiceLine[]
   if (lines.length === 0) return null
 
   // Only services that aren't already populated need their rate looked up.
@@ -74,8 +88,7 @@ const calculatePackagePrice: FieldHook = async ({ siblingData, req }) => {
 export const Offers: CollectionConfig = {
   slug: 'offers',
   admin: {
-    useAsTitle: 'title',
-    defaultColumns: ['title', 'client', 'status', 'validUntil', 'updatedAt'],
+    defaultColumns: ['id', 'client', 'status', 'validUntil', 'updatedAt'],
   },
   access: {
     // Offers are private: signed-in users can read them, admins manage them.
@@ -86,34 +99,17 @@ export const Offers: CollectionConfig = {
   },
   fields: [
     {
-      name: 'title',
-      type: 'text',
-      required: true,
-      admin: { description: 'Internal name, e.g. "SEO миграция – Ayurvedabio".' },
-    },
-    {
       name: 'client',
       type: 'relationship',
       relationTo: 'clients',
       required: true,
-      admin: { position: 'sidebar' },
-    },
-    {
-      name: 'services',
-      type: 'relationship',
-      relationTo: 'services',
-      hasMany: true,
-      required: true,
-      minRows: 1,
-      admin: {
-        position: 'sidebar',
-        description: 'Services in this offer. Their hourly rates price the packages.',
-      },
     },
     {
       name: 'preparedBy',
       type: 'relationship',
       relationTo: 'users',
+      // The signed-in user creating the offer.
+      defaultValue: ({ user }) => user?.id,
       admin: { position: 'sidebar', description: 'Shown as "Оферта от".' },
     },
     {
@@ -133,193 +129,111 @@ export const Offers: CollectionConfig = {
       name: 'date',
       type: 'date',
       required: true,
+      defaultValue: () => new Date().toISOString(),
       admin: { position: 'sidebar' },
     },
     {
       name: 'validUntil',
       type: 'date',
       required: true,
+      // 5 weeks from `date`, which defaults to today.
+      defaultValue: () => addWeeks(new Date(), VALIDITY_WEEKS).toISOString(),
+      hooks: {
+        // Offers created without an expiry (e.g. via the API) get one from their date.
+        beforeValidate: [
+          ({ value, siblingData }) =>
+            value ??
+            (siblingData?.date
+              ? addWeeks(new Date(siblingData.date), VALIDITY_WEEKS).toISOString()
+              : value),
+        ],
+      },
       admin: { position: 'sidebar' },
     },
     {
-      name: 'siteType',
-      type: 'text',
-      required: true,
-      admin: { description: 'Appended to some headings, e.g. "био магазин".' },
+      // Hours per service, e.g. SEO миграция 15 h + Писане 10 h.
+      name: 'services',
+      type: 'array',
+      labels: { singular: 'Service', plural: 'Services' },
+      fields: [
+        {
+          type: 'row',
+          fields: [
+            { name: 'service', type: 'relationship', relationTo: 'services', required: true },
+            { name: 'hours', type: 'number', required: true, min: 0 },
+          ],
+        },
+      ],
     },
     {
-      type: 'tabs',
-      tabs: [
+      type: 'row',
+      fields: [
         {
-          label: 'Audit',
+          name: 'fixedPrice',
+          label: 'Fixed price (EUR)',
+          type: 'number',
+          min: 0,
+          admin: { description: 'Overrides the calculated price.' },
+        },
+        {
+          name: 'hours',
+          label: 'Total hours',
+          type: 'number',
+          virtual: true,
+          admin: { readOnly: true },
+          hooks: { afterRead: [sumHours] },
+        },
+        {
+          name: 'price',
+          label: 'Price (EUR)',
+          type: 'number',
+          virtual: true,
+          admin: {
+            readOnly: true,
+            description: 'Fixed price, or Σ hours × each service’s hourly rate.',
+          },
+          hooks: { afterRead: [calculatePrice] },
+        },
+      ],
+    },
+    { name: 'description', type: 'richText' },
+    {
+      name: 'metrics',
+      type: 'group',
+      fields: [
+        {
+          type: 'row',
           fields: [
             {
-              name: 'metrics',
-              type: 'group',
-              fields: [
-                {
-                  type: 'row',
-                  fields: [
-                    { name: 'source', type: 'text', defaultValue: 'Ahrefs' },
-                    { name: 'date', type: 'date' },
-                  ],
-                },
-                {
-                  type: 'row',
-                  fields: [
-                    { name: 'domainRating', label: 'Domain Rating', type: 'number', min: 0, max: 100 },
-                    { name: 'backlinks', type: 'number', min: 0 },
-                    { name: 'organicKeywords', type: 'number', min: 0 },
-                    { name: 'organicTraffic', label: 'Organic traffic / month', type: 'number', min: 0 },
-                  ],
-                },
-              ],
+              name: 'source',
+              type: 'select',
+              defaultValue: 'manual',
+              options: metricsSourceOptions,
             },
-            {
-              name: 'keywords',
-              type: 'array',
-              fields: [
-                {
-                  type: 'row',
-                  fields: [
-                    { name: 'keyword', type: 'text', required: true },
-                    { name: 'position', type: 'number', required: true, min: 1 },
-                    { name: 'volume', label: 'Searches / month', type: 'number', required: true, min: 0 },
-                  ],
-                },
-              ],
-            },
+            { name: 'date', type: 'date' },
           ],
         },
         {
-          label: 'Scope',
+          type: 'row',
           fields: [
-            { name: 'startLabel', type: 'text', admin: { description: 'e.g. "Старт 1-ви октомври".' } },
-            {
-              name: 'timeline',
-              type: 'array',
-              fields: [
-                {
-                  type: 'row',
-                  fields: [
-                    { name: 'label', type: 'text', required: true },
-                    { name: 'startWeek', type: 'number', required: true, min: 1 },
-                    { name: 'endWeek', type: 'number', required: true, min: 1 },
-                  ],
-                },
-                { name: 'description', type: 'textarea' },
-              ],
-            },
-            { name: 'responsibilities', type: 'textarea' },
-            {
-              name: 'content',
-              type: 'group',
-              admin: {
-                description: 'Fills placeholders like {blogArticles} in the content strategy text.',
-              },
-              fields: [
-                {
-                  type: 'row',
-                  fields: [
-                    { name: 'blogArticles', type: 'number', min: 0, defaultValue: 0 },
-                    { name: 'categoryPages', type: 'number', min: 0, defaultValue: 0 },
-                    { name: 'brandPages', type: 'number', min: 0, defaultValue: 0 },
-                  ],
-                },
-              ],
-            },
-            { name: 'supportWeeks', type: 'number', min: 0 },
-            {
-              name: 'team',
-              type: 'relationship',
-              relationTo: 'users',
-              hasMany: true,
-            },
+            { name: 'domainRating', label: 'Domain Rating', type: 'number', min: 0, max: 100 },
+            { name: 'backlinks', type: 'number', min: 0 },
+            { name: 'organicKeywords', type: 'number', min: 0 },
+            { name: 'organicTraffic', label: 'Organic traffic / month', type: 'number', min: 0 },
           ],
         },
+      ],
+    },
+    {
+      name: 'keywords',
+      type: 'array',
+      fields: [
         {
-          label: 'Pricing',
+          type: 'row',
           fields: [
-            {
-              name: 'scopeSummary',
-              type: 'array',
-              admin: { description: 'Summary points shown above the packages.' },
-              fields: [
-                { name: 'label', type: 'text', required: true },
-                { name: 'text', type: 'textarea', required: true },
-              ],
-            },
-            {
-              name: 'packages',
-              type: 'array',
-              fields: [
-                { name: 'name', type: 'text', required: true },
-                {
-                  // Hours per service, e.g. SEO миграция 15 h + Писане 10 h.
-                  name: 'services',
-                  type: 'array',
-                  labels: { singular: 'Service', plural: 'Services' },
-                  fields: [
-                    {
-                      type: 'row',
-                      fields: [
-                        {
-                          name: 'service',
-                          type: 'relationship',
-                          relationTo: 'services',
-                          required: true,
-                          // Only the services selected on this offer.
-                          filterOptions: ({ data }) => {
-                            const ids = ((data?.services ?? []) as (number | { id: number })[]).map(
-                              (service) => (typeof service === 'object' ? service.id : service),
-                            )
-                            return { id: { in: ids } }
-                          },
-                        },
-                        { name: 'hours', type: 'number', required: true, min: 0 },
-                      ],
-                    },
-                  ],
-                },
-                {
-                  type: 'row',
-                  fields: [
-                    {
-                      name: 'fixedPrice',
-                      label: 'Fixed price (EUR)',
-                      type: 'number',
-                      min: 0,
-                      admin: { description: 'Overrides the calculated price.' },
-                    },
-                    {
-                      name: 'hours',
-                      label: 'Total hours',
-                      type: 'number',
-                      virtual: true,
-                      admin: { readOnly: true },
-                      hooks: { afterRead: [sumPackageHours] },
-                    },
-                    {
-                      name: 'price',
-                      label: 'Price (EUR)',
-                      type: 'number',
-                      virtual: true,
-                      admin: {
-                        readOnly: true,
-                        description: 'Fixed price, or Σ hours × each service’s hourly rate.',
-                      },
-                      hooks: { afterRead: [calculatePackagePrice] },
-                    },
-                  ],
-                },
-                { name: 'recommended', type: 'checkbox', defaultValue: false },
-                {
-                  name: 'features',
-                  type: 'array',
-                  fields: [{ name: 'text', type: 'text', required: true }],
-                },
-              ],
-            },
+            { name: 'keyword', type: 'text', required: true },
+            { name: 'position', type: 'number', required: true, min: 1 },
+            { name: 'volume', label: 'Searches / month', type: 'number', required: true, min: 0 },
           ],
         },
       ],

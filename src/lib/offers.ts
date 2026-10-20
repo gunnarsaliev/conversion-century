@@ -4,6 +4,7 @@ import config from "@payload-config";
 
 import type { Offer } from "@/types/offer";
 import type { Offer as OfferDoc, User } from "../../payload-types";
+import { metricsSourceOptions } from "@/collections/Offers";
 
 // Reads client offers from the `offers` collection and maps them onto the
 // `Offer` shape the offer components and PDF were built against.
@@ -22,27 +23,38 @@ const userName = (user: number | User | null | undefined) =>
 // (fixed price, or Σ hours × each service's hourly rate).
 function toOffer(doc: OfferDoc): Offer {
   const client = typeof doc.client === "object" ? doc.client : null;
-  const services = doc.services.flatMap((service) =>
-    typeof service === "object" ? [service.name] : [],
-  );
+  const lines = doc.services ?? [];
+  // The offer's services are the ones it has hours for.
+  const services = [
+    ...new Set(
+      lines.flatMap((line) => (typeof line.service === "object" ? [line.service.name] : [])),
+    ),
+  ];
   const logo = client && typeof client.logo === "object" ? client.logo : null;
+  if (lines.length > 0 && typeof doc.price !== "number") {
+    console.warn(
+      `Offer ${doc.id}: no price (set the services' hourly rates, or a fixed price).`,
+    );
+  }
 
   return {
     id: String(doc.id),
     client: {
       slug: String(client?.id ?? ""),
-      name: client?.companyName ?? doc.title,
+      name: client?.companyName ?? "",
       logo: logo?.url ?? "",
       url: client?.websiteLinks?.[0]?.url ?? "",
     },
     service: services.join(", "),
     services,
     preparedBy: userName(doc.preparedBy),
-    siteType: doc.siteType,
+    // Not stored per offer; headings read without it.
+    siteType: "",
     date: doc.date,
     validUntil: doc.validUntil,
     metrics: {
-      source: doc.metrics?.source ?? "",
+      source:
+        metricsSourceOptions.find((option) => option.value === doc.metrics?.source)?.label ?? "",
       date: doc.metrics?.date ?? doc.date,
       domainRating: doc.metrics?.domainRating ?? 0,
       backlinks: doc.metrics?.backlinks ?? 0,
@@ -54,49 +66,37 @@ function toOffer(doc: OfferDoc): Offer {
       position,
       volume,
     })),
-    startLabel: doc.startLabel ?? "",
-    timeline: (doc.timeline ?? []).map((phase) => ({
-      label: phase.label,
-      startWeek: phase.startWeek,
-      endWeek: phase.endWeek,
-      description: phase.description ?? "",
-      tasks: [],
-    })),
-    responsibilities: doc.responsibilities ?? "",
     // Not stored per offer; only the older /website/offer sections use them.
+    startLabel: "",
+    timeline: [],
+    responsibilities: "",
     pageTypes: [],
     competitors: [],
     includeLocalization: true,
-    content: {
-      blogArticles: doc.content?.blogArticles ?? 0,
-      categoryPages: doc.content?.categoryPages ?? 0,
-      brandPages: doc.content?.brandPages ?? 0,
-    },
-    scopeSummary: (doc.scopeSummary ?? []).map(({ label, text }) => ({ label, text })),
-    supportWeeks: doc.supportWeeks ?? 0,
-    packages: (doc.packages ?? []).map((pkg) => {
-      if (typeof pkg.price !== "number") {
-        console.warn(
-          `Offer ${doc.id}: package "${pkg.name}" has no price (set hours per service and the services' hourly rates, or a fixed price).`,
-        );
-      }
-      return {
-        name: pkg.name,
-        hours: pkg.hours ?? undefined,
-        lines: (pkg.services ?? []).map((line) => ({
-          service: typeof line.service === "object" ? line.service.name : "",
-          hours: line.hours,
-        })),
-        price: pkg.price ?? 0,
-        currency: "EUR",
-        includesContent: true,
-        recommended: Boolean(pkg.recommended),
-        features: (pkg.features ?? []).map((feature) => feature.text),
-      };
-    }),
-    teamUserIds: (doc.team ?? []).map((user) =>
-      typeof user === "object" ? user.id : user,
-    ),
+    content: { blogArticles: 0, categoryPages: 0, brandPages: 0 },
+    scopeSummary: [],
+    supportWeeks: 0,
+    // The offer as one package; none until it has service hours or a fixed price.
+    packages:
+      lines.length > 0 || typeof doc.fixedPrice === "number"
+        ? [
+            {
+              name: "",
+              hours: doc.hours ?? undefined,
+              lines: lines.map((line) => ({
+                service: typeof line.service === "object" ? line.service.name : "",
+                hours: line.hours,
+              })),
+              price: doc.price ?? 0,
+              currency: "EUR",
+              includesContent: true,
+              recommended: true,
+              features: [],
+              description: doc.description ?? null,
+            },
+          ]
+        : [],
+    teamUserIds: [],
   };
 }
 
@@ -119,7 +119,6 @@ export const getOffer = cache(async (id: string): Promise<Offer | null> => {
 
 export type OfferListItem = {
   id: number;
-  title: string;
   status: OfferDoc["status"];
   offer: Offer;
 };
@@ -136,7 +135,6 @@ export const getOffers = cache(async (): Promise<OfferListItem[]> => {
   });
   return docs.map((doc) => ({
     id: doc.id,
-    title: doc.title,
     status: doc.status,
     offer: toOffer(doc),
   }));

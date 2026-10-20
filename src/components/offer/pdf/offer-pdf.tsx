@@ -1,3 +1,4 @@
+import { convertLexicalToPlaintext } from "@payloadcms/richtext-lexical/plaintext";
 import {
   Document,
   Font,
@@ -582,7 +583,7 @@ export function OfferPdf({
             <View style={styles.row}>
               {offer.packages.map((pkg, i) => (
                 <View
-                  key={pkg.name}
+                  key={i}
                   style={[
                     styles.card,
                     pkg.recommended
@@ -590,12 +591,11 @@ export function OfferPdf({
                       : {},
                   ]}
                 >
-                  <Text style={styles.muted}>
-                    {pricing.variantLabel} {i + 1}: {pkg.name}
-                    {pkg.hours !== undefined
-                      ? ` (${pkg.hours} ${pricing.hoursLabel})`
-                      : ""}
-                  </Text>
+                  {pkg.hours !== undefined && (
+                    <Text style={styles.muted}>
+                      {pkg.hours} {pricing.hoursLabel}
+                    </Text>
+                  )}
                   <Text style={[styles.bigNumber, { marginTop: 4, marginBottom: 8 }]}>
                     {pricing.priceLabel}: {formatAmount(pkg.price)}{" "}
                     {pricing.currencyLabel}
@@ -603,6 +603,11 @@ export function OfferPdf({
                   {packageFeatures(pkg).map((feature) => (
                     <Bullet key={feature}>{feature}</Bullet>
                   ))}
+                  {pkg.description && (
+                    <Text style={{ marginTop: 8 }}>
+                      {convertLexicalToPlaintext({ data: pkg.description }).trim()}
+                    </Text>
+                  )}
                 </View>
               ))}
             </View>
