@@ -1,3 +1,5 @@
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import sharp from 'sharp'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { postgresAdapter } from '@payloadcms/db-postgres'
@@ -23,9 +25,23 @@ import { Events } from './src/collections/Events'
 import { Testimonials } from './src/collections/Testimonials'
 import { Offers } from './src/collections/Offers'
 import { clearUploadedFileAfterProcessing } from './src/utilities/clearUploadedFile'
+import { exportAll } from './src/endpoints/exportAll'
+
+const dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export default buildConfig({
   editor: lexicalEditor(),
+
+  admin: {
+    importMap: { baseDir: path.resolve(dirname) },
+    components: {
+      // "Export all data" panel at the top of the admin dashboard.
+      beforeDashboard: ['/src/components/admin/ExportAllButton#ExportAllButton'],
+    },
+  },
+
+  // GET /api/export-all: every collection as one JSON download (admins only).
+  endpoints: [exportAll],
 
   collections: [
     Users,
@@ -72,11 +88,21 @@ export default buildConfig({
     }),
 
     importExportPlugin({
+      // Adds "Import" / "Export" (CSV or JSON) to each list view's menu.
       collections: [
+        { slug: 'users' },
         { slug: 'clients' },
+        { slug: 'services' },
+        { slug: 'blog' },
         { slug: 'work-checklist' },
         { slug: 'client-checklist-progress' },
+        { slug: 'job-listings' },
+        { slug: 'case-studies' },
+        { slug: 'industries' },
+        { slug: 'solutions' },
         { slug: 'events' },
+        { slug: 'testimonials' },
+        { slug: 'offers' },
       ],
       // Keep the generated imports/exports collections out of the root
       // sidebar and restrict them to admins, same as Clients.ts.

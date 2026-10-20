@@ -12,18 +12,21 @@ import {
 import path from "node:path";
 
 import {
+  discountAmount,
   fillPlaceholders,
   formatAmount,
   formatDate,
   formatNumber,
-  packageFeatures,
+  packageTotal,
   pricingHeading,
 } from "@/components/offer/offer-ui";
-import type { LabeledItem, Offer, OfferContact, OfferStatic } from "@/types/offer";
+import type { LabeledItem, Offer, OfferContact, OfferPackage, OfferStatic } from "@/types/offer";
 
-// The PDF version of the special-offer page, rendered on the server with
-// @react-pdf/renderer. It reads the same JSON as the page, so the text stays
-// in sync; only layout lives here.
+// The PDF version of an offer, rendered on the server with
+// @react-pdf/renderer. It reads the same data as the offer page, so the text
+// stays in sync; only layout lives here. Laid out as a formal commercial
+// proposal: letterhead, parties and key terms, then numbered sections with
+// plain headings and tables, terms and a signature block.
 
 // Helvetica, react-pdf's default, has no Cyrillic glyphs; Inter does.
 // Plain paths (not require.resolve) so webpack leaves them alone; the files are
@@ -52,137 +55,137 @@ const colors = {
   muted: "#6b7280",
   border: "#e5e7eb",
   surface: "#f9fafb",
-  header: "#f3f4f6",
-  primary: "#111827",
+  accent: "#111827",
 };
+
+const PAGE_X = 56;
 
 const styles = StyleSheet.create({
   page: {
     fontFamily: "Inter",
-    fontSize: 10,
+    fontSize: 9.5,
     lineHeight: 1.5,
     color: colors.text,
-    paddingTop: 48,
+    paddingTop: 72,
     paddingBottom: 64,
-    paddingHorizontal: 48,
+    paddingHorizontal: PAGE_X,
   },
+  // Letterhead and footer repeat on every page.
+  letterhead: {
+    position: "absolute",
+    top: 28,
+    left: PAGE_X,
+    right: PAGE_X,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    paddingBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+    fontSize: 8,
+    lineHeight: 1,
+    color: colors.muted,
+  },
+  brand: { fontSize: 10, fontWeight: 700, color: colors.text, letterSpacing: 0.5 },
   // `top` rather than `bottom`: react-pdf mis-places `render` text anchored to the bottom.
   footer: {
     position: "absolute",
     top: 800, // A4 is 842pt tall
-    lineHeight: 1,
-    left: 48,
-    right: 48,
-    fontSize: 8,
-    color: colors.muted,
-  },
-  eyebrow: {
-    fontSize: 8,
-    fontWeight: 600,
-    letterSpacing: 1.5,
-    textTransform: "uppercase",
-    color: colors.muted,
-    marginBottom: 6,
-  },
-  title: { fontSize: 28, fontWeight: 700, lineHeight: 1.2, marginBottom: 12 },
-  // The page's lineHeight is inherited as a fixed size, so larger text sets its own.
-  h2: {
-    fontSize: 16,
-    fontWeight: 700,
-    lineHeight: 1.3,
-    marginTop: 24,
-    marginBottom: 10,
-  },
-  h3: { fontSize: 12, fontWeight: 600, marginTop: 14, marginBottom: 6 },
-  muted: { color: colors.muted },
-  link: { color: colors.text, textDecoration: "none" },
-  paragraph: { marginBottom: 8 },
-  bold: { fontWeight: 600 },
-  bigNumber: { fontSize: 18, fontWeight: 700, lineHeight: 1.3 },
-  row: { flexDirection: "row", gap: 12 },
-  card: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 6,
-    padding: 12,
-  },
-  listItem: { flexDirection: "row", marginBottom: 4 },
-  bullet: { width: 14, color: colors.muted },
-  listText: { flex: 1 },
-  meta: {
+    left: PAGE_X,
+    right: PAGE_X,
     flexDirection: "row",
-    flexWrap: "wrap",
-    columnGap: 24,
-    rowGap: 12,
-    marginTop: 24,
-    paddingTop: 16,
+    justifyContent: "space-between",
+    paddingTop: 8,
     borderTopWidth: 1,
     borderTopColor: colors.border,
-  },
-  // A topic panel, matching the web page: a tinted header bar over a bordered body.
-  section: {
-    marginTop: 20,
-    paddingHorizontal: 16,
-    paddingBottom: 12,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 8,
-  },
-  sectionHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    // Spans the full panel width over the panel's own padding.
-    marginHorizontal: -16,
-    marginBottom: 4,
-    backgroundColor: colors.header,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-  },
-  sectionDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: colors.primary,
-  },
-  sectionLabel: {
-    fontSize: 9,
-    fontWeight: 600,
-    letterSpacing: 1.5,
-    textTransform: "uppercase",
+    fontSize: 7.5,
     lineHeight: 1,
+    color: colors.muted,
   },
-  tableRow: {
+  label: {
+    fontSize: 7.5,
+    fontWeight: 600,
+    letterSpacing: 1,
+    textTransform: "uppercase",
+    color: colors.muted,
+    marginBottom: 3,
+  },
+  // The page's lineHeight is inherited as a fixed size, so larger text sets its own.
+  title: { fontSize: 22, fontWeight: 700, lineHeight: 1.25 },
+  subtitle: { fontSize: 11, color: colors.muted, marginTop: 6 },
+  h2: {
     flexDirection: "row",
+    gap: 8,
+    fontSize: 12.5,
+    fontWeight: 700,
+    lineHeight: 1.3,
+    marginTop: 22,
+    marginBottom: 10,
+    paddingBottom: 6,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.text,
+  },
+  h3: { fontSize: 10, fontWeight: 600, marginTop: 12, marginBottom: 4 },
+  muted: { color: colors.muted },
+  bold: { fontWeight: 600 },
+  paragraph: { marginBottom: 6 },
+  link: { color: colors.text, textDecoration: "none" },
+  listItem: { flexDirection: "row", marginBottom: 2 },
+  bullet: { width: 12, color: colors.muted },
+  listText: { flex: 1 },
+  // Two columns of label/value blocks (parties, signatures).
+  columns: { flexDirection: "row", gap: 24 },
+  column: { flex: 1 },
+  // Key terms band under the parties.
+  terms: {
+    flexDirection: "row",
+    marginTop: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    backgroundColor: colors.surface,
+    borderTopWidth: 2,
+    borderTopColor: colors.accent,
+  },
+  term: { flex: 1 },
+  termValue: { fontSize: 10.5, fontWeight: 600 },
+  table: { marginTop: 4 },
+  th: {
+    flexDirection: "row",
+    paddingVertical: 5,
+    paddingHorizontal: 6,
+    backgroundColor: colors.surface,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.text,
+    fontWeight: 600,
+    fontSize: 8.5,
+  },
+  tr: {
+    flexDirection: "row",
+    paddingVertical: 5,
+    paddingHorizontal: 6,
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
-    paddingVertical: 5,
+  },
+  totalRow: {
+    flexDirection: "row",
+    paddingVertical: 6,
+    paddingHorizontal: 6,
+    fontWeight: 700,
+  },
+  signatureLine: {
+    marginTop: 36,
+    borderTopWidth: 1,
+    borderTopColor: colors.text,
+    paddingTop: 4,
   },
 });
 
 const countryNames = new Intl.DisplayNames(["bg"], { type: "region" });
 
-// Pairs items up so cards can be laid out two per row.
-const pairs = <T,>(items: T[]) =>
-  Array.from({ length: Math.ceil(items.length / 2) }, (_, i) =>
-    items.slice(i * 2, i * 2 + 2),
-  );
-
-function Bullet({
-  marker = "•",
-  children,
-}: {
-  marker?: string;
-  children: React.ReactNode;
-}) {
+function Bullet({ children }: { children: React.ReactNode }) {
   return (
     <View style={styles.listItem} wrap={false}>
-      <Text style={styles.bullet}>{marker}</Text>
+      <Text style={styles.bullet}>–</Text>
       <Text style={styles.listText}>{children}</Text>
     </View>
   );
@@ -191,79 +194,115 @@ function Bullet({
 function Labeled({ item }: { item: LabeledItem }) {
   return (
     <>
-      <Text style={styles.bold}>
-        {item.label}
-        {item.text ? ":" : ""}
-      </Text>
-      {item.text ? (
-        <>
-          {" "}
-          <Text style={styles.muted}>{item.text}</Text>
-        </>
-      ) : null}
+      <Text style={styles.bold}>{item.label}</Text>
+      {item.text ? <Text style={styles.muted}> – {item.text}</Text> : null}
     </>
   );
 }
 
-function MetaItem({
-  label,
-  value,
-  avatar,
-}: {
-  label: string;
-  value: string;
-  /** Profile image shown before the value, e.g. for "Оферта от". */
-  avatar?: OfferPdfImages["contactAvatar"];
-}) {
-  // Capped so long values (several services) wrap instead of overlapping.
+// "3. Цена": a numbered heading ruled underneath, kept with what follows.
+function Heading({ number, children }: { number: number; children: React.ReactNode }) {
   return (
-    <View style={{ maxWidth: 160 }}>
-      <Text style={styles.eyebrow}>{label}</Text>
-      {avatar ? (
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-          {/* eslint-disable-next-line jsx-a11y/alt-text -- react-pdf images have no alt text */}
-          <Image
-            src={avatar}
-            style={{ width: 16, height: 16, borderRadius: 8, objectFit: "cover" }}
-          />
-          <Text style={styles.bold}>{value}</Text>
-        </View>
-      ) : (
-        <Text style={styles.bold}>{value}</Text>
-      )}
+    <View style={styles.h2} minPresenceAhead={90} wrap={false}>
+      <Text>{number}.</Text>
+      <Text style={{ flex: 1 }}>{children}</Text>
     </View>
   );
 }
 
-// One topic of the offer as a panel; long panels continue onto the next page.
-// `lead` (the heading and first block) is kept on one page with the header
-// bar, so the bar never sits alone above an empty gap at the bottom of a page.
-// (`minPresenceAhead` doesn't do this for views nested inside the panel.)
-function Section({
-  label,
-  lead,
-  children,
-}: {
-  label: string;
-  lead: React.ReactNode;
-  children?: React.ReactNode;
-}) {
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <View style={styles.section}>
-      <View wrap={false}>
-        <View style={styles.sectionHeader}>
-          <View style={styles.sectionDot} />
-          <Text style={styles.sectionLabel}>{label}</Text>
-        </View>
-        {lead}
-      </View>
+    <View style={{ marginBottom: 8 }}>
+      <Text style={styles.label}>{label}</Text>
       {children}
     </View>
   );
 }
 
-// The first heading in a panel sits right under the header bar.
-const firstHeading = { marginTop: 12 };
+// A package as a table of its service lines with total hours and price.
+function PackageTable({
+  pkg,
+  pricing,
+  title,
+}: {
+  pkg: OfferPackage;
+  pricing: OfferStatic["pricing"];
+  title?: string;
+}) {
+  const lines = pkg.lines ?? [];
+  const description = pkg.description
+    ? convertLexicalToPlaintext({ data: pkg.description }).trim()
+    : "";
+
+  return (
+    <View wrap={false} style={{ marginBottom: 14 }}>
+      {title && <Text style={styles.h3}>{title}</Text>}
+      <View style={styles.table}>
+        <View style={styles.th}>
+          <Text style={{ width: 24 }}>№</Text>
+          <Text style={{ flex: 1 }}>Услуга</Text>
+          <Text style={{ width: 80, textAlign: "right" }}>Часове</Text>
+        </View>
+        {lines.length > 0 ? (
+          lines.map((line, i) => (
+            <View key={`${line.service}-${i}`} style={styles.tr}>
+              <Text style={[styles.muted, { width: 24 }]}>{i + 1}</Text>
+              <Text style={{ flex: 1 }}>{line.service}</Text>
+              <Text style={{ width: 80, textAlign: "right" }}>{formatAmount(line.hours)}</Text>
+            </View>
+          ))
+        ) : (
+          <View style={styles.tr}>
+            <Text style={[styles.muted, { width: 24 }]}>1</Text>
+            <Text style={{ flex: 1 }}>{pkg.name || "Пакет услуги"}</Text>
+            <Text style={{ width: 80, textAlign: "right" }}>
+              {pkg.hours !== undefined ? formatAmount(pkg.hours) : "—"}
+            </Text>
+          </View>
+        )}
+        {pkg.hours !== undefined && lines.length > 1 && (
+          <View style={[styles.tr, { borderBottomColor: colors.text }]}>
+            <Text style={{ width: 24 }} />
+            <Text style={[styles.bold, { flex: 1 }]}>Общо часове</Text>
+            <Text style={[styles.bold, { width: 80, textAlign: "right" }]}>
+              {formatAmount(pkg.hours)}
+            </Text>
+          </View>
+        )}
+        {/* With a discount: the price before it, then the amount taken off. */}
+        {pkg.discount ? (
+          <>
+            <View style={styles.tr}>
+              <Text style={{ width: 24 }} />
+              <Text style={{ flex: 1 }}>Стойност</Text>
+              <Text style={{ textAlign: "right" }}>
+                {formatAmount(pkg.price)} {pricing.currencyLabel}
+              </Text>
+            </View>
+            <View style={[styles.tr, { borderBottomColor: colors.text }]}>
+              <Text style={{ width: 24 }} />
+              <Text style={{ flex: 1 }}>Отстъпка ({formatAmount(pkg.discount)}%)</Text>
+              <Text style={{ textAlign: "right" }}>
+                −{formatAmount(discountAmount(pkg))} {pricing.currencyLabel}
+              </Text>
+            </View>
+          </>
+        ) : null}
+        <View style={styles.totalRow}>
+          <Text style={{ width: 24 }} />
+          <Text style={{ flex: 1 }}>Обща стойност (без ДДС)</Text>
+          <Text style={{ textAlign: "right", fontSize: 11 }}>
+            {formatAmount(packageTotal(pkg))} {pricing.currencyLabel}
+          </Text>
+        </View>
+      </View>
+      {pkg.features.map((feature) => (
+        <Bullet key={feature}>{feature}</Bullet>
+      ))}
+      {description ? <Text style={{ marginTop: 6 }}>{description}</Text> : null}
+    </View>
+  );
+}
 
 export interface OfferPdfImages {
   /** The client's logo; react-pdf only embeds PNG and JPEG. Skipped when absent. */
@@ -283,7 +322,7 @@ export function OfferPdf({
   offer: Offer;
   images: OfferPdfImages;
 }) {
-  const { pricing, audit } = content;
+  const { pricing, audit, brand } = content;
   // The offer's preparer, or the agency's default contact. The phone is the
   // agency's for now, since users have no phone number.
   const contact: OfferContact = {
@@ -294,414 +333,351 @@ export function OfferPdf({
   const heading = pricingHeading(pricing, offer);
   const site = offer.client.url
     ? offer.client.url.replace(/^https?:\/\//, "").replace(/\/$/, "")
-    : offer.client.name;
+    : "";
 
-  // Unset metrics are stored as 0 (see toOffer), so 0 hides the card.
-  const stats: { title: string; value: string; suffix?: string }[] = [
-    {
-      title: audit.metricLabels.domainRating,
-      value: offer.metrics.domainRating,
-      suffix: "от 100",
-    },
+  // Unset metrics are stored as 0 (see toOffer), so 0 leaves the column out.
+  const stats = [
+    { title: audit.metricLabels.domainRating, value: offer.metrics.domainRating },
     { title: audit.metricLabels.backlinks, value: offer.metrics.backlinks },
     { title: audit.metricLabels.organicKeywords, value: offer.metrics.organicKeywords },
     { title: audit.metricLabels.organicTraffic, value: offer.metrics.organicTraffic },
-  ]
-    .filter((stat) => stat.value > 0)
-    .map((stat) => ({ ...stat, value: formatNumber(stat.value) }));
+  ].filter((stat) => stat.value > 0);
+  const hasAudit = stats.length > 0 || offer.keywords.length > 0;
 
-  const groupSections = [
-    {
-      header: content.technical.header,
-      description: content.technical.description,
-      // Titles only: the services' descriptions are for the web page's tooltips.
-      groups: (offer.technicalGroups ?? content.technical.groups).map((group) => ({
-        title: group.title,
-        items: group.items.map((item) => ({ label: item.label, text: "" })),
-      })),
-    },
-    {
-      header: content.contentStrategy.header,
-      description: content.contentStrategy.description,
-      groups: content.contentStrategy.groups.map((group) => ({
-        title: group.title,
-        items: group.items.map((item) => ({
-          label: fillPlaceholders(item.label, offer.content),
-          text: fillPlaceholders(item.text, offer.content),
-        })),
-      })),
-    },
-    // Without the technical brief, the content strategy leads.
-  ].filter((section) => section.groups.length > 0);
+  // Titles only: the services' descriptions are for the web page's tooltips.
+  const technicalGroups = (offer.technicalGroups ?? content.technical.groups).filter(
+    (group) => group.items.length > 0,
+  );
+  const contentGroups = content.contentStrategy.groups.map((group) => ({
+    title: group.title,
+    items: group.items.map((item) => ({
+      label: fillPlaceholders(item.label, offer.content),
+      text: fillPlaceholders(item.text, offer.content),
+    })),
+  }));
 
-  const pillarRows = pairs(content.agency.pillars).map((row, r) => (
-    <View key={r} style={[styles.row, { marginBottom: 12 }]} wrap={false}>
-      {row.map((pillar, i) => (
-        <View key={pillar.title} style={styles.card}>
-          <Text style={[styles.muted, { fontSize: 8 }]}>
-            {String(r * 2 + i + 1).padStart(2, "0")}
+  // Sections are numbered in the order they appear; optional ones drop out.
+  let section = 0;
+  const next = () => ++section;
+
+  return (
+    <Document title={`${heading} – ${offer.client.name}`} author={brand.name} language="bg">
+      <Page size="A4" style={styles.page}>
+        <View style={styles.letterhead} fixed>
+          <Text style={styles.brand}>{brand.name.toUpperCase()}</Text>
+          <Text>
+            Търговско предложение № {offer.id} · {formatDate(offer.date)}
           </Text>
-          <Text style={[styles.bold, { fontSize: 12, marginBottom: 4 }]}>
-            {pillar.title.toUpperCase()}
-          </Text>
-          <Text style={styles.muted}>{pillar.description}</Text>
         </View>
-      ))}
-    </View>
-  ));
 
-  const phaseRows = offer.timeline.map((phase, i) => (
-    <View
-      key={phase.label}
-      wrap={false}
-      style={{
-        flexDirection: "row",
-        gap: 12,
-        paddingVertical: 8,
-        borderBottomWidth: 1,
-        borderBottomColor: colors.border,
-      }}
-    >
-      <Text style={[styles.muted, { width: 90 }]}>
-        {content.timeline.weekLabel}{" "}
-        {phase.startWeek === phase.endWeek
-          ? phase.startWeek
-          : `${phase.startWeek}–${phase.endWeek}`}
-      </Text>
-      <View style={{ flex: 1 }}>
-        <Text style={styles.bold}>
-          {i + 1}. {phase.label}
-        </Text>
-        <Text style={styles.muted}>{phase.description}</Text>
-      </View>
-    </View>
-  ));
+        {/* Title */}
+        <View style={{ flexDirection: "row", justifyContent: "space-between", gap: 24 }}>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.label}>Търговско предложение</Text>
+            <Text style={styles.title}>{heading}</Text>
+            <Text style={styles.subtitle}>
+              Изготвено за {offer.client.name}
+              {site ? ` · ${site}` : ""}
+            </Text>
+          </View>
+          {images.clientLogo && (
+            // eslint-disable-next-line jsx-a11y/alt-text -- react-pdf images have no alt text
+            <Image
+              src={images.clientLogo}
+              style={{ width: 96, maxHeight: 56, objectFit: "contain" }}
+            />
+          )}
+        </View>
 
-  // `start` keeps the numbering when a section's groups are split.
-  const groupBlocks = (groups: (typeof groupSections)[number]["groups"], start = 0) =>
-    groups.map((group, i) => (
-      <View key={group.title} wrap={false}>
-        <Text style={styles.h3}>
-          {start + i + 1}. {group.title}
-        </Text>
-        {group.items.map((item) => (
+        {/* Parties */}
+        <View style={[styles.columns, { marginTop: 28 }]}>
+          <View style={styles.column}>
+            <Field label="Възложител">
+              <Text style={styles.bold}>{offer.client.name}</Text>
+              {site ? <Text style={styles.muted}>{site}</Text> : null}
+            </Field>
+          </View>
+          <View style={styles.column}>
+            <Field label="Изпълнител">
+              <Text style={styles.bold}>{brand.name}</Text>
+              <Text style={styles.muted}>{brand.website}</Text>
+            </Field>
+          </View>
+          <View style={styles.column}>
+            <Field label="Лице за контакт">
+              <View style={{ flexDirection: "row", gap: 6, alignItems: "center" }}>
+                {images.contactAvatar && (
+                  // eslint-disable-next-line jsx-a11y/alt-text -- react-pdf images have no alt text
+                  <Image
+                    src={images.contactAvatar}
+                    style={{ width: 18, height: 18, borderRadius: 9, objectFit: "cover" }}
+                  />
+                )}
+                <Text style={styles.bold}>{contact.name}</Text>
+              </View>
+              {contact.role && <Text style={styles.muted}>{contact.role}</Text>}
+              <Link src={`mailto:${contact.email}`} style={[styles.link, styles.muted]}>
+                {contact.email}
+              </Link>
+              {contact.phone && (
+                <Link
+                  src={`tel:${contact.phone.replace(/\s/g, "")}`}
+                  style={[styles.link, styles.muted]}
+                >
+                  {contact.phone}
+                </Link>
+              )}
+            </Field>
+          </View>
+        </View>
+
+        {/* Key terms */}
+        <View style={styles.terms}>
+          <View style={styles.term}>
+            <Text style={styles.label}>Оферта №</Text>
+            <Text style={styles.termValue}>{offer.id}</Text>
+          </View>
+          <View style={styles.term}>
+            <Text style={styles.label}>Дата</Text>
+            <Text style={styles.termValue}>{formatDate(offer.date)}</Text>
+          </View>
+          <View style={styles.term}>
+            <Text style={styles.label}>Валидна до</Text>
+            <Text style={styles.termValue}>{formatDate(offer.validUntil)}</Text>
+          </View>
+          {recommended && (
+            <View style={styles.term}>
+              <Text style={styles.label}>Стойност (без ДДС)</Text>
+              <Text style={styles.termValue}>
+                {formatAmount(packageTotal(recommended))} {pricing.currencyLabel}
+              </Text>
+            </View>
+          )}
+        </View>
+
+        {/* Summary */}
+        <Heading number={next()}>Резюме</Heading>
+        {brand.intro.map((paragraph) => (
+          <Text key={paragraph} style={styles.paragraph}>
+            {paragraph}
+          </Text>
+        ))}
+        {offer.scopeSummary.map((item) => (
           <Bullet key={item.label}>
             <Labeled item={item} />
           </Bullet>
         ))}
-      </View>
-    ));
 
-  const summaryBullets = offer.scopeSummary.map((item) => (
-    <Bullet key={item.label}>
-      <Labeled item={item} />
-    </Bullet>
-  ));
-
-  return (
-    <Document
-      title={`${heading} – ${offer.client.name}`}
-      author={content.brand.name}
-      language="bg"
-    >
-      <Page size="A4" style={styles.page}>
-        {/* Cover */}
-        {/* react-pdf images have no alt text. */}
-        {images.clientLogo && (
-          // eslint-disable-next-line jsx-a11y/alt-text
-          <Image src={images.clientLogo} style={{ width: 120, marginBottom: 24 }} />
-        )}
-        <Text style={styles.eyebrow}>Специална оферта за {offer.client.name}</Text>
-        <Text style={styles.title}>{heading}</Text>
-        <View style={styles.meta}>
-          <MetaItem
-            label="Оферта от"
-            value={offer.preparedBy ?? content.trackRecord.contact.name}
-            avatar={offer.preparedBy ? images.contactAvatar : undefined}
-          />
-          <MetaItem
-            label={(offer.services?.length ?? 0) > 1 ? "Услуги" : "Услуга"}
-            value={offer.service}
-          />
-          <MetaItem
-            label={pricing.priceLabel}
-            value={`${formatAmount(recommended.price)} ${pricing.currencyLabel}`}
-          />
-          <MetaItem label="Дата" value={formatDate(offer.date)} />
-          <MetaItem label="Валидна до" value={formatDate(offer.validUntil)} />
-        </View>
-
-        <Section
-          label="Въведение"
-          lead={
-            <>
-              <Text style={[styles.h2, firstHeading]}>
-                {offer.service} на {site}
-              </Text>
-              {content.brand.intro.map((paragraph) => (
-                <Text key={paragraph} style={styles.paragraph}>
-                  {paragraph}
-                </Text>
-              ))}
-            </>
-          }
-        >
-          {/* react-pdf images have no alt text. */}
-          {/* eslint-disable-next-line jsx-a11y/alt-text */}
-          <Image
-            src={{ data: images.certifications, format: "png" }}
-            style={{ width: 300, alignSelf: "center", marginVertical: 12 }}
-          />
-        </Section>
-
-        <Section
-          label="За нас"
-          lead={
-            <>
-              <Text style={[styles.h2, firstHeading]}>{content.agency.header}</Text>
-              {pillarRows[0]}
-            </>
-          }
-        >
-          {pillarRows.slice(1)}
-
-          <View wrap={false}>
-            <Text style={styles.h3}>{content.socialProof.countriesHeader}</Text>
-            <Text style={styles.paragraph}>
-              {content.socialProof.countriesDescription}
-            </Text>
-            <Text style={styles.muted}>
-              {content.socialProof.countries
-                .map((code) => countryNames.of(code === "UK" ? "GB" : code) ?? code)
-                .join(" · ")}
-            </Text>
-          </View>
-        </Section>
-
-        {(stats.length > 0 || offer.keywords.length > 0) && (
-        <Section
-          label="Одит"
-          lead={
-            <View>
-              <Text style={[styles.h2, firstHeading]}>
-                {audit.header} | {site}
-              </Text>
-              {pairs(stats).map((row, r) => (
-                <View key={r} style={[styles.row, { marginBottom: 12 }]}>
-                  {row.map((stat) => (
-                    <View key={stat.title} style={styles.card}>
-                      <Text style={styles.muted}>{stat.title}</Text>
-                      <Text style={styles.bigNumber}>
-                        {stat.value}
-                        {stat.suffix && (
-                          <Text style={[styles.muted, { fontSize: 10, fontWeight: 400 }]}>
-                            {" "}
-                            {stat.suffix}
-                          </Text>
-                        )}
-                      </Text>
-                    </View>
+        {/* Audit */}
+        {hasAudit && (
+          <>
+            <Heading number={next()}>
+              {audit.header}
+              {site ? ` · ${site}` : ""}
+            </Heading>
+            {stats.length > 0 && (
+              <View wrap={false}>
+                <View style={styles.th}>
+                  {stats.map((stat) => (
+                    <Text key={stat.title} style={{ flex: 1 }}>
+                      {stat.title}
+                    </Text>
                   ))}
                 </View>
-              ))}
-              {stats.length > 0 && (
-                <Text style={[styles.muted, { fontSize: 8 }]}>
-                  {offer.metrics.source}, {formatDate(offer.metrics.date)}
+                <View style={styles.tr}>
+                  {stats.map((stat) => (
+                    <Text key={stat.title} style={[styles.bold, { flex: 1, fontSize: 11 }]}>
+                      {formatNumber(stat.value)}
+                    </Text>
+                  ))}
+                </View>
+                <Text style={[styles.muted, { fontSize: 7.5, marginTop: 4 }]}>
+                  Източник: {offer.metrics.source}, {formatDate(offer.metrics.date)}
                 </Text>
-              )}
-            </View>
-          }
-        >
-          {offer.keywords.length > 0 && (
-          <View wrap={false}>
-            <Text style={styles.h3}>{audit.keywordsHeader}</Text>
-            <View style={[styles.tableRow, { borderBottomColor: colors.text }]}>
-              <Text style={[styles.bold, { flex: 3 }]}>{audit.columns.keyword}</Text>
-              <Text style={[styles.bold, { flex: 1, textAlign: "right" }]}>
-                {audit.columns.position}
-              </Text>
-              <Text style={[styles.bold, { flex: 2, textAlign: "right" }]}>
-                {audit.columns.volume}
-              </Text>
-            </View>
-            {offer.keywords.map((row) => (
-              <View key={row.keyword} style={styles.tableRow}>
-                <Text style={{ flex: 3 }}>{row.keyword}</Text>
-                <Text style={{ flex: 1, textAlign: "right" }}>{row.position}</Text>
-                <Text style={{ flex: 2, textAlign: "right" }}>
-                  {formatNumber(row.volume)}
+              </View>
+            )}
+            {offer.keywords.length > 0 && (
+              <View>
+                <Text style={styles.h3} minPresenceAhead={60}>
+                  {audit.keywordsHeader}
                 </Text>
+                <View style={styles.th} wrap={false}>
+                  <Text style={{ flex: 3 }}>{audit.columns.keyword}</Text>
+                  <Text style={{ flex: 1, textAlign: "right" }}>{audit.columns.position}</Text>
+                  <Text style={{ flex: 2, textAlign: "right" }}>{audit.columns.volume}</Text>
+                </View>
+                {offer.keywords.map((row) => (
+                  <View key={row.keyword} style={styles.tr} wrap={false}>
+                    <Text style={{ flex: 3 }}>{row.keyword}</Text>
+                    <Text style={{ flex: 1, textAlign: "right" }}>{row.position}</Text>
+                    <Text style={{ flex: 2, textAlign: "right" }}>
+                      {formatNumber(row.volume)}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            )}
+          </>
+        )}
+
+        {/* Scope */}
+        <Heading number={next()}>Обхват на работата</Heading>
+        {technicalGroups.length > 0 && (
+          <>
+            <Text style={[styles.paragraph, styles.muted]}>{content.technical.description}</Text>
+            {technicalGroups.map((group) => (
+              <View key={group.title} wrap={false}>
+                <Text style={styles.h3}>{group.title}</Text>
+                {group.items.map((item) => (
+                  <Bullet key={item.label}>{item.label}</Bullet>
+                ))}
+              </View>
+            ))}
+          </>
+        )}
+        <Text style={styles.h3} minPresenceAhead={60}>
+          {content.architecture.header}
+        </Text>
+        {content.architecture.steps.map((step) => (
+          <Bullet key={step.title}>
+            <Text style={styles.bold}>{step.title}</Text>
+            <Text style={styles.muted}> – {step.items.join("; ")}</Text>
+          </Bullet>
+        ))}
+        <Text style={styles.h3} minPresenceAhead={60}>
+          {content.contentStrategy.header}
+        </Text>
+        {contentGroups.map((group) => (
+          <Bullet key={group.title}>
+            <Text style={styles.bold}>{group.title}</Text>
+            <Text style={styles.muted}>
+              {" "}
+              – {group.items.map((item) => item.label).join("; ")}
+            </Text>
+          </Bullet>
+        ))}
+
+        {/* Timeline (fixture offers only) */}
+        {offer.timeline.length > 0 && (
+          <>
+            <Heading number={next()}>
+              {content.timeline.activityHeader}
+              {offer.startLabel ? `: ${offer.startLabel}` : ""}
+            </Heading>
+            <View style={styles.th} wrap={false}>
+              <Text style={{ width: 80 }}>{content.timeline.weekLabel}</Text>
+              <Text style={{ flex: 1 }}>Етап</Text>
+            </View>
+            {offer.timeline.map((phase) => (
+              <View key={phase.label} style={styles.tr} wrap={false}>
+                <Text style={[styles.muted, { width: 80 }]}>
+                  {phase.startWeek === phase.endWeek
+                    ? phase.startWeek
+                    : `${phase.startWeek}–${phase.endWeek}`}
+                </Text>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.bold}>{phase.label}</Text>
+                  <Text style={styles.muted}>{phase.description}</Text>
+                </View>
+              </View>
+            ))}
+            {offer.responsibilities ? (
+              <Text style={{ marginTop: 8 }}>
+                <Text style={styles.bold}>{content.timeline.responsibilitiesHeader}: </Text>
+                {offer.responsibilities}
+              </Text>
+            ) : null}
+          </>
+        )}
+
+        {/* Price */}
+        {offer.packages.length > 0 &&
+          offer.packages.map((pkg, i) => {
+            const table = (
+              <PackageTable
+                key={i}
+                pkg={pkg}
+                pricing={pricing}
+                title={
+                  offer.packages.length > 1
+                    ? `${pricing.variantLabel} ${i + 1}${pkg.name ? `: ${pkg.name}` : ""}${
+                        pkg.recommended ? ` (${pricing.recommendedLabel.toLowerCase()})` : ""
+                      }`
+                    : undefined
+                }
+              />
+            );
+            // The heading stays on the same page as the first package.
+            return i === 0 ? (
+              <View key={i} wrap={false}>
+                <Heading number={next()}>Ценово предложение</Heading>
+                {table}
+              </View>
+            ) : (
+              table
+            );
+          })}
+
+        {/* Terms */}
+        <Heading number={next()}>Условия</Heading>
+        <Bullet>Офертата е валидна до {formatDate(offer.validUntil)}</Bullet>
+        <Bullet>{pricing.vatNote}</Bullet>
+        <Bullet>
+          Работата започва след писмено потвърждение на офертата от Възложителя.
+        </Bullet>
+
+        {/* About */}
+        <Heading number={next()}>{content.agency.header}</Heading>
+        {content.agency.about.slice(1).map((paragraph) => (
+          <Text key={paragraph} style={styles.paragraph}>
+            {paragraph}
+          </Text>
+        ))}
+        <Text style={[styles.paragraph, styles.muted]}>
+          {content.socialProof.countriesHeader}:{" "}
+          {content.socialProof.countries
+            .map((code) => countryNames.of(code === "UK" ? "GB" : code) ?? code)
+            .join(", ")}
+          .
+        </Text>
+        {/* eslint-disable-next-line jsx-a11y/alt-text -- react-pdf images have no alt text */}
+        <Image
+          src={{ data: images.certifications, format: "png" }}
+          style={{ width: 240, marginTop: 6 }}
+        />
+
+        {/* Acceptance */}
+        <View wrap={false}>
+          <Heading number={next()}>Приемане на офертата</Heading>
+          <Text style={styles.muted}>
+            С подписа си страните потвърждават съгласието си с обхвата, цената и условията,
+            описани в настоящото предложение.
+          </Text>
+          <View style={[styles.columns, { marginTop: 8 }]}>
+            {[
+              { party: "За Изпълнителя", name: `${contact.name}, ${brand.name}` },
+              { party: "За Възложителя", name: offer.client.name },
+            ].map(({ party, name }) => (
+              <View key={party} style={styles.column}>
+                <View style={styles.signatureLine}>
+                  <Text style={styles.label}>{party}</Text>
+                  <Text>{name}</Text>
+                  <Text style={[styles.muted, { marginTop: 10 }]}>Дата: ________________</Text>
+                </View>
               </View>
             ))}
           </View>
-          )}
-        </Section>
-        )}
+        </View>
 
-        {offer.timeline.length > 0 && (
-          <Section
-            label="План"
-            lead={
-              <>
-                <Text style={[styles.h2, firstHeading]}>
-                  {content.timeline.activityHeader}
-                  {offer.startLabel ? `: ${offer.startLabel}` : ""}
-                </Text>
-                {phaseRows[0]}
-              </>
-            }
-          >
-            {phaseRows.slice(1)}
-            <Text style={[styles.paragraph, { marginTop: 10 }]}>
-              <Text style={styles.bold}>{content.timeline.responsibilitiesHeader}:</Text>{" "}
-              {offer.responsibilities}
-            </Text>
-          </Section>
-        )}
-
-        <Section
-          label="Обхват на работата"
-          lead={
-            <>
-              <Text style={[styles.h2, firstHeading]}>
-                {groupSections[0].header} {offer.siteType}
-              </Text>
-              <Text style={[styles.paragraph, styles.muted]}>
-                {groupSections[0].description}
-              </Text>
-              {groupBlocks(groupSections[0].groups.slice(0, 1))}
-            </>
-          }
-        >
-          {/* Technical brief (continued) and content strategy */}
-          {groupSections.map((section, s) => (
-            <View key={section.header}>
-              {s > 0 && (
-                <>
-                  <Text style={styles.h2} minPresenceAhead={80}>
-                    {section.header} {offer.siteType}
-                  </Text>
-                  <Text style={[styles.paragraph, styles.muted]}>
-                    {section.description}
-                  </Text>
-                </>
-              )}
-              {s === 0
-                ? groupBlocks(section.groups.slice(1), 1)
-                : groupBlocks(section.groups)}
-            </View>
-          ))}
-
-          {/* Architecture */}
-          <Text style={styles.h2} minPresenceAhead={80}>
-            {content.architecture.header}
-          </Text>
-          {content.architecture.steps.map((step, i) => (
-            <View key={step.title} wrap={false} style={{ marginBottom: 6 }}>
-              <Text style={styles.bold}>
-                {i + 1}. {step.title}
-              </Text>
-              <View style={{ paddingLeft: 14 }}>
-                {step.items.map((item) => (
-                  <Bullet key={item}>{item}</Bullet>
-                ))}
-              </View>
-            </View>
-          ))}
-        </Section>
-
-        <Section
-          label="Цени"
-          lead={
-            <>
-              <Text style={[styles.h2, firstHeading]}>{heading}</Text>
-              {summaryBullets[0]}
-            </>
-          }
-        >
-          {summaryBullets.slice(1)}
-          <View wrap={false}>
-            <Text style={styles.h3}>{pricing.packagesHeader}</Text>
-            <View style={styles.row}>
-              {offer.packages.map((pkg, i) => (
-                <View
-                  key={i}
-                  style={[
-                    styles.card,
-                    pkg.recommended
-                      ? { borderColor: colors.primary, borderWidth: 2 }
-                      : {},
-                  ]}
-                >
-                  {pkg.hours !== undefined && (
-                    <Text style={styles.muted}>
-                      {pkg.hours} {pricing.hoursLabel}
-                    </Text>
-                  )}
-                  <Text style={[styles.bigNumber, { marginTop: 4, marginBottom: 8 }]}>
-                    {pricing.priceLabel}: {formatAmount(pkg.price)}{" "}
-                    {pricing.currencyLabel}
-                  </Text>
-                  {packageFeatures(pkg).map((feature) => (
-                    <Bullet key={feature}>{feature}</Bullet>
-                  ))}
-                  {pkg.description && (
-                    <Text style={{ marginTop: 8 }}>
-                      {convertLexicalToPlaintext({ data: pkg.description }).trim()}
-                    </Text>
-                  )}
-                </View>
-              ))}
-            </View>
-            <Text style={[styles.muted, { fontSize: 8, marginTop: 8 }]}>
-              {pricing.vatNote}
-            </Text>
-          </View>
-        </Section>
-        <Section
-          label="Контакт"
-          lead={
-            <>
-              <Text style={[styles.h2, firstHeading]}>Свържете се с нас</Text>
-              <View style={[styles.row, { justifyContent: "space-between" }]}>
-                <View style={[styles.row, { alignItems: "center" }]}>
-                  {images.contactAvatar && (
-                    // eslint-disable-next-line jsx-a11y/alt-text -- react-pdf images have no alt text
-                    <Image
-                      src={images.contactAvatar}
-                      style={{ width: 40, height: 40, borderRadius: 20, objectFit: "cover" }}
-                    />
-                  )}
-                  <View>
-                    <Text style={[styles.bold, { fontSize: 12 }]}>{contact.name}</Text>
-                    {contact.role && <Text style={styles.muted}>{contact.role}</Text>}
-                  </View>
-                </View>
-                <View style={{ alignItems: "flex-end" }}>
-                  <Link src={`mailto:${contact.email}`} style={styles.link}>
-                    {contact.email}
-                  </Link>
-                  {contact.phone && (
-                    <Link
-                      src={`tel:${contact.phone.replace(/\s/g, "")}`}
-                      style={styles.link}
-                    >
-                      {contact.phone}
-                    </Link>
-                  )}
-                </View>
-              </View>
-            </>
-          }
-        />
         {/* Last child so react-pdf repeats it at the bottom of every page. */}
-        <Text
-          style={styles.footer}
-          fixed
-          render={({ pageNumber, totalPages }) =>
-            `${content.brand.name} · ${content.brand.website} · ${pageNumber} / ${totalPages}`
-          }
-        />
+        <View style={styles.footer} fixed>
+          <Text>
+            {brand.name} · {brand.website} · Поверително
+          </Text>
+          <Text
+            render={({ pageNumber, totalPages }) => `Стр. ${pageNumber} от ${totalPages}`}
+          />
+        </View>
       </Page>
     </Document>
   );

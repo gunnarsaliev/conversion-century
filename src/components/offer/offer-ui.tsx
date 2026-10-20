@@ -44,6 +44,13 @@ export const pricingHeading = (
     ? `${pricing.servicesHeader} ${new Intl.ListFormat("bg", { type: "conjunction" }).format(offer.services)}`
     : `${pricing.header} ${offer.siteType}`.trim();
 
+// A package's discount in EUR (rounded to cents) and its price after it.
+export const discountAmount = (pkg: { price: number; discount?: number }) =>
+  pkg.discount ? Math.round(pkg.price * pkg.discount) / 100 : 0;
+
+export const packageTotal = (pkg: { price: number; discount?: number }) =>
+  pkg.price - discountAmount(pkg);
+
 export const formatDate = (value: string) =>
   new Intl.DateTimeFormat("bg-BG", { dateStyle: "long" }).format(
     new Date(value),

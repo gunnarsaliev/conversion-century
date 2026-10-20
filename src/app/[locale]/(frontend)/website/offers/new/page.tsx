@@ -21,12 +21,13 @@ export default async function NewOfferPage() {
   const { user } = await payload.auth({ headers: await getHeaders() });
   if (user?.role !== "admin") notFound();
 
-  const [clients, services, users] = await Promise.all([
+  const [clients, services] = await Promise.all([
     payload.find({
       collection: "clients",
-      select: { companyName: true },
+      select: { companyName: true, logo: true, websiteLinks: true, contactName: true },
       sort: "companyName",
-      depth: 0,
+      // 1 so the logo media doc (and its `url`) is populated.
+      depth: 1,
       pagination: false,
     }),
     payload.find({
@@ -37,24 +38,22 @@ export default async function NewOfferPage() {
       depth: 0,
       pagination: false,
     }),
-    payload.find({
-      collection: "users",
-      select: { firstName: true, lastName: true, email: true },
-      depth: 0,
-      pagination: false,
-    }),
   ]);
 
   const options: OfferFormOptions = {
-    clients: clients.docs.map((doc) => ({ value: doc.id, label: doc.companyName })),
+    clients: clients.docs.map((doc) => ({
+      value: doc.id,
+      label: doc.companyName,
+      image: typeof doc.logo === "object" ? (doc.logo?.url ?? undefined) : undefined,
+      description: [
+        doc.websiteLinks?.[0]?.url?.replace(/^https?:\/\//, "").replace(/\/$/, ""),
+        doc.contactName,
+      ].filter((line): line is string => Boolean(line)),
+    })),
     services: services.docs.map((doc) => ({
       value: doc.id,
       label: doc.name,
       rate: doc.price ?? null,
-    })),
-    users: users.docs.map((doc) => ({
-      value: doc.id,
-      label: [doc.firstName, doc.lastName].filter(Boolean).join(" ") || doc.email,
     })),
   };
 
@@ -65,7 +64,10 @@ export default async function NewOfferPage() {
         <p className="mb-10 text-muted-foreground">
           Текстовете, общи за всички оферти, са в шаблона; тук попълвате само данните за клиента.
         </p>
-        <OfferForm options={options} currentUserId={user.id} />
+        <OfferForm
+          options={options}
+          className="rounded-lg border bg-white p-6 shadow-xs sm:p-8 dark:bg-gray-800"
+        />
       </div>
     </section>
   );

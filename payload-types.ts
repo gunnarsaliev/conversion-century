@@ -1080,6 +1080,10 @@ export interface Offer {
    * Overrides the calculated price.
    */
   fixedPrice?: number | null;
+  /**
+   * Percentage taken off the price.
+   */
+  discount?: number | null;
   hours?: number | null;
   /**
    * Fixed price, or Σ hours × each service’s hourly rate.
@@ -2051,6 +2055,7 @@ export interface OffersSelect<T extends boolean = true> {
         id?: T;
       };
   fixedPrice?: T;
+  discount?: T;
   hours?: T;
   price?: T;
   description?: T;

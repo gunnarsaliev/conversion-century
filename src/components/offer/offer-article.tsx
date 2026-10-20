@@ -1,7 +1,6 @@
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import {
   Check,
-  Download,
   LayoutTemplate,
   Mail,
   Network,
@@ -23,11 +22,12 @@ import {
   formatDate,
   formatNumber,
   packageFeatures,
+  packageTotal,
   pricingHeading,
 } from "@/components/offer/offer-ui";
 import { OfferPricing } from "@/components/offer-pricing";
+import { PdfDownloadButton } from "@/components/offer/pdf-download-button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import type { ClientLogo } from "@/lib/client-logos";
 import type { Offer, OfferContact, OfferStatic } from "@/types/offer";
@@ -200,19 +200,12 @@ export function OfferArticle({
                 {recommended && (
                   <SidebarItem
                     label={pricing.priceLabel}
-                    value={`${formatAmount(recommended.price)} ${pricing.currencyLabel}`}
+                    value={`${formatAmount(packageTotal(recommended))} ${pricing.currencyLabel}`}
                   />
                 )}
                 <SidebarItem label="Валидна до" value={formatDate(offer.validUntil)} />
                 {pdfHref && (
-                  <a
-                    href={pdfHref}
-                    download
-                    className={buttonVariants({ className: "w-full text-white py-6" })}
-                  >
-                    <Download className="size-4" />
-                    Изтегли офертата (PDF)
-                  </a>
+                  <PdfDownloadButton href={pdfHref} className="py-6" />
                 )}
               </div>
 
@@ -412,8 +405,16 @@ export function OfferArticle({
               {/* Outside `prose` so Typography doesn't restyle the price card. */}
               {recommended && (
                 <OfferPricing
-                  price={formatAmount(recommended.price)}
+                  price={formatAmount(packageTotal(recommended))}
                   unit={pricing.currencyLabel}
+                  previousPrice={
+                    recommended.discount
+                      ? `${formatAmount(recommended.price)} ${pricing.currencyLabel}`
+                      : undefined
+                  }
+                  discountLabel={
+                    recommended.discount ? `−${formatAmount(recommended.discount)}%` : undefined
+                  }
                   badge={
                     recommended.hours !== undefined
                       ? `${recommended.hours} ${pricing.hoursLabel}`

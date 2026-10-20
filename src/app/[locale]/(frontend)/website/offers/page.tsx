@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { formatAmount, formatDate, LogoOrName } from "@/components/offer/offer-ui";
+import { formatAmount, formatDate, LogoOrName, packageTotal } from "@/components/offer/offer-ui";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -73,7 +73,7 @@ export default async function OffersPage() {
                           </span>
                           {recommended && (
                             <span className="font-semibold tabular-nums">
-                              {formatAmount(recommended.price)} €
+                              {formatAmount(packageTotal(recommended))} €
                             </span>
                           )}
                         </div>

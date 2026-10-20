@@ -9,6 +9,10 @@ type OfferPricingProps = {
   price: string
   /** Shown after the amount, e.g. "евро". */
   unit?: string
+  /** The amount before a discount, struck through after the price. */
+  previousPrice?: string
+  /** Tag next to the price, e.g. "−10%". */
+  discountLabel?: string
   /** Pill at the top right, e.g. "25 часа". */
   badge?: string
   badgeIcon?: LucideIcon
@@ -23,6 +27,8 @@ type OfferPricingProps = {
 export function OfferPricing({
   price,
   unit,
+  previousPrice,
+  discountLabel,
   badge,
   badgeIcon: BadgeIcon = Clock,
   title,
@@ -33,13 +39,23 @@ export function OfferPricing({
   return (
     <article className={cn('border-b py-8', className)}>
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-baseline gap-2">
+        <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
           <span className="text-4xl font-normal leading-none tracking-tight sm:text-[42px]">
             {price}
           </span>
           {unit && (
             <span className="text-xl font-light leading-none text-muted-foreground sm:text-2xl">
               {unit}
+            </span>
+          )}
+          {previousPrice && (
+            <s className="ml-2 text-xl font-light leading-none text-muted-foreground sm:text-2xl">
+              {previousPrice}
+            </s>
+          )}
+          {discountLabel && (
+            <span className="self-center rounded-full bg-green-100 px-2.5 py-1 text-sm font-medium leading-none text-green-800 dark:bg-green-900/40 dark:text-green-300">
+              {discountLabel}
             </span>
           )}
         </div>

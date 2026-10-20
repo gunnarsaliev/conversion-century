@@ -11,7 +11,6 @@ import { VALIDITY_WEEKS } from "@/collections/Offers";
 // writable fields of src/collections/Offers.ts; `hours` and `price` are
 // virtual there, so the form only previews them.
 
-export const offerStatuses = ["draft", "sent", "accepted", "declined"] as const;
 export const metricsSources = ["manual", "ahrefs", "semrush", "other"] as const;
 
 // Empty number inputs hold `undefined`; required ones only accept a number
@@ -27,8 +26,6 @@ const day = (message: string) => z.iso.date({ error: message });
 export const offerFormSchema = z
   .object({
     client: requiredNumber("Изберете клиент"),
-    preparedBy: z.number().optional(),
-    status: z.enum(offerStatuses),
     date: day("Въведете дата"),
     validUntil: day("Въведете валидност"),
     services: z.array(
@@ -38,6 +35,12 @@ export const offerFormSchema = z
       }),
     ),
     fixedPrice: z.number().min(0, "Не може да е отрицателна").optional(),
+    // Percentage taken off the price.
+    discount: z
+      .number()
+      .min(0, "Не може да е отрицателна")
+      .max(100, "Максимум 100%")
+      .optional(),
     // Plain text; each line becomes a paragraph of the rich text field.
     description: z.string().trim().optional(),
     metrics: z.object({
@@ -77,16 +80,15 @@ export const addValidity = (day: string) =>
   toDay(new Date(new Date(day).getTime() + VALIDITY_WEEKS * 7 * 24 * 60 * 60 * 1000));
 
 /** A new offer: dated today, valid for VALIDITY_WEEKS, one blank service row. */
-export const emptyOfferFormValues = (preparedBy?: number): OfferFormInput => {
+export const emptyOfferFormValues = (): OfferFormInput => {
   const today = toDay(new Date());
   return {
     client: undefined,
-    preparedBy,
-    status: "draft",
     date: today,
     validUntil: addValidity(today),
     services: [{ service: undefined, hours: undefined }],
     fixedPrice: undefined,
+    discount: undefined,
     description: "",
     metrics: {
       source: "manual",
@@ -100,10 +102,10 @@ export const emptyOfferFormValues = (preparedBy?: number): OfferFormInput => {
   };
 };
 
-/** Clients, services and users the form's selects choose from. */
+/** Clients and services the form's selects choose from. */
 export type OfferFormOptions = {
-  clients: { value: number; label: string }[];
+  /** `image` is the client's logo; `description` its website and contact. */
+  clients: { value: number; label: string; image?: string; description?: string[] }[];
   /** `rate` is the service's hourly price, for the price preview. */
   services: { value: number; label: string; rate: number | null }[];
-  users: { value: number; label: string }[];
 };

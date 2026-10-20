@@ -2,7 +2,6 @@ import {
   ArrowRightLeft,
   ChartLine,
   Check,
-  Download,
   FileText,
   LayoutTemplate,
   MessageCircleQuestionMark,
@@ -23,7 +22,7 @@ import { PILLAR_ICONS } from "@/components/offer/offer-agency";
 import { Feature229 } from "@/components/feature229";
 import { Pricing117 } from "@/components/pricing117";
 import { Pricing118 } from "@/components/pricing118";
-import { buttonVariants } from "@/components/ui/button";
+import { PdfDownloadButton } from "@/components/offer/pdf-download-button";
 import { Faq2 } from "@/components/faq2";
 import { List3 } from "@/components/list3";
 import { Pricing78 } from "@/components/pricing78";
@@ -94,14 +93,7 @@ export default function SpecialOfferPage() {
                   <p className="font-medium">€ 2500</p>
                 </div>
                 {/* Same offer as a PDF, rendered by ./pdf/route.ts. */}
-                <a
-                  href="/website/special-offer/pdf"
-                  download
-                  className={buttonVariants({ className: "w-full text-white" })}
-                >
-                  <Download className="size-4" />
-                  Изтегли офертата (PDF)
-                </a>
+                <PdfDownloadButton href="/website/special-offer/pdf" />
               </div>
 
               {/* Navigation */}

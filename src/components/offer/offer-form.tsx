@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Plus, Trash2 } from "lucide-react";
+import { ChevronDown, Loader2, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import {
@@ -14,8 +14,19 @@ import {
 } from "react-hook-form";
 
 import { createOffer, updateOffer } from "@/app/[locale]/(frontend)/website/offers/actions";
-import { formatAmount } from "@/components/offer/offer-ui";
+import { ComboboxRichContent } from "@/components/combobox-rich-content-4";
+import {
+  fieldClassName,
+  labelClassName,
+  legendClassName,
+  sectionClassName,
+  submitButtonClassName,
+  textareaClassName,
+} from "@/components/form-styles";
+import { formatAmount, packageTotal } from "@/components/offer/offer-ui";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import {
   Field,
   FieldDescription,
@@ -35,11 +46,9 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  addValidity,
   emptyOfferFormValues,
   metricsSources,
   offerFormSchema,
-  offerStatuses,
   type OfferFormInput,
   type OfferFormOptions,
   type OfferFormValues,
@@ -52,13 +61,6 @@ import {
 // Validated with the shared Zod schema (src/lib/offer-form.ts) and saved
 // through the createOffer / updateOffer server actions. Pass `offerId` and
 // `defaultValues` to edit; by default a successful save opens the offer.
-
-const statusLabels: Record<(typeof offerStatuses)[number], string> = {
-  draft: "Чернова",
-  sent: "Изпратена",
-  accepted: "Приета",
-  declined: "Отказана",
-};
 
 const sourceLabels: Record<(typeof metricsSources)[number], string> = {
   manual: "Ръчно",
@@ -93,7 +95,7 @@ function TextField({ type = "text", placeholder, ...props }: FieldProps & { type
       control={control}
       render={({ field, fieldState }) => (
         <Field data-invalid={fieldState.invalid}>
-          <FieldLabel htmlFor={name} className={srOnlyLabel ? "sr-only" : undefined}>
+          <FieldLabel htmlFor={name} className={srOnlyLabel ? "sr-only" : labelClassName}>
             {label}
           </FieldLabel>
           <Input
@@ -103,6 +105,7 @@ function TextField({ type = "text", placeholder, ...props }: FieldProps & { type
             type={type}
             placeholder={placeholder}
             aria-invalid={fieldState.invalid}
+            className={fieldClassName}
           />
           {description && <FieldDescription>{description}</FieldDescription>}
           {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -121,7 +124,7 @@ function NumberField({ placeholder, ...props }: FieldProps & { placeholder?: str
       control={control}
       render={({ field, fieldState }) => (
         <Field data-invalid={fieldState.invalid}>
-          <FieldLabel htmlFor={name} className={srOnlyLabel ? "sr-only" : undefined}>
+          <FieldLabel htmlFor={name} className={srOnlyLabel ? "sr-only" : labelClassName}>
             {label}
           </FieldLabel>
           <Input
@@ -139,6 +142,7 @@ function NumberField({ placeholder, ...props }: FieldProps & { placeholder?: str
             step="any"
             placeholder={placeholder}
             aria-invalid={fieldState.invalid}
+            className={fieldClassName}
           />
           {description && <FieldDescription>{description}</FieldDescription>}
           {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -160,7 +164,7 @@ function SelectField<V extends string | number>({
       control={control}
       render={({ field, fieldState }) => (
         <Field data-invalid={fieldState.invalid}>
-          <FieldLabel htmlFor={name} className={srOnlyLabel ? "sr-only" : undefined}>
+          <FieldLabel htmlFor={name} className={srOnlyLabel ? "sr-only" : labelClassName}>
             {label}
           </FieldLabel>
           <Select
@@ -173,7 +177,7 @@ function SelectField<V extends string | number>({
               ref={field.ref}
               onBlur={field.onBlur}
               aria-invalid={fieldState.invalid}
-              className="w-full"
+              className={cn(fieldClassName, "w-full pr-3 data-[size=default]:h-11")}
             >
               <SelectValue placeholder={placeholder} />
             </SelectTrigger>
@@ -194,9 +198,13 @@ function SelectField<V extends string | number>({
 }
 
 // Live total hours and price, computed like the collection's virtual fields:
-// the fixed price, or Σ hours × each service's hourly rate.
+// the fixed price, or Σ hours × each service's hourly rate; then the
+// discount, as on the offer page and PDF.
 function PricePreview({ control, options }: { control: FormControl; options: OfferFormOptions }) {
-  const [lines = [], fixedPrice] = useWatch({ control, name: ["services", "fixedPrice"] });
+  const [lines = [], fixedPrice, discount] = useWatch({
+    control,
+    name: ["services", "fixedPrice", "discount"],
+  });
   const hours = lines.reduce((sum, line) => sum + (line?.hours ?? 0), 0);
   // Null when a line has no service, hours or rate yet, as in Offers.ts.
   const price =
@@ -210,7 +218,7 @@ function PricePreview({ control, options }: { control: FormControl; options: Off
         }, 0);
 
   return (
-    <div className="flex flex-wrap gap-x-8 gap-y-1 rounded-lg bg-muted px-4 py-3 text-sm">
+    <div className="flex flex-wrap gap-x-8 gap-y-1 rounded-xl bg-muted/60 px-4 py-3.5 text-[15px]">
       <span>
         Общо часове: <strong className="font-medium">{formatAmount(hours)}</strong>
       </span>
@@ -223,6 +231,14 @@ function PricePreview({ control, options }: { control: FormControl; options: Off
           <span className="text-muted-foreground"> (липсва часова ставка)</span>
         )}
       </span>
+      {price !== null && discount ? (
+        <span>
+          След отстъпка {formatAmount(discount)}%:{" "}
+          <strong className="font-medium">
+            {formatAmount(packageTotal({ price, discount }))} €
+          </strong>
+        </span>
+      ) : null}
     </div>
   );
 }
@@ -236,8 +252,6 @@ type OfferFormProps = {
   /** Edit this offer instead of creating one. */
   offerId?: number;
   defaultValues?: OfferFormInput;
-  /** Signed-in user, preselected as "Оферта от" on new offers. */
-  currentUserId?: number;
   /** Called with the saved offer's id; defaults to opening the offer. */
   onSuccess?: (id: number) => void;
   className?: string;
@@ -247,7 +261,6 @@ function OfferForm({
   options,
   offerId,
   defaultValues,
-  currentUserId,
   onSuccess,
   className,
 }: OfferFormProps) {
@@ -255,27 +268,24 @@ function OfferForm({
   const [serverError, setServerError] = React.useState<string | null>(null);
   const isEdit = offerId !== undefined;
 
+  const initialValues = defaultValues ?? emptyOfferFormValues();
+  const [customizeOpen, setCustomizeOpen] = React.useState(
+    initialValues.fixedPrice !== undefined ||
+      initialValues.discount !== undefined ||
+      Boolean(initialValues.description),
+  );
+
   const form = useForm<OfferFormInput, unknown, OfferFormValues>({
     resolver: zodResolver(offerFormSchema),
-    defaultValues: defaultValues ?? emptyOfferFormValues(currentUserId),
+    defaultValues: initialValues,
   });
   const {
     control,
     handleSubmit,
-    getFieldState,
-    setValue,
     formState: { isSubmitting, errors },
   } = form;
   const services = useFieldArray({ control, name: "services" });
   const keywords = useFieldArray({ control, name: "keywords" });
-
-  // Keep the expiry VALIDITY_WEEKS after the date until it's edited by hand.
-  const date = useWatch({ control, name: "date" });
-  React.useEffect(() => {
-    if (date && !getFieldState("validUntil").isDirty) {
-      setValue("validUntil", addValidity(date));
-    }
-  }, [date, getFieldState, setValue]);
 
   const onSubmit = async (values: OfferFormValues) => {
     setServerError(null);
@@ -292,32 +302,38 @@ function OfferForm({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={className} noValidate>
-      <FieldGroup className="gap-10">
-        <FieldSet>
-          <FieldLegend>Оферта</FieldLegend>
+      <FieldGroup className="gap-8">
+        <FieldSet className={sectionClassName}>
+          <FieldLegend className={legendClassName}>Оферта</FieldLegend>
           <FieldGroup>
-            <SelectField
-              control={control}
-              name="client"
-              label="Клиент"
-              items={options.clients}
-              placeholder="Изберете клиент"
-            />
-            <div className="grid gap-4 sm:grid-cols-2">
-              <SelectField
+            {/* Client and expiry share a row; the client gets the extra width. */}
+            <div className="grid items-start gap-4 sm:grid-cols-[1fr_13rem]">
+              <Controller
+                name="client"
                 control={control}
-                name="preparedBy"
-                label="Оферта от"
-                items={options.users}
-                placeholder="Изберете потребител"
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor="client" className={labelClassName}>
+                      Клиент
+                    </FieldLabel>
+                    <ComboboxRichContent
+                      id="client"
+                      items={options.clients}
+                      value={field.value}
+                      onValueChange={(value) => {
+                        field.onChange(value);
+                        field.onBlur();
+                      }}
+                      invalid={fieldState.invalid}
+                      className={cn(fieldClassName, "min-h-11 hover:bg-muted")}
+                      placeholder="Изберете клиент"
+                      searchPlaceholder="Търсене на клиент…"
+                      emptyText="Няма намерен клиент."
+                    />
+                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                  </Field>
+                )}
               />
-              <SelectField
-                control={control}
-                name="status"
-                label="Статус"
-                items={toItems(statusLabels)}
-              />
-              <TextField control={control} name="date" label="Дата" type="date" />
               <TextField
                 control={control}
                 name="validUntil"
@@ -328,8 +344,8 @@ function OfferForm({
           </FieldGroup>
         </FieldSet>
 
-        <FieldSet>
-          <FieldLegend>Услуги и цена</FieldLegend>
+        <FieldSet className={sectionClassName}>
+          <FieldLegend className={legendClassName}>Услуги и цена</FieldLegend>
           <FieldDescription>
             Часове по услуга. Цената е сбор от часове × часовата ставка на услугата, освен ако не
             зададете фиксирана цена.
@@ -354,10 +370,10 @@ function OfferForm({
                 <Button
                   type="button"
                   variant="ghost"
-                  size="icon"
+                  size="icon-lg"
                   aria-label="Премахни услугата"
                   onClick={() => services.remove(index)}
-                  className={index === 0 ? "mt-7" : undefined}
+                  className={cn("size-11 rounded-xl text-muted-foreground", index === 0 && "mt-7")}
                 >
                   <Trash2 />
                 </Button>
@@ -370,52 +386,73 @@ function OfferForm({
               <Button
                 type="button"
                 variant="outline"
-                size="sm"
+                className="h-10 rounded-full px-4"
                 onClick={() => services.append({ service: undefined, hours: undefined })}
               >
                 <Plus /> Добави услуга
               </Button>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <NumberField
-                control={control}
-                name="fixedPrice"
-                label="Фиксирана цена (EUR)"
-                description="Заменя изчислената цена."
-              />
-            </div>
-            <PricePreview control={control} options={options} />
+            {/* Optional fields, tucked away; opened when they hold a value or an error. */}
+            <Collapsible
+              open={customizeOpen || Boolean(errors.fixedPrice || errors.discount || errors.description)}
+              onOpenChange={setCustomizeOpen}
+              className="flex flex-col"
+            >
+              <CollapsibleTrigger className="group inline-flex self-end items-center gap-1 rounded-md text-sm font-medium text-foreground underline-offset-4 outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring/50">
+                Персонализиране
+                <ChevronDown
+                  aria-hidden="true"
+                  className="size-4 transition-transform duration-200 group-data-panel-open:rotate-180"
+                />
+              </CollapsibleTrigger>
+              <CollapsibleContent className="h-(--collapsible-panel-height) overflow-hidden transition-[height] duration-200 ease-out data-ending-style:h-0 data-starting-style:h-0">
+                <FieldGroup className="pt-4">
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <NumberField
+                      control={control}
+                      name="fixedPrice"
+                      label="Фиксирана цена (EUR)"
+                      description="Заменя изчислената цена."
+                    />
+                    <NumberField
+                      control={control}
+                      name="discount"
+                      label="Отстъпка (%)"
+                      description="Процент, приспаднат от цената."
+                    />
+                  </div>
+                  <Controller
+                    name="description"
+                    control={control}
+                    render={({ field, fieldState }) => (
+                      <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel htmlFor="description" className={labelClassName}>
+                          Описание
+                        </FieldLabel>
+                        <Textarea
+                          {...field}
+                          value={field.value ?? ""}
+                          id="description"
+                          rows={5}
+                          aria-invalid={fieldState.invalid}
+                          className={textareaClassName}
+                        />
+                        <FieldDescription>Всеки ред става отделен абзац.</FieldDescription>
+                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                      </Field>
+                    )}
+                  />
+                </FieldGroup>
+              </CollapsibleContent>
+            </Collapsible>
           </FieldGroup>
         </FieldSet>
 
-        <FieldSet>
-          <FieldLegend>Описание</FieldLegend>
-          <Controller
-            name="description"
-            control={control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="description" className="sr-only">
-                  Описание
-                </FieldLabel>
-                <Textarea
-                  {...field}
-                  value={field.value ?? ""}
-                  id="description"
-                  rows={5}
-                  aria-invalid={fieldState.invalid}
-                />
-                <FieldDescription>Всеки ред става отделен абзац.</FieldDescription>
-                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-              </Field>
-            )}
-          />
-        </FieldSet>
-
-        <FieldSet>
-          <FieldLegend>SEO метрики</FieldLegend>
+        <FieldSet className={sectionClassName}>
+          <FieldLegend className={legendClassName}>SEO метрики</FieldLegend>
           <FieldGroup>
             <div className="grid gap-4 sm:grid-cols-2">
+              {/* Hidden for now: new offers use the defaults (manual source, today).
               <SelectField
                 control={control}
                 name="metrics.source"
@@ -423,6 +460,7 @@ function OfferForm({
                 items={toItems(sourceLabels)}
               />
               <TextField control={control} name="metrics.date" label="Дата" type="date" />
+              */}
               <NumberField control={control} name="metrics.domainRating" label="Domain Rating" />
               <NumberField control={control} name="metrics.backlinks" label="Backlinks" />
               <NumberField
@@ -439,8 +477,8 @@ function OfferForm({
           </FieldGroup>
         </FieldSet>
 
-        <FieldSet>
-          <FieldLegend>Топ ключови думи</FieldLegend>
+        <FieldSet className={sectionClassName}>
+          <FieldLegend className={legendClassName}>Топ ключови думи</FieldLegend>
           <FieldGroup className="gap-3">
             {keywords.fields.map((row, index) => (
               <div
@@ -468,10 +506,10 @@ function OfferForm({
                 <Button
                   type="button"
                   variant="ghost"
-                  size="icon"
+                  size="icon-lg"
                   aria-label="Премахни ключовата дума"
                   onClick={() => keywords.remove(index)}
-                  className={index === 0 ? "mt-7" : undefined}
+                  className={cn("size-11 rounded-xl text-muted-foreground", index === 0 && "mt-7")}
                 >
                   <Trash2 />
                 </Button>
@@ -481,7 +519,7 @@ function OfferForm({
               <Button
                 type="button"
                 variant="outline"
-                size="sm"
+                className="h-10 rounded-full px-4"
                 onClick={() =>
                   keywords.append({ keyword: "", position: undefined, volume: undefined })
                 }
@@ -492,13 +530,25 @@ function OfferForm({
           </FieldGroup>
         </FieldSet>
 
+        <PricePreview control={control} options={options} />
+
         {serverError ? <p className="text-sm text-destructive">{serverError}</p> : null}
 
-        <div className="flex justify-end gap-3">
-          <Button type="button" variant="outline" onClick={() => router.back()}>
+        <div className="flex flex-col-reverse gap-3 border-t pt-6 sm:flex-row sm:justify-end">
+          <Button
+            type="button"
+            variant="outline"
+            className={cn(submitButtonClassName, "px-6")}
+            onClick={() => router.back()}
+          >
             Отказ
           </Button>
-          <Button type="submit" disabled={isSubmitting}>
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className={cn(submitButtonClassName, "text-white")}
+          >
+            {isSubmitting && <Loader2 className="size-4 animate-spin" aria-hidden="true" />}
             {isSubmitting
               ? "Запазване…"
               : isEdit

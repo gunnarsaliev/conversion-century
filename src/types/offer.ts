@@ -106,7 +106,10 @@ export interface OfferPackage {
   hours?: number
   /** Hours per service that make up the package. */
   lines?: { service: string; hours: number }[]
+  /** Before discount. */
   price: number
+  /** Percentage taken off `price` (Offers.discount); 0 or omitted for none. */
+  discount?: number
   currency: string
   includesContent: boolean
   recommended: boolean

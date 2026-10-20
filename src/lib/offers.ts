@@ -112,6 +112,7 @@ function toOffer(doc: OfferDoc): Offer {
                 hours: line.hours,
               })),
               price: doc.price ?? 0,
+              discount: doc.discount ?? undefined,
               currency: "EUR",
               includesContent: true,
               recommended: true,

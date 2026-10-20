@@ -176,6 +176,16 @@ export const Offers: CollectionConfig = {
           admin: { description: 'Overrides the calculated price.' },
         },
         {
+          // Applied on top of the price (fixed or calculated) on the offer
+          // page and PDF; `price` itself stays the amount before discount.
+          name: 'discount',
+          label: 'Discount (%)',
+          type: 'number',
+          min: 0,
+          max: 100,
+          admin: { description: 'Percentage taken off the price.' },
+        },
+        {
           name: 'hours',
           label: 'Total hours',
           type: 'number',

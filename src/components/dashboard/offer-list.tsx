@@ -2,7 +2,7 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 import { ClientLogo } from "@/components/dashboard/client-logo";
-import { formatAmount, formatDate } from "@/components/offer/offer-ui";
+import { formatAmount, formatDate, packageTotal } from "@/components/offer/offer-ui";
 import { Badge } from "@/components/ui/badge";
 import type { OfferListItem } from "@/lib/offers";
 
@@ -22,16 +22,18 @@ const statusBadgeClassName: Record<OfferListItem["status"], string> = {
 
 const OfferCard = ({ item }: { item: OfferListItem }) => {
   const { offer } = item;
-  const price = offer.packages[0]?.price;
+  // After discount.
+  const pkg = offer.packages[0];
+  const price = pkg ? packageTotal(pkg) : undefined;
 
   return (
     <Link
       href={`/website/offers/${item.id}`}
-      className="group flex h-48 w-full flex-col gap-4 rounded-lg border bg-white dark:bg-gray-800 p-4 text-left outline-none transition-all hover:shadow-md focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+      className="group flex h-full min-h-48 w-full flex-col gap-3 rounded-lg border bg-white dark:bg-gray-800 p-4 text-left outline-none transition-all hover:shadow-md focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
     >
       <div className="flex items-start justify-between gap-4">
-        <ClientLogo companyName={offer.client.name} logoUrl={offer.client.logo || null} size={64} />
-        <div className="flex items-center gap-2">
+        <ClientLogo companyName={offer.client.name} logoUrl={offer.client.logo || null} size={48} />
+        <div className="flex shrink-0 items-center gap-2">
           <Badge className={statusBadgeClassName[item.status]}>
             <span className="capitalize">{item.status}</span>
           </Badge>
@@ -40,17 +42,21 @@ const OfferCard = ({ item }: { item: OfferListItem }) => {
           </div>
         </div>
       </div>
-      <div className="min-h-0 flex-1 text-base">
+      <div className="min-w-0 flex-1 text-base">
         <p className="truncate font-medium">{offer.client.name}</p>
         {offer.service ? (
           <p className="line-clamp-2 text-sm text-muted-foreground">{offer.service}</p>
         ) : null}
       </div>
-      <div className="flex items-center justify-between gap-4 text-sm">
-        <span className="text-muted-foreground">
+      <div className="flex items-end justify-between gap-3 border-t pt-3 text-sm">
+        <span className="min-w-0 text-muted-foreground">
           Valid until {formatDate(offer.validUntil)}
         </span>
-        {price ? <span className="font-medium">{formatAmount(price)} €</span> : null}
+        {price ? (
+          <span className="shrink-0 font-medium whitespace-nowrap tabular-nums">
+            {formatAmount(price)} €
+          </span>
+        ) : null}
       </div>
     </Link>
   );
@@ -64,7 +70,7 @@ const OfferList = ({ offers }: { offers: OfferListItem[] }) => {
   return (
     <ul className="mt-8 grid gap-4 sm:grid-cols-2 md:grid-cols-3">
       {offers.map((item) => (
-        <li key={item.id}>
+        <li key={item.id} className="min-w-0">
           <OfferCard item={item} />
         </li>
       ))}

@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowLeft, ArrowRight, MousePointer2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Loader2, MousePointer2 } from "lucide-react";
 import React, { SubmitEvent, useState, useTransition } from "react";
 import { cn } from "cn";
 
@@ -11,6 +11,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  checkboxClassName,
+  fieldClassName,
+  labelClassName,
+  submitButtonClassName,
+  textareaClassName,
+} from "@/components/form-styles";
 interface Avatar {
   image: string;
   avatarClassName: string;
@@ -151,11 +158,11 @@ const BookADemo2ContactForm = () => {
   return (
     <div className="border-b p-8 lg:border-r lg:border-b-0">
       <form
-        className="grid grid-cols-2 gap-x-3 gap-y-6"
+        className="grid grid-cols-2 gap-x-4 gap-y-5"
         onSubmit={handleSubmit}
       >
         <FormGroup className="col-span-2 sm:col-span-1">
-          <Label htmlFor="consultation-full-name">Full Name</Label>
+          <Label htmlFor="consultation-full-name" className={labelClassName}>Full Name</Label>
           <Input
             id="consultation-full-name"
             name="fullName"
@@ -163,10 +170,11 @@ const BookADemo2ContactForm = () => {
             placeholder="Jane Doe"
             autoComplete="name"
             required
+            className={fieldClassName}
           />
         </FormGroup>
         <FormGroup className="col-span-2 sm:col-span-1">
-          <Label htmlFor="consultation-company">Company Name</Label>
+          <Label htmlFor="consultation-company" className={labelClassName}>Company Name</Label>
           <Input
             id="consultation-company"
             name="companyName"
@@ -174,10 +182,11 @@ const BookADemo2ContactForm = () => {
             placeholder="Your Company Ltd."
             autoComplete="organization"
             required
+            className={fieldClassName}
           />
         </FormGroup>
         <FormGroup className="col-span-2">
-          <Label htmlFor="consultation-email">Email</Label>
+          <Label htmlFor="consultation-email" className={labelClassName}>Email</Label>
           <Input
             id="consultation-email"
             name="email"
@@ -185,10 +194,11 @@ const BookADemo2ContactForm = () => {
             placeholder="jane@yourcompany.com"
             autoComplete="email"
             required
+            className={fieldClassName}
           />
         </FormGroup>
         <FormGroup className="col-span-2">
-          <Label htmlFor="consultation-website">Website URL</Label>
+          <Label htmlFor="consultation-website" className={labelClassName}>Website URL</Label>
           {/* type="text" so "yourcompany.com" without https:// is accepted;
               the server action normalises it. */}
           <Input
@@ -199,15 +209,16 @@ const BookADemo2ContactForm = () => {
             placeholder="https://yourcompany.com"
             autoComplete="url"
             required
+            className={fieldClassName}
           />
         </FormGroup>
         <FormGroup className="col-span-2">
-          <Label htmlFor="consultation-message">Message</Label>
+          <Label htmlFor="consultation-message" className={labelClassName}>Message</Label>
           <Textarea
             id="consultation-message"
             name="message"
             placeholder="Tell us about your SEO goals — rankings, organic traffic, keywords you want to target, or any challenges you're facing"
-            className="min-h-32"
+            className={textareaClassName}
             required
           />
         </FormGroup>
@@ -226,7 +237,7 @@ const BookADemo2ContactForm = () => {
               type="checkbox"
               name="privacyConsent"
               required
-              className="mt-0.5 size-4 shrink-0 accent-primary"
+              className={checkboxClassName}
             />
             <span>
               I agree to the{" "}
@@ -244,7 +255,7 @@ const BookADemo2ContactForm = () => {
             <input
               type="checkbox"
               name="newsletterOptIn"
-              className="mt-0.5 size-4 shrink-0 accent-primary"
+              className={checkboxClassName}
             />
             <span>
               Also send me SEO tips and news. I can unsubscribe at any time.
@@ -258,11 +269,14 @@ const BookADemo2ContactForm = () => {
         )}
         <Button
           type="submit"
-          className="col-span-2"
-          size="lg"
+          className={cn(submitButtonClassName, "col-span-2 text-white")}
           disabled={isPending}
         >
-          {isPending ? "Sending…" : "Book My Consultation"} <ArrowRight />
+          {isPending ? (
+            <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+          ) : null}
+          {isPending ? "Sending…" : "Book My Consultation"}
+          {isPending ? null : <ArrowRight />}
         </Button>
       </form>
     </div>

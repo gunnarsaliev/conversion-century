@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { headers as getHeaders } from "next/headers";
-import { getPayload } from "payload";
+import { getPayload, type RequiredDataFromCollectionSlug } from "payload";
 import config from "@payload-config";
 
 import { offerFormSchema, type OfferFormValues } from "@/lib/offer-form";
@@ -13,7 +13,9 @@ import type { Offer as OfferDoc } from "../../../../../../payload-types";
 // ---------------------------------------------------------------------------
 //
 // Run as the signed-in user with `overrideAccess: false`, so the Offers
-// collection's access rules (admins only) apply.
+// collection's access rules (admins only) apply. Status and "Оферта от"
+// aren't part of the form: new offers get the default status ("draft") and
+// the signed-in user as preparer; updates keep both as they are.
 
 type OfferFormResult =
   | { success: true; id: number }
@@ -54,13 +56,12 @@ function toOfferData(values: OfferFormValues) {
   const { metrics } = values;
   return {
     client: values.client,
-    preparedBy: values.preparedBy,
-    status: values.status,
     date: toIso(values.date),
     validUntil: toIso(values.validUntil),
     services: values.services,
     // null clears a previously set fixed price on update.
     fixedPrice: values.fixedPrice ?? null,
+    discount: values.discount ?? null,
     description: values.description ? textToLexical(values.description) : null,
     metrics: {
       source: metrics.source,
@@ -95,10 +96,17 @@ async function saveOffer(
   }
 
   try {
-    const data = { ...toOfferData(parsed.data), preparedBy: parsed.data.preparedBy ?? user.id };
+    const data = toOfferData(parsed.data);
     const offer =
       id === undefined
-        ? await payload.create({ collection: "offers", data, user, overrideAccess: false })
+        ? await payload.create({
+            collection: "offers",
+            // The signed-in user prepares the offer; `status` is filled in
+            // by the collection's defaultValue.
+            data: { ...data, preparedBy: user.id } as RequiredDataFromCollectionSlug<"offers">,
+            user,
+            overrideAccess: false,
+          })
         : await payload.update({ collection: "offers", id, data, user, overrideAccess: false });
 
     revalidatePath("/website/offers");
