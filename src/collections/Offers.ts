@@ -17,7 +17,7 @@ export const metricsSourceOptions = [
 ]
 
 // How long an offer is valid by default, counted from its date.
-const VALIDITY_WEEKS = 5
+export const VALIDITY_WEEKS = 5
 
 const addWeeks = (date: Date, weeks: number) =>
   new Date(date.getTime() + weeks * 7 * 24 * 60 * 60 * 1000)

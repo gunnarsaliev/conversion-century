@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { formatAmount, formatDate, LogoOrName } from "@/components/offer/offer-ui";
 import { Badge } from "@/components/ui/badge";
+import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getOffers, type OfferListItem } from "@/lib/offers";
 
@@ -28,7 +29,12 @@ export default async function OffersPage() {
   return (
     <section className="py-16">
       <div className="container mx-auto max-w-7xl">
-        <h1 className="mb-4 text-4xl font-bold">Оферти</h1>
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-4">
+          <h1 className="text-4xl font-bold">Оферти</h1>
+          <Link href="/website/offers/new" className={buttonVariants()}>
+            Нова оферта
+          </Link>
+        </div>
         <p className="mb-10 text-muted-foreground">
           Индивидуални оферти за клиенти. Управляват се от колекцията „Offers“ в админ панела.
         </p>
