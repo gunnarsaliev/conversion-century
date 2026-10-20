@@ -64,11 +64,11 @@ const Hero104 = ({
                 {description}
               </p>
             )}
-            {secondaryDescription && (
+            {/* {secondaryDescription && (
               <p className="mb-10 text-center text-lg font-thin leading-9 lg:text-left">
                 {secondaryDescription}
               </p>
-            )}
+            )} */}
             {(primaryCta || secondaryCta) && (
               <div className="flex flex-col items-center justify-center gap-5 sm:flex-row lg:justify-normal">
                 {primaryCta && (
@@ -110,16 +110,14 @@ const Hero104 = ({
             )}
           </div>
           {image && (
-            <div className="hidden shrink-0 items-center justify-end lg:flex lg:basis-1/3">
-              <div className="flex aspect-square w-full max-w-[26rem] items-center justify-center rounded-full bg-green-50">
-                <Image
-                  src={image.src}
-                  alt={image.alt}
-                  className="h-full w-full object-contain"
-                  width={416}
-                  height={416}
-                />
-              </div>
+            <div className="hidden shrink-0 items-center justify-end lg:flex lg:basis-2/5">
+              <Image
+                src={image.src}
+                alt={image.alt}
+                className="aspect-square w-full max-w-[34rem] object-contain"
+                width={600}
+                height={600}
+              />
             </div>
           )}
         </div>

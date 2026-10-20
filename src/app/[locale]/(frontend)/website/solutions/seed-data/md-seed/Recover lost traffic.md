@@ -363,7 +363,7 @@ Not every lost visit should be recovered. If demand or search intent has changed
 
 Every recovery project begins with a focused conversation. We will learn when the decline appeared, review the available evidence and determine the most appropriate first steps for protecting and rebuilding your organic visibility.
 
-**Primary CTA:** Book an Initial Consultation
+**Primary CTA:** Book a FREE Consultation
 
 ### **What happens next?**
 

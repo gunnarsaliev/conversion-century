@@ -184,7 +184,7 @@ export default async function ClientsPage() {
         <Hero104 {...hero104Data} containerClassName="lg:px-0" />
         <Hero237
           icons={heroLogos}
-          cta={{ text: "Book a Consultation", href: "/website/book-a-consultation" }}
+          cta={{ text: "Book a FREE Consultation", href: "/website/book-a-consultation" }}
         />
         <TrustStrip4 />
         <div className="container mx-auto grid max-w-5xl gap-6 py-16 md:grid-cols-2">

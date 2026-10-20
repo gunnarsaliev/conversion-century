@@ -25,7 +25,7 @@ export function SeoCta() {
             size="lg"
             className="mt-8 h-auto rounded-full bg-[#2f6b46] px-8 py-4 text-base font-semibold text-white hover:bg-[#265739]"
           >
-            Book an Initial Consultation
+            Book a FREE Consultation
           </Button>
         </div>
 

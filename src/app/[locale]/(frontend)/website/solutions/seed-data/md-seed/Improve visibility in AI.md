@@ -365,7 +365,7 @@ Yes. We can compare how selected competitors appear across relevant question set
 
 Every potential partnership begins with an honest conversation. We will learn about your business, audience and visibility goals, review the current search landscape and identify where stronger content, authority and brand signals can create meaningful value.
 
-**Primary CTA:** Book an Initial Consultation
+**Primary CTA:** Book a FREE Consultation
 
 ### **What happens next?**
 

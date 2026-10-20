@@ -19,7 +19,7 @@ export default function SolutionHero({
   heading,
   paragraphs = [],
   highlights = [],
-  primaryCta = { label: 'Discuss Your Growth Goals', href: '/website/book-a-consultation' },
+  primaryCta = { label: 'Book a FREE Consultation', href: '/website/book-a-consultation' },
   secondaryCta = { label: 'Explore Our Results', href: '/website/case-studies' },
 }: SolutionHeroProps) {
   const [lead, ...rest] = paragraphs

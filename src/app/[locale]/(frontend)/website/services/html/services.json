@@ -11,7 +11,7 @@
       "eyebrow": "Ongoing SEO Management",
       "heading": "Ongoing SEO Management",
       "description": "Conversion Century provides complete ongoing SEO management across strategy, technical performance, content, authority and AI-powered search. We become an active part of your team, implement the work and continuously adapt the strategy as your business, market and customers evolve.",
-      "primaryCta": { "label": "Discuss Your SEO Goals", "href": "/website/book-a-consultation" },
+      "primaryCta": { "label": "Book a FREE Consultation", "href": "/website/book-a-consultation" },
       "secondaryCta": { "label": "Explore Our Results", "href": "/website/case-studies" },
       "highlights": [
         "Established in 2016",
@@ -183,7 +183,7 @@
           "It may also be unnecessary if your business currently has a more urgent problem that another marketing channel can solve better.",
           "That is why every potential partnership begins with an honest consultation. We evaluate whether SEO can create meaningful value before recommending an ongoing engagement."
         ],
-        "cta": { "label": "Book an Initial Consultation", "href": "/website/book-a-consultation" }
+        "cta": { "label": "Book a FREE Consultation", "href": "/website/book-a-consultation" }
       }
     },
     "whyUs": {
@@ -302,7 +302,7 @@
     "consultation": {
       "heading": "Let’s Find Out Whether SEO Is the Right Next Step",
       "description": "Every potential partnership begins with an honest conversation. We will learn about your business, review your current position and explore whether organic search can support your goals.",
-      "cta": { "label": "Book an Initial Consultation", "href": "/website/book-a-consultation" },
+      "cta": { "label": "Book a FREE Consultation", "href": "/website/book-a-consultation" },
       "nextSteps": {
         "heading": "What happens next?",
         "steps": [

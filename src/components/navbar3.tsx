@@ -594,7 +594,7 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
             <div className="hidden items-center lg:flex">
               <Link href="/website/book-a-consultation">
                 <Button variant="default" size="lg" className="px-6 py-6 cursor-pointer bg-yellow-300 hover:bg-yellow-200">
-                  Book a Consultation
+                  Book a FREE Consultation
                 </Button>
               </Link>
             </div>
@@ -675,7 +675,7 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                           <div className="mx-8 mt-auto flex flex-col gap-4 py-12">
                             <Link href="/website/book-a-consultation">
                               <Button className="relative w-full" size="lg">
-                                Book a Consultation
+                                Book a FREE Consultation
                               </Button>
                             </Link>
                           </div>

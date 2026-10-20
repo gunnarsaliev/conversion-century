@@ -147,7 +147,7 @@ const CaseStudy1 = ({
                 className="bg-black text-white hover:bg-black/80"
                 render={<Link href="/website/book-a-consultation" />}
               >
-                Contact us
+                Book a FREE Consultation
               </Button>
             </div>
           </div>

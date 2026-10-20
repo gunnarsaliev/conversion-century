@@ -103,7 +103,7 @@ const IndustryDetail = ({
               className="bg-black text-white hover:bg-black/80"
               render={<Link href="/website/book-a-consultation" />}
             >
-              Book a Consultation
+              Book a FREE Consultation
             </Button>
           </div>
         </div>

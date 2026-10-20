@@ -365,7 +365,7 @@ The starting timeline depends on fit, scope, access and team availability. We be
 
 Every potential partnership begins with an honest conversation. We will learn about your business, existing team and organic-search goals, then determine whether a complete outsourced department or a more focused support model would create the greatest value.
 
-**Primary CTA:** Book an Initial Consultation
+**Primary CTA:** Book a FREE Consultation
 
 ### **What happens next?**
 
