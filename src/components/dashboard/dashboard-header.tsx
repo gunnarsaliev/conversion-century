@@ -1,9 +1,10 @@
 "use client";
 
-import { Bell, CalendarRange, ChevronDown, ChevronRight, LayoutDashboard, Search } from "lucide-react";
+import { CalendarRange, ChevronDown, ChevronRight, LayoutDashboard, Search } from "lucide-react";
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
+import { NotificationBell } from "@/components/dashboard/notification-bell";
 
 // ---------------------------------------------------------------------------
 // Dashboard header (breadcrumb + toolbar + greeting)
@@ -58,14 +59,7 @@ const DashboardHeader = ({
             >
               <Search className="size-4" aria-hidden="true" />
             </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              className="size-8"
-              aria-label="Notifications"
-            >
-              <Bell className="size-4" aria-hidden="true" />
-            </Button>
+            <NotificationBell />
             <Button
               variant="outline"
               size="sm"

@@ -25,7 +25,7 @@ const Example = () => (
     >
       Show Toast
     </Button>
-    <Toaster id={toasterId} />
+    <Toaster id={toasterId} position="bottom-right" />
   </>
 );
 

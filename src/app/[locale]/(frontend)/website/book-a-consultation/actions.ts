@@ -12,6 +12,7 @@ import {
   sendEmail,
   upsertContact,
 } from "@/lib/brevo";
+import { clientHref, createNotification } from "@/lib/notifications";
 import { SITE_URL } from "@/lib/seo/site";
 
 // ---------------------------------------------------------------------------
@@ -21,7 +22,8 @@ import { SITE_URL } from "@/lib/seo/site";
 // The request is saved as a Clients record with status "consultation" — the
 // local API bypasses Clients' admin-only `create`. That record is the source
 // of truth: Brevo (contact list, team notification, visitor confirmation)
-// runs afterwards and a Brevo failure is only logged, never lost.
+// runs afterwards, as does the dashboard bell notification; a failure there
+// is only logged, never lost.
 //
 // GDPR: the privacy notice must be accepted to submit. Newsletter signup is
 // a separate, unticked opt-in.
@@ -80,10 +82,10 @@ async function submitConsultationRequest(
   const data = parsed.data;
   const submittedAt = new Date();
 
-  let clientId: string | number;
+  let client: Awaited<ReturnType<typeof saveClient>>;
 
   try {
-    clientId = await saveClient(data, submittedAt);
+    client = await saveClient(data, submittedAt);
   } catch (error) {
     console.error("Failed to save consultation request", error);
     return {
@@ -95,6 +97,13 @@ async function submitConsultationRequest(
   // Each step is its own async function so a missing env var rejects that
   // step instead of throwing past allSettled.
   const results = await Promise.allSettled([
+    (async () =>
+      createNotification(await getPayload({ config }), {
+        type: "consultation",
+        title: `New consultation request: ${data.companyName}`,
+        message: `${data.fullName} · ${data.email}`,
+        href: clientHref(client),
+      }))(),
     (async () =>
       upsertContact({
         email: data.email,
@@ -111,7 +120,7 @@ async function submitConsultationRequest(
         to: [{ email: requireEnv("BREVO_TEAM_EMAIL") }],
         replyTo: { email: data.email, name: data.fullName },
         subject: `New consultation request: ${data.companyName}`,
-        htmlContent: teamNotificationHtml(data, clientId),
+        htmlContent: teamNotificationHtml(data, client.id),
       }))(),
     (async () =>
       sendEmail({
@@ -168,7 +177,7 @@ async function saveClient(
       id: client.id,
       data: { notes },
     });
-    return client.id;
+    return { id: client.id, status: client.status };
   }
 
   const created = await payload.create({
@@ -182,7 +191,7 @@ async function saveClient(
       notes: data.message,
     },
   });
-  return created.id;
+  return { id: created.id, status: created.status };
 }
 
 function teamNotificationHtml(

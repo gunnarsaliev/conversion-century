@@ -23,6 +23,7 @@ import { useRouter } from "next/navigation";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import type { NotificationFeed } from "@/lib/notifications";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -39,6 +40,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { NotificationsProvider } from "@/components/dashboard/notification-bell";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Sidebar,
@@ -58,6 +60,7 @@ import {
   SidebarRail,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { Toaster } from "@/components/ui/sonner";
 
 // ---------------------------------------------------------------------------
 // Sidebar navigation types & data
@@ -388,37 +391,42 @@ const DashboardLayout = ({
   className,
   user,
   isAdmin,
+  notifications,
 }: {
   children: React.ReactNode;
   className?: string;
   user?: UserData;
   isAdmin?: boolean;
+  notifications?: NotificationFeed;
 }) => {
   return (
-    <SidebarProvider className={cn("bg-sidebar", className)}>
-      <a
-        href="#dashboard-main"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-background focus:px-3 focus:py-2 focus:text-sm focus:text-foreground focus:ring-2 focus:ring-ring"
-      >
-        Skip to main content
-      </a>
-      <AppSidebar user={user} isAdmin={isAdmin} />
-      <div className="h-svh w-full overflow-hidden lg:p-2">
-        <div className="flex h-full w-full flex-col bg-background lg:rounded-xl lg:border">
-          <div className="min-h-0 flex-1 overflow-hidden">
-            <ScrollArea className="h-full">
-              <div
-                id="dashboard-main"
-                tabIndex={-1}
-                className="space-y-4 p-3 sm:space-y-6 sm:p-4 md:p-6"
-              >
-                {children}
-              </div>
-            </ScrollArea>
+    <NotificationsProvider initialFeed={notifications}>
+      <SidebarProvider className={cn("bg-sidebar", className)}>
+        <a
+          href="#dashboard-main"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-background focus:px-3 focus:py-2 focus:text-sm focus:text-foreground focus:ring-2 focus:ring-ring"
+        >
+          Skip to main content
+        </a>
+        <AppSidebar user={user} isAdmin={isAdmin} />
+        <div className="h-svh w-full overflow-hidden lg:p-2">
+          <div className="flex h-full w-full flex-col bg-background lg:rounded-xl lg:border">
+            <div className="min-h-0 flex-1 overflow-hidden">
+              <ScrollArea className="h-full">
+                <div
+                  id="dashboard-main"
+                  tabIndex={-1}
+                  className="space-y-4 p-3 sm:space-y-6 sm:p-4 md:p-6"
+                >
+                  {children}
+                </div>
+              </ScrollArea>
+            </div>
           </div>
         </div>
-      </div>
-    </SidebarProvider>
+        <Toaster position="bottom-right" />
+      </SidebarProvider>
+    </NotificationsProvider>
   );
 };
 

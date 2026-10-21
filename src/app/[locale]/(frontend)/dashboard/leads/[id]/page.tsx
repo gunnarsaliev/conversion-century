@@ -1,5 +1,4 @@
 import {
-  Bell,
   ChevronRight,
   FileText,
   Globe,
@@ -29,6 +28,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { isLeadStatus } from "@/lib/client-status";
+import { NotificationBell } from "@/components/dashboard/notification-bell";
 
 const statusBadgeClassName: Record<string, string> = {
   active: "bg-green-100 text-green-800",
@@ -111,14 +111,7 @@ export default async function LeadPage({ params }: LeadPageProps) {
           >
             <Search className="size-4" aria-hidden="true" />
           </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            className="size-8"
-            aria-label="Notifications"
-          >
-            <Bell className="size-4" aria-hidden="true" />
-          </Button>
+          <NotificationBell />
         </div>
       </div>
 

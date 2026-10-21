@@ -5,6 +5,7 @@ import config from "@payload-config";
 
 import { DashboardLayout } from "@/components/dashboard16-layout";
 import type { UserData } from "@/components/dashboard16-layout";
+import { getNotificationsForUser, type NotificationFeed } from "@/lib/notifications";
 import { isAdminOrEditor } from "@/lib/roles";
 
 // Internal area: never indexed, even after launch.
@@ -22,15 +23,20 @@ export default async function Dashboard({
   const { user } = await payload.auth({ headers });
 
   let sidebarUser: UserData | undefined;
+  let notifications: NotificationFeed | undefined;
 
   if (user) {
-    const fullUser = await payload
-      .findByID({
-        collection: "users",
-        id: user.id,
-        depth: 1,
-      })
-      .catch(() => null);
+    const [fullUser, feed] = await Promise.all([
+      payload
+        .findByID({
+          collection: "users",
+          id: user.id,
+          depth: 1,
+        })
+        .catch(() => null),
+      getNotificationsForUser(payload, user.id).catch(() => undefined),
+    ]);
+    notifications = feed;
 
     const avatar =
       fullUser?.profileImage && typeof fullUser.profileImage === "object"
@@ -47,7 +53,11 @@ export default async function Dashboard({
   }
 
   return (
-    <DashboardLayout user={sidebarUser} isAdmin={isAdminOrEditor(user)}>
+    <DashboardLayout
+      user={sidebarUser}
+      isAdmin={isAdminOrEditor(user)}
+      notifications={notifications}
+    >
       {children}
     </DashboardLayout>
   );

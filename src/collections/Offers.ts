@@ -1,4 +1,5 @@
-import type { CollectionConfig, FieldHook, PayloadRequest } from 'payload'
+import type { CollectionAfterChangeHook, CollectionConfig, FieldHook, PayloadRequest } from 'payload'
+import { createNotification } from '../lib/notifications'
 import { adminOnlyCollection } from '../lib/roles'
 
 // A commercial offer prepared for one client, rendered at
@@ -83,11 +84,49 @@ const calculatePrice: FieldHook = async ({ siblingData, req }) => {
   return total
 }
 
+// Notifies the dashboard when an offer becomes Accepted (created as
+// accepted, or its status changed to accepted). Saving an already accepted
+// offer again doesn't notify twice.
+const notifyOfferAccepted: CollectionAfterChangeHook = async ({
+  doc,
+  previousDoc,
+  operation,
+  req,
+}) => {
+  if (doc.status !== 'accepted') return doc
+  if (operation === 'update' && previousDoc?.status === 'accepted') return doc
+
+  let companyName: string | undefined
+  if (doc.client && typeof doc.client === 'object') {
+    companyName = doc.client.companyName
+  } else if (doc.client) {
+    const client = await req.payload
+      .findByID({ collection: 'clients', id: doc.client, depth: 0, select: { companyName: true }, req })
+      .catch(() => null)
+    companyName = client?.companyName
+  }
+
+  await createNotification(
+    req.payload,
+    {
+      type: 'offer-accepted',
+      title: companyName ? `Offer accepted: ${companyName}` : `Offer #${doc.id} accepted`,
+      message: `Offer #${doc.id} was marked as accepted.`,
+      href: '/dashboard/offers',
+    },
+    req,
+  )
+  return doc
+}
+
 export const Offers: CollectionConfig = {
   slug: 'offers',
   admin: {
     ...adminOnlyCollection.admin,
     defaultColumns: ['id', 'client', 'status', 'validUntil', 'updatedAt'],
+  },
+  hooks: {
+    afterChange: [notifyOfferAccepted],
   },
   access: {
     // Offers are private: signed-in users can read them, admins manage them.

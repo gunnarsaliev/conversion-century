@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { BannerStack } from "@/components/banner-standard-1";
 import { CelebrationBanner } from "@/components/dashboard/celebration-banners";
+import { NotificationBell } from "@/components/dashboard/notification-bell";
 import { formatDate } from "@/components/offer/offer-ui";
 import type { Celebration } from "@/lib/celebrations";
 import { cn } from "@/lib/utils";
@@ -12,8 +13,8 @@ import { cn } from "@/lib/utils";
 // ---------------------------------------------------------------------------
 //
 // Stat tiles, two funnels (offers, client pipeline) and the latest
-// consultation requests. Server-rendered from counts; no client JS — the
-// funnel tooltips are CSS hover/focus.
+// consultation requests. Server-rendered from counts; the only client JS is
+// the notification bell — the funnel tooltips are CSS hover/focus.
 
 export type FunnelStage = { label: string; value: number; hint?: string };
 
@@ -184,11 +185,14 @@ export function DashboardOverview({
         </BannerStack>
       )}
 
-      <section>
-        <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-          {userName ? `Welcome back, ${userName}` : "Overview"}
-        </h1>
-        <p className="mt-1 text-sm text-muted-foreground">Offers and client pipeline at a glance</p>
+      <section className="flex items-start justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+            {userName ? `Welcome back, ${userName}` : "Overview"}
+          </h1>
+          <p className="mt-1 text-sm text-muted-foreground">Offers and client pipeline at a glance</p>
+        </div>
+        <NotificationBell />
       </section>
 
       <div className={cn("grid gap-4", "grid-cols-2 lg:grid-cols-4")}>

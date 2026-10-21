@@ -1,5 +1,4 @@
 import {
-  Bell,
   Cake,
   ChevronRight,
   FileEdit,
@@ -31,6 +30,7 @@ import {
 import { formatBirthday, formatWorkStart, getCompletedYears } from "@/lib/celebrations";
 import { isLeadStatus } from "@/lib/client-status";
 import { isAdminOrEditor } from "@/lib/roles";
+import { NotificationBell } from "@/components/dashboard/notification-bell";
 
 const roleBadgeClassName: Record<string, string> = {
   admin: "bg-primary/10 text-primary",
@@ -142,14 +142,7 @@ export default async function TeamMemberPage({
           >
             <Search className="size-4" aria-hidden="true" />
           </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            className="size-8"
-            aria-label="Notifications"
-          >
-            <Bell className="size-4" aria-hidden="true" />
-          </Button>
+          <NotificationBell />
         </div>
       </div>
 

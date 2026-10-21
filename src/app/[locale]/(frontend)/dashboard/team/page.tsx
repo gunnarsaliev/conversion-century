@@ -1,4 +1,4 @@
-import { Bell, ChevronRight, LayoutDashboard, Search } from "lucide-react";
+import { ChevronRight, LayoutDashboard, Search } from "lucide-react";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
@@ -7,6 +7,7 @@ import {
   type TeamMemberListItem,
 } from "@/components/dashboard/team-member-list";
 import { Button } from "@/components/ui/button";
+import { NotificationBell } from "@/components/dashboard/notification-bell";
 
 export default async function TeamPage() {
   const payload = await getPayload({ config });
@@ -102,14 +103,7 @@ export default async function TeamPage() {
             >
               <Search className="size-4" aria-hidden="true" />
             </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              className="size-8"
-              aria-label="Notifications"
-            >
-              <Bell className="size-4" aria-hidden="true" />
-            </Button>
+            <NotificationBell />
           </div>
         </div>
         <div className="mt-3 flex flex-wrap items-end justify-between gap-3">

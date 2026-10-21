@@ -26,6 +26,8 @@ import { Solutions } from './src/collections/Solutions'
 import { Events } from './src/collections/Events'
 import { Testimonials } from './src/collections/Testimonials'
 import { Offers } from './src/collections/Offers'
+import { Notifications } from './src/collections/Notifications'
+import { notifyContractRenewals } from './src/jobs/notifyContractRenewals'
 import { clearUploadedFileAfterProcessing } from './src/utilities/clearUploadedFile'
 import { exportAll } from './src/endpoints/exportAll'
 
@@ -62,6 +64,7 @@ export default buildConfig({
     Events,
     Testimonials,
     Offers,
+    Notifications,
   ],
 
   plugins: [
@@ -187,6 +190,8 @@ export default buildConfig({
   // autoRun both schedules and processes the default queue every minute
   // inside this same Next.js process.
   jobs: {
+    // Daily at 06:00: notify the dashboard about client contract renewals.
+    tasks: [notifyContractRenewals],
     autoRun: [
       {
         cron: '* * * * *',

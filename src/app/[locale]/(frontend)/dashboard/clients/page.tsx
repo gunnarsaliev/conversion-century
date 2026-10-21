@@ -1,4 +1,4 @@
-import { Bell, ChevronRight, LayoutDashboard, Plus, Search } from "lucide-react";
+import { ChevronRight, LayoutDashboard, Plus, Search } from "lucide-react";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
@@ -7,6 +7,7 @@ import { ClientList, type ClientListItem } from "@/components/dashboard/client-l
 import { Button } from "@/components/ui/button";
 import type { User } from "../../../../../../payload-types";
 import { LEAD_STATUSES } from "@/lib/client-status";
+import { NotificationBell } from "@/components/dashboard/notification-bell";
 
 export default async function ClientsPage() {
   const payload = await getPayload({ config });
@@ -137,14 +138,7 @@ export default async function ClientsPage() {
             >
               <Search className="size-4" aria-hidden="true" />
             </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              className="size-8"
-              aria-label="Notifications"
-            >
-              <Bell className="size-4" aria-hidden="true" />
-            </Button>
+            <NotificationBell />
           </div>
         </div>
         <div className="mt-3 flex flex-wrap items-end justify-between gap-3">

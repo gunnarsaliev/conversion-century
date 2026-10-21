@@ -1,4 +1,4 @@
-import { Bell, ChevronRight, LayoutDashboard, Search } from "lucide-react";
+import { ChevronRight, LayoutDashboard, Search } from "lucide-react";
 import { headers as getHeaders } from "next/headers";
 import { getLocale } from "next-intl/server";
 import { redirect } from "@/i18n/navigation";
@@ -8,6 +8,7 @@ import config from "@payload-config";
 import { ProfileSettingsForm } from "@/components/dashboard/profile-settings-form";
 import { Button } from "@/components/ui/button";
 import { toDateInputValue } from "@/lib/celebrations";
+import { NotificationBell } from "@/components/dashboard/notification-bell";
 
 export default async function SettingsPage() {
   const headers = await getHeaders();
@@ -52,14 +53,7 @@ export default async function SettingsPage() {
             >
               <Search className="size-4" aria-hidden="true" />
             </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              className="size-8"
-              aria-label="Notifications"
-            >
-              <Bell className="size-4" aria-hidden="true" />
-            </Button>
+            <NotificationBell />
           </div>
         </div>
         <div className="mt-3">
