@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { isAdmin as hasAdminRole } from '@/lib/roles'
 
 // Admin dashboard panel (admin.components.beforeDashboard) that downloads all
 // data at once as a ZIP from GET /api/export-all (src/endpoints/exportAll.ts).
@@ -39,7 +40,7 @@ export function ExportAllButton() {
     fetch('/api/users/me', { credentials: 'include' })
       .then((response) => (response.ok ? response.json() : null))
       .then((data: { user?: { role?: string } | null } | null) =>
-        setIsAdmin(data?.user?.role === 'admin'),
+        setIsAdmin(hasAdminRole(data?.user)),
       )
       .catch(() => setIsAdmin(false))
   }, [])

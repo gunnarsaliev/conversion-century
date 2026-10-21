@@ -380,26 +380,37 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
             <NavigationMenuList className="hidden lg:flex">
               <NavigationMenuItem>
                 <NavigationMenuTrigger>Services</NavigationMenuTrigger>
-                <NavigationMenuContent className="box-border min-w-[700px] p-5">
-                  <div className="grid grid-cols-1 gap-x-4 gap-y-2 lg:grid-cols-2 lg:gap-x-4 lg:gap-y-2">
+                {/* Same compact layout as Solutions: icon + title rows. */}
+                <NavigationMenuContent className="min-w-[500px] p-5">
+                  <div className="mb-3 text-xs font-semibold tracking-wide text-foreground uppercase">
+                    Services
+                  </div>
+                  <div className="mb-4 text-sm font-normal text-muted-foreground">
+                    Explore the SEO services we offer
+                  </div>
+                  <div className="grid grid-cols-2 gap-1">
                     {platformFeatures.map((feature, index) => (
                       <NavigationMenuLink
                         key={index}
                         href={feature.href}
-                        className="group block rounded-md px-3 py-2.5 transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
+                        className="group flex flex-row items-center gap-3 rounded-md px-2 py-1.5 transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
                       >
-                        <div className="mb-1.5 flex size-9 items-center justify-center rounded-md bg-muted p-2 transition-colors group-hover:bg-muted/80 dark:group-hover:bg-muted/70">
-                          <feature.icon className="size-[18px] text-foreground" />
+                        <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5 transition-colors group-hover:bg-muted/80 dark:group-hover:bg-muted/70">
+                          <feature.icon className="size-3.5 text-foreground" />
                         </div>
-                        <div className="mb-1 text-base font-medium text-foreground">
+                        <div className="text-sm font-medium text-foreground">
                           {feature.title}
-                        </div>
-                        <div className="text-sm font-normal text-muted-foreground">
-                          {feature.description}
                         </div>
                       </NavigationMenuLink>
                     ))}
                   </div>
+                  <NavigationMenuLink
+                    href="/website/services"
+                    className="mt-3 flex w-fit flex-row items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
+                  >
+                    View all services
+                    <ArrowRight className="size-3.5" />
+                  </NavigationMenuLink>
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>

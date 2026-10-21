@@ -8,11 +8,13 @@ import { importExportPlugin } from '@payloadcms/plugin-import-export'
 import { buildConfig } from 'payload'
 import { en } from '@payloadcms/translations/languages/en'
 import { bg } from '@payloadcms/translations/languages/bg'
+import { adminOnlyCollection, adminOrEditor } from './src/lib/roles'
 
 import { Users } from './src/collections/Users'
 import { Clients } from './src/collections/Clients'
 import { Services } from './src/collections/Services'
 import { Media } from './src/collections/Media'
+import { Documents } from './src/collections/Documents'
 import { Blog } from './src/collections/Blog'
 import { WorkChecklist } from './src/collections/WorkChecklist'
 import { ClientChecklistProgress } from './src/collections/ClientChecklistProgress'
@@ -48,6 +50,7 @@ export default buildConfig({
     Clients,
     Services,
     Media,
+    Documents,
     Blog,
     WorkChecklist,
     ClientChecklistProgress,
@@ -72,6 +75,9 @@ export default buildConfig({
             return `${process.env.R2_PUBLIC_URL}/${key}`
           },
         },
+        // Private: no disablePayloadAccessControl, so files are served via
+        // /api/documents/file/:filename and the collection's read access applies.
+        documents: { prefix: 'documents' },
       },
       bucket: process.env.R2_BUCKET || '',
       config: {
@@ -105,7 +111,8 @@ export default buildConfig({
         { slug: 'offers' },
       ],
       // Keep the generated imports/exports collections out of the root
-      // sidebar and restrict them to admins, same as Clients.ts.
+      // sidebar; admins manage them, editors may only read them (and don't
+      // see them in the sidebar), same as Clients.ts.
       //
       // Both collections are plain Payload upload collections, so every CSV
       // a user imports or exports is written to local disk (`./imports` /
@@ -120,14 +127,13 @@ export default buildConfig({
         ...collection,
         admin: {
           ...collection.admin,
+          ...adminOnlyCollection.admin,
           group: 'Data Management',
         },
         access: {
           ...collection.access,
-          create: ({ req: { user } }) => user?.role === 'admin',
-          read: ({ req: { user } }) => user?.role === 'admin',
-          update: ({ req: { user } }) => user?.role === 'admin',
-          delete: ({ req: { user } }) => user?.role === 'admin',
+          ...adminOnlyCollection.access,
+          read: adminOrEditor,
         },
         hooks: {
           ...collection.hooks,
@@ -141,14 +147,13 @@ export default buildConfig({
         ...collection,
         admin: {
           ...collection.admin,
+          ...adminOnlyCollection.admin,
           group: 'Data Management',
         },
         access: {
           ...collection.access,
-          create: ({ req: { user } }) => user?.role === 'admin',
-          read: ({ req: { user } }) => user?.role === 'admin',
-          update: ({ req: { user } }) => user?.role === 'admin',
-          delete: ({ req: { user } }) => user?.role === 'admin',
+          ...adminOnlyCollection.access,
+          read: adminOrEditor,
         },
         hooks: {
           ...collection.hooks,

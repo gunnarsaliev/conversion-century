@@ -1,14 +1,17 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnlyCollection } from '../lib/roles'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { localizedSlugField } from '../utilities/localizedSlugField'
 
 export const JobListings: CollectionConfig = {
   slug: 'job-listings',
   admin: {
+    ...adminOnlyCollection.admin,
     useAsTitle: 'title',
     defaultColumns: ['title', 'type', 'location', 'updatedAt'],
   },
   access: {
+    ...adminOnlyCollection.access,
     // Listings are shown on the public open-positions page.
     read: () => true,
   },

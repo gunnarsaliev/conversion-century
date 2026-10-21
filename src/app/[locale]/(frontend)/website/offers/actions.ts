@@ -6,6 +6,7 @@ import { getPayload, type RequiredDataFromCollectionSlug } from "payload";
 import config from "@payload-config";
 
 import { offerFormSchema, type OfferFormValues } from "@/lib/offer-form";
+import { isAdmin } from "@/lib/roles";
 import type { Offer as OfferDoc } from "../../../../../../payload-types";
 
 // ---------------------------------------------------------------------------
@@ -91,7 +92,7 @@ async function saveOffer(
   const payload = await getPayload({ config });
   const { user } = await payload.auth({ headers: await getHeaders() });
 
-  if (user?.role !== "admin") {
+  if (!isAdmin(user)) {
     return { success: false, error: "Само администратори могат да създават оферти." };
   }
 

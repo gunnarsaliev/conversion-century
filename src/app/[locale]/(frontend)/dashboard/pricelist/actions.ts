@@ -6,6 +6,8 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 import { z } from "zod";
 
+import { isAdmin } from "@/lib/roles";
+
 // ---------------------------------------------------------------------------
 // Service hourly rates (Server Action, Payload local API)
 // ---------------------------------------------------------------------------
@@ -41,7 +43,7 @@ async function updateServicePrices(
   const payload = await getPayload({ config });
   const { user } = await payload.auth({ headers: await getHeaders() });
 
-  if (user?.role !== "admin") {
+  if (!isAdmin(user)) {
     return { success: false, error: "Only admins can change rates." };
   }
 

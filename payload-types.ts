@@ -71,6 +71,7 @@ export interface Config {
     clients: Client;
     services: Service;
     media: Media;
+    documents: Document;
     blog: Blog;
     'work-checklist': WorkChecklist;
     'client-checklist-progress': ClientChecklistProgress;
@@ -103,6 +104,7 @@ export interface Config {
     clients: ClientsSelect<false> | ClientsSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    documents: DocumentsSelect<false> | DocumentsSelect<true>;
     blog: BlogSelect<false> | BlogSelect<true>;
     'work-checklist': WorkChecklistSelect<false> | WorkChecklistSelect<true>;
     'client-checklist-progress': ClientChecklistProgressSelect<false> | ClientChecklistProgressSelect<true>;
@@ -173,8 +175,20 @@ export interface User {
   firstName?: string | null;
   lastName?: string | null;
   jobTitle?: string | null;
+  about?: string | null;
   profileImage?: (number | null) | Media;
-  role: 'user' | 'admin';
+  status: 'active' | 'on-leave' | 'inactive';
+  birthday?: string | null;
+  workBirthday?: string | null;
+  documents?:
+    | {
+        title: string;
+        file: number | Document;
+        notes?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  role: 'user' | 'admin' | 'editor';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -234,6 +248,25 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "documents".
+ */
+export interface Document {
+  id: number;
+  prefix?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "clients".
  */
 export interface Client {
@@ -275,7 +308,16 @@ export interface Client {
     | null;
   'Link Building Docs'?: string | null;
   'Blog Docs'?: string | null;
+  documents?:
+    | {
+        title: string;
+        file: number | Document;
+        notes?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   status: 'lead' | 'consultation' | 'active' | 'inactive';
+  contractDate?: string | null;
   region?:
     | (
         | 'EU'
@@ -1331,6 +1373,10 @@ export interface PayloadLockedDocument {
         value: number | Media;
       } | null)
     | ({
+        relationTo: 'documents';
+        value: number | Document;
+      } | null)
+    | ({
         relationTo: 'blog';
         value: number | Blog;
       } | null)
@@ -1424,7 +1470,19 @@ export interface UsersSelect<T extends boolean = true> {
   firstName?: T;
   lastName?: T;
   jobTitle?: T;
+  about?: T;
   profileImage?: T;
+  status?: T;
+  birthday?: T;
+  workBirthday?: T;
+  documents?:
+    | T
+    | {
+        title?: T;
+        file?: T;
+        notes?: T;
+        id?: T;
+      };
   role?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1476,7 +1534,16 @@ export interface ClientsSelect<T extends boolean = true> {
       };
   'Link Building Docs'?: T;
   'Blog Docs'?: T;
+  documents?:
+    | T
+    | {
+        title?: T;
+        file?: T;
+        notes?: T;
+        id?: T;
+      };
   status?: T;
+  contractDate?: T;
   region?: T;
   notes?: T;
   description?: T;
@@ -1695,6 +1762,24 @@ export interface MediaSelect<T extends boolean = true> {
               filename?: T;
             };
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "documents_select".
+ */
+export interface DocumentsSelect<T extends boolean = true> {
+  prefix?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2234,6 +2319,7 @@ export interface TaskCreateCollectionExport {
       | 'clients'
       | 'services'
       | 'media'
+      | 'documents'
       | 'blog'
       | 'work-checklist'
       | 'client-checklist-progress'

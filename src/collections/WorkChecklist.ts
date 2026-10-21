@@ -1,10 +1,15 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnlyCollection } from '../lib/roles'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 
 export const WorkChecklist: CollectionConfig = {
   slug: 'work-checklist',
   admin: {
+    ...adminOnlyCollection.admin,
     useAsTitle: 'name',
+  },
+  access: {
+    ...adminOnlyCollection.access,
   },
   fields: [
     {

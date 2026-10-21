@@ -4,6 +4,7 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 
 import { PriceList } from "@/components/dashboard/price-list";
+import { isAdmin } from "@/lib/roles";
 
 // Every service with its hourly rate (Services.price), the only thing
 // editable here. Offers are priced as hours × these rates.
@@ -53,7 +54,7 @@ export default async function PriceListPage() {
         </div>
       </section>
 
-      <PriceList services={services} canEdit={user?.role === "admin"} />
+      <PriceList services={services} canEdit={isAdmin(user)} />
     </>
   );
 }

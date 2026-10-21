@@ -5,6 +5,7 @@ import config from "@payload-config";
 
 import { DashboardLayout } from "@/components/dashboard16-layout";
 import type { UserData } from "@/components/dashboard16-layout";
+import { isAdminOrEditor } from "@/lib/roles";
 
 // Internal area: never indexed, even after launch.
 export const metadata: Metadata = {
@@ -46,7 +47,7 @@ export default async function Dashboard({
   }
 
   return (
-    <DashboardLayout user={sidebarUser} isAdmin={user?.role === "admin"}>
+    <DashboardLayout user={sidebarUser} isAdmin={isAdminOrEditor(user)}>
       {children}
     </DashboardLayout>
   );

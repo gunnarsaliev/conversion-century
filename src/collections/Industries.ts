@@ -1,14 +1,17 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnlyCollection } from '../lib/roles'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { localizedSlugField } from '../utilities/localizedSlugField'
 
 export const Industries: CollectionConfig = {
   slug: 'industries',
   admin: {
+    ...adminOnlyCollection.admin,
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', 'updatedAt'],
   },
   access: {
+    ...adminOnlyCollection.access,
     // Industries are shown on the public website.
     read: () => true,
   },

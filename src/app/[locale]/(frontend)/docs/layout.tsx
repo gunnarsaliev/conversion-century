@@ -4,6 +4,7 @@ import { getPayload } from 'payload'
 
 import config from '@payload-config'
 import { Layout } from '@/components/Layout'
+import { isAdminOrEditor } from '@/lib/roles'
 
 // Internal area: never indexed, even after launch.
 export const metadata: Metadata = {
@@ -31,7 +32,7 @@ export default async function DocsLayout({
     : null
 
   return (
-    <Layout isAdmin={user?.role === 'admin'} user={fullUser}>
+    <Layout isAdmin={isAdminOrEditor(user)} user={fullUser}>
       {children}
     </Layout>
   )

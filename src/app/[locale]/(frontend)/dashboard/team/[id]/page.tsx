@@ -27,6 +27,7 @@ import { isLeadStatus } from "@/lib/client-status";
 
 const roleBadgeClassName: Record<string, string> = {
   admin: "bg-primary/10 text-primary",
+  editor: "bg-primary/10 text-primary",
   user: "bg-muted text-muted-foreground",
 };
 

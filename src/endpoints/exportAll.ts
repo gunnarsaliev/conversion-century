@@ -1,5 +1,6 @@
 import { strToU8, zipSync } from 'fflate'
 import type { CollectionSlug, Endpoint } from 'payload'
+import { isAdmin } from '../lib/roles'
 
 // GET /api/export-all — every document of every content collection as one
 // ZIP, for backups or moving data between environments. Admins only.
@@ -62,7 +63,7 @@ export const exportAll: Endpoint = {
   path: '/export-all',
   method: 'get',
   handler: async (req) => {
-    if (req.user?.role !== 'admin') {
+    if (!isAdmin(req.user)) {
       return Response.json({ error: 'Only admins can export data.' }, { status: 403 })
     }
 

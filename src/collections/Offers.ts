@@ -1,12 +1,10 @@
 import type { CollectionConfig, FieldHook, PayloadRequest } from 'payload'
+import { adminOnlyCollection } from '../lib/roles'
 
 // A commercial offer prepared for one client, rendered at
 // /website/offers/[id] (and as a PDF). Only the per-client values live here;
 // the template copy shared by every offer is in src/data/offers/static.json.
 // Offers are written in Bulgarian, so nothing is localized.
-
-const isAdmin = ({ req: { user } }: { req: { user?: { role?: string | null } | null } }) =>
-  user?.role === 'admin'
 
 // Where the audit metrics came from. The offer page prints the label.
 export const metricsSourceOptions = [
@@ -88,14 +86,13 @@ const calculatePrice: FieldHook = async ({ siblingData, req }) => {
 export const Offers: CollectionConfig = {
   slug: 'offers',
   admin: {
+    ...adminOnlyCollection.admin,
     defaultColumns: ['id', 'client', 'status', 'validUntil', 'updatedAt'],
   },
   access: {
     // Offers are private: signed-in users can read them, admins manage them.
     read: ({ req: { user } }) => Boolean(user),
-    create: isAdmin,
-    update: isAdmin,
-    delete: isAdmin,
+    ...adminOnlyCollection.access,
   },
   fields: [
     {

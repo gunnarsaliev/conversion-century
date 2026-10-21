@@ -1,14 +1,17 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnlyCollection } from '../lib/roles'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { localizedSlugField } from '../utilities/localizedSlugField'
 
 export const CaseStudies: CollectionConfig = {
   slug: 'case-studies',
   admin: {
+    ...adminOnlyCollection.admin,
     useAsTitle: 'title',
     defaultColumns: ['title', 'client', 'updatedAt'],
   },
   access: {
+    ...adminOnlyCollection.access,
     // Case studies are shown on the public website.
     read: () => true,
   },

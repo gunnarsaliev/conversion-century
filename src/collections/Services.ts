@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnlyCollection } from '../lib/roles'
 import { localizedSlugField } from '../utilities/localizedSlugField'
 import {
   ctaField,
@@ -17,10 +18,12 @@ import {
 export const Services: CollectionConfig = {
   slug: 'services',
   admin: {
+    ...adminOnlyCollection.admin,
     useAsTitle: 'name',
     defaultColumns: ['name', 'slug', 'updatedAt'],
   },
   access: {
+    ...adminOnlyCollection.access,
     // Services are shown on the public website.
     read: () => true,
   },

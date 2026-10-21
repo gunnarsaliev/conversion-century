@@ -1,5 +1,7 @@
 import type { CollectionBeforeValidateHook, CollectionConfig } from 'payload'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { documentsField } from '../fields/documentsField'
+import { adminOnlyCollection, isAdminOrEditor } from '../lib/roles'
 
 // CSV can't express a hasMany relationship as a native array, so we
 // serialize it to a single `;`-separated column of related IDs on export,
@@ -103,27 +105,25 @@ const resolveAccountManagerAndPublisherEmails: CollectionBeforeValidateHook = as
 export const Clients: CollectionConfig = {
   slug: 'clients',
   admin: {
+    ...adminOnlyCollection.admin,
     useAsTitle: 'companyName',
   },
   hooks: {
     beforeValidate: [resolveAccountManagerAndPublisherEmails],
   },
   access: {
-    // Internal CRM data — only admins may read or write client records.
-    // Read is the one exception: a client explicitly marked
+    // Internal CRM data — only admins may write client records,
+    // admins and editors may read them. A client explicitly marked
     // `showOnWebsite` is also readable by logged-out visitors, so the
     // public site can pull its name/logo into a trust/logo strip without
     // exposing the rest of the CRM record to anyone else (field-level
     // access below still hides everything but companyName/logo/
     // showOnWebsite from a public request).
-    create: ({ req: { user } }) => user?.role === 'admin',
+    ...adminOnlyCollection.access,
     read: ({ req: { user } }) => {
-      if (user?.role === 'admin') return true
+      if (isAdminOrEditor(user)) return true
       return { showOnWebsite: { equals: true } }
     },
-    update: ({ req: { user } }) => user?.role === 'admin',
-    delete: ({ req: { user } }) => user?.role === 'admin',
-    admin: ({ req: { user } }) => user?.role === 'admin',
   },
   fields: [
     {
@@ -224,6 +224,7 @@ export const Clients: CollectionConfig = {
       name: 'Blog Docs',
       type: 'text',
     },
+    documentsField,
     {
       name: 'status',
       type: 'select',
@@ -235,6 +236,15 @@ export const Clients: CollectionConfig = {
         { label: 'Active', value: 'active' },
         { label: 'Inactive', value: 'inactive' },
       ],
+    },
+    {
+      name: 'contractDate',
+      label: 'Contract Date',
+      type: 'date',
+      admin: {
+        position: 'sidebar',
+        date: { pickerAppearance: 'dayOnly' },
+      },
     },
     {
       name: 'region',

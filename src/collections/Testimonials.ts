@@ -1,6 +1,7 @@
 import type { CollectionAfterChangeHook, CollectionConfig } from 'payload'
 
 import { plainTextToLexical } from '../lib/plain-text-to-lexical'
+import { adminOrEditor } from '../lib/roles'
 import type { Client, Testimonial } from '../../payload-types'
 
 const relationId = (value: unknown) =>
@@ -67,9 +68,6 @@ const applyApprovedTestimonial: CollectionAfterChangeHook<Testimonial> = async (
   return doc
 }
 
-const isAdmin = ({ req: { user } }: { req: { user?: { role?: string | null } | null } }) =>
-  user?.role === 'admin'
-
 export const Testimonials: CollectionConfig = {
   slug: 'testimonials',
   admin: {
@@ -81,10 +79,10 @@ export const Testimonials: CollectionConfig = {
   // The public form writes through the local API (server action), so no one
   // needs REST/GraphQL access except admins.
   access: {
-    create: isAdmin,
-    read: isAdmin,
-    update: isAdmin,
-    delete: isAdmin,
+    create: adminOrEditor,
+    read: adminOrEditor,
+    update: adminOrEditor,
+    delete: adminOrEditor,
   },
   hooks: {
     afterChange: [applyApprovedTestimonial],

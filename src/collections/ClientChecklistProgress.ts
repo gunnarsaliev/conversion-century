@@ -1,10 +1,15 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnlyCollection } from '../lib/roles'
 
 export const ClientChecklistProgress: CollectionConfig = {
   slug: 'client-checklist-progress',
   admin: {
+    ...adminOnlyCollection.admin,
     useAsTitle: 'id',
     defaultColumns: ['client', 'checklistItem', 'status'],
+  },
+  access: {
+    ...adminOnlyCollection.access,
   },
   fields: [
     {

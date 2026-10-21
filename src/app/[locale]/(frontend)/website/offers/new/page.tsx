@@ -6,6 +6,7 @@ import config from "@payload-config";
 
 import { OfferForm } from "@/components/offer/offer-form";
 import type { OfferFormOptions } from "@/lib/offer-form";
+import { isAdmin } from "@/lib/roles";
 
 export const metadata: Metadata = {
   title: "Нова оферта",
@@ -19,7 +20,7 @@ const OFFER_LOCALE = "bg";
 export default async function NewOfferPage() {
   const payload = await getPayload({ config });
   const { user } = await payload.auth({ headers: await getHeaders() });
-  if (user?.role !== "admin") notFound();
+  if (!isAdmin(user)) notFound();
 
   const [clients, services] = await Promise.all([
     payload.find({

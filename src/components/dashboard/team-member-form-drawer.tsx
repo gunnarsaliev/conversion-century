@@ -50,7 +50,7 @@ const teamMemberFormSchema = z.object({
   firstName: z.string().trim().min(1, "First name is required"),
   lastName: z.string().trim().min(1, "Last name is required"),
   jobTitle: z.string().trim().optional(),
-  role: z.enum(["user", "admin"]),
+  role: z.enum(["user", "admin", "editor"]),
 });
 
 type TeamMemberFormValues = z.infer<typeof teamMemberFormSchema>;
@@ -202,6 +202,7 @@ const TeamMemberFormDrawer = ({
                       <SelectContent>
                         <SelectItem value="user">User</SelectItem>
                         <SelectItem value="admin">Admin</SelectItem>
+                        <SelectItem value="editor">Editor</SelectItem>
                       </SelectContent>
                     </Select>
                     {fieldState.invalid && (
