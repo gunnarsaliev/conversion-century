@@ -53,6 +53,7 @@ export const Users: CollectionConfig = {
       name: 'profileImage',
       type: 'upload',
       relationTo: 'media',
+      admin: { position: 'sidebar' },
     },
     {
       name: 'status',
@@ -69,20 +70,33 @@ export const Users: CollectionConfig = {
     {
       name: 'birthday',
       type: 'date',
-      admin: { date: { pickerAppearance: 'dayOnly' } },
+      admin: { position: 'sidebar', date: { pickerAppearance: 'dayOnly' } },
     },
     {
       name: 'workBirthday',
       label: 'Work Birthday',
       type: 'date',
-      admin: { date: { pickerAppearance: 'dayOnly' } },
+      admin: { position: 'sidebar', date: { pickerAppearance: 'dayOnly' } },
     },
     documentsField,
+    {
+      // Keys of dashboard banners this user has closed (see
+      // lib/banner-dismissal). Written only through the dismissBanner server
+      // action, for the signed-in user themselves; readable only by them.
+      name: 'dismissedBanners',
+      type: 'json',
+      defaultValue: [],
+      access: {
+        read: ({ req: { user }, doc }) => Boolean(user && doc && user.id === doc.id),
+      },
+      admin: { hidden: true },
+    },
     {
       name: 'role',
       type: 'select',
       required: true,
       defaultValue: 'user',
+      admin: { position: 'sidebar' },
       // Only admins may set/change this field — enforced at the field
       // level so it also applies to updates that pass the collection's
       // `update` access check (e.g. an admin editing another user).

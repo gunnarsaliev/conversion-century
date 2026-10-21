@@ -1,20 +1,25 @@
 import {
   Bell,
+  Cake,
   ChevronRight,
   FileEdit,
+  FileText,
   LayoutDashboard,
   Mail,
   Megaphone,
+  PartyPopper,
   Search,
   Users,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { headers as getHeaders } from "next/headers";
 import { notFound } from "next/navigation";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
 import { ClientLogo } from "@/components/dashboard/client-logo";
+import { TeamMemberStatusBadge } from "@/components/dashboard/team-member-status-badge";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,7 +28,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { formatBirthday, formatWorkStart, getCompletedYears } from "@/lib/celebrations";
 import { isLeadStatus } from "@/lib/client-status";
+import { isAdminOrEditor } from "@/lib/roles";
 
 const roleBadgeClassName: Record<string, string> = {
   admin: "bg-primary/10 text-primary",
@@ -41,6 +48,7 @@ export default async function TeamMemberPage({
   const { id } = await params;
 
   const payload = await getPayload({ config });
+  const { user: viewer } = await payload.auth({ headers: await getHeaders() });
 
   const user = await payload
     .findByID({
@@ -82,6 +90,17 @@ export default async function TeamMemberPage({
     user.profileImage && typeof user.profileImage === "object"
       ? user.profileImage
       : null;
+
+  const yearsAtCompany = user.workBirthday ? getCompletedYears(user.workBirthday) : 0;
+
+  // The local API skips field access, so apply the `documents` field's rule
+  // (admins and editors only, see fields/documentsField) here; the files
+  // themselves are also served through Payload's access check.
+  const documents = isAdminOrEditor(viewer)
+    ? (user.documents ?? []).flatMap((entry) =>
+        typeof entry.file === "object" ? [{ ...entry, file: entry.file }] : [],
+      )
+    : [];
 
   const clientGroups: {
     label: string;
@@ -166,8 +185,12 @@ export default async function TeamMemberPage({
                 )}
               </div>
               <div className="flex-1 space-y-1">
-                <h1 className="text-2xl font-bold">{name}</h1>
-                <p className="text-muted-foreground">
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <h1 className="text-2xl font-bold">{name}</h1>
+                  <TeamMemberStatusBadge status={user.status} />
+                </div>
+                <p className="flex flex-wrap items-center gap-2 text-muted-foreground">
+                  {user.jobTitle && <span>{user.jobTitle}</span>}
                   <Badge
                     className={
                       roleBadgeClassName[user.role] ?? roleBadgeClassName.user
@@ -175,9 +198,6 @@ export default async function TeamMemberPage({
                   >
                     <span className="capitalize">{user.role}</span>
                   </Badge>
-                  {user.jobTitle && (
-                    <span> {user.jobTitle}</span>
-                  )}
                 </p>
               </div>
             </div>
@@ -198,32 +218,43 @@ export default async function TeamMemberPage({
             </div>
           </CardContent>
         </Card>
-
-        {/* Stats grid */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {clientGroups.map((group) => {
-            const Icon = group.icon;
-            return (
-              <Card key={group.label}>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-muted-foreground">
-                    {group.label}
-                  </CardTitle>
-                  <Icon className="size-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">
-                    {group.docs.length}
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
       </div>
 
       <div className="mt-4 grid gap-4 sm:mt-6 sm:gap-6 lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] lg:items-start">
         <div className="flex min-h-0 flex-col gap-4 sm:gap-6">
+          {/* Stats grid */}
+          <div className="grid gap-4 sm:grid-cols-3">
+            {clientGroups.map((group) => {
+              const Icon = group.icon;
+              return (
+                <Card key={group.label}>
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium text-muted-foreground">
+                      {group.label}
+                    </CardTitle>
+                    <Icon className="size-4 text-muted-foreground" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold">
+                      {group.docs.length}
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+
+          {user.about && (
+            <Card>
+              <CardHeader>
+                <CardTitle>About</CardTitle>
+              </CardHeader>
+              <CardContent className="text-sm leading-relaxed whitespace-pre-line text-foreground/80">
+                {user.about}
+              </CardContent>
+            </Card>
+          )}
+
           <Card>
             <CardHeader>
               <CardTitle>Contact</CardTitle>
@@ -243,8 +274,64 @@ export default async function TeamMemberPage({
                   </a>
                 </div>
               ) : null}
+              {user.birthday && (
+                <div className="flex items-center gap-2">
+                  <Cake className="size-4 text-muted-foreground" aria-hidden="true" />
+                  <span>
+                    <span className="text-muted-foreground">Birthday</span>{" "}
+                    {formatBirthday(user.birthday)}
+                  </span>
+                </div>
+              )}
+              {user.workBirthday && (
+                <div className="flex items-center gap-2">
+                  <PartyPopper className="size-4 text-muted-foreground" aria-hidden="true" />
+                  <span>
+                    <span className="text-muted-foreground">Joined</span>{" "}
+                    {formatWorkStart(user.workBirthday)}
+                    {yearsAtCompany > 0 && (
+                      <span className="text-muted-foreground">
+                        {" "}
+                        · {yearsAtCompany} {yearsAtCompany === 1 ? "year" : "years"}
+                      </span>
+                    )}
+                  </span>
+                </div>
+              )}
             </CardContent>
           </Card>
+
+          {documents.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Documents</CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-col text-sm">
+                {documents.map((document, index) => (
+                  <a
+                    key={document.id ?? document.file.id}
+                    href={document.file.url ?? undefined}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`flex items-start gap-3 py-2.5 hover:underline ${
+                      index < documents.length - 1 ? "border-b" : ""
+                    }`}
+                  >
+                    <FileText
+                      className="mt-0.5 size-4 shrink-0 text-muted-foreground"
+                      aria-hidden="true"
+                    />
+                    <span className="min-w-0">
+                      <span className="block font-medium">{document.title}</span>
+                      {document.notes && (
+                        <span className="block text-muted-foreground">{document.notes}</span>
+                      )}
+                    </span>
+                  </a>
+                ))}
+              </CardContent>
+            </Card>
+          )}
         </div>
 
         <div className="flex min-h-0 flex-col gap-4 sm:gap-6">

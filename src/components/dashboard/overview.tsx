@@ -1,7 +1,10 @@
 import { ArrowRight, Mail } from "lucide-react";
 import Link from "next/link";
 
+import { BannerStack } from "@/components/banner-standard-1";
+import { CelebrationBanner } from "@/components/dashboard/celebration-banners";
 import { formatDate } from "@/components/offer/offer-ui";
+import type { Celebration } from "@/lib/celebrations";
 import { cn } from "@/lib/utils";
 
 // ---------------------------------------------------------------------------
@@ -156,17 +159,31 @@ function InquiryList({ inquiries }: { inquiries: Inquiry[] }) {
 
 export function DashboardOverview({
   userName,
+  celebrations = [],
   offers,
   pipeline,
   inquiries,
 }: {
   userName?: string;
+  /** Today's birthdays and work anniversaries, shown as banners at the top. */
+  celebrations?: Celebration[];
   offers: { created: number; sent: number; accepted: number; pending: number; declined: number };
   pipeline: { consultations: number; leads: number; clients: number };
   inquiries: Inquiry[];
 }) {
   return (
     <div className="flex flex-col gap-6">
+      {celebrations.length > 0 && (
+        <BannerStack>
+          {celebrations.map((celebration) => (
+            <CelebrationBanner
+              key={celebration.id}
+              celebration={celebration}
+            />
+          ))}
+        </BannerStack>
+      )}
+
       <section>
         <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
           {userName ? `Welcome back, ${userName}` : "Overview"}

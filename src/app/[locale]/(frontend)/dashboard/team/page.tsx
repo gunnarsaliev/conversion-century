@@ -13,6 +13,8 @@ export default async function TeamPage() {
   const [users, clients] = await Promise.all([
     payload.find({
       collection: "users",
+      // Inactive members are hidden from the team list.
+      where: { status: { not_equals: "inactive" } },
       depth: 1,
       limit: 100,
     }),
@@ -67,6 +69,10 @@ export default async function TeamPage() {
       jobTitle: user.jobTitle,
       email: user.email,
       role: user.role,
+      status: user.status,
+      about: user.about,
+      birthday: user.birthday,
+      workBirthday: user.workBirthday,
       avatarUrl:
         user.profileImage && typeof user.profileImage === "object"
           ? user.profileImage.url

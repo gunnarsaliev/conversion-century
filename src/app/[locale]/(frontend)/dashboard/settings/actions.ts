@@ -6,19 +6,36 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 import { z } from "zod";
 
+import { DATE_INPUT_PATTERN, fromDateInputValue } from "@/lib/celebrations";
+import { ABOUT_MAX_LENGTH } from "@/lib/profile-settings";
+
 // ---------------------------------------------------------------------------
 // Profile update (Server Action, Payload local API)
 // ---------------------------------------------------------------------------
 //
 // Updates the currently logged-in user's own profile fields — first/last
-// name, job title, and avatar (upload). Auth is resolved from the request
+// name, job title, about, birthday, work birthday, and avatar (upload).
+// Dates come from <input type="date"> ("YYYY-MM-DD"); an empty value clears
+// the date. Auth is resolved from the request
 // headers, not a client-supplied id, so a user can only ever update
 // themselves through this action.
+
+const optionalDate = z
+  .string()
+  .refine((value) => value === "" || DATE_INPUT_PATTERN.test(value), "Invalid date")
+  .optional();
 
 const profileFormSchema = z.object({
   firstName: z.string().trim().min(1, "First name is required"),
   lastName: z.string().trim().min(1, "Last name is required"),
   jobTitle: z.string().trim().optional(),
+  about: z
+    .string()
+    .trim()
+    .max(ABOUT_MAX_LENGTH, `About must be at most ${ABOUT_MAX_LENGTH} characters`)
+    .optional(),
+  birthday: optionalDate,
+  workBirthday: optionalDate,
 });
 
 type ProfileFormResult =
@@ -30,6 +47,9 @@ async function updateProfile(formData: FormData): Promise<ProfileFormResult> {
     firstName: formData.get("firstName"),
     lastName: formData.get("lastName"),
     jobTitle: formData.get("jobTitle") ?? undefined,
+    about: formData.get("about") ?? undefined,
+    birthday: formData.get("birthday") ?? undefined,
+    workBirthday: formData.get("workBirthday") ?? undefined,
   });
 
   if (!parsed.success) {
@@ -48,7 +68,7 @@ async function updateProfile(formData: FormData): Promise<ProfileFormResult> {
       return { success: false, error: "You must be signed in." };
     }
 
-    const { firstName, lastName, jobTitle } = parsed.data;
+    const { firstName, lastName, jobTitle, about, birthday, workBirthday } = parsed.data;
 
     let profileImageId: number | undefined;
 
@@ -77,6 +97,9 @@ async function updateProfile(formData: FormData): Promise<ProfileFormResult> {
         firstName,
         lastName,
         jobTitle: jobTitle || undefined,
+        about: about || null,
+        ...(birthday !== undefined ? { birthday: fromDateInputValue(birthday) } : {}),
+        ...(workBirthday !== undefined ? { workBirthday: fromDateInputValue(workBirthday) } : {}),
         ...(profileImageId ? { profileImage: profileImageId } : {}),
         ...(removeAvatar && !profileImageId ? { profileImage: null } : {}),
       },

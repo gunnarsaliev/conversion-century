@@ -7,6 +7,7 @@ import config from "@payload-config";
 
 import { ProfileSettingsForm } from "@/components/dashboard/profile-settings-form";
 import { Button } from "@/components/ui/button";
+import { toDateInputValue } from "@/lib/celebrations";
 
 export default async function SettingsPage() {
   const headers = await getHeaders();
@@ -66,12 +67,13 @@ export default async function SettingsPage() {
             Settings
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Manage your profile
+            Manage your profile and how teammates see you
           </p>
         </div>
       </section>
 
       <ProfileSettingsForm
+        className="max-w-3xl rounded-lg border bg-white p-6 shadow-xs sm:p-8 dark:bg-gray-800"
         // Remount when the saved data actually changes (e.g. after a save
         // triggers router.refresh()) instead of relying on prop updates to
         // reset already-mounted form state.
@@ -80,6 +82,9 @@ export default async function SettingsPage() {
           firstName: fullUser?.firstName ?? "",
           lastName: fullUser?.lastName ?? "",
           jobTitle: fullUser?.jobTitle,
+          about: fullUser?.about,
+          birthday: toDateInputValue(fullUser?.birthday),
+          workBirthday: toDateInputValue(fullUser?.workBirthday),
           email: user.email,
           avatarUrl,
         }}

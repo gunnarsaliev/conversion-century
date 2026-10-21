@@ -188,6 +188,15 @@ export interface User {
         id?: string | null;
       }[]
     | null;
+  dismissedBanners?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   role: 'user' | 'admin' | 'editor';
   updatedAt: string;
   createdAt: string;
@@ -1483,6 +1492,7 @@ export interface UsersSelect<T extends boolean = true> {
         notes?: T;
         id?: T;
       };
+  dismissedBanners?: T;
   role?: T;
   updatedAt?: T;
   createdAt?: T;

@@ -3,6 +3,8 @@ import { getPayload, type Where } from "payload";
 import config from "@payload-config";
 
 import { DashboardOverview } from "@/components/dashboard/overview";
+import { getDismissedBanners } from "@/lib/banner-dismissal";
+import { getTeamCelebrations } from "@/lib/celebrations";
 import { LEAD_STATUSES } from "@/lib/client-status";
 
 // Offers: draft → sent → accepted / declined. "Sent" counts every offer that
@@ -29,6 +31,7 @@ export default async function Dashboard() {
     leads,
     clients,
     latestInquiries,
+    teamMembers,
   ] = await Promise.all([
     user
       ? payload.findByID({ collection: "users", id: user.id, depth: 0 }).catch(() => null)
@@ -56,7 +59,32 @@ export default async function Dashboard() {
       depth: 0,
       limit: 3,
     }),
+    // Everyone not marked inactive, for today's birthday / work anniversary banners.
+    payload.find({
+      collection: "users",
+      where: {
+        and: [
+          { status: { not_equals: "inactive" } },
+          { or: [{ birthday: { exists: true } }, { workBirthday: { exists: true } }] },
+        ],
+      },
+      select: {
+        email: true,
+        firstName: true,
+        lastName: true,
+        birthday: true,
+        workBirthday: true,
+      },
+      depth: 0,
+      pagination: false,
+    }),
   ]);
+
+  // Banners this user closed stay closed for them (see lib/banner-dismissal).
+  const dismissedBanners = getDismissedBanners(fullUser?.dismissedBanners);
+  const celebrations = getTeamCelebrations(teamMembers.docs, user?.id).filter(
+    (celebration) => !dismissedBanners.has(celebration.id),
+  );
 
   const userName =
     [fullUser?.firstName, fullUser?.lastName].filter(Boolean).join(" ") || user?.email;
@@ -64,6 +92,7 @@ export default async function Dashboard() {
   return (
     <DashboardOverview
       userName={userName}
+      celebrations={celebrations}
       offers={{ created, sent, accepted, pending, declined }}
       pipeline={{ consultations, leads, clients }}
       inquiries={latestInquiries.docs.map((doc) => ({

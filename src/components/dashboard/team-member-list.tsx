@@ -7,6 +7,7 @@ import {
   TeamMemberQuickView,
   type TeamMemberQuickViewData,
 } from "@/components/dashboard/team-member-quick-view";
+import { TeamMemberStatusBadge } from "@/components/dashboard/team-member-status-badge";
 import { Badge } from "@/components/ui/badge";
 
 // ---------------------------------------------------------------------------
@@ -35,7 +36,7 @@ const TeamMemberCard = ({ member }: TeamMemberCardProps) => {
       trigger={
         <button
           type="button"
-          className="group flex w-full cursor-pointer flex-col gap-4 rounded-lg border p-4 text-left outline-none transition-all hover:bg-muted/30 hover:shadow-md focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+          className="group flex w-full cursor-pointer flex-col gap-4 rounded-lg border bg-white p-4 text-left outline-none transition-all hover:bg-gray-50 hover:shadow-md dark:bg-gray-800 dark:hover:bg-gray-700/60 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
         >
           <div className="flex items-start justify-between gap-4">
             {member.avatarUrl ? (
@@ -53,6 +54,9 @@ const TeamMemberCard = ({ member }: TeamMemberCardProps) => {
               </div>
             )}
             <div className="flex items-center gap-2">
+              {member.status !== "active" && (
+                <TeamMemberStatusBadge status={member.status} />
+              )}
               <Badge
                 className={
                   roleBadgeClassName[member.role] ?? roleBadgeClassName.user

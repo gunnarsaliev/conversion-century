@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, MoreVertical, Pencil, Trash2, X } from "lucide-react";
+import { Cake, Mail, MoreVertical, PartyPopper, Pencil, Trash2, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -12,6 +12,10 @@ import {
   AvatarMore,
 } from "@/components/shadcnblocks/avatar-group";
 import { TeamMemberFormDrawer } from "@/components/dashboard/team-member-form-drawer";
+import {
+  TeamMemberStatusBadge,
+  type TeamMemberStatus,
+} from "@/components/dashboard/team-member-status-badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -29,6 +33,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { formatBirthday, formatWorkStart, getCompletedYears } from "@/lib/celebrations";
 
 // ---------------------------------------------------------------------------
 // Team member quick view (drawer)
@@ -57,6 +62,10 @@ type TeamMemberQuickViewData = {
   jobTitle?: string | null;
   email?: string | null;
   role: string;
+  status: TeamMemberStatus;
+  about?: string | null;
+  birthday?: string | null;
+  workBirthday?: string | null;
   avatarUrl?: string | null;
   managedClients?: ClientAvatar[];
   publishingFor?: ClientAvatar[];
@@ -233,20 +242,45 @@ const TeamMemberQuickView = ({
                 >
                   <span className="capitalize">{member.role}</span>
                 </Badge>
+                <TeamMemberStatusBadge status={member.status} />
                 {member.jobTitle && <span>{member.jobTitle}</span>}
               </div>
             </div>
 
+            {member.about && (
+              <p className="mt-4 line-clamp-4 text-sm whitespace-pre-line text-foreground/80">
+                {member.about}
+              </p>
+            )}
+
             {/* Meta info */}
-            {member.email && (
+            {(member.email || member.birthday || member.workBirthday) && (
               <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
-                <a
-                  href={`mailto:${member.email}`}
-                  className="flex items-center gap-1.5 hover:text-foreground"
-                >
-                  <Mail className="size-3.5" />
-                  <span>{member.email}</span>
-                </a>
+                {member.email && (
+                  <a
+                    href={`mailto:${member.email}`}
+                    className="flex items-center gap-1.5 hover:text-foreground"
+                  >
+                    <Mail className="size-3.5" />
+                    <span>{member.email}</span>
+                  </a>
+                )}
+                {member.birthday && (
+                  <span className="flex items-center gap-1.5">
+                    <Cake className="size-3.5" aria-hidden="true" />
+                    <span>{formatBirthday(member.birthday)}</span>
+                  </span>
+                )}
+                {member.workBirthday && (
+                  <span className="flex items-center gap-1.5">
+                    <PartyPopper className="size-3.5" aria-hidden="true" />
+                    <span>
+                      Joined {formatWorkStart(member.workBirthday)}
+                      {getCompletedYears(member.workBirthday) > 0 &&
+                        ` · ${getCompletedYears(member.workBirthday)} yr`}
+                    </span>
+                  </span>
+                )}
               </div>
             )}
 
