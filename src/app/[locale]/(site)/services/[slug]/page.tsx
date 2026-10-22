@@ -1,15 +1,15 @@
 import { cache } from "react";
 import type { Metadata } from "next";
 import { Check } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { notFound } from "next/navigation";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
 import { Faq28 } from "@/components/faq28";
 import { Hero104 } from "@/components/hero104";
-import hero104Data from "@/data/hero104.json";
+import { getHomeHero } from "@/lib/home-hero";
 import { ClientLogos } from "@/components/client-logos";
 import { Testimonial30 } from "@/components/testimonial30";
 import { getClientTestimonials } from "@/lib/client-testimonials";
@@ -132,6 +132,9 @@ export default async function ServiceDetailPage({
   const payload = await getPayload({ config });
 
   const testimonials = await getClientTestimonials(payload);
+  const homeHero = await getHomeHero();
+  const t = await getTranslations("ServicesPage");
+  const tCommon = await getTranslations("Common");
 
   const { hero, partnership, whatIs, includes, process, fit, whyUs, faq } =
     service;
@@ -155,15 +158,15 @@ export default async function ServiceDetailPage({
         )}
       />
       <nav
-        aria-label="Breadcrumb"
+        aria-label={tCommon("breadcrumb")}
         className="mx-auto max-w-7xl px-4 pt-8 text-sm text-muted-foreground sm:px-6 lg:px-8"
       >
         <Link href="/" className="hover:text-foreground">
-          Home
+          {tCommon("home")}
         </Link>
         {" / "}
         <Link href="/services" className="hover:text-foreground">
-          Services
+          {t("breadcrumb")}
         </Link>
         {" / "}
         <span className="text-foreground">{service.name}</span>
@@ -173,8 +176,8 @@ export default async function ServiceDetailPage({
         heading={hero?.heading || service.name}
         description={hero?.description ?? undefined}
         highlights={hero?.highlights?.map((h) => h.text)}
-        avatars={hero104Data.avatars}
-        socialProof={hero104Data.socialProof}
+        avatars={homeHero.avatars}
+        socialProof={homeHero.socialProof}
         image={
           image?.url
             ? { src: image.url, alt: image.alt ?? service.name }

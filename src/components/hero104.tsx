@@ -5,7 +5,7 @@ import { cn } from "cn";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 interface Hero104Cta {
   label: string;

@@ -1,4 +1,5 @@
 import { ArrowRight, FileText } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { cn } from "cn";
 
 import { Link } from "@/i18n/navigation";
@@ -72,25 +73,25 @@ const initials = (name: string) =>
 
 const Blog12 = ({ className, posts }: Blog12Props) => {
   const items = posts && posts.length > 0 ? posts : defaultPosts;
+  const t = useTranslations("Blog12");
 
   return (
     <section className={cn("py-32", className)}>
       <div className="container">
         <div className="mx-auto flex max-w-3xl flex-col items-center gap-4 text-center">
           <Badge variant="outline" className="gap-1 py-1">
-            <FileText className="h-full w-4" /> Our Blogs
+            <FileText className="h-full w-4" /> {t("badge")}
           </Badge>
           <h1 className="text-4xl font-semibold text-balance">
-            Discover the latest trends
+            {t("heading")}
           </h1>
           <p className="text-muted-foreground">
-            Explore our blog for insightful articles, personal reflections and
-            ideas that inspire action on the topics you care about.
+            {t("description")}
           </p>
         </div>
         <div className="mt-20 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {items.map((post, index) => (
-            <a key={index} className="rounded-xl border" href={post.link}>
+            <Link key={index} className="rounded-xl border" href={post.link}>
               <div className="p-2">
                 <img
                   src={post.image}
@@ -119,7 +120,7 @@ const Blog12 = ({ className, posts }: Blog12Props) => {
                   </Badge>
                 </div>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
         <div className="mt-10 flex justify-center">
@@ -128,7 +129,7 @@ const Blog12 = ({ className, posts }: Blog12Props) => {
             render={<Link href="/blog" />}
             nativeButton={false}
           >
-            View All Blogs <ArrowRight className="ml-2 h-full w-4" />
+            {t("viewAll")} <ArrowRight className="ml-2 h-full w-4" />
           </Button>
         </div>
       </div>

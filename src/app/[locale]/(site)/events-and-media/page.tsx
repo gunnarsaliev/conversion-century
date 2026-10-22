@@ -1,10 +1,9 @@
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
 import { EventCard } from "@/components/event-card";
 import {
-  eventTypeLabels,
   formatEventDate,
   getEventImage,
   splitEventsByTime,
@@ -20,6 +19,7 @@ export async function generateMetadata() {
 export default async function EventsAndMediaPage() {
   const locale = await getLocale();
   const payload = await getPayload({ config });
+  const t = await getTranslations("Events");
 
   const { docs: events } = await payload.find({
     collection: "events",
@@ -44,7 +44,7 @@ export default async function EventsAndMediaPage() {
           excerpt={event.excerpt}
           image={getEventImage(event)}
           location={event.location}
-          typeLabel={eventTypeLabels[event.type]}
+          typeLabel={t(`types.${event.type}`)}
         />
       ))}
     </div>
@@ -56,22 +56,22 @@ export default async function EventsAndMediaPage() {
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <h1 className="text-4xl leading-tight font-semibold tracking-[-1px] sm:text-5xl">
-            Events &amp; Media
+            {t("heading")}
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">
-            Conferences, webinars, podcasts and press featuring our team.
+            {t("description")}
           </p>
         </div>
 
         {events.length === 0 ? (
           <p className="mt-16 text-center text-muted-foreground">
-            No events are available yet.
+            {t("empty")}
           </p>
         ) : (
           <>
             {upcoming.length > 0 && (
               <section className="mt-16">
-                <h2 className="text-2xl font-semibold">Upcoming</h2>
+                <h2 className="text-2xl font-semibold">{t("upcoming")}</h2>
                 {renderGrid(upcoming)}
               </section>
             )}

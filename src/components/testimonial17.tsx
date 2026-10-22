@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { startTransition, useEffect, useState } from "react";
 import { cn } from "cn";
 
@@ -69,9 +70,10 @@ const initials = (name: string) =>
 
 const Testimonial17 = ({
   className,
-  heading = "Teams are thriving with our platform",
+  heading,
   testimonials,
 }: Testimonial17Props) => {
+  const t = useTranslations("Testimonial17");
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
@@ -101,7 +103,7 @@ const Testimonial17 = ({
       <div className="container">
         <div className="flex flex-col gap-14 lg:grid lg:grid-cols-3 lg:gap-0">
           <h2 className="text-center text-3xl font-bold lg:text-left lg:text-4xl">
-            {heading}
+            {heading ?? t("heading")}
           </h2>
           <Carousel setApi={setApi} className="w-full lg:hidden">
             <CarouselContent>

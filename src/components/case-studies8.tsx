@@ -1,9 +1,11 @@
 "use client";
 
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { cn } from "cn";
 
+import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import type { CarouselApi } from "@/components/ui/carousel";
 import {
@@ -32,11 +34,8 @@ interface CaseStudiesCarouselProps {
 interface CaseStudies8Props extends CaseStudiesCarouselProps {}
 type Props = Partial<CaseStudies8Props>;
 
-const defaultProps: CaseStudies8Props = {
-  title: "Case studies",
-  description:
-    "A horizontal carousel of customer stories with full-bleed imagery, company logos, short summaries, and links to read the full write-up.",
-  items: [
+// Placeholder items (template demo data) until real case studies are passed in.
+const defaultItems: CaseStudiesCarouselItem[] = [
     {
       id: "pipeline-analytics",
       logo: "https://deifkwefumgah.cloudfront.net/shadcnblocks/image-set/modern/logos/fictional-company-logo-white-1.svg",
@@ -97,14 +96,16 @@ const defaultProps: CaseStudies8Props = {
       href: "#",
       image: "https://deifkwefumgah.cloudfront.net/shadcnblocks/image-set/modern/photos3/photo-6-3x4.jpg",
     },
-  ],
-};
+];
 
 const CaseStudies8 = (props: Props) => {
-  const { title, description, items, className } = {
-    ...defaultProps,
-    ...props,
-  };
+  const t = useTranslations("CaseStudies8");
+  const {
+    title = t("title"),
+    description = t("description"),
+    items = defaultItems,
+    className,
+  } = props;
 
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [canScrollPrev, setCanScrollPrev] = useState(false);
@@ -145,6 +146,7 @@ const CaseStudies8 = (props: Props) => {
                 carouselApi?.scrollPrev();
               }}
               disabled={!canScrollPrev}
+              aria-label={t("previous")}
               className="disabled:pointer-events-auto"
             >
               <ArrowLeft className="size-5" />
@@ -156,6 +158,7 @@ const CaseStudies8 = (props: Props) => {
                 carouselApi?.scrollNext();
               }}
               disabled={!canScrollNext}
+              aria-label={t("next")}
               className="disabled:pointer-events-auto"
             >
               <ArrowRight className="size-5" />
@@ -179,7 +182,7 @@ const CaseStudies8 = (props: Props) => {
                 key={item.id}
                 className="basis-full pl-5 md:min-w-0 md:basis-1/3"
               >
-                <a href={item.href} className="group block rounded-xl">
+                <Link href={item.href} className="group block rounded-xl">
                   <div className="group relative aspect-3/4 w-full max-w-full overflow-hidden rounded-xl">
                     <img
                       src={item.image}
@@ -200,7 +203,7 @@ const CaseStudies8 = (props: Props) => {
                       </div>
                     </div>
                   </div>
-                </a>
+                </Link>
               </CarouselItem>
             ))}
           </CarouselContent>
@@ -214,7 +217,7 @@ const CaseStudies8 = (props: Props) => {
                 currentSlide === index ? "bg-primary" : "bg-primary/20"
               }`}
               onClick={() => carouselApi?.scrollTo(index)}
-              aria-label={`Go to slide ${index + 1}`}
+              aria-label={t("goToSlide", { number: index + 1 })}
             />
           ))}
         </div>

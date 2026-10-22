@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
@@ -21,6 +21,7 @@ export async function generateMetadata() {
 export default async function SolutionsPage() {
   const locale = await getLocale();
   const payload = await getPayload({ config });
+  const t = await getTranslations("SolutionsPage");
 
   const { docs: solutions } = await payload.find({
     collection: "solutions",
@@ -36,16 +37,16 @@ export default async function SolutionsPage() {
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <h1 className="text-4xl leading-tight font-semibold tracking-[-1px] sm:text-5xl">
-            Our Solutions
+            {t("heading")}
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">
-            Explore how we help businesses reach their organic growth goals.
+            {t("description")}
           </p>
         </div>
 
         {solutions.length === 0 ? (
           <p className="mt-16 text-center text-muted-foreground">
-            No solutions are available yet.
+            {t("empty")}
           </p>
         ) : (
           <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -83,7 +84,7 @@ export default async function SolutionsPage() {
                         </p>
                       )}
                       <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">
-                        Learn more
+                        {t("learnMore")}
                         <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                       </span>
                     </CardContent>

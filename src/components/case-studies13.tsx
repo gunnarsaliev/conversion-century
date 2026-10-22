@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { cn } from "cn";
 
 import { Link } from "@/i18n/navigation";
@@ -20,26 +21,28 @@ interface CaseStudies13Props {
 }
 
 const CaseStudies13 = ({
-  eyebrow = "Case studies",
-  heading = "Work that moved the needle.",
+  eyebrow,
+  heading,
   cases,
   className,
 }: CaseStudies13Props) => {
+  const t = useTranslations("CaseStudies13");
+
   return (
     <section className={cn("py-32", className)}>
       <div className="container mx-auto">
         <div className="mb-12">
           <p className="mb-2 text-xs font-semibold tracking-widest text-muted-foreground uppercase">
-            {eyebrow}
+            {eyebrow ?? t("eyebrow")}
           </p>
           <h1 className="text-3xl font-bold tracking-tight text-balance sm:text-5xl">
-            {heading}
+            {heading ?? t("heading")}
           </h1>
         </div>
 
         {cases.length === 0 ? (
           <p className="text-muted-foreground">
-            There are no case studies yet.
+            {t("empty")}
           </p>
         ) : (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">

@@ -1,5 +1,6 @@
 "use server";
 
+import { getLocale, getTranslations } from "next-intl/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
 import { z } from "zod";
@@ -13,7 +14,7 @@ import {
   upsertContact,
 } from "@/lib/brevo";
 import { clientHref, createNotification } from "@/lib/notifications";
-import { SITE_URL } from "@/lib/seo/site";
+import { localizedUrl, SITE_URL, toLocale } from "@/lib/seo/site";
 import { upsertPrimaryContact } from "@/lib/primary-contact";
 
 // ---------------------------------------------------------------------------
@@ -31,25 +32,30 @@ import { upsertPrimaryContact } from "@/lib/primary-contact";
 // The consultation list in Brevo holds sales leads only — never use it for
 // marketing campaigns.
 
-const consultationSchema = z.object({
-  fullName: z.string().trim().min(1, "Full name is required").max(200),
-  companyName: z.string().trim().min(1, "Company name is required").max(200),
-  email: z.string().trim().email("Please enter a valid email"),
-  website: z
-    .string()
-    .trim()
-    .min(1, "Website URL is required")
-    // Visitors often type "example.com" — don't reject that over a scheme.
-    .transform((value) => (/^https?:\/\//i.test(value) ? value : `https://${value}`))
-    .pipe(z.url("Please enter a valid website URL")),
-  message: z.string().trim().min(1, "Please tell us about your goals").max(5000),
-  privacyConsent: z.literal("on", {
-    error: "Please accept the Privacy Policy to continue",
-  }),
-  newsletterOptIn: z.literal("on").optional().or(z.null()),
-  // Honeypot — real visitors never see or fill this field.
-  company_website: z.string().max(0).optional().or(z.null()),
-});
+type Translator = Awaited<ReturnType<typeof getTranslations>>;
+
+const consultationSchema = (t: Translator) =>
+  z.object({
+    fullName: z.string().trim().min(1, t("Consultation.errors.fullName")).max(200),
+    companyName: z.string().trim().min(1, t("Consultation.errors.companyName")).max(200),
+    email: z.string().trim().email(t("Consultation.errors.email")),
+    website: z
+      .string()
+      .trim()
+      .min(1, t("Consultation.errors.websiteRequired"))
+      // Visitors often type "example.com" — don't reject that over a scheme.
+      .transform((value) => (/^https?:\/\//i.test(value) ? value : `https://${value}`))
+      .pipe(z.url(t("Consultation.errors.website"))),
+    message: z.string().trim().min(1, t("Consultation.errors.message")).max(5000),
+    privacyConsent: z.literal("on", {
+      error: t("Consultation.errors.privacy"),
+    }),
+    newsletterOptIn: z.literal("on").optional().or(z.null()),
+    // Honeypot — real visitors never see or fill this field.
+    company_website: z.string().max(0).optional().or(z.null()),
+  });
+
+type ConsultationData = z.infer<ReturnType<typeof consultationSchema>>;
 
 type ConsultationFormResult =
   | { success: true }
@@ -58,7 +64,9 @@ type ConsultationFormResult =
 async function submitConsultationRequest(
   formData: FormData,
 ): Promise<ConsultationFormResult> {
-  const parsed = consultationSchema.safeParse({
+  const t = await getTranslations();
+  const locale = toLocale(await getLocale());
+  const parsed = consultationSchema(t).safeParse({
     fullName: formData.get("fullName"),
     companyName: formData.get("companyName"),
     email: formData.get("email"),
@@ -76,7 +84,7 @@ async function submitConsultationRequest(
     }
     return {
       success: false,
-      error: parsed.error.issues[0]?.message ?? "Invalid input",
+      error: parsed.error.issues[0]?.message ?? t("Forms.invalidInput"),
     };
   }
 
@@ -91,7 +99,7 @@ async function submitConsultationRequest(
     console.error("Failed to save consultation request", error);
     return {
       success: false,
-      error: "Something went wrong. Please try again.",
+      error: t("Forms.genericError"),
     };
   }
 
@@ -127,8 +135,8 @@ async function submitConsultationRequest(
       sendEmail({
         to: [{ email: data.email, name: data.fullName }],
         replyTo: { email: requireEnv("BREVO_TEAM_EMAIL") },
-        subject: "We received your consultation request",
-        htmlContent: visitorConfirmationHtml(data.fullName),
+        subject: t("Consultation.email.subject"),
+        htmlContent: visitorConfirmationHtml(t, data.fullName, locale),
       }))(),
     (async () => {
       if (!data.newsletterOptIn) return;
@@ -155,7 +163,7 @@ async function submitConsultationRequest(
 // client with the same email — leaving its status alone so a returning
 // active client is never downgraded.
 async function saveClient(
-  data: z.infer<typeof consultationSchema>,
+  data: ConsultationData,
   submittedAt: Date,
 ) {
   const payload = await getPayload({ config });
@@ -198,8 +206,9 @@ async function saveClient(
   return { id: created.id, status: created.status };
 }
 
+// Internal email for the team, kept in English whatever the visitor's locale.
 function teamNotificationHtml(
-  data: z.infer<typeof consultationSchema>,
+  data: ConsultationData,
   clientId: string | number,
 ) {
   const rows: [string, string][] = [
@@ -226,14 +235,20 @@ ${rows
 </body></html>`;
 }
 
-function visitorConfirmationHtml(fullName: string) {
-  return `<!DOCTYPE html><html><body style="font-family:Arial,sans-serif;color:#0f172a">
-<p>Hi ${escapeHtml(fullName)},</p>
-<p>Thanks for requesting a free SEO consultation with Conversion Century. We've received your details and one of our SEO strategists will get back to you soon.</p>
-<p>If you have anything to add in the meantime, just reply to this email.</p>
-<p>Best regards,<br>The Conversion Century team</p>
+// Sent to the visitor in the language they used on the site.
+function visitorConfirmationHtml(
+  t: Translator,
+  fullName: string,
+  locale: ReturnType<typeof toLocale>,
+) {
+  const privacyUrl = localizedUrl("/legal/privacy-policy", locale);
+  return `<!DOCTYPE html><html lang="${locale}"><body style="font-family:Arial,sans-serif;color:#0f172a">
+<p>${escapeHtml(t("Consultation.email.greeting", { name: fullName }))}</p>
+<p>${escapeHtml(t("Consultation.email.thanks"))}</p>
+<p>${escapeHtml(t("Consultation.email.reply"))}</p>
+<p>${escapeHtml(t("Consultation.email.signoff"))}<br>${escapeHtml(t("Consultation.email.team"))}</p>
 <hr style="border:none;border-top:1px solid #e2e8f0">
-<p style="font-size:12px;color:#64748b">You're receiving this one-off email because you submitted the consultation form on our website. We use your details only to respond to your request — see our <a href="${SITE_URL}/legal/privacy-policy">Privacy Policy</a>.</p>
+<p style="font-size:12px;color:#64748b">${escapeHtml(t("Consultation.email.footer"))} <a href="${privacyUrl}">${escapeHtml(t("Consultation.email.privacy"))}</a>.</p>
 </body></html>`;
 }
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import { cn } from "cn";
@@ -84,34 +85,22 @@ const defaultItems: FaqItem[] = [
   },
 ];
 
-const defaultProps: Faq28Props = {
-  label: "FAQ",
-  heading: "Find your answer",
-  description: "Type a keyword below and the list narrows instantly.",
-  searchPlaceholder: "Search questions...",
-  items: defaultItems,
-  emptyTitle: "No results for",
-  emptyDescription: "Try different keywords or write to",
-  emptyLinkLabel: "hello@example.com",
-  emptyLinkUrl: "mailto:hello@example.com",
-};
 
 const Faq28 = (props: Props) => {
+  const t = useTranslations("Faq28");
   const {
-    label,
-    heading,
-    description,
-    searchPlaceholder,
-    items,
-    emptyTitle,
-    emptyDescription,
-    emptyLinkLabel,
-    emptyLinkUrl,
+    label = t("label"),
+    heading = t("heading"),
+    description = t("description"),
+    searchPlaceholder = t("searchPlaceholder"),
+    // Placeholder questions (template demo data) until real ones are passed in.
+    items = defaultItems,
+    emptyTitle = t("emptyTitle"),
+    emptyDescription = t("emptyDescription"),
+    emptyLinkLabel = "hello@example.com",
+    emptyLinkUrl = "mailto:hello@example.com",
     className,
-  } = {
-    ...defaultProps,
-    ...props,
-  };
+  } = props;
 
   const [query, setQuery] = useState("");
 
@@ -186,7 +175,7 @@ const Faq28 = (props: Props) => {
           )}
 
           <p className="mt-6 text-center text-xs text-muted-foreground tabular-nums">
-            {filtered.length} of {items.length} questions
+            {t("count", { shown: filtered.length, total: items.length })}
           </p>
         </div>
       </div>

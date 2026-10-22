@@ -2,6 +2,7 @@
 
 import { type FormEvent, useEffect, useState, useTransition } from "react";
 import { CheckCircle2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { submitTestimonial } from "@/app/[locale]/(site)/testimonials/actions";
 import { Button } from "@/components/ui/button";
@@ -50,6 +51,7 @@ function useImagePreview() {
 }
 
 export function TestimonialForm({ clients }: { clients: TestimonialClientOption[] }) {
+  const t = useTranslations("TestimonialForm");
   const [clientType, setClientType] = useState<ClientType>("existing");
   const [client, setClient] = useState<TestimonialClientOption | null>(null);
   const [submitted, setSubmitted] = useState(false);
@@ -65,7 +67,7 @@ export function TestimonialForm({ clients }: { clients: TestimonialClientOption[
     setError(null);
 
     if (clientType === "existing" && !client) {
-      setError("Please choose your company from the list.");
+      setError(t("errors.chooseCompany"));
       return;
     }
 
@@ -83,9 +85,9 @@ export function TestimonialForm({ clients }: { clients: TestimonialClientOption[
     return (
       <div className="flex flex-col items-center gap-3 rounded-xl border bg-muted/40 p-10 text-center" role="status">
         <CheckCircle2 className="size-10 text-primary" />
-        <p className="text-xl font-semibold">Thank you for your testimonial!</p>
+        <p className="text-xl font-semibold">{t("successTitle")}</p>
         <p className="text-muted-foreground">
-          Our team will review it before it appears on the website.
+          {t("success")}
         </p>
       </div>
     );
@@ -105,7 +107,7 @@ export function TestimonialForm({ clients }: { clients: TestimonialClientOption[
       <input type="hidden" name="clientType" value={clientType} />
 
       <FieldSet>
-        <FieldLegend>Are you already working with us?</FieldLegend>
+        <FieldLegend>{t("clientTypeLegend")}</FieldLegend>
         <RadioGroup
           value={clientType}
           onValueChange={(value) => setClientType(value as ClientType)}
@@ -115,8 +117,8 @@ export function TestimonialForm({ clients }: { clients: TestimonialClientOption[
             <Field orientation="horizontal">
               <RadioGroupItem value="existing" id="client-type-existing" />
               <FieldContent>
-                <FieldTitle>Existing client</FieldTitle>
-                <FieldDescription>Find your company in our list.</FieldDescription>
+                <FieldTitle>{t("existingTitle")}</FieldTitle>
+                <FieldDescription>{t("existingDescription")}</FieldDescription>
               </FieldContent>
             </Field>
           </FieldLabel>
@@ -124,8 +126,8 @@ export function TestimonialForm({ clients }: { clients: TestimonialClientOption[
             <Field orientation="horizontal">
               <RadioGroupItem value="new" id="client-type-new" />
               <FieldContent>
-                <FieldTitle>New client</FieldTitle>
-                <FieldDescription>Tell us about your company.</FieldDescription>
+                <FieldTitle>{t("newTitle")}</FieldTitle>
+                <FieldDescription>{t("newDescription")}</FieldDescription>
               </FieldContent>
             </Field>
           </FieldLabel>
@@ -134,16 +136,16 @@ export function TestimonialForm({ clients }: { clients: TestimonialClientOption[
 
       {clientType === "existing" ? (
         <Field>
-          <FieldLabel htmlFor="client-search">Your company</FieldLabel>
+          <FieldLabel htmlFor="client-search">{t("yourCompany")}</FieldLabel>
           <input type="hidden" name="clientId" value={client?.value ?? ""} />
           <Combobox
             items={clients}
             value={client}
             onValueChange={(value) => setClient(value as TestimonialClientOption | null)}
           >
-            <ComboboxInput id="client-search" placeholder="Search for your company…" showClear />
+            <ComboboxInput id="client-search" placeholder={t("searchPlaceholder")} showClear />
             <ComboboxContent>
-              <ComboboxEmpty>No company found. Choose “New client” instead.</ComboboxEmpty>
+              <ComboboxEmpty>{t("noCompany")}</ComboboxEmpty>
               <ComboboxList>
                 {(item: TestimonialClientOption) => (
                   <ComboboxItem key={item.value} value={item}>
@@ -163,21 +165,21 @@ export function TestimonialForm({ clients }: { clients: TestimonialClientOption[
       ) : (
         <FieldGroup>
           <Field>
-            <FieldLabel htmlFor="companyName">Company name</FieldLabel>
+            <FieldLabel htmlFor="companyName">{t("companyName")}</FieldLabel>
             <Input id="companyName" name="companyName" required autoComplete="organization" />
           </Field>
           <div className="grid gap-6 sm:grid-cols-2">
             <Field>
-              <FieldLabel htmlFor="role">Your role</FieldLabel>
-              <Input id="role" name="role" placeholder="e.g. Marketing Manager" autoComplete="organization-title" />
+              <FieldLabel htmlFor="role">{t("role")}</FieldLabel>
+              <Input id="role" name="role" placeholder={t("rolePlaceholder")} autoComplete="organization-title" />
             </Field>
             <Field>
-              <FieldLabel htmlFor="website">Company website</FieldLabel>
+              <FieldLabel htmlFor="website">{t("website")}</FieldLabel>
               <Input id="website" name="website" placeholder="example.com" autoComplete="url" />
             </Field>
           </div>
           <Field>
-            <FieldLabel htmlFor="logo">Company logo</FieldLabel>
+            <FieldLabel htmlFor="logo">{t("companyLogo")}</FieldLabel>
             <div className="flex items-center gap-4">
               {logoPreview && (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -191,7 +193,7 @@ export function TestimonialForm({ clients }: { clients: TestimonialClientOption[
                 onChange={(event) => setLogo(event.target.files?.[0])}
               />
             </div>
-            <FieldDescription>PNG, JPG or SVG, up to 2 MB.</FieldDescription>
+            <FieldDescription>{t("logoHint")}</FieldDescription>
           </Field>
         </FieldGroup>
       )}
@@ -199,16 +201,16 @@ export function TestimonialForm({ clients }: { clients: TestimonialClientOption[
       <FieldGroup>
         <div className="grid gap-6 sm:grid-cols-2">
           <Field>
-            <FieldLabel htmlFor="name">Name</FieldLabel>
+            <FieldLabel htmlFor="name">{t("name")}</FieldLabel>
             <Input id="name" name="name" required autoComplete="name" />
           </Field>
           <Field>
-            <FieldLabel htmlFor="email">Email</FieldLabel>
+            <FieldLabel htmlFor="email">{t("email")}</FieldLabel>
             <Input id="email" name="email" type="email" autoComplete="email" />
           </Field>
         </div>
         <Field>
-          <FieldLabel htmlFor="profileImage">Profile photo</FieldLabel>
+          <FieldLabel htmlFor="profileImage">{t("profilePhoto")}</FieldLabel>
           <div className="flex items-center gap-4">
             {photoPreview && (
               // eslint-disable-next-line @next/next/no-img-element
@@ -222,17 +224,17 @@ export function TestimonialForm({ clients }: { clients: TestimonialClientOption[
               onChange={(event) => setPhoto(event.target.files?.[0])}
             />
           </div>
-          <FieldDescription>A square photo works best. Up to 2 MB.</FieldDescription>
+          <FieldDescription>{t("photoHint")}</FieldDescription>
         </Field>
         <Field>
-          <FieldLabel htmlFor="testimonial">Testimonial</FieldLabel>
+          <FieldLabel htmlFor="testimonial">{t("testimonial")}</FieldLabel>
           <Textarea
             id="testimonial"
             name="testimonial"
             required
             minLength={10}
             rows={6}
-            placeholder="What was it like working with us? What results did you see?"
+            placeholder={t("testimonialPlaceholder")}
           />
         </Field>
       </FieldGroup>
@@ -247,10 +249,10 @@ export function TestimonialForm({ clients }: { clients: TestimonialClientOption[
         type="submit"
         size="lg"
         loading={isPending}
-        loadingText="Sending…"
+        loadingText={t("submitting")}
         className="self-start"
       >
-        Submit testimonial
+        {t("submit")}
       </Button>
     </form>
   );

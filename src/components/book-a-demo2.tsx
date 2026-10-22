@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowLeft, ArrowRight, MousePointer2 } from "lucide-react";
 import React, { SubmitEvent, useState, useTransition } from "react";
+import { useTranslations } from "next-intl";
 import { cn } from "cn";
 
 import { submitConsultationRequest } from "@/app/[locale]/(site)/book-a-consultation/actions";
@@ -91,9 +92,9 @@ const BookADemo2Header = ({ heading, description, avatars }: Header) => {
       <p className="font-medium text-muted-foreground sm:text-lg md:text-xl">
         <span>{description.text.split(description.hyperlink)[0]}</span>
         <span className="text-foreground">
-          <a href={description.url} className="underline">
+          <Link href={description.url} className="underline">
             {description.hyperlink}
-          </a>
+          </Link>
         </span>
         <span>{description.text.split(description.hyperlink)[1]}</span>
       </p>
@@ -123,6 +124,7 @@ const FormGroup = ({ children, className }: FormGroupProps) => {
 };
 
 const BookADemo2ContactForm = () => {
+  const t = useTranslations("Consultation.form");
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -145,11 +147,9 @@ const BookADemo2ContactForm = () => {
   if (submitted) {
     return (
       <div className="flex flex-col justify-center gap-3 border-b p-8 lg:border-r lg:border-b-0">
-        <h4 className="text-2xl font-semibold">Thank you!</h4>
+        <h4 className="text-2xl font-semibold">{t("successTitle")}</h4>
         <p className="text-muted-foreground" role="status">
-          We&apos;ve received your consultation request and sent a confirmation
-          to your inbox. One of our SEO strategists will get back to you within
-          1 business day.
+          {t("success")}
         </p>
       </div>
     );
@@ -162,43 +162,43 @@ const BookADemo2ContactForm = () => {
         onSubmit={handleSubmit}
       >
         <FormGroup className="col-span-2 sm:col-span-1">
-          <Label htmlFor="consultation-full-name" className={labelClassName}>Full Name</Label>
+          <Label htmlFor="consultation-full-name" className={labelClassName}>{t("fullName")}</Label>
           <Input
             id="consultation-full-name"
             name="fullName"
             type="text"
-            placeholder="Jane Doe"
+            placeholder={t("fullNamePlaceholder")}
             autoComplete="name"
             required
             className={fieldClassName}
           />
         </FormGroup>
         <FormGroup className="col-span-2 sm:col-span-1">
-          <Label htmlFor="consultation-company" className={labelClassName}>Company Name</Label>
+          <Label htmlFor="consultation-company" className={labelClassName}>{t("companyName")}</Label>
           <Input
             id="consultation-company"
             name="companyName"
             type="text"
-            placeholder="Your Company Ltd."
+            placeholder={t("companyPlaceholder")}
             autoComplete="organization"
             required
             className={fieldClassName}
           />
         </FormGroup>
         <FormGroup className="col-span-2">
-          <Label htmlFor="consultation-email" className={labelClassName}>Email</Label>
+          <Label htmlFor="consultation-email" className={labelClassName}>{t("email")}</Label>
           <Input
             id="consultation-email"
             name="email"
             type="email"
-            placeholder="jane@yourcompany.com"
+            placeholder={t("emailPlaceholder")}
             autoComplete="email"
             required
             className={fieldClassName}
           />
         </FormGroup>
         <FormGroup className="col-span-2">
-          <Label htmlFor="consultation-website" className={labelClassName}>Website URL</Label>
+          <Label htmlFor="consultation-website" className={labelClassName}>{t("website")}</Label>
           {/* type="text" so "yourcompany.com" without https:// is accepted;
               the server action normalises it. */}
           <Input
@@ -206,18 +206,18 @@ const BookADemo2ContactForm = () => {
             name="website"
             type="text"
             inputMode="url"
-            placeholder="https://yourcompany.com"
+            placeholder={t("websitePlaceholder")}
             autoComplete="url"
             required
             className={fieldClassName}
           />
         </FormGroup>
         <FormGroup className="col-span-2">
-          <Label htmlFor="consultation-message" className={labelClassName}>Message</Label>
+          <Label htmlFor="consultation-message" className={labelClassName}>{t("message")}</Label>
           <Textarea
             id="consultation-message"
             name="message"
-            placeholder="Tell us about your SEO goals — rankings, organic traffic, keywords you want to target, or any challenges you're facing"
+            placeholder={t("messagePlaceholder")}
             className={textareaClassName}
             required
           />
@@ -240,15 +240,16 @@ const BookADemo2ContactForm = () => {
               className={checkboxClassName}
             />
             <span>
-              I agree to the{" "}
-              <Link
-                href="/legal/privacy-policy"
-                className="text-primary underline"
-              >
-                Privacy Policy
-              </Link>{" "}
-              and consent to Conversion Century processing my details to
-              respond to this request.
+              {t.rich("privacy", {
+                link: (chunks) => (
+                  <Link
+                    href="/legal/privacy-policy"
+                    className="text-primary underline"
+                  >
+                    {chunks}
+                  </Link>
+                ),
+              })}
             </span>
           </label>
           <label className="flex items-start gap-2">
@@ -258,7 +259,7 @@ const BookADemo2ContactForm = () => {
               className={checkboxClassName}
             />
             <span>
-              Also send me SEO tips and news. I can unsubscribe at any time.
+              {t("newsletter")}
             </span>
           </label>
         </div>
@@ -271,9 +272,9 @@ const BookADemo2ContactForm = () => {
           type="submit"
           className={cn(submitButtonClassName, "col-span-2 text-white")}
           loading={isPending}
-          loadingText="Sending…"
+          loadingText={t("submitting")}
         >
-          Book My Consultation
+          {t("submit")}
           <ArrowRight />
         </Button>
       </form>
@@ -303,6 +304,7 @@ interface TestimonialsProps {
 }
 
 const BookADemo2Testimonials = ({ testimonials }: TestimonialsProps) => {
+  const t = useTranslations("Consultation.testimonials");
   const [activeTestimonial, setActiveTestimonial] = useState(0);
 
   return (
@@ -310,6 +312,7 @@ const BookADemo2Testimonials = ({ testimonials }: TestimonialsProps) => {
       <div className="absolute top-8 right-8 flex items-center gap-2">
         <Button
           size="sm"
+          aria-label={t("previous")}
           onClick={() =>
             setActiveTestimonial(
               (activeTestimonial + testimonials.length - 1) %
@@ -321,6 +324,7 @@ const BookADemo2Testimonials = ({ testimonials }: TestimonialsProps) => {
         </Button>
         <Button
           size="sm"
+          aria-label={t("next")}
           onClick={() =>
             setActiveTestimonial((activeTestimonial + 1) % testimonials.length)
           }
@@ -354,7 +358,7 @@ const BookADemo2Testimonials = ({ testimonials }: TestimonialsProps) => {
               <div className="flex items-center gap-3">
                 <img
                   src={testimonial.companyLogo}
-                  alt={`${testimonial.author.name} company logo`}
+                  alt={t("logoAlt", { name: testimonial.author.name })}
                   className="h-16 w-auto object-contain md:h-16 dark:invert"
                 />
               </div>

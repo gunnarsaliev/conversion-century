@@ -3,13 +3,9 @@ import { RichText } from '@payloadcms/richtext-lexical/react'
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
 
 import JobApplicationForm from '@/components/job-application-form'
-import { Link } from '@/i18n/navigation'
+import { useTranslations } from 'next-intl'
 
-const typeLabels: Record<JobListingProps['type'], string> = {
-  'part-time': 'Part-time',
-  'full-time': 'Full-time',
-  'full-time-hybrid': 'Full-time/ Hybrid',
-}
+import { Link } from '@/i18n/navigation'
 
 // Styles the lists (and any paragraphs/bold text) produced by the Lexical
 // editor. Text size is set per use.
@@ -47,6 +43,8 @@ export default function JobListing({
   requirements,
   offer,
 }: JobListingProps) {
+  const t = useTranslations('Careers')
+
   return (
     <main className="mx-auto max-w-6xl px-4 py-12 sm:px-6 md:py-20 lg:px-8">
       <Link
@@ -54,15 +52,15 @@ export default function JobListing({
         className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
       >
         <ArrowLeft className="size-4" />
-        All open positions
+        {t('listing.back')}
       </Link>
 
       <header className="mt-8 max-w-3xl">
-        <p className="text-sm font-semibold text-primary">Open position</p>
+        <p className="text-sm font-semibold text-primary">{t('listing.eyebrow')}</p>
         <h1 className="mt-2 text-3xl leading-tight font-semibold tracking-[-1px] text-foreground sm:text-4xl md:text-5xl">
           {title}
         </h1>
-        <div className="mt-6 flex flex-wrap gap-2" aria-label="Position details">
+        <div className="mt-6 flex flex-wrap gap-2" aria-label={t('listing.details')}>
           {location && (
             <span className={pillClassName}>
               <MapPin />
@@ -71,7 +69,7 @@ export default function JobListing({
           )}
           <span className={pillClassName}>
             <BriefcaseBusiness />
-            {typeLabels[type]}
+            {t(`types.${type}`)}
           </span>
         </div>
       </header>
@@ -81,17 +79,17 @@ export default function JobListing({
           {description && (
             <RichText className={`${richTextClassName} text-lg`} data={description} />
           )}
-          {responsibilities && <Section title="Responsibilities" data={responsibilities} />}
-          {requirements && <Section title="Requirements" data={requirements} />}
-          {offer && <Section title="What we offer" data={offer} />}
+          {responsibilities && <Section title={t('listing.responsibilities')} data={responsibilities} />}
+          {requirements && <Section title={t('listing.requirements')} data={requirements} />}
+          {offer && <Section title={t('listing.offer')} data={offer} />}
         </article>
 
         <aside className="rounded-2xl border border-border bg-card p-6 shadow-sm lg:sticky lg:top-24">
           <h2 className="text-xl font-semibold tracking-tight text-foreground">
-            Apply for this position
+            {t('listing.applyHeading')}
           </h2>
           <p className="mt-1 mb-6 text-sm text-muted-foreground">
-            Only shortlisted candidates will be contacted.
+            {t('listing.applyNote')}
           </p>
           <JobApplicationForm />
         </aside>

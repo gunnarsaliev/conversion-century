@@ -1,3 +1,5 @@
+import { useTranslations } from "next-intl";
+
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 
@@ -20,41 +22,25 @@ interface FounderLetterProps {
   className?: string;
 }
 
-const defaultProps: Required<
-  Omit<FounderLetterProps, "className" | "intro">
-> = {
-  eyebrow: "A Personal Commitment",
-  heading: "From the Owner",
-  portrait: {
-    src: "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/maria-avatar-image.png",
-    alt: "Portrait of Maria Sivkova",
-  },
-  quote:
-    "Conversion Century is much more than a company to me. I have grown alongside it, dedicated my professional life to SEO and built a team of people who care about our clients as deeply as I do. That is why I remain personally involved in every business that places its trust in us.\n\nWhen we take on a client, I want to understand what they are building, why it matters and what success would mean for their company. Their website becomes something I think about, question and genuinely want to improve, not simply another project in a report.\n\nThat commitment also requires honesty. We accept projects where we believe we can create meaningful value, and we expect trust, responsiveness and dedication from our clients in return. Our best results happen when both teams care about the outcome and work toward the same goal.",
-  name: "Maria Sivkova",
-  role: "Owner and Managing Director, Conversion Century",
-  ctaText: "Meet Maria and the Team",
-  ctaUrl: "/team",
-};
+const PORTRAIT_SRC =
+  "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/maria-avatar-image.png";
 
 type Props = Partial<FounderLetterProps>;
 
 const FounderLetter = (props: Props) => {
+  const t = useTranslations("FounderLetter");
   const {
-    eyebrow,
-    heading,
-    portrait,
+    eyebrow = t("eyebrow"),
+    heading = t("heading"),
+    portrait = { src: PORTRAIT_SRC, alt: t("portraitAlt") },
     intro,
-    quote,
-    name,
-    role,
-    ctaText,
-    ctaUrl,
+    quote = t("quote"),
+    name = t("name"),
+    role = t("role"),
+    ctaText = t("cta"),
+    ctaUrl = "/team",
     className,
-  } = {
-    ...defaultProps,
-    ...props,
-  };
+  } = props;
 
   const paragraphs = quote.split("\n\n");
 

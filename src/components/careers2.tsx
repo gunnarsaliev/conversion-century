@@ -1,5 +1,8 @@
 import { ArrowRight, Clock, MapPin } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { cn } from "cn";
+
+import { Link } from "@/i18n/navigation";
 
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
@@ -16,6 +19,8 @@ interface Careers2Props {
 }
 
 const Careers2 = ({ jobs, className }: Careers2Props) => {
+  const t = useTranslations("Careers.list");
+
   return (
     <section className={cn("py-32", className)}>
       <div className="container px-1">
@@ -23,27 +28,18 @@ const Careers2 = ({ jobs, className }: Careers2Props) => {
           <div className="relative flex flex-col gap-6 border-b border-dashed px-4 pt-10 pb-10 sm:items-center md:pb-20">
             <div className="absolute inset-0 -z-10 h-full w-full bg-[linear-gradient(to_right,hsl(var(--muted))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--muted))_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_50%_100%_at_50%_50%,transparent_60%,#000_100%)] bg-[size:64px_64px]"></div>
             <Badge variant="outline" className="w-fit">
-              Careers available
+              {t("badge")}
             </Badge>
-            <h1 className="text-2xl font-bold md:text-4xl">Open positions</h1>
+            <h1 className="text-2xl font-bold md:text-4xl">{t("heading")}</h1>
             <div className="max-w-2xl space-y-4 text-center text-muted-foreground">
-              <p>
-                Are you looking for a new career? We&apos;re looking for amazing
-                people to join our team! If you think you have what it takes to
-                be a part of our ever-growing company, check out our open
-                positions below and apply now!
-              </p>
-              <p>
-                Due to our rapid growth, we are looking for motivated people to
-                join our team. One for part-time (20 h/week) and one for
-                full-time (40 h/week), Sofia, Bulgaria.
-              </p>
+              <p>{t("intro")}</p>
+              <p>{t("growth")}</p>
             </div>
           </div>
           <div>
             {jobs.length === 0 && (
               <p className="border-b border-dashed px-6 py-10 text-center text-muted-foreground">
-                There are no open positions right now.
+                {t("empty")}
               </p>
             )}
             {jobs.map((job) => (
@@ -64,13 +60,13 @@ const Careers2 = ({ jobs, className }: Careers2Props) => {
                     </div>
                   )}
                 </div>
-                <a
+                <Link
                   href={job.link}
                   className={cn(buttonVariants(), "w-fit gap-1 lg:ml-auto text-white")}
                 >
-                  Apply
+                  {t("apply")}
                   <ArrowRight className="h-auto w-4" />
-                </a>
+                </Link>
               </div>
             ))}
           </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "cn";
 
@@ -26,6 +27,7 @@ interface Testimonial30Props {
 }
 
 const Testimonial30 = ({ testimonials, className }: Testimonial30Props) => {
+  const t = useTranslations("Testimonial30");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -71,14 +73,14 @@ const Testimonial30 = ({ testimonials, className }: Testimonial30Props) => {
       <div className="container">
         <div className="mb-12 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
           <h1 className="text-3xl font-semibold md:text-4xl">
-            Loved by productivity enthusiasts
+            {t("heading")}
           </h1>
           <Button
             variant="outline"
             render={<Link href="/reviews" />}
             nativeButton={false}
           >
-            Read user reviews
+            {t("cta")}
           </Button>
         </div>
         <Accordion

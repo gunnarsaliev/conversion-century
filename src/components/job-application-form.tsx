@@ -2,6 +2,7 @@
 
 import { SubmitEvent, useState, useTransition } from 'react'
 import { CircleCheck } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 import { submitJobApplication } from '@/app/[locale]/(site)/careers/actions'
 import {
@@ -17,6 +18,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
 
 export default function JobApplicationForm() {
+  const t = useTranslations('Careers.form')
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isPending, startTransition] = useTransition()
@@ -43,7 +45,7 @@ export default function JobApplicationForm() {
         role="status"
       >
         <CircleCheck className="mt-0.5 size-5 shrink-0 text-primary" />
-        Thank you for your application. We&apos;ll be in touch.
+        {t('success')}
       </div>
     )
   }
@@ -53,20 +55,20 @@ export default function JobApplicationForm() {
       <FieldGroup className="gap-5">
         <Field>
           <FieldLabel htmlFor="name" className={labelClassName}>
-            Full name
+            {t('fullName')}
           </FieldLabel>
           <Input
             className={fieldClassName}
             id="name"
             name="fullName"
             autoComplete="name"
-            placeholder="Your name"
+            placeholder={t('fullNamePlaceholder')}
             required
           />
         </Field>
         <Field>
           <FieldLabel htmlFor="email" className={labelClassName}>
-            Email
+            {t('email')}
           </FieldLabel>
           <Input
             className={fieldClassName}
@@ -80,13 +82,13 @@ export default function JobApplicationForm() {
         </Field>
         <Field>
           <FieldLabel htmlFor="reason" className={labelClassName}>
-            5 reasons why you want to learn SEO
+            {t('reasons')}
           </FieldLabel>
           <Textarea
             className={textareaClassName}
             id="reason"
             name="message"
-            placeholder="Tell us a bit about yourself…"
+            placeholder={t('reasonsPlaceholder')}
             required
           />
         </Field>
@@ -94,10 +96,10 @@ export default function JobApplicationForm() {
         <Button
           type="submit"
           loading={isPending}
-          loadingText="Sending…"
+          loadingText={t('submitting')}
           className={cn(submitButtonClassName, 'w-full text-white')}
         >
-          Apply now
+          {t('submit')}
         </Button>
       </FieldGroup>
     </form>

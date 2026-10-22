@@ -36,10 +36,11 @@ import {
   Wrench,
   X,
 } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { cn } from "cn";
 
-import { Link } from "@/i18n/navigation";
+import { getPathname, Link } from "@/i18n/navigation";
 import {
   Logo,
   LogoImageDesktop,
@@ -54,194 +55,57 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+// Menu text lives in the `Navbar` messages: `<group>.items.<key>` (and
+// `.description` for services, shown in the mobile menu).
 const platformFeatures = [
-  {
-    title: "Ongoing SEO Management",
-    description: "Scalable cloud solutions built for modern businesses.",
-    href: "/services/ongoing-seo-management",
-    icon: TrendingUp,
-  },
-  {
-    title: "AI Search Optimization",
-    description: "Enterprise-grade security with automated compliance.",
-    href: "/services/ai-search-optimization",
-    icon: Bot,
-  },
-  {
-    title: "SEO Audit",
-    description: "Advanced authentication and access control systems.",
-    href: "/services/seo-audit",
-    icon: FileSearch,
-  },
-  {
-    title: "International SEO",
-    description:
-      "Unified storage, pipelines, and analytics for your workloads.",
-    href: "/services/international-seo",
-    icon: Globe2,
-  },
-  {
-    title: "Local SEO",
-    description: "Scalable cloud solutions built for modern businesses.",
-    href: "/services/local-seo",
-    icon: MapPin,
-  },
-  {
-    title: "Technical SEO",
-    description: "Enterprise-grade security with automated compliance.",
-    href: "/services/technical-seo",
-    icon: Wrench,
-  },
-  {
-    title: "Content Strategy and Copywriting",
-    description: "Advanced authentication and access control systems.",
-    href: "/services/content-strategy-and-copywriting",
-    icon: PenTool,
-  },
-  {
-    title: "Link Building and Digital PR",
-    description:
-      "Unified storage, pipelines, and analytics for your workloads.",
-    href: "/services/link-building-and-digital-pr",
-    icon: Link2,
-  },
-  {
-    title: "Organic Search Training",
-    description: "Scalable cloud solutions built for modern businesses.",
-    href: "/services/organic-search-training",
-    icon: GraduationCap,
-  },
-];
+  { key: "ongoingSeoManagement", href: "/services/ongoing-seo-management", icon: TrendingUp },
+  { key: "aiSearchOptimization", href: "/services/ai-search-optimization", icon: Bot },
+  { key: "seoAudit", href: "/services/seo-audit", icon: FileSearch },
+  { key: "internationalSeo", href: "/services/international-seo", icon: Globe2 },
+  { key: "localSeo", href: "/services/local-seo", icon: MapPin },
+  { key: "technicalSeo", href: "/services/technical-seo", icon: Wrench },
+  { key: "contentStrategy", href: "/services/content-strategy-and-copywriting", icon: PenTool },
+  { key: "linkBuilding", href: "/services/link-building-and-digital-pr", icon: Link2 },
+  { key: "organicSearchTraining", href: "/services/organic-search-training", icon: GraduationCap },
+] as const;
 
 const solutions = [
-  {
-    title: "Grow Organic Revenue",
-    href: "/solutions/grow-organic-revenue",
-    icon: TrendingUp,
-  },
-  {
-    title: "Enter New Markets",
-    href: "/solutions/enter-new-markets",
-    icon: Compass,
-  },
-  {
-    title: "Recover Lost Traffic",
-    href: "/solutions/recover-lost-traffic",
-    icon: TrendingDown,
-  },
-  {
-    title: "Migrate without losing SEO",
-    href: "/solutions/migrate-without-losing-seo",
-    icon: Map,
-  },
-  {
-    title: "Improve visibility in AI",
-    href: "/solutions/improve-visibility-in-ai",
-    icon: Bot,
-  },
-  {
-    title: "Build an Outsourced SEO Department",
-    href: "/solutions/build-an-outsourced-seo-department",
-    icon: Users,
-  },
-  {
-    title: "Reduce Dependence on Ads",
-    href: "/solutions/reduce-dependence-on-ads",
-    icon: Rocket,
-  },
-  {
-    title: "Launch an SEO-Ready Website",
-    href: "/solutions/launch-an-seo-ready-website",
-    icon: Search,
-  },
-];
+  { key: "growOrganicRevenue", href: "/solutions/grow-organic-revenue", icon: TrendingUp },
+  { key: "enterNewMarkets", href: "/solutions/enter-new-markets", icon: Compass },
+  { key: "recoverLostTraffic", href: "/solutions/recover-lost-traffic", icon: TrendingDown },
+  { key: "migrateWithoutLosingSeo", href: "/solutions/migrate-without-losing-seo", icon: Map },
+  { key: "improveVisibilityInAi", href: "/solutions/improve-visibility-in-ai", icon: Bot },
+  { key: "outsourcedSeoDepartment", href: "/solutions/build-an-outsourced-seo-department", icon: Users },
+  { key: "reduceAdDependence", href: "/solutions/reduce-dependence-on-ads", icon: Rocket },
+  { key: "launchSeoReadyWebsite", href: "/solutions/launch-an-seo-ready-website", icon: Search },
+] as const;
 
 const industries = [
-  {
-    title: "B2B",
-    href: "/industries/b2b",
-    icon: Handshake,
-  },
-  {
-    title: "Ecommerce",
-    href: "/industries/ecommerce",
-    icon: ShoppingCart,
-  },
-  {
-    title: "Professional Services",
-    href: "/industries/professional-services",
-    icon: Briefcase,
-  },
-  {
-    title: "Financial Sector",
-    href: "/industries/financial-sector",
-    icon: Landmark,
-  },
-  {
-    title: "Real Estate",
-    href: "/industries/real-estate",
-    icon: Building2,
-  },
-  {
-    title: "Healthcare",
-    href: "/industries/healthcare",
-    icon: HeartPulse,
-  },
-];
+  { key: "b2b", href: "/industries/b2b", icon: Handshake },
+  { key: "ecommerce", href: "/industries/ecommerce", icon: ShoppingCart },
+  { key: "professionalServices", href: "/industries/professional-services", icon: Briefcase },
+  { key: "financialSector", href: "/industries/financial-sector", icon: Landmark },
+  { key: "realEstate", href: "/industries/real-estate", icon: Building2 },
+  { key: "healthcare", href: "/industries/healthcare", icon: HeartPulse },
+] as const;
 
 const documentationLinks = [
-  {
-    title: "Clients",
-    href: "/clients",
-    icon: Users,
-  },
-  {
-    title: "Case Studies",
-    href: "/case-studies",
-    icon: ClipboardList,
-  },
-  {
-    title: "Reviews",
-    href: "/reviews",
-    icon: MessageSquareQuote,
-  },
-];
+  { key: "clients", href: "/clients", icon: Users },
+  { key: "caseStudies", href: "/case-studies", icon: ClipboardList },
+  { key: "reviews", href: "/reviews", icon: MessageSquareQuote },
+] as const;
 
 const aboutLinks = [
-  {
-    title: "Our Story",
-    href: "/about",
-    icon: FileText,
-  },
-  {
-    title: "Career",
-    href: "/open-positions",
-    icon: CalendarClock,
-  },
-  {
-    title: "Team",
-    href: "/team",
-    icon: Users,
-  },
-];
+  { key: "ourStory", href: "/about", icon: FileText },
+  { key: "career", href: "/open-positions", icon: CalendarClock },
+  { key: "team", href: "/team", icon: Users },
+] as const;
 
 const resourceLinks = [
-  {
-    title: "Blog",
-    href: "/blog",
-    icon: Newspaper,
-  },
-  {
-    title: "Checklists",
-    href: "/docs/getting-started",
-    icon: ListChecks,
-  },
-  {
-    title: "Events and Media",
-    href: "/events-and-media",
-    icon: Calendar,
-  },
-];
+  { key: "blog", href: "/blog", icon: Newspaper },
+  { key: "checklists", href: "/docs/getting-started", icon: ListChecks },
+  { key: "eventsAndMedia", href: "/events-and-media", icon: Calendar },
+] as const;
 
 const defaultBlogPosts = [
   {
@@ -295,6 +159,12 @@ const mobileMenuPanelClassName =
 
 const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
   const blogPosts = blogPostsProp ?? defaultBlogPosts;
+  const t = useTranslations("Navbar");
+  const locale = useLocale();
+  // NavigationMenuLink and the mobile menu render plain <a>s, so add the
+  // locale prefix (e.g. /bg) that next-intl's <Link> would.
+  const localize = (href: string) =>
+    href.startsWith("/") ? getPathname({ href, locale }) : href;
   const [open, setOpen] = useState(false);
   const [submenu, setSubmenu] = useState<
     | "services"
@@ -379,130 +249,130 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
 
             <NavigationMenuList className="hidden lg:flex">
               <NavigationMenuItem>
-                <NavigationMenuTrigger>Services</NavigationMenuTrigger>
+                <NavigationMenuTrigger>{t("services.label")}</NavigationMenuTrigger>
                 {/* Same compact layout as Solutions: icon + title rows. */}
                 <NavigationMenuContent className="min-w-[500px] p-5">
                   <div className="mb-3 text-xs font-semibold tracking-wide text-foreground uppercase">
-                    Services
+                    {t("services.label")}
                   </div>
                   <div className="mb-4 text-sm font-normal text-muted-foreground">
-                    Explore the SEO services we offer
+                    {t("services.intro")}
                   </div>
                   <div className="grid grid-cols-2 gap-1">
                     {platformFeatures.map((feature, index) => (
                       <NavigationMenuLink
-                        key={index}
-                        href={feature.href}
+                        key={feature.key}
+                        href={localize(feature.href)}
                         className="group flex flex-row items-center gap-3 rounded-md px-2 py-1.5 transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
                       >
                         <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5 transition-colors group-hover:bg-muted/80 dark:group-hover:bg-muted/70">
                           <feature.icon className="size-3.5 text-foreground" />
                         </div>
                         <div className="text-sm font-medium text-foreground">
-                          {feature.title}
+                          {t(`services.items.${feature.key}`)}
                         </div>
                       </NavigationMenuLink>
                     ))}
                   </div>
                   <NavigationMenuLink
-                    href="/services"
+                    href={localize("/services")}
                     className="mt-3 flex w-fit flex-row items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
                   >
-                    View all services
+                    {t("services.viewAll")}
                     <ArrowRight className="size-3.5" />
                   </NavigationMenuLink>
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuTrigger>Solutions</NavigationMenuTrigger>
+                <NavigationMenuTrigger>{t("solutions.label")}</NavigationMenuTrigger>
                 <NavigationMenuContent className="min-w-[500px] p-5">
                   <div className="mb-3 text-xs font-semibold tracking-wide text-foreground uppercase">
-                    Solutions
+                    {t("solutions.label")}
                   </div>
                   <div className="mb-4 text-sm font-normal text-muted-foreground">
-                    Explore solutions tailored to your industry
+                    {t("solutions.intro")}
                   </div>
                   <div className="grid grid-cols-2 gap-1">
                     {solutions.map((solution, index) => (
                       <NavigationMenuLink
                         key={index}
-                        href={solution.href}
+                        href={localize(solution.href)}
                         className="group flex flex-row items-center gap-3 rounded-md px-2 py-1.5 transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
                       >
                         <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5 transition-colors group-hover:bg-muted/80 dark:group-hover:bg-muted/70">
                           <solution.icon className="size-3.5 text-foreground" />
                         </div>
                         <div className="text-sm font-medium text-foreground">
-                          {solution.title}
+                          {t(`solutions.items.${solution.key}`)}
                         </div>
                       </NavigationMenuLink>
                     ))}
                   </div>
                   <NavigationMenuLink
-                    href="/solutions"
+                    href={localize("/solutions")}
                     className="mt-3 flex w-fit flex-row items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
                   >
-                    View all solutions
+                    {t("solutions.viewAll")}
                     <ArrowRight className="size-3.5" />
                   </NavigationMenuLink>
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuTrigger>Industries</NavigationMenuTrigger>
+                <NavigationMenuTrigger>{t("industries.label")}</NavigationMenuTrigger>
                 <NavigationMenuContent className="min-w-[500px] p-5">
                   <div className="mb-3 text-xs font-semibold tracking-wide text-foreground uppercase">
-                    Industries
+                    {t("industries.label")}
                   </div>
                   <div className="mb-4 text-sm font-normal text-muted-foreground">
-                    Explore solutions tailored to your industry
+                    {t("industries.intro")}
                   </div>
                   <div className="grid grid-cols-2 gap-1">
                     {industries.map((industry, index) => (
                       <NavigationMenuLink
                         key={index}
-                        href={industry.href}
+                        href={localize(industry.href)}
                         className="group flex flex-row items-center gap-3 rounded-md px-2 py-1.5 transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
                       >
                         <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5 transition-colors group-hover:bg-muted/80 dark:group-hover:bg-muted/70">
                           <industry.icon className="size-3.5 text-foreground" />
                         </div>
                         <div className="text-sm font-medium text-foreground">
-                          {industry.title}
+                          {t(`industries.items.${industry.key}`)}
                         </div>
                       </NavigationMenuLink>
                     ))}
                   </div>
                   <NavigationMenuLink
-                    href="/industries"
+                    href={localize("/industries")}
                     className="mt-3 flex w-fit flex-row items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
                   >
-                    See all industries
+                    {t("industries.viewAll")}
                     <ArrowRight className="size-3.5" />
                   </NavigationMenuLink>
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuTrigger>Proof</NavigationMenuTrigger>
+                <NavigationMenuTrigger>{t("proof.label")}</NavigationMenuTrigger>
                 <NavigationMenuContent className="w-max p-5">
                   <div>
                     <div className="mb-3 text-xs font-semibold tracking-wide text-foreground uppercase">
-                      Proof
+                      {t("proof.label")}
                     </div>
                     <div className="mb-4 text-sm font-normal text-muted-foreground">
-                      Call to action for developers
+                      {t("proof.intro")}
                     </div>
                     <div className="space-y-1">
                       {documentationLinks.map((documentationLink, index) => (
                         <NavigationMenuLink
                           key={index}
-                          href={documentationLink.href}
+                          href={localize(documentationLink.href)}
                           className="group flex flex-row items-center gap-3 rounded-md px-2 py-1.5 transition-colors hover:bg-muted/30 focus:bg-muted/30 focus:text-accent-foreground dark:hover:bg-muted/25 dark:focus:bg-muted/25"
                         >
                           <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5 transition-colors group-hover:bg-muted/80 dark:group-hover:bg-muted/70">
                             <documentationLink.icon className="size-3.5 text-foreground" />
                           </span>
                           <div className="text-sm font-medium text-foreground">
-                            {documentationLink.title}
+                            {t(`proof.items.${documentationLink.key}`)}
                           </div>
                         </NavigationMenuLink>
                       ))}
@@ -511,27 +381,27 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuTrigger>About</NavigationMenuTrigger>
+                <NavigationMenuTrigger>{t("about.label")}</NavigationMenuTrigger>
                 <NavigationMenuContent className="w-max p-5">
                   <div>
                     <div className="mb-3 text-xs font-semibold tracking-wide text-foreground uppercase">
-                      About
+                      {t("about.label")}
                     </div>
                     <div className="mb-4 text-sm font-normal text-muted-foreground">
-                      Call to action for developers
+                      {t("about.intro")}
                     </div>
                     <div className="space-y-1">
                       {aboutLinks.map((aboutLink, index) => (
                         <NavigationMenuLink
                           key={index}
-                          href={aboutLink.href}
+                          href={localize(aboutLink.href)}
                           className="group flex flex-row items-center gap-3 rounded-md px-2 py-1.5 transition-colors hover:bg-muted/30 focus:bg-muted/30 focus:text-accent-foreground dark:hover:bg-muted/25 dark:focus:bg-muted/25"
                         >
                           <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5 transition-colors group-hover:bg-muted/80 dark:group-hover:bg-muted/70">
                             <aboutLink.icon className="size-3.5 text-foreground" />
                           </span>
                           <div className="text-sm font-medium text-foreground">
-                            {aboutLink.title}
+                            {t(`about.items.${aboutLink.key}`)}
                           </div>
                         </NavigationMenuLink>
                       ))}
@@ -540,21 +410,21 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuTrigger>Insights</NavigationMenuTrigger>
+                <NavigationMenuTrigger>{t("insights.label")}</NavigationMenuTrigger>
                 <NavigationMenuContent className="w-max p-5">
                   <div className="flex gap-6">
                     <div className="w-[32rem] shrink-0">
                       <div className="mb-3 text-xs font-semibold tracking-wide text-foreground uppercase">
-                        Blog
+                        {t("blog.label")}
                       </div>
                       <div className="mb-4 text-sm font-normal text-muted-foreground">
-                        Latest insights, tutorials, and industry best practices.
+                        {t("blog.intro")}
                       </div>
                       <div className="grid grid-cols-2 gap-3">
                         {blogPosts.map((post, index) => (
                           <a
                             key={index}
-                            href={post.href}
+                            href={localize(post.href)}
                             className="flex h-full flex-col overflow-clip rounded-lg border border-muted outline-none focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-1"
                           >
                             <div className="aspect-video w-full overflow-hidden border-b border-muted">
@@ -575,23 +445,23 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                     </div>
                     <div className="w-max shrink-0">
                       <div className="mb-3 text-xs font-semibold tracking-wide text-foreground uppercase">
-                        Insights
+                        {t("insights.label")}
                       </div>
                       <div className="mb-4 text-sm font-normal text-muted-foreground">
-                        Tools, guides, and references to help you build.
+                        {t("insights.intro")}
                       </div>
                       <div className="space-y-1">
                         {resourceLinks.map((resourceLink, index) => (
                           <NavigationMenuLink
                             key={index}
-                            href={resourceLink.href}
+                            href={localize(resourceLink.href)}
                             className="group flex flex-row items-center gap-3 rounded-md px-2 py-1.5 transition-colors hover:bg-muted/30 focus:bg-muted/30 focus:text-accent-foreground dark:hover:bg-muted/25 dark:focus:bg-muted/25"
                           >
                             <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5 transition-colors group-hover:bg-muted/80 dark:group-hover:bg-muted/70">
                               <resourceLink.icon className="size-3.5 text-foreground" />
                             </span>
                             <div className="text-sm font-medium text-foreground">
-                              {resourceLink.title}
+                              {t(`insights.items.${resourceLink.key}`)}
                             </div>
                           </NavigationMenuLink>
                         ))}
@@ -605,7 +475,7 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
             <div className="hidden items-center lg:flex">
               <Link href="/book-a-consultation">
                 <Button variant="default" size="lg" className="px-6 py-6 cursor-pointer bg-yellow-300 hover:bg-yellow-200">
-                  Book a FREE Consultation
+                  {t("cta")}
                 </Button>
               </Link>
             </div>
@@ -614,7 +484,7 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
               <Button
                 variant="outline"
                 size="icon"
-                aria-label="Main Menu"
+                aria-label={t("mainMenu")}
                 onClick={toggleMobileMenu}
               >
                 {!open && <Menu className="size-4" />}
@@ -637,7 +507,7 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                   <div className="relative z-10 shrink-0 border-b border-border bg-popover px-4 py-3">
                     <Button variant="outline" onClick={closeSubmenu}>
                       <ChevronLeft />
-                      Back
+                      {t("back")}
                     </Button>
                   </div>
                 )}
@@ -662,21 +532,21 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                           <div>
                             {(
                               [
-                                ["services", "Services"],
-                                ["solutions", "Solutions"],
-                                ["industries", "Industries"],
-                                ["proof", "Proof"],
-                                ["about", "About"],
-                                ["insights", "Insights"],
+                                "services",
+                                "solutions",
+                                "industries",
+                                "proof",
+                                "about",
+                                "insights",
                               ] as const
-                            ).map(([key, label]) => (
+                            ).map((key) => (
                               <button
                                 key={key}
                                 type="button"
                                 className="flex w-full items-center border-b border-border px-8 py-7 text-left transition-colors hover:bg-muted/30 dark:hover:bg-muted/25"
                                 onClick={() => openSubmenu(key)}
                               >
-                                <span className="flex-1">{label}</span>
+                                <span className="flex-1">{t(`${key}.label`)}</span>
                                 <span className="shrink-0">
                                   <ChevronRight className="size-4" />
                                 </span>
@@ -686,7 +556,7 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                           <div className="mx-8 mt-auto flex flex-col gap-4 py-12">
                             <Link href="/book-a-consultation">
                               <Button className="relative w-full" size="lg">
-                                Book a FREE Consultation
+                                {t("cta")}
                               </Button>
                             </Link>
                           </div>
@@ -696,17 +566,16 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                       {submenu === "services" && (
                         <>
                           <div className="px-8 pt-8 pb-3.5 text-xs font-semibold tracking-wide text-foreground uppercase">
-                            Services
+                            {t("services.label")}
                           </div>
                           <div className="mb-4 px-8 text-sm font-normal text-muted-foreground">
-                            Discover how our platform transforms your
-                            workflow.
+                            {t("services.intro")}
                           </div>
                           <div className="border-t border-border pb-16">
                             {platformFeatures.map((feature, index) => (
                               <a
                                 key={index}
-                                href={feature.href}
+                                href={localize(feature.href)}
                                 className="group flex w-full items-start gap-x-4 border-b border-border px-8 py-7 text-left transition-colors hover:bg-muted/30 dark:hover:bg-muted/25"
                               >
                                 <div className="shrink-0">
@@ -714,10 +583,10 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                                 </div>
                                 <div>
                                   <div className="mb-1.5 text-base">
-                                    {feature.title}
+                                    {t(`services.items.${feature.key}`)}
                                   </div>
                                   <div className="text-sm font-normal text-muted-foreground">
-                                    {feature.description}
+                                    {t(`services.descriptions.${feature.key}`)}
                                   </div>
                                 </div>
                               </a>
@@ -729,23 +598,23 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                       {submenu === "solutions" && (
                         <>
                           <div className="px-8 pt-8 pb-3.5 text-xs font-semibold tracking-wide text-foreground uppercase">
-                            Solutions
+                            {t("solutions.label")}
                           </div>
                           <div className="mb-4 px-8 text-sm font-normal text-muted-foreground">
-                            Explore solutions tailored to your industry
+                            {t("solutions.intro")}
                           </div>
                           <div>
                             {solutions.map((solution, index) => (
                               <a
                                 key={index}
-                                href={solution.href}
+                                href={localize(solution.href)}
                                 className="group flex w-full items-start gap-x-4 border-t border-border px-8 py-7 text-left transition-colors hover:bg-muted/30 dark:hover:bg-muted/25"
                               >
                                 <div className="shrink-0">
                                   <solution.icon className="size-6" />
                                 </div>
                                 <div className="text-base">
-                                  {solution.title}
+                                  {t(`solutions.items.${solution.key}`)}
                                 </div>
                               </a>
                             ))}
@@ -753,7 +622,7 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                               href="/solutions"
                               className="flex w-full items-center gap-x-2 border-t border-border px-8 py-7 text-base font-medium transition-colors hover:bg-muted/30 dark:hover:bg-muted/25"
                             >
-                              View all solutions
+                              {t("solutions.viewAll")}
                               <ArrowRight className="size-4" />
                             </Link>
                           </div>
@@ -763,23 +632,23 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                       {submenu === "industries" && (
                         <>
                           <div className="px-8 pt-8 pb-3.5 text-xs font-semibold tracking-wide text-foreground uppercase">
-                            Industries
+                            {t("industries.label")}
                           </div>
                           <div className="mb-4 px-8 text-sm font-normal text-muted-foreground">
-                            Explore solutions tailored to your industry
+                            {t("industries.intro")}
                           </div>
                           <div>
                             {industries.map((industry, index) => (
                               <a
                                 key={index}
-                                href={industry.href}
+                                href={localize(industry.href)}
                                 className="group flex w-full items-start gap-x-4 border-t border-border px-8 py-7 text-left transition-colors hover:bg-muted/30 dark:hover:bg-muted/25"
                               >
                                 <div className="shrink-0">
                                   <industry.icon className="size-6" />
                                 </div>
                                 <div className="text-base">
-                                  {industry.title}
+                                  {t(`industries.items.${industry.key}`)}
                                 </div>
                               </a>
                             ))}
@@ -787,7 +656,7 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                               href="/industries"
                               className="flex w-full items-center gap-x-2 border-t border-border px-8 py-7 text-base font-medium transition-colors hover:bg-muted/30 dark:hover:bg-muted/25"
                             >
-                              See all industries
+                              {t("industries.viewAll")}
                               <ArrowRight className="size-4" />
                             </Link>
                           </div>
@@ -797,24 +666,24 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                       {submenu === "proof" && (
                         <>
                           <div className="px-8 pt-8 pb-3.5 text-xs font-semibold tracking-wide text-foreground uppercase">
-                            Proof
+                            {t("proof.label")}
                           </div>
                           <div className="mb-4 px-8 text-sm font-normal text-muted-foreground">
-                            Call to action for developers
+                            {t("proof.intro")}
                           </div>
                           <div className="space-y-1 px-8 pb-16">
                             {documentationLinks.map(
                               (documentationLink, index) => (
                                 <NavigationMenuLink
                                   key={index}
-                                  href={documentationLink.href}
+                                  href={localize(documentationLink.href)}
                                   className="group flex flex-row items-center gap-3 rounded-md px-2 py-2 transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
                                 >
                                   <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5">
                                     <documentationLink.icon className="size-3.5 text-foreground" />
                                   </span>
                                   <div className="text-sm font-medium">
-                                    {documentationLink.title}
+                                    {t(`proof.items.${documentationLink.key}`)}
                                   </div>
                                 </NavigationMenuLink>
                               ),
@@ -826,23 +695,23 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                       {submenu === "about" && (
                         <>
                           <div className="px-8 pt-8 pb-3.5 text-xs font-semibold tracking-wide text-foreground uppercase">
-                            About
+                            {t("about.label")}
                           </div>
                           <div className="mb-4 px-8 text-sm font-normal text-muted-foreground">
-                            Call to action for developers
+                            {t("about.intro")}
                           </div>
                           <div className="space-y-1 px-8 pb-16">
                             {aboutLinks.map((aboutLink, index) => (
                               <NavigationMenuLink
                                 key={index}
-                                href={aboutLink.href}
+                                href={localize(aboutLink.href)}
                                 className="group flex flex-row items-center gap-3 rounded-md px-2 py-2 transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
                               >
                                 <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5">
                                   <aboutLink.icon className="size-3.5 text-foreground" />
                                 </span>
                                 <div className="text-sm font-medium">
-                                  {aboutLink.title}
+                                  {t(`about.items.${aboutLink.key}`)}
                                 </div>
                               </NavigationMenuLink>
                             ))}
@@ -853,17 +722,16 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                       {submenu === "insights" && (
                         <>
                           <div className="px-8 pt-8 pb-3.5 text-xs font-semibold tracking-wide text-foreground uppercase">
-                            Blog
+                            {t("blog.label")}
                           </div>
                           <div className="mb-4 px-8 text-sm font-normal text-muted-foreground">
-                            Latest insights, tutorials, and industry best
-                            practices.
+                            {t("blog.intro")}
                           </div>
                           <div className="space-y-4 px-8 pb-8">
                             {blogPosts.map((post, index) => (
                               <a
                                 key={index}
-                                href={post.href}
+                                href={localize(post.href)}
                                 className="block overflow-clip rounded-lg border border-border outline-none focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-1"
                               >
                                 <div className="aspect-video w-full overflow-hidden border-b border-border">
@@ -882,23 +750,23 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                             ))}
                           </div>
                           <div className="px-8 py-3.5 text-xs font-semibold tracking-wide text-foreground uppercase">
-                            Insights
+                            {t("insights.label")}
                           </div>
                           <div className="mb-4 px-8 text-sm font-normal text-muted-foreground">
-                            Tools, guides, and references to help you build.
+                            {t("insights.intro")}
                           </div>
                           <div className="space-y-1 px-8 pb-16">
                             {resourceLinks.map((resourceLink, index) => (
                               <NavigationMenuLink
                                 key={index}
-                                href={resourceLink.href}
+                                href={localize(resourceLink.href)}
                                 className="group flex flex-row items-center gap-3 rounded-md px-2 py-2 transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
                               >
                                 <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5">
                                   <resourceLink.icon className="size-3.5 text-foreground" />
                                 </span>
                                 <div className="text-sm font-medium">
-                                  {resourceLink.title}
+                                  {t(`insights.items.${resourceLink.key}`)}
                                 </div>
                               </NavigationMenuLink>
                             ))}

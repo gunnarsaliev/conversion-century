@@ -1,16 +1,21 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
 import { TestimonialForm, type TestimonialClientOption } from "@/components/testimonial-form";
 
-export const metadata: Metadata = {
-  title: "Share your testimonial",
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("TestimonialForm.page");
+  return {
+    title: t("metaTitle"),
+    robots: { index: false, follow: false },
+  };
+}
 
 export default async function NewTestimonialPage() {
   const payload = await getPayload({ config });
+  const t = await getTranslations("TestimonialForm.page");
 
   // Only clients already public on the website (logo strip) are listed, so
   // the form never reveals other CRM client names.
@@ -34,11 +39,10 @@ export default async function NewTestimonialPage() {
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 md:py-24">
       <div className="mb-12 text-center">
         <h1 className="text-4xl leading-tight font-semibold tracking-[-1px] sm:text-5xl">
-          Share your experience
+          {t("heading")}
         </h1>
         <p className="mt-4 text-lg text-muted-foreground">
-          Tell us what it was like working with Conversion Century. Every
-          testimonial is reviewed by our team before it goes live.
+          {t("description")}
         </p>
       </div>
       <TestimonialForm clients={options} />

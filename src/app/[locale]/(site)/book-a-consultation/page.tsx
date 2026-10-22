@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
 import { convertLexicalToPlaintext } from "@payloadcms/richtext-lexical/plaintext";
@@ -22,6 +23,7 @@ export async function generateMetadata() {
 
 export default async function BookAConsultationPage() {
   const payload = await getPayload({ config });
+  const t = await getTranslations("Consultation.page");
 
   const featured = await getApprovedTestimonials(payload, { featured: true });
 
@@ -55,10 +57,11 @@ export default async function BookAConsultationPage() {
       <>
         <BookADemo2
           header={{
-            heading: "Book Your Free SEO Consultation",
+            heading: t("heading"),
             description: {
-              text: "Talk to one of our SEO strategists about your traffic, rankings and organic growth goals. If you have questions first, feel free to reach out to our team.",
-              hyperlink: "reach out to our team",
+              // `hyperlink` must appear verbatim in `text`.
+              text: t("description"),
+              hyperlink: t("descriptionLink"),
               url: "/about",
             },
             avatars: [
@@ -79,9 +82,9 @@ export default async function BookAConsultationPage() {
           testimonials={testimonials.length > 0 ? testimonials : undefined}
         />
         <ClientLogos
-          eyebrow="Trusted by businesses at"
-          heading="Real results for real SEO clients"
-          footer="From local SEO to enterprise organic growth — see who we've helped rank higher."
+          eyebrow={t("logosEyebrow")}
+          heading={t("logosHeading")}
+          footer={t("logosFooter")}
         />
       </>
     </>

@@ -1,4 +1,4 @@
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
@@ -14,6 +14,7 @@ export async function generateMetadata() {
 export default async function IndustriesPage() {
   const locale = await getLocale();
   const payload = await getPayload({ config });
+  const t = await getTranslations("IndustriesPage");
 
   const { docs: industries } = await payload.find({
     collection: "industries",
@@ -48,8 +49,8 @@ export default async function IndustriesPage() {
     <>
       <StaticPageJsonLd page="industries" />
       <CaseStudies13
-        eyebrow="Industries"
-        heading="Explore solutions tailored to your industry"
+        eyebrow={t("eyebrow")}
+        heading={t("heading")}
         cases={items}
       />
     </>

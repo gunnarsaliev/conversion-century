@@ -1,5 +1,6 @@
 "use server";
 
+import { getTranslations } from "next-intl/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
 import { z } from "zod";
@@ -15,11 +16,12 @@ import type { JobApplicant } from "../../../../../payload-types";
 // API (admin-only access), so the form submits here and the local API
 // creates the entry server-side, where access control is bypassed.
 
-const applicationFormSchema = z.object({
-  fullName: z.string().trim().min(1, "Full name is required"),
-  email: z.string().trim().email("Please enter a valid email"),
-  message: z.string().trim().min(1, "Please tell us why you want to learn SEO"),
-});
+const applicationFormSchema = (t: Awaited<ReturnType<typeof getTranslations>>) =>
+  z.object({
+    fullName: z.string().trim().min(1, t("Careers.errors.fullName")),
+    email: z.string().trim().email(t("Careers.errors.email")),
+    message: z.string().trim().min(1, t("Careers.errors.message")),
+  });
 
 type ApplicationFormResult =
   | { success: true }
@@ -28,7 +30,8 @@ type ApplicationFormResult =
 async function submitJobApplication(
   formData: FormData,
 ): Promise<ApplicationFormResult> {
-  const parsed = applicationFormSchema.safeParse({
+  const t = await getTranslations();
+  const parsed = applicationFormSchema(t).safeParse({
     fullName: formData.get("fullName"),
     email: formData.get("email"),
     message: formData.get("message"),
@@ -37,7 +40,7 @@ async function submitJobApplication(
   if (!parsed.success) {
     return {
       success: false,
-      error: parsed.error.issues[0]?.message ?? "Invalid input",
+      error: parsed.error.issues[0]?.message ?? t("Forms.invalidInput"),
     };
   }
 
@@ -61,7 +64,7 @@ async function submitJobApplication(
     console.error("Failed to submit job application", error);
     return {
       success: false,
-      error: "Something went wrong. Please try again.",
+      error: t("Forms.genericError"),
     };
   }
 }

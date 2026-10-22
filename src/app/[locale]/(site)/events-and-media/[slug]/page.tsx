@@ -3,13 +3,13 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowUpRight, CalendarDays, MapPin } from "lucide-react";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 
 import { PostRichText } from "@/components/blog-rich-text";
 import { EventPill } from "@/components/event-card";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { eventTypeLabels, formatEventDate, getEventImage } from "@/lib/events";
+import { formatEventDate, getEventImage } from "@/lib/events";
 import { findByLocalizedSlug } from "@/utilities/findByLocalizedSlug";
 import { JsonLd } from "@/components/json-ld";
 import { buildMetadata, mediaImage, truncate } from "@/lib/seo/metadata";
@@ -55,6 +55,7 @@ export async function generateMetadata({
 export default async function EventDetailPage({ params }: EventDetailPageProps) {
   const { slug } = await params;
   const locale = await getLocale();
+  const t = await getTranslations("Events");
   const event = await getEvent(slug, locale);
 
   if (!event) {
@@ -96,7 +97,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
         )}
       />
       <p className="text-sm font-semibold text-primary">
-        {eventTypeLabels[event.type]}
+        {t(`types.${event.type}`)}
       </p>
       <h1 className="mt-2 text-4xl leading-tight font-semibold tracking-[-1px] sm:text-5xl">
         {event.title}
@@ -121,7 +122,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
             rel="noopener noreferrer"
             className={cn(buttonVariants(), "ml-auto rounded-full")}
           >
-            Learn more
+            {t("learnMore")}
             <ArrowUpRight className="size-4" />
           </a>
         )}

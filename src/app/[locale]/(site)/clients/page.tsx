@@ -1,4 +1,4 @@
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
@@ -8,16 +8,16 @@ import { Hero237 } from "@/components/hero237";
 import { ChartCard5, type ChartCard5Item } from "@/components/chart-card5";
 import { TrustStrip4 } from "@/components/trust-strip4";
 import { Hero104 } from "@/components/hero104";
-import hero104Data from "@/data/hero104.json";
+import { getHomeHero } from "@/lib/home-hero";
 import { StaticPageJsonLd } from "@/components/static-page-json-ld";
 import { staticPageMetadata } from "@/lib/seo/pages";
 import { LEAD_STATUSES } from "@/lib/client-status";
 
 // `fallbackPercent` is shown until clients have a business size set.
 const BUSINESS_SIZES = [
-  { value: "small-business", label: "Small business", fallbackPercent: 19.44 },
-  { value: "midmarket", label: "Midmarket", fallbackPercent: 48.15 },
-  { value: "enterprise", label: "Enterprise", fallbackPercent: 32.41 },
+  { value: "small-business", fallbackPercent: 19.44 },
+  { value: "midmarket", fallbackPercent: 48.15 },
+  { value: "enterprise", fallbackPercent: 32.41 },
 ] as const;
 
 // Categorical slots in fixed order — colour follows the slice's rank here,
@@ -34,6 +34,8 @@ export async function generateMetadata() {
 export default async function ClientsPage() {
   const locale = await getLocale();
   const payload = await getPayload({ config });
+  const t = await getTranslations("ClientsPage");
+  const tCommon = await getTranslations("Common");
 
   const { docs: clients } = await payload.find({
     collection: "clients",
@@ -128,7 +130,7 @@ export default async function ClientsPage() {
       ? (count / sizedClients.length) * 100
       : size.fallbackPercent;
     return {
-      name: size.label,
+      name: t(`sizes.${size.value}`),
       value: percent,
       color: `var(--tier-${index + 1})`,
       displayValue: formatPercent(percent, 2),
@@ -158,7 +160,7 @@ export default async function ClientsPage() {
       ? [
           ...rankedIndustries.slice(0, SERIES_COLORS.length - 1),
           [
-            "Other",
+            t("other"),
             rankedIndustries
               .slice(SERIES_COLORS.length - 1)
               .reduce((sum, [, count]) => sum + count, 0),
@@ -181,39 +183,39 @@ export default async function ClientsPage() {
     <>
       <StaticPageJsonLd page="clients" />
       <div className="py-32">
-        <Hero104 {...hero104Data} containerClassName="lg:px-0" />
+        <Hero104 {...await getHomeHero()} containerClassName="lg:px-0" />
         <Hero237
           icons={heroLogos}
-          cta={{ text: "Book a FREE Consultation", href: "/book-a-consultation" }}
+          cta={{ text: tCommon("bookConsultation"), href: "/book-a-consultation" }}
         />
         <TrustStrip4 />
         <div className="container mx-auto grid max-w-5xl gap-6 py-16 md:grid-cols-2">
           <ChartCard5
-            title="Our experience by business size"
-            description="Share of the clients we've worked with"
+            title={t("bySize")}
+            description={t("share")}
             centerValue={largestSize?.displayValue}
             centerLabel={largestSize?.name}
             data={sizeData}
           />
           {industryData.length > 0 && (
             <ChartCard5
-              title="Our experience by industry"
-              description="Share of the clients we've worked with"
+              title={t("byIndustry")}
+              description={t("share")}
               centerValue={industryCounts.size.toLocaleString(locale)}
-              centerLabel="Industries"
+              centerLabel={t("industries")}
               data={industryData}
             />
           )}
         </div>
         {industries.length === 0 ? (
           <p className="container mx-auto max-w-5xl text-muted-foreground">
-            No clients to show yet.
+            {t("empty")}
           </p>
         ) : (
           industries.map(([title, pills]) => (
             <Integration37
               key={title}
-              label="Industry"
+              label={t("industry")}
               heading={title}
               pills={pills}
             />

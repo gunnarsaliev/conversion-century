@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { cn } from "cn";
 
@@ -20,10 +21,8 @@ interface Logos35Props {
 
 type Props = Partial<Logos35Props>;
 
-const defaultProps: Logos35Props = {
-  eyebrow: "Trusted by teams at",
-  heading: "Built for the modern stack",
-  footer: "Integrates with your existing workflow — no migration required.",
+// Placeholder logos (template demo data) until real ones are passed in.
+const defaultProps: Pick<Logos35Props, "logos"> = {
   logos: [
     { name: "Vercel", src: `${CDN}/vercel-wordmark.svg` },
     { name: "Astro", src: `${CDN}/astro-wordmark.svg` },
@@ -41,10 +40,14 @@ const defaultProps: Logos35Props = {
 };
 
 const Logos35 = (props: Props) => {
-  const { eyebrow, heading, footer, logos, className } = {
-    ...defaultProps,
-    ...props,
-  };
+  const t = useTranslations("Logos35");
+  const {
+    eyebrow = t("eyebrow"),
+    heading = t("heading"),
+    footer = t("footer"),
+    logos = defaultProps.logos!,
+    className,
+  } = props;
   const [hovered, setHovered] = useState<number | null>(null);
 
   return (

@@ -3,9 +3,10 @@ import { notFound } from 'next/navigation'
 import { Montserrat } from 'next/font/google'
 import clsx from 'clsx'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
-import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server'
 
 import { Providers } from '@/app/[locale]/providers'
+import { pickClientMessages } from '@/i18n/client-messages'
 import { routing } from '@/i18n/routing'
 import { IS_INDEXABLE, SITE_NAME, SITE_URL } from '@/lib/seo/site'
 
@@ -55,6 +56,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   }
 
   setRequestLocale(locale)
+  const messages = pickClientMessages(await getMessages())
 
   return (
     <html
@@ -65,7 +67,7 @@ export default async function LocaleLayout({ children, params }: Props) {
       <body className="isolate flex min-h-full bg-white dark:bg-slate-900">
         {/* Shared by every route group, so the theme provider (and its inline
             script) isn't remounted when navigating between them. */}
-        <NextIntlClientProvider>
+        <NextIntlClientProvider messages={messages}>
           <Providers>{children}</Providers>
         </NextIntlClientProvider>
       </body>

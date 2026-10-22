@@ -1,16 +1,10 @@
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
 import { Careers2, type Careers2Job } from "@/components/careers2";
 import { StaticPageJsonLd } from "@/components/static-page-json-ld";
 import { staticPageMetadata } from "@/lib/seo/pages";
-
-const typeLabels = {
-  "part-time": "Part-time",
-  "full-time": "Full-time",
-  "full-time-hybrid": "Full-time/ Hybrid",
-} as const;
 
 export async function generateMetadata() {
   return staticPageMetadata("openPositions");
@@ -19,6 +13,7 @@ export async function generateMetadata() {
 export default async function OpenPositionsPage() {
   const locale = await getLocale();
   const payload = await getPayload({ config });
+  const t = await getTranslations("Careers");
 
   const { docs: listings } = await payload.find({
     collection: "job-listings",
@@ -31,7 +26,7 @@ export default async function OpenPositionsPage() {
 
   const jobs: Careers2Job[] = listings.map((listing) => ({
     title: listing.title,
-    type: typeLabels[listing.type],
+    type: t(`types.${listing.type}`),
     location: listing.location,
     link: `/careers/${listing.slug ?? listing.id}`,
   }));

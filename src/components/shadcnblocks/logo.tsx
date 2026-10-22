@@ -3,6 +3,8 @@
 import { Download } from "lucide-react";
 import { cn } from "cn";
 
+import { Link } from "@/i18n/navigation";
+
 import {
   ContextMenu,
   ContextMenuContent,
@@ -80,13 +82,15 @@ const LogoBrandDownload = ({
   );
 };
 
+// Internal urls go through next-intl's Link so they keep the current locale.
 const Logo = ({ url, className, children, ...props }: LogoProps) => {
-  return (
-    <a
-      href={url}
-      className={cn("flex max-h-8 items-center gap-2", className)}
-      {...props}
-    >
+  const linkClassName = cn("flex max-h-8 items-center gap-2", className);
+  return url.startsWith("/") ? (
+    <Link href={url} className={linkClassName} {...props}>
+      {children}
+    </Link>
+  ) : (
+    <a href={url} className={linkClassName} {...props}>
       {children}
     </a>
   );

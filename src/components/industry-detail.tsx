@@ -1,5 +1,6 @@
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
+import { useTranslations } from "next-intl";
 import { cn } from "cn";
 
 import { Link } from "@/i18n/navigation";
@@ -30,14 +31,17 @@ interface IndustryDetailProps {
 
 // Detail page layout shared by industries and solutions.
 const IndustryDetail = ({
-  label = "Industry",
+  label,
   title,
   image,
   description,
   clients = [],
-  ctaHeading = `Want to grow your ${title} business?`,
+  ctaHeading,
   className,
 }: IndustryDetailProps) => {
+  const t = useTranslations("IndustryDetail");
+  const tCommon = useTranslations("Common");
+
   return (
     <section className={cn("py-32", className)}>
       <div className="container">
@@ -46,7 +50,7 @@ const IndustryDetail = ({
             <BreadcrumbList>
               <BreadcrumbItem>
                 <BreadcrumbLink render={<Link href="/" />}>
-                  Home
+                  {tCommon("home")}
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator>/</BreadcrumbSeparator>
@@ -57,7 +61,7 @@ const IndustryDetail = ({
           </Breadcrumb>
 
           <p className="mb-2 text-xs font-semibold tracking-widest text-muted-foreground uppercase">
-            {label}
+            {label ?? t("label")}
           </p>
           <h1 className="text-4xl font-bold tracking-tight text-balance sm:text-5xl">
             {title}
@@ -80,7 +84,7 @@ const IndustryDetail = ({
           {clients.length > 0 && (
             <div className="mt-16">
               <h2 className="mb-6 text-2xl font-semibold tracking-tight">
-                Clients in {title}
+                {t("clientsIn", { title })}
               </h2>
               <ul className="flex flex-wrap gap-2.5">
                 {clients.map((client) => (
@@ -97,13 +101,13 @@ const IndustryDetail = ({
           )}
 
           <div className="mt-16 flex flex-col items-start gap-3 border-t border-dashed pt-10">
-            <p className="text-lg font-semibold">{ctaHeading}</p>
+            <p className="text-lg font-semibold">{ctaHeading ?? t("ctaHeading", { title })}</p>
             <Button
               nativeButton={false}
               className="bg-black text-white hover:bg-black/80"
               render={<Link href="/book-a-consultation" />}
             >
-              Book a FREE Consultation
+              {tCommon("bookConsultation")}
             </Button>
           </div>
         </div>

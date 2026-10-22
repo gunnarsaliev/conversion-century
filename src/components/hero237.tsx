@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import React from "react";
 import { cn } from "cn";
 
@@ -26,11 +27,8 @@ interface HeroIntegrationsProps {
 
 type Props = Partial<HeroIntegrationsProps>;
 
-const defaultProps: HeroIntegrationsProps = {
-  kicker: "Various markets and industries",
-  heading: "Our SEO Clients",
-  description:
-    "We have worked with companies operating in more than 42 industries worldwide, thus, gathering knowledge and expertise in various market segments and niches.",
+// Placeholder logos (template demo data) until real ones are passed in.
+const defaultProps: Pick<HeroIntegrationsProps, "icons"> = {
   icons: [
     {
       src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/image-set/placeholder/integrations/airtable-icon.svg",
@@ -110,10 +108,15 @@ const defaultProps: HeroIntegrationsProps = {
 };
 
 const Hero237 = (props: Props) => {
-  const { className, kicker, heading, description, icons, cta } = {
-    ...defaultProps,
-    ...props,
-  };
+  const t = useTranslations("Hero237");
+  const {
+    className,
+    kicker = t("kicker"),
+    heading = t("heading"),
+    description = t("description"),
+    icons = defaultProps.icons,
+    cta,
+  } = props;
   const circle1Images = icons.slice(0, 5);
   const circle2Images = icons.slice(5, 9);
   const circle3Images = icons.slice(9, 14);

@@ -1,5 +1,6 @@
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
+import { useTranslations } from "next-intl";
 import { cn } from "cn";
 
 import { Link } from "@/i18n/navigation";
@@ -42,6 +43,9 @@ const CaseStudy1 = ({
   client,
   className,
 }: CaseStudy1Props) => {
+  const t = useTranslations("CaseStudy1");
+  const tCommon = useTranslations("Common");
+
   return (
     <section className={cn("py-32", className)}>
       <div className="container">
@@ -50,13 +54,13 @@ const CaseStudy1 = ({
             <BreadcrumbList>
               <BreadcrumbItem>
                 <BreadcrumbLink render={<Link href="/" />}>
-                  Home
+                  {tCommon("home")}
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator>/</BreadcrumbSeparator>
               <BreadcrumbItem>
                 <BreadcrumbLink render={<Link href="/case-studies" />}>
-                  Case studies
+                  {t("breadcrumb")}
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator>/</BreadcrumbSeparator>
@@ -108,7 +112,7 @@ const CaseStudy1 = ({
               )}
               {overview && (
                 <>
-                  <p className="mb-1.5 text-sm font-semibold">Overview</p>
+                  <p className="mb-1.5 text-sm font-semibold">{t("overview")}</p>
                   <p className="mb-5 text-sm text-muted-foreground">
                     {overview}
                   </p>
@@ -116,13 +120,13 @@ const CaseStudy1 = ({
               )}
               {client && (
                 <>
-                  <p className="mb-1.5 text-sm font-semibold">Client</p>
+                  <p className="mb-1.5 text-sm font-semibold">{t("client")}</p>
                   <p className="mb-5 text-sm text-muted-foreground">
                     {client.name}
                   </p>
                   {client.industries && client.industries.length > 0 && (
                     <>
-                      <p className="mb-1.5 text-sm font-semibold">Industry</p>
+                      <p className="mb-1.5 text-sm font-semibold">{t("industry")}</p>
                       <ul className="mb-5 flex flex-wrap gap-x-3 gap-y-1 text-sm">
                         {client.industries.map((industry) => (
                           <li key={industry.href}>
@@ -140,14 +144,14 @@ const CaseStudy1 = ({
                 </>
               )}
               {(overview || client) && <Separator className="my-5" />}
-              <p className="mb-3 text-sm font-semibold">Want to learn more?</p>
+              <p className="mb-3 text-sm font-semibold">{t("learnMore")}</p>
               <Button
                 size="sm"
                 nativeButton={false}
                 className="bg-black text-white hover:bg-black/80"
                 render={<Link href="/book-a-consultation" />}
               >
-                Book a FREE Consultation
+                {tCommon("bookConsultation")}
               </Button>
             </div>
           </div>

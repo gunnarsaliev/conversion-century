@@ -1,6 +1,9 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { cn } from "cn";
+
+import { Link } from "@/i18n/navigation";
 
 interface Post {
   date: string;
@@ -72,10 +75,12 @@ interface Blog28Props {
 }
 
 const Blog28 = ({
-  heading = "Latest Tech Blog",
+  heading: headingProp,
   posts: postsProp,
   className,
 }: Blog28Props) => {
+  const t = useTranslations("Blog28");
+  const heading = headingProp ?? t("heading");
   const items = postsProp ?? posts;
 
   if (items.length === 0) {
@@ -88,7 +93,7 @@ const Blog28 = ({
             </h1>
           )}
           <p className="text-center text-muted-foreground">
-            No posts published yet.
+            {t("empty")}
           </p>
         </div>
       </section>
@@ -106,7 +111,7 @@ const Blog28 = ({
 
         <div className="xs:grid-cols-1 mt-24 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <div className="relative md:row-span-2 lg:col-span-2">
-            <a
+            <Link
               href={items[0].link}
               className="block h-fit rounded-lg p-3 md:top-0"
             >
@@ -126,10 +131,10 @@ const Blog28 = ({
                   {items[0].description}
                 </p>
               </div>
-            </a>
+            </Link>
           </div>
           {items.slice(1).map((post, idx) => (
-            <a key={idx} href={post.link} className="rounded-lg p-3">
+            <Link key={idx} href={post.link} className="rounded-lg p-3">
               <img
                 src={post.image}
                 alt={post.title}
@@ -141,7 +146,7 @@ const Blog28 = ({
                 </div>
                 <h3 className="text-lg">{post.title}</h3>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       </div>

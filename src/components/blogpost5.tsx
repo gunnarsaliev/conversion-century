@@ -2,7 +2,10 @@
 
 import { Home } from "lucide-react";
 import { FaFacebookF, FaLinkedin, FaXTwitter } from "react-icons/fa6";
+import { useTranslations } from "next-intl";
 import { cn } from "cn";
+
+import { Link } from "@/i18n/navigation";
 import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
@@ -41,19 +44,22 @@ const Blogpost5 = ({
   locale = "en",
   className,
 }: Blogpost5Props) => {
+  const t = useTranslations("Blogpost5");
+  const tCommon = useTranslations("Common");
+
   return (
     <section className={cn("py-32", className)}>
       <div className="container">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/">
+              <BreadcrumbLink render={<Link href="/" />} aria-label={tCommon("home")}>
                 <Home className="h-4 w-4" />
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/blog">Blog</BreadcrumbLink>
+              <BreadcrumbLink render={<Link href="/blog" />}>{t("breadcrumb")}</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -74,18 +80,18 @@ const Blogpost5 = ({
             <span>
               {authorName &&
                 (authorId ? (
-                  <a
+                  <Link
                     href={`/authors/${authorId}`}
                     className="font-medium hover:underline"
                   >
                     {authorName}
-                  </a>
+                  </Link>
                 ) : (
                   <span className="font-medium">{authorName}</span>
                 ))}
               {dateLabel && (
                 <span className="ml-1 text-muted-foreground">
-                  on {dateLabel}
+                  {t("publishedOn", { date: dateLabel })}
                 </span>
               )}
             </span>
@@ -109,7 +115,7 @@ const Blogpost5 = ({
           <div className="order-1 flex h-fit flex-col text-sm lg:sticky lg:top-8 lg:order-none lg:col-span-3 lg:col-start-10 lg:text-xs">
             <div className="order-1 flex flex-col gap-2 lg:order-none">
               <p className="font-medium text-muted-foreground">
-                Share this article:
+                {t("share")}
               </p>
               <ul className="flex gap-2">
                 <li>

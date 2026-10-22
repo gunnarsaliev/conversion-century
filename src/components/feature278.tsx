@@ -12,6 +12,7 @@ import {
   Wrench,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { cn } from "cn";
 
@@ -32,67 +33,18 @@ interface FeatureIconListProps {
 interface Feature278Props extends FeatureIconListProps {}
 type Props = Partial<Feature278Props>;
 
-const defaultProps: Feature278Props = {
-  heading: "Complete Support for Your Organic Presence",
-  description:
-    "Organic growth depends on more than one channel or isolated SEO task. We connect strategy, website performance, content, authority and measurement into one coordinated approach.",
-  features: [
-    {
-      icon: <Search className="size-5" />,
-      title: "Ongoing SEO Management",
-      description:
-        "A complete monthly SEO partnership covering research, strategy, implementation, monitoring and continuous improvement.",
-    },
-    {
-      icon: <Wrench className="size-5" />,
-      title: "Technical SEO",
-      description:
-        "Technical analysis and practical implementation support that helps search engines crawl, understand and index your website effectively.",
-    },
-    {
-      icon: <FileText className="size-5" />,
-      title: "SEO Content Strategy",
-      description:
-        "Expert-led content planning, creation and optimisation built to strengthen visibility across both traditional and AI powered search.",
-    },
-    {
-      icon: <Globe className="size-5" />,
-      title: "International SEO",
-      description:
-        "Market-specific organic strategies for businesses expanding across new countries, languages and audiences.",
-    },
-    {
-      icon: <Bot className="size-5" />,
-      title: "AI Search Optimisation",
-      description:
-        "Stronger content, authority and brand signals that improve your visibility across AI-powered discovery and recommendation experiences.",
-    },
-    {
-      icon: <Link2 className="size-5" />,
-      title: "Digital PR & Link Building",
-      description:
-        "Relevant editorial coverage, brand mentions and high-quality links that build lasting authority not artificial volume.",
-    },
-    {
-      icon: <BarChart3 className="size-5" />,
-      title: "SEO Audits",
-      description:
-        "Uncover the technical, content and authority issues limiting your website and receive a clear, prioritised roadmap for improvement.",
-    },
-    {
-      icon: <MapPin className="size-5" />,
-      title: "Local SEO",
-      description:
-        "Improve your local search, Google Maps, and directory visibility to reach more customers across your target locations.",
-    },
-    {
-      icon: <GraduationCap className="size-5" />,
-      title: "Organic Search Training",
-      description:
-        "Equip your team with practical SEO and AI search knowledge tailored to your business, industry and responsibilities.",
-    },
-  ],
-};
+// Default copy lives in the `Feature278` messages, keyed like the icons.
+const DEFAULT_FEATURES = [
+  { key: "ongoingSeo", icon: <Search className="size-5" /> },
+  { key: "technicalSeo", icon: <Wrench className="size-5" /> },
+  { key: "contentStrategy", icon: <FileText className="size-5" /> },
+  { key: "internationalSeo", icon: <Globe className="size-5" /> },
+  { key: "aiSearch", icon: <Bot className="size-5" /> },
+  { key: "digitalPr", icon: <Link2 className="size-5" /> },
+  { key: "audits", icon: <BarChart3 className="size-5" /> },
+  { key: "localSeo", icon: <MapPin className="size-5" /> },
+  { key: "training", icon: <GraduationCap className="size-5" /> },
+] as const;
 
 const MAX_FEATURES = 9;
 
@@ -109,10 +61,17 @@ const COLORS = [
 ];
 
 const Feature278 = (props: Props) => {
-  const { heading, description, features, className } = {
-    ...defaultProps,
-    ...props,
-  };
+  const t = useTranslations("Feature278");
+  const {
+    heading = t("heading"),
+    description = t("description"),
+    features = DEFAULT_FEATURES.map(({ key, icon }) => ({
+      icon,
+      title: t(`features.${key}.title`),
+      description: t(`features.${key}.description`),
+    })),
+    className,
+  } = props;
   const items = (features ?? []).slice(0, MAX_FEATURES);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 

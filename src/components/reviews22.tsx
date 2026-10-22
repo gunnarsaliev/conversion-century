@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { cn } from "cn";
 import { RichText } from "@payloadcms/richtext-lexical/react";
@@ -65,6 +66,7 @@ const XL_REVIEW_CARD_COUNT = 6;
 const LG_REVIEW_CARD_COUNT = 4;
 
 const Reviews22 = ({ reviews, className }: Reviews22Props) => {
+  const t = useTranslations("Reviews22");
   const isLg = useMediaQuery("(min-width: 1024px)");
   const isXl = useMediaQuery("(min-width: 1280px)");
 
@@ -96,9 +98,7 @@ const Reviews22 = ({ reviews, className }: Reviews22Props) => {
     <section className={cn("overflow-hidden py-32", className)}>
       <div className="container">
         <div className="mx-auto mb-10 max-w-100">
-          <h2 className="text-center text-4xl">
-     Positive Reviews From Our Client
-          </h2>
+          <h2 className="text-center text-4xl">{t("heading")}</h2>
         </div>
         {isLg ? (
           <Collapsible open={isOpen} onOpenChange={setIsOpen}>
@@ -121,7 +121,7 @@ const Reviews22 = ({ reviews, className }: Reviews22Props) => {
                 isOpen && "before:hidden",
               )}
             >
-              <CollapsibleTrigger render={<Button size="lg" />}>{isOpen ? "Show Less" : "Show More"}</CollapsibleTrigger>
+              <CollapsibleTrigger render={<Button size="lg" />}>{isOpen ? t("showLess") : t("showMore")}</CollapsibleTrigger>
             </div>
           </Collapsible>
         ) : (

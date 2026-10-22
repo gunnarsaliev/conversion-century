@@ -1,5 +1,6 @@
 "use server";
 
+import { getTranslations } from "next-intl/server";
 import { getPayload, type Payload } from "payload";
 import config from "@payload-config";
 import { z } from "zod";
@@ -24,42 +25,53 @@ const optionalText = z
   .optional()
   .transform((value) => value || undefined);
 
-const baseSchema = z.object({
-  name: z.string().trim().min(1, "Please enter your name"),
-  email: z
-    .union([z.literal(""), z.string().trim().email("Please enter a valid email")])
-    .optional()
-    .transform((value) => value || undefined),
-  testimonial: z.string().trim().min(10, "Please write a few words for your testimonial"),
-});
+type Translator = Awaited<ReturnType<typeof getTranslations>>;
 
-const submissionSchema = z.discriminatedUnion("clientType", [
-  baseSchema.extend({
-    clientType: z.literal("existing"),
-    clientId: z.coerce.number({ error: "Please choose your company" }).int().positive("Please choose your company"),
-  }),
-  baseSchema.extend({
-    clientType: z.literal("new"),
-    companyName: z.string().trim().min(1, "Please enter your company name"),
-    role: optionalText,
-    website: optionalText
-      // Accept "example.com" as well as full URLs.
-      .transform((value) =>
-        value && !/^https?:\/\//i.test(value) ? `https://${value}` : value,
-      )
-      .pipe(z.string().url("Please enter a valid website URL").optional()),
-  }),
-]);
+const submissionSchema = (t: Translator) => {
+  const baseSchema = z.object({
+    name: z.string().trim().min(1, t("TestimonialForm.errors.name")),
+    email: z
+      .union([z.literal(""), z.string().trim().email(t("TestimonialForm.errors.email"))])
+      .optional()
+      .transform((value) => value || undefined),
+    testimonial: z.string().trim().min(10, t("TestimonialForm.errors.testimonial")),
+  });
+
+  return z.discriminatedUnion("clientType", [
+    baseSchema.extend({
+      clientType: z.literal("existing"),
+      clientId: z.coerce
+        .number({ error: t("TestimonialForm.errors.company") })
+        .int()
+        .positive(t("TestimonialForm.errors.company")),
+    }),
+    baseSchema.extend({
+      clientType: z.literal("new"),
+      companyName: z.string().trim().min(1, t("TestimonialForm.errors.companyName")),
+      role: optionalText,
+      website: optionalText
+        // Accept "example.com" as well as full URLs.
+        .transform((value) =>
+          value && !/^https?:\/\//i.test(value) ? `https://${value}` : value,
+        )
+        .pipe(z.string().url(t("TestimonialForm.errors.website")).optional()),
+    }),
+  ]);
+};
 
 type TestimonialFormResult =
   | { success: true }
   | { success: false; error: string };
 
 // Returns the uploaded file, nothing (field left empty), or an error message.
-function readImage(value: FormDataEntryValue | null, label: string): File | null | string {
+function readImage(
+  t: Translator,
+  value: FormDataEntryValue | null,
+  label: string,
+): File | null | string {
   if (!(value instanceof File) || value.size === 0) return null;
-  if (!value.type.startsWith("image/")) return `${label} must be an image.`;
-  if (value.size > MAX_IMAGE_BYTES) return `${label} must be 2 MB or smaller.`;
+  if (!value.type.startsWith("image/")) return t("TestimonialForm.errors.notImage", { label });
+  if (value.size > MAX_IMAGE_BYTES) return t("TestimonialForm.errors.tooLarge", { label });
   return value;
 }
 
@@ -82,7 +94,8 @@ async function submitTestimonial(formData: FormData): Promise<TestimonialFormRes
   // so bots don't learn to skip it.
   if (formData.get("website_url")) return { success: true };
 
-  const parsed = submissionSchema.safeParse({
+  const t = await getTranslations();
+  const parsed = submissionSchema(t).safeParse({
     clientType: formData.get("clientType"),
     name: formData.get("name"),
     email: formData.get("email") ?? undefined,
@@ -94,12 +107,18 @@ async function submitTestimonial(formData: FormData): Promise<TestimonialFormRes
   });
 
   if (!parsed.success) {
-    return { success: false, error: parsed.error.issues[0]?.message ?? "Invalid input" };
+    return { success: false, error: parsed.error.issues[0]?.message ?? t("Forms.invalidInput") };
   }
 
-  const profileImage = readImage(formData.get("profileImage"), "Profile photo");
+  const profileImage = readImage(
+    t,
+    formData.get("profileImage"),
+    t("TestimonialForm.profilePhoto"),
+  );
   const logo =
-    parsed.data.clientType === "new" ? readImage(formData.get("logo"), "Company logo") : null;
+    parsed.data.clientType === "new"
+      ? readImage(t, formData.get("logo"), t("TestimonialForm.companyLogo"))
+      : null;
   if (typeof profileImage === "string") return { success: false, error: profileImage };
   if (typeof logo === "string") return { success: false, error: logo };
 
@@ -115,7 +134,7 @@ async function submitTestimonial(formData: FormData): Promise<TestimonialFormRes
         where: { id: { equals: data.clientId }, showOnWebsite: { equals: true } },
       });
       if (totalDocs === 0) {
-        return { success: false, error: "Please choose your company from the list." };
+        return { success: false, error: t("TestimonialForm.errors.chooseCompany") };
       }
     }
 
@@ -158,7 +177,7 @@ async function submitTestimonial(formData: FormData): Promise<TestimonialFormRes
     return { success: true };
   } catch (error) {
     console.error("Failed to submit testimonial", error);
-    return { success: false, error: "Something went wrong. Please try again." };
+    return { success: false, error: t("Forms.genericError") };
   }
 }
 

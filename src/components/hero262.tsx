@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { cn } from "cn";
 
 import { Link } from "@/i18n/navigation";
@@ -56,32 +57,23 @@ interface Hero262Props {
   className?: string;
 }
 
-const Hero262 = ({
-  heading = "More than an SEO provider",
-  subheading = "Your business is never just another number.",
-  description = "When you trust us with your website, you also trust us with the goals, ideas and ambitions behind it. We take that responsibility seriously. We learn how your business works, understand where you want to go and become an active part of the team working to get you there.\n\nWe celebrate your growth because we know what it took to achieve it. We investigate when something is not working, adapt when priorities change and continue looking for new opportunities even when they fall outside the original plan.\n\nOur role is not simply to complete a monthly list of SEO tasks. It is to understand what your business needs next and help make it happen.",
-  stats = [
-    {
-      value: "$150M",
-      label: "Raised",
-    },
-    {
-      value: "20K",
-      label: "Companies",
-    },
-    {
-      value: "1.3B",
-      label: "Monthly transactions",
-    },
-    {
-      value: "1.5K",
-      label: "Connections per minute",
-    },
-  ],
-  ctaText = "Discover How We Work",
-  ctaUrl = "/about",
-  className,
-}: Hero262Props) => {
+const STAT_KEYS = ["raised", "companies", "transactions", "connections"] as const;
+
+const Hero262 = (props: Hero262Props) => {
+  const t = useTranslations("Hero262");
+  const {
+    heading = t("heading"),
+    subheading = t("subheading"),
+    description = t("description"),
+    stats = STAT_KEYS.map((key) => ({
+      value: t(`stats.${key}.value`),
+      label: t(`stats.${key}.label`),
+    })),
+    ctaText = t("cta"),
+    ctaUrl = "/about",
+    className,
+  } = props;
+
   return (
     <section className={cn("py-28 lg:py-32", className)}>
       <div className="container flex max-w-5xl flex-col justify-between gap-8 md:gap-20 lg:flex-row lg:items-center lg:gap-24 xl:gap-24">

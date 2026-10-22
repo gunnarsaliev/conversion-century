@@ -6,6 +6,7 @@ import {
   ShoppingCart,
   Star,
 } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import { cn } from "cn";
 
 import { Badge } from "@/components/ui/badge";
@@ -21,11 +22,13 @@ const TrustStrip4 = ({
   reviewCount = 100,
   className,
 }: TrustStrip4Props) => {
+  const t = useTranslations("TrustStrip4");
+  const locale = useLocale();
   const features = [
-    { icon: <Rocket className="size-3" />, text: "More traffic" },
-    { icon: <Search className="size-3" />, text: "Higher rankings" },
-    { icon: <Award className="size-3" />, text: "Stronger authority" },
-    { icon: <ShoppingCart className="size-3" />, text: "More sales" },
+    { icon: <Rocket className="size-3" />, text: t("traffic") },
+    { icon: <Search className="size-3" />, text: t("rankings") },
+    { icon: <Award className="size-3" />, text: t("authority") },
+    { icon: <ShoppingCart className="size-3" />, text: t("sales") },
   ];
 
   return (
@@ -52,7 +55,7 @@ const TrustStrip4 = ({
             </div>
             <Separator orientation="vertical" className="h-4" />
             <span className="text-sm text-muted-foreground">
-              {reviewCount.toLocaleString()}+ verified reviews
+              {t("reviews", { count: reviewCount.toLocaleString(locale) })}
             </span>
           </div>
 

@@ -134,5 +134,680 @@
       "consult": "We arrange a consultation with a senior member of the team.",
       "nextSteps": "If there is a strong mutual fit, we prepare the recommended next steps."
     }
+  },
+  "Navbar": {
+    "services": {
+      "label": "Services",
+      "intro": "Explore the SEO services we offer",
+      "viewAll": "View all services",
+      "items": {
+        "ongoingSeoManagement": "Ongoing SEO Management",
+        "aiSearchOptimization": "AI Search Optimization",
+        "seoAudit": "SEO Audit",
+        "internationalSeo": "International SEO",
+        "localSeo": "Local SEO",
+        "technicalSeo": "Technical SEO",
+        "contentStrategy": "Content Strategy and Copywriting",
+        "linkBuilding": "Link Building and Digital PR",
+        "organicSearchTraining": "Organic Search Training"
+      },
+      "descriptions": {
+        "ongoingSeoManagement": "A dedicated team that keeps your organic growth moving every month.",
+        "aiSearchOptimization": "Get your brand cited in ChatGPT, Gemini and AI Overviews.",
+        "seoAudit": "A full review of your site with a prioritised action plan.",
+        "internationalSeo": "Rank in new countries and languages without duplicate content issues.",
+        "localSeo": "Win the map pack and local searches near your locations.",
+        "technicalSeo": "Fix crawling, indexing, speed and structure problems.",
+        "contentStrategy": "Content that answers real searches and converts readers.",
+        "linkBuilding": "Earn authoritative links and mentions that build trust.",
+        "organicSearchTraining": "Hands-on SEO training for your in-house team."
+      }
+    },
+    "solutions": {
+      "label": "Solutions",
+      "intro": "Find the solution that matches your goal",
+      "viewAll": "View all solutions",
+      "items": {
+        "growOrganicRevenue": "Grow Organic Revenue",
+        "enterNewMarkets": "Enter New Markets",
+        "recoverLostTraffic": "Recover Lost Traffic",
+        "migrateWithoutLosingSeo": "Migrate without losing SEO",
+        "improveVisibilityInAi": "Improve visibility in AI",
+        "outsourcedSeoDepartment": "Build an Outsourced SEO Department",
+        "reduceAdDependence": "Reduce Dependence on Ads",
+        "launchSeoReadyWebsite": "Launch an SEO-Ready Website"
+      }
+    },
+    "industries": {
+      "label": "Industries",
+      "intro": "Explore solutions tailored to your industry",
+      "viewAll": "See all industries",
+      "items": {
+        "b2b": "B2B",
+        "ecommerce": "Ecommerce",
+        "professionalServices": "Professional Services",
+        "financialSector": "Financial Sector",
+        "realEstate": "Real Estate",
+        "healthcare": "Healthcare"
+      }
+    },
+    "proof": {
+      "label": "Proof",
+      "intro": "Results and feedback from the businesses we work with",
+      "items": {
+        "clients": "Clients",
+        "caseStudies": "Case Studies",
+        "reviews": "Reviews"
+      }
+    },
+    "about": {
+      "label": "About",
+      "intro": "Get to know the people behind Conversion Century",
+      "items": {
+        "ourStory": "Our Story",
+        "career": "Career",
+        "team": "Team"
+      }
+    },
+    "blog": {
+      "label": "Blog",
+      "intro": "Latest insights, tutorials, and industry best practices."
+    },
+    "insights": {
+      "label": "Insights",
+      "intro": "Guides, checklists and events to sharpen your SEO.",
+      "items": {
+        "blog": "Blog",
+        "checklists": "Checklists",
+        "eventsAndMedia": "Events and Media"
+      }
+    },
+    "cta": "Book a FREE Consultation",
+    "mainMenu": "Main menu",
+    "back": "Back"
+  },
+  "Common": {
+    "bookConsultation": "Book a FREE Consultation",
+    "readTime": "{minutes} min read",
+    "home": "Home",
+    "breadcrumb": "Breadcrumb",
+    "learnMore": "Learn more"
+  },
+  "Home": {
+    "hero": {
+      "heading": "Organic Growth Built on Expertise, Trust and Genuine Commitment",
+      "description": "Conversion Century helps ambitious businesses grow across Google, AI-powered search and international markets through sustainable SEO strategies tailored to their goals.",
+      "secondaryDescription": "We combine strategic thinking, technical expertise, quality content and digital authority with something just as important: genuine commitment to every client’s success.",
+      "secondaryCta": "Explore Our Results",
+      "avatarAlt": "Client logo",
+      "socialProof": "Trusted by 100+ businesses worldwide",
+      "highlights": {
+        "founded": "Established in 2016",
+        "relationships": "Client relationships lasting 7+ years",
+        "international": "International experience"
+      }
+    }
+  },
+  "Blog12": {
+    "badge": "Our Blogs",
+    "heading": "Discover the latest trends",
+    "description": "Explore our blog for insightful articles, personal reflections and ideas that inspire action on the topics you care about.",
+    "viewAll": "View All Blogs"
+  },
+  "Feature278": {
+    "heading": "Complete Support for Your Organic Presence",
+    "description": "Organic growth depends on more than one channel or isolated SEO task. We connect strategy, website performance, content, authority and measurement into one coordinated approach.",
+    "features": {
+      "ongoingSeo": {
+        "title": "Ongoing SEO Management",
+        "description": "A complete monthly SEO partnership covering research, strategy, implementation, monitoring and continuous improvement."
+      },
+      "technicalSeo": {
+        "title": "Technical SEO",
+        "description": "Technical analysis and practical implementation support that helps search engines crawl, understand and index your website effectively."
+      },
+      "contentStrategy": {
+        "title": "SEO Content Strategy",
+        "description": "Expert-led content planning, creation and optimisation built to strengthen visibility across both traditional and AI powered search."
+      },
+      "internationalSeo": {
+        "title": "International SEO",
+        "description": "Market-specific organic strategies for businesses expanding across new countries, languages and audiences."
+      },
+      "aiSearch": {
+        "title": "AI Search Optimisation",
+        "description": "Stronger content, authority and brand signals that improve your visibility across AI-powered discovery and recommendation experiences."
+      },
+      "digitalPr": {
+        "title": "Digital PR & Link Building",
+        "description": "Relevant editorial coverage, brand mentions and high-quality links that build lasting authority not artificial volume."
+      },
+      "audits": {
+        "title": "SEO Audits",
+        "description": "Uncover the technical, content and authority issues limiting your website and receive a clear, prioritised roadmap for improvement."
+      },
+      "localSeo": {
+        "title": "Local SEO",
+        "description": "Improve your local search, Google Maps, and directory visibility to reach more customers across your target locations."
+      },
+      "training": {
+        "title": "Organic Search Training",
+        "description": "Equip your team with practical SEO and AI search knowledge tailored to your business, industry and responsibilities."
+      }
+    }
+  },
+  "Hero262": {
+    "heading": "More than an SEO provider",
+    "subheading": "Your business is never just another number.",
+    "description": "When you trust us with your website, you also trust us with the goals, ideas and ambitions behind it. We take that responsibility seriously. We learn how your business works, understand where you want to go and become an active part of the team working to get you there.\n\nWe celebrate your growth because we know what it took to achieve it. We investigate when something is not working, adapt when priorities change and continue looking for new opportunities even when they fall outside the original plan.\n\nOur role is not simply to complete a monthly list of SEO tasks. It is to understand what your business needs next and help make it happen.",
+    "stats": {
+      "raised": {
+        "value": "$150M",
+        "label": "Raised"
+      },
+      "companies": {
+        "value": "20K",
+        "label": "Companies"
+      },
+      "transactions": {
+        "value": "1.3B",
+        "label": "Monthly transactions"
+      },
+      "connections": {
+        "value": "1.5K",
+        "label": "Connections per minute"
+      }
+    },
+    "cta": "Discover How We Work"
+  },
+  "CaseStudies8": {
+    "title": "Case studies",
+    "description": "Real results from our clients: traffic, rankings and revenue growth achieved together.",
+    "previous": "Previous",
+    "next": "Next",
+    "goToSlide": "Go to slide {number}"
+  },
+  "Feature104": {
+    "badge": "Highlights",
+    "heading": "WHY CONVERSION CENTURY",
+    "subheading": "Small Enough to Care Deeply. Experienced Enough to Deliver.",
+    "points": {
+      "seniorSpecialists": {
+        "title": "Work Directly With Senior Specialists",
+        "description": "You work directly with the agency Owner, Head of Copywriting and Specialists responsible for the strategy and results. Important decisions are not passed through layers of account management."
+      },
+      "honestAssessment": {
+        "title": "An Honest Assessment Before We Begin",
+        "description": "We do not accept every enquiry. We first evaluate your website, objectives and market to determine whether SEO is the right investment and whether we are the right team. If another channel would serve your business better, we will tell you."
+      },
+      "invested": {
+        "title": "Personally Invested in Your Success",
+        "description": "We treat your goals with the care and responsibility they deserve. Our role is not to complete a task list, it is to understand what your business needs next and help move it forward."
+      },
+      "sustainable": {
+        "title": "Sustainable, Evidence-Led SEO",
+        "description": "We use tested white-hat strategies designed to build lasting organic value. We do not gamble with client websites through black-hat methods or unvalidated tactics that could damage performance for years."
+      },
+      "evolving": {
+        "title": "Experience That Continues to Evolve",
+        "description": "Our work is grounded in developed know-how, international experience and continuous professional education. We follow world-class industry training, contribute to research and keep improving how we work as search evolves."
+      },
+      "collaboration": {
+        "title": "Collaboration Without Ego",
+        "description": "Strong results often require several teams. We work constructively with your employees, developers, designers, paid-media specialists and other agencies, focusing on the shared outcome rather than ownership of the process."
+      }
+    }
+  },
+  "Feature13": {
+    "eyebrow": "Industry Expertise",
+    "heading": "Experience in the Markets You Compete In",
+    "description": "We tailor SEO strategy to the buying behaviour, regulatory context and competitive dynamics of your industry.",
+    "features": {
+      "b2b": {
+        "title": "B2B SEO",
+        "description": "Generate qualified demand for complex products and services through search strategies aligned with longer decision-making journeys."
+      },
+      "ecommerce": {
+        "title": "E-commerce SEO",
+        "description": "Strengthen category and product visibility, improve discovery and turn organic search into a scalable revenue channel."
+      },
+      "professionalServices": {
+        "title": "Professional Services SEO",
+        "description": "Build authority, trust and qualified enquiries for expertise-led businesses operating in competitive markets."
+      },
+      "financialServices": {
+        "title": "Financial Services SEO",
+        "description": "Develop organic visibility in regulated financial markets where accuracy, expertise and trust are essential."
+      },
+      "realEstate": {
+        "title": "Real Estate SEO",
+        "description": "Reach buyers, tenants, owners and investors through locally and commercially relevant property-search strategies."
+      },
+      "healthcare": {
+        "title": "Healthcare SEO",
+        "description": "Build patient trust and organic visibility through accurate, expert-led content and locally focused healthcare search strategies."
+      },
+      "legal": {
+        "title": "Legal SEO",
+        "description": "Win visibility for high-value practice areas and build the credibility prospective clients look for before they enquire."
+      },
+      "travel": {
+        "title": "Travel & Hospitality SEO",
+        "description": "Capture demand across research and booking journeys with destination, property and experience-led search strategies."
+      },
+      "education": {
+        "title": "Education SEO",
+        "description": "Reach prospective students and families with programme and course visibility strategies built for long research cycles."
+      }
+    }
+  },
+  "FounderLetter": {
+    "eyebrow": "A Personal Commitment",
+    "heading": "From the Owner",
+    "portraitAlt": "Portrait of Maria Sivkova",
+    "quote": "Conversion Century is much more than a company to me. I have grown alongside it, dedicated my professional life to SEO and built a team of people who care about our clients as deeply as I do. That is why I remain personally involved in every business that places its trust in us.\n\nWhen we take on a client, I want to understand what they are building, why it matters and what success would mean for their company. Their website becomes something I think about, question and genuinely want to improve, not simply another project in a report.\n\nThat commitment also requires honesty. We accept projects where we believe we can create meaningful value, and we expect trust, responsiveness and dedication from our clients in return. Our best results happen when both teams care about the outcome and work toward the same goal.",
+    "name": "Maria Sivkova",
+    "role": "Owner and Managing Director, Conversion Century",
+    "cta": "Meet Maria and the Team"
+  },
+  "Testimonial17": {
+    "heading": "What our clients say about working with us"
+  },
+  "About": {
+    "hero": {
+      "eyebrow": "About Conversion Century",
+      "heading": "A Focused Team. A Shared Commitment to Your Growth.",
+      "body": "Conversion Century is a boutique SEO agency based in Sofia, Bulgaria, working with businesses across Europe and the United States.\n\nSince 2016, we have combined technical expertise, professional content and strategic thinking to help businesses strengthen their organic presence. Today, that work spans search engines and AI-powered discovery, with the same focus: connecting your business with people who need what you offer.",
+      "cta": "Meet the team"
+    },
+    "story": {
+      "eyebrow": "Since 2016",
+      "heading": "Our Story",
+      "years": {
+        "2016": {
+          "title": "A Dedicated SEO Agency Takes Shape",
+          "content": "Conversion Century was founded in February 2016 by Nick Gerdzhikov in Bulgaria. From the beginning, the agency focused specifically on SEO, bringing research, website optimisation, content and link building together around clients’ business goals."
+        },
+        "2017": {
+          "title": "Our First Steps Into the United States",
+          "content": "We began working with clients in the US, expanding our experience beyond Bulgaria. These projects introduced new competitive environments and helped shape our approach to working across markets."
+        },
+        "2018": {
+          "title": "Larger Clients and Local Partnerships",
+          "content": "Our Bulgarian portfolio grew to include larger, established businesses. We also built relationships with local agencies, contributing specialist SEO expertise to broader marketing and website projects."
+        },
+        "2019": {
+          "title": "Supporting European Expansion",
+          "content": "We entered more European markets alongside Bulgarian brands looking to grow internationally. Understanding local search demand and adapting websites for different audiences became an increasingly important part of our work."
+        },
+        "2020": {
+          "title": "A Growing Business and a New Team Member",
+          "content": "The agency continued to grow, developing its client relationships and delivery processes. Maria Sivkova joined as an intern, beginning a journey that would take her from learning the agency’s methods to leading its next chapter."
+        },
+        "2021": {
+          "title": "Our First Sofia Office",
+          "content": "We opened our first physical office in Sofia, creating a shared space for collaboration and learning. Alongside our international work, we invested in documenting processes and turning practical experience into knowledge the whole team could use."
+        },
+        "2022": {
+          "title": "New Ownership, Continued Ambition",
+          "content": "When Nick moved to the United States, Maria acquired Conversion Century and became its new owner.\n\nWe continued strengthening our international presence, developing our internal methods and building our partnership with MUZE. This brought our SEO expertise closer to complementary creative, marketing and influencer capabilities."
+        },
+        "2023": {
+          "title": "Bringing Our Expertise Together",
+          "content": "We continued refining how research, technical SEO, content and authority building work together. Our focus was on clearer priorities, stronger coordination and long-term relationships with clients and agency partners."
+        },
+        "2024": {
+          "title": "Investing in Tools and International Education",
+          "content": "We became official partners of Ahrefs and Semrush and expanded international SEO training across the team. Continued education helped us build a shared foundation while giving specialists room to deepen their individual expertise."
+        },
+        "2025": {
+          "title": "A More Specialised Team",
+          "content": "Our team reached 10 people, with a clearer structure across SEO specialists, content managers, copywriters and technical SEO specialists. This strengthened both specialist ownership and collaboration across client projects."
+        },
+        "2026": {
+          "title": "Our Strongest Year Yet",
+          "content": "Our tenth year has been our strongest so far, with a growing client portfolio and a clear direction for the future.\n\nWe are developing our approach to AI search visibility, testing new tools and adapting our methods as discovery changes. Alongside that work, we continue investing in the technical foundations, content quality and commercial understanding that support lasting organic performance."
+        }
+      }
+    },
+    "people": {
+      "eyebrow": "Our team",
+      "heading": "The People Behind the Work",
+      "lead": "Our team brings together SEO specialists, technical specialists, content managers and professional copywriters.",
+      "body": "We work closely across disciplines because a website’s performance depends on how its parts connect. Search research informs content. Technical decisions affect discovery. Clear product and service information helps visitors evaluate an offer and take action.\n\nClients have direct access to the people responsible for their work, including the owner and senior content expertise. Within the team, we share findings, review important decisions and support each other’s development."
+    },
+    "leadership": {
+      "eyebrow": "Leadership",
+      "heading": "Led by Maria Sivkova",
+      "intro": "Maria joined Conversion Century in 2020 and became its owner in 2022. With more than eight years of experience across HR, marketing and digital, she brings an understanding of both people and business to her leadership.\n\nToday, she leads the agency’s strategy and development, supports the team’s growth and stays closely involved in client relationships.",
+      "role": "Owner & Managing Director"
+    },
+    "markets": {
+      "eyebrow": "Where we work",
+      "heading": "Based in Sofia. Working Across Borders.",
+      "lead": "We support Bulgarian businesses expanding internationally and international companies building their presence in Bulgaria and other European markets.",
+      "spans": "Our experience spans"
+    },
+    "collaboration": {
+      "eyebrow": "How we work",
+      "heading": "Close Collaboration. Shared Ambition.",
+      "lead": "We believe good work starts with knowing the business behind the website.",
+      "body": "Your customers, commercial priorities and ambitions shape our approach. We take time to understand what you are building, where you want to go and what could stand in the way. That understanding guides the research, recommendations and everyday decisions we make on your behalf.\n\nOur team is deliberately small, with experienced specialists working closely together. This gives us room for direct communication, shared responsibility and meaningful involvement in each client’s story.\n\nWe bring energy, curiosity and a strong commitment to improving our craft. You work with people who care about the details, take ownership of their work and want to see your business move forward."
+    },
+    "mission": {
+      "eyebrow": "Our Mission",
+      "statement": "To help businesses build a lasting, commercially valuable presence wherever their customers search.",
+      "body": "We make complex search challenges easier to understand and act on. Through research, technical improvements, useful content and relevant authority, we help clients turn their expertise, products and services into opportunities for growth.\n\nSuccess means attracting the right people and helping them take a meaningful next step — an enquiry, a consultation, an application or a purchase."
+    },
+    "principles": {
+      "eyebrow": "Our values",
+      "heading": "The Principles Behind Our Work",
+      "items": {
+        "understand": {
+          "title": "Understand Before Recommending",
+          "content": "We investigate your business, audience and website before deciding what needs to change. Recommendations should reflect your situation, resources and opportunities."
+        },
+        "ownership": {
+          "title": "Take Ownership",
+          "content": "We follow through on our responsibilities, raise issues early and stay involved as recommendations move into implementation. We care about what happens after a task is delivered."
+        },
+        "communicate": {
+          "title": "Communicate Clearly",
+          "content": "You should understand what we are doing, why it matters and how we will evaluate progress. We share findings openly, explain limitations and have honest conversations about priorities."
+        },
+        "longTerm": {
+          "title": "Build for the Long Term",
+          "content": "We use white-hat SEO methods and focus on useful content, accessible websites and relevant authority. Our work should strengthen your business presence over time."
+        },
+        "learning": {
+          "title": "Keep Learning and Testing",
+          "content": "Search changes, and our methods need to develop with it. We invest in education, share knowledge and evaluate new tools critically before making them part of our work."
+        },
+        "partners": {
+          "title": "Work as Partners",
+          "content": "We value the knowledge your team brings. Some of our client relationships span more than seven years, built through collaboration, consistency and a shared commitment to progress."
+        }
+      }
+    }
+  },
+  "TeamPage": {
+    "heading": "Meet the team behind your growth",
+    "description": "Real people, real SEO expertise - get to know who works on your account."
+  },
+  "Careers": {
+    "types": {
+      "part-time": "Part-time",
+      "full-time": "Full-time",
+      "full-time-hybrid": "Full-time/ Hybrid"
+    },
+    "list": {
+      "badge": "Careers available",
+      "heading": "Open positions",
+      "intro": "Are you looking for a new career? We're looking for amazing people to join our team! If you think you have what it takes to be a part of our ever-growing company, check out our open positions below and apply now!",
+      "growth": "Due to our rapid growth, we are looking for motivated people to join our team. One for part-time (20 h/week) and one for full-time (40 h/week), Sofia, Bulgaria.",
+      "empty": "There are no open positions right now.",
+      "apply": "Apply"
+    },
+    "listing": {
+      "back": "All open positions",
+      "eyebrow": "Open position",
+      "details": "Position details",
+      "responsibilities": "Responsibilities",
+      "requirements": "Requirements",
+      "offer": "What we offer",
+      "applyHeading": "Apply for this position",
+      "applyNote": "Only shortlisted candidates will be contacted."
+    },
+    "form": {
+      "success": "Thank you for your application. We'll be in touch.",
+      "fullName": "Full name",
+      "fullNamePlaceholder": "Your name",
+      "email": "Email",
+      "reasons": "5 reasons why you want to learn SEO",
+      "reasonsPlaceholder": "Tell us a bit about yourself…",
+      "submit": "Apply now",
+      "submitting": "Sending…"
+    },
+    "errors": {
+      "fullName": "Full name is required",
+      "email": "Please enter a valid email",
+      "message": "Please tell us why you want to learn SEO"
+    }
+  },
+  "CaseStudies13": {
+    "eyebrow": "Case studies",
+    "heading": "Work that moved the needle.",
+    "empty": "There are no case studies yet."
+  },
+  "CaseStudy1": {
+    "breadcrumb": "Case studies",
+    "overview": "Overview",
+    "client": "Client",
+    "industry": "Industry",
+    "learnMore": "Want to learn more?"
+  },
+  "IndustriesPage": {
+    "eyebrow": "Industries",
+    "heading": "Explore solutions tailored to your industry"
+  },
+  "IndustryDetail": {
+    "label": "Industry",
+    "clientsIn": "Clients in {title}",
+    "ctaHeading": "Want to grow your {title} business?"
+  },
+  "Reviews22": {
+    "heading": "Positive Reviews From Our Clients",
+    "showMore": "Show More",
+    "showLess": "Show Less"
+  },
+  "ServicesPage": {
+    "heading": "Our Services",
+    "description": "Explore the ways we help businesses grow organic search visibility and revenue.",
+    "empty": "No services are available yet.",
+    "learnMore": "Learn more",
+    "breadcrumb": "Services"
+  },
+  "SolutionsPage": {
+    "heading": "Our Solutions",
+    "description": "Explore how we help businesses reach their organic growth goals.",
+    "empty": "No solutions are available yet.",
+    "learnMore": "Learn more",
+    "breadcrumb": "Solutions"
+  },
+  "WhyUs": {
+    "heading": "Why Work With<br></br>Conversion Century?",
+    "items": {
+      "evolvingPriorities": {
+        "title": "Priorities That Evolve",
+        "description": "We continuously adjust the roadmap around new data, business needs and search developments."
+      },
+      "strategyImplementation": {
+        "title": "Strategy and Implementation",
+        "description": "We identify what needs to happen, complete the work and follow it through to results."
+      },
+      "seniorSpecialists": {
+        "title": "Senior Specialists Involved",
+        "description": "Your ongoing strategy is managed directly by experienced SEO and content specialists."
+      },
+      "completeSupport": {
+        "title": "Complete Organic Support",
+        "description": "Technical SEO, content, AI visibility, authority and reporting work together under one strategy."
+      },
+      "proactive": {
+        "title": "Proactive SEO Management",
+        "description": "We monitor performance, investigate changes and identify opportunities before they become urgent."
+      },
+      "transparent": {
+        "title": "Transparent Measurement",
+        "description": "You receive clear reporting that connects completed work with organic and business performance."
+      }
+    }
+  },
+  "Faq28": {
+    "label": "FAQ",
+    "heading": "Find your answer",
+    "description": "Type a keyword below and the list narrows instantly.",
+    "searchPlaceholder": "Search questions...",
+    "emptyTitle": "No results for",
+    "emptyDescription": "Try different keywords or write to",
+    "count": "{shown} of {total, plural, one {# question} other {# questions}}"
+  },
+  "Testimonial30": {
+    "heading": "Trusted by the businesses we work with",
+    "cta": "Read client reviews"
+  },
+  "Blog28": {
+    "heading": "Latest from our blog",
+    "empty": "No posts published yet."
+  },
+  "Blogpost5": {
+    "breadcrumb": "Blog",
+    "publishedOn": "on {date}",
+    "share": "Share this article:"
+  },
+  "SolutionHero": {
+    "secondaryCta": "Explore Our Results",
+    "breadcrumb": "Solutions",
+    "approach": "Our approach"
+  },
+  "Events": {
+    "heading": "Events & Media",
+    "description": "Conferences, webinars, podcasts and press featuring our team.",
+    "empty": "No events are available yet.",
+    "upcoming": "Upcoming",
+    "learnMore": "Learn more",
+    "types": {
+      "conference": "Conference",
+      "webinar": "Webinar",
+      "workshop": "Workshop",
+      "podcast": "Podcast",
+      "interview": "Interview",
+      "press": "Press"
+    }
+  },
+  "ClientsPage": {
+    "sizes": {
+      "small-business": "Small business",
+      "midmarket": "Midmarket",
+      "enterprise": "Enterprise"
+    },
+    "other": "Other",
+    "bySize": "Our experience by business size",
+    "byIndustry": "Our experience by industry",
+    "share": "Share of the clients we've worked with",
+    "industries": "Industries",
+    "empty": "No clients to show yet.",
+    "industry": "Industry"
+  },
+  "Hero237": {
+    "kicker": "Various markets and industries",
+    "heading": "Our SEO Clients",
+    "description": "We have worked with companies operating in more than 42 industries worldwide, thus, gathering knowledge and expertise in various market segments and niches."
+  },
+  "TrustStrip4": {
+    "traffic": "More traffic",
+    "rankings": "Higher rankings",
+    "authority": "Stronger authority",
+    "sales": "More sales",
+    "reviews": "{count}+ verified reviews"
+  },
+  "Consultation": {
+    "page": {
+      "heading": "Book Your Free SEO Consultation",
+      "description": "Talk to one of our SEO strategists about your traffic, rankings and organic growth goals. If you have questions first, feel free to reach out to our team.",
+      "descriptionLink": "reach out to our team",
+      "logosEyebrow": "Trusted by businesses at",
+      "logosHeading": "Real results for real SEO clients",
+      "logosFooter": "From local SEO to enterprise organic growth — see who we've helped rank higher."
+    },
+    "form": {
+      "successTitle": "Thank you!",
+      "success": "We've received your consultation request and sent a confirmation to your inbox. One of our SEO strategists will get back to you within 1 business day.",
+      "fullName": "Full Name",
+      "fullNamePlaceholder": "Jane Doe",
+      "companyName": "Company Name",
+      "companyPlaceholder": "Your Company Ltd.",
+      "email": "Email",
+      "emailPlaceholder": "jane@yourcompany.com",
+      "website": "Website URL",
+      "websitePlaceholder": "https://yourcompany.com",
+      "message": "Message",
+      "messagePlaceholder": "Tell us about your SEO goals — rankings, organic traffic, keywords you want to target, or any challenges you're facing",
+      "privacy": "I agree to the <link>Privacy Policy</link> and consent to Conversion Century processing my details to respond to this request.",
+      "newsletter": "Also send me SEO tips and news. I can unsubscribe at any time.",
+      "submit": "Book My Consultation",
+      "submitting": "Sending…"
+    },
+    "testimonials": {
+      "previous": "Previous testimonial",
+      "next": "Next testimonial",
+      "logoAlt": "{name} company logo"
+    },
+    "errors": {
+      "fullName": "Full name is required",
+      "companyName": "Company name is required",
+      "email": "Please enter a valid email",
+      "websiteRequired": "Website URL is required",
+      "website": "Please enter a valid website URL",
+      "message": "Please tell us about your goals",
+      "privacy": "Please accept the Privacy Policy to continue"
+    },
+    "email": {
+      "subject": "We received your consultation request",
+      "greeting": "Hi {name},",
+      "thanks": "Thanks for requesting a free SEO consultation with Conversion Century. We've received your details and one of our SEO strategists will get back to you soon.",
+      "reply": "If you have anything to add in the meantime, just reply to this email.",
+      "signoff": "Best regards,",
+      "team": "The Conversion Century team",
+      "footer": "You're receiving this one-off email because you submitted the consultation form on our website. We use your details only to respond to your request — see our",
+      "privacy": "Privacy Policy"
+    }
+  },
+  "TestimonialForm": {
+    "page": {
+      "metaTitle": "Share your testimonial",
+      "heading": "Share your experience",
+      "description": "Tell us what it was like working with Conversion Century. Every testimonial is reviewed by our team before it goes live."
+    },
+    "successTitle": "Thank you for your testimonial!",
+    "success": "Our team will review it before it appears on the website.",
+    "clientTypeLegend": "Are you already working with us?",
+    "existingTitle": "Existing client",
+    "existingDescription": "Find your company in our list.",
+    "newTitle": "New client",
+    "newDescription": "Tell us about your company.",
+    "yourCompany": "Your company",
+    "searchPlaceholder": "Search for your company…",
+    "noCompany": "No company found. Choose “New client” instead.",
+    "companyName": "Company name",
+    "role": "Your role",
+    "rolePlaceholder": "e.g. Marketing Manager",
+    "website": "Company website",
+    "companyLogo": "Company logo",
+    "logoHint": "PNG, JPG or SVG, up to 2 MB.",
+    "name": "Name",
+    "email": "Email",
+    "profilePhoto": "Profile photo",
+    "photoHint": "A square photo works best. Up to 2 MB.",
+    "testimonial": "Testimonial",
+    "testimonialPlaceholder": "What was it like working with us? What results did you see?",
+    "submit": "Submit testimonial",
+    "submitting": "Sending…",
+    "errors": {
+      "name": "Please enter your name",
+      "email": "Please enter a valid email",
+      "testimonial": "Please write a few words for your testimonial",
+      "company": "Please choose your company",
+      "companyName": "Please enter your company name",
+      "website": "Please enter a valid website URL",
+      "chooseCompany": "Please choose your company from the list.",
+      "notImage": "{label} must be an image.",
+      "tooLarge": "{label} must be 2 MB or smaller."
+    }
+  },
+  "Logos35": {
+    "eyebrow": "Trusted by businesses at",
+    "heading": "Brands that grow with us",
+    "footer": "From local businesses to international brands — the companies we help grow organically."
   }
 }

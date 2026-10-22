@@ -1,14 +1,5 @@
 import type { Event } from "../../payload-types";
 
-export const eventTypeLabels: Record<Event["type"], string> = {
-  conference: "Conference",
-  webinar: "Webinar",
-  workshop: "Workshop",
-  podcast: "Podcast",
-  interview: "Interview",
-  press: "Press",
-};
-
 export function formatEventDate(event: Pick<Event, "startDate" | "endDate">, locale: string) {
   const format = new Intl.DateTimeFormat(locale, {
     year: "numeric",

@@ -1,3 +1,5 @@
+import { useTranslations } from 'next-intl'
+
 import { Link } from '@/i18n/navigation'
 
 type Cta = { label: string; href: string }
@@ -19,20 +21,24 @@ export default function SolutionHero({
   heading,
   paragraphs = [],
   highlights = [],
-  primaryCta = { label: 'Book a FREE Consultation', href: '/book-a-consultation' },
-  secondaryCta = { label: 'Explore Our Results', href: '/case-studies' },
+  primaryCta,
+  secondaryCta,
 }: SolutionHeroProps) {
+  const t = useTranslations('SolutionHero')
+  const tCommon = useTranslations('Common')
+  primaryCta ??= { label: tCommon('bookConsultation'), href: '/book-a-consultation' }
+  secondaryCta ??= { label: t('secondaryCta'), href: '/case-studies' }
   const [lead, ...rest] = paragraphs
 
   return (
     // The before: layer copies the background out to the viewport edges, past the layout's max-width container.
     <main className="relative isolate bg-[#0f4637] text-[#fbfaf5] before:absolute before:inset-y-0 before:left-1/2 before:-z-10 before:w-screen before:-translate-x-1/2 before:bg-inherit">
       <div className="mx-auto flex w-full max-w-[1240px] flex-col px-6 pb-5 sm:px-10 lg:px-0">
-        <nav aria-label="Breadcrumb" className="pt-5 text-sm text-white/60">
+        <nav aria-label={tCommon('breadcrumb')} className="pt-5 text-sm text-white/60">
           <ol className="flex items-center gap-3">
-            <li><Link className="transition-colors hover:text-white" href="/">Home</Link></li>
+            <li><Link className="transition-colors hover:text-white" href="/">{tCommon('home')}</Link></li>
             <li aria-hidden="true">/</li>
-            <li><Link className="transition-colors hover:text-white" href="/solutions">Solutions</Link></li>
+            <li><Link className="transition-colors hover:text-white" href="/solutions">{t('breadcrumb')}</Link></li>
             <li aria-hidden="true">/</li>
             <li className="font-semibold text-white">{name}</li>
           </ol>
@@ -68,7 +74,7 @@ export default function SolutionHero({
         </section>
 
         {highlights.length > 0 && (
-          <section aria-label="Our approach" className="grid border-t border-white/20 pt-6 text-center text-[15px] leading-[1.25] text-white/85 sm:grid-cols-3 sm:gap-8">
+          <section aria-label={t('approach')} className="grid border-t border-white/20 pt-6 text-center text-[15px] leading-[1.25] text-white/85 sm:grid-cols-3 sm:gap-8">
             {highlights.map((highlight) => <p key={highlight}>{highlight}</p>)}
           </section>
         )}

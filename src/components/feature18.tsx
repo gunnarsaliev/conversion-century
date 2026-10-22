@@ -1,5 +1,8 @@
 import { ChevronRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { cn } from "cn";
+
+import { Link } from "@/i18n/navigation";
 
 interface Feature18Item {
   title: string;
@@ -21,6 +24,7 @@ const Feature18 = ({
   features,
   className,
 }: Feature18Props) => {
+  const t = useTranslations("Common");
   return (
     <section
       className={cn(
@@ -58,13 +62,13 @@ const Feature18 = ({
                   )}
                 </div>
                 {feature.href && (
-                  <a
+                  <Link
                     href={feature.href}
                     className="flex items-center gap-2 text-sm font-medium"
                   >
-                    Learn more
+                    {t("learnMore")}
                     <ChevronRight className="w-4" />
-                  </a>
+                  </Link>
                 )}
               </div>
             ))}

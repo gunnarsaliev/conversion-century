@@ -1,9 +1,9 @@
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
 import { Hero104 } from "@/components/hero104";
-import hero104Data from "@/data/hero104.json";
+import { getHomeHero } from "@/lib/home-hero";
 import { ClientLogos } from "@/components/client-logos";
 import type { Media, User } from "../../../../payload-types";
 import { Feature13 } from "@/components/feature13";
@@ -41,6 +41,8 @@ export async function generateMetadata() {
 export default async function WebsitePage() {
   const locale = await getLocale();
   const payload = await getPayload({ config });
+  const tCommon = await getTranslations("Common");
+
 
   const testimonials: Testimonial17Item[] = (
     await getClientTestimonials(payload)
@@ -73,7 +75,7 @@ export default async function WebsitePage() {
       image: image?.url ?? "",
       author: authorName(post.author),
       authorAvatar: authorAvatar(post.author),
-      readTime: `${readTime} Min Read`,
+      readTime: tCommon("readTime", { minutes: readTime }),
       link: `/blog/${post.slug ?? post.id}`,
     };
   });
@@ -82,7 +84,7 @@ export default async function WebsitePage() {
     <>
       <StaticPageJsonLd page="home" />
       <div>
-        <Hero104 {...hero104Data} />
+        <Hero104 {...await getHomeHero()} />
         <ClientLogos />
         <Hero262 />      
         <Feature278 />

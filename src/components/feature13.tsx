@@ -9,7 +9,10 @@ import {
   Rocket,
   Zap,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { cn } from "cn";
+
+import { Link } from "@/i18n/navigation";
 
 interface FeatureCardListItem {
   title: string;
@@ -36,119 +39,37 @@ interface FeatureCardListProps {
 interface Feature13Props extends FeatureCardListProps {}
 type Props = Partial<Feature13Props>;
 
-const defaultProps: Feature13Props = {
-  eyebrow: "Industry Expertise",
-  heading: "Experience in the Markets You Compete In",
-  description:
-    "We tailor SEO strategy to the buying behaviour, regulatory context and competitive dynamics of your industry.",
-  features: [
-    {
-      icon: <Zap className="size-5" />,
-      title: "B2B SEO",
-      description:
-        "Generate qualified demand for complex products and services through search strategies aligned with longer decision-making journeys.",
-      image: {
-        src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/image-set/modern/saas-details/saas-card-detail-1-4x3.svg",
-        alt: "B2B SEO",
-      },
-      href: "https://www.shadcnblocks.com",
-    },
-    {
-      icon: <Palette className="size-5" />,
-      title: "E-commerce SEO",
-      description:
-        "Strengthen category and product visibility, improve discovery and turn organic search into a scalable revenue channel.",
-      image: {
-        src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/image-set/modern/saas-details/saas-card-detail-2-4x3.svg",
-        alt: "E-commerce SEO",
-      },
-      href: "https://www.shadcnblocks.com",
-    },
-    {
-      icon: <Layers className="size-5" />,
-      title: "Professional Services SEO",
-      description:
-        "Build authority, trust and qualified enquiries for expertise-led businesses operating in competitive markets.",
-      image: {
-        src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/image-set/modern/saas-details/saas-card-detail-3-4x3.svg",
-        alt: "Professional Services SEO",
-      },
-      href: "https://www.shadcnblocks.com",
-    },
-    {
-      icon: <Rocket className="size-5" />,
-      title: "Financial Services SEO",
-      description:
-        "Develop organic visibility in regulated financial markets where accuracy, expertise and trust are essential.",
-      image: {
-        src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/image-set/modern/saas-details/saas-card-detail-4-4x3.svg",
-        alt: "Financial Services SEO",
-      },
-      href: "https://www.shadcnblocks.com",
-    },
-    {
-      icon: <Blocks className="size-5" />,
-      title: "Real Estate SEO",
-      description:
-        "Reach buyers, tenants, owners and investors through locally and commercially relevant property-search strategies.",
-      image: {
-        src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/image-set/modern/saas-details/saas-card-detail-5-4x3.svg",
-        alt: "Real Estate SEO",
-      },
-      href: "https://www.shadcnblocks.com",
-    },
-    {
-      icon: <Globe className="size-5" />,
-      title: "Healthcare SEO",
-      description:
-        "Build patient trust and organic visibility through accurate, expert-led content and locally focused healthcare search strategies.",
-      image: {
-        src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/image-set/modern/saas-details/saas-card-detail-6-4x3.svg",
-        alt: "Healthcare SEO",
-      },
-      href: "https://www.shadcnblocks.com",
-    },
-    {
-      icon: <Briefcase className="size-5" />,
-      title: "Legal SEO",
-      description:
-        "Win visibility for high-value practice areas and build the credibility prospective clients look for before they enquire.",
-      image: {
-        src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/image-set/modern/saas-details/saas-card-detail-1-4x3.svg",
-        alt: "Legal SEO",
-      },
-      href: "https://www.shadcnblocks.com",
-    },
-    {
-      icon: <Plane className="size-5" />,
-      title: "Travel & Hospitality SEO",
-      description:
-        "Capture demand across research and booking journeys with destination, property and experience-led search strategies.",
-      image: {
-        src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/image-set/modern/saas-details/saas-card-detail-2-4x3.svg",
-        alt: "Travel & Hospitality SEO",
-      },
-      href: "https://www.shadcnblocks.com",
-    },
-    {
-      icon: <GraduationCap className="size-5" />,
-      title: "Education SEO",
-      description:
-        "Reach prospective students and families with programme and course visibility strategies built for long research cycles.",
-      image: {
-        src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/image-set/modern/saas-details/saas-card-detail-3-4x3.svg",
-        alt: "Education SEO",
-      },
-      href: "https://www.shadcnblocks.com",
-    },
-  ],
-};
+// Default copy lives in the `Feature13` messages (`features.<key>`).
+const DEFAULT_FEATURES = [
+  { key: "b2b", icon: <Zap className="size-5" />, image: "saas-card-detail-1-4x3.svg", href: "/industries/b2b" },
+  { key: "ecommerce", icon: <Palette className="size-5" />, image: "saas-card-detail-2-4x3.svg", href: "/industries/ecommerce" },
+  { key: "professionalServices", icon: <Layers className="size-5" />, image: "saas-card-detail-3-4x3.svg", href: "/industries/professional-services" },
+  { key: "financialServices", icon: <Rocket className="size-5" />, image: "saas-card-detail-4-4x3.svg", href: "/industries/financial-sector" },
+  { key: "realEstate", icon: <Blocks className="size-5" />, image: "saas-card-detail-5-4x3.svg", href: "/industries/real-estate" },
+  { key: "healthcare", icon: <Globe className="size-5" />, image: "saas-card-detail-6-4x3.svg", href: "/industries/healthcare" },
+  { key: "legal", icon: <Briefcase className="size-5" />, image: "saas-card-detail-1-4x3.svg", href: "/industries" },
+  { key: "travel", icon: <Plane className="size-5" />, image: "saas-card-detail-2-4x3.svg", href: "/industries" },
+  { key: "education", icon: <GraduationCap className="size-5" />, image: "saas-card-detail-3-4x3.svg", href: "/industries" },
+] as const;
+
+const IMAGE_BASE =
+  "https://deifkwefumgah.cloudfront.net/shadcnblocks/image-set/modern/saas-details/";
 
 const Feature13 = (props: Props) => {
-  const { eyebrow, heading, description, features, className } = {
-    ...defaultProps,
-    ...props,
-  };
+  const t = useTranslations("Feature13");
+  const {
+    eyebrow = t("eyebrow"),
+    heading = t("heading"),
+    description = t("description"),
+    features = DEFAULT_FEATURES.map(({ key, icon, image, href }): FeatureCardListItem => ({
+      icon,
+      href,
+      title: t(`features.${key}.title`),
+      description: t(`features.${key}.description`),
+      image: { src: IMAGE_BASE + image, alt: t(`features.${key}.title`) },
+    })),
+    className,
+  } = props;
 
   return (
     <section className={cn("py-32", className)}>
@@ -183,20 +104,20 @@ const Feature13 = (props: Props) => {
                   <span className="font-mono text-xs text-muted-foreground">
                     {feature.label}
                   </span>
-                  <a href={feature.href}>
+                  <Link href={feature.href ?? "#"}>
                     <h3 className="text-2xl font-semibold tracking-tight transition-all hover:text-primary hover:opacity-80 sm:text-3xl lg:text-4xl">
                       {feature.title}
                     </h3>
-                  </a>
+                  </Link>
                 </div>
                 <div className="w-2/5 shrink-0 rounded-r-lg border-l md:w-1/3">
-                  <a href={feature.href}>
+                  <Link href={feature.href ?? "#"}>
                     <img
                       src={feature.image.src}
                       alt={feature.image.alt}
                       className="aspect-4/3 h-full w-full rounded-t-lg object-cover object-top transition-opacity hover:opacity-80"
                     />
-                  </a>
+                  </Link>
                 </div>
               </div>
               <p className="p-4 text-muted-foreground md:p-8">
