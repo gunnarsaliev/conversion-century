@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/card";
 import { isLeadStatus } from "@/lib/client-status";
 import { NotificationBell } from "@/components/dashboard/notification-bell";
+import { clientContacts, primaryContactName } from "@/lib/primary-contact";
 
 const statusBadgeClassName: Record<string, string> = {
   active: "bg-green-100 text-green-800",
@@ -56,6 +57,8 @@ export default async function LeadPage({ params }: LeadPageProps) {
   if (!client || !isLeadStatus(client.status)) {
     notFound();
   }
+
+  const contacts = clientContacts(client);
 
   const accountManagers = (client["Account Manager"] ?? []).filter(
     (manager): manager is Exclude<typeof manager, string | number> =>
@@ -150,12 +153,12 @@ export default async function LeadPage({ params }: LeadPageProps) {
                   >
                     <span className="capitalize">{client.status}</span>
                   </Badge>
-                  {client.contactName && (
+                  {primaryContactName(client) && (
                     <span>
                       {" "}
                       contact:{" "}
                       <span className="font-medium">
-                        {client.contactName}
+                        {primaryContactName(client)}
                       </span>
                     </span>
                   )}
@@ -301,10 +304,29 @@ export default async function LeadPage({ params }: LeadPageProps) {
               <CardTitle>Contact</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col gap-3 text-sm">
-              {client.contactName ? (
+              {contacts.length > 0 ? (
                 <div>
-                  <p className="text-muted-foreground">Contact</p>
-                  <p>{client.contactName}</p>
+                  <p className="text-muted-foreground">
+                    {contacts.length > 1 ? "Contacts" : "Contact"}
+                  </p>
+                  <ul className="flex flex-col gap-1">
+                    {contacts.map((contact) => (
+                      <li key={contact.id} className="flex flex-wrap items-center gap-x-2">
+                        <span>{contact.name}</span>
+                        {contact.role ? (
+                          <span className="text-muted-foreground">{contact.role}</span>
+                        ) : null}
+                        {contact.isPrimary && contacts.length > 1 ? (
+                          <Badge variant="secondary">Primary</Badge>
+                        ) : null}
+                        {contact.email ? (
+                          <a href={`mailto:${contact.email}`} className="text-muted-foreground hover:underline">
+                            {contact.email}
+                          </a>
+                        ) : null}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               ) : null}
               {client.email ? (

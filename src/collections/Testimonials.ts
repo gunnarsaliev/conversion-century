@@ -1,18 +1,41 @@
-import type { CollectionAfterChangeHook, CollectionConfig } from 'payload'
+import type {
+  CollectionAfterChangeHook,
+  CollectionBeforeChangeHook,
+  CollectionConfig,
+} from 'payload'
 
-import { plainTextToLexical } from '../lib/plain-text-to-lexical'
 import { adminOrEditor } from '../lib/roles'
-import type { Client, Testimonial } from '../../payload-types'
+import type { Testimonial } from '../../payload-types'
 
 const relationId = (value: unknown) =>
   value && typeof value === 'object' && 'id' in value
     ? (value as { id: number }).id
     : (value as number | null | undefined)
 
-// Submissions from /website/testimonials/new arrive as `pending`. When an
-// admin switches one to `approved`, copy it onto the client record: update
-// the chosen existing client, or create the new client (as a Lead) and link
-// it back. Runs in the same transaction as the save (`req`).
+// Keeps `title` (the admin list title) in sync with whoever wrote it: the
+// linked contact once there is one, otherwise the submitted name.
+const setTitle: CollectionBeforeChangeHook<Testimonial> = async ({ data, req }) => {
+  const contactId = relationId(data.contact)
+  if (contactId) {
+    const contact = await req.payload.findByID({
+      collection: 'contacts',
+      id: contactId,
+      depth: 0,
+      req,
+    })
+    data.title = contact.name
+  } else {
+    data.title = data.submittedBy?.name || 'Testimonial'
+  }
+  return data
+}
+
+// Submissions from /website/testimonials/new arrive as `pending` with the
+// person's details in `submittedBy`. When an admin switches one to
+// `approved`, link it to a real client and contact: the chosen existing
+// client (or a new client created as a Lead), and the contact on that client
+// with the submitted email (or a new one). Runs in the same transaction as
+// the save (`req`).
 const applyApprovedTestimonial: CollectionAfterChangeHook<Testimonial> = async ({
   doc,
   previousDoc,
@@ -21,60 +44,90 @@ const applyApprovedTestimonial: CollectionAfterChangeHook<Testimonial> = async (
 }) => {
   if (context.skipApproval) return doc
   if (doc.status !== 'approved' || previousDoc?.status === 'approved') return doc
+  if (relationId(doc.contact)) return doc
 
-  const clientData: Partial<Client> = {
-    contactName: doc.name,
-    testimonial: plainTextToLexical(doc.testimonial) as Client['testimonial'],
-    profileImage: relationId(doc.profileImage) ?? undefined,
-  }
+  const submitted = doc.submittedBy
+  if (!submitted?.name) return doc
 
-  const existingClientId = relationId(doc.client)
+  let clientId = relationId(doc.client)
 
-  if (doc.clientType === 'existing' && existingClientId) {
-    await req.payload.update({
-      collection: 'clients',
-      id: existingClientId,
-      data: clientData,
-      req,
-    })
-    return doc
-  }
-
-  if (doc.clientType === 'new' && doc.newClient?.companyName) {
+  if (!clientId && doc.clientType === 'new' && doc.newClient?.companyName) {
     const client = await req.payload.create({
       collection: 'clients',
       data: {
-        ...clientData,
         companyName: doc.newClient.companyName,
-        contactRole: doc.newClient.role ?? undefined,
-        email: doc.email,
+        email: submitted.email ?? undefined,
         logo: relationId(doc.newClient.logo) ?? undefined,
         websiteLinks: doc.newClient.website ? [{ url: doc.newClient.website }] : [],
         status: 'lead',
       },
       req,
     })
-
-    await req.payload.update({
-      collection: 'testimonials',
-      id: doc.id,
-      data: { client: client.id },
-      context: { skipApproval: true },
-      req,
-    })
-    return { ...doc, client: client.id }
+    clientId = client.id
   }
 
-  return doc
+  if (!clientId) return doc
+
+  const { docs: matches } = submitted.email
+    ? await req.payload.find({
+        collection: 'contacts',
+        where: {
+          client: { equals: clientId },
+          email: { equals: submitted.email },
+        },
+        limit: 1,
+        depth: 0,
+        req,
+      })
+    : { docs: [] }
+
+  const contact =
+    matches[0] ??
+    (await req.payload.create({
+      collection: 'contacts',
+      data: {
+        name: submitted.name,
+        role: submitted.role ?? undefined,
+        email: submitted.email ?? undefined,
+        profileImage: relationId(submitted.profileImage) ?? undefined,
+        client: clientId,
+        status: 'active',
+      },
+      req,
+    }))
+
+  const client = await req.payload.findByID({
+    collection: 'clients',
+    id: clientId,
+    depth: 0,
+    req,
+  })
+  if (!client.primaryContact) {
+    await req.payload.update({
+      collection: 'clients',
+      id: clientId,
+      data: { primaryContact: contact.id },
+      req,
+    })
+  }
+
+  await req.payload.update({
+    collection: 'testimonials',
+    id: doc.id,
+    data: { client: clientId, contact: contact.id },
+    context: { skipApproval: true },
+    req,
+  })
+  return { ...doc, client: clientId, contact: contact.id }
 }
 
 export const Testimonials: CollectionConfig = {
   slug: 'testimonials',
   admin: {
-    useAsTitle: 'name',
-    defaultColumns: ['name', 'client', 'clientType', 'status', 'createdAt'],
+    useAsTitle: 'title',
+    defaultColumns: ['title', 'client', 'status', 'featured', 'createdAt'],
     description:
-      'Submitted from /website/testimonials/new. Approving one copies it onto the client (or creates the new client as a Lead).',
+      'Submitted from /website/testimonials/new. Approving one links it to the client and contact (creating them if needed). Approved testimonials are shown on the website.',
   },
   // The public form writes through the local API (server action), so no one
   // needs REST/GraphQL access except admins.
@@ -85,27 +138,18 @@ export const Testimonials: CollectionConfig = {
     delete: adminOrEditor,
   },
   hooks: {
+    beforeChange: [setTitle],
     afterChange: [applyApprovedTestimonial],
   },
   fields: [
     {
-      name: 'name',
+      name: 'title',
       type: 'text',
-      required: true,
-    },
-    {
-      name: 'email',
-      type: 'email',
-    },
-    {
-      name: 'profileImage',
-      label: 'Profile photo',
-      type: 'upload',
-      relationTo: 'media',
+      admin: { hidden: true },
     },
     {
       name: 'testimonial',
-      type: 'textarea',
+      type: 'richText',
       required: true,
     },
     {
@@ -119,6 +163,24 @@ export const Testimonials: CollectionConfig = {
         { label: 'Rejected', value: 'rejected' },
       ],
       admin: { position: 'sidebar' },
+    },
+    {
+      name: 'featured',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+        description: 'Show on the homepage, service/solution pages and the consultation page.',
+      },
+    },
+    {
+      name: 'order',
+      type: 'number',
+      admin: {
+        position: 'sidebar',
+        description: 'Lower numbers show first among featured testimonials.',
+        condition: (data) => Boolean(data?.featured),
+      },
     },
     {
       name: 'clientType',
@@ -147,6 +209,40 @@ export const Testimonials: CollectionConfig = {
         data?.clientType === 'existing' && !value ? 'Choose the client.' : true,
     },
     {
+      name: 'contact',
+      type: 'relationship',
+      relationTo: 'contacts',
+      admin: {
+        position: 'sidebar',
+        description: 'Set automatically on approval from the submitted details.',
+      },
+      filterOptions: ({ data }) => {
+        const clientId = relationId(data?.client)
+        return clientId ? { client: { equals: clientId } } : true
+      },
+    },
+    {
+      name: 'submittedBy',
+      label: 'Submitted by',
+      type: 'group',
+      admin: {
+        description: 'What the person entered on the public form.',
+        condition: (data) => Boolean(data?.submittedBy?.name),
+        readOnly: true,
+      },
+      fields: [
+        { name: 'name', type: 'text' },
+        { name: 'email', type: 'email' },
+        { name: 'role', label: 'Role / job title', type: 'text' },
+        {
+          name: 'profileImage',
+          label: 'Profile photo',
+          type: 'upload',
+          relationTo: 'media',
+        },
+      ],
+    },
+    {
       name: 'newClient',
       label: 'New client details',
       type: 'group',
@@ -162,11 +258,6 @@ export const Testimonials: CollectionConfig = {
             { data }: { data: Partial<Testimonial> },
           ) =>
             data?.clientType === 'new' && !value ? 'Company name is required.' : true,
-        },
-        {
-          name: 'role',
-          label: 'Role / job title',
-          type: 'text',
         },
         {
           name: 'website',

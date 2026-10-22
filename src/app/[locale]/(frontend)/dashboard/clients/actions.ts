@@ -5,6 +5,8 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 import { z } from "zod";
 
+import { upsertPrimaryContact } from "@/lib/primary-contact";
+
 // ---------------------------------------------------------------------------
 // Client create / update (Server Actions, Payload local API)
 // ---------------------------------------------------------------------------
@@ -24,10 +26,9 @@ type ClientFormResult =
   | { success: false; error: string };
 
 function toClientData(input: ClientFormInput) {
-  const { companyName, contactName, email, phone, status } = input;
+  const { companyName, email, phone, status } = input;
   return {
     companyName,
-    contactName: contactName || undefined,
     email: email || undefined,
     phone: phone || undefined,
     status,
@@ -53,6 +54,11 @@ async function createClient(
       collection: "clients",
       data: toClientData(parsed.data),
     });
+
+    // The form's "Contact name" edits the client's primary contact.
+    if (parsed.data.contactName) {
+      await upsertPrimaryContact(payload, client, { name: parsed.data.contactName });
+    }
 
     revalidatePath("/dashboard/clients");
     revalidatePath("/dashboard/leads");
@@ -87,6 +93,11 @@ async function updateClient(
       id,
       data: toClientData(parsed.data),
     });
+
+    // The form's "Contact name" edits the client's primary contact.
+    if (parsed.data.contactName) {
+      await upsertPrimaryContact(payload, client, { name: parsed.data.contactName });
+    }
 
     revalidatePath("/dashboard/clients");
     revalidatePath("/dashboard/leads");

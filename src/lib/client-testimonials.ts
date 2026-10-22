@@ -1,11 +1,7 @@
 import type { Payload } from "payload";
 
 import { richTextToPlainText } from "@/lib/rich-text-to-plain-text";
-
-// Hand-picked clients whose testimonial may appear on the public website,
-// in display order — not tied to `showOnWebsite` (that flag only governs the
-// logo strip).
-export const TESTIMONIAL_CLIENT_IDS = [47, 75, 90];
+import type { Client, Contact, Media, Testimonial } from "../../payload-types";
 
 export type ClientTestimonial = {
   company: string;
@@ -15,37 +11,66 @@ export type ClientTestimonial = {
   logoUrl?: string;
 };
 
-// Testimonial and contact fields are admin-only, so this reads with
-// overrideAccess and returns only the fields that are safe to publish.
+export type PublicTestimonial = {
+  testimonial: Testimonial["testimonial"];
+  client: Client | null;
+  contact: Contact | null;
+};
+
+const populated = <T extends object>(value: unknown): T | null =>
+  value && typeof value === "object" ? (value as T) : null;
+
+export const mediaUrl = (value: unknown) => populated<Media>(value)?.url ?? undefined;
+
+// Testimonials, Clients and Contacts are admin-only, so this reads with
+// overrideAccess and keeps only the fields that are safe to publish.
+// `featured` limits it to the hand-picked ones, in their set order.
+export async function getApprovedTestimonials(
+  payload: Payload,
+  { featured = false }: { featured?: boolean } = {},
+): Promise<PublicTestimonial[]> {
+  const { docs } = await payload.find({
+    collection: "testimonials",
+    where: {
+      status: { equals: "approved" },
+      ...(featured ? { featured: { equals: true } } : {}),
+    },
+    sort: featured ? ["order", "-createdAt"] : "-createdAt",
+    // 2 levels: testimonial → client/contact → logo/profile image.
+    depth: 2,
+    limit: 100,
+    overrideAccess: true,
+    select: { testimonial: true, client: true, contact: true },
+    populate: {
+      clients: { companyName: true, logo: true, websiteLinks: true },
+      contacts: { name: true, role: true, profileImage: true },
+    },
+  });
+
+  return docs.map((doc) => ({
+    testimonial: doc.testimonial,
+    client: populated<Client>(doc.client),
+    contact: populated<Contact>(doc.contact),
+  }));
+}
+
 export async function getClientTestimonials(
   payload: Payload,
 ): Promise<ClientTestimonial[]> {
-  const { docs } = await payload.find({
-    collection: "clients",
-    where: {
-      id: { in: TESTIMONIAL_CLIENT_IDS },
-    },
-    depth: 1,
-    limit: TESTIMONIAL_CLIENT_IDS.length,
-    overrideAccess: true,
-  });
+  const testimonials = await getApprovedTestimonials(payload, { featured: true });
 
-  return TESTIMONIAL_CLIENT_IDS.map((id): ClientTestimonial | null => {
-    const client = docs.find((doc) => doc.id === id);
-    if (!client) return null;
+  return testimonials
+    .map(({ testimonial, client, contact }): ClientTestimonial | null => {
+      const quote = richTextToPlainText(testimonial);
+      if (!quote || !client) return null;
 
-    const quote = richTextToPlainText(client.testimonial);
-    if (!quote) return null;
-
-    return {
-      company: client.companyName,
-      quote,
-      name: client.contactName || client.companyName,
-      role: client.contactRole || client.companyName,
-      logoUrl:
-        typeof client.logo === "object" && client.logo?.url
-          ? client.logo.url
-          : undefined,
-    };
-  }).filter((item): item is ClientTestimonial => item !== null);
+      return {
+        company: client.companyName,
+        quote,
+        name: contact?.name || client.companyName,
+        role: contact?.role || client.companyName,
+        logoUrl: mediaUrl(client.logo),
+      };
+    })
+    .filter((item): item is ClientTestimonial => item !== null);
 }

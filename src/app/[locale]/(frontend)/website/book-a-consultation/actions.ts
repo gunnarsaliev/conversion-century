@@ -14,6 +14,7 @@ import {
 } from "@/lib/brevo";
 import { clientHref, createNotification } from "@/lib/notifications";
 import { SITE_URL } from "@/lib/seo/site";
+import { upsertPrimaryContact } from "@/lib/primary-contact";
 
 // ---------------------------------------------------------------------------
 // Book a consultation (Server Action, Payload local API + Brevo)
@@ -184,12 +185,15 @@ async function saveClient(
     collection: "clients",
     data: {
       companyName: data.companyName,
-      contactName: data.fullName,
       email: data.email,
       websiteLinks: [{ url: data.website }],
       status: "consultation",
       notes: data.message,
     },
+  });
+  await upsertPrimaryContact(payload, created, {
+    name: data.fullName,
+    email: data.email,
   });
   return { id: created.id, status: created.status };
 }

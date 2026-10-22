@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     users: User;
     clients: Client;
+    contacts: Contact;
     services: Service;
     media: Media;
     documents: Document;
@@ -94,7 +95,12 @@ export interface Config {
   };
   collectionsJoins: {
     clients: {
+      contacts: 'contacts';
+      testimonials: 'testimonials';
       checklistProgress: 'client-checklist-progress';
+    };
+    contacts: {
+      testimonials: 'testimonials';
     };
     'work-checklist': {
       clientUsage: 'client-checklist-progress';
@@ -103,6 +109,7 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     clients: ClientsSelect<false> | ClientsSelect<true>;
+    contacts: ContactsSelect<false> | ContactsSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     documents: DocumentsSelect<false> | DocumentsSelect<true>;
@@ -293,12 +300,12 @@ export interface Client {
    * When checked, this client’s name and logo become publicly readable (e.g. for a homepage trust/logo strip). All other fields on this record stay admin-only.
    */
   showOnWebsite?: boolean | null;
-  contactName?: string | null;
-  contactRole?: string | null;
-  /**
-   * Photo of the contact person, e.g. shown next to their testimonial.
-   */
-  profileImage?: (number | null) | Media;
+  primaryContact?: (number | null) | Contact;
+  contacts?: {
+    docs?: (number | Contact)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   email?: string | null;
   phone?: string | null;
   websiteLinks?:
@@ -395,7 +402,59 @@ export interface Client {
     };
     [k: string]: unknown;
   } | null;
-  testimonial?: {
+  'Account Manager'?: (number | User)[] | null;
+  Publisher?: (number | User)[] | null;
+  Copywriter?: (number | User)[] | null;
+  services?: (number | Service)[] | null;
+  businessSize?: ('small-business' | 'midmarket' | 'enterprise') | null;
+  industries?: (number | Industry)[] | null;
+  testimonials?: {
+    docs?: (number | Testimonial)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  checklistProgress?: {
+    docs?: (number | ClientChecklistProgress)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contacts".
+ */
+export interface Contact {
+  id: number;
+  name: string;
+  role?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  /**
+   * Photo of the person, e.g. shown next to their testimonial.
+   */
+  profileImage?: (number | null) | Media;
+  status: 'active' | 'pending' | 'archived';
+  client: number | Client;
+  testimonials?: {
+    docs?: (number | Testimonial)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Submitted from /website/testimonials/new. Approving one links it to the client and contact (creating them if needed). Approved testimonials are shown on the website.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials".
+ */
+export interface Testimonial {
+  id: number;
+  title?: string | null;
+  testimonial: {
     root: {
       type: string;
       children: {
@@ -409,17 +468,35 @@ export interface Client {
       version: number;
     };
     [k: string]: unknown;
-  } | null;
-  'Account Manager'?: (number | User)[] | null;
-  Publisher?: (number | User)[] | null;
-  Copywriter?: (number | User)[] | null;
-  services?: (number | Service)[] | null;
-  businessSize?: ('small-business' | 'midmarket' | 'enterprise') | null;
-  industries?: (number | Industry)[] | null;
-  checklistProgress?: {
-    docs?: (number | ClientChecklistProgress)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
+  };
+  status: 'pending' | 'approved' | 'rejected';
+  /**
+   * Show on the homepage, service/solution pages and the consultation page.
+   */
+  featured?: boolean | null;
+  /**
+   * Lower numbers show first among featured testimonials.
+   */
+  order?: number | null;
+  clientType: 'existing' | 'new';
+  client?: (number | null) | Client;
+  /**
+   * Set automatically on approval from the submitted details.
+   */
+  contact?: (number | null) | Contact;
+  /**
+   * What the person entered on the public form.
+   */
+  submittedBy?: {
+    name?: string | null;
+    email?: string | null;
+    role?: string | null;
+    profileImage?: (number | null) | Media;
+  };
+  newClient?: {
+    companyName?: string | null;
+    website?: string | null;
+    logo?: (number | null) | Media;
   };
   updatedAt: string;
   createdAt: string;
@@ -1121,30 +1198,6 @@ export interface Event {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Submitted from /website/testimonials/new. Approving one copies it onto the client (or creates the new client as a Lead).
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "testimonials".
- */
-export interface Testimonial {
-  id: number;
-  name: string;
-  email?: string | null;
-  profileImage?: (number | null) | Media;
-  testimonial: string;
-  status: 'pending' | 'approved' | 'rejected';
-  clientType: 'existing' | 'new';
-  client?: (number | null) | Client;
-  newClient?: {
-    companyName?: string | null;
-    role?: string | null;
-    website?: string | null;
-    logo?: (number | null) | Media;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "offers".
  */
@@ -1442,6 +1495,10 @@ export interface PayloadLockedDocument {
         value: number | Client;
       } | null)
     | ({
+        relationTo: 'contacts';
+        value: number | Contact;
+      } | null)
+    | ({
         relationTo: 'services';
         value: number | Service;
       } | null)
@@ -1591,9 +1648,8 @@ export interface ClientsSelect<T extends boolean = true> {
   companyName?: T;
   logo?: T;
   showOnWebsite?: T;
-  contactName?: T;
-  contactRole?: T;
-  profileImage?: T;
+  primaryContact?: T;
+  contacts?: T;
   email?: T;
   phone?: T;
   websiteLinks?:
@@ -1629,14 +1685,30 @@ export interface ClientsSelect<T extends boolean = true> {
   region?: T;
   notes?: T;
   description?: T;
-  testimonial?: T;
   'Account Manager'?: T;
   Publisher?: T;
   Copywriter?: T;
   services?: T;
   businessSize?: T;
   industries?: T;
+  testimonials?: T;
   checklistProgress?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contacts_select".
+ */
+export interface ContactsSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  email?: T;
+  phone?: T;
+  profileImage?: T;
+  status?: T;
+  client?: T;
+  testimonials?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2189,18 +2261,26 @@ export interface EventsSelect<T extends boolean = true> {
  * via the `definition` "testimonials_select".
  */
 export interface TestimonialsSelect<T extends boolean = true> {
-  name?: T;
-  email?: T;
-  profileImage?: T;
+  title?: T;
   testimonial?: T;
   status?: T;
+  featured?: T;
+  order?: T;
   clientType?: T;
   client?: T;
+  contact?: T;
+  submittedBy?:
+    | T
+    | {
+        name?: T;
+        email?: T;
+        role?: T;
+        profileImage?: T;
+      };
   newClient?:
     | T
     | {
         companyName?: T;
-        role?: T;
         website?: T;
         logo?: T;
       };
@@ -2453,6 +2533,7 @@ export interface TaskCreateCollectionExport {
     collectionSlug:
       | 'users'
       | 'clients'
+      | 'contacts'
       | 'services'
       | 'media'
       | 'documents'

@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "generate:types": "node scripts/payload-esm.mjs generate:types",
+    "migrate": "node scripts/payload-esm.mjs migrate",
+    "migrate:create": "node scripts/payload-esm.mjs migrate:create",
     "seed:solutions": "node scripts/payload-esm.mjs run scripts/seed-solutions.ts",
     "seed:offers": "node scripts/payload-esm.mjs run scripts/seed-offers.ts"
   },

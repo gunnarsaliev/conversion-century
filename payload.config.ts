@@ -12,6 +12,7 @@ import { adminOnlyCollection, adminOrEditor } from './src/lib/roles'
 
 import { Users } from './src/collections/Users'
 import { Clients } from './src/collections/Clients'
+import { Contacts } from './src/collections/Contacts'
 import { Services } from './src/collections/Services'
 import { Media } from './src/collections/Media'
 import { Documents } from './src/collections/Documents'
@@ -50,6 +51,7 @@ export default buildConfig({
   collections: [
     Users,
     Clients,
+    Contacts,
     Services,
     Media,
     Documents,
@@ -206,6 +208,11 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URL || '',
     },
+    // Schema changes go through migrations (src/migrations), so dev mode
+    // must not push the schema itself — that would drop columns before a
+    // migration gets to copy their data.
+    push: false,
+    migrationDir: './src/migrations',
   }),
 
   sharp,

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { cn } from "cn";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
@@ -59,6 +59,8 @@ const getInitials = (name: string) =>
     .map((part) => part.charAt(0).toUpperCase())
     .join("");
 
+const noopSubscribe = () => () => {};
+
 const XL_REVIEW_CARD_COUNT = 6;
 const LG_REVIEW_CARD_COUNT = 4;
 
@@ -68,7 +70,13 @@ const Reviews22 = ({ reviews, className }: Reviews22Props) => {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const [mounted] = useState(() => typeof window !== "undefined");
+  // False on the server and during hydration, true afterwards, so the first
+  // client render matches the server HTML.
+  const mounted = useSyncExternalStore(
+    noopSubscribe,
+    () => true,
+    () => false,
+  );
 
   function getReviewCardCount() {
     if (isXl) return XL_REVIEW_CARD_COUNT;

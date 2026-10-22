@@ -1,5 +1,8 @@
-import type { CollectionBeforeValidateHook, CollectionConfig } from 'payload'
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import type {
+  CollectionBeforeDeleteHook,
+  CollectionBeforeValidateHook,
+  CollectionConfig,
+} from 'payload'
 import { documentsField } from '../fields/documentsField'
 import { adminOnlyCollection, isAdminOrEditor } from '../lib/roles'
 
@@ -102,6 +105,16 @@ const resolveAccountManagerAndPublisherEmails: CollectionBeforeValidateHook = as
   return data
 }
 
+// A contact can't exist without its client, so remove them together
+// (the database would otherwise refuse to null out `contacts.client_id`).
+const deleteClientContacts: CollectionBeforeDeleteHook = async ({ id, req }) => {
+  await req.payload.delete({
+    collection: 'contacts',
+    where: { client: { equals: id } },
+    req,
+  })
+}
+
 export const Clients: CollectionConfig = {
   slug: 'clients',
   admin: {
@@ -110,6 +123,7 @@ export const Clients: CollectionConfig = {
   },
   hooks: {
     beforeValidate: [resolveAccountManagerAndPublisherEmails],
+    beforeDelete: [deleteClientContacts],
   },
   access: {
     // Internal CRM data — only admins may write client records,
@@ -157,21 +171,22 @@ export const Clients: CollectionConfig = {
       },
     },
     {
-      name: 'contactName',
-      type: 'text',
-    },
-    {
-      name: 'contactRole',
-      label: 'Contact Person Role',
-      type: 'text',
-    },
-    {
-      name: 'profileImage',
-      label: 'Profile image',
-      type: 'upload',
-      relationTo: 'media',
+      name: 'primaryContact',
+      type: 'relationship',
+      relationTo: 'contacts',
       admin: {
-        description: 'Photo of the contact person, e.g. shown next to their testimonial.',
+        position: 'sidebar',
+      },
+      // Only this client's own contacts can be primary.
+      filterOptions: ({ id }) => (id ? { client: { equals: id } } : false),
+    },
+    {
+      name: 'contacts',
+      type: 'join',
+      collection: 'contacts',
+      on: 'client',
+      admin: {
+        defaultColumns: ['name', 'role', 'email'],
       },
     },
     {
@@ -315,11 +330,6 @@ export const Clients: CollectionConfig = {
       type: 'richText',
     },
     {
-      name: 'testimonial',
-      type: 'richText',
-      editor: lexicalEditor(),
-    },
-    {
       name: 'Account Manager',
       type: 'relationship',
       relationTo: 'users',
@@ -415,6 +425,15 @@ export const Clients: CollectionConfig = {
             beforeImport: hasManyRelationshipBeforeImport,
           },
         },
+      },
+    },
+    {
+      name: 'testimonials',
+      type: 'join',
+      collection: 'testimonials',
+      on: 'client',
+      admin: {
+        defaultColumns: ['title', 'contact', 'status'],
       },
     },
     {

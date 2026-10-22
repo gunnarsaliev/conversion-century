@@ -5,6 +5,7 @@ import clsx from 'clsx'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 
+import { Providers } from '@/app/[locale]/providers'
 import { routing } from '@/i18n/routing'
 import { IS_INDEXABLE, SITE_NAME, SITE_URL } from '@/lib/seo/site'
 
@@ -62,7 +63,11 @@ export default async function LocaleLayout({ children, params }: Props) {
       suppressHydrationWarning
     >
       <body className="isolate flex min-h-full bg-white dark:bg-slate-900">
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        {/* Shared by every route group, so the theme provider (and its inline
+            script) isn't remounted when navigating between them. */}
+        <NextIntlClientProvider>
+          <Providers>{children}</Providers>
+        </NextIntlClientProvider>
       </body>
     </html>
   )

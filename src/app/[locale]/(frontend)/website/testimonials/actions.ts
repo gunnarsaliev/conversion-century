@@ -4,13 +4,17 @@ import { getPayload, type Payload } from "payload";
 import config from "@payload-config";
 import { z } from "zod";
 
+import { plainTextToLexical } from "@/lib/plain-text-to-lexical";
+import type { Testimonial } from "../../../../../../payload-types";
+
 // ---------------------------------------------------------------------------
 // Testimonial submission (Server Action, Payload local API)
 // ---------------------------------------------------------------------------
 //
 // Testimonials are admin-only over REST, so the public form submits here and
 // the local API creates a `pending` entry server-side. An admin approves it
-// in Payload, which copies it onto the client (see collections/Testimonials).
+// in Payload, which links it to the client and a contact (see
+// collections/Testimonials).
 
 const MAX_IMAGE_BYTES = 2 * 1024 * 1024;
 
@@ -119,36 +123,34 @@ async function submitTestimonial(formData: FormData): Promise<TestimonialFormRes
       ? await uploadImage(payload, profileImage, data.name)
       : undefined;
 
+    const submission = {
+      testimonial: plainTextToLexical(data.testimonial) as Testimonial["testimonial"],
+      status: "pending" as const,
+      submittedBy: {
+        name: data.name,
+        email: data.email,
+        role: data.clientType === "new" ? data.role : undefined,
+        profileImage: profileImageId,
+      },
+    };
+
     if (data.clientType === "existing") {
       await payload.create({
         collection: "testimonials",
-        data: {
-          name: data.name,
-          email: data.email,
-          testimonial: data.testimonial,
-          profileImage: profileImageId,
-          clientType: "existing",
-          client: data.clientId,
-          status: "pending",
-        },
+        data: { ...submission, clientType: "existing", client: data.clientId },
       });
     } else {
       const logoId = logo ? await uploadImage(payload, logo, data.companyName) : undefined;
       await payload.create({
         collection: "testimonials",
         data: {
-          name: data.name,
-          email: data.email,
-          testimonial: data.testimonial,
-          profileImage: profileImageId,
+          ...submission,
           clientType: "new",
           newClient: {
             companyName: data.companyName,
-            role: data.role,
             website: data.website,
             logo: logoId,
           },
-          status: "pending",
         },
       });
     }

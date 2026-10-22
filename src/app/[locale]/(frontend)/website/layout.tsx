@@ -2,7 +2,6 @@ import { getLocale } from 'next-intl/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
-import { Providers } from '@/app/[locale]/(frontend)/providers'
 import { BackgroundPattern27 } from '@/components/background-pattern27'
 import { Footer3 } from '@/components/footer3'
 import { Navbar3 } from '@/components/navbar3'
@@ -42,15 +41,13 @@ export default async function FrontendLayout({
   })
 
   return (
-    <Providers>
-      <div className="relative isolate w-full min-w-0 overflow-x-clip">
-        <BackgroundPattern27 />
-        <Navbar3 blogPosts={navbarBlogPosts} />
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          {children}
-          <Footer3 />
-        </div>
+    <div className="relative isolate w-full min-w-0 overflow-x-clip">
+      <BackgroundPattern27 />
+      <Navbar3 blogPosts={navbarBlogPosts} />
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {children}
+        <Footer3 />
       </div>
-    </Providers>
+    </div>
   )
 }

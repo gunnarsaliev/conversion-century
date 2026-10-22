@@ -3,12 +3,10 @@ import config from "@payload-config";
 import { convertLexicalToPlaintext } from "@payloadcms/richtext-lexical/plaintext";
 
 import { BookADemo2 } from "@/components/book-a-demo2";
-import type { Media } from "../../../../../../payload-types";
+import { getApprovedTestimonials, mediaUrl } from "@/lib/client-testimonials";
 import { ClientLogos } from "@/components/client-logos";
 import { StaticPageJsonLd } from "@/components/static-page-json-ld";
 import { staticPageMetadata } from "@/lib/seo/pages";
-
-const FEATURED_CLIENT_IDS = [75, 47, 72, 83];
 
 // BookADemo2Testimonials renders `author.profilePicture` as a plain <img>,
 // so a "first letter" avatar has to actually be an image source — build
@@ -25,53 +23,30 @@ export async function generateMetadata() {
 export default async function BookAConsultationPage() {
   const payload = await getPayload({ config });
 
-  const clients = await Promise.all(
-    FEATURED_CLIENT_IDS.map((id) =>
-      payload
-        .findByID({
-          collection: "clients",
-          id,
-          depth: 1,
-          // Local API bypasses Clients' admin-only `read` access — needed
-          // so a logged-out visitor can see these hand-picked testimonials
-          // on this public page.
-        })
-        .catch(() => null),
-    ),
-  );
+  const featured = await getApprovedTestimonials(payload, { featured: true });
 
-  const testimonials = clients
-    .filter((client) => client !== null)
-    .map((client) => {
-      const logo =
-        client.logo && typeof client.logo === "object"
-          ? (client.logo as Media)
-          : null;
-
-      const fullQuote = client.testimonial
-        ? convertLexicalToPlaintext({ data: client.testimonial }).trim()
-        : "";
-
-      const authorName = client.contactName
-        ? `${client.contactName}, ${client.companyName}`
-        : client.companyName;
+  const testimonials = featured
+    .filter(({ client }) => client !== null)
+    .map(({ testimonial, client, contact }) => {
+      const companyName = client!.companyName;
+      const fullQuote = convertLexicalToPlaintext({ data: testimonial }).trim();
 
       return {
-        companyLogo: logo?.url ?? "",
+        companyLogo: mediaUrl(client!.logo) ?? "",
         quote: {
           fullQuote,
           highlightedWords: [],
         },
         author: {
-          name: authorName,
-          designation: client.companyName,
-          profilePicture: letterAvatar(
-            (client.contactName || client.companyName).charAt(0).toUpperCase(),
-          ),
+          name: contact?.name ? `${contact.name}, ${companyName}` : companyName,
+          designation: companyName,
+          profilePicture:
+            mediaUrl(contact?.profileImage) ??
+            letterAvatar((contact?.name || companyName).charAt(0).toUpperCase()),
         },
       };
     })
-    // A client without a testimonial has nothing to show in the carousel.
+    // A testimonial without text has nothing to show in the carousel.
     .filter((testimonial) => testimonial.quote.fullQuote.length > 0);
 
   return (

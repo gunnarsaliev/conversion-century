@@ -7,6 +7,7 @@ import config from "@payload-config";
 import { OfferForm } from "@/components/offer/offer-form";
 import type { OfferFormOptions } from "@/lib/offer-form";
 import { isAdmin } from "@/lib/roles";
+import { primaryContactName } from "@/lib/primary-contact";
 
 export const metadata: Metadata = {
   title: "Нова оферта",
@@ -25,9 +26,10 @@ export default async function NewOfferPage() {
   const [clients, services] = await Promise.all([
     payload.find({
       collection: "clients",
-      select: { companyName: true, logo: true, websiteLinks: true, contactName: true },
+      select: { companyName: true, logo: true, websiteLinks: true, primaryContact: true },
+      populate: { contacts: { name: true } },
       sort: "companyName",
-      // 1 so the logo media doc (and its `url`) is populated.
+      // 1 so the logo media doc (and its `url`) and the primary contact are populated.
       depth: 1,
       pagination: false,
     }),
@@ -48,7 +50,7 @@ export default async function NewOfferPage() {
       image: typeof doc.logo === "object" ? (doc.logo?.url ?? undefined) : undefined,
       description: [
         doc.websiteLinks?.[0]?.url?.replace(/^https?:\/\//, "").replace(/\/$/, ""),
-        doc.contactName,
+        primaryContactName(doc),
       ].filter((line): line is string => Boolean(line)),
     })),
     services: services.docs.map((doc) => ({

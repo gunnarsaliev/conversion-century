@@ -6,6 +6,7 @@ import { DashboardOverview } from "@/components/dashboard/overview";
 import { getDismissedBanners } from "@/lib/banner-dismissal";
 import { getTeamCelebrations } from "@/lib/celebrations";
 import { LEAD_STATUSES } from "@/lib/client-status";
+import { primaryContactName } from "@/lib/primary-contact";
 
 // Offers: draft → sent → accepted / declined. "Sent" counts every offer that
 // left draft. Clients: consultation (website form) → lead → client (any
@@ -49,14 +50,16 @@ export default async function Dashboard() {
       where: { status: { equals: "consultation" } },
       select: {
         companyName: true,
-        contactName: true,
+        primaryContact: true,
         email: true,
         websiteLinks: true,
         notes: true,
         createdAt: true,
       },
+      populate: { contacts: { name: true } },
       sort: "-createdAt",
-      depth: 0,
+      // 1 so the primary contact's name is populated.
+      depth: 1,
       limit: 3,
     }),
     // Everyone not marked inactive, for today's birthday / work anniversary banners.
@@ -98,7 +101,7 @@ export default async function Dashboard() {
       inquiries={latestInquiries.docs.map((doc) => ({
         id: doc.id,
         companyName: doc.companyName,
-        contactName: doc.contactName ?? undefined,
+        contactName: primaryContactName(doc),
         email: doc.email ?? undefined,
         website: doc.websiteLinks?.[0]?.url?.replace(/^https?:\/\//, "").replace(/\/$/, ""),
         message: doc.notes ?? undefined,

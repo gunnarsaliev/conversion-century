@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import type { User } from "../../../../../../payload-types";
 import { LEAD_STATUSES } from "@/lib/client-status";
 import { NotificationBell } from "@/components/dashboard/notification-bell";
+import { primaryContactName } from "@/lib/primary-contact";
 
 export default async function ClientsPage() {
   const payload = await getPayload({ config });
@@ -81,7 +82,7 @@ export default async function ClientsPage() {
     return {
       id: client.id,
       companyName: client.companyName,
-      description: client.contactName ?? client.email ?? null,
+      description: primaryContactName(client) ?? client.email ?? null,
       logoUrl:
         client.logo && typeof client.logo === "object"
           ? client.logo.url
@@ -95,7 +96,7 @@ export default async function ClientsPage() {
           ? client.logo.height
           : null,
       status: client.status,
-      contactName: client.contactName,
+      contactName: primaryContactName(client),
       email: client.email,
       phone: client.phone,
       accountManagers,
