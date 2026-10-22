@@ -3,7 +3,7 @@
 import { type FormEvent, useEffect, useState, useTransition } from "react";
 import { CheckCircle2 } from "lucide-react";
 
-import { submitTestimonial } from "@/app/[locale]/(frontend)/website/testimonials/actions";
+import { submitTestimonial } from "@/app/[locale]/(site)/testimonials/actions";
 import { Button } from "@/components/ui/button";
 import {
   Combobox,

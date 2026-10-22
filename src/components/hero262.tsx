@@ -79,7 +79,7 @@ const Hero262 = ({
     },
   ],
   ctaText = "Discover How We Work",
-  ctaUrl = "/website/about",
+  ctaUrl = "/about",
   className,
 }: Hero262Props) => {
   return (

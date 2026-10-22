@@ -28,7 +28,7 @@ const OfferCard = ({ item }: { item: OfferListItem }) => {
 
   return (
     <Link
-      href={`/website/offers/${item.id}`}
+      href={`/offers/${item.id}`}
       className="group flex h-full min-h-48 w-full flex-col gap-3 rounded-lg border bg-white dark:bg-gray-800 p-4 text-left outline-none transition-all hover:shadow-md focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
     >
       <div className="flex items-start justify-between gap-4">

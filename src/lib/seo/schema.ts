@@ -28,7 +28,7 @@ export const ORGANIZATION_ID = `${SITE_URL}/#organization`;
 export const WEBSITE_ID = `${SITE_URL}/#website`;
 const orgRef = { "@id": ORGANIZATION_ID } as const;
 
-const HOME_PATH = "/website";
+const HOME_PATH = "/";
 
 export function graph(...nodes: Array<Thing | null | undefined | false>) {
   return {
@@ -141,7 +141,7 @@ export function personSchema({
   jobTitle?: string | null;
   image?: string | null;
 }): Person {
-  const url = localizedUrl(`/website/authors/${id}`, locale);
+  const url = localizedUrl(`/authors/${id}`, locale);
   return {
     "@type": "Person",
     "@id": `${url}#person`,

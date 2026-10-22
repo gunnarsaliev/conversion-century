@@ -75,7 +75,7 @@ const Testimonial30 = ({ testimonials, className }: Testimonial30Props) => {
           </h1>
           <Button
             variant="outline"
-            render={<Link href="/website/reviews" />}
+            render={<Link href="/reviews" />}
             nativeButton={false}
           >
             Read user reviews

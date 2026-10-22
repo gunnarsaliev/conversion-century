@@ -10,19 +10,19 @@ import { toLocale, type Locale, type LocalizedPath } from "./site";
 
 // Static public pages: href + key into the `Metadata` messages namespace.
 export const STATIC_PAGES = {
-  home: "/website",
-  about: "/website/about",
-  services: "/website/services",
-  solutions: "/website/solutions",
-  industries: "/website/industries",
-  caseStudies: "/website/case-studies",
-  blog: "/website/blog",
-  team: "/website/team",
-  clients: "/website/clients",
-  reviews: "/website/reviews",
-  openPositions: "/website/open-positions",
-  bookAConsultation: "/website/book-a-consultation",
-  eventsAndMedia: "/website/events-and-media",
+  home: "/",
+  about: "/about",
+  services: "/services",
+  solutions: "/solutions",
+  industries: "/industries",
+  caseStudies: "/case-studies",
+  blog: "/blog",
+  team: "/team",
+  clients: "/clients",
+  reviews: "/reviews",
+  openPositions: "/open-positions",
+  bookAConsultation: "/book-a-consultation",
+  eventsAndMedia: "/events-and-media",
 } as const;
 
 export type StaticPageKey = keyof typeof STATIC_PAGES;
@@ -71,7 +71,7 @@ type SluggedCollection =
   | "job-listings";
 
 // Slugs are localized, so a detail page has a different URL per locale.
-// Returns `{ bg: '/website/blog/<bg-slug>', en: '/website/blog/<en-slug>' }`.
+// Returns `{ bg: '/blog/<bg-slug>', en: '/blog/<en-slug>' }`.
 // Cached per request: generateMetadata and the page both need it.
 export const localizedDocPath = cache(async (
   collection: SluggedCollection,

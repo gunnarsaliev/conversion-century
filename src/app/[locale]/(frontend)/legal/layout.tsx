@@ -1,4 +1,4 @@
-import WebsiteLayout from '@/app/[locale]/(frontend)/website/layout'
+import WebsiteLayout from '@/app/[locale]/(site)/layout'
 import { LegalNav } from '@/components/legal/legal-nav'
 
 export default function LegalLayout({

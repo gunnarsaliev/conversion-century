@@ -32,21 +32,21 @@ async function safely<T>(label: string, fn: () => Promise<T[]>): Promise<T[]> {
 // Collection → detail page base path. `where` hides drafts for collections
 // with versions enabled.
 const DETAIL_COLLECTIONS = [
-  { collection: 'blog', basePath: '/website/blog', where: published },
+  { collection: 'blog', basePath: '/blog', where: published },
   {
     collection: 'events',
-    basePath: '/website/events-and-media',
+    basePath: '/events-and-media',
     where: published,
   },
-  { collection: 'services', basePath: '/website/services' },
-  { collection: 'solutions', basePath: '/website/solutions' },
+  { collection: 'services', basePath: '/services' },
+  { collection: 'solutions', basePath: '/solutions' },
   {
     collection: 'industries',
-    basePath: '/website/industries',
+    basePath: '/industries',
     where: published,
   },
-  { collection: 'case-studies', basePath: '/website/case-studies' },
-  { collection: 'job-listings', basePath: '/website/careers' },
+  { collection: 'case-studies', basePath: '/case-studies' },
+  { collection: 'job-listings', basePath: '/careers' },
 ] as const
 
 // One <url> per language version, each listing all alternates (hreflang).
@@ -111,7 +111,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       authorUpdatedAt.set(key, post.updatedAt)
   }
   const authorEntries = [...authorUpdatedAt].flatMap(([id, updatedAt]) =>
-    entries(`/website/authors/${id}`, updatedAt),
+    entries(`/authors/${id}`, updatedAt),
   )
 
   return [...staticEntries, ...detailEntries.flat(), ...authorEntries]

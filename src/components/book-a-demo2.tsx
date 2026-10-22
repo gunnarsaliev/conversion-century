@@ -5,7 +5,7 @@ import { ArrowLeft, ArrowRight, MousePointer2 } from "lucide-react";
 import React, { SubmitEvent, useState, useTransition } from "react";
 import { cn } from "cn";
 
-import { submitConsultationRequest } from "@/app/[locale]/(frontend)/website/book-a-consultation/actions";
+import { submitConsultationRequest } from "@/app/[locale]/(site)/book-a-consultation/actions";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

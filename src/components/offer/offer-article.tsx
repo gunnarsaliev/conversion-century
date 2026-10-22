@@ -9,7 +9,7 @@ import {
   Target,
 } from "lucide-react";
 
-import certificationsImage from "@/app/[locale]/(frontend)/website/offer/certifivations.png";
+import certificationsImage from "@/app/[locale]/(site)/offer/certifivations.png";
 import { Feature99 } from "@/components/feature99";
 import { List3 } from "@/components/list3";
 import { Logos30 } from "@/components/logos30";
@@ -32,7 +32,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import type { ClientLogo } from "@/lib/client-logos";
 import type { Offer, OfferContact, OfferStatic } from "@/types/offer";
 
-// A full client offer in the article layout of /website/special-offer:
+// A full client offer in the article layout of /special-offer:
 // a sticky sidebar with the key facts and a prose main column. Everything
 // comes from `content` (template copy) and `offer` (per-client values).
 

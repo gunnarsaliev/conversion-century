@@ -53,7 +53,7 @@ const Blogpost5 = ({
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/website/blog">Blog</BreadcrumbLink>
+              <BreadcrumbLink href="/blog">Blog</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -75,7 +75,7 @@ const Blogpost5 = ({
               {authorName &&
                 (authorId ? (
                   <a
-                    href={`/website/authors/${authorId}`}
+                    href={`/authors/${authorId}`}
                     className="font-medium hover:underline"
                   >
                     {authorName}

@@ -125,7 +125,7 @@ const Blog12 = ({ className, posts }: Blog12Props) => {
         <div className="mt-10 flex justify-center">
           <Button
             variant="outline"
-            render={<Link href="/website/blog" />}
+            render={<Link href="/blog" />}
             nativeButton={false}
           >
             View All Blogs <ArrowRight className="ml-2 h-full w-4" />

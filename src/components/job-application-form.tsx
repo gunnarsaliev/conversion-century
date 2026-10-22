@@ -3,7 +3,7 @@
 import { SubmitEvent, useState, useTransition } from 'react'
 import { CircleCheck } from 'lucide-react'
 
-import { submitJobApplication } from '@/app/[locale]/(frontend)/website/careers/actions'
+import { submitJobApplication } from '@/app/[locale]/(site)/careers/actions'
 import {
   fieldClassName,
   labelClassName,

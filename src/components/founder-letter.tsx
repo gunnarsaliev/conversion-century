@@ -34,7 +34,7 @@ const defaultProps: Required<
   name: "Maria Sivkova",
   role: "Owner and Managing Director, Conversion Century",
   ctaText: "Meet Maria and the Team",
-  ctaUrl: "/website/team",
+  ctaUrl: "/team",
 };
 
 type Props = Partial<FounderLetterProps>;

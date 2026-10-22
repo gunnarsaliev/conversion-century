@@ -19,8 +19,8 @@ export default function SolutionHero({
   heading,
   paragraphs = [],
   highlights = [],
-  primaryCta = { label: 'Book a FREE Consultation', href: '/website/book-a-consultation' },
-  secondaryCta = { label: 'Explore Our Results', href: '/website/case-studies' },
+  primaryCta = { label: 'Book a FREE Consultation', href: '/book-a-consultation' },
+  secondaryCta = { label: 'Explore Our Results', href: '/case-studies' },
 }: SolutionHeroProps) {
   const [lead, ...rest] = paragraphs
 
@@ -30,9 +30,9 @@ export default function SolutionHero({
       <div className="mx-auto flex w-full max-w-[1240px] flex-col px-6 pb-5 sm:px-10 lg:px-0">
         <nav aria-label="Breadcrumb" className="pt-5 text-sm text-white/60">
           <ol className="flex items-center gap-3">
-            <li><Link className="transition-colors hover:text-white" href="/website">Home</Link></li>
+            <li><Link className="transition-colors hover:text-white" href="/">Home</Link></li>
             <li aria-hidden="true">/</li>
-            <li><Link className="transition-colors hover:text-white" href="/website/solutions">Solutions</Link></li>
+            <li><Link className="transition-colors hover:text-white" href="/solutions">Solutions</Link></li>
             <li aria-hidden="true">/</li>
             <li className="font-semibold text-white">{name}</li>
           </ol>

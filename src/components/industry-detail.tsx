@@ -45,7 +45,7 @@ const IndustryDetail = ({
           <Breadcrumb className="mb-6 lg:mb-10">
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink render={<Link href="/website" />}>
+                <BreadcrumbLink render={<Link href="/" />}>
                   Home
                 </BreadcrumbLink>
               </BreadcrumbItem>
@@ -101,7 +101,7 @@ const IndustryDetail = ({
             <Button
               nativeButton={false}
               className="bg-black text-white hover:bg-black/80"
-              render={<Link href="/website/book-a-consultation" />}
+              render={<Link href="/book-a-consultation" />}
             >
               Book a FREE Consultation
             </Button>

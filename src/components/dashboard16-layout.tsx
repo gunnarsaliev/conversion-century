@@ -121,7 +121,7 @@ const sidebarData: SidebarData = {
         { label: "Offers", icon: FileText, href: "/dashboard/offers" },
         { label: "Price list", icon: Euro, href: "/dashboard/pricelist" },
         { label: "Media", icon: Images, href: "/dashboard/media" },
-        { label: "Website", icon: Globe, href: "/website" },
+        { label: "Website", icon: Globe, href: "/" },
         // {
         //   label: "Guest Profiles",
         //   icon: Users,
@@ -257,7 +257,7 @@ const NavUser = ({ user }: { user: UserData }) => {
         credentials: "include",
       });
     } finally {
-      router.push("/");
+      router.push("/login");
       router.refresh();
     }
   };

@@ -50,7 +50,7 @@ export default function JobListing({
   return (
     <main className="mx-auto max-w-6xl px-4 py-12 sm:px-6 md:py-20 lg:px-8">
       <Link
-        href="/website/open-positions"
+        href="/open-positions"
         className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
       >
         <ArrowLeft className="size-4" />

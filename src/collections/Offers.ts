@@ -3,7 +3,7 @@ import { createNotification } from '../lib/notifications'
 import { adminOnlyCollection } from '../lib/roles'
 
 // A commercial offer prepared for one client, rendered at
-// /website/offers/[id] (and as a PDF). Only the per-client values live here;
+// /offers/[id] (and as a PDF). Only the per-client values live here;
 // the template copy shared by every offer is in src/data/offers/static.json.
 // Offers are written in Bulgarian, so nothing is localized.
 

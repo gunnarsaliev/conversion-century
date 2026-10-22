@@ -90,7 +90,7 @@ function toOffer(doc: OfferDoc): Offer {
       position,
       volume,
     })),
-    // Not stored per offer; only the older /website/offer sections use them.
+    // Not stored per offer; only the older /offer sections use them.
     startLabel: "",
     timeline: [],
     responsibilities: "",
@@ -149,7 +149,7 @@ export type OfferListItem = {
   offer: Offer;
 };
 
-// Every offer, newest first, for the /website/offers index.
+// Every offer, newest first, for the /offers index.
 export const getOffers = cache(async (): Promise<OfferListItem[]> => {
   const payload = await getPayload({ config });
   const { docs } = await payload.find({

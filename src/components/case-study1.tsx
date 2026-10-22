@@ -49,13 +49,13 @@ const CaseStudy1 = ({
           <Breadcrumb className="mb-6 lg:mb-10">
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink render={<Link href="/website" />}>
+                <BreadcrumbLink render={<Link href="/" />}>
                   Home
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator>/</BreadcrumbSeparator>
               <BreadcrumbItem>
-                <BreadcrumbLink render={<Link href="/website/case-studies" />}>
+                <BreadcrumbLink render={<Link href="/case-studies" />}>
                   Case studies
                 </BreadcrumbLink>
               </BreadcrumbItem>
@@ -145,7 +145,7 @@ const CaseStudy1 = ({
                 size="sm"
                 nativeButton={false}
                 className="bg-black text-white hover:bg-black/80"
-                render={<Link href="/website/book-a-consultation" />}
+                render={<Link href="/book-a-consultation" />}
               >
                 Book a FREE Consultation
               </Button>

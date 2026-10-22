@@ -183,7 +183,7 @@ export function AboutHero() {
         </div>
         <Button
           className="mt-10 h-12 rounded-full px-6 text-[15px]"
-          render={<Link href="/website/team" />}
+          render={<Link href="/team" />}
           nativeButton={false}
         >
           Meet the team

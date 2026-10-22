@@ -58,57 +58,57 @@ const platformFeatures = [
   {
     title: "Ongoing SEO Management",
     description: "Scalable cloud solutions built for modern businesses.",
-    href: "/website/services/ongoing-seo-management",
+    href: "/services/ongoing-seo-management",
     icon: TrendingUp,
   },
   {
     title: "AI Search Optimization",
     description: "Enterprise-grade security with automated compliance.",
-    href: "/website/services/ai-search-optimization",
+    href: "/services/ai-search-optimization",
     icon: Bot,
   },
   {
     title: "SEO Audit",
     description: "Advanced authentication and access control systems.",
-    href: "/website/services/seo-audit",
+    href: "/services/seo-audit",
     icon: FileSearch,
   },
   {
     title: "International SEO",
     description:
       "Unified storage, pipelines, and analytics for your workloads.",
-    href: "/website/services/international-seo",
+    href: "/services/international-seo",
     icon: Globe2,
   },
   {
     title: "Local SEO",
     description: "Scalable cloud solutions built for modern businesses.",
-    href: "/website/services/local-seo",
+    href: "/services/local-seo",
     icon: MapPin,
   },
   {
     title: "Technical SEO",
     description: "Enterprise-grade security with automated compliance.",
-    href: "/website/services/technical-seo",
+    href: "/services/technical-seo",
     icon: Wrench,
   },
   {
     title: "Content Strategy and Copywriting",
     description: "Advanced authentication and access control systems.",
-    href: "/website/services/content-strategy-and-copywriting",
+    href: "/services/content-strategy-and-copywriting",
     icon: PenTool,
   },
   {
     title: "Link Building and Digital PR",
     description:
       "Unified storage, pipelines, and analytics for your workloads.",
-    href: "/website/services/link-building-and-digital-pr",
+    href: "/services/link-building-and-digital-pr",
     icon: Link2,
   },
   {
     title: "Organic Search Training",
     description: "Scalable cloud solutions built for modern businesses.",
-    href: "/website/services/organic-search-training",
+    href: "/services/organic-search-training",
     icon: GraduationCap,
   },
 ];
@@ -116,42 +116,42 @@ const platformFeatures = [
 const solutions = [
   {
     title: "Grow Organic Revenue",
-    href: "/website/solutions/grow-organic-revenue",
+    href: "/solutions/grow-organic-revenue",
     icon: TrendingUp,
   },
   {
     title: "Enter New Markets",
-    href: "/website/solutions/enter-new-markets",
+    href: "/solutions/enter-new-markets",
     icon: Compass,
   },
   {
     title: "Recover Lost Traffic",
-    href: "/website/solutions/recover-lost-traffic",
+    href: "/solutions/recover-lost-traffic",
     icon: TrendingDown,
   },
   {
     title: "Migrate without losing SEO",
-    href: "/website/solutions/migrate-without-losing-seo",
+    href: "/solutions/migrate-without-losing-seo",
     icon: Map,
   },
   {
     title: "Improve visibility in AI",
-    href: "/website/solutions/improve-visibility-in-ai",
+    href: "/solutions/improve-visibility-in-ai",
     icon: Bot,
   },
   {
     title: "Build an Outsourced SEO Department",
-    href: "/website/solutions/build-an-outsourced-seo-department",
+    href: "/solutions/build-an-outsourced-seo-department",
     icon: Users,
   },
   {
     title: "Reduce Dependence on Ads",
-    href: "/website/solutions/reduce-dependence-on-ads",
+    href: "/solutions/reduce-dependence-on-ads",
     icon: Rocket,
   },
   {
     title: "Launch an SEO-Ready Website",
-    href: "/website/solutions/launch-an-seo-ready-website",
+    href: "/solutions/launch-an-seo-ready-website",
     icon: Search,
   },
 ];
@@ -159,32 +159,32 @@ const solutions = [
 const industries = [
   {
     title: "B2B",
-    href: "/website/industries/b2b",
+    href: "/industries/b2b",
     icon: Handshake,
   },
   {
     title: "Ecommerce",
-    href: "/website/industries/ecommerce",
+    href: "/industries/ecommerce",
     icon: ShoppingCart,
   },
   {
     title: "Professional Services",
-    href: "/website/industries/professional-services",
+    href: "/industries/professional-services",
     icon: Briefcase,
   },
   {
     title: "Financial Sector",
-    href: "/website/industries/financial-sector",
+    href: "/industries/financial-sector",
     icon: Landmark,
   },
   {
     title: "Real Estate",
-    href: "/website/industries/real-estate",
+    href: "/industries/real-estate",
     icon: Building2,
   },
   {
     title: "Healthcare",
-    href: "/website/industries/healthcare",
+    href: "/industries/healthcare",
     icon: HeartPulse,
   },
 ];
@@ -192,17 +192,17 @@ const industries = [
 const documentationLinks = [
   {
     title: "Clients",
-    href: "/website/clients",
+    href: "/clients",
     icon: Users,
   },
   {
     title: "Case Studies",
-    href: "/website/case-studies",
+    href: "/case-studies",
     icon: ClipboardList,
   },
   {
     title: "Reviews",
-    href: "/website/reviews",
+    href: "/reviews",
     icon: MessageSquareQuote,
   },
 ];
@@ -210,17 +210,17 @@ const documentationLinks = [
 const aboutLinks = [
   {
     title: "Our Story",
-    href: "/website/about",
+    href: "/about",
     icon: FileText,
   },
   {
     title: "Career",
-    href: "/website/open-positions",
+    href: "/open-positions",
     icon: CalendarClock,
   },
   {
     title: "Team",
-    href: "/website/team",
+    href: "/team",
     icon: Users,
   },
 ];
@@ -228,7 +228,7 @@ const aboutLinks = [
 const resourceLinks = [
   {
     title: "Blog",
-    href: "/website/blog",
+    href: "/blog",
     icon: Newspaper,
   },
   {
@@ -238,7 +238,7 @@ const resourceLinks = [
   },
   {
     title: "Events and Media",
-    href: "/website/events-and-media",
+    href: "/events-and-media",
     icon: Calendar,
   },
 ];
@@ -363,7 +363,7 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
           <div className="relative z-110 flex w-full items-center justify-between gap-12">
             {/* Logo */}
             <div>
-              <Logo url="/website">
+              <Logo url="/">
                 <LogoImageDesktop
                   src="https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/conversion-century-logo.svg"
                   className="h-7"
@@ -405,7 +405,7 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                     ))}
                   </div>
                   <NavigationMenuLink
-                    href="/website/services"
+                    href="/services"
                     className="mt-3 flex w-fit flex-row items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
                   >
                     View all services
@@ -439,7 +439,7 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                     ))}
                   </div>
                   <NavigationMenuLink
-                    href="/website/solutions"
+                    href="/solutions"
                     className="mt-3 flex w-fit flex-row items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
                   >
                     View all solutions
@@ -473,7 +473,7 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                     ))}
                   </div>
                   <NavigationMenuLink
-                    href="/website/industries"
+                    href="/industries"
                     className="mt-3 flex w-fit flex-row items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
                   >
                     See all industries
@@ -603,7 +603,7 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
             </NavigationMenuList>
 
             <div className="hidden items-center lg:flex">
-              <Link href="/website/book-a-consultation">
+              <Link href="/book-a-consultation">
                 <Button variant="default" size="lg" className="px-6 py-6 cursor-pointer bg-yellow-300 hover:bg-yellow-200">
                   Book a FREE Consultation
                 </Button>
@@ -684,7 +684,7 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                             ))}
                           </div>
                           <div className="mx-8 mt-auto flex flex-col gap-4 py-12">
-                            <Link href="/website/book-a-consultation">
+                            <Link href="/book-a-consultation">
                               <Button className="relative w-full" size="lg">
                                 Book a FREE Consultation
                               </Button>
@@ -750,7 +750,7 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                               </a>
                             ))}
                             <Link
-                              href="/website/solutions"
+                              href="/solutions"
                               className="flex w-full items-center gap-x-2 border-t border-border px-8 py-7 text-base font-medium transition-colors hover:bg-muted/30 dark:hover:bg-muted/25"
                             >
                               View all solutions
@@ -784,7 +784,7 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                               </a>
                             ))}
                             <Link
-                              href="/website/industries"
+                              href="/industries"
                               className="flex w-full items-center gap-x-2 border-t border-border px-8 py-7 text-base font-medium transition-colors hover:bg-muted/30 dark:hover:bg-muted/25"
                             >
                               See all industries

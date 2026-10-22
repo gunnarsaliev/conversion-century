@@ -10,15 +10,29 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts')
 const nextConfig = {
   pageExtensions: ['js', 'jsx', 'md', 'ts', 'tsx'],
   // Loaded from node_modules at runtime instead of being bundled; renders the
-  // offer PDF in website/special-offer/pdf.
+  // offer PDF in special-offer/pdf.
   serverExternalPackages: ['@react-pdf/renderer'],
   // The offer PDF reads its font and images from disk by path, which the
   // file tracer can't see; ship them with that route.
   outputFileTracingIncludes: {
-    '/*/website/{special-offer,offers/*}/pdf': [
+    '/*/{special-offer,offers/*}/pdf': [
       './node_modules/@expo-google-fonts/inter/{400Regular,600SemiBold,700Bold}/*.ttf',
-      './src/app/**/website/offer/*.png',
+      './src/app/**/offer/*.png',
     ],
+  },
+  // The public site used to live under /website (behind the pre-launch login
+  // gate); old links, including ones saved in Payload rich text, still work.
+  async redirects() {
+    return [
+      { source: '/website', destination: '/', permanent: true },
+      { source: '/website/:path*', destination: '/:path*', permanent: true },
+      { source: '/:locale(en|bg)/website', destination: '/:locale', permanent: true },
+      {
+        source: '/:locale(en|bg)/website/:path*',
+        destination: '/:locale/:path*',
+        permanent: true,
+      },
+    ]
   },
   experimental: {
     serverActions: {

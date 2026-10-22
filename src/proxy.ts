@@ -12,16 +12,53 @@ const handleI18nRouting = createMiddleware(routing)
 // Rewrite requests for those paths to the folder matching the resolved locale.
 const LOCALIZED_DOCS_SECTIONS = ['technical-seo', 'workflow', 'getting-started']
 
-// /dashboard and /website (and everything under them) require a signed-in
-// session. Payload issues its session as a `payload-token` cookie (default
+// Site sections that require a signed-in session: client offers are private
+// (their pages read through the local API, which bypasses collection access).
+// Payload issues its session as a `payload-token` cookie (default
 // `${cookiePrefix}-token` name, see payload.config.ts's default
 // `cookiePrefix: 'payload'`); its mere presence is enough for this
-// route-level gate — the dashboard layout and individual pages still do the
-// authoritative `payload.auth()` check server-side.
-const PROTECTED_SECTIONS = ['dashboard', 'website']
+// route-level gate — the pages themselves still do the authoritative
+// `payload.auth()` check server-side where it matters.
+const PROTECTED_SECTIONS = ['offers', 'offer', 'special-offer']
 const SESSION_COOKIE_NAME = 'payload-token'
 
+// The dashboard's UI language is a per-browser preference (see
+// lib/dashboard-locale), not part of the URL, so it lives at one unprefixed
+// path. It bypasses next-intl's routing (whose locale detection would
+// otherwise redirect /dashboard to /bg/dashboard) and is rewritten straight
+// to the default-locale route segment.
+const DASHBOARD_PATH = /^\/(?:([a-z]{2})\/)?dashboard(?=\/|$)(.*)$/
+
+function loginRedirect(request: NextRequest, locale: string, target: string) {
+  const loginPathname =
+    locale === routing.defaultLocale ? '/login' : `/${locale}/login`
+  const loginUrl = new URL(loginPathname, request.url)
+  loginUrl.searchParams.set('redirect', target)
+  return NextResponse.redirect(loginUrl)
+}
+
 export default function proxy(request: NextRequest) {
+  const { pathname, search } = request.nextUrl
+
+  const dashboard = DASHBOARD_PATH.exec(pathname)
+  if (dashboard) {
+    const [, prefix, rest] = dashboard
+    if (prefix && (routing.locales as readonly string[]).includes(prefix)) {
+      return NextResponse.redirect(
+        new URL(`/dashboard${rest}${search}`, request.url),
+        308,
+      )
+    }
+    if (!prefix) {
+      if (!request.cookies.has(SESSION_COOKIE_NAME)) {
+        return loginRedirect(request, routing.defaultLocale, pathname + search)
+      }
+      return NextResponse.rewrite(
+        new URL(`/${routing.defaultLocale}${pathname}${search}`, request.url),
+      )
+    }
+  }
+
   const response = handleI18nRouting(request)
 
   if (response.ok) {
@@ -34,12 +71,7 @@ export default function proxy(request: NextRequest) {
       PROTECTED_SECTIONS.includes(rest[0]) &&
       !request.cookies.has(SESSION_COOKIE_NAME)
     ) {
-      // localePrefix is 'as-needed': the default locale (bg) has no prefix,
-      // so the login page lives at "/" for bg and "/en" for en.
-      const loginPathname = locale === routing.defaultLocale ? '/' : `/${locale}`
-      const loginUrl = new URL(loginPathname, request.url)
-      loginUrl.searchParams.set('redirect', rewritten.pathname)
-      return NextResponse.redirect(loginUrl)
+      return loginRedirect(request, locale, pathname + search)
     }
 
     if (rest[0] === 'docs' && LOCALIZED_DOCS_SECTIONS.includes(rest[1])) {

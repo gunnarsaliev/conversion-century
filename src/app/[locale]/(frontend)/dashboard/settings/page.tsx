@@ -17,7 +17,7 @@ export default async function SettingsPage() {
   const locale = await getLocale();
 
   if (!user) {
-    redirect({ href: "/", locale });
+    redirect({ href: "/login", locale });
     return null;
   }
 

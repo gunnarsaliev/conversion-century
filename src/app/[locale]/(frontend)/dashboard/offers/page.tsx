@@ -30,7 +30,7 @@ export default async function OffersPage() {
           </div>
           {/* Offers are edited in the admin panel. */}
           <Link
-            href="/website/offers/new"
+            href="/offers/new"
             className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-primary px-3 text-sm font-medium text-primary-foreground outline-none transition-all hover:bg-primary/80 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
           >
             <Plus className="size-3.5" aria-hidden="true" />

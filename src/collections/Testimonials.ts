@@ -30,7 +30,7 @@ const setTitle: CollectionBeforeChangeHook<Testimonial> = async ({ data, req }) 
   return data
 }
 
-// Submissions from /website/testimonials/new arrive as `pending` with the
+// Submissions from /testimonials/new arrive as `pending` with the
 // person's details in `submittedBy`. When an admin switches one to
 // `approved`, link it to a real client and contact: the chosen existing
 // client (or a new client created as a Lead), and the contact on that client
@@ -127,7 +127,7 @@ export const Testimonials: CollectionConfig = {
     useAsTitle: 'title',
     defaultColumns: ['title', 'client', 'status', 'featured', 'createdAt'],
     description:
-      'Submitted from /website/testimonials/new. Approving one links it to the client and contact (creating them if needed). Approved testimonials are shown on the website.',
+      'Submitted from /testimonials/new. Approving one links it to the client and contact (creating them if needed). Approved testimonials are shown on the website.',
   },
   // The public form writes through the local API (server action), so no one
   // needs REST/GraphQL access except admins.

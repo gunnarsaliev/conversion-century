@@ -60,7 +60,7 @@ async function updateServicePrices(
 
     revalidatePath("/dashboard/pricelist");
     revalidatePath("/dashboard/offers");
-    revalidatePath("/website/offers");
+    revalidatePath("/offers");
 
     return { success: true };
   } catch {

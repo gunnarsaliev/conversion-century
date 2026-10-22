@@ -4,8 +4,7 @@ import { routing } from "@/i18n/routing";
 export type Locale = (typeof routing.locales)[number];
 
 // Search engines may only index the site once this is explicitly turned on
-// (at launch, together with removing `website` from the login gate in
-// src/proxy.ts). Until then every page is noindex and robots.txt blocks all.
+// at launch. Until then every page is noindex and robots.txt blocks all.
 export const IS_INDEXABLE = process.env.SITE_INDEXABLE === "true";
 
 // Production origin, used for canonical URLs, hreflang, the sitemap and
@@ -38,8 +37,8 @@ export function pathFor(path: LocalizedPath, locale: Locale) {
   return typeof path === "string" ? path : path[locale];
 }
 
-// Absolute URL for an internal href (e.g. "/website/blog/foo") in a locale.
-// bg is the default locale and has no prefix; en is served under /en.
+// Absolute URL for an internal href (e.g. "/blog/foo") in a locale.
+// en is the default locale and has no prefix; bg is served under /bg.
 export function localizedUrl(path: LocalizedPath, locale: Locale) {
   const pathname = getPathname({ href: pathFor(path, locale), locale });
   return `${SITE_URL}${pathname === "/" ? "" : pathname}`;

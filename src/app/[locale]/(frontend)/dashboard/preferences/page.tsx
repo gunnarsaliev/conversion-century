@@ -16,7 +16,7 @@ export default async function PreferencesPage() {
   const locale = await getLocale();
 
   if (!user) {
-    redirect({ href: "/", locale });
+    redirect({ href: "/login", locale });
     return null;
   }
 
