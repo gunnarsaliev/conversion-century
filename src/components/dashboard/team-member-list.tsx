@@ -2,6 +2,7 @@
 
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 import {
   TeamMemberQuickView,
@@ -88,10 +89,11 @@ type TeamMemberListProps = {
 };
 
 const TeamMemberList = ({ members }: TeamMemberListProps) => {
+  const t = useTranslations("Team");
   if (members.length === 0) {
     return (
       <p className="mt-8 text-sm text-muted-foreground">
-        No team members yet.
+        {t("empty")}
       </p>
     );
   }

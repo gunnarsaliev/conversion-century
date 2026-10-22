@@ -113,14 +113,22 @@ export function getCelebrations(
 // Display helpers for the same dates, in the same time zone as the checks
 // above. Birthdays show day and month only, not the year of birth.
 
-const formatInTeamTimeZone = (value: string, options: Intl.DateTimeFormatOptions) =>
-  new Intl.DateTimeFormat("en-GB", { timeZone: TIME_ZONE, ...options }).format(new Date(value));
+// `locale` is the dashboard language; "en" keeps the day-first en-GB format.
+const formatInTeamTimeZone = (
+  value: string,
+  options: Intl.DateTimeFormatOptions,
+  locale = "en",
+) =>
+  new Intl.DateTimeFormat(locale === "en" ? "en-GB" : locale, {
+    timeZone: TIME_ZONE,
+    ...options,
+  }).format(new Date(value));
 
-export const formatBirthday = (value: string) =>
-  formatInTeamTimeZone(value, { day: "numeric", month: "long" });
+export const formatBirthday = (value: string, locale?: string) =>
+  formatInTeamTimeZone(value, { day: "numeric", month: "long" }, locale);
 
-export const formatWorkStart = (value: string) =>
-  formatInTeamTimeZone(value, { day: "numeric", month: "long", year: "numeric" });
+export const formatWorkStart = (value: string, locale?: string) =>
+  formatInTeamTimeZone(value, { day: "numeric", month: "long", year: "numeric" }, locale);
 
 /** Completed years since `value` (e.g. a work start date), never negative. */
 export function getCompletedYears(value: string, now: Date = new Date()): number {

@@ -1,3 +1,7 @@
+"use client";
+
+import { useTranslations } from "next-intl";
+
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import type { User } from "../../../payload-types";
@@ -11,19 +15,16 @@ import type { User } from "../../../payload-types";
 
 type TeamMemberStatus = User["status"];
 
-const statusConfig: Record<TeamMemberStatus, { label: string; className: string; dot: string }> = {
+const statusConfig: Record<TeamMemberStatus, { className: string; dot: string }> = {
   active: {
-    label: "Active",
     className: "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300",
     dot: "bg-emerald-500",
   },
   "on-leave": {
-    label: "On leave",
     className: "bg-amber-50 text-amber-800 dark:bg-amber-950/50 dark:text-amber-300",
     dot: "bg-amber-500",
   },
   inactive: {
-    label: "Inactive",
     className: "bg-muted text-muted-foreground",
     dot: "bg-muted-foreground/60",
   },
@@ -36,12 +37,14 @@ export function TeamMemberStatusBadge({
   status: TeamMemberStatus;
   className?: string;
 }) {
-  const config = statusConfig[status] ?? statusConfig.active;
+  const t = useTranslations("Team.status");
+  const config = statusConfig[status] ? status : "active";
+  const { className: statusClassName, dot } = statusConfig[config];
 
   return (
-    <Badge className={cn("gap-1.5", config.className, className)}>
-      <span className={cn("size-1.5 rounded-full", config.dot)} aria-hidden="true" />
-      {config.label}
+    <Badge className={cn("gap-1.5", statusClassName, className)}>
+      <span className={cn("size-1.5 rounded-full", dot)} aria-hidden="true" />
+      {t(config)}
     </Badge>
   );
 }

@@ -5,6 +5,8 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 import { z } from "zod";
 
+import { getDashboardTranslations, type DashboardTranslator } from "@/lib/dashboard-locale";
+
 // ---------------------------------------------------------------------------
 // Team member update / delete (Server Actions, Payload local API)
 // ---------------------------------------------------------------------------
@@ -12,14 +14,15 @@ import { z } from "zod";
 // No create action here — creating a user means setting a password, which
 // this dashboard doesn't collect; new team members are added via /admin.
 
-const teamMemberFormSchema = z.object({
-  firstName: z.string().trim().min(1, "First name is required"),
-  lastName: z.string().trim().min(1, "Last name is required"),
-  jobTitle: z.string().trim().optional(),
-  role: z.enum(["user", "admin", "editor"]),
-});
+const teamMemberFormSchema = (t: DashboardTranslator) =>
+  z.object({
+    firstName: z.string().trim().min(1, t("errors.firstName")),
+    lastName: z.string().trim().min(1, t("errors.lastName")),
+    jobTitle: z.string().trim().optional(),
+    role: z.enum(["user", "admin", "editor"]),
+  });
 
-type TeamMemberFormInput = z.infer<typeof teamMemberFormSchema>;
+type TeamMemberFormInput = z.infer<ReturnType<typeof teamMemberFormSchema>>;
 
 type TeamMemberFormResult =
   | { success: true; id: string | number }
@@ -29,12 +32,13 @@ async function updateTeamMember(
   id: string | number,
   input: TeamMemberFormInput,
 ): Promise<TeamMemberFormResult> {
-  const parsed = teamMemberFormSchema.safeParse(input);
+  const t = await getDashboardTranslations("Team");
+  const parsed = teamMemberFormSchema(t).safeParse(input);
 
   if (!parsed.success) {
     return {
       success: false,
-      error: parsed.error.issues[0]?.message ?? "Invalid input",
+      error: parsed.error.issues[0]?.message ?? t("errors.invalid"),
     };
   }
 
@@ -61,7 +65,7 @@ async function updateTeamMember(
   } catch {
     return {
       success: false,
-      error: "Something went wrong while updating the team member.",
+      error: t("errors.update"),
     };
   }
 }
@@ -73,6 +77,8 @@ type DeleteTeamMemberResult =
 async function deleteTeamMember(
   id: string | number,
 ): Promise<DeleteTeamMemberResult> {
+  const t = await getDashboardTranslations("Team");
+
   try {
     const payload = await getPayload({ config });
 
@@ -87,7 +93,7 @@ async function deleteTeamMember(
   } catch {
     return {
       success: false,
-      error: "Something went wrong while deleting the team member.",
+      error: t("errors.delete"),
     };
   }
 }

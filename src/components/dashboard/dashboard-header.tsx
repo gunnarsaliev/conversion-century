@@ -1,6 +1,7 @@
 "use client";
 
 import { CalendarRange, ChevronDown, ChevronRight, LayoutDashboard, Search } from "lucide-react";
+import { useTranslations } from "next-intl";
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
@@ -31,21 +32,23 @@ type DashboardHeaderProps = {
 
 const DashboardHeader = ({
   section,
-  userName = "Robert Austin",
+  userName = "",
   title,
-  description = "Here is today's snapshot of arrivals, revenue, and operations.",
+  description,
   action,
   hideToolbar = false,
 }: DashboardHeaderProps) => {
-  const firstName = userName.trim().split(/\s+/)[0] || "Robert";
-  const heading = title ?? `Hello, ${firstName} 👋`;
+  const t = useTranslations("Common");
+  const firstName = userName.trim().split(/\s+/)[0];
+  const heading =
+    title ?? (firstName ? t("greeting", { name: firstName }) : t("greetingAnonymous"));
 
   return (
     <section className="pb-4 sm:pb-5">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2 text-xs text-muted-foreground sm:text-sm">
           <LayoutDashboard className="size-3.5" aria-hidden="true" />
-          <span>Overview</span>
+          <span>{t("overview")}</span>
           <ChevronRight className="size-3.5" aria-hidden="true" />
           <span className="text-foreground">{section}</span>
         </div>
@@ -55,7 +58,7 @@ const DashboardHeader = ({
               variant="outline"
               size="icon"
               className="size-8"
-              aria-label="Search"
+              aria-label={t("search")}
             >
               <Search className="size-4" aria-hidden="true" />
             </Button>
@@ -64,16 +67,16 @@ const DashboardHeader = ({
               variant="outline"
               size="sm"
               className="h-8 gap-1.5 text-xs"
-              aria-label="Last 7 days"
+              aria-label={t("last7Days")}
             >
-              Last 7 days
+              {t("last7Days")}
               <ChevronDown className="size-3.5" aria-hidden="true" />
             </Button>
             <Button
               variant="outline"
               size="sm"
               className="h-8 gap-1.5 text-xs"
-              aria-label="Date range"
+              aria-label={t("dateRange")}
             >
               <CalendarRange className="size-3.5" aria-hidden="true" />
               Feb 04 - Feb 11, 2024
@@ -86,7 +89,7 @@ const DashboardHeader = ({
           <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
             {heading}
           </h1>
-          <p className="mt-1 text-sm text-muted-foreground">{description}</p>
+          {description && <p className="mt-1 text-sm text-muted-foreground">{description}</p>}
         </div>
         {action}
       </div>

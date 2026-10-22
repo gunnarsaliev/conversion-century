@@ -1,8 +1,10 @@
 "use client";
 
 import { formatDistanceToNow } from "date-fns";
+import { bg as bgDateLocale } from "date-fns/locale";
 import { Bell, CalendarClock, CheckCircle2, MessageSquare } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import * as React from "react";
 import { toast } from "sonner";
 
@@ -74,6 +76,7 @@ const NotificationsProvider = ({
   initialFeed?: NotificationFeed;
   children: React.ReactNode;
 }) => {
+  const t = useTranslations("Notifications");
   const router = useRouter();
   const [feed, setFeed] = React.useState(initialFeed ?? emptyFeed);
   const [open, setOpen] = React.useState(false);
@@ -96,24 +99,24 @@ const NotificationsProvider = ({
         setRead([item.id], true);
         markNotificationRead(item.id).catch(() => {
           setRead([item.id], false);
-          toast.error("Couldn't update notifications");
+          toast.error(t("updateFailed"));
         });
       }
       if (item.href) router.push(item.href);
     },
-    [router, setRead],
+    [router, setRead, t],
   );
 
   const markAllRead = React.useCallback(() => {
     const unread = feed.items.filter((item) => !item.read).map((item) => item.id);
     setRead("all", true);
     markAllNotificationsRead()
-      .then(() => toast.success("All notifications marked as read"))
+      .then(() => toast.success(t("allMarkedRead")))
       .catch(() => {
         setRead(unread, false);
-        toast.error("Couldn't update notifications");
+        toast.error(t("updateFailed"));
       });
-  }, [feed.items, setRead]);
+  }, [feed.items, setRead, t]);
 
   const refresh = React.useCallback(async () => {
     try {
@@ -143,9 +146,9 @@ const NotificationsProvider = ({
     if (fresh.length === 0) return;
 
     if (fresh.length > MAX_INDIVIDUAL_TOASTS) {
-      toast(`${fresh.length} new notifications`, {
+      toast(t("newCount", { count: fresh.length }), {
         icon: <Bell className="size-4" />,
-        action: { label: "Open", onClick: () => setOpen(true) },
+        action: { label: t("open"), onClick: () => setOpen(true) },
       });
       return;
     }
@@ -156,10 +159,10 @@ const NotificationsProvider = ({
         id: `notification-${item.id}`,
         description: item.message ?? undefined,
         icon: <Icon className="size-4" />,
-        action: { label: "View", onClick: () => openItem(item) },
+        action: { label: t("view"), onClick: () => openItem(item) },
       });
     }
-  }, [feed.items, openItem]);
+  }, [feed.items, openItem, t]);
 
   // Poll while the tab is visible, and catch up as soon as it's refocused.
   React.useEffect(() => {
@@ -188,6 +191,8 @@ const NotificationBell = ({ className }: { className?: string }) => {
   const context = React.useContext(NotificationsContext);
   if (!context) throw new Error("NotificationBell must be used inside NotificationsProvider");
 
+  const t = useTranslations("Notifications");
+  const locale = useLocale();
   const { feed, open, setOpen, refresh, openItem, markAllRead } = context;
   const { items, unreadCount } = feed;
 
@@ -206,7 +211,7 @@ const NotificationBell = ({ className }: { className?: string }) => {
             size="icon"
             className={cn("relative size-8", className)}
             aria-label={
-              unreadCount > 0 ? `Notifications, ${unreadCount} unread` : "Notifications"
+              unreadCount > 0 ? t("labelUnread", { count: unreadCount }) : t("title")
             }
           />
         }
@@ -223,16 +228,16 @@ const NotificationBell = ({ className }: { className?: string }) => {
       </PopoverTrigger>
       <PopoverContent align="end" className="w-80 gap-0 p-0 sm:w-96">
         <div className="flex items-center justify-between gap-2 border-b px-3 py-2.5">
-          <p className="text-sm font-medium">Notifications</p>
+          <p className="text-sm font-medium">{t("title")}</p>
           {unreadCount > 0 && (
             <Button variant="ghost" size="sm" className="h-7 text-xs" onClick={markAllRead}>
-              Mark all as read
+              {t("markAllRead")}
             </Button>
           )}
         </div>
         {items.length === 0 ? (
           <p className="px-3 py-8 text-center text-sm text-muted-foreground">
-            You&apos;re all caught up.
+            {t("empty")}
           </p>
         ) : (
           <ul className="max-h-96 divide-y overflow-y-auto overscroll-contain">
@@ -266,13 +271,16 @@ const NotificationBell = ({ className }: { className?: string }) => {
                           </span>
                         )}
                         <span className="mt-0.5 block text-xs text-muted-foreground">
-                          {formatDistanceToNow(new Date(item.createdAt), { addSuffix: true })}
+                          {formatDistanceToNow(new Date(item.createdAt), {
+                            addSuffix: true,
+                            locale: locale === "bg" ? bgDateLocale : undefined,
+                          })}
                         </span>
                       </span>
                       {!item.read && (
                         <span
                           className="mt-2 size-2 shrink-0 rounded-full bg-primary"
-                          aria-label="Unread"
+                          aria-label={t("unread")}
                         />
                       )}
                     </button>

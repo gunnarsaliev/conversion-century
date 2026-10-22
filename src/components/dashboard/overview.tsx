@@ -4,8 +4,13 @@ import Link from "next/link";
 import { BannerStack } from "@/components/banner-standard-1";
 import { CelebrationBanner } from "@/components/dashboard/celebration-banners";
 import { NotificationBell } from "@/components/dashboard/notification-bell";
-import { formatDate } from "@/components/offer/offer-ui";
 import type { Celebration } from "@/lib/celebrations";
+import {
+  getDashboardLocale,
+  getDashboardTranslations,
+  type DashboardTranslator,
+} from "@/lib/dashboard-locale";
+import { formatDashboardDate } from "@/lib/dashboard-locale-shared";
 import { cn } from "@/lib/utils";
 
 // ---------------------------------------------------------------------------
@@ -17,6 +22,8 @@ import { cn } from "@/lib/utils";
 // the notification bell — the funnel tooltips are CSS hover/focus.
 
 export type FunnelStage = { label: string; value: number; hint?: string };
+
+type Translator = DashboardTranslator;
 
 export type Inquiry = {
   id: number;
@@ -49,10 +56,12 @@ function Funnel({
   title,
   description,
   stages,
+  t,
 }: {
   title: string;
   description: string;
   stages: FunnelStage[];
+  t: Translator;
 }) {
   const top = Math.max(1, ...stages.map((stage) => stage.value));
   const first = stages[0]?.value ?? 0;
@@ -89,7 +98,8 @@ function Funnel({
                 className="pointer-events-none absolute bottom-full left-0 z-10 mb-2 hidden rounded-md bg-foreground px-2.5 py-1.5 text-xs whitespace-nowrap text-background shadow-md group-hover:block group-focus-visible:block"
               >
                 <span className="font-medium">{stage.label}</span>: {stage.value}
-                {index > 0 && ` · ${percent(stage.value, first)} of ${stages[0].label.toLowerCase()}`}
+                {index > 0 &&
+                  ` · ${t("shareOf", { percent: percent(stage.value, first), stage: stages[0].label.toLowerCase() })}`}
                 {stage.hint && <span className="block opacity-80">{stage.hint}</span>}
               </div>
             </div>
@@ -100,26 +110,34 @@ function Funnel({
   );
 }
 
-function InquiryList({ inquiries }: { inquiries: Inquiry[] }) {
+function InquiryList({
+  inquiries,
+  t,
+  locale,
+}: {
+  inquiries: Inquiry[];
+  t: Translator;
+  locale: string;
+}) {
   return (
     <section className="rounded-lg border bg-white p-5 dark:bg-gray-800">
       <div className="flex items-center justify-between gap-3">
         <div>
-          <h2 className="font-semibold">Latest inquiries</h2>
+          <h2 className="font-semibold">{t("inquiries.title")}</h2>
           <p className="mt-0.5 text-sm text-muted-foreground">
-            Consultation requests from the website
+            {t("inquiries.description")}
           </p>
         </div>
         <Link
           href="/dashboard/leads"
           className="inline-flex items-center gap-1 text-sm font-medium hover:underline"
         >
-          All leads <ArrowRight className="size-3.5" aria-hidden="true" />
+          {t("inquiries.all")} <ArrowRight className="size-3.5" aria-hidden="true" />
         </Link>
       </div>
 
       {inquiries.length === 0 ? (
-        <p className="mt-5 text-sm text-muted-foreground">No consultation requests yet.</p>
+        <p className="mt-5 text-sm text-muted-foreground">{t("inquiries.empty")}</p>
       ) : (
         <ul className="mt-4 divide-y">
           {inquiries.map((inquiry) => (
@@ -133,7 +151,7 @@ function InquiryList({ inquiries }: { inquiries: Inquiry[] }) {
                     {inquiry.companyName}
                   </span>
                   <span className="shrink-0 text-xs text-muted-foreground">
-                    {formatDate(inquiry.createdAt)}
+                    {formatDashboardDate(inquiry.createdAt, locale)}
                   </span>
                 </div>
                 <div className="flex flex-wrap gap-x-3 text-sm text-muted-foreground">
@@ -158,7 +176,7 @@ function InquiryList({ inquiries }: { inquiries: Inquiry[] }) {
   );
 }
 
-export function DashboardOverview({
+export async function DashboardOverview({
   userName,
   celebrations = [],
   offers,
@@ -172,6 +190,9 @@ export function DashboardOverview({
   pipeline: { consultations: number; leads: number; clients: number };
   inquiries: Inquiry[];
 }) {
+  const t = await getDashboardTranslations("Overview");
+  const locale = await getDashboardLocale();
+
   return (
     <div className="flex flex-col gap-6">
       {celebrations.length > 0 && (
@@ -188,52 +209,57 @@ export function DashboardOverview({
       <section className="flex items-start justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-            {userName ? `Welcome back, ${userName}` : "Overview"}
+            {userName ? t("welcome", { name: userName }) : t("title")}
           </h1>
-          <p className="mt-1 text-sm text-muted-foreground">Offers and client pipeline at a glance</p>
+          <p className="mt-1 text-sm text-muted-foreground">{t("description")}</p>
         </div>
         <NotificationBell />
       </section>
 
       <div className={cn("grid gap-4", "grid-cols-2 lg:grid-cols-4")}>
-        <StatTile label="Offers created" value={offers.created} />
-        <StatTile label="Offers sent" value={offers.sent} hint="Incl. accepted and declined" />
-        <StatTile label="Accepted" value={offers.accepted} />
-        <StatTile label="Pending" value={offers.pending} hint="Sent, awaiting an answer" />
+        <StatTile label={t("stats.offersCreated")} value={offers.created} />
+        <StatTile label={t("stats.offersSent")} value={offers.sent} hint={t("stats.offersSentHint")} />
+        <StatTile label={t("stats.accepted")} value={offers.accepted} />
+        <StatTile label={t("stats.pending")} value={offers.pending} hint={t("stats.pendingHint")} />
       </div>
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <StatTile label="Consultations" value={pipeline.consultations} />
-        <StatTile label="Leads" value={pipeline.leads} />
-        <StatTile label="Clients" value={pipeline.clients} />
+        <StatTile label={t("stats.consultations")} value={pipeline.consultations} />
+        <StatTile label={t("stats.leads")} value={pipeline.leads} />
+        <StatTile label={t("stats.clients")} value={pipeline.clients} />
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
         <Funnel
-          title="Offer funnel"
-          description="Created → sent → accepted"
+          t={t}
+          title={t("offerFunnel.title")}
+          description={t("offerFunnel.description")}
           stages={[
-            { label: "Created", value: offers.created },
-            { label: "Sent", value: offers.sent },
+            { label: t("offerFunnel.created"), value: offers.created },
+            { label: t("offerFunnel.sent"), value: offers.sent },
             {
-              label: "Accepted",
+              label: t("offerFunnel.accepted"),
               value: offers.accepted,
-              hint: `${offers.pending} pending · ${offers.declined} declined`,
+              hint: t("offerFunnel.acceptedHint", {
+                pending: offers.pending,
+                declined: offers.declined,
+              }),
             },
           ]}
         />
         <Funnel
-          title="Client pipeline"
-          description="Consultations → leads → clients (current status of each record)"
+          t={t}
+          title={t("pipeline.title")}
+          description={t("pipeline.description")}
           stages={[
-            { label: "Consultations", value: pipeline.consultations },
-            { label: "Leads", value: pipeline.leads },
-            { label: "Clients", value: pipeline.clients, hint: "Active and inactive" },
+            { label: t("stats.consultations"), value: pipeline.consultations },
+            { label: t("stats.leads"), value: pipeline.leads },
+            { label: t("stats.clients"), value: pipeline.clients, hint: t("pipeline.clientsHint") },
           ]}
         />
       </div>
 
-      <InquiryList inquiries={inquiries} />
+      <InquiryList inquiries={inquiries} t={t} locale={locale} />
     </div>
   );
 }

@@ -2,6 +2,7 @@
 
 import { Check, ChevronDown, Download, ImageOff, Link2, Search } from "lucide-react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import * as React from "react";
 
 import {
@@ -23,12 +24,6 @@ import type { MediaFile, MediaHubItem } from "@/lib/media-files";
 // Downloads go through /dashboard/media/download so cross-origin R2 files
 // are saved as attachments rather than opened in a new tab.
 
-const sizeLabel: Record<MediaFile["size"], string> = {
-  original: "Original",
-  card: "Card",
-  thumbnail: "Thumbnail",
-};
-
 const formatBytes = (bytes: number | null) => {
   if (!bytes) return null;
   if (bytes < 1024) return `${bytes} B`;
@@ -45,6 +40,7 @@ const downloadHref = (item: MediaHubItem, file: MediaFile) =>
 type SortKey = "newest" | "oldest" | "name";
 
 const MediaCard = ({ item }: { item: MediaHubItem }) => {
+  const t = useTranslations("Media.hub");
   const [copied, setCopied] = React.useState(false);
   const original = item.files.find((file) => file.size === "original");
   const meta = original
@@ -97,18 +93,18 @@ const MediaCard = ({ item }: { item: MediaHubItem }) => {
                 className="inline-flex h-8 flex-1 items-center justify-center gap-1.5 rounded-l-lg bg-primary px-3 text-xs font-medium text-primary-foreground outline-none transition-all hover:bg-primary/80 focus-visible:ring-3 focus-visible:ring-ring/50"
               >
                 <Download className="size-3.5" aria-hidden="true" />
-                Download
+                {t("download")}
               </a>
               <DropdownMenu>
                 <DropdownMenuTrigger
                   className="inline-flex h-8 items-center justify-center rounded-r-lg border-l border-primary-foreground/20 bg-primary px-2 text-primary-foreground outline-none transition-all hover:bg-primary/80 focus-visible:ring-3 focus-visible:ring-ring/50"
-                  aria-label={`More download sizes for ${item.title}`}
+                  aria-label={t("moreSizes", { title: item.title })}
                 >
                   <ChevronDown className="size-3.5" aria-hidden="true" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="min-w-52">
                   <DropdownMenuGroup>
-                    <DropdownMenuLabel>Download size</DropdownMenuLabel>
+                    <DropdownMenuLabel>{t("downloadSize")}</DropdownMenuLabel>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
                   {item.files.map((file) => (
@@ -116,7 +112,7 @@ const MediaCard = ({ item }: { item: MediaHubItem }) => {
                       key={file.size}
                       render={<a href={downloadHref(item, file)} />}
                     >
-                      <span className="flex-1">{sizeLabel[file.size]}</span>
+                      <span className="flex-1">{t(`sizes.${file.size}`)}</span>
                       <span className="text-xs text-muted-foreground">
                         {formatDimensions(file)}
                       </span>
@@ -127,7 +123,7 @@ const MediaCard = ({ item }: { item: MediaHubItem }) => {
             </div>
           ) : (
             <span className="flex-1 text-xs text-muted-foreground">
-              File unavailable
+              {t("unavailable")}
             </span>
           )}
           <button
@@ -135,7 +131,7 @@ const MediaCard = ({ item }: { item: MediaHubItem }) => {
             onClick={copyLink}
             disabled={!original}
             className="inline-flex size-8 items-center justify-center rounded-lg border outline-none transition-all hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-50"
-            aria-label={copied ? "Link copied" : `Copy link to ${item.title}`}
+            aria-label={copied ? t("copied") : t("copyLink", { title: item.title })}
           >
             {copied ? (
               <Check className="size-3.5" aria-hidden="true" />
@@ -154,7 +150,8 @@ type MediaHubProps = {
   emptyMessage?: string;
 };
 
-const MediaHub = ({ items, emptyMessage = "No images yet." }: MediaHubProps) => {
+const MediaHub = ({ items, emptyMessage }: MediaHubProps) => {
+  const t = useTranslations("Media.hub");
   const [query, setQuery] = React.useState("");
   const [sort, setSort] = React.useState<SortKey>("newest");
 
@@ -188,23 +185,23 @@ const MediaHub = ({ items, emptyMessage = "No images yet." }: MediaHubProps) => 
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search by name or filename…"
-            aria-label="Search media"
+            placeholder={t("searchPlaceholder")}
+            aria-label={t("search")}
             className="pl-8"
           />
         </div>
         <select
           value={sort}
           onChange={(event) => setSort(event.target.value as SortKey)}
-          aria-label="Sort media"
+          aria-label={t("sort")}
           className="h-8 rounded-lg border bg-transparent px-2.5 text-sm outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
         >
-          <option value="newest">Newest first</option>
-          <option value="oldest">Oldest first</option>
-          <option value="name">Name A–Z</option>
+          <option value="newest">{t("sortNewest")}</option>
+          <option value="oldest">{t("sortOldest")}</option>
+          <option value="name">{t("sortName")}</option>
         </select>
         <span className="ml-auto text-xs text-muted-foreground">
-          {visibleItems.length} of {items.length}
+          {t("count", { shown: visibleItems.length, total: items.length })}
         </span>
       </div>
 
@@ -216,7 +213,7 @@ const MediaHub = ({ items, emptyMessage = "No images yet." }: MediaHubProps) => 
         </div>
       ) : (
         <div className="rounded-lg border border-dashed p-10 text-center text-sm text-muted-foreground">
-          {items.length === 0 ? emptyMessage : "No images match your search."}
+          {items.length === 0 ? (emptyMessage ?? t("empty")) : t("noMatches")}
         </div>
       )}
     </div>

@@ -1,0 +1,290 @@
+{
+  "Nav": {
+    "tagline": "Your SEO Muse",
+    "skipToContent": "Skip to main content",
+    "groups": {
+      "frontOffice": "Front Office",
+      "administration": "Administration",
+      "settings": "Settings"
+    },
+    "items": {
+      "dashboard": "Dashboard",
+      "clients": "Clients",
+      "leads": "Leads",
+      "offers": "Offers",
+      "pricelist": "Price list",
+      "media": "Media",
+      "website": "Website",
+      "team": "Staff & Roles",
+      "docs": "Docs",
+      "admin": "Admin",
+      "settings": "Settings"
+    },
+    "user": {
+      "profile": "Profile Settings",
+      "preferences": "Preferences",
+      "logOut": "Log Out",
+      "loggingOut": "Logging out…"
+    }
+  },
+  "Common": {
+    "overview": "Overview",
+    "search": "Search",
+    "greeting": "Hello, {name} 👋",
+    "greetingAnonymous": "Hello 👋",
+    "last7Days": "Last 7 days",
+    "dateRange": "Date range",
+    "dismiss": "Dismiss",
+    "invalidInput": "Invalid input",
+    "genericError": "Something went wrong. Please try again.",
+    "save": "Save",
+    "saving": "Saving…",
+    "cancel": "Cancel"
+  },
+  "Preferences": {
+    "title": "Preferences",
+    "description": "Customize how the dashboard looks and feels",
+    "language": {
+      "heading": "Language",
+      "description": "Choose the language of the dashboard on this device."
+    },
+    "theme": {
+      "heading": "Theme",
+      "description": "Choose how the dashboard looks on this device.",
+      "options": {
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System"
+      }
+    }
+  },
+  "Celebrations": {
+    "makeItSpecial": "Make it special",
+    "birthdaySelf": "Happy birthday, {name}! 🎉 Wishing you a wonderful day from the whole team.",
+    "birthdayOther": "It's {name}'s birthday today 🎂 Don't forget to wish them well!",
+    "anniversarySelf": "Happy work anniversary, {name}! 🥳 {years, plural, one {# year} other {# years}} with the team today. Thank you for everything you do.",
+    "anniversaryOther": "{name} celebrates {years, plural, one {# year} other {# years}} with the team today 🥳"
+  },
+  "Media": {
+    "title": "Media",
+    "sections": "Media sections",
+    "tabs": {
+      "all": "All media",
+      "logos": "Client logos"
+    },
+    "hub": {
+      "download": "Download",
+      "moreSizes": "More download sizes for {title}",
+      "downloadSize": "Download size",
+      "sizes": {
+        "original": "Original",
+        "card": "Card",
+        "thumbnail": "Thumbnail"
+      },
+      "unavailable": "File unavailable",
+      "copied": "Link copied",
+      "copyLink": "Copy link to {title}",
+      "searchPlaceholder": "Search by name or filename…",
+      "search": "Search media",
+      "sort": "Sort media",
+      "sortNewest": "Newest first",
+      "sortOldest": "Oldest first",
+      "sortName": "Name A–Z",
+      "count": "{shown} of {total}",
+      "empty": "No images yet.",
+      "noMatches": "No images match your search."
+    },
+    "pages": {
+      "all": {
+        "description": "Browse and download every image in the media library",
+        "empty": "No images have been uploaded yet."
+      },
+      "logos": {
+        "description": "Download client logos for reports, decks and case studies",
+        "empty": "No clients have a logo yet."
+      }
+    }
+  },
+  "Offers": {
+    "title": "Offers",
+    "description": "Commercial offers prepared for clients",
+    "new": "New Offer",
+    "empty": "No offers yet.",
+    "validUntil": "Valid until {date}",
+    "status": {
+      "draft": "Draft",
+      "sent": "Sent",
+      "accepted": "Accepted",
+      "declined": "Declined"
+    }
+  },
+  "Overview": {
+    "title": "Overview",
+    "welcome": "Welcome back, {name}",
+    "description": "Offers and client pipeline at a glance",
+    "shareOf": "{percent} of {stage}",
+    "stats": {
+      "offersCreated": "Offers created",
+      "offersSent": "Offers sent",
+      "offersSentHint": "Incl. accepted and declined",
+      "accepted": "Accepted",
+      "pending": "Pending",
+      "pendingHint": "Sent, awaiting an answer",
+      "consultations": "Consultations",
+      "leads": "Leads",
+      "clients": "Clients"
+    },
+    "offerFunnel": {
+      "title": "Offer funnel",
+      "description": "Created → sent → accepted",
+      "created": "Created",
+      "sent": "Sent",
+      "accepted": "Accepted",
+      "acceptedHint": "{pending} pending · {declined} declined"
+    },
+    "pipeline": {
+      "title": "Client pipeline",
+      "description": "Consultations → leads → clients (current status of each record)",
+      "clientsHint": "Active and inactive"
+    },
+    "inquiries": {
+      "title": "Latest inquiries",
+      "description": "Consultation requests from the website",
+      "all": "All leads",
+      "empty": "No consultation requests yet."
+    }
+  },
+  "PriceList": {
+    "title": "Price list",
+    "description": "Hourly rates used to price offers. Changing a rate reprices every offer that uses the service, unless the offer has a fixed price.",
+    "empty": "No services yet.",
+    "service": "Service",
+    "rate": "Rate per hour",
+    "rateFor": "{name} rate per hour",
+    "unit": "€ / h",
+    "adminOnly": "Only admins can change rates.",
+    "saved": "Rates saved.",
+    "reset": "Reset",
+    "save": "Save changes",
+    "saving": "Saving…",
+    "errors": {
+      "negative": "Rates can't be negative",
+      "save": "Something went wrong while saving the rates."
+    }
+  },
+  "Settings": {
+    "title": "Settings",
+    "description": "Manage your profile and how teammates see you",
+    "form": {
+      "photo": {
+        "legend": "Profile photo",
+        "description": "Shown on your team card, in the sidebar and across the dashboard.",
+        "upload": "Upload photo",
+        "remove": "Remove",
+        "hint": "PNG or JPG. A square image works best."
+      },
+      "personal": {
+        "legend": "Personal information",
+        "firstName": "First name",
+        "lastName": "Last name",
+        "jobTitle": "Job title",
+        "jobTitlePlaceholder": "e.g. SEO Specialist",
+        "email": "Email address",
+        "emailHint": "Your sign-in email. Ask an admin if it needs to change."
+      },
+      "about": {
+        "legend": "About",
+        "bio": "Bio",
+        "hint": "A short introduction for your team profile. Line breaks are kept.",
+        "placeholder": "What you work on, what you're great at, what you enjoy outside work…"
+      },
+      "dates": {
+        "legend": "Important dates",
+        "description": "Celebrated on the dashboard. Only the day and month of your birthday are shown.",
+        "birthday": "Birthday",
+        "workBirthday": "Work birthday",
+        "workBirthdayHint": "The day you joined the team."
+      },
+      "updated": "Profile updated",
+      "unsaved": "You have unsaved changes",
+      "discard": "Discard",
+      "save": "Save changes"
+    },
+    "errors": {
+      "date": "Invalid date",
+      "firstName": "First name is required",
+      "lastName": "Last name is required",
+      "about": "About must be at most {max} characters",
+      "invalid": "Invalid input",
+      "signedOut": "You must be signed in.",
+      "save": "Something went wrong while updating your profile."
+    }
+  },
+  "Notifications": {
+    "title": "Notifications",
+    "labelUnread": "Notifications, {count} unread",
+    "markAllRead": "Mark all as read",
+    "allMarkedRead": "All notifications marked as read",
+    "updateFailed": "Couldn't update notifications",
+    "empty": "You're all caught up.",
+    "unread": "Unread",
+    "newCount": "{count} new notifications",
+    "open": "Open",
+    "view": "View"
+  },
+  "Team": {
+    "title": "Team",
+    "description": "Everyone with access to the dashboard",
+    "empty": "No team members yet.",
+    "member": "Team Member",
+    "actions": "Team member actions",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleting": "Deleting…",
+    "confirmDelete": "Delete {name}? This action cannot be undone.",
+    "joined": "Joined {date}",
+    "yearsShort": "{count} yr",
+    "years": "{count, plural, one {# year} other {# years}}",
+    "roles": {
+      "user": "User",
+      "admin": "Admin",
+      "editor": "Editor"
+    },
+    "status": {
+      "active": "Active",
+      "on-leave": "On leave",
+      "inactive": "Inactive"
+    },
+    "clients": {
+      "managing": "Managing",
+      "managedClients": "Managed Clients",
+      "publishing": "Publishing For",
+      "copywriting": "Copywriting For"
+    },
+    "detail": {
+      "about": "About",
+      "contact": "Contact",
+      "birthday": "Birthday",
+      "joined": "Joined",
+      "documents": "Documents"
+    },
+    "form": {
+      "title": "Edit Team Member",
+      "firstName": "First name",
+      "firstNamePlaceholder": "Jane",
+      "lastName": "Last name",
+      "lastNamePlaceholder": "Doe",
+      "jobTitle": "Job title",
+      "jobTitlePlaceholder": "Account Manager",
+      "role": "Role",
+      "save": "Save changes"
+    },
+    "errors": {
+      "firstName": "First name is required",
+      "lastName": "Last name is required",
+      "invalid": "Invalid input",
+      "update": "Something went wrong while updating the team member.",
+      "delete": "Something went wrong while deleting the team member."
+    }
+  }
+}

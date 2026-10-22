@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import * as React from "react";
+import { useTranslations } from "next-intl";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -46,14 +47,15 @@ import {
 // composition (see Base UI's Menu docs, "Open a dialog") — the menu's item
 // click handling and the dialog trigger's click handling don't coordinate.
 
-const teamMemberFormSchema = z.object({
-  firstName: z.string().trim().min(1, "First name is required"),
-  lastName: z.string().trim().min(1, "Last name is required"),
-  jobTitle: z.string().trim().optional(),
-  role: z.enum(["user", "admin", "editor"]),
-});
+const teamMemberFormSchema = (t: (key: string) => string) =>
+  z.object({
+    firstName: z.string().trim().min(1, t("errors.firstName")),
+    lastName: z.string().trim().min(1, t("errors.lastName")),
+    jobTitle: z.string().trim().optional(),
+    role: z.enum(["user", "admin", "editor"]),
+  });
 
-type TeamMemberFormValues = z.infer<typeof teamMemberFormSchema>;
+type TeamMemberFormValues = z.infer<ReturnType<typeof teamMemberFormSchema>>;
 
 type TeamMemberFormDrawerProps = {
   open: boolean;
@@ -72,6 +74,8 @@ const TeamMemberFormDrawer = ({
   onOpenChange,
   member,
 }: TeamMemberFormDrawerProps) => {
+  const t = useTranslations("Team");
+  const tCommon = useTranslations("Common");
   const router = useRouter();
   const [serverError, setServerError] = React.useState<string | null>(null);
 
@@ -88,7 +92,7 @@ const TeamMemberFormDrawer = ({
     reset,
     formState: { isSubmitting },
   } = useForm<TeamMemberFormValues>({
-    resolver: zodResolver(teamMemberFormSchema),
+    resolver: zodResolver(teamMemberFormSchema(t)),
     defaultValues,
   });
 
@@ -119,7 +123,7 @@ const TeamMemberFormDrawer = ({
     >
       <SheetContent showCloseButton={false} aria-describedby={undefined}>
         <SheetHeader className="flex-row items-center justify-between border-b">
-          <SheetTitle className="text-lg">Edit Team Member</SheetTitle>
+          <SheetTitle className="text-lg">{t("form.title")}</SheetTitle>
           <SheetClose render={<Button size="icon" variant="secondary" />}>
             <X />
           </SheetClose>
@@ -137,12 +141,12 @@ const TeamMemberFormDrawer = ({
                 control={control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="firstName">First name</FieldLabel>
+                    <FieldLabel htmlFor="firstName">{t("form.firstName")}</FieldLabel>
                     <Input
                       {...field}
                       id="firstName"
                       aria-invalid={fieldState.invalid}
-                      placeholder="Jane"
+                      placeholder={t("form.firstNamePlaceholder")}
                     />
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
@@ -156,12 +160,12 @@ const TeamMemberFormDrawer = ({
                 control={control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="lastName">Last name</FieldLabel>
+                    <FieldLabel htmlFor="lastName">{t("form.lastName")}</FieldLabel>
                     <Input
                       {...field}
                       id="lastName"
                       aria-invalid={fieldState.invalid}
-                      placeholder="Doe"
+                      placeholder={t("form.lastNamePlaceholder")}
                     />
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
@@ -175,12 +179,12 @@ const TeamMemberFormDrawer = ({
                 control={control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="jobTitle">Job title</FieldLabel>
+                    <FieldLabel htmlFor="jobTitle">{t("form.jobTitle")}</FieldLabel>
                     <Input
                       {...field}
                       id="jobTitle"
                       aria-invalid={fieldState.invalid}
-                      placeholder="Account Manager"
+                      placeholder={t("form.jobTitlePlaceholder")}
                     />
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
@@ -194,15 +198,15 @@ const TeamMemberFormDrawer = ({
                 control={control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="role">Role</FieldLabel>
+                    <FieldLabel htmlFor="role">{t("form.role")}</FieldLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger id="role">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="user">User</SelectItem>
-                        <SelectItem value="admin">Admin</SelectItem>
-                        <SelectItem value="editor">Editor</SelectItem>
+                        <SelectItem value="user">{t("roles.user")}</SelectItem>
+                        <SelectItem value="admin">{t("roles.admin")}</SelectItem>
+                        <SelectItem value="editor">{t("roles.editor")}</SelectItem>
                       </SelectContent>
                     </Select>
                     {fieldState.invalid && (
@@ -224,9 +228,9 @@ const TeamMemberFormDrawer = ({
             type="submit"
             form="form-team-member"
             loading={isSubmitting}
-            loadingText="Saving…"
+            loadingText={tCommon("saving")}
           >
-            Save changes
+            {t("form.save")}
           </Button>
         </SheetFooter>
       </SheetContent>

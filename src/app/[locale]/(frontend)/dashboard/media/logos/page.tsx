@@ -3,10 +3,12 @@ import config from "@payload-config";
 
 import { MediaHub } from "@/components/dashboard/media-hub";
 import { MediaHubHeader } from "@/components/dashboard/media-hub-header";
+import { getDashboardTranslations } from "@/lib/dashboard-locale";
 import { toMediaHubItem } from "@/lib/media-files";
 
 export default async function MediaLogosPage() {
   const payload = await getPayload({ config });
+  const t = await getDashboardTranslations("Media.pages");
   const clients = await payload.find({
     collection: "clients",
     where: { logo: { exists: true } },
@@ -27,9 +29,9 @@ export default async function MediaLogosPage() {
       <MediaHubHeader
         active="logos"
         count={items.length}
-        description="Download client logos for reports, decks and case studies"
+        description={t("logos.description")}
       />
-      <MediaHub items={items} emptyMessage="No clients have a logo yet." />
+      <MediaHub items={items} emptyMessage={t("logos.empty")} />
     </>
   );
 }

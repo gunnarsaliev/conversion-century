@@ -6,6 +6,7 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 import { z } from "zod";
 
+import { getDashboardTranslations } from "@/lib/dashboard-locale";
 import { isAdmin } from "@/lib/roles";
 
 // ---------------------------------------------------------------------------
@@ -16,13 +17,14 @@ import { isAdmin } from "@/lib/roles";
 // prices are computed on read, so changed rates reprice every offer that
 // uses the service (unless it has a fixed price).
 
-const updatesSchema = z.array(
-  z.object({
-    id: z.number().int(),
-    // null clears the rate.
-    price: z.number().min(0, "Rates can't be negative").nullable(),
-  }),
-);
+const updatesSchema = (negativeMessage: string) =>
+  z.array(
+    z.object({
+      id: z.number().int(),
+      // null clears the rate.
+      price: z.number().min(0, negativeMessage).nullable(),
+    }),
+  );
 
 type UpdateServicePricesResult =
   | { success: true }
@@ -31,12 +33,14 @@ type UpdateServicePricesResult =
 async function updateServicePrices(
   updates: { id: number; price: number | null }[],
 ): Promise<UpdateServicePricesResult> {
-  const parsed = updatesSchema.safeParse(updates);
+  const t = await getDashboardTranslations("PriceList");
+  const tCommon = await getDashboardTranslations("Common");
+  const parsed = updatesSchema(t("errors.negative")).safeParse(updates);
 
   if (!parsed.success) {
     return {
       success: false,
-      error: parsed.error.issues[0]?.message ?? "Invalid input",
+      error: parsed.error.issues[0]?.message ?? tCommon("invalidInput"),
     };
   }
 
@@ -44,7 +48,7 @@ async function updateServicePrices(
   const { user } = await payload.auth({ headers: await getHeaders() });
 
   if (!isAdmin(user)) {
-    return { success: false, error: "Only admins can change rates." };
+    return { success: false, error: t("adminOnly") };
   }
 
   try {
@@ -66,7 +70,7 @@ async function updateServicePrices(
   } catch {
     return {
       success: false,
-      error: "Something went wrong while saving the rates.",
+      error: t("errors.save"),
     };
   }
 }

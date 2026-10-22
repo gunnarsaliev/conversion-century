@@ -1,6 +1,7 @@
 "use client";
 
 import { Check, Laptop, Moon, Sun } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import * as React from "react";
 
@@ -17,12 +18,13 @@ import { cn } from "@/lib/utils";
 // avoid a hydration mismatch.
 
 const THEME_OPTIONS = [
-  { value: "light", label: "Light", icon: Sun },
-  { value: "dark", label: "Dark", icon: Moon },
-  { value: "system", label: "System", icon: Laptop },
+  { value: "light", icon: Sun },
+  { value: "dark", icon: Moon },
+  { value: "system", icon: Laptop },
 ] as const;
 
 const ThemePreferencesForm = () => {
+  const t = useTranslations("Preferences.theme");
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
 
@@ -34,14 +36,14 @@ const ThemePreferencesForm = () => {
   return (
     <Card>
       <CardContent className="pt-6">
-        <h3 className="text-sm font-medium">Theme</h3>
+        <h3 className="text-sm font-medium">{t("heading")}</h3>
         <p className="mt-1 text-sm text-muted-foreground">
-          Choose how the dashboard looks on this device.
+          {t("description")}
         </p>
 
         <div
           role="radiogroup"
-          aria-label="Theme"
+          aria-label={t("heading")}
           className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3"
         >
           {THEME_OPTIONS.map((option) => {
@@ -66,7 +68,7 @@ const ThemePreferencesForm = () => {
                   </div>
                 )}
                 <Icon className="size-5 text-muted-foreground" aria-hidden="true" />
-                <span className="font-medium">{option.label}</span>
+                <span className="font-medium">{t(`options.${option.value}`)}</span>
               </button>
             );
           })}

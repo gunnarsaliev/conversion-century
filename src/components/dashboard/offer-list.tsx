@@ -2,8 +2,14 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 import { ClientLogo } from "@/components/dashboard/client-logo";
-import { formatAmount, formatDate, packageTotal } from "@/components/offer/offer-ui";
+import { formatAmount, packageTotal } from "@/components/offer/offer-ui";
 import { Badge } from "@/components/ui/badge";
+import {
+  getDashboardLocale,
+  getDashboardTranslations,
+  type DashboardTranslator,
+} from "@/lib/dashboard-locale";
+import { formatDashboardDate } from "@/lib/dashboard-locale-shared";
 import type { OfferListItem } from "@/lib/offers";
 
 // ---------------------------------------------------------------------------
@@ -20,7 +26,9 @@ const statusBadgeClassName: Record<OfferListItem["status"], string> = {
   declined: "bg-red-100 text-red-800",
 };
 
-const OfferCard = ({ item }: { item: OfferListItem }) => {
+type Translator = DashboardTranslator;
+
+const OfferCard = ({ item, t, locale }: { item: OfferListItem; t: Translator; locale: string }) => {
   const { offer } = item;
   // After discount.
   const pkg = offer.packages[0];
@@ -35,7 +43,7 @@ const OfferCard = ({ item }: { item: OfferListItem }) => {
         <ClientLogo companyName={offer.client.name} logoUrl={offer.client.logo || null} size={48} />
         <div className="flex shrink-0 items-center gap-2">
           <Badge className={statusBadgeClassName[item.status]}>
-            <span className="capitalize">{item.status}</span>
+            {t(`status.${item.status}`)}
           </Badge>
           <div className="opacity-0 group-hover:opacity-100">
             <ArrowRight className="size-5 text-muted-foreground" />
@@ -50,7 +58,7 @@ const OfferCard = ({ item }: { item: OfferListItem }) => {
       </div>
       <div className="flex items-end justify-between gap-3 border-t pt-3 text-sm">
         <span className="min-w-0 text-muted-foreground">
-          Valid until {formatDate(offer.validUntil)}
+          {t("validUntil", { date: formatDashboardDate(offer.validUntil, locale) })}
         </span>
         {price ? (
           <span className="shrink-0 font-medium whitespace-nowrap tabular-nums">
@@ -62,16 +70,19 @@ const OfferCard = ({ item }: { item: OfferListItem }) => {
   );
 };
 
-const OfferList = ({ offers }: { offers: OfferListItem[] }) => {
+const OfferList = async ({ offers }: { offers: OfferListItem[] }) => {
+  const t = await getDashboardTranslations("Offers");
+  const locale = await getDashboardLocale();
+
   if (offers.length === 0) {
-    return <p className="mt-8 text-sm text-muted-foreground">No offers yet.</p>;
+    return <p className="mt-8 text-sm text-muted-foreground">{t("empty")}</p>;
   }
 
   return (
     <ul className="mt-8 grid gap-4 sm:grid-cols-2 md:grid-cols-3">
       {offers.map((item) => (
         <li key={item.id} className="min-w-0">
-          <OfferCard item={item} />
+          <OfferCard item={item} t={t} locale={locale} />
         </li>
       ))}
     </ul>

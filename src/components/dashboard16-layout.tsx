@@ -20,6 +20,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
@@ -66,8 +67,9 @@ import { Toaster } from "@/components/ui/sonner";
 // Sidebar navigation types & data
 // ---------------------------------------------------------------------------
 
+// `key` names the item's label in the dashboard `Nav` messages.
 type NavItem = {
-  label: string;
+  key: string;
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   href: string;
   isActive?: boolean;
@@ -75,7 +77,7 @@ type NavItem = {
 };
 
 type NavGroup = {
-  title: string;
+  key: string;
   items: NavItem[];
   defaultOpen?: boolean;
 };
@@ -91,7 +93,6 @@ type SidebarData = {
     src: string;
     alt: string;
     title: string;
-    description: string;
   };
   navGroups: NavGroup[];
   footerGroup: NavGroup;
@@ -103,83 +104,38 @@ const sidebarData: SidebarData = {
     src: "https://pub-05efc1b2acd64b71beacdf66eed34654.r2.dev/icon.png",
     alt: "Conversion Century",
     title: "Conversion Century",
-    description: "Your SEO Muse",
   },
   navGroups: [
     {
-      title: "Front Office",
+      key: "frontOffice",
       defaultOpen: true,
       items: [
         {
-          label: "Dashboard",
+          key: "dashboard",
           icon: LayoutDashboard,
           href: "/dashboard",
           isActive: true,
         },
-        { label: "Clients", icon: Users, href: "/dashboard/clients" },
-        { label: "Leads", icon: Handshake, href: "/dashboard/leads" },
-        { label: "Offers", icon: FileText, href: "/dashboard/offers" },
-        { label: "Price list", icon: Euro, href: "/dashboard/pricelist" },
-        { label: "Media", icon: Images, href: "/dashboard/media" },
-        { label: "Website", icon: Globe, href: "/" },
-        // {
-        //   label: "Guest Profiles",
-        //   icon: Users,
-        //   href: "#",
-        //   children: [
-        //     { label: "All Guests", icon: Users, href: "#" },
-        //     { label: "Loyalty Members", icon: Users, href: "#" },
-        //     { label: "Corporate Accounts", icon: Users, href: "#" },
-        //   ],
-        // },
+        { key: "clients", icon: Users, href: "/dashboard/clients" },
+        { key: "leads", icon: Handshake, href: "/dashboard/leads" },
+        { key: "offers", icon: FileText, href: "/dashboard/offers" },
+        { key: "pricelist", icon: Euro, href: "/dashboard/pricelist" },
+        { key: "media", icon: Images, href: "/dashboard/media" },
+        { key: "website", icon: Globe, href: "/" },
       ],
     },
-    // {
-    //   title: "Property",
-    //   defaultOpen: true,
-    //   items: [
-    //     {
-    //       label: "Rooms & Suites",
-    //       icon: BedDouble,
-    //       href: "#",
-    //       children: [
-    //         { label: "Floor Plan", icon: BedDouble, href: "#" },
-    //         { label: "Room Types", icon: BedDouble, href: "#" },
-    //         { label: "Availability", icon: BedDouble, href: "#" },
-    //       ],
-    //     },
-    //     { label: "Housekeeping", icon: Sparkles, href: "#" },
-    //     { label: "Dining & Events", icon: UtensilsCrossed, href: "#" },
-    //   ],
-    // },
-    // {
-    //   title: "Revenue",
-    //   defaultOpen: false,
-    //   items: [
-    //     { label: "Rate Manager", icon: CreditCard, href: "#" },
-    //     { label: "Billing & Invoices", icon: Wallet, href: "#" },
-    //     { label: "Channel Distribution", icon: Globe, href: "#" },
-    //   ],
-    // },
     {
-      title: "Administration",
+      key: "administration",
       defaultOpen: false,
       items: [
-        { label: "Staff & Roles", icon: ShieldCheck, href: "/dashboard/team" },
-        {
-          label: "Docs",
-          icon: BookOpen,
-          href: "http://localhost:3000/en/docs/getting-started",
-        },
-        // { label: "Security & Access", icon: KeyRound, href: "#" },
+        { key: "team", icon: ShieldCheck, href: "/dashboard/team" },
+        { key: "docs", icon: BookOpen, href: "/docs/getting-started" },
       ],
     },
   ],
   footerGroup: {
-    title: "Settings",
-    items: [
-      { label: "Settings", icon: Settings, href: "/dashboard/settings" },
-    ],
+    key: "settings",
+    items: [{ key: "settings", icon: Settings, href: "/dashboard/settings" }],
   },
 };
 
@@ -188,6 +144,8 @@ const sidebarData: SidebarData = {
 // ---------------------------------------------------------------------------
 
 const SidebarLogo = ({ logo }: { logo: SidebarData["logo"] }) => {
+  const t = useTranslations("Nav");
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -208,7 +166,7 @@ const SidebarLogo = ({ logo }: { logo: SidebarData["logo"] }) => {
           <div className="flex flex-col gap-0.5 leading-none">
             <span className="font-medium">{logo.title}</span>
             <span className="text-xs text-muted-foreground">
-              {logo.description}
+              {t("tagline")}
             </span>
           </div>
         </SidebarMenuButton>
@@ -218,26 +176,28 @@ const SidebarLogo = ({ logo }: { logo: SidebarData["logo"] }) => {
 };
 
 const NavMenuItem = ({ item }: { item: NavItem }) => {
+  const t = useTranslations("Nav.items");
+  const label = t(item.key);
   const Icon = item.icon;
   const hasChildren = item.children && item.children.length > 0;
 
   if (!hasChildren) {
     return (
       <SidebarMenuItem>
-        <SidebarMenuButton isActive={item.isActive} tooltip={item.label} render={<a href={item.href} />}><Icon className="size-4" aria-hidden="true" /><span>{item.label}</span></SidebarMenuButton>
+        <SidebarMenuButton isActive={item.isActive} tooltip={label} render={<a href={item.href} />}><Icon className="size-4" aria-hidden="true" /><span>{label}</span></SidebarMenuButton>
       </SidebarMenuItem>
     );
   }
 
   return (
-    <Collapsible defaultOpen className="group/collapsible" render={<SidebarMenuItem />}><CollapsibleTrigger render={<SidebarMenuButton isActive={item.isActive} tooltip={item.label} />}><Icon className="size-4" aria-hidden="true" /><span>{item.label}</span><ChevronRight
+    <Collapsible defaultOpen className="group/collapsible" render={<SidebarMenuItem />}><CollapsibleTrigger render={<SidebarMenuButton isActive={item.isActive} tooltip={label} />}><Icon className="size-4" aria-hidden="true" /><span>{label}</span><ChevronRight
                                   className="ml-auto size-4 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
                                   aria-hidden="true"
                                 /></CollapsibleTrigger><CollapsibleContent>
                 <SidebarMenuSub>
                   {item.children!.map((child) => (
-                    <SidebarMenuSubItem key={child.label}>
-                      <SidebarMenuSubButton isActive={child.isActive} render={<a href={child.href} />}>{child.label}</SidebarMenuSubButton>
+                    <SidebarMenuSubItem key={child.key}>
+                      <SidebarMenuSubButton isActive={child.isActive} render={<a href={child.href} />}>{t(child.key)}</SidebarMenuSubButton>
                     </SidebarMenuSubItem>
                   ))}
                 </SidebarMenuSub>
@@ -246,6 +206,7 @@ const NavMenuItem = ({ item }: { item: NavItem }) => {
 };
 
 const NavUser = ({ user }: { user: UserData }) => {
+  const t = useTranslations("Nav.user");
   const router = useRouter();
   const [isLoggingOut, setIsLoggingOut] = React.useState(false);
 
@@ -310,16 +271,16 @@ const NavUser = ({ user }: { user: UserData }) => {
             <DropdownMenuSeparator />
             <DropdownMenuItem render={<Link href="/dashboard/settings" />}>
               <User className="mr-2 size-4" aria-hidden="true" />
-              Profile Settings
+              {t("profile")}
             </DropdownMenuItem>
             <DropdownMenuItem render={<Link href="/dashboard/preferences" />}>
               <Palette className="mr-2 size-4" aria-hidden="true" />
-              Preferences
+              {t("preferences")}
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem disabled={isLoggingOut} onClick={handleLogout}>
               <LogOut className="mr-2 size-4" aria-hidden="true" />
-              {isLoggingOut ? "Logging out…" : "Log Out"}
+              {isLoggingOut ? t("loggingOut") : t("logOut")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -336,17 +297,18 @@ const AppSidebar = ({
   user?: UserData;
   isAdmin?: boolean;
 }) => {
+  const t = useTranslations("Nav.groups");
   const navGroups = React.useMemo(() => {
     if (!isAdmin) return sidebarData.navGroups;
 
     return sidebarData.navGroups.map((group) => {
-      if (group.title !== "Administration") return group;
+      if (group.key !== "administration") return group;
 
       return {
         ...group,
         items: [
           ...group.items,
-          { label: "Admin", icon: ShieldCheck, href: "/admin" },
+          { key: "admin", icon: ShieldCheck, href: "/admin" },
         ],
       };
     });
@@ -363,12 +325,12 @@ const AppSidebar = ({
       <SidebarContent>
         <ScrollArea className="h-full">
           {navGroups.map((group) => (
-            <SidebarGroup key={group.title}>
-              <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
+            <SidebarGroup key={group.key}>
+              <SidebarGroupLabel>{t(group.key)}</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
                   {group.items.map((item) => (
-                    <NavMenuItem key={item.label} item={item} />
+                    <NavMenuItem key={item.key} item={item} />
                   ))}
                 </SidebarMenu>
               </SidebarGroupContent>
@@ -399,6 +361,8 @@ const DashboardLayout = ({
   isAdmin?: boolean;
   notifications?: NotificationFeed;
 }) => {
+  const t = useTranslations("Nav");
+
   return (
     <NotificationsProvider initialFeed={notifications}>
       <SidebarProvider className={cn("bg-sidebar", className)}>
@@ -406,7 +370,7 @@ const DashboardLayout = ({
           href="#dashboard-main"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-background focus:px-3 focus:py-2 focus:text-sm focus:text-foreground focus:ring-2 focus:ring-ring"
         >
-          Skip to main content
+          {t("skipToContent")}
         </a>
         <AppSidebar user={user} isAdmin={isAdmin} />
         <div className="h-svh w-full overflow-hidden lg:p-2">

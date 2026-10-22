@@ -4,6 +4,7 @@ import { Cake, Mail, MoreVertical, PartyPopper, Pencil, Trash2, X } from "lucide
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import * as React from "react";
 
 import { deleteTeamMember } from "@/app/[locale]/(frontend)/dashboard/team/actions";
@@ -115,6 +116,8 @@ const TeamMemberQuickView = ({
   member,
   trigger,
 }: TeamMemberQuickViewProps) => {
+  const t = useTranslations("Team");
+  const locale = useLocale();
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
   const [isDeleting, setIsDeleting] = React.useState(false);
@@ -123,7 +126,7 @@ const TeamMemberQuickView = ({
   const handleDelete = async () => {
     if (
       !window.confirm(
-        `Delete ${member.name}? This action cannot be undone.`,
+        t("confirmDelete", { name: member.name }),
       )
     ) {
       return;
@@ -151,7 +154,7 @@ const TeamMemberQuickView = ({
         className="gap-0"
       >
         <SheetHeader className="flex-row items-center justify-between border-b">
-          <SheetTitle className="text-lg">Team Member</SheetTitle>
+          <SheetTitle className="text-lg">{t("member")}</SheetTitle>
           <SheetClose render={<Button size="icon" variant="secondary" />}>
             <X />
           </SheetClose>
@@ -193,7 +196,7 @@ const TeamMemberQuickView = ({
                       variant="outline"
                       size="icon"
                       className="size-8 shrink-0"
-                      aria-label="Team member actions"
+                      aria-label={t("actions")}
                     />
                   }
                 >
@@ -202,7 +205,7 @@ const TeamMemberQuickView = ({
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem onClick={() => setEditOpen(true)}>
                     <Pencil className="size-3.5" aria-hidden="true" />
-                    Edit
+                    {t("edit")}
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     variant="destructive"
@@ -210,7 +213,7 @@ const TeamMemberQuickView = ({
                     onClick={handleDelete}
                   >
                     <Trash2 className="size-3.5" aria-hidden="true" />
-                    {isDeleting ? "Deleting…" : "Delete"}
+                    {isDeleting ? t("deleting") : t("delete")}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -240,7 +243,7 @@ const TeamMemberQuickView = ({
                     roleBadgeClassName[member.role] ?? roleBadgeClassName.user
                   }
                 >
-                  <span className="capitalize">{member.role}</span>
+                  {t(`roles.${member.role}`)}
                 </Badge>
                 <TeamMemberStatusBadge status={member.status} />
                 {member.jobTitle && <span>{member.jobTitle}</span>}
@@ -268,16 +271,16 @@ const TeamMemberQuickView = ({
                 {member.birthday && (
                   <span className="flex items-center gap-1.5">
                     <Cake className="size-3.5" aria-hidden="true" />
-                    <span>{formatBirthday(member.birthday)}</span>
+                    <span>{formatBirthday(member.birthday, locale)}</span>
                   </span>
                 )}
                 {member.workBirthday && (
                   <span className="flex items-center gap-1.5">
                     <PartyPopper className="size-3.5" aria-hidden="true" />
                     <span>
-                      Joined {formatWorkStart(member.workBirthday)}
+                      {t("joined", { date: formatWorkStart(member.workBirthday, locale) })}
                       {getCompletedYears(member.workBirthday) > 0 &&
-                        ` · ${getCompletedYears(member.workBirthday)} yr`}
+                        ` · ${t("yearsShort", { count: getCompletedYears(member.workBirthday) })}`}
                     </span>
                   </span>
                 )}
@@ -290,15 +293,15 @@ const TeamMemberQuickView = ({
               (member.copywritingFor && member.copywritingFor.length > 0)) && (
               <div className="mt-6 space-y-4 border-t pt-6">
                 <ClientAvatarGroup
-                  label="Managing"
+                  label={t("clients.managing")}
                   clients={member.managedClients ?? []}
                 />
                 <ClientAvatarGroup
-                  label="Publishing For"
+                  label={t("clients.publishing")}
                   clients={member.publishingFor ?? []}
                 />
                 <ClientAvatarGroup
-                  label="Copywriting For"
+                  label={t("clients.copywriting")}
                   clients={member.copywritingFor ?? []}
                 />
               </div>

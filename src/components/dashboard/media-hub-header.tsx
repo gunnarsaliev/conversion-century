@@ -1,6 +1,7 @@
 import { ChevronRight, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
 
+import { getDashboardTranslations } from "@/lib/dashboard-locale";
 import { cn } from "@/lib/utils";
 
 // ---------------------------------------------------------------------------
@@ -8,8 +9,8 @@ import { cn } from "@/lib/utils";
 // ---------------------------------------------------------------------------
 
 const sections = [
-  { key: "all", label: "All media", href: "/dashboard/media" },
-  { key: "logos", label: "Client logos", href: "/dashboard/media/logos" },
+  { key: "all", href: "/dashboard/media" },
+  { key: "logos", href: "/dashboard/media/logos" },
 ] as const;
 
 type MediaHubHeaderProps = {
@@ -18,17 +19,21 @@ type MediaHubHeaderProps = {
   description: string;
 };
 
-const MediaHubHeader = ({ active, count, description }: MediaHubHeaderProps) => (
+const MediaHubHeader = async ({ active, count, description }: MediaHubHeaderProps) => {
+  const t = await getDashboardTranslations("Media");
+  const tCommon = await getDashboardTranslations("Common");
+
+  return (
   <section className="pb-4 sm:pb-5">
     <div className="flex items-center gap-2 text-xs text-muted-foreground sm:text-sm">
       <LayoutDashboard className="size-3.5" aria-hidden="true" />
-      <span>Overview</span>
+      <span>{tCommon("overview")}</span>
       <ChevronRight className="size-3.5" aria-hidden="true" />
-      <span className="text-foreground">Media</span>
+      <span className="text-foreground">{t("title")}</span>
     </div>
     <div className="mt-3">
       <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-        Media
+        {t("title")}
         <span className="ml-2 text-lg font-normal text-muted-foreground">
           ({count})
         </span>
@@ -36,7 +41,7 @@ const MediaHubHeader = ({ active, count, description }: MediaHubHeaderProps) => 
       <p className="mt-1 text-sm text-muted-foreground">{description}</p>
     </div>
     <nav
-      aria-label="Media sections"
+      aria-label={t("sections")}
       className="mt-4 inline-flex h-8 items-center rounded-lg bg-muted p-[3px] text-sm"
     >
       {sections.map((section) => (
@@ -49,11 +54,12 @@ const MediaHubHeader = ({ active, count, description }: MediaHubHeaderProps) => 
             section.key === active && "bg-background text-foreground shadow-sm",
           )}
         >
-          {section.label}
+          {t(`tabs.${section.key}`)}
         </Link>
       ))}
     </nav>
   </section>
-);
+  );
+};
 
 export { MediaHubHeader };

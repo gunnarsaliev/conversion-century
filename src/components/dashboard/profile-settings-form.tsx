@@ -2,6 +2,7 @@
 
 import { Check, Trash2, Upload } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useRef, useState, type ReactNode } from "react";
 
 import { updateProfile } from "@/app/[locale]/(frontend)/dashboard/settings/actions";
@@ -80,6 +81,8 @@ function FormField({
 }
 
 const ProfileSettingsForm = ({ user, className }: ProfileSettingsFormProps) => {
+  const t = useTranslations("Settings.form");
+  const tCommon = useTranslations("Common");
   const router = useRouter();
   const [avatarPreview, setAvatarPreview] = useState<string | null>(
     user.avatarUrl ?? null,
@@ -190,9 +193,9 @@ const ProfileSettingsForm = ({ user, className }: ProfileSettingsFormProps) => {
     <form onSubmit={handleSubmit} className={className} noValidate>
       <FieldGroup className="gap-8">
         <FieldSet className={sectionClassName}>
-          <FieldLegend className={legendClassName}>Profile photo</FieldLegend>
+          <FieldLegend className={legendClassName}>{t("photo.legend")}</FieldLegend>
           <FieldDescription>
-            Shown on your team card, in the sidebar and across the dashboard.
+            {t("photo.description")}
           </FieldDescription>
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
             {avatarPreview ? (
@@ -223,7 +226,7 @@ const ProfileSettingsForm = ({ user, className }: ProfileSettingsFormProps) => {
                   className="h-10 rounded-full px-4"
                   onClick={() => fileInputRef.current?.click()}
                 >
-                  <Upload aria-hidden="true" /> Upload photo
+                  <Upload aria-hidden="true" /> {t("photo.upload")}
                 </Button>
                 <Button
                   type="button"
@@ -232,19 +235,19 @@ const ProfileSettingsForm = ({ user, className }: ProfileSettingsFormProps) => {
                   onClick={handleRemove}
                   disabled={!avatarPreview}
                 >
-                  <Trash2 aria-hidden="true" /> Remove
+                  <Trash2 aria-hidden="true" /> {t("photo.remove")}
                 </Button>
               </div>
-              <p className="text-sm text-muted-foreground">PNG or JPG. A square image works best.</p>
+              <p className="text-sm text-muted-foreground">{t("photo.hint")}</p>
             </div>
           </div>
         </FieldSet>
 
         <FieldSet className={sectionClassName}>
-          <FieldLegend className={legendClassName}>Personal information</FieldLegend>
+          <FieldLegend className={legendClassName}>{t("personal.legend")}</FieldLegend>
           <FieldGroup>
             <div className="grid items-start gap-4 sm:grid-cols-2">
-              <FormField id="firstName" label="First name">
+              <FormField id="firstName" label={t("personal.firstName")}>
                 <Input
                   id="firstName"
                   name="firstName"
@@ -254,7 +257,7 @@ const ProfileSettingsForm = ({ user, className }: ProfileSettingsFormProps) => {
                   className={fieldClassName}
                 />
               </FormField>
-              <FormField id="lastName" label="Last name">
+              <FormField id="lastName" label={t("personal.lastName")}>
                 <Input
                   id="lastName"
                   name="lastName"
@@ -265,12 +268,12 @@ const ProfileSettingsForm = ({ user, className }: ProfileSettingsFormProps) => {
                 />
               </FormField>
             </div>
-            <FormField id="jobTitle" label="Job title">
+            <FormField id="jobTitle" label={t("personal.jobTitle")}>
               <Input
                 id="jobTitle"
                 name="jobTitle"
                 autoComplete="organization-title"
-                placeholder="e.g. SEO Specialist"
+                placeholder={t("personal.jobTitlePlaceholder")}
                 value={jobTitle}
                 onChange={(event) => change(setJobTitle, event.target.value)}
                 className={fieldClassName}
@@ -278,8 +281,8 @@ const ProfileSettingsForm = ({ user, className }: ProfileSettingsFormProps) => {
             </FormField>
             <FormField
               id="email"
-              label="Email address"
-              description="Your sign-in email. Ask an admin if it needs to change."
+              label={t("personal.email")}
+              description={t("personal.emailHint")}
             >
               <Input
                 id="email"
@@ -293,13 +296,13 @@ const ProfileSettingsForm = ({ user, className }: ProfileSettingsFormProps) => {
         </FieldSet>
 
         <FieldSet className={sectionClassName}>
-          <FieldLegend className={legendClassName}>About</FieldLegend>
+          <FieldLegend className={legendClassName}>{t("about.legend")}</FieldLegend>
           <FormField
             id="about"
-            label="Bio"
+            label={t("about.bio")}
             description={
               <span className="flex justify-between gap-3">
-                <span>A short introduction for your team profile. Line breaks are kept.</span>
+                <span>{t("about.hint")}</span>
                 <span
                   className={cn(
                     "shrink-0 tabular-nums",
@@ -315,7 +318,7 @@ const ProfileSettingsForm = ({ user, className }: ProfileSettingsFormProps) => {
               id="about"
               name="about"
               rows={5}
-              placeholder="What you work on, what you're great at, what you enjoy outside work…"
+              placeholder={t("about.placeholder")}
               value={about}
               onChange={(event) => change(setAbout, event.target.value)}
               className={textareaClassName}
@@ -324,12 +327,12 @@ const ProfileSettingsForm = ({ user, className }: ProfileSettingsFormProps) => {
         </FieldSet>
 
         <FieldSet className={sectionClassName}>
-          <FieldLegend className={legendClassName}>Important dates</FieldLegend>
+          <FieldLegend className={legendClassName}>{t("dates.legend")}</FieldLegend>
           <FieldDescription>
-            Celebrated on the dashboard. Only the day and month of your birthday are shown.
+            {t("dates.description")}
           </FieldDescription>
           <div className="grid items-start gap-4 sm:grid-cols-2">
-            <FormField id="birthday" label="Birthday">
+            <FormField id="birthday" label={t("dates.birthday")}>
               <Input
                 id="birthday"
                 name="birthday"
@@ -340,7 +343,7 @@ const ProfileSettingsForm = ({ user, className }: ProfileSettingsFormProps) => {
                 className={fieldClassName}
               />
             </FormField>
-            <FormField id="workBirthday" label="Work birthday" description="The day you joined the team.">
+            <FormField id="workBirthday" label={t("dates.workBirthday")} description={t("dates.workBirthdayHint")}>
               <Input
                 id="workBirthday"
                 name="workBirthday"
@@ -366,10 +369,10 @@ const ProfileSettingsForm = ({ user, className }: ProfileSettingsFormProps) => {
             ) : success ? (
               <>
                 <Check className="size-4 text-emerald-600" aria-hidden="true" />
-                Profile updated
+                {t("updated")}
               </>
             ) : isDirty ? (
-              "You have unsaved changes"
+              t("unsaved")
             ) : null}
           </p>
           <Button
@@ -379,16 +382,16 @@ const ProfileSettingsForm = ({ user, className }: ProfileSettingsFormProps) => {
             onClick={handleDiscard}
             disabled={isSubmitting || !isDirty}
           >
-            Discard
+            {t("discard")}
           </Button>
           <Button
             type="submit"
             disabled={!isDirty}
             loading={isSubmitting}
-            loadingText="Saving…"
+            loadingText={tCommon("saving")}
             className={cn(submitButtonClassName, "text-white")}
           >
-            Save changes
+            {t("save")}
           </Button>
         </div>
       </FieldGroup>

@@ -1,4 +1,7 @@
+"use client";
+
 import { Cake, PartyPopper } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { BannerStandard } from "@/components/banner-standard-1";
 import type { Celebration } from "@/lib/celebrations";
@@ -18,9 +21,8 @@ import type { Celebration } from "@/lib/celebrations";
 // Team chat space in Google Chat, where birthday wishes go.
 const BIRTHDAY_CHAT_URL = "https://mail.google.com/mail/u/0/#chat/space/AAQAISbOhos";
 
-const pluralYears = (years: number) => `${years} ${years === 1 ? "year" : "years"}`;
-
 export function CelebrationBanner({ celebration }: { celebration: Celebration }) {
+  const t = useTranslations("Celebrations");
   const { id, kind, name, isCurrentUser, years = 0 } = celebration;
 
   if (kind === "birthday") {
@@ -29,11 +31,11 @@ export function CelebrationBanner({ celebration }: { celebration: Celebration })
         icon={Cake}
         tone="pink"
         dismissKey={id}
-        action={isCurrentUser ? undefined : { label: "Make it special", href: BIRTHDAY_CHAT_URL }}
+        action={isCurrentUser ? undefined : { label: t("makeItSpecial"), href: BIRTHDAY_CHAT_URL }}
       >
         {isCurrentUser
-          ? `Happy birthday, ${name}! 🎉 Wishing you a wonderful day from the whole team.`
-          : `It's ${name}'s birthday today 🎂 Don't forget to wish them well!`}
+          ? t("birthdaySelf", { name })
+          : t("birthdayOther", { name })}
       </BannerStandard>
     );
   }
@@ -41,8 +43,8 @@ export function CelebrationBanner({ celebration }: { celebration: Celebration })
   return (
     <BannerStandard icon={PartyPopper} tone="amber" dismissKey={id}>
       {isCurrentUser
-        ? `Happy work anniversary, ${name}! 🥳 ${pluralYears(years)} with the team today. Thank you for everything you do.`
-        : `${name} celebrates ${pluralYears(years)} with the team today 🥳`}
+        ? t("anniversarySelf", { name, years })
+        : t("anniversaryOther", { name, years })}
     </BannerStandard>
   );
 }

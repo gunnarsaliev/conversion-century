@@ -8,8 +8,11 @@ import {
 } from "@/components/dashboard/team-member-list";
 import { Button } from "@/components/ui/button";
 import { NotificationBell } from "@/components/dashboard/notification-bell";
+import { getDashboardTranslations } from "@/lib/dashboard-locale";
 
 export default async function TeamPage() {
+  const t = await getDashboardTranslations("Team");
+  const tCommon = await getDashboardTranslations("Common");
   const payload = await getPayload({ config });
   const [users, clients] = await Promise.all([
     payload.find({
@@ -90,16 +93,16 @@ export default async function TeamPage() {
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2 text-xs text-muted-foreground sm:text-sm">
             <LayoutDashboard className="size-3.5" aria-hidden="true" />
-            <span>Overview</span>
+            <span>{tCommon("overview")}</span>
             <ChevronRight className="size-3.5" aria-hidden="true" />
-            <span className="text-foreground">Team</span>
+            <span className="text-foreground">{t("title")}</span>
           </div>
           <div className="ml-auto flex items-center gap-2">
             <Button
               variant="outline"
               size="icon"
               className="size-8"
-              aria-label="Search"
+              aria-label={tCommon("search")}
             >
               <Search className="size-4" aria-hidden="true" />
             </Button>
@@ -109,10 +112,10 @@ export default async function TeamPage() {
         <div className="mt-3 flex flex-wrap items-end justify-between gap-3">
           <div>
             <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-              Team
+              {t("title")}
             </h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              Everyone with access to the dashboard
+              {t("description")}
             </p>
           </div>
         </div>

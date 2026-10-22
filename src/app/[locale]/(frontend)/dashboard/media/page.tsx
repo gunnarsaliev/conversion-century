@@ -3,10 +3,12 @@ import config from "@payload-config";
 
 import { MediaHub } from "@/components/dashboard/media-hub";
 import { MediaHubHeader } from "@/components/dashboard/media-hub-header";
+import { getDashboardTranslations } from "@/lib/dashboard-locale";
 import { toMediaHubItem } from "@/lib/media-files";
 
 export default async function MediaPage() {
   const payload = await getPayload({ config });
+  const t = await getDashboardTranslations("Media.pages");
   const media = await payload.find({
     collection: "media",
     depth: 0,
@@ -21,9 +23,9 @@ export default async function MediaPage() {
       <MediaHubHeader
         active="all"
         count={media.totalDocs}
-        description="Browse and download every image in the media library"
+        description={t("all.description")}
       />
-      <MediaHub items={items} emptyMessage="No images have been uploaded yet." />
+      <MediaHub items={items} emptyMessage={t("all.empty")} />
     </>
   );
 }

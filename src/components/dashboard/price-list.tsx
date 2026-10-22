@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -36,16 +37,17 @@ type PriceListService = {
   price?: number;
 };
 
-const priceListSchema = z.object({
-  prices: z.array(
-    z.object({
-      id: z.number(),
-      price: z.number().min(0, "Rates can't be negative").optional(),
-    }),
-  ),
-});
+const priceListSchema = (negativeMessage: string) =>
+  z.object({
+    prices: z.array(
+      z.object({
+        id: z.number(),
+        price: z.number().min(0, negativeMessage).optional(),
+      }),
+    ),
+  });
 
-type PriceListValues = z.infer<typeof priceListSchema>;
+type PriceListValues = z.infer<ReturnType<typeof priceListSchema>>;
 
 const toValues = (services: PriceListService[]): PriceListValues => ({
   prices: services.map(({ id, price }) => ({ id, price })),
@@ -58,6 +60,7 @@ function PriceList({
   services: PriceListService[];
   canEdit: boolean;
 }) {
+  const t = useTranslations("PriceList");
   const router = useRouter();
   const [status, setStatus] = React.useState<
     { type: "saved" } | { type: "error"; message: string } | null
@@ -69,7 +72,7 @@ function PriceList({
     reset,
     formState: { isDirty, isSubmitting, dirtyFields },
   } = useForm<PriceListValues>({
-    resolver: zodResolver(priceListSchema),
+    resolver: zodResolver(priceListSchema(t("errors.negative"))),
     defaultValues: toValues(services),
   });
 
@@ -92,7 +95,7 @@ function PriceList({
   };
 
   if (services.length === 0) {
-    return <p className="mt-8 text-sm text-muted-foreground">No services yet.</p>;
+    return <p className="mt-8 text-sm text-muted-foreground">{t("empty")}</p>;
   }
 
   return (
@@ -101,8 +104,8 @@ function PriceList({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="pl-4">Service</TableHead>
-              <TableHead className="w-48 pr-4 text-right">Rate per hour</TableHead>
+              <TableHead className="pl-4">{t("service")}</TableHead>
+              <TableHead className="w-48 pr-4 text-right">{t("rate")}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -132,7 +135,7 @@ function PriceList({
                       <div className="ml-auto w-40">
                         <div className="relative">
                           <label htmlFor={`price-${service.id}`} className="sr-only">
-                            {service.name} rate per hour
+                            {t("rateFor", { name: service.name })}
                           </label>
                           {/* Blank input ⇄ `undefined`, so a cleared rate isn't saved as 0. */}
                           <input
@@ -161,7 +164,7 @@ function PriceList({
                             )}
                           />
                           <span className="pointer-events-none absolute inset-y-0 right-3.5 flex items-center text-sm text-muted-foreground">
-                            € / h
+                            {t("unit")}
                           </span>
                         </div>
                         {fieldState.error && (
@@ -181,11 +184,11 @@ function PriceList({
 
       <div className="sticky bottom-0 mt-4 flex flex-wrap items-center justify-end gap-3 bg-background/80 py-3 backdrop-blur">
         {!canEdit && (
-          <p className="mr-auto text-sm text-muted-foreground">Only admins can change rates.</p>
+          <p className="mr-auto text-sm text-muted-foreground">{t("adminOnly")}</p>
         )}
         {status?.type === "saved" && !isDirty && (
           <p className="mr-auto text-sm text-muted-foreground" role="status">
-            Rates saved.
+            {t("saved")}
           </p>
         )}
         {status?.type === "error" && (
@@ -204,15 +207,15 @@ function PriceList({
                 setStatus(null);
               }}
             >
-              Reset
+              {t("reset")}
             </Button>
             <Button
               type="submit"
               disabled={!isDirty}
               loading={isSubmitting}
-              loadingText="Saving…"
+              loadingText={t("saving")}
             >
-              Save changes
+              {t("save")}
             </Button>
           </>
         )}

@@ -28,6 +28,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { formatBirthday, formatWorkStart, getCompletedYears } from "@/lib/celebrations";
+import { getDashboardLocale, getDashboardTranslations } from "@/lib/dashboard-locale";
 import { isLeadStatus } from "@/lib/client-status";
 import { isAdminOrEditor } from "@/lib/roles";
 import { NotificationBell } from "@/components/dashboard/notification-bell";
@@ -46,6 +47,9 @@ export default async function TeamMemberPage({
   params,
 }: TeamMemberPageProps) {
   const { id } = await params;
+  const t = await getDashboardTranslations("Team");
+  const tCommon = await getDashboardTranslations("Common");
+  const locale = await getDashboardLocale();
 
   const payload = await getPayload({ config });
   const { user: viewer } = await payload.auth({ headers: await getHeaders() });
@@ -103,18 +107,21 @@ export default async function TeamMemberPage({
     : [];
 
   const clientGroups: {
+    key: string;
     label: string;
     icon: typeof Users;
     docs: (typeof managedClients)["docs"];
   }[] = [
-    { label: "Managed Clients", icon: Users, docs: managedClients.docs },
+    { key: "managing", label: t("clients.managedClients"), icon: Users, docs: managedClients.docs },
     {
-      label: "Publishing For",
+      key: "publishing",
+      label: t("clients.publishing"),
       icon: Megaphone,
       docs: publishedClients.docs,
     },
     {
-      label: "Copywriting For",
+      key: "copywriting",
+      label: t("clients.copywriting"),
       icon: FileEdit,
       docs: copywritingClients.docs,
     },
@@ -125,10 +132,10 @@ export default async function TeamMemberPage({
       <div className="flex flex-wrap items-center justify-between gap-2 pb-4 sm:pb-5">
         <div className="flex items-center gap-2 text-xs text-muted-foreground sm:text-sm">
           <LayoutDashboard className="size-3.5" aria-hidden="true" />
-          <span>Overview</span>
+          <span>{tCommon("overview")}</span>
           <ChevronRight className="size-3.5" aria-hidden="true" />
           <Link href="/dashboard/team" className="hover:text-foreground">
-            Team
+            {t("title")}
           </Link>
           <ChevronRight className="size-3.5" aria-hidden="true" />
           <span className="text-foreground">{name}</span>
@@ -138,7 +145,7 @@ export default async function TeamMemberPage({
             variant="outline"
             size="icon"
             className="size-8"
-            aria-label="Search"
+            aria-label={tCommon("search")}
           >
             <Search className="size-4" aria-hidden="true" />
           </Button>
@@ -189,7 +196,7 @@ export default async function TeamMemberPage({
                       roleBadgeClassName[user.role] ?? roleBadgeClassName.user
                     }
                   >
-                    <span className="capitalize">{user.role}</span>
+                    {t(`roles.${user.role}`)}
                   </Badge>
                 </p>
               </div>
@@ -220,7 +227,7 @@ export default async function TeamMemberPage({
             {clientGroups.map((group) => {
               const Icon = group.icon;
               return (
-                <Card key={group.label}>
+                <Card key={group.key}>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium text-muted-foreground">
                       {group.label}
@@ -240,7 +247,7 @@ export default async function TeamMemberPage({
           {user.about && (
             <Card>
               <CardHeader>
-                <CardTitle>About</CardTitle>
+                <CardTitle>{t("detail.about")}</CardTitle>
               </CardHeader>
               <CardContent className="text-sm leading-relaxed whitespace-pre-line text-foreground/80">
                 {user.about}
@@ -250,7 +257,7 @@ export default async function TeamMemberPage({
 
           <Card>
             <CardHeader>
-              <CardTitle>Contact</CardTitle>
+              <CardTitle>{t("detail.contact")}</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col gap-3 text-sm">
               {user.email ? (
@@ -271,8 +278,8 @@ export default async function TeamMemberPage({
                 <div className="flex items-center gap-2">
                   <Cake className="size-4 text-muted-foreground" aria-hidden="true" />
                   <span>
-                    <span className="text-muted-foreground">Birthday</span>{" "}
-                    {formatBirthday(user.birthday)}
+                    <span className="text-muted-foreground">{t("detail.birthday")}</span>{" "}
+                    {formatBirthday(user.birthday, locale)}
                   </span>
                 </div>
               )}
@@ -280,12 +287,12 @@ export default async function TeamMemberPage({
                 <div className="flex items-center gap-2">
                   <PartyPopper className="size-4 text-muted-foreground" aria-hidden="true" />
                   <span>
-                    <span className="text-muted-foreground">Joined</span>{" "}
-                    {formatWorkStart(user.workBirthday)}
+                    <span className="text-muted-foreground">{t("detail.joined")}</span>{" "}
+                    {formatWorkStart(user.workBirthday, locale)}
                     {yearsAtCompany > 0 && (
                       <span className="text-muted-foreground">
                         {" "}
-                        · {yearsAtCompany} {yearsAtCompany === 1 ? "year" : "years"}
+                        · {t("years", { count: yearsAtCompany })}
                       </span>
                     )}
                   </span>
@@ -297,7 +304,7 @@ export default async function TeamMemberPage({
           {documents.length > 0 && (
             <Card>
               <CardHeader>
-                <CardTitle>Documents</CardTitle>
+                <CardTitle>{t("detail.documents")}</CardTitle>
               </CardHeader>
               <CardContent className="flex flex-col text-sm">
                 {documents.map((document, index) => (
@@ -330,7 +337,7 @@ export default async function TeamMemberPage({
         <div className="flex min-h-0 flex-col gap-4 sm:gap-6">
           {clientGroups.map((group) =>
             group.docs.length > 0 ? (
-              <Card key={group.label}>
+              <Card key={group.key}>
                 <CardHeader>
                   <CardTitle>{group.label}</CardTitle>
                 </CardHeader>

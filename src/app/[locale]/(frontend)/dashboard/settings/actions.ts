@@ -7,6 +7,7 @@ import config from "@payload-config";
 import { z } from "zod";
 
 import { DATE_INPUT_PATTERN, fromDateInputValue } from "@/lib/celebrations";
+import { getDashboardTranslations, type DashboardTranslator } from "@/lib/dashboard-locale";
 import { ABOUT_MAX_LENGTH } from "@/lib/profile-settings";
 
 // ---------------------------------------------------------------------------
@@ -20,30 +21,33 @@ import { ABOUT_MAX_LENGTH } from "@/lib/profile-settings";
 // headers, not a client-supplied id, so a user can only ever update
 // themselves through this action.
 
-const optionalDate = z
-  .string()
-  .refine((value) => value === "" || DATE_INPUT_PATTERN.test(value), "Invalid date")
-  .optional();
-
-const profileFormSchema = z.object({
-  firstName: z.string().trim().min(1, "First name is required"),
-  lastName: z.string().trim().min(1, "Last name is required"),
-  jobTitle: z.string().trim().optional(),
-  about: z
+const profileFormSchema = (t: DashboardTranslator) => {
+  const optionalDate = z
     .string()
-    .trim()
-    .max(ABOUT_MAX_LENGTH, `About must be at most ${ABOUT_MAX_LENGTH} characters`)
-    .optional(),
-  birthday: optionalDate,
-  workBirthday: optionalDate,
-});
+    .refine((value) => value === "" || DATE_INPUT_PATTERN.test(value), t("errors.date"))
+    .optional();
+
+  return z.object({
+    firstName: z.string().trim().min(1, t("errors.firstName")),
+    lastName: z.string().trim().min(1, t("errors.lastName")),
+    jobTitle: z.string().trim().optional(),
+    about: z
+      .string()
+      .trim()
+      .max(ABOUT_MAX_LENGTH, t("errors.about", { max: ABOUT_MAX_LENGTH }))
+      .optional(),
+    birthday: optionalDate,
+    workBirthday: optionalDate,
+  });
+};
 
 type ProfileFormResult =
   | { success: true }
   | { success: false; error: string };
 
 async function updateProfile(formData: FormData): Promise<ProfileFormResult> {
-  const parsed = profileFormSchema.safeParse({
+  const t = await getDashboardTranslations("Settings");
+  const parsed = profileFormSchema(t).safeParse({
     firstName: formData.get("firstName"),
     lastName: formData.get("lastName"),
     jobTitle: formData.get("jobTitle") ?? undefined,
@@ -55,7 +59,7 @@ async function updateProfile(formData: FormData): Promise<ProfileFormResult> {
   if (!parsed.success) {
     return {
       success: false,
-      error: parsed.error.issues[0]?.message ?? "Invalid input",
+      error: parsed.error.issues[0]?.message ?? t("errors.invalid"),
     };
   }
 
@@ -65,7 +69,7 @@ async function updateProfile(formData: FormData): Promise<ProfileFormResult> {
     const { user } = await payload.auth({ headers });
 
     if (!user) {
-      return { success: false, error: "You must be signed in." };
+      return { success: false, error: t("errors.signedOut") };
     }
 
     const { firstName, lastName, jobTitle, about, birthday, workBirthday } = parsed.data;
@@ -112,7 +116,7 @@ async function updateProfile(formData: FormData): Promise<ProfileFormResult> {
   } catch {
     return {
       success: false,
-      error: "Something went wrong while updating your profile.",
+      error: t("errors.save"),
     };
   }
 }

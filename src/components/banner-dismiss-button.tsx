@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import { BannerClose } from "@/components/kibo-ui/banner";
 import { dismissBanner } from "@/lib/banner-dismissal-actions";
 
@@ -18,9 +20,11 @@ export function BannerDismissButton({
   dismissKey?: string;
   className?: string;
 }) {
+  const t = useTranslations("Common");
+
   return (
     <BannerClose
-      aria-label="Dismiss"
+      aria-label={t("dismiss")}
       className={className}
       onClick={() => {
         if (dismissKey) dismissBanner(dismissKey).catch(console.error);

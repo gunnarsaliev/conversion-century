@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { headers as getHeaders } from "next/headers";
+import { NextIntlClientProvider } from "next-intl";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
 import { DashboardLayout } from "@/components/dashboard16-layout";
 import type { UserData } from "@/components/dashboard16-layout";
 import { getNotificationsForUser, type NotificationFeed } from "@/lib/notifications";
+import { getDashboardLocale, getDashboardMessages } from "@/lib/dashboard-locale";
 import { isAdminOrEditor } from "@/lib/roles";
 
 // Internal area: never indexed, even after launch.
@@ -21,6 +23,8 @@ export default async function Dashboard({
   const headers = await getHeaders();
   const payload = await getPayload({ config });
   const { user } = await payload.auth({ headers });
+  const locale = await getDashboardLocale();
+  const messages = await getDashboardMessages(locale);
 
   let sidebarUser: UserData | undefined;
   let notifications: NotificationFeed | undefined;
@@ -52,13 +56,19 @@ export default async function Dashboard({
     };
   }
 
+  // The dashboard's own language and messages (see lib/dashboard-locale)
+  // override the site's for everything below.
   return (
-    <DashboardLayout
-      user={sidebarUser}
-      isAdmin={isAdminOrEditor(user)}
-      notifications={notifications}
-    >
-      {children}
-    </DashboardLayout>
+    <NextIntlClientProvider locale={locale} messages={messages}>
+      <div lang={locale} className="contents">
+        <DashboardLayout
+          user={sidebarUser}
+          isAdmin={isAdminOrEditor(user)}
+          notifications={notifications}
+        >
+          {children}
+        </DashboardLayout>
+      </div>
+    </NextIntlClientProvider>
   );
 }
