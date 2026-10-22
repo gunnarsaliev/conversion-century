@@ -17,7 +17,6 @@ const CLIENT_NAMESPACES = [
   'Logos35',
   'Navbar',
   'Newsletter',
-  'Reviews22',
   'Testimonial17',
   'Testimonial30',
   'TestimonialForm',

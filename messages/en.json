@@ -809,5 +809,14 @@
     "eyebrow": "Trusted by businesses at",
     "heading": "Brands that grow with us",
     "footer": "From local businesses to international brands — the companies we help grow organically."
+  },
+  "Testimonial21": {
+    "badge": "Client reviews",
+    "heading": "What our clients say",
+    "description": "Feedback from the businesses we help grow through SEO.",
+    "empty": "No reviews yet.",
+    "logoAlt": "{name} logo",
+    "photoAlt": "Photo of {name}",
+    "roleAt": "{role}, {company}"
   }
 }

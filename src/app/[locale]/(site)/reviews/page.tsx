@@ -2,7 +2,7 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 
-import { Reviews22, type ReviewType } from "@/components/reviews22";
+import { Testimonial21, type Testimonial21Item } from "@/components/testimonial21";
 import { getApprovedTestimonials, mediaUrl } from "@/lib/client-testimonials";
 import { StaticPageJsonLd } from "@/components/static-page-json-ld";
 import { staticPageMetadata } from "@/lib/seo/pages";
@@ -31,17 +31,18 @@ export default async function ReviewsPage() {
 
   const testimonials = await getApprovedTestimonials(payload);
 
-  const reviews: ReviewType[] = testimonials
+  const reviews: Testimonial21Item[] = testimonials
     .filter(({ testimonial, client }) => client && hasText(testimonial.root))
     .map(({ testimonial, client, contact }) => ({
+      quote: testimonial as SerializedEditorState,
       author: {
         name: contact?.name || client!.companyName,
         role: contact?.role ?? undefined,
+        image: mediaUrl(contact?.profileImage),
       },
-      comment: testimonial as SerializedEditorState,
       company: {
         name: client!.companyName,
-        image: mediaUrl(client!.logo),
+        logo: mediaUrl(client!.logo),
         link: toExternalUrl(client!.websiteLinks?.[0]?.url),
       },
     }));
@@ -49,7 +50,7 @@ export default async function ReviewsPage() {
   return (
     <>
       <StaticPageJsonLd page="reviews" />
-      <Reviews22 reviews={reviews} />
+      <Testimonial21 testimonials={reviews} />
     </>
   );
 }
