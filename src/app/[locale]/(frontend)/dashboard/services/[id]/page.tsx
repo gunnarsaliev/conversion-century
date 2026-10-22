@@ -106,6 +106,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
                       src={image.url}
                       alt={service.name}
                       fill
+                      sizes="(min-width: 640px) 128px, 96px"
                       className="object-cover"
                     />
                   </div>

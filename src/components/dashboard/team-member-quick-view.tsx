@@ -181,6 +181,7 @@ const TeamMemberQuickView = ({
                     src={member.avatarUrl}
                     alt={member.name}
                     fill
+                    sizes="80px"
                     className="object-cover"
                   />
                 </div>

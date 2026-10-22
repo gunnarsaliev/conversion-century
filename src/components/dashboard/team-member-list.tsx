@@ -46,6 +46,7 @@ const TeamMemberCard = ({ member }: TeamMemberCardProps) => {
                   src={member.avatarUrl}
                   alt={member.name}
                   fill
+                  sizes="64px"
                   className="object-cover"
                 />
               </div>

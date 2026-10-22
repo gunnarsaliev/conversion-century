@@ -175,6 +175,7 @@ export default async function TeamMemberPage({
                       src={avatar.url}
                       alt={name}
                       fill
+                      sizes="(min-width: 640px) 128px, 96px"
                       className="object-cover"
                     />
                   </div>
