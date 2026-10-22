@@ -9,8 +9,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { NotificationBell } from "@/components/dashboard/notification-bell";
 import { getDashboardTranslations } from "@/lib/dashboard-locale";
+import { requireDashboardUser } from "@/lib/dashboard-auth";
 
 export default async function TeamPage() {
+  await requireDashboardUser();
   const t = await getDashboardTranslations("Team");
   const tCommon = await getDashboardTranslations("Common");
   const payload = await getPayload({ config });

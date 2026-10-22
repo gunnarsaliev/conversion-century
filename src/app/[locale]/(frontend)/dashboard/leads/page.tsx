@@ -10,8 +10,10 @@ import { LEAD_STATUSES } from "@/lib/client-status";
 import { NotificationBell } from "@/components/dashboard/notification-bell";
 import { getDashboardTranslations } from "@/lib/dashboard-locale";
 import { primaryContactName } from "@/lib/primary-contact";
+import { requireDashboardUser } from "@/lib/dashboard-auth";
 
 export default async function LeadsPage() {
+  await requireDashboardUser();
   const t = await getDashboardTranslations("Leads");
   const tCommon = await getDashboardTranslations("Common");
   const payload = await getPayload({ config });

@@ -284,7 +284,8 @@
       "lastName": "Last name is required",
       "invalid": "Invalid input",
       "update": "Something went wrong while updating the team member.",
-      "delete": "Something went wrong while deleting the team member."
+      "delete": "Something went wrong while deleting the team member.",
+      "adminOnly": "Only admins can change or remove team members."
     }
   },
   "Clients": {
@@ -379,7 +380,8 @@
       "create": "Something went wrong while creating the client.",
       "update": "Something went wrong while updating the client.",
       "delete": "Something went wrong while deleting the client.",
-      "checklist": "Something went wrong while updating the checklist item."
+      "checklist": "Something went wrong while updating the checklist item.",
+      "signedOut": "You must be signed in."
     }
   },
   "Leads": {

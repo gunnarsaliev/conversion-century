@@ -22,6 +22,7 @@ import { Incentives6 } from "@/components/incentives6";
 import { ChartGroup12 } from "@/components/chart-group12";
 import { formatNumber } from "@/components/offer/offer-ui";
 import TimelineActivity1 from "@/components/timeline-activity-1";
+import { requireDashboardUser } from "@/lib/dashboard-auth";
 
 // Static preview of a client offer, fed by JSON fixtures until the dynamic
 // `offers/[client]/[offer-id]` route and its Payload collection exist.
@@ -50,7 +51,9 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function OfferPage() {
+export default async function OfferPage() {
+  // proxy.ts only checks for a session cookie; offers are private.
+  await requireDashboardUser();
   return (
     <main>
       {/* <OfferHeroV1 offer={offer} brand={content.brand} /> */}

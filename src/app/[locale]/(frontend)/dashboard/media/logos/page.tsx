@@ -5,8 +5,10 @@ import { MediaHub } from "@/components/dashboard/media-hub";
 import { MediaHubHeader } from "@/components/dashboard/media-hub-header";
 import { getDashboardTranslations } from "@/lib/dashboard-locale";
 import { toMediaHubItem } from "@/lib/media-files";
+import { requireDashboardUser } from "@/lib/dashboard-auth";
 
 export default async function MediaLogosPage() {
+  await requireDashboardUser();
   const payload = await getPayload({ config });
   const t = await getDashboardTranslations("Media.pages");
   const clients = await payload.find({

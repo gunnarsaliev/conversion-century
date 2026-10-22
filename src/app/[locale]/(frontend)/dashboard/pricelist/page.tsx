@@ -1,9 +1,9 @@
 import { ChevronRight, LayoutDashboard } from "lucide-react";
-import { headers as getHeaders } from "next/headers";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
 import { PriceList } from "@/components/dashboard/price-list";
+import { requireDashboardUser } from "@/lib/dashboard-auth";
 import { getDashboardTranslations } from "@/lib/dashboard-locale";
 import { isAdmin } from "@/lib/roles";
 
@@ -13,7 +13,7 @@ export default async function PriceListPage() {
   const payload = await getPayload({ config });
   const t = await getDashboardTranslations("PriceList");
   const tCommon = await getDashboardTranslations("Common");
-  const { user } = await payload.auth({ headers: await getHeaders() });
+  const user = await requireDashboardUser();
 
   const { docs } = await payload.find({
     collection: "services",

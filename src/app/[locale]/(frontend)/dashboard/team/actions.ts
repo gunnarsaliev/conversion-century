@@ -5,7 +5,9 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 import { z } from "zod";
 
+import { getDashboardUser } from "@/lib/dashboard-auth";
 import { getDashboardTranslations, type DashboardTranslator } from "@/lib/dashboard-locale";
+import { isAdmin } from "@/lib/roles";
 
 // ---------------------------------------------------------------------------
 // Team member update / delete (Server Actions, Payload local API)
@@ -33,6 +35,12 @@ async function updateTeamMember(
   input: TeamMemberFormInput,
 ): Promise<TeamMemberFormResult> {
   const t = await getDashboardTranslations("Team");
+
+  // Role changes go through here, so only admins (as on Users' own access).
+  if (!isAdmin(await getDashboardUser())) {
+    return { success: false, error: t("errors.adminOnly") };
+  }
+
   const parsed = teamMemberFormSchema(t).safeParse(input);
 
   if (!parsed.success) {
@@ -78,6 +86,10 @@ async function deleteTeamMember(
   id: string | number,
 ): Promise<DeleteTeamMemberResult> {
   const t = await getDashboardTranslations("Team");
+
+  if (!isAdmin(await getDashboardUser())) {
+    return { success: false, error: t("errors.adminOnly") };
+  }
 
   try {
     const payload = await getPayload({ config });

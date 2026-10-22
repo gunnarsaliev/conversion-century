@@ -31,6 +31,7 @@ import { isLeadStatus } from "@/lib/client-status";
 import { NotificationBell } from "@/components/dashboard/notification-bell";
 import { getDashboardLocale, getDashboardTranslations } from "@/lib/dashboard-locale";
 import { clientContacts, primaryContactName } from "@/lib/primary-contact";
+import { requireDashboardUser } from "@/lib/dashboard-auth";
 
 const statusBadgeClassName: Record<string, string> = {
   active: "bg-green-100 text-green-800",
@@ -43,6 +44,7 @@ type LeadPageProps = {
 };
 
 export default async function LeadPage({ params }: LeadPageProps) {
+  await requireDashboardUser();
   const { id } = await params;
   const t = await getDashboardTranslations("Clients");
   const tSection = await getDashboardTranslations("Leads");

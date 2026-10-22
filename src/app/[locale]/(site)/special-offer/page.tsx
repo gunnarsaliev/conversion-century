@@ -26,6 +26,7 @@ import { PdfDownloadButton } from "@/components/offer/pdf-download-button";
 import { Faq2 } from "@/components/faq2";
 import { List3 } from "@/components/list3";
 import { Pricing78 } from "@/components/pricing78";
+import { requireDashboardUser } from "@/lib/dashboard-auth";
 
 const content = staticData as OfferStatic;
 
@@ -53,7 +54,9 @@ const stats: { title: string; value: string; suffix?: string }[] = [
   },
 ];
 
-export default function SpecialOfferPage() {
+export default async function SpecialOfferPage() {
+  // proxy.ts only checks for a session cookie; offers are private.
+  await requireDashboardUser();
   return (
     <section className="py-16">
       <div className="container max-w-7xl">

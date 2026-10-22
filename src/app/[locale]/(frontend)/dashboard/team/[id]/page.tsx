@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { headers as getHeaders } from "next/headers";
 import { notFound } from "next/navigation";
 import { getPayload } from "payload";
 import config from "@payload-config";
@@ -28,6 +27,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { formatBirthday, formatWorkStart, getCompletedYears } from "@/lib/celebrations";
+import { requireDashboardUser } from "@/lib/dashboard-auth";
 import { getDashboardLocale, getDashboardTranslations } from "@/lib/dashboard-locale";
 import { isLeadStatus } from "@/lib/client-status";
 import { isAdminOrEditor } from "@/lib/roles";
@@ -52,7 +52,7 @@ export default async function TeamMemberPage({
   const locale = await getDashboardLocale();
 
   const payload = await getPayload({ config });
-  const { user: viewer } = await payload.auth({ headers: await getHeaders() });
+  const viewer = await requireDashboardUser();
 
   const user = await payload
     .findByID({

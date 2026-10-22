@@ -45,6 +45,7 @@ import {
 } from "@/lib/dashboard-locale";
 import { formatDashboardDate } from "@/lib/dashboard-locale-shared";
 import { clientContacts, primaryContactName } from "@/lib/primary-contact";
+import { requireDashboardUser } from "@/lib/dashboard-auth";
 
 const statusBadgeClassName: Record<string, string> = {
   active: "bg-green-100 text-green-800",
@@ -160,6 +161,7 @@ type ClientPageProps = {
 };
 
 export default async function ClientPage({ params }: ClientPageProps) {
+  await requireDashboardUser();
   const { id } = await params;
   const t = await getDashboardTranslations("Clients");
   const tCommon = await getDashboardTranslations("Common");

@@ -22,12 +22,14 @@ import {
 import { isLeadStatus } from "@/lib/client-status";
 import { NotificationBell } from "@/components/dashboard/notification-bell";
 import { getDashboardTranslations } from "@/lib/dashboard-locale";
+import { requireDashboardUser } from "@/lib/dashboard-auth";
 
 type ServicePageProps = {
   params: Promise<{ id: string }>;
 };
 
 export default async function ServicePage({ params }: ServicePageProps) {
+  await requireDashboardUser();
   const { id } = await params;
   const t = await getDashboardTranslations("Services");
   const tCommon = await getDashboardTranslations("Common");

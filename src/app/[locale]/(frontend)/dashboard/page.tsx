@@ -1,8 +1,8 @@
-import { headers as getHeaders } from "next/headers";
 import { getPayload, type Where } from "payload";
 import config from "@payload-config";
 
 import { DashboardOverview } from "@/components/dashboard/overview";
+import { requireDashboardUser } from "@/lib/dashboard-auth";
 import { getDismissedBanners } from "@/lib/banner-dismissal";
 import { getTeamCelebrations } from "@/lib/celebrations";
 import { LEAD_STATUSES } from "@/lib/client-status";
@@ -12,9 +12,8 @@ import { primaryContactName } from "@/lib/primary-contact";
 // left draft. Clients: consultation (website form) → lead → client (any
 // non-lead status, as on Dashboard → Clients).
 export default async function Dashboard() {
-  const headers = await getHeaders();
+  const user = await requireDashboardUser();
   const payload = await getPayload({ config });
-  const { user } = await payload.auth({ headers });
 
   const offerCount = (where?: Where) =>
     payload.count({ collection: "offers", where }).then(({ totalDocs }) => totalDocs);

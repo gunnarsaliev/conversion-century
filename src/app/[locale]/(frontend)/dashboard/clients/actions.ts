@@ -5,6 +5,7 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 import { z } from "zod";
 
+import { getDashboardUser } from "@/lib/dashboard-auth";
 import { getDashboardTranslations, type DashboardTranslator } from "@/lib/dashboard-locale";
 import { upsertPrimaryContact } from "@/lib/primary-contact";
 
@@ -41,6 +42,11 @@ async function createClient(
   input: ClientFormInput,
 ): Promise<ClientFormResult> {
   const t = await getDashboardTranslations("Clients");
+
+  // Any signed-in team member (proxy.ts only checks that a cookie exists).
+  if (!(await getDashboardUser())) {
+    return { success: false, error: t("errors.signedOut") };
+  }
   const parsed = clientFormSchema(t).safeParse(input);
 
   if (!parsed.success) {
@@ -80,6 +86,11 @@ async function updateClient(
   input: ClientFormInput,
 ): Promise<ClientFormResult> {
   const t = await getDashboardTranslations("Clients");
+
+  // Any signed-in team member (proxy.ts only checks that a cookie exists).
+  if (!(await getDashboardUser())) {
+    return { success: false, error: t("errors.signedOut") };
+  }
   const parsed = clientFormSchema(t).safeParse(input);
 
   if (!parsed.success) {
@@ -126,6 +137,11 @@ async function deleteClient(
 ): Promise<DeleteClientResult> {
   const t = await getDashboardTranslations("Clients");
 
+  // Any signed-in team member (proxy.ts only checks that a cookie exists).
+  if (!(await getDashboardUser())) {
+    return { success: false, error: t("errors.signedOut") };
+  }
+
   try {
     const payload = await getPayload({ config });
 
@@ -162,6 +178,11 @@ async function setChecklistProgressDone(
   const status = done ? "done" : "pending";
 
   const t = await getDashboardTranslations("Clients");
+
+  // Any signed-in team member (proxy.ts only checks that a cookie exists).
+  if (!(await getDashboardUser())) {
+    return { success: false, error: t("errors.signedOut") };
+  }
 
   try {
     const payload = await getPayload({ config });
