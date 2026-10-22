@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowLeft, ArrowRight, Loader2, MousePointer2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, MousePointer2 } from "lucide-react";
 import React, { SubmitEvent, useState, useTransition } from "react";
 import { cn } from "cn";
 
@@ -270,13 +270,11 @@ const BookADemo2ContactForm = () => {
         <Button
           type="submit"
           className={cn(submitButtonClassName, "col-span-2 text-white")}
-          disabled={isPending}
+          loading={isPending}
+          loadingText="Sending…"
         >
-          {isPending ? (
-            <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-          ) : null}
-          {isPending ? "Sending…" : "Book My Consultation"}
-          {isPending ? null : <ArrowRight />}
+          Book My Consultation
+          <ArrowRight />
         </Button>
       </form>
     </div>

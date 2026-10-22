@@ -38,6 +38,7 @@ const Signup10 = ({ className, redirectTo }: Signup10Props) => {
       });
 
       if (res.ok) {
+        // Leave `submitting` set so the button stays busy until navigation.
         router.push(redirectTo || "/dashboard");
         return;
       }
@@ -54,10 +55,10 @@ const Signup10 = ({ className, redirectTo }: Signup10Props) => {
         // response had no JSON body; keep generic message
       }
       setError(message);
+      setSubmitting(false);
     } catch (err) {
       console.error(err);
       setError("Something went wrong, please try again.");
-    } finally {
       setSubmitting(false);
     }
   };
@@ -84,6 +85,7 @@ const Signup10 = ({ className, redirectTo }: Signup10Props) => {
               type="email"
               autoComplete="email"
               required
+              disabled={submitting}
               value={email}
               onChange={(event) => setEmail(event.target.value)}
             />
@@ -94,6 +96,7 @@ const Signup10 = ({ className, redirectTo }: Signup10Props) => {
               type="password"
               autoComplete="current-password"
               required
+              disabled={submitting}
               value={password}
               onChange={(event) => setPassword(event.target.value)}
             />
@@ -106,12 +109,13 @@ const Signup10 = ({ className, redirectTo }: Signup10Props) => {
 
             <Button
               type="submit"
-              disabled={submitting}
+              loading={submitting}
+              loadingText={
+                <span className="font-medium tracking-tight">Logging in…</span>
+              }
               className="h-14 w-full rounded-full bg-foreground text-background hover:bg-foreground/90"
             >
-              <span className="font-medium tracking-tight">
-                {submitting ? "Logging in…" : "Log in"}
-              </span>
+              <span className="font-medium tracking-tight">Log in</span>
             </Button>
           </form>
 

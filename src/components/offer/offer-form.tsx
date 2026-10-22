@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChevronDown, Loader2, Plus, Trash2 } from "lucide-react";
+import { ChevronDown, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import {
@@ -545,15 +545,11 @@ function OfferForm({
           </Button>
           <Button
             type="submit"
-            disabled={isSubmitting}
+            loading={isSubmitting}
+            loadingText="Запазване…"
             className={cn(submitButtonClassName, "text-white")}
           >
-            {isSubmitting && <Loader2 className="size-4 animate-spin" aria-hidden="true" />}
-            {isSubmitting
-              ? "Запазване…"
-              : isEdit
-                ? "Запази промените"
-                : "Създай оферта"}
+            {isEdit ? "Запази промените" : "Създай оферта"}
           </Button>
         </div>
       </FieldGroup>

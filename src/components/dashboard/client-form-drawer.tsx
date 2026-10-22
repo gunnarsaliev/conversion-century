@@ -289,14 +289,13 @@ const ClientFormDrawer = (props: ClientFormDrawerProps) => {
         </div>
 
         <SheetFooter>
-          <Button type="submit" form="form-client" disabled={isSubmitting}>
-            {isSubmitting
-              ? mode === "edit"
-                ? "Saving…"
-                : "Creating…"
-              : mode === "edit"
-                ? "Save changes"
-                : "Create client"}
+          <Button
+            type="submit"
+            form="form-client"
+            loading={isSubmitting}
+            loadingText={mode === "edit" ? "Saving…" : "Creating…"}
+          >
+            {mode === "edit" ? "Save changes" : "Create client"}
           </Button>
         </SheetFooter>
       </SheetContent>

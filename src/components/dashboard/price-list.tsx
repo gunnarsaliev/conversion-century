@@ -1,7 +1,6 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as React from "react";
@@ -207,9 +206,13 @@ function PriceList({
             >
               Reset
             </Button>
-            <Button type="submit" disabled={!isDirty || isSubmitting}>
-              {isSubmitting && <Loader2 className="size-4 animate-spin" aria-hidden="true" />}
-              {isSubmitting ? "Saving…" : "Save changes"}
+            <Button
+              type="submit"
+              disabled={!isDirty}
+              loading={isSubmitting}
+              loadingText="Saving…"
+            >
+              Save changes
             </Button>
           </>
         )}

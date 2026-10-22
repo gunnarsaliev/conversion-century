@@ -223,9 +223,10 @@ const TeamMemberFormDrawer = ({
           <Button
             type="submit"
             form="form-team-member"
-            disabled={isSubmitting}
+            loading={isSubmitting}
+            loadingText="Saving…"
           >
-            {isSubmitting ? "Saving…" : "Save changes"}
+            Save changes
           </Button>
         </SheetFooter>
       </SheetContent>

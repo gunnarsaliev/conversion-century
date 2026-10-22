@@ -1,7 +1,7 @@
 'use client'
 
 import { SubmitEvent, useState, useTransition } from 'react'
-import { CircleCheck, Loader2 } from 'lucide-react'
+import { CircleCheck } from 'lucide-react'
 
 import { submitJobApplication } from '@/app/[locale]/(frontend)/website/careers/actions'
 import {
@@ -93,11 +93,11 @@ export default function JobApplicationForm() {
         {error && <FieldError>{error}</FieldError>}
         <Button
           type="submit"
-          disabled={isPending}
+          loading={isPending}
+          loadingText="Sending…"
           className={cn(submitButtonClassName, 'w-full text-white')}
         >
-          {isPending && <Loader2 className="size-4 animate-spin" aria-hidden="true" />}
-          {isPending ? 'Sending…' : 'Apply now'}
+          Apply now
         </Button>
       </FieldGroup>
     </form>

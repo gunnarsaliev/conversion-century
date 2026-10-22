@@ -1129,7 +1129,7 @@ export interface Event {
 export interface Testimonial {
   id: number;
   name: string;
-  email: string;
+  email?: string | null;
   profileImage?: (number | null) | Media;
   testimonial: string;
   status: 'pending' | 'approved' | 'rejected';

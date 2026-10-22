@@ -22,7 +22,10 @@ const optionalText = z
 
 const baseSchema = z.object({
   name: z.string().trim().min(1, "Please enter your name"),
-  email: z.string().trim().email("Please enter a valid email"),
+  email: z
+    .union([z.literal(""), z.string().trim().email("Please enter a valid email")])
+    .optional()
+    .transform((value) => value || undefined),
   testimonial: z.string().trim().min(10, "Please write a few words for your testimonial"),
 });
 
@@ -78,7 +81,7 @@ async function submitTestimonial(formData: FormData): Promise<TestimonialFormRes
   const parsed = submissionSchema.safeParse({
     clientType: formData.get("clientType"),
     name: formData.get("name"),
-    email: formData.get("email"),
+    email: formData.get("email") ?? undefined,
     testimonial: formData.get("testimonial"),
     clientId: formData.get("clientId") || undefined,
     companyName: formData.get("companyName") ?? undefined,

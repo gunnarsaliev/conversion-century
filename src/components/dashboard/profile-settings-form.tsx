@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Loader2, Trash2, Upload } from "lucide-react";
+import { Check, Trash2, Upload } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useRef, useState, type ReactNode } from "react";
 
@@ -383,11 +383,12 @@ const ProfileSettingsForm = ({ user, className }: ProfileSettingsFormProps) => {
           </Button>
           <Button
             type="submit"
-            disabled={isSubmitting || !isDirty}
+            disabled={!isDirty}
+            loading={isSubmitting}
+            loadingText="Saving…"
             className={cn(submitButtonClassName, "text-white")}
           >
-            {isSubmitting && <Loader2 className="size-4 animate-spin" aria-hidden="true" />}
-            {isSubmitting ? "Saving…" : "Save changes"}
+            Save changes
           </Button>
         </div>
       </FieldGroup>

@@ -53,8 +53,8 @@ const NewsletterForm = () => {
           required
           className="bg-input/30"
         />
-        <Button type="submit" disabled={isPending}>
-          {isPending ? "Subscribing…" : "Subscribe"}
+        <Button type="submit" loading={isPending} loadingText="Subscribing…">
+          Subscribe
         </Button>
       </div>
       {/* Honeypot: hidden from people, filled in by bots. */}

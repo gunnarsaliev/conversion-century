@@ -204,7 +204,7 @@ export function TestimonialForm({ clients }: { clients: TestimonialClientOption[
           </Field>
           <Field>
             <FieldLabel htmlFor="email">Email</FieldLabel>
-            <Input id="email" name="email" type="email" required autoComplete="email" />
+            <Input id="email" name="email" type="email" autoComplete="email" />
           </Field>
         </div>
         <Field>
@@ -243,8 +243,14 @@ export function TestimonialForm({ clients }: { clients: TestimonialClientOption[
         </p>
       )}
 
-      <Button type="submit" size="lg" disabled={isPending} className="self-start">
-        {isPending ? "Sending…" : "Submit testimonial"}
+      <Button
+        type="submit"
+        size="lg"
+        loading={isPending}
+        loadingText="Sending…"
+        className="self-start"
+      >
+        Submit testimonial
       </Button>
     </form>
   );

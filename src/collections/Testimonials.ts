@@ -96,7 +96,6 @@ export const Testimonials: CollectionConfig = {
     {
       name: 'email',
       type: 'email',
-      required: true,
     },
     {
       name: 'profileImage',

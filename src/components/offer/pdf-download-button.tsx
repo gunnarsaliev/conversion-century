@@ -1,6 +1,6 @@
 "use client";
 
-import { Download, Loader2 } from "lucide-react";
+import { Download } from "lucide-react";
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
@@ -50,16 +50,12 @@ function PdfDownloadButton({
       <Button
         type="button"
         onClick={download}
-        disabled={loading}
-        aria-busy={loading}
+        loading={loading}
+        loadingText="Генериране на PDF…"
         className={cn("w-full text-white", className)}
       >
-        {loading ? (
-          <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-        ) : (
-          <Download className="size-4" aria-hidden="true" />
-        )}
-        {loading ? "Генериране на PDF…" : children}
+        <Download className="size-4" aria-hidden="true" />
+        {children}
       </Button>
       {error && (
         <p role="alert" className="text-sm text-destructive">
