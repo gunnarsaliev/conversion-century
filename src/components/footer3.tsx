@@ -1,50 +1,46 @@
 import { FaFacebookF, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { useTranslations } from "next-intl";
 import { cn } from "cn";
 
 import { Link } from "@/i18n/navigation";
 import { Logo, LogoImage } from "@/components/shadcnblocks/logo";
 import { NewsletterForm } from "@/components/newsletter-form";
-import { Cta28 } from "@/components/cta28";
+import { FooterLanguageSwitcher } from "@/components/footer-language-switcher";
 import { SeoCta } from "./cta-seo";
 
+// Link text lives in the `Footer` messages, keyed by section and link.
 const sections = [
   {
-    title: "Services",
+    key: "services",
     links: [
-      {
-        name: "Ongoing SEO Management",
-        href: "/services/ongoing-seo-management",
-      },
-      {
-        name: "AI Search Optimization",
-        href: "/services/ai-search-optimization",
-      },
-      { name: "SEO Audit", href: "/services/seo-audit" },
-      { name: "International SEO", href: "/services" },
-      { name: "Local SEO", href: "/services/local-seo" },
-      { name: "Technical SEO", href: "/services/technical-seo" },
+      { key: "ongoingSeoManagement", href: "/services/ongoing-seo-management" },
+      { key: "aiSearchOptimization", href: "/services/ai-search-optimization" },
+      { key: "seoAudit", href: "/services/seo-audit" },
+      { key: "internationalSeo", href: "/services" },
+      { key: "localSeo", href: "/services/local-seo" },
+      { key: "technicalSeo", href: "/services/technical-seo" },
     ],
   },
   {
-    title: "Industries",
+    key: "industries",
     links: [
-      { name: "B2B", href: "#" },
-      { name: "Ecommerce", href: "#" },
-      { name: "Professional Services", href: "#" },
-      { name: "Financial Sector", href: "#" },
-      { name: "Real Estate", href: "#" },
-      { name: "Healthcare", href: "#" },
+      { key: "b2b", href: "#" },
+      { key: "ecommerce", href: "#" },
+      { key: "professionalServices", href: "#" },
+      { key: "financialSector", href: "#" },
+      { key: "realEstate", href: "#" },
+      { key: "healthcare", href: "#" },
     ],
   },
   {
-    title: "About",
+    key: "about",
     links: [
-      { name: "Our Story", href: "#" },
-      { name: "Career", href: "#" },
-      { name: "Team", href: "#" },
+      { key: "ourStory", href: "#" },
+      { key: "career", href: "#" },
+      { key: "team", href: "#" },
     ],
   },
-];
+] as const;
 
 interface Footer3Props {
   logo?: {
@@ -57,13 +53,15 @@ interface Footer3Props {
 }
 const Footer3 = ({
   logo = {
-    url: "https://shadcnblocks.com",
+    url: "/",
     src: "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/conversion-century-logo.svg",
     alt: "Conversion Century",
     title: "Conversion Century",
   },
   className,
 }: Footer3Props) => {
+  const t = useTranslations("Footer");
+
   return (
     <section
       className={cn(
@@ -84,19 +82,21 @@ const Footer3 = ({
             />
           </Logo>
           <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {sections.map((section, sectionIdx) => (
-              <div key={sectionIdx}>
-                <h3 className="mb-4 font-bold">{section.title}</h3>
+            {sections.map((section) => (
+              <div key={section.key}>
+                <h3 className="mb-4 font-bold">{t(`${section.key}.title`)}</h3>
                 <ul className="space-y-4 text-muted-foreground">
-                  {section.links.map((link, linkIdx) => (
+                  {section.links.map((link) => (
                     <li
-                      key={linkIdx}
+                      key={link.key}
                       className="font-medium hover:text-primary"
                     >
                       {link.href.startsWith("/") ? (
-                        <Link href={link.href}>{link.name}</Link>
+                        <Link href={link.href}>
+                          {t(`${section.key}.links.${link.key}`)}
+                        </Link>
                       ) : (
-                        <a href={link.href}>{link.name}</a>
+                        <a href={link.href}>{t(`${section.key}.links.${link.key}`)}</a>
                       )}
                     </li>
                   ))}
@@ -143,18 +143,17 @@ const Footer3 = ({
             </div>
           </div>
           <div className="mt-24 flex flex-col flex-wrap justify-between gap-4 border-t pt-8 text-sm font-medium text-muted-foreground md:flex-row md:items-center">
-            <span>© {new Date().getFullYear()} Conversion Century. All rights reserved.</span>
+            <span>{t("copyright", { year: new Date().getFullYear() })}</span>
+            <FooterLanguageSwitcher label={t("language")} />
             <ul className="flex gap-4">
               <li className="whitespace-nowrap underline hover:text-primary">
-                <Link href="/legal/terms-and-conditions">
-                  Terms and Conditions
-                </Link>
+                <Link href="/legal/terms-and-conditions">{t("terms")}</Link>
               </li>
               <li className="whitespace-nowrap underline hover:text-primary">
-                <Link href="/legal/privacy-policy">Privacy Policy</Link>
+                <Link href="/legal/privacy-policy">{t("privacy")}</Link>
               </li>
               <li className="whitespace-nowrap underline hover:text-primary">
-                <Link href="/legal/cookie-policy">Cookie Policy</Link>
+                <Link href="/legal/cookie-policy">{t("cookies")}</Link>
               </li>
             </ul>
           </div>

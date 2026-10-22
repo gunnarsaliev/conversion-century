@@ -69,5 +69,70 @@
       "title": "Events & media",
       "description": "Conferences, webinars, podcasts and press featuring the Conversion Century team."
     }
+  },
+  "Footer": {
+    "services": {
+      "title": "Services",
+      "links": {
+        "ongoingSeoManagement": "Ongoing SEO Management",
+        "aiSearchOptimization": "AI Search Optimization",
+        "seoAudit": "SEO Audit",
+        "internationalSeo": "International SEO",
+        "localSeo": "Local SEO",
+        "technicalSeo": "Technical SEO"
+      }
+    },
+    "industries": {
+      "title": "Industries",
+      "links": {
+        "b2b": "B2B",
+        "ecommerce": "Ecommerce",
+        "professionalServices": "Professional Services",
+        "financialSector": "Financial Sector",
+        "realEstate": "Real Estate",
+        "healthcare": "Healthcare"
+      }
+    },
+    "about": {
+      "title": "About",
+      "links": {
+        "ourStory": "Our Story",
+        "career": "Career",
+        "team": "Team"
+      }
+    },
+    "copyright": "© {year} Conversion Century. All rights reserved.",
+    "language": "Language",
+    "terms": "Terms and Conditions",
+    "privacy": "Privacy Policy",
+    "cookies": "Cookie Policy"
+  },
+  "Forms": {
+    "invalidInput": "Invalid input",
+    "genericError": "Something went wrong. Please try again."
+  },
+  "Newsletter": {
+    "label": "Subscribe to our newsletter",
+    "placeholder": "Email",
+    "submit": "Subscribe",
+    "submitting": "Subscribing…",
+    "success": "Thanks for subscribing! You'll receive our next newsletter in your inbox.",
+    "consent": "I agree to receive marketing emails from Conversion Century and can unsubscribe at any time. See our <link>Privacy Policy</link>.",
+    "errors": {
+      "email": "Please enter a valid email",
+      "consent": "Please confirm you want to receive our emails"
+    }
+  },
+  "SeoCta": {
+    "heading": "Let's Find Out Whether SEO Is the Right Next Step",
+    "description": "Every potential partnership begins with an honest conversation. We will learn about your business, review your current position and explore whether organic search can support your goals.",
+    "cta": "Book a FREE Consultation",
+    "stepsHeading": "What happens next?",
+    "steps": {
+      "tell": "You tell us about your business, website and objectives.",
+      "review": "We review whether the project fits our expertise and approach.",
+      "consult": "We arrange a consultation with a senior member of the team.",
+      "nextSteps": "If there is a strong mutual fit, we prepare the recommended next steps."
+    }
   }
 }
