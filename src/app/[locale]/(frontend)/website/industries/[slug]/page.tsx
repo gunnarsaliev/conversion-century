@@ -20,9 +20,11 @@ type IndustryPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-const getIndustry = cache((slug: string, locale: string) =>
-  findByLocalizedSlug("industries", slug, locale),
-);
+// Local API bypasses access control, so hide drafts explicitly.
+const getIndustry = cache(async (slug: string, locale: string) => {
+  const industry = await findByLocalizedSlug("industries", slug, locale);
+  return industry?._status === "published" ? industry : null;
+});
 
 export async function generateMetadata({
   params,

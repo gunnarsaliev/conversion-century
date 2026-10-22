@@ -615,6 +615,7 @@ export interface Industry {
   };
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -774,8 +775,38 @@ export interface JobListing {
    */
   generateSlug?: boolean | null;
   slug: string;
-  type: 'part-time' | 'full-time';
+  type: 'part-time' | 'full-time' | 'full-time-hybrid';
   location?: string | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  responsibilities?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   requirements?: {
     root: {
       type: string;
@@ -1901,6 +1932,8 @@ export interface JobListingsSelect<T extends boolean = true> {
   slug?: T;
   type?: T;
   location?: T;
+  description?: T;
+  responsibilities?: T;
   requirements?: T;
   offer?: T;
   updatedAt?: T;
@@ -1964,6 +1997,7 @@ export interface IndustriesSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2488,6 +2522,10 @@ export interface TaskSchedulePublish {
       | ({
           relationTo: 'blog';
           value: number | Blog;
+        } | null)
+      | ({
+          relationTo: 'industries';
+          value: number | Industry;
         } | null)
       | ({
           relationTo: 'events';

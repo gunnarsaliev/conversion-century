@@ -8,12 +8,29 @@ export const Industries: CollectionConfig = {
   admin: {
     ...adminOnlyCollection.admin,
     useAsTitle: 'title',
-    defaultColumns: ['title', 'slug', 'updatedAt'],
+    defaultColumns: ['title', 'slug', '_status', 'updatedAt'],
   },
   access: {
     ...adminOnlyCollection.access,
-    // Industries are shown on the public website.
-    read: () => true,
+    // Logged-in users (editors/admins) always see every version, including
+    // drafts. Logged-out visitors only ever see published industries.
+    read: ({ req }) => {
+      if (req.user) return true
+      return {
+        _status: {
+          equals: 'published',
+        },
+      }
+    },
+  },
+  versions: {
+    drafts: {
+      autosave: {
+        interval: 1500,
+      },
+      schedulePublish: true,
+    },
+    maxPerDoc: 50,
   },
   fields: [
     {

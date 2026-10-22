@@ -272,7 +272,7 @@ export function jobPostingSchema({
   title: string;
   description: string;
   datePosted: string;
-  employmentType?: "full-time" | "part-time" | null;
+  employmentType?: "full-time" | "full-time-hybrid" | "part-time" | null;
   location?: string | null;
 }): JobPosting {
   const isRemote = !location || /remote|дистанционно|онлайн/i.test(location);
@@ -283,7 +283,11 @@ export function jobPostingSchema({
     datePosted,
     url: localizedUrl(path, locale),
     employmentType:
-      employmentType === "part-time" ? "PART_TIME" : employmentType === "full-time" ? "FULL_TIME" : undefined,
+      employmentType === "part-time"
+        ? "PART_TIME"
+        : employmentType === "full-time" || employmentType === "full-time-hybrid"
+          ? "FULL_TIME"
+          : undefined,
     hiringOrganization: {
       "@type": "Organization",
       name: ORGANIZATION.name,

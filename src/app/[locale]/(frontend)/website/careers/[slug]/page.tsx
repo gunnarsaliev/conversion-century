@@ -35,7 +35,12 @@ const getListing = cache(async (slug: string, locale: string) => {
 })
 
 const plainDescription = (listing: JobListingDoc) =>
-  [richTextToPlainText(listing.requirements), richTextToPlainText(listing.offer)]
+  [
+    richTextToPlainText(listing.description),
+    richTextToPlainText(listing.responsibilities),
+    richTextToPlainText(listing.requirements),
+    richTextToPlainText(listing.offer),
+  ]
     .filter(Boolean)
     .join(' ')
 
@@ -86,6 +91,8 @@ export default async function Page({ params }: PageProps) {
         title={listing.title}
         type={listing.type}
         location={listing.location}
+        description={listing.description}
+        responsibilities={listing.responsibilities}
         requirements={listing.requirements}
         offer={listing.offer}
       />

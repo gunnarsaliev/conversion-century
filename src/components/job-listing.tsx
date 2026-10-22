@@ -1,56 +1,98 @@
+import { ArrowLeft, BriefcaseBusiness, MapPin } from 'lucide-react'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
 
 import JobApplicationForm from '@/components/job-application-form'
+import { Link } from '@/i18n/navigation'
 
 const typeLabels: Record<JobListingProps['type'], string> = {
   'part-time': 'Part-time',
   'full-time': 'Full-time',
+  'full-time-hybrid': 'Full-time/ Hybrid',
 }
 
 // Styles the lists (and any paragraphs/bold text) produced by the Lexical
-// editor to match the design's bullet lists.
+// editor. Text size is set per use.
 const richTextClassName =
-  '[&_ul]:m-0 [&_ul]:list-disc [&_ul]:pl-10 [&_ol]:m-0 [&_ol]:list-decimal [&_ol]:pl-10 [&_li]:pl-0 [&_li]:text-xl [&_li]:leading-[1.42] [&_li]:tracking-[-.2px] max-sm:[&_li]:text-lg [&_p]:text-xl [&_p]:leading-[1.42] max-sm:[&_p]:text-lg [&_strong]:font-bold'
+  'space-y-3 leading-relaxed text-muted-foreground [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-5 [&_li]:pl-1 [&_li::marker]:text-primary [&_strong]:font-semibold [&_strong]:text-foreground'
+
+const pillClassName =
+  'inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/50 px-3 py-1 text-sm text-foreground [&>svg]:size-4 [&>svg]:text-muted-foreground'
 
 interface JobListingProps {
   title: string
-  type: 'part-time' | 'full-time'
+  type: 'part-time' | 'full-time' | 'full-time-hybrid'
   location?: string | null
+  description?: SerializedEditorState | null
+  responsibilities?: SerializedEditorState | null
   requirements?: SerializedEditorState | null
   offer?: SerializedEditorState | null
 }
 
-export default function JobListing({ title, type, location, requirements, offer }: JobListingProps) {
+function Section({ title, data }: { title: string; data: SerializedEditorState }) {
   return (
-    <main className="min-h-screen px-6 py-9 text-[#2f2e3e] sm:px-12 sm:py-[47px]">
-      <div className="mx-auto grid max-w-[1315px] items-start gap-14 lg:grid-cols-[minmax(0,1fr)_445px]">
-        <article className="pt-0.5">
-          <p className="mb-3 text-base font-bold tracking-[.01em]">POSITION</p>
-          <h1 className="max-w-[720px] text-[clamp(54px,5vw,72px)] font-bold leading-[1.02] tracking-[-2.8px] max-sm:text-[clamp(46px,11vw,68px)]">{title}</h1>
+    <section className="border-t border-border pt-8">
+      <h2 className="mb-4 text-xl font-semibold tracking-tight text-foreground">{title}</h2>
+      <RichText className={`${richTextClassName} text-base`} data={data} />
+    </section>
+  )
+}
 
-          <div className="mt-[34px] flex gap-[124px] max-sm:gap-12" aria-label="Position details">
-            {location && <div><p className="mb-2.5 text-base font-bold tracking-[.01em]">LOCATION</p><p className="m-0 text-[28px] tracking-[-.5px] max-sm:text-2xl">{location}</p></div>}
-            <div><p className="mb-2.5 text-base font-bold tracking-[.01em]">TYPE</p><p className="m-0 text-[28px] tracking-[-.5px] max-sm:text-2xl">{typeLabels[type]}</p></div>
-          </div>
+export default function JobListing({
+  title,
+  type,
+  location,
+  description,
+  responsibilities,
+  requirements,
+  offer,
+}: JobListingProps) {
+  return (
+    <main className="mx-auto max-w-6xl px-4 py-12 sm:px-6 md:py-20 lg:px-8">
+      <Link
+        href="/website/open-positions"
+        className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+      >
+        <ArrowLeft className="size-4" />
+        All open positions
+      </Link>
 
-          {requirements && (
-            <section className="mt-[72px] max-w-[735px] max-sm:mt-[58px]">
-              <h2 className="mb-[47px] text-[44px] font-normal leading-none tracking-[-1.5px] max-sm:text-[38px]">Requirements:</h2>
-              <RichText className={richTextClassName} data={requirements} />
-            </section>
+      <header className="mt-8 max-w-3xl">
+        <p className="text-sm font-semibold text-primary">Open position</p>
+        <h1 className="mt-2 text-3xl leading-tight font-semibold tracking-[-1px] text-foreground sm:text-4xl md:text-5xl">
+          {title}
+        </h1>
+        <div className="mt-6 flex flex-wrap gap-2" aria-label="Position details">
+          {location && (
+            <span className={pillClassName}>
+              <MapPin />
+              {location}
+            </span>
           )}
+          <span className={pillClassName}>
+            <BriefcaseBusiness />
+            {typeLabels[type]}
+          </span>
+        </div>
+      </header>
 
-          {offer && (
-            <section className="mt-[43px] max-w-[735px]">
-              <h2 className="mb-[47px] text-[44px] font-normal leading-none tracking-[-1.5px] max-sm:text-[38px]">The Offer:</h2>
-              <RichText className={richTextClassName} data={offer} />
-            </section>
+      <div className="mt-12 grid items-start gap-12 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-16">
+        <article className="space-y-8">
+          {description && (
+            <RichText className={`${richTextClassName} text-lg`} data={description} />
           )}
+          {responsibilities && <Section title="Responsibilities" data={responsibilities} />}
+          {requirements && <Section title="Requirements" data={requirements} />}
+          {offer && <Section title="What we offer" data={offer} />}
         </article>
 
-        <aside className="rounded-2xl border border-[#17171a] bg-[#f7f7f7]/85 px-6 py-[26px] pb-[31px] max-lg:mt-[52px] max-sm:px-[18px] max-sm:py-6">
-          <h2 className="mb-[26px] text-[44px] font-normal leading-[1.08] tracking-[-1.8px] max-sm:text-[38px]">Apply for this<br />position</h2>
+        <aside className="rounded-2xl border border-border bg-card p-6 shadow-sm lg:sticky lg:top-24">
+          <h2 className="text-xl font-semibold tracking-tight text-foreground">
+            Apply for this position
+          </h2>
+          <p className="mt-1 mb-6 text-sm text-muted-foreground">
+            Only shortlisted candidates will be contacted.
+          </p>
           <JobApplicationForm />
         </aside>
       </div>

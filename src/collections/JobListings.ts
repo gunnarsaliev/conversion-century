@@ -31,6 +31,7 @@ export const JobListings: CollectionConfig = {
       options: [
         { label: 'Part-time', value: 'part-time' },
         { label: 'Full-time', value: 'full-time' },
+        { label: 'Full-time/ Hybrid', value: 'full-time-hybrid' },
       ],
       admin: {
         position: 'sidebar',
@@ -43,6 +44,18 @@ export const JobListings: CollectionConfig = {
       admin: {
         position: 'sidebar',
       },
+    },
+    {
+      name: 'description',
+      type: 'richText',
+      editor: lexicalEditor(),
+      localized: true,
+    },
+    {
+      name: 'responsibilities',
+      type: 'richText',
+      editor: lexicalEditor(),
+      localized: true,
     },
     {
       name: 'requirements',

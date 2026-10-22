@@ -18,6 +18,7 @@ export default async function IndustriesPage() {
   const { docs: industries } = await payload.find({
     collection: "industries",
     locale: locale as "en" | "bg",
+    where: { _status: { equals: "published" } },
     depth: 1,
     limit: 100,
     sort: "title",

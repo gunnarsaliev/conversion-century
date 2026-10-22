@@ -40,7 +40,11 @@ const DETAIL_COLLECTIONS = [
   },
   { collection: 'services', basePath: '/website/services' },
   { collection: 'solutions', basePath: '/website/solutions' },
-  { collection: 'industries', basePath: '/website/industries' },
+  {
+    collection: 'industries',
+    basePath: '/website/industries',
+    where: published,
+  },
   { collection: 'case-studies', basePath: '/website/case-studies' },
   { collection: 'job-listings', basePath: '/website/careers' },
 ] as const

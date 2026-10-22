@@ -10,6 +10,8 @@ interface FounderLetterProps {
   eyebrow?: string;
   heading?: string;
   portrait?: Image;
+  /** Optional paragraphs shown above the quote (separated by blank lines). */
+  intro?: string;
   quote?: string;
   name?: string;
   role?: string;
@@ -19,7 +21,7 @@ interface FounderLetterProps {
 }
 
 const defaultProps: Required<
-  Omit<FounderLetterProps, "className">
+  Omit<FounderLetterProps, "className" | "intro">
 > = {
   eyebrow: "A Personal Commitment",
   heading: "From the Owner",
@@ -42,6 +44,7 @@ const FounderLetter = (props: Props) => {
     eyebrow,
     heading,
     portrait,
+    intro,
     quote,
     name,
     role,
@@ -83,6 +86,14 @@ const FounderLetter = (props: Props) => {
           )}
 
           <div className="flex flex-col gap-6">
+            {intro && (
+              <div className="flex flex-col gap-4 text-base text-muted-foreground">
+                {intro.split("\n\n").map((paragraph, index) => (
+                  <p key={index}>{paragraph}</p>
+                ))}
+              </div>
+            )}
+
             <blockquote className="flex flex-col gap-4 text-lg text-balance lg:text-xl">
               {paragraphs.map((paragraph, index) => (
                 <p key={index}>

@@ -9,6 +9,7 @@ import { staticPageMetadata } from "@/lib/seo/pages";
 const typeLabels = {
   "part-time": "Part-time",
   "full-time": "Full-time",
+  "full-time-hybrid": "Full-time/ Hybrid",
 } as const;
 
 export async function generateMetadata() {
