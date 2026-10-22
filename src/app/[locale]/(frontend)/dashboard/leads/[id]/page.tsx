@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/card";
 import { isLeadStatus } from "@/lib/client-status";
 import { NotificationBell } from "@/components/dashboard/notification-bell";
+import { getDashboardLocale, getDashboardTranslations } from "@/lib/dashboard-locale";
 import { clientContacts, primaryContactName } from "@/lib/primary-contact";
 
 const statusBadgeClassName: Record<string, string> = {
@@ -43,6 +44,10 @@ type LeadPageProps = {
 
 export default async function LeadPage({ params }: LeadPageProps) {
   const { id } = await params;
+  const t = await getDashboardTranslations("Clients");
+  const tSection = await getDashboardTranslations("Leads");
+  const tCommon = await getDashboardTranslations("Common");
+  const locale = await getDashboardLocale();
 
   const payload = await getPayload({ config });
 
@@ -86,10 +91,10 @@ export default async function LeadPage({ params }: LeadPageProps) {
     value: number;
     icon: typeof Users;
   }[] = [
-    { label: "Services", value: services.length, icon: FileText },
-    { label: "Publishers", value: publishers.length, icon: Users },
-    { label: "Website Links", value: websiteLinks.length, icon: Globe },
-    { label: "Reports", value: reportUrls.length, icon: FileText },
+    { label: t("fields.services"), value: services.length, icon: FileText },
+    { label: t("people.publishers"), value: publishers.length, icon: Users },
+    { label: t("links.website"), value: websiteLinks.length, icon: Globe },
+    { label: t("links.reports"), value: reportUrls.length, icon: FileText },
   ];
 
   return (
@@ -97,10 +102,10 @@ export default async function LeadPage({ params }: LeadPageProps) {
       <div className="flex flex-wrap items-center justify-between gap-2 pb-4 sm:pb-5">
         <div className="flex items-center gap-2 text-xs text-muted-foreground sm:text-sm">
           <LayoutDashboard className="size-3.5" aria-hidden="true" />
-          <span>Overview</span>
+          <span>{tCommon("overview")}</span>
           <ChevronRight className="size-3.5" aria-hidden="true" />
           <Link href="/dashboard/leads" className="hover:text-foreground">
-            Leads
+            {tSection("title")}
           </Link>
           <ChevronRight className="size-3.5" aria-hidden="true" />
           <span className="text-foreground">{client.companyName}</span>
@@ -110,7 +115,7 @@ export default async function LeadPage({ params }: LeadPageProps) {
             variant="outline"
             size="icon"
             className="size-8"
-            aria-label="Search"
+            aria-label={tCommon("search")}
           >
             <Search className="size-4" aria-hidden="true" />
           </Button>
@@ -151,12 +156,12 @@ export default async function LeadPage({ params }: LeadPageProps) {
                       statusBadgeClassName.inactive
                     }
                   >
-                    <span className="capitalize">{client.status}</span>
+                    {t(`status.${client.status}`)}
                   </Badge>
                   {primaryContactName(client) && (
                     <span>
                       {" "}
-                      contact:{" "}
+                      {t("detail.contactLabel")}{" "}
                       <span className="font-medium">
                         {primaryContactName(client)}
                       </span>
@@ -236,7 +241,7 @@ export default async function LeadPage({ params }: LeadPageProps) {
         <div className="flex min-h-0 flex-col gap-4 sm:gap-6">
           <Card>
             <CardHeader>
-              <CardTitle>About</CardTitle>
+              <CardTitle>{t("detail.about")}</CardTitle>
             </CardHeader>
             <CardContent>
               {client.description ? (
@@ -245,7 +250,7 @@ export default async function LeadPage({ params }: LeadPageProps) {
                 </div>
               ) : (
                 <p className="text-sm text-muted-foreground">
-                  No description yet.
+                  {t("detail.noDescription")}
                 </p>
               )}
             </CardContent>
@@ -254,7 +259,7 @@ export default async function LeadPage({ params }: LeadPageProps) {
           {services.length > 0 && (
             <Card>
               <CardHeader>
-                <CardTitle>Services</CardTitle>
+                <CardTitle>{t("fields.services")}</CardTitle>
               </CardHeader>
               <CardContent className="flex flex-wrap gap-2">
                 {services.map((service) => (
@@ -272,12 +277,12 @@ export default async function LeadPage({ params }: LeadPageProps) {
           {client.region && client.region.length > 0 && (
             <Card>
               <CardHeader>
-                <CardTitle>Region</CardTitle>
+                <CardTitle>{t("fields.region")}</CardTitle>
               </CardHeader>
               <CardContent className="flex flex-wrap gap-2">
                 {client.region.map((region) => (
                   <Badge key={region} variant="outline">
-                    {regionLabel(region)}
+                    {regionLabel(region, locale)}
                   </Badge>
                 ))}
               </CardContent>
@@ -287,7 +292,7 @@ export default async function LeadPage({ params }: LeadPageProps) {
           {client.notes ? (
             <Card>
               <CardHeader>
-                <CardTitle>Notes</CardTitle>
+                <CardTitle>{t("detail.notes")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="whitespace-pre-wrap text-sm text-muted-foreground">
@@ -301,13 +306,13 @@ export default async function LeadPage({ params }: LeadPageProps) {
         <div className="flex min-h-0 flex-col gap-4 sm:gap-6">
           <Card>
             <CardHeader>
-              <CardTitle>Contact</CardTitle>
+              <CardTitle>{t("detail.contact")}</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col gap-3 text-sm">
               {contacts.length > 0 ? (
                 <div>
                   <p className="text-muted-foreground">
-                    {contacts.length > 1 ? "Contacts" : "Contact"}
+                    {t("detail.contacts", { count: contacts.length })}
                   </p>
                   <ul className="flex flex-col gap-1">
                     {contacts.map((contact) => (
@@ -317,7 +322,7 @@ export default async function LeadPage({ params }: LeadPageProps) {
                           <span className="text-muted-foreground">{contact.role}</span>
                         ) : null}
                         {contact.isPrimary && contacts.length > 1 ? (
-                          <Badge variant="secondary">Primary</Badge>
+                          <Badge variant="secondary">{t("detail.primary")}</Badge>
                         ) : null}
                         {contact.email ? (
                           <a href={`mailto:${contact.email}`} className="text-muted-foreground hover:underline">
@@ -347,7 +352,7 @@ export default async function LeadPage({ params }: LeadPageProps) {
               ) : null}
               {accountManagers.length > 0 ? (
                 <div>
-                  <p className="text-muted-foreground">Account Managers</p>
+                  <p className="text-muted-foreground">{t("people.accountManagers")}</p>
                   <ul className="mt-1 flex flex-col gap-2">
                     {accountManagers.map((manager) => (
                       <li key={manager.id}>
@@ -373,7 +378,7 @@ export default async function LeadPage({ params }: LeadPageProps) {
               ) : null}
               {publishers.length > 0 ? (
                 <div>
-                  <p className="text-muted-foreground">Publishers</p>
+                  <p className="text-muted-foreground">{t("people.publishers")}</p>
                   <ul className="mt-1 flex flex-col gap-2">
                     {publishers.map((publisher) => (
                       <li key={publisher.id}>
@@ -403,7 +408,7 @@ export default async function LeadPage({ params }: LeadPageProps) {
           {client.websiteLinks && client.websiteLinks.length > 0 ? (
             <Card>
               <CardHeader>
-                <CardTitle>Website Links</CardTitle>
+                <CardTitle>{t("links.website")}</CardTitle>
               </CardHeader>
               <CardContent className="flex flex-col gap-2 text-sm">
                 {client.websiteLinks.map((link, index) => (
@@ -425,7 +430,7 @@ export default async function LeadPage({ params }: LeadPageProps) {
           {client.reportUrls && client.reportUrls.length > 0 ? (
             <Card>
               <CardHeader>
-                <CardTitle>Reports</CardTitle>
+                <CardTitle>{t("links.reports")}</CardTitle>
               </CardHeader>
               <CardContent className="flex flex-col gap-2 text-sm">
                 {client.reportUrls.map((link, index) => (

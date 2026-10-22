@@ -286,5 +286,112 @@
       "update": "Нещо се обърка при обновяването на члена на екипа.",
       "delete": "Нещо се обърка при изтриването на члена на екипа."
     }
+  },
+  "Clients": {
+    "title": "Клиенти",
+    "description": "Управлявайте клиентите си",
+    "new": "Нов клиент",
+    "empty": "Все още няма клиенти.",
+    "confirmDelete": "Да изтрием ли {name}? Това действие е необратимо.",
+    "status": {
+      "lead": "Потенциален",
+      "consultation": "Консултация",
+      "active": "Активен",
+      "inactive": "Неактивен"
+    },
+    "quickView": {
+      "title": "Бърз преглед на клиента",
+      "actions": "Действия за клиента",
+      "edit": "Редактирай",
+      "delete": "Изтрий",
+      "deleting": "Изтриване…"
+    },
+    "people": {
+      "accountManagers": "Акаунт мениджъри",
+      "publishers": "Публикуващи",
+      "copywriters": "Копирайтъри"
+    },
+    "fields": {
+      "services": "Услуги",
+      "region": "Регион"
+    },
+    "links": {
+      "website": "Уеб адреси",
+      "websiteLink": "Уеб адрес",
+      "login": "Връзки за вход",
+      "loginLink": "Връзка за вход",
+      "reports": "Отчети",
+      "report": "Отчет",
+      "reportTitle": "Отчет за {name}{number, select, 0 {} other { {number}}}",
+      "docs": "Документи",
+      "linkBuildingDocs": "Документи за линк билдинг",
+      "blogDocs": "Документи за блога"
+    },
+    "detail": {
+      "contactLabel": "контакт:",
+      "about": "Описание",
+      "noDescription": "Все още няма описание.",
+      "notes": "Бележки",
+      "contact": "Контакт",
+      "contacts": "{count, plural, one {Контакт} other {Контакти}}",
+      "primary": "Основен"
+    },
+    "checklist": {
+      "heading": "Чеклист ({done}/{total} готови)",
+      "done": "Готови",
+      "notDone": "Неготови",
+      "remaining": "Оставащи",
+      "noneDone": "Все още няма.",
+      "allDone": "Всичко е готово.",
+      "details": "Детайли за {name}",
+      "type": "Тип",
+      "team": "Екип",
+      "priority": "Приоритет",
+      "label": "Етикет",
+      "completed": "Завършено",
+      "markDone": "Маркирай „{label}“ като готово",
+      "markNotDone": "Маркирай „{label}“ като неготово",
+      "status": {
+        "pending": "Предстои",
+        "in-progress": "В процес",
+        "done": "Готово"
+      }
+    },
+    "form": {
+      "newTitle": "Нов клиент",
+      "editTitle": "Редакция на клиент",
+      "companyName": "Име на компанията",
+      "companyPlaceholder": "Акме ООД",
+      "contactName": "Лице за контакт",
+      "contactPlaceholder": "Мария Иванова",
+      "email": "Имейл",
+      "emailPlaceholder": "maria@akme.bg",
+      "phone": "Телефон",
+      "status": "Статус",
+      "create": "Създай клиент",
+      "creating": "Създаване…",
+      "save": "Запази промените"
+    },
+    "errors": {
+      "companyName": "Името на компанията е задължително",
+      "email": "Въведете валиден имейл",
+      "invalid": "Невалидни данни",
+      "create": "Нещо се обърка при създаването на клиента.",
+      "update": "Нещо се обърка при обновяването на клиента.",
+      "delete": "Нещо се обърка при изтриването на клиента.",
+      "checklist": "Нещо се обърка при обновяването на задачата от чеклиста."
+    }
+  },
+  "Leads": {
+    "title": "Потенциални клиенти",
+    "description": "Следете бъдещите клиенти, преди да станат клиенти",
+    "new": "Нов потенциален клиент"
+  },
+  "Services": {
+    "clients": "Клиенти",
+    "about": "Описание",
+    "noDescription": "Все още няма описание.",
+    "highlights": "Акценти",
+    "included": "Какво включва"
   }
 }

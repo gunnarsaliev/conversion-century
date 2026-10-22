@@ -286,5 +286,112 @@
       "update": "Something went wrong while updating the team member.",
       "delete": "Something went wrong while deleting the team member."
     }
+  },
+  "Clients": {
+    "title": "Clients",
+    "description": "Manage your clients",
+    "new": "New Client",
+    "empty": "No clients yet.",
+    "confirmDelete": "Delete {name}? This action cannot be undone.",
+    "status": {
+      "lead": "Lead",
+      "consultation": "Consultation",
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "quickView": {
+      "title": "Client Quick View",
+      "actions": "Client actions",
+      "edit": "Edit",
+      "delete": "Delete",
+      "deleting": "Deleting…"
+    },
+    "people": {
+      "accountManagers": "Account Managers",
+      "publishers": "Publishers",
+      "copywriters": "Copywriters"
+    },
+    "fields": {
+      "services": "Services",
+      "region": "Region"
+    },
+    "links": {
+      "website": "Website Links",
+      "websiteLink": "Website link",
+      "login": "Login Links",
+      "loginLink": "Login link",
+      "reports": "Reports",
+      "report": "Report",
+      "reportTitle": "{name} report{number, select, 0 {} other { {number}}}",
+      "docs": "Docs",
+      "linkBuildingDocs": "Link Building Docs",
+      "blogDocs": "Blog Docs"
+    },
+    "detail": {
+      "contactLabel": "contact:",
+      "about": "About",
+      "noDescription": "No description yet.",
+      "notes": "Notes",
+      "contact": "Contact",
+      "contacts": "{count, plural, one {Contact} other {Contacts}}",
+      "primary": "Primary"
+    },
+    "checklist": {
+      "heading": "Checklist ({done}/{total} done)",
+      "done": "Done",
+      "notDone": "Not Done",
+      "remaining": "Remaining",
+      "noneDone": "None yet.",
+      "allDone": "Everything's done.",
+      "details": "{name} details",
+      "type": "Type",
+      "team": "Team",
+      "priority": "Priority",
+      "label": "Label",
+      "completed": "Completed",
+      "markDone": "Mark \"{label}\" as done",
+      "markNotDone": "Mark \"{label}\" as not done",
+      "status": {
+        "pending": "Pending",
+        "in-progress": "In progress",
+        "done": "Done"
+      }
+    },
+    "form": {
+      "newTitle": "New Client",
+      "editTitle": "Edit Client",
+      "companyName": "Company name",
+      "companyPlaceholder": "Acme Inc.",
+      "contactName": "Contact name",
+      "contactPlaceholder": "Jane Doe",
+      "email": "Email",
+      "emailPlaceholder": "jane@acme.com",
+      "phone": "Phone",
+      "status": "Status",
+      "create": "Create client",
+      "creating": "Creating…",
+      "save": "Save changes"
+    },
+    "errors": {
+      "companyName": "Company name is required",
+      "email": "Enter a valid email",
+      "invalid": "Invalid input",
+      "create": "Something went wrong while creating the client.",
+      "update": "Something went wrong while updating the client.",
+      "delete": "Something went wrong while deleting the client.",
+      "checklist": "Something went wrong while updating the checklist item."
+    }
+  },
+  "Leads": {
+    "title": "Leads",
+    "description": "Track prospective clients before they convert",
+    "new": "New Lead"
+  },
+  "Services": {
+    "clients": "Clients",
+    "about": "About",
+    "noDescription": "No description yet.",
+    "highlights": "Highlights",
+    "included": "What's Included"
   }
 }

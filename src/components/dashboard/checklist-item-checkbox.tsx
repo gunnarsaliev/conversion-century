@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import * as React from "react";
 
 import { setChecklistProgressDone } from "@/app/[locale]/(frontend)/dashboard/clients/actions";
@@ -27,6 +28,7 @@ const ChecklistItemCheckbox = ({
   done,
   label,
 }: ChecklistItemCheckboxProps) => {
+  const t = useTranslations("Clients.checklist");
   const [checked, setChecked] = React.useState(done);
   const [isPending, setIsPending] = React.useState(false);
 
@@ -48,7 +50,7 @@ const ChecklistItemCheckbox = ({
       checked={checked}
       disabled={isPending}
       onCheckedChange={handleCheckedChange}
-      aria-label={`Mark "${label}" as ${checked ? "not done" : "done"}`}
+      aria-label={checked ? t("markNotDone", { label }) : t("markDone", { label })}
     />
   );
 };

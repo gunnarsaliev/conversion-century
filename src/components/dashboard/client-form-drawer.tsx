@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import * as React from "react";
+import { useTranslations } from "next-intl";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -45,20 +46,21 @@ import {
 // createClient server action; in "edit" mode, pre-filled from `client`, it
 // submits to updateClient. Both write through the Payload local API.
 
-const clientFormSchema = z.object({
-  companyName: z.string().trim().min(1, "Company name is required"),
-  contactName: z.string().trim().optional(),
-  email: z
-    .string()
-    .trim()
-    .email("Enter a valid email")
-    .optional()
-    .or(z.literal("")),
-  phone: z.string().trim().optional(),
-  status: z.enum(["lead", "consultation", "active", "inactive"]),
-});
+const clientFormSchema = (t: (key: string) => string) =>
+  z.object({
+    companyName: z.string().trim().min(1, t("errors.companyName")),
+    contactName: z.string().trim().optional(),
+    email: z
+      .string()
+      .trim()
+      .email(t("errors.email"))
+      .optional()
+      .or(z.literal("")),
+    phone: z.string().trim().optional(),
+    status: z.enum(["lead", "consultation", "active", "inactive"]),
+  });
 
-type ClientFormValues = z.infer<typeof clientFormSchema>;
+type ClientFormValues = z.infer<ReturnType<typeof clientFormSchema>>;
 
 const emptyValues: ClientFormValues = {
   companyName: "",
@@ -95,6 +97,8 @@ type ClientFormDrawerProps = {
 
 const ClientFormDrawer = (props: ClientFormDrawerProps) => {
   const { trigger, mode = "create" } = props;
+  const t = useTranslations("Clients");
+  const tCommon = useTranslations("Common");
   const router = useRouter();
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(false);
   const isControlled = props.open !== undefined;
@@ -120,7 +124,7 @@ const ClientFormDrawer = (props: ClientFormDrawerProps) => {
     reset,
     formState: { isSubmitting },
   } = useForm<ClientFormValues>({
-    resolver: zodResolver(clientFormSchema),
+    resolver: zodResolver(clientFormSchema(t)),
     defaultValues,
   });
 
@@ -159,7 +163,7 @@ const ClientFormDrawer = (props: ClientFormDrawerProps) => {
       <SheetContent showCloseButton={false} aria-describedby={undefined}>
         <SheetHeader className="flex-row items-center justify-between border-b">
           <SheetTitle className="text-lg">
-            {mode === "edit" ? "Edit Client" : "New Client"}
+            {mode === "edit" ? t("form.editTitle") : t("form.newTitle")}
           </SheetTitle>
           <SheetClose render={<Button size="icon" variant="secondary" />}>
             <X />
@@ -179,13 +183,13 @@ const ClientFormDrawer = (props: ClientFormDrawerProps) => {
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor="companyName">
-                      Company name
+                      {t("form.companyName")}
                     </FieldLabel>
                     <Input
                       {...field}
                       id="companyName"
                       aria-invalid={fieldState.invalid}
-                      placeholder="Acme Inc."
+                      placeholder={t("form.companyPlaceholder")}
                     />
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
@@ -200,13 +204,13 @@ const ClientFormDrawer = (props: ClientFormDrawerProps) => {
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor="contactName">
-                      Contact name
+                      {t("form.contactName")}
                     </FieldLabel>
                     <Input
                       {...field}
                       id="contactName"
                       aria-invalid={fieldState.invalid}
-                      placeholder="Jane Doe"
+                      placeholder={t("form.contactPlaceholder")}
                     />
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
@@ -220,13 +224,13 @@ const ClientFormDrawer = (props: ClientFormDrawerProps) => {
                 control={control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="email">Email</FieldLabel>
+                    <FieldLabel htmlFor="email">{t("form.email")}</FieldLabel>
                     <Input
                       {...field}
                       id="email"
                       type="email"
                       aria-invalid={fieldState.invalid}
-                      placeholder="jane@acme.com"
+                      placeholder={t("form.emailPlaceholder")}
                     />
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
@@ -240,7 +244,7 @@ const ClientFormDrawer = (props: ClientFormDrawerProps) => {
                 control={control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="phone">Phone</FieldLabel>
+                    <FieldLabel htmlFor="phone">{t("form.phone")}</FieldLabel>
                     <Input
                       {...field}
                       id="phone"
@@ -259,7 +263,7 @@ const ClientFormDrawer = (props: ClientFormDrawerProps) => {
                 control={control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="status">Status</FieldLabel>
+                    <FieldLabel htmlFor="status">{t("form.status")}</FieldLabel>
                     <Select
                       value={field.value}
                       onValueChange={field.onChange}
@@ -268,10 +272,10 @@ const ClientFormDrawer = (props: ClientFormDrawerProps) => {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="lead">Lead</SelectItem>
-                        <SelectItem value="consultation">Consultation</SelectItem>
-                        <SelectItem value="active">Active</SelectItem>
-                        <SelectItem value="inactive">Inactive</SelectItem>
+                        <SelectItem value="lead">{t("status.lead")}</SelectItem>
+                        <SelectItem value="consultation">{t("status.consultation")}</SelectItem>
+                        <SelectItem value="active">{t("status.active")}</SelectItem>
+                        <SelectItem value="inactive">{t("status.inactive")}</SelectItem>
                       </SelectContent>
                     </Select>
                     {fieldState.invalid && (
@@ -293,9 +297,9 @@ const ClientFormDrawer = (props: ClientFormDrawerProps) => {
             type="submit"
             form="form-client"
             loading={isSubmitting}
-            loadingText={mode === "edit" ? "Saving…" : "Creating…"}
+            loadingText={mode === "edit" ? tCommon("saving") : t("form.creating")}
           >
-            {mode === "edit" ? "Save changes" : "Create client"}
+            {mode === "edit" ? t("form.save") : t("form.create")}
           </Button>
         </SheetFooter>
       </SheetContent>

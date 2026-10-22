@@ -5,21 +5,23 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 import { z } from "zod";
 
+import { getDashboardTranslations, type DashboardTranslator } from "@/lib/dashboard-locale";
 import { upsertPrimaryContact } from "@/lib/primary-contact";
 
 // ---------------------------------------------------------------------------
 // Client create / update (Server Actions, Payload local API)
 // ---------------------------------------------------------------------------
 
-const clientFormSchema = z.object({
-  companyName: z.string().trim().min(1, "Company name is required"),
-  contactName: z.string().trim().optional(),
-  email: z.string().trim().email("Enter a valid email").optional().or(z.literal("")),
-  phone: z.string().trim().optional(),
-  status: z.enum(["lead", "consultation", "active", "inactive"]),
-});
+const clientFormSchema = (t: DashboardTranslator) =>
+  z.object({
+    companyName: z.string().trim().min(1, t("errors.companyName")),
+    contactName: z.string().trim().optional(),
+    email: z.string().trim().email(t("errors.email")).optional().or(z.literal("")),
+    phone: z.string().trim().optional(),
+    status: z.enum(["lead", "consultation", "active", "inactive"]),
+  });
 
-type ClientFormInput = z.infer<typeof clientFormSchema>;
+type ClientFormInput = z.infer<ReturnType<typeof clientFormSchema>>;
 
 type ClientFormResult =
   | { success: true; id: string | number }
@@ -38,12 +40,13 @@ function toClientData(input: ClientFormInput) {
 async function createClient(
   input: ClientFormInput,
 ): Promise<ClientFormResult> {
-  const parsed = clientFormSchema.safeParse(input);
+  const t = await getDashboardTranslations("Clients");
+  const parsed = clientFormSchema(t).safeParse(input);
 
   if (!parsed.success) {
     return {
       success: false,
-      error: parsed.error.issues[0]?.message ?? "Invalid input",
+      error: parsed.error.issues[0]?.message ?? t("errors.invalid"),
     };
   }
 
@@ -67,7 +70,7 @@ async function createClient(
   } catch {
     return {
       success: false,
-      error: "Something went wrong while creating the client.",
+      error: t("errors.create"),
     };
   }
 }
@@ -76,12 +79,13 @@ async function updateClient(
   id: string | number,
   input: ClientFormInput,
 ): Promise<ClientFormResult> {
-  const parsed = clientFormSchema.safeParse(input);
+  const t = await getDashboardTranslations("Clients");
+  const parsed = clientFormSchema(t).safeParse(input);
 
   if (!parsed.success) {
     return {
       success: false,
-      error: parsed.error.issues[0]?.message ?? "Invalid input",
+      error: parsed.error.issues[0]?.message ?? t("errors.invalid"),
     };
   }
 
@@ -108,7 +112,7 @@ async function updateClient(
   } catch {
     return {
       success: false,
-      error: "Something went wrong while updating the client.",
+      error: t("errors.update"),
     };
   }
 }
@@ -120,6 +124,8 @@ type DeleteClientResult =
 async function deleteClient(
   id: string | number,
 ): Promise<DeleteClientResult> {
+  const t = await getDashboardTranslations("Clients");
+
   try {
     const payload = await getPayload({ config });
 
@@ -135,7 +141,7 @@ async function deleteClient(
   } catch {
     return {
       success: false,
-      error: "Something went wrong while deleting the client.",
+      error: t("errors.delete"),
     };
   }
 }
@@ -155,6 +161,8 @@ async function setChecklistProgressDone(
 ): Promise<UpdateChecklistProgressResult> {
   const status = done ? "done" : "pending";
 
+  const t = await getDashboardTranslations("Clients");
+
   try {
     const payload = await getPayload({ config });
 
@@ -173,7 +181,7 @@ async function setChecklistProgressDone(
   } catch {
     return {
       success: false,
-      error: "Something went wrong while updating the checklist item.",
+      error: t("errors.checklist"),
     };
   }
 }

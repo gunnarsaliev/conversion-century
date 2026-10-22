@@ -38,18 +38,18 @@ import {
 } from "@/components/ui/hover-card";
 import { isLeadStatus } from "@/lib/client-status";
 import { NotificationBell } from "@/components/dashboard/notification-bell";
+import {
+  getDashboardLocale,
+  getDashboardTranslations,
+  type DashboardTranslator,
+} from "@/lib/dashboard-locale";
+import { formatDashboardDate } from "@/lib/dashboard-locale-shared";
 import { clientContacts, primaryContactName } from "@/lib/primary-contact";
 
 const statusBadgeClassName: Record<string, string> = {
   active: "bg-green-100 text-green-800",
   lead: "bg-amber-100 text-amber-800",
   inactive: "bg-muted text-muted-foreground",
-};
-
-const checklistStatusLabel: Record<string, string> = {
-  pending: "Pending",
-  "in-progress": "In progress",
-  done: "Done",
 };
 
 const checklistStatusBadgeClassName: Record<string, string> = {
@@ -71,12 +71,20 @@ type ChecklistEntry = {
   description?: SerializedEditorState | null;
 };
 
-const ChecklistEntryHoverCard = ({ entry }: { entry: ChecklistEntry }) => {
+const ChecklistEntryHoverCard = ({
+  entry,
+  t,
+  locale,
+}: {
+  entry: ChecklistEntry;
+  t: DashboardTranslator;
+  locale: string;
+}) => {
   return (
     <HoverCard>
       <HoverCardTrigger
         className="inline-flex shrink-0 cursor-default items-center rounded-full text-muted-foreground outline-none hover:text-foreground"
-        aria-label={`${entry.name} details`}
+        aria-label={t("checklist.details", { name: entry.name })}
       >
         <Info className="size-3.5" />
       </HoverCardTrigger>
@@ -89,7 +97,7 @@ const ChecklistEntryHoverCard = ({ entry }: { entry: ChecklistEntry }) => {
               checklistStatusBadgeClassName.pending
             }
           >
-            {checklistStatusLabel[entry.status] ?? entry.status}
+            {t.has(`checklist.status.${entry.status}`) ? t(`checklist.status.${entry.status}`) : entry.status}
           </Badge>
         </div>
         {entry.description ? (
@@ -100,13 +108,13 @@ const ChecklistEntryHoverCard = ({ entry }: { entry: ChecklistEntry }) => {
         <dl className="mt-2 space-y-1.5 text-xs text-muted-foreground">
           {entry.type ? (
             <div className="flex justify-between gap-2">
-              <dt>Type</dt>
+              <dt>{t("checklist.type")}</dt>
               <dd className="text-right text-foreground">{entry.type}</dd>
             </div>
           ) : null}
           {entry.team ? (
             <div className="flex justify-between gap-2">
-              <dt>Team</dt>
+              <dt>{t("checklist.team")}</dt>
               <dd className="text-right text-foreground capitalize">
                 {entry.team}
               </dd>
@@ -114,7 +122,7 @@ const ChecklistEntryHoverCard = ({ entry }: { entry: ChecklistEntry }) => {
           ) : null}
           {entry.priority ? (
             <div className="flex justify-between gap-2">
-              <dt>Priority</dt>
+              <dt>{t("checklist.priority")}</dt>
               <dd className="text-right text-foreground capitalize">
                 {entry.priority}
               </dd>
@@ -122,7 +130,7 @@ const ChecklistEntryHoverCard = ({ entry }: { entry: ChecklistEntry }) => {
           ) : null}
           {entry.label ? (
             <div className="flex justify-between gap-2">
-              <dt>Label</dt>
+              <dt>{t("checklist.label")}</dt>
               <dd className="text-right text-foreground capitalize">
                 {entry.label}
               </dd>
@@ -130,9 +138,9 @@ const ChecklistEntryHoverCard = ({ entry }: { entry: ChecklistEntry }) => {
           ) : null}
           {entry.completedAt ? (
             <div className="flex justify-between gap-2">
-              <dt>Completed</dt>
+              <dt>{t("checklist.completed")}</dt>
               <dd className="text-right text-foreground">
-                {new Date(entry.completedAt).toLocaleDateString()}
+                {formatDashboardDate(entry.completedAt, locale, { dateStyle: "medium" })}
               </dd>
             </div>
           ) : null}
@@ -153,6 +161,9 @@ type ClientPageProps = {
 
 export default async function ClientPage({ params }: ClientPageProps) {
   const { id } = await params;
+  const t = await getDashboardTranslations("Clients");
+  const tCommon = await getDashboardTranslations("Common");
+  const locale = await getDashboardLocale();
 
   const payload = await getPayload({ config });
 
@@ -246,10 +257,10 @@ export default async function ClientPage({ params }: ClientPageProps) {
       <div className="flex flex-wrap items-center justify-between gap-2 pb-4 sm:pb-5">
         <div className="flex items-center gap-2 text-xs text-muted-foreground sm:text-sm">
           <LayoutDashboard className="size-3.5" aria-hidden="true" />
-          <span>Overview</span>
+          <span>{tCommon("overview")}</span>
           <ChevronRight className="size-3.5" aria-hidden="true" />
           <Link href="/dashboard/clients" className="hover:text-foreground">
-            Clients
+            {t("title")}
           </Link>
           <ChevronRight className="size-3.5" aria-hidden="true" />
           <span className="text-foreground">{client.companyName}</span>
@@ -259,7 +270,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
             variant="outline"
             size="icon"
             className="size-8"
-            aria-label="Search"
+            aria-label={tCommon("search")}
           >
             <Search className="size-4" aria-hidden="true" />
           </Button>
@@ -300,12 +311,12 @@ export default async function ClientPage({ params }: ClientPageProps) {
                       statusBadgeClassName.inactive
                     }
                   >
-                    <span className="capitalize">{client.status}</span>
+                    {t(`status.${client.status}`)}
                   </Badge>
                   {primaryContactName(client) && (
                     <span>
                       {" "}
-                      contact:{" "}
+                      {t("detail.contactLabel")}{" "}
                       <span className="font-medium">
                         {primaryContactName(client)}
                       </span>
@@ -379,7 +390,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
         <div className="flex min-h-0 flex-col gap-4 sm:gap-6">
           <Card>
             <CardHeader>
-              <CardTitle>About</CardTitle>
+              <CardTitle>{t("detail.about")}</CardTitle>
             </CardHeader>
             <CardContent>
               {client.description ? (
@@ -388,7 +399,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
                 </div>
               ) : (
                 <p className="text-sm text-muted-foreground">
-                  No description yet.
+                  {t("detail.noDescription")}
                 </p>
               )}
             </CardContent>
@@ -397,7 +408,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
           {services.length > 0 && (
             <Card>
               <CardHeader>
-                <CardTitle>Services</CardTitle>
+                <CardTitle>{t("fields.services")}</CardTitle>
               </CardHeader>
               <CardContent className="flex flex-wrap gap-2">
                 {services.map((service) => (
@@ -415,12 +426,12 @@ export default async function ClientPage({ params }: ClientPageProps) {
           {client.region && client.region.length > 0 && (
             <Card>
               <CardHeader>
-                <CardTitle>Region</CardTitle>
+                <CardTitle>{t("fields.region")}</CardTitle>
               </CardHeader>
               <CardContent className="flex flex-wrap gap-2">
                 {client.region.map((region) => (
                   <Badge key={region} variant="outline">
-                    {regionLabel(region)}
+                    {regionLabel(region, locale)}
                   </Badge>
                 ))}
               </CardContent>
@@ -431,14 +442,13 @@ export default async function ClientPage({ params }: ClientPageProps) {
             <Card>
               <CardHeader>
                 <CardTitle>
-                  Checklist ({doneItems.length}/{checklistEntries.length}{" "}
-                  done)
+                  {t("checklist.heading", { done: doneItems.length, total: checklistEntries.length })}
                 </CardTitle>
               </CardHeader>
               <CardContent className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <p className="mb-2 text-sm font-medium text-muted-foreground">
-                    Done
+                    {t("checklist.done")}
                   </p>
                   {doneItems.length > 0 ? (
                     <ul className="flex flex-col gap-1.5 text-sm">
@@ -457,17 +467,17 @@ export default async function ClientPage({ params }: ClientPageProps) {
                           <span className="min-w-0 truncate">
                             {entry.name}
                           </span>
-                          <ChecklistEntryHoverCard entry={entry} />
+                          <ChecklistEntryHoverCard entry={entry} t={t} locale={locale} />
                         </li>
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-sm text-muted-foreground">None yet.</p>
+                    <p className="text-sm text-muted-foreground">{t("checklist.noneDone")}</p>
                   )}
                 </div>
                 <div>
                   <p className="mb-2 text-sm font-medium text-muted-foreground">
-                    Not Done
+                    {t("checklist.notDone")}
                   </p>
                   {notDoneItems.length > 0 ? (
                     <ul className="flex flex-col gap-1.5 text-sm">
@@ -491,16 +501,16 @@ export default async function ClientPage({ params }: ClientPageProps) {
                               variant="outline"
                               className="shrink-0 text-amber-600"
                             >
-                              In progress
+                              {t("checklist.status.in-progress")}
                             </Badge>
                           )}
-                          <ChecklistEntryHoverCard entry={entry} />
+                          <ChecklistEntryHoverCard entry={entry} t={t} locale={locale} />
                         </li>
                       ))}
                     </ul>
                   ) : (
                     <p className="text-sm text-muted-foreground">
-                      Everything&apos;s done.
+                      {t("checklist.allDone")}
                     </p>
                   )}
                 </div>
@@ -511,7 +521,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
           {client.notes ? (
             <Card>
               <CardHeader>
-                <CardTitle>Notes</CardTitle>
+                <CardTitle>{t("detail.notes")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="whitespace-pre-wrap text-sm text-muted-foreground">
@@ -525,13 +535,13 @@ export default async function ClientPage({ params }: ClientPageProps) {
         <div className="flex min-h-0 flex-col gap-4 sm:gap-6">
           <Card>
             <CardHeader>
-              <CardTitle>Contact</CardTitle>
+              <CardTitle>{t("detail.contact")}</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col gap-3 text-sm">
               {contacts.length > 0 ? (
                 <div>
                   <p className="text-muted-foreground">
-                    {contacts.length > 1 ? "Contacts" : "Contact"}
+                    {t("detail.contacts", { count: contacts.length })}
                   </p>
                   <ul className="flex flex-col gap-1">
                     {contacts.map((contact) => (
@@ -541,7 +551,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
                           <span className="text-muted-foreground">{contact.role}</span>
                         ) : null}
                         {contact.isPrimary && contacts.length > 1 ? (
-                          <Badge variant="secondary">Primary</Badge>
+                          <Badge variant="secondary">{t("detail.primary")}</Badge>
                         ) : null}
                         {contact.email ? (
                           <a href={`mailto:${contact.email}`} className="text-muted-foreground hover:underline">
@@ -571,7 +581,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
               ) : null}
               {accountManagers.length > 0 ? (
                 <div>
-                  <p className="text-muted-foreground">Account Managers</p>
+                  <p className="text-muted-foreground">{t("people.accountManagers")}</p>
                   <ul className="mt-1 flex flex-col gap-2">
                     {accountManagers.map((manager) => (
                       <li key={manager.id}>
@@ -597,7 +607,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
               ) : null}
               {publishers.length > 0 ? (
                 <div>
-                  <p className="text-muted-foreground">Publishers</p>
+                  <p className="text-muted-foreground">{t("people.publishers")}</p>
                   <ul className="mt-1 flex flex-col gap-2">
                     {publishers.map((publisher) => (
                       <li key={publisher.id}>
@@ -627,7 +637,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
           {client.websiteLinks && client.websiteLinks.length > 0 ? (
             <Card>
               <CardHeader>
-                <CardTitle>Website Links</CardTitle>
+                <CardTitle>{t("links.website")}</CardTitle>
               </CardHeader>
               <CardContent className="flex flex-col gap-2 text-sm">
                 {client.websiteLinks.map((link, index) => (
@@ -649,7 +659,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
           {client.reportUrls && client.reportUrls.length > 0 ? (
             <Card>
               <CardHeader>
-                <CardTitle>Reports</CardTitle>
+                <CardTitle>{t("links.reports")}</CardTitle>
               </CardHeader>
               <CardContent className="flex flex-col gap-2 text-sm">
                 {client.reportUrls.map((link, index) => (
@@ -676,16 +686,14 @@ export default async function ClientPage({ params }: ClientPageProps) {
             <Card key={report.key}>
               <CardHeader>
                 <CardTitle>
-                  Report
+                  {t("links.report")}
                   {embeddedReports.length > 1 ? ` ${index + 1}` : ""}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <iframe
                   src={report.embedUrl}
-                  title={`${client.companyName} report${
-                    embeddedReports.length > 1 ? ` ${index + 1}` : ""
-                  }`}
+                  title={t("links.reportTitle", { name: client.companyName, number: embeddedReports.length > 1 ? index + 1 : 0 })}
                   className="h-[1500px] w-full rounded-md border-0"
                   loading="lazy"
                   allowFullScreen

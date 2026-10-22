@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { ClientLogo } from "@/components/dashboard/client-logo";
 import {
@@ -32,6 +33,7 @@ type ClientCardProps = {
 };
 
 const ClientCard = ({ client }: ClientCardProps) => {
+  const t = useTranslations("Clients");
   return (
     <ClientQuickView
       client={client}
@@ -55,7 +57,7 @@ const ClientCard = ({ client }: ClientCardProps) => {
                   statusBadgeClassName.inactive
                 }
               >
-                <span className="capitalize">{client.status}</span>
+                {t(`status.${client.status}`)}
               </Badge>
               <div className="opacity-0 group-hover:opacity-100">
                 <ArrowRight className="size-5 text-muted-foreground" />
@@ -81,9 +83,10 @@ type ClientListProps = {
 };
 
 const ClientList = ({ clients }: ClientListProps) => {
+  const t = useTranslations("Clients");
   if (clients.length === 0) {
     return (
-      <p className="mt-8 text-sm text-muted-foreground">No clients yet.</p>
+      <p className="mt-8 text-sm text-muted-foreground">{t("empty")}</p>
     );
   }
 

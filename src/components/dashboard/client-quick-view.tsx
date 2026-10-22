@@ -20,6 +20,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import * as React from "react";
 
 import { deleteClient } from "@/app/[locale]/(frontend)/dashboard/clients/actions";
@@ -101,6 +102,8 @@ type ClientQuickViewProps = {
 };
 
 const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
+  const t = useTranslations("Clients");
+  const locale = useLocale();
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
   const [isDeleting, setIsDeleting] = React.useState(false);
@@ -112,7 +115,7 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
   const handleDelete = async () => {
     if (
       !window.confirm(
-        `Delete ${client.companyName}? This action cannot be undone.`,
+        t("confirmDelete", { name: client.companyName }),
       )
     ) {
       return;
@@ -140,7 +143,7 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
         className="gap-0"
       >
         <SheetHeader className="flex-row items-center justify-between border-b">
-          <SheetTitle className="text-lg">Client Quick View</SheetTitle>
+          <SheetTitle className="text-lg">{t("quickView.title")}</SheetTitle>
           <SheetClose render={<Button size="icon" variant="secondary" />}>
             <X />
           </SheetClose>
@@ -177,7 +180,7 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
                       variant="outline"
                       size="icon"
                       className="size-8 shrink-0"
-                      aria-label="Client actions"
+                      aria-label={t("quickView.actions")}
                     />
                   }
                 >
@@ -186,7 +189,7 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem onClick={() => setEditOpen(true)}>
                     <Pencil className="size-3.5" aria-hidden="true" />
-                    Edit
+                    {t("quickView.edit")}
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     variant="destructive"
@@ -194,7 +197,7 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
                     onClick={handleDelete}
                   >
                     <Trash2 className="size-3.5" aria-hidden="true" />
-                    {isDeleting ? "Deleting…" : "Delete"}
+                    {isDeleting ? t("quickView.deleting") : t("quickView.delete")}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -226,7 +229,7 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
                     statusBadgeClassName.inactive
                   }
                 >
-                  <span className="capitalize">{client.status}</span>
+                  {t(`status.${client.status}`)}
                 </Badge>
               </div>
             </div>
@@ -270,7 +273,7 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
                 {client.accountManagers && client.accountManagers.length > 0 ? (
                   <div>
                     <h3 className="mb-2 text-sm font-medium">
-                      Account Managers
+                      {t("people.accountManagers")}
                     </h3>
                     <PersonAvatarGroup people={client.accountManagers} />
                   </div>
@@ -278,14 +281,14 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
 
                 {client.publishers && client.publishers.length > 0 ? (
                   <div>
-                    <h3 className="mb-2 text-sm font-medium">Publishers</h3>
+                    <h3 className="mb-2 text-sm font-medium">{t("people.publishers")}</h3>
                     <PersonAvatarGroup people={client.publishers} />
                   </div>
                 ) : null}
 
                 {client.copywriters && client.copywriters.length > 0 ? (
                   <div>
-                    <h3 className="mb-2 text-sm font-medium">Copywriters</h3>
+                    <h3 className="mb-2 text-sm font-medium">{t("people.copywriters")}</h3>
                     <PersonAvatarGroup people={client.copywriters} />
                   </div>
                 ) : null}
@@ -295,7 +298,7 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
             {/* Services (skills-equivalent) */}
             {client.services && client.services.length > 0 && (
               <div className="mt-6 border-t pt-6">
-                <h3 className="mb-3 text-sm font-medium">Services</h3>
+                <h3 className="mb-3 text-sm font-medium">{t("fields.services")}</h3>
                 <div className="flex flex-wrap gap-2">
                   {client.services.map((service) => (
                     <Badge key={service} variant="secondary">
@@ -309,11 +312,11 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
             {/* Region */}
             {client.regions && client.regions.length > 0 && (
               <div className="mt-6 border-t pt-6">
-                <h3 className="mb-3 text-sm font-medium">Region</h3>
+                <h3 className="mb-3 text-sm font-medium">{t("fields.region")}</h3>
                 <div className="flex flex-wrap gap-2">
                   {client.regions.map((region) => (
                     <Badge key={region} variant="outline">
-                      {regionLabel(region)}
+                      {regionLabel(region, locale)}
                     </Badge>
                   ))}
                 </div>
@@ -331,7 +334,7 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
                 {client.websiteLinks && client.websiteLinks.length > 0 ? (
                   <div>
                     <h3 className="mb-2 text-sm font-medium">
-                      Website Links
+                      {t("links.website")}
                     </h3>
                     <div className="flex flex-wrap gap-2">
                       {client.websiteLinks.map((link, index) => (
@@ -341,7 +344,7 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
                           target="_blank"
                           rel="noreferrer"
                           title={link.url ?? undefined}
-                          aria-label={link.url ?? "Website link"}
+                          aria-label={link.url ?? t("links.websiteLink")}
                           className="flex size-8 items-center justify-center rounded-md border text-muted-foreground hover:bg-muted hover:text-foreground"
                         >
                           <LinkIcon className="size-3.5" aria-hidden="true" />
@@ -354,7 +357,7 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
                 {client.websiteLoginLinks &&
                 client.websiteLoginLinks.length > 0 ? (
                   <div>
-                    <h3 className="mb-2 text-sm font-medium">Login Links</h3>
+                    <h3 className="mb-2 text-sm font-medium">{t("links.login")}</h3>
                     <div className="flex flex-wrap gap-2">
                       {client.websiteLoginLinks.map((link, index) => (
                         <a
@@ -363,7 +366,7 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
                           target="_blank"
                           rel="noreferrer"
                           title={link.url ?? undefined}
-                          aria-label={link.url ?? "Login link"}
+                          aria-label={link.url ?? t("links.loginLink")}
                           className="flex size-8 items-center justify-center rounded-md border text-muted-foreground hover:bg-muted hover:text-foreground"
                         >
                           <KeyRound className="size-3.5" aria-hidden="true" />
@@ -375,7 +378,7 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
 
                 {client.reportUrls && client.reportUrls.length > 0 ? (
                   <div>
-                    <h3 className="mb-2 text-sm font-medium">Reports</h3>
+                    <h3 className="mb-2 text-sm font-medium">{t("links.reports")}</h3>
                     <div className="flex flex-wrap gap-2">
                       {client.reportUrls.map((link, index) => (
                         <a
@@ -384,7 +387,7 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
                           target="_blank"
                           rel="noreferrer"
                           title={link.url ?? undefined}
-                          aria-label={link.url ?? "Report"}
+                          aria-label={link.url ?? t("links.report")}
                           className="flex size-8 items-center justify-center rounded-md border text-muted-foreground hover:bg-muted hover:text-foreground"
                         >
                           <FileText className="size-3.5" aria-hidden="true" />
@@ -396,7 +399,7 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
 
                 {client.linkBuildingDocsUrl || client.blogDocsUrl ? (
                   <div>
-                    <h3 className="mb-2 text-sm font-medium">Docs</h3>
+                    <h3 className="mb-2 text-sm font-medium">{t("links.docs")}</h3>
                     <div className="flex flex-wrap gap-2">
                       {client.linkBuildingDocsUrl ? (
                         <a
@@ -404,7 +407,7 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
                           target="_blank"
                           rel="noreferrer"
                           title={client.linkBuildingDocsUrl}
-                          aria-label="Link Building Docs"
+                          aria-label={t("links.linkBuildingDocs")}
                           className="flex size-8 items-center justify-center rounded-md border text-muted-foreground hover:bg-muted hover:text-foreground"
                         >
                           <Link2 className="size-3.5" aria-hidden="true" />
@@ -416,7 +419,7 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
                           target="_blank"
                           rel="noreferrer"
                           title={client.blogDocsUrl}
-                          aria-label="Blog Docs"
+                          aria-label={t("links.blogDocs")}
                           className="flex size-8 items-center justify-center rounded-md border text-muted-foreground hover:bg-muted hover:text-foreground"
                         >
                           <Newspaper className="size-3.5" aria-hidden="true" />

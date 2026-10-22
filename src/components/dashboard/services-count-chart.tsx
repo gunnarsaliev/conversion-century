@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import {
   Label,
   PolarGrid,
@@ -19,18 +20,17 @@ import { type ChartConfig, ChartContainer } from "@/components/ui/chart";
 // ChecklistProgressChart since it's a plain count rather than a
 // done/remaining split.
 
-const chartConfig = {
-  services: {
-    label: "Services",
-    color: "#3b82f6",
-  },
-} satisfies ChartConfig;
+const SERVICES_COLOR = "#3b82f6";
 
 type ServicesCountChartProps = {
   count: number;
 };
 
 const ServicesCountChart = ({ count }: ServicesCountChartProps) => {
+  const t = useTranslations("Clients.fields");
+  const chartConfig = {
+    services: { label: t("services"), color: SERVICES_COLOR },
+  } satisfies ChartConfig;
   const chartData = [{ item: "services", services: count }];
 
   return (
@@ -81,7 +81,7 @@ const ServicesCountChart = ({ count }: ServicesCountChartProps) => {
                       x={viewBox.cx}
                       y={(viewBox.cy || 0) + 20}
                     >
-                      Services
+                      {t("services")}
                     </tspan>
                   </text>
                 );

@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import {
   Label,
   PolarGrid,
@@ -18,16 +19,10 @@ import { type ChartConfig, ChartContainer } from "@/components/ui/chart";
 // share of done checklist items against a background track representing
 // the remainder.
 
-const chartConfig = {
-  done: {
-    label: "Done",
-    color: "#10b981",
-  },
-  remaining: {
-    label: "Remaining",
-    color: "#eab308",
-  },
-} satisfies ChartConfig;
+const chartColors = {
+  done: "#10b981",
+  remaining: "#eab308",
+};
 
 type ChecklistProgressChartProps = {
   done: number;
@@ -38,6 +33,11 @@ const ChecklistProgressChart = ({
   done,
   remaining,
 }: ChecklistProgressChartProps) => {
+  const t = useTranslations("Clients.checklist");
+  const chartConfig = {
+    done: { label: t("done"), color: chartColors.done },
+    remaining: { label: t("remaining"), color: chartColors.remaining },
+  } satisfies ChartConfig;
   const total = done + remaining;
   const chartData = [{ item: "checklist", done }];
 
@@ -89,7 +89,7 @@ const ChecklistProgressChart = ({
                       x={viewBox.cx}
                       y={(viewBox.cy || 0) + 20}
                     >
-                      Done
+                      {t("done")}
                     </tspan>
                   </text>
                 );

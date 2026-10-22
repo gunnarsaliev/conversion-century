@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/card";
 import { isLeadStatus } from "@/lib/client-status";
 import { NotificationBell } from "@/components/dashboard/notification-bell";
+import { getDashboardTranslations } from "@/lib/dashboard-locale";
 
 type ServicePageProps = {
   params: Promise<{ id: string }>;
@@ -28,6 +29,8 @@ type ServicePageProps = {
 
 export default async function ServicePage({ params }: ServicePageProps) {
   const { id } = await params;
+  const t = await getDashboardTranslations("Services");
+  const tCommon = await getDashboardTranslations("Common");
 
   const payload = await getPayload({ config });
 
@@ -54,7 +57,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
     service.image && typeof service.image === "object" ? service.image : null;
 
   const stats: { label: string; value: number }[] = [
-    { label: "Clients", value: clientsUsingService.docs.length },
+    { label: t("clients"), value: clientsUsingService.docs.length },
   ];
 
   return (
@@ -62,7 +65,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
       <div className="flex flex-wrap items-center justify-between gap-2 pb-4 sm:pb-5">
         <div className="flex items-center gap-2 text-xs text-muted-foreground sm:text-sm">
           <LayoutDashboard className="size-3.5" aria-hidden="true" />
-          <span>Overview</span>
+          <span>{tCommon("overview")}</span>
           <ChevronRight className="size-3.5" aria-hidden="true" />
           <span className="text-foreground">{service.name}</span>
         </div>
@@ -71,7 +74,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
             variant="outline"
             size="icon"
             className="size-8"
-            aria-label="Search"
+            aria-label={tCommon("search")}
           >
             <Search className="size-4" aria-hidden="true" />
           </Button>
@@ -144,7 +147,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
         <div className="flex min-h-0 flex-col gap-4 sm:gap-6">
           <Card>
             <CardHeader>
-              <CardTitle>About</CardTitle>
+              <CardTitle>{t("about")}</CardTitle>
             </CardHeader>
             <CardContent>
               {service.whatIs?.paragraphs ? (
@@ -153,7 +156,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
                 </p>
               ) : (
                 <p className="text-sm text-muted-foreground">
-                  No description yet.
+                  {t("noDescription")}
                 </p>
               )}
             </CardContent>
@@ -162,7 +165,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
           {service.hero?.highlights && service.hero.highlights.length > 0 && (
             <Card>
               <CardHeader>
-                <CardTitle>Highlights</CardTitle>
+                <CardTitle>{t("highlights")}</CardTitle>
               </CardHeader>
               <CardContent className="flex flex-wrap gap-2">
                 {service.hero.highlights.map((entry, index) => (
@@ -181,7 +184,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
           {service.includes?.items && service.includes.items.length > 0 && (
             <Card>
               <CardHeader>
-                <CardTitle>What&apos;s Included</CardTitle>
+                <CardTitle>{t("included")}</CardTitle>
               </CardHeader>
               <CardContent className="flex flex-col gap-4">
                 {service.includes.items.map((entry, index) => (
@@ -203,7 +206,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
           {clientsUsingService.docs.length > 0 ? (
             <Card>
               <CardHeader>
-                <CardTitle>Clients</CardTitle>
+                <CardTitle>{t("clients")}</CardTitle>
               </CardHeader>
               <CardContent className="flex flex-col text-sm">
                 {clientsUsingService.docs.map((client, index) => {

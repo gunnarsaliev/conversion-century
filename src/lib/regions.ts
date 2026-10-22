@@ -50,6 +50,21 @@ const regionLabels: Record<string, string> = {
   OTHER: '🏳️ Other',
 }
 
-const regionLabel = (code: string) => regionLabels[code] ?? code
+// Names in other languages come from Intl.DisplayNames, keeping the flag.
+const nonCountryNames: Record<string, Record<string, string>> = {
+  bg: { EU: 'Европа', OTHER: 'Друго' },
+}
+
+const regionLabel = (code: string, locale = 'en') => {
+  const label = regionLabels[code]
+  if (!label || locale === 'en') return label ?? code
+
+  const flag = label.split(' ')[0]
+  const name =
+    nonCountryNames[locale]?.[code] ??
+    new Intl.DisplayNames([locale], { type: 'region' }).of(code) ??
+    code
+  return `${flag} ${name}`
+}
 
 export { regionLabels, regionLabel }
