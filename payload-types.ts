@@ -446,7 +446,7 @@ export interface Contact {
   createdAt: string;
 }
 /**
- * Submitted from /website/testimonials/new. Approving one links it to the client and contact (creating them if needed). Approved testimonials are shown on the website.
+ * Submitted from /testimonials/new. Approving one links it to the client and contact (creating them if needed). Approved testimonials are shown on the website.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "testimonials".
