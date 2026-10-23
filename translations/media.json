@@ -1,0 +1,2360 @@
+{
+  "collection": "media",
+  "sourceLocale": "en",
+  "targetLocale": "bg",
+  "exportedAt": "2026-10-23T06:51:37.666Z",
+  "docs": [
+    {
+      "id": 1,
+      "label": "gunnar-saliev.jpg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Gunnar Saliev profile photo",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Gunnar Saliev's profile photo",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "label": "maria-sivkova.jpeg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Maria Sivkova",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Maria Sivkova",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "label": "velislava-mihaylova.webp",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "velislava mihaylova",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Velislava Mihaylova",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "label": "ivet-asenova.webp",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Ivet Asenova",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Ivet Asenova",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "label": "alex-dimitrov.webp",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Alex Dimitrov",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Alex Dimitrov",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "label": "mirela-bakalska.webp",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Maria Bakalska",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Maria Bakalska",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "label": "abrites.svg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Abrites",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Abrites",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "label": "address.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Address",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Address",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "label": "adellaclinic.svg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Adella clinic",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Adella clinic",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "label": "artoaza.svg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Artoaza",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Artoaza",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "label": "bld.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "BLD",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "BLD",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "label": "carpetmax.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Carpetmax",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Carpetmax",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "label": "debtstoppers.webp",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Debstoppers",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Debstoppers",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "label": "dentalcare.webp",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Dental Care",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Dental Care",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "label": "dentiverse.avif",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Dentiverse",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Dentiverse",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "label": "distribusha.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Distribusha",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Distribusha",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "label": "etcoffices.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "ETC",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "ETC",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "label": "evniculus.avif",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "evniculus",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "evniculus",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "label": "forton.svg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Forton& FHomes",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Forton& FHomes",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "label": "ggmgastro.webp",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "GGM Gastro",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "GGM Gastro",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "label": "guns.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Guns",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Guns",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "label": "imoteka.svg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Imoteka",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Imoteka",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "label": "maria-ivanova.jpeg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Maria Ivanova",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Maria Ivanova",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "label": "ohgood.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "OhGood",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "OhGood",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "label": "poligroup.svg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Poligroup",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Poligroup",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "label": "poligroup-1.svg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Poligroup",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Poligroup",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "label": "satyanandayoga.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Satyanandayoga",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Satyanandayoga",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "label": "speedy.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Speedy",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Speedy",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "label": "teilor.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Teilor",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Teilor",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "label": "ubb.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "UBB",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "UBB",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "label": "ues.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "UES",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "UES",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "label": "bozovstil.jpg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Бозов стил",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Бозов стил",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "label": "elitinjenering.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Елит инжинеринг",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Елит инжинеринг",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "label": "drkirilov.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "DrKirilov",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "DrKirilov",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "label": "hillman.avif",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Hillman",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Hillman",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "label": "homeco2ntrol.svg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Homecontrol",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Homecontrol",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "label": "ihearu.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "IhearU",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "IhearU",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "label": "irispay.svg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Irispay",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Irispay",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "label": "medicaldent.webp",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Medical Dent",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Medical Dent",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "label": "myflex.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "My flex",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "My flex",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "label": "power-loop.svg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Power-loop",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Power-loop",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "label": "newestates.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "NewEstates ",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "NewEstates ",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "label": "muze-music.jpeg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "MUZE Music",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "MUZE Music",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "label": "benefit-nutrition.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Benefit Nutrition",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Benefit Nutrition",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "label": "avva.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Avva",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Avva",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "label": "logo.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Carrot Solutions",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Carrot Solutions",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 53,
+      "label": "maria-avatar-image.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Maria Sivkova Avatar",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Maria Sivkova Avatar",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 54,
+      "label": "case-studioes.jpg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Case Studies Placeholder",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Case Studies Placeholder",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 55,
+      "label": "abv-plumbing.jpeg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "abv-plumbing",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "abv-plumbing",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 56,
+      "label": "abv-plumbing-1.jpeg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "ABV PLUMBING",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "ABV PLUMBING",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 57,
+      "label": "aol.webp",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "AOL",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "AOL",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 58,
+      "label": "allianz-travel.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Allianz Travel",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Allianz Travel",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 59,
+      "label": "670e013609cdbe759092f0c6_Screenshot 2024-10-15 at 8.43.01.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Aloaz",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Aloaz",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 60,
+      "label": "670dfbbfadc50bc79ab9c2af_Screenshot 2024-10-15 at 8.19.58.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "BADINKA",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "BADINKA",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 61,
+      "label": "BATTERYLAND.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "BATTERYLAND",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "BATTERYLAND",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 62,
+      "label": "BGNOVINITE.webp",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "BGNOVINITE",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "BGNOVINITE",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 63,
+      "label": "Casa de Picturi.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Casa de Picturi",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Casa de Picturi",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 64,
+      "label": "Central Park.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Central Park",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Central Park",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "label": "Crimson.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Crimson",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Crimson",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 66,
+      "label": "DREAMIX.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "DREAMIX",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "DREAMIX",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 67,
+      "label": "DU  DA.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "DU / DA",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "DU / DA",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "label": "E-MED.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "E-MED",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "E-MED",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 69,
+      "label": "ELMARK.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "ELMARK",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "ELMARK",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "label": "EUROLINES.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "EUROLINES",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "EUROLINES",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 71,
+      "label": "FORTON Homes.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "FORTON Homes",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "FORTON Homes",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 72,
+      "label": "FULKAM.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "FULKAM",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "FULKAM",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 73,
+      "label": "BADINKA.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "BADINKA",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "BADINKA",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 74,
+      "label": "FUTURESOLVE.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "FUTURESOLVE",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "FUTURESOLVE`",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 75,
+      "label": "GREEN LIFE.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "GREEN LIFE",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "GREEN LIFE",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 76,
+      "label": "Gink.jpeg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Gink",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Gink",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 77,
+      "label": "GÖCHEN BLEICHERE.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "GÖCHEN BLEICHERE",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "GÖCHEN BLEICHERE",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 78,
+      "label": "Hostify.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Hostify",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Hostify",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 79,
+      "label": "ICOG.jpeg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "ICOG",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "ICOG",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 80,
+      "label": "IDE-A BANIA.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "IDE-A BANIA",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "IDE-A BANIA",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 81,
+      "label": "Inoreader.jpeg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Inoreader",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Inoreader",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 82,
+      "label": "Inverso.svg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Inverso",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Inverso",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 83,
+      "label": "KANAL HIT.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "KANAL HIT",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "KANAL HIT",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 84,
+      "label": "KANAL HIT.jpg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "KANAL HIT",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "KANAL HIT",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 85,
+      "label": "KBC.jpeg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "KBC",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "KBC",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 86,
+      "label": "LA SENJA.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "LA SENJA",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "LA SENJA",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 87,
+      "label": "lg-logo.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "LG",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "LG",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 88,
+      "label": "Screenshot 2026-09-24 at 11.38.49.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "MaxAir",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "MaxAir",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 89,
+      "label": "NESSEBAR.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "NESSEBAR",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "NESSEBAR",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 90,
+      "label": "NET BROKERS.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "NET BROKERS",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "NET BROKERS",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 91,
+      "label": "NET BROKERS-1.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Netins",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Netins",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 92,
+      "label": "OFFSET GROUP.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "OFFSET GROUP",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "OFFSET GROUP",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 93,
+      "label": "OMNICAR BG.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "OMNICAR BG",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "OMNICAR BG",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 94,
+      "label": "ozone-logo-2.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "OZONE.bg",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "OZONE.bg",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 95,
+      "label": "ozone-logo-3.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "OZONE.bg",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "OZONE.bg",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 96,
+      "label": "PROAKTERO.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "PROAKTERO",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "PROAKTERO",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 97,
+      "label": "PackLion.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "PackLion",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "PackLion",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 98,
+      "label": "ProVilla.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "ProVilla",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "ProVilla",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 99,
+      "label": "pulse gym.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Pulse Gym",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Pulse Gym",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 100,
+      "label": "RightPack-Logo-header-02.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "RIGHT PACK",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "RIGHT PACK",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 101,
+      "label": "SKIN DESIGN.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "SKIN DESIGN",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "SKIN DESIGN",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 102,
+      "label": "ROCK SHOCK.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "ROCK SHOCK",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "ROCK SHOCK",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 103,
+      "label": "319_54_300_spotins-logo.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "SPOTINS.bg",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "SPOTINS.bg",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 104,
+      "label": "Scorebuddy.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Scorebuddy",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Scorebuddy",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 105,
+      "label": "TEILOR.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "TEILOR",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "TEILOR",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 106,
+      "label": "VODONOSKA.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "VODONOSKA",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "VODONOSKA",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 107,
+      "label": "WALLTOPIA.webp",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "WALLTOPIA",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "WALLTOPIA",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 108,
+      "label": "TSÍLKOV cosmetics.svg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "TSÍLKOV cosmetics",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "TSÍLKOV cosmetics",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 109,
+      "label": "Touch Menu.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Touch Menu",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Touch Menu",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 110,
+      "label": "VODIKO.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "VODIKO",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "VODIKO",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 111,
+      "label": "YogaBG.svg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "YogaBG",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "YogaBG",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 112,
+      "label": "adagio teas.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "adagio teas",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "adagio teas",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 113,
+      "label": "antuit.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "antuit",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "antuit",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 114,
+      "label": "befit.svg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "be fit",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "be fit",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 115,
+      "label": "breaktime.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "breaktime",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "breaktime",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 116,
+      "label": "enixbana.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "enixbana",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "enixbana",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 117,
+      "label": "finmag.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "finmag",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "finmag",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 118,
+      "label": "imot.co.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "imot.co",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "imot.co",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 119,
+      "label": "passion.bg.webp",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "passion.bg",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "passion.bg",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 120,
+      "label": "pluxee.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "pluxee",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "pluxee",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 121,
+      "label": "petmall.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Spetmall",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Spetmall",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 122,
+      "label": "savion.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "savion",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "savion",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 123,
+      "label": "techgenies.svg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "techgenies",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "techgenies",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 124,
+      "label": "vapepro.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "vapepro",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "vapepro",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 125,
+      "label": "vita rama.gif",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "vita rama",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "vita rama",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 126,
+      "label": "АМИГО.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "АМИГО",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "АМИГО",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 127,
+      "label": "ЕВРОКАНАЛ.jpeg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "ЕВРОКАНАЛ",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "ЕВРОКАНАЛ",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 128,
+      "label": "bozov-stil.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Bozov stil",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Bozov stil",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 129,
+      "label": "Speedy.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Speedy",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Speedy",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 130,
+      "label": "lg-logo-1.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "LG",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "LG",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 131,
+      "label": "ai-search-optimization.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "ai-search-optimization",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "ai-search-optimization",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 132,
+      "label": "ongoing-seo-management.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "ongoing-seo-management",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "ongoing-seo-management",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 133,
+      "label": "international-seo.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "International SEO",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "International SEO",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 134,
+      "label": "local-seo.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Local SEO",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Local SEO",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 135,
+      "label": "technical-seo.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Technical SEO",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Technical SEO",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 136,
+      "label": "content-optimization.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Content Optimization",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Content Optimization",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 137,
+      "label": "link-building.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Link Building",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Link Building",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 138,
+      "label": "organic-search-training.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Organic Search Training",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Organic Search Training",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 161,
+      "label": "6a54f79ae97e7f884129beb4_ai-overviews-answer-engine-optimization.jpeg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "ai-overviews-answer-engine-optimization.",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "ai-overviews-answer-engine-optimization.",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 162,
+      "label": "6a54f5db3cd7af4cc01df9f2_google-business-profile-optimization-local-seo.jpeg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "google-business-profile-optimization-local-seo",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "google-business-profile-optimization-local-seo",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 163,
+      "label": "6a54f69811e2a4607490e08c_affordable-seo-services-small-business.jpeg",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Affordable SEO Services For Small Business: Why Choose Conversion Century",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Affordable SEO Services For Small Business: Why Choose Conversion Century",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 164,
+      "label": "69d8fe0959b1d2859b17e03f_Key elements of SEO explained.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Key Elements of SEO Every Business Should Know",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Key Elements of SEO Every Business Should Know",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 168,
+      "label": "64ae6b30056e8b22008509cf_undraw_electricity_k2ft.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "7 Effective SEO Strategies for Driving Growth and Engagement",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "7 Effective SEO Strategies for Driving Growth and Engagement",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 169,
+      "label": "649acab740ffae9bf76d4664_undraw_To_the_stars_re_wq2x.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "How Content Optimization Enhances SEO Performance",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "How Content Optimization Enhances SEO Performance",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 170,
+      "label": "6622990c18589e6e1a5865e4_undraw_Completed_m9ci.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "How to Dominate Your Market with Local SEO",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "How to Dominate Your Market with Local SEO",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 171,
+      "label": "661e7e757f4e36a88e8dbe5f_undraw_undraw_undraw_undraw_selected_box_09k4_-1-_jnk6_9unq_(1)_37xp.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Diving into Technical SEO. What are the Basics",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "Diving into Technical SEO. What are the Basics",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 172,
+      "label": "65001b51d170ed8dd21017bc_undraw_learning_sketching_nd4f.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "How to use content optimization effectively? 7 tips from SEO experts",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "How to use content optimization effectively? 7 tips from SEO experts",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 173,
+      "label": "65001af1025a4955fc171aba_undraw_sharing_knowledge_03vp (1).png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "What is SEO consulting, monitoring and reporting and why do you need it?",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "What is SEO consulting, monitoring and reporting and why do you need it?",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 174,
+      "label": "65001a99b41e8b9984459dbe_undraw_Button_style_re_uctt.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "What is Site Migration and How Can an SEO Company Help You?",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "What is Site Migration and How Can an SEO Company Help You?",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 180,
+      "label": "meboss.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "meboss",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "meboss",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 181,
+      "label": "Ozone.bg SEO case study.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "Ozone.bg SEO case study cover featuring books, headphones, a game controller and shipping boxes with green and yellow accents.",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "How Conversion Century helped Ozone.bg achieve 50.2% more organic users and 20.19% higher organic revenue in the reported annual comparison.",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 182,
+      "label": "pasted-image.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "chart about traffic channels from google analytics",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "chart about traffic channels from google analytics",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 183,
+      "label": "pasted-image-1.png",
+      "fields": [
+        {
+          "path": "alt",
+          "en": "chart about organic traffic growth from Google Analytics",
+          "bg": ""
+        },
+        {
+          "path": "caption",
+          "en": "chart about organic traffic growth from Google Analytics",
+          "bg": ""
+        }
+      ]
+    }
+  ]
+}

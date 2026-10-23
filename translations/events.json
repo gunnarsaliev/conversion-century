@@ -1,0 +1,1352 @@
+{
+  "collection": "events",
+  "sourceLocale": "en",
+  "targetLocale": "bg",
+  "exportedAt": "2026-10-23T06:51:38.232Z",
+  "docs": [
+    {
+      "id": 60,
+      "label": "BBCC Career Orientation Day",
+      "fields": [
+        {
+          "path": "title",
+          "en": "BBCC Career Orientation Day",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "location",
+          "en": "Sofia, Bulgaria",
+          "bg": ""
+        },
+        {
+          "path": "excerpt",
+          "en": "Today marked a very special milestone for the BBCC Career Orientation Programme — our very first school visit!",
+          "bg": ""
+        },
+        {
+          "path": "content#0.0",
+          "en": "Today marked a very special milestone for the BBCC Career Orientation Programme — our very first school visit!",
+          "bg": ""
+        },
+        {
+          "path": "content#1.0",
+          "en": "We had the pleasure of visiting 19 SU and NFSG, where experienced business leaders stepped into the classroom to inspire students at a pivotal moment in their lives.",
+          "bg": ""
+        },
+        {
+          "path": "content#2.0",
+          "en": "A heartfelt thank you to our incredible speakers who gave their time and shared their journeys with the next generation:",
+          "bg": ""
+        },
+        {
+          "path": "content#3.0.0",
+          "en": " Tsandrina Nemer - Cook Communications",
+          "bg": ""
+        },
+        {
+          "path": "content#3.1.0",
+          "en": "Andrew Morris",
+          "bg": ""
+        },
+        {
+          "path": "content#3.2.0",
+          "en": "Maria Sivkova - Conversion Century",
+          "bg": ""
+        },
+        {
+          "path": "content#3.3.0",
+          "en": "Georgi Popchev - Lion's Head",
+          "bg": ""
+        },
+        {
+          "path": "content#3.4.0",
+          "en": "Violeta Macheva-Raykolesku - Magic Outdoor Ltd",
+          "bg": ""
+        },
+        {
+          "path": "content#4.0",
+          "en": "And a huge thank you to our partners Vladimir Kolev and the entire Klett Bulgaria team for making this collaboration a reality. ",
+          "bg": ""
+        },
+        {
+          "path": "content#5.0",
+          "en": "This is just the beginning. We will be continuing the programme in the next academic year, and BBCC members are very welcome to join as speakers.",
+          "bg": ""
+        },
+        {
+          "path": "content#6.0",
+          "en": "If you're interested in inspiring the next generation of professionals in Bulgaria, don't hesitate to reach out to the BBCC team!",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 61,
+      "label": "CEO-Only Lunch Sofia",
+      "fields": [
+        {
+          "path": "title",
+          "en": "CEO-Only Lunch Sofia",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "location",
+          "en": "Sofia, Bulgaria",
+          "bg": ""
+        },
+        {
+          "path": "excerpt",
+          "en": "Exclusive CEO-Only Lunch #16 at the beautiful Hilton Sofia. Very nice group of extremely intelligent managers.",
+          "bg": ""
+        },
+        {
+          "path": "content#0.0",
+          "en": "Exclusive CEO-Only Lunch #16 at the beautiful Hilton Sofia. Very nice group of extremely intelligent managers and a useful talk on many topics... ",
+          "bg": ""
+        },
+        {
+          "path": "content#1.0",
+          "en": "Alexander Jiponov, Owner & Manager, EKJ Bulgaria Consulting Engineers Ltd.; Ivan Mihaylov CEO, American Chamber of Commerce in Bulgaria; Aleksandar Lachev, Sales Director, Paysera; Maria Pavlova, Marketing Manager, Astra Commerce; Yordana Dimitrova Founder, MAGNIFICENT Woman; Maxim Behar, FPRCA M3 Communications Group, Inc. Ani Shakaryan Member of Board of Directors, Besha SJSC; Petar Krastanov, Sales Director, Okin Facility; Maria Sivkova, Managing Director, Conversion Century; Dimo Roussinov, CEO, Roussinov Consulting; Pavel Dochev, CEO, Wisp Soft",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "label": "Web Summit 2025 Lisbon",
+      "fields": [
+        {
+          "path": "title",
+          "en": "Web Summit 2025 Lisbon",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "location",
+          "en": "Lisbon, Portugal",
+          "bg": ""
+        },
+        {
+          "path": "excerpt",
+          "en": "I am super happy to join Web Summit 2025 as part of the #Bulgarian delegation.",
+          "bg": ""
+        },
+        {
+          "path": "content#0.0",
+          "en": "The delegation, organized by the Bulgarian SME Promotion Agency, Bulgaria #BreakingGrounds, and The Recursive, is hosting side events that bring together founders, investors, and ecosystem leaders shaping the future of Bulgarian and CEE tech.",
+          "bg": ""
+        },
+        {
+          "path": "content#1.0",
+          "en": "If you’ll be at Web Summit, come by the Bulgarian Stand ",
+          "bg": ""
+        },
+        {
+          "path": "content#2.0",
+          "en": " November 10-13th",
+          "bg": ""
+        },
+        {
+          "path": "content#3.0",
+          "en": "MEO Arena | Bulgarian Stand E151, Hall 1 ",
+          "bg": ""
+        },
+        {
+          "path": "content#4.0",
+          "en": "Or join our software-focused side event on November 11 at 2 PM — it’s open, informal, and full of great conversations.",
+          "bg": ""
+        },
+        {
+          "path": "content#5.0",
+          "en": "At Conversion Century, we help tech and SaaS companies grow organically through SEO and content. As an organic growth agency, we’re always excited to meet other innovators in the tech sphere and explore new opportunities to collaborate and exchange ideas. ",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 66,
+      "label": "Lead Sprint Workshop",
+      "fields": [
+        {
+          "path": "title",
+          "en": "Lead Sprint Workshop",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "location",
+          "en": "Sofia, Bulgaria",
+          "bg": ""
+        },
+        {
+          "path": "excerpt",
+          "en": "What an energy boost before Web Summit! The Lead Sprint with Othmane Boumzebra reminded us that great meetings start long before takeoff.",
+          "bg": ""
+        },
+        {
+          "path": "content#0.0",
+          "en": "Lead Sprint: Win Meetings Before You Fly ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.2",
+          "en": "Today we ran our Pre-Conference Growth Workshop together with ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.3.0",
+          "en": "Othmane Boumzebra",
+          "bg": ""
+        },
+        {
+          "path": "content#0.4",
+          "en": " — and seriously, what an experience. Hard to believe we didn’t do this sooner!",
+          "bg": ""
+        },
+        {
+          "path": "content#0.6",
+          "en": "Designed for founders, BD/sales leaders, fund managers, and ecosystem operators, the session helped our ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.7.0",
+          "en": "#BreakingGrounds",
+          "bg": ""
+        },
+        {
+          "path": "content#0.8",
+          "en": " delegates prepare to book more meetings, have better conversations, and turn connections into real opportunities ahead of ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.9.0",
+          "en": "Web Summit",
+          "bg": ""
+        },
+        {
+          "path": "content#0.10",
+          "en": ", ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.11.0",
+          "en": "Slush",
+          "bg": ""
+        },
+        {
+          "path": "content#0.12",
+          "en": ", and ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.13.0",
+          "en": "Doers Summit Dubai",
+          "bg": ""
+        },
+        {
+          "path": "content#0.14",
+          "en": ".",
+          "bg": ""
+        },
+        {
+          "path": "content#0.16",
+          "en": "We mapped strategic relationships, built our individual “business blades,” practiced outreach, and crafted one-liners that open doors.",
+          "bg": ""
+        },
+        {
+          "path": "content#0.18",
+          "en": "The biggest takeaway? The real power lies in the delegation itself — helping each other win. Now it’s time to put it all into action. ",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 67,
+      "label": "Forbes Bulgaria Women Dinner",
+      "fields": [
+        {
+          "path": "title",
+          "en": "Forbes Bulgaria Women Dinner",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "location",
+          "en": "Sofia, Bulgaria",
+          "bg": ""
+        },
+        {
+          "path": "excerpt",
+          "en": "Forbes Women Dinner: A Night of Inspiration Grateful to have been part of the Forbes Bulgaria Women Dinner",
+          "bg": ""
+        },
+        {
+          "path": "content#0.0",
+          "en": "Forbes Women Dinner: A Night of Inspiration ",
+          "bg": ""
+        },
+        {
+          "path": "content#1.0",
+          "en": "Grateful to have been part of the Forbes Bulgaria Women Dinner – “A Night of Inspiration”, an intimate gathering of 35 inspiring women – leaders, entrepreneurs, and visionaries shaping the future of business and society.",
+          "bg": ""
+        },
+        {
+          "path": "content#2.0",
+          "en": "We enjoyed a four-course gourmet menu, a special wine selection from Dragomir Winery, and even created our own handmade candles — a beautiful reminder of the light each of us brings into our work and communities. 🕯️✨",
+          "bg": ""
+        },
+        {
+          "path": "content#3.0",
+          "en": "A heartfelt thank you to the Forbes Bulgaria team for curating such a memorable and elegant event.",
+          "bg": ""
+        },
+        {
+          "path": "content#4.0",
+          "en": "Sharing a few moments from the night.",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "label": "Career Show Index 2025 Awards",
+      "fields": [
+        {
+          "path": "title",
+          "en": "Career Show Index 2025 Awards",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "location",
+          "en": "Sofia, Bulgaria",
+          "bg": ""
+        },
+        {
+          "path": "excerpt",
+          "en": "I’m incredibly proud to share that three amazing women from our Conversion Century team were recognized",
+          "bg": ""
+        },
+        {
+          "path": "content#0.0",
+          "en": "I’m incredibly proud to share that three amazing women from our Conversion Century team - Gena Chaneva, Velislava Mihaylova, and Ivet Vretenarska were recognized among Bulgaria’s Top 100 Talents in the Career Show Index 2025. ",
+          "bg": ""
+        },
+        {
+          "path": "content#1.0",
+          "en": "The Career Show Index celebrates professionals who shape the future with their ideas, leadership, and drive. Seeing our team among them fills me with so much pride and gratitude.",
+          "bg": ""
+        },
+        {
+          "path": "content#2.0",
+          "en": "Every day, I get to witness their creativity, consistency, and motivation in action. They inspire not just our clients, but everyone around them, including me. ",
+          "bg": ""
+        },
+        {
+          "path": "content#3.0",
+          "en": "Thank you, Gena, Velina, and Ivet, for your passion, for the standards you set, and for being such an essential part of what makes Conversion Century what it is today.",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 69,
+      "label": "MUZE 5th Anniversary Showcase",
+      "fields": [
+        {
+          "path": "title",
+          "en": "MUZE 5th Anniversary Showcase",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "location",
+          "en": "Sofia, Bulgaria",
+          "bg": ""
+        },
+        {
+          "path": "excerpt",
+          "en": "This October, we had the pleasure of celebrating the 5th birthday of our partners – MUZE!",
+          "bg": ""
+        },
+        {
+          "path": "content#0.0",
+          "en": "This October, we had the pleasure of celebrating the 5th birthday of our partners – MUZE! ",
+          "bg": ""
+        },
+        {
+          "path": "content#1.0",
+          "en": "The celebration took place at Sofia Live Club with an impressive showcase featuring over 10 talented artists performing brand-new, unreleased songs in both Bulgarian and English.",
+          "bg": ""
+        },
+        {
+          "path": "content#2.0",
+          "en": "During the event, MUZE also announced the launch of a new strategic partnership, opening the door to truly global opportunities for the artists, authors, labels, and publishers they represent — a big milestone for the Bulgarian music scene.",
+          "bg": ""
+        },
+        {
+          "path": "content#3.0",
+          "en": "A big congratulations to Marko Anastasov and the entire MUZE team for their expertise, dedication, and motivation in driving the industry forward.",
+          "bg": ""
+        },
+        {
+          "path": "content#4.0",
+          "en": " We’re proud to stand alongside MUZE on this journey and can’t wait to see what’s next.",
+          "bg": ""
+        },
+        {
+          "path": "content#5.0",
+          "en": "Here’s to more years of creativity, growth, and inspiring music together. ",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "label": "BBCC Leeds Trade Mission",
+      "fields": [
+        {
+          "path": "title",
+          "en": "BBCC Leeds Trade Mission",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "location",
+          "en": "Leeds, UK",
+          "bg": ""
+        },
+        {
+          "path": "excerpt",
+          "en": "Trade mission to Leeds with the British Bulgarian Chamber of Commerce (BBCC) female entrepreneurs.",
+          "bg": ""
+        },
+        {
+          "path": "content#0.0",
+          "en": " Trade mission to Leeds with the British Bulgarian Chamber of Commerce (BBCC) female entrepreneurs, supported by the amazing Bob Spence (23-26 Sep). I am truly grateful to have been part of it as it was much more than a chance to share Flow Logic’s story of streamlining back-office workflows and driving AI adoption.",
+          "bg": ""
+        },
+        {
+          "path": "content#1.0",
+          "en": "Few weeks are already behind and some reflections are standing to share:",
+          "bg": ""
+        },
+        {
+          "path": "content#2.0.0",
+          "en": "Above all, it went far beyond a business trip. It became a platform for inspiration, learning, genuine connection, and new friendships. I've joined other trade missions before, but this one was first and really one of a kind!",
+          "bg": ""
+        },
+        {
+          "path": "content#2.1.0",
+          "en": " With so much power, energy and engagement we've showcased the strength and vision of Bulgarian women entrepreneurs on an international stage.",
+          "bg": ""
+        },
+        {
+          "path": "content#2.2.0",
+          "en": " Leeds proved to be far more than a destination – it offered a stage for ideas, growth, and cross-border collaboration, and we could witness a vibrant business community in action.",
+          "bg": ""
+        },
+        {
+          "path": "content#4.0",
+          "en": "We came back home with big smiles and long lists to proceed with - from following up with prospects and potential partners to sending pictures and best wishes. And as it turned out we have built a momentum:",
+          "bg": ""
+        },
+        {
+          "path": "content#6.0.0",
+          "en": "A few interested parties already came or plan to fly to Bulgaria soon to explore investment and trade opportunities.",
+          "bg": ""
+        },
+        {
+          "path": "content#6.1.0",
+          "en": "Women leaders of the British Bulgarian Chamber of Commerce (BBCC) Board joined for a special roundtable-style lunch curious to hear our experiences and eager to commit to what's next. (more on that in another post ).",
+          "bg": ""
+        },
+        {
+          "path": "content#6.2.0",
+          "en": "Cross-collaboration within our group is already moving forward, with several initiatives in motion.",
+          "bg": ""
+        },
+        {
+          "path": "content#8.0",
+          "en": "The list with people to greet and thank is long - and I trust many of you will recognize yourselves. Looking forward to staying connected and seeing what the future unfolds.",
+          "bg": ""
+        },
+        {
+          "path": "content#10.0",
+          "en": "Desislava Miteva, Maria Sivkova, Genoveva Christova, Kristiyana Gavrailova, Margarita Stoichkova, Izabel Stolarska, and remotely Elena Yordanova - it was privilege to share the BBCC female entrepreneurs trade mission with you .",
+          "bg": ""
+        },
+        {
+          "path": "content#11.0",
+          "en": "P.S. And if you made it to the end, yes, the picture is from The Green Park London, no pic from the beautiful Leeds - we simply didn't have a spare minute there, so we took an hour before the airport on our way back ",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 74,
+      "label": "Leeds Digital Festival",
+      "fields": [
+        {
+          "path": "title",
+          "en": "Leeds Digital Festival",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "location",
+          "en": "Leeds, UK",
+          "bg": ""
+        },
+        {
+          "path": "excerpt",
+          "en": "Between 23–26 September, the BBCC Executive Director will lead a delegation of Bulgarian women entrepreneurs to the Leeds Digital Festival.",
+          "bg": ""
+        },
+        {
+          "path": "content#0.0",
+          "en": " Between 23–26 September, the BBCC Executive Director will lead a delegation of Bulgarian women entrepreneurs to the Leeds Digital Festival.",
+          "bg": ""
+        },
+        {
+          "path": "content#1.0",
+          "en": "The group represents some of the most dynamic and forward-thinking leaders in Bulgaria’s entrepreneurial ecosystem. Their visit is not only about exploring opportunities in the UK market, but also about sharing their own experiences, challenges, and ideas with peers from the British business community.",
+          "bg": ""
+        },
+        {
+          "path": "content#2.0",
+          "en": "Each of the participants brings a unique perspective and innovative approach to business, and we are proud to support them in presenting their work on an international stage.",
+          "bg": ""
+        },
+        {
+          "path": "content#3.0",
+          "en": "The Leeds Digital Festival provides an ideal platform for this exchange, bringing together businesses, investors, and innovators from across the digital and tech sectors.",
+          "bg": ""
+        },
+        {
+          "path": "content#4.0",
+          "en": "If you would like to connect with the delegation and hear more about their projects, please reach out—we’ll be glad to introduce you.",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 75,
+      "label": "Career Barometer Presentation",
+      "fields": [
+        {
+          "path": "title",
+          "en": "Career Barometer Presentation",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "location",
+          "en": "Sofia, Bulgaria",
+          "bg": ""
+        },
+        {
+          "path": "excerpt",
+          "en": "Благодаря на Biser Kunchev за страхотното представяне! Намерете това, което ви вдъхновява...",
+          "bg": ""
+        },
+        {
+          "path": "content#0.0.0",
+          "en": "Кариерен_Барометър",
+          "bg": ""
+        },
+        {
+          "path": "content#0.1",
+          "en": " представя ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.2.0",
+          "en": "Maria Sivkova",
+          "bg": ""
+        },
+        {
+          "path": "content#0.3",
+          "en": " (Managing Director at ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.4.0",
+          "en": "Conversion Century",
+          "bg": ""
+        },
+        {
+          "path": "content#0.5",
+          "en": ")",
+          "bg": ""
+        },
+        {
+          "path": "content#0.7",
+          "en": "„Намерете това, което ви вдъхновява и кара да се чувствате живи, а след това го превърнете в своя професия. Страстта е двигателят, който ще ви помогне да преодолеете предизвикателствата и да постигнете успех.“",
+          "bg": ""
+        },
+        {
+          "path": "content#1.0",
+          "en": "Show translation",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 76,
+      "label": "London Tech Week Day 1",
+      "fields": [
+        {
+          "path": "title",
+          "en": "London Tech Week Day 1",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "location",
+          "en": "London, UK",
+          "bg": ""
+        },
+        {
+          "path": "excerpt",
+          "en": "Exciting First Day at London Tech Week! I am thrilled to be attending London Tech Week...",
+          "bg": ""
+        },
+        {
+          "path": "content#0.0",
+          "en": "Exciting First Day at London Tech Week!",
+          "bg": ""
+        },
+        {
+          "path": "content#1.0",
+          "en": "I am thrilled to be attending London Tech Week, where innovation, inspiration, and incredible networking opportunities abound! ",
+          "bg": ""
+        },
+        {
+          "path": "content#3.0",
+          "en": "Key Highlights:",
+          "bg": ""
+        },
+        {
+          "path": "content#4.0",
+          "en": "Opening Keynote: An inspiring speech on the future of AI and its transformative potential.",
+          "bg": ""
+        },
+        {
+          "path": "content#5.0",
+          "en": "Panel Discussions: Engaging talks on sustainability in tech and the ethical implications of emerging technologies.",
+          "bg": ""
+        },
+        {
+          "path": "content#6.0",
+          "en": "Networking Opportunities: Met some amazing professionals and fellow tech enthusiasts who are as passionate about technology as I am.",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 77,
+      "label": "London Tech Week 2025",
+      "fields": [
+        {
+          "path": "title",
+          "en": "London Tech Week 2025",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "location",
+          "en": "London, UK",
+          "bg": ""
+        },
+        {
+          "path": "excerpt",
+          "en": "Conversion Century is attending London Tech Week! Join me for a week of innovation, investment, and inspiration.",
+          "bg": ""
+        },
+        {
+          "path": "content#0.0",
+          "en": "Conversion Century is attending London Tech Week! ",
+          "bg": ""
+        },
+        {
+          "path": "content#1.0",
+          "en": "Join me for a week of innovation, investment, and inspiration. With 90+ countries represented and a brand new venue at Olympia, this is where the tech ecosystem meets and does business. Don't miss out on being one step ahead! ",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 78,
+      "label": "Teenovator Mentorship Meetup",
+      "fields": [
+        {
+          "path": "title",
+          "en": "Teenovator Mentorship Meetup",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "location",
+          "en": "Sofia, Bulgaria",
+          "bg": ""
+        },
+        {
+          "path": "excerpt",
+          "en": "Inspiring Young Minds: My Role as a Mentor in Teenovator. This year, I have the privilege of being a mentor...",
+          "bg": ""
+        },
+        {
+          "path": "content#0.0.0",
+          "en": "Inspiring Young Minds: My Role as a Mentor in ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.1.0",
+          "en": "Teenovator",
+          "bg": ""
+        },
+        {
+          "path": "content#0.2",
+          "en": " 2023-2024",
+          "bg": ""
+        },
+        {
+          "path": "content#0.4",
+          "en": "This year, I have the privilege of being a mentor in ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.5.0",
+          "en": "Teenovator",
+          "bg": ""
+        },
+        {
+          "path": "content#0.6",
+          "en": ", an initiative dedicated to nurturing young talent and innovation. ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.8",
+          "en": "What sets this experience apart is our diverse cohort, comprising students from every corner of the country, bringing energy, fresh perspectives and boundless potential. ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.10",
+          "en": "The weekly mentoring sessions with these remarkable students are nothing short of invigorating, but yesterday was a true highlight. ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.12",
+          "en": "We hosted an event that gathered 19 talented teenagers from across Bulgaria, building connections, sharing experiences and igniting their passion for innovation. ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.14",
+          "en": "Now, I can't help but urge you to consider becoming a mentor too. The satisfaction of contributing to their growth and witnessing their journey is immeasurable. ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.16",
+          "en": "Kudos to ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.17.0",
+          "en": "Teenovator",
+          "bg": ""
+        },
+        {
+          "path": "content#0.18",
+          "en": " and ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.19.0",
+          "en": "Zornitsa Mitkova",
+          "bg": ""
+        },
+        {
+          "path": "content#0.20",
+          "en": " for providing a platform where young people can truly shine! ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.22",
+          "en": "And special thanks to my fantastic co-mentor ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.23.0",
+          "en": "Maria Sivkova",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 79,
+      "label": "Teenovator 2025 Launch",
+      "fields": [
+        {
+          "path": "title",
+          "en": "Teenovator 2025 Launch",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "location",
+          "en": "Sofia, Bulgaria",
+          "bg": ""
+        },
+        {
+          "path": "excerpt",
+          "en": "I am thrilled to announce my participation in this year's Teenovator Mentorship Program in Bulgaria!",
+          "bg": ""
+        },
+        {
+          "path": "content#0.0",
+          "en": "Post Details",
+          "bg": ""
+        },
+        {
+          "path": "content#1.0",
+          "en": "I am thrilled to announce my participation in this year's Teenovator Mentorship Program in Bulgaria!",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 80,
+      "label": "YEPA EU-OECD Workshop",
+      "fields": [
+        {
+          "path": "title",
+          "en": "YEPA EU-OECD Workshop",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "location",
+          "en": "Brussels, Belgium",
+          "bg": ""
+        },
+        {
+          "path": "excerpt",
+          "en": "Last week, I had the opportunity to speak during the second OECD-EU Youth Entrepreneurship Policy Academy's workshop...",
+          "bg": ""
+        },
+        {
+          "path": "content#0.0",
+          "en": "This program aims to connect policy makers, government figures, and young experts from UK, France, Belgium and Eastern Europe. We had the chance to participate in the process of developing innovative EU youth programs and to share our business plans. ",
+          "bg": ""
+        },
+        {
+          "path": "content#1.0",
+          "en": "Together with Areeba Rehman, Emilė Radytė and Yasemin Yusuf we shared our stories as well as the specific business challenges each of us is currently facing. ",
+          "bg": ""
+        },
+        {
+          "path": "content#2.0",
+          "en": "I talked about Conversion Century, our partnership with MUZE, and the process of internationally developing the first 360-degree marketing agency. ",
+          "bg": ""
+        },
+        {
+          "path": "content#3.0",
+          "en": "Special thanks to Младите Дами в Бизнеса / Young Ladies in Business who are official partners of YEPA for Bulgaria.",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 81,
+      "label": "Women in Tech Online Workshop",
+      "fields": [
+        {
+          "path": "title",
+          "en": "Women in Tech Online Workshop",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "location",
+          "en": "Online",
+          "bg": ""
+        },
+        {
+          "path": "excerpt",
+          "en": "L'entrepreneuriat féminin est en pleine (r)évolution, mais le chemin vers la #Parité et l’#Inclusivité est encore long.",
+          "bg": ""
+        },
+        {
+          "path": "content#0.0",
+          "en": "🇪🇺 « New European Union-OECD Youth Entrepreneurship Policy Academy »",
+          "bg": ""
+        },
+        {
+          "path": "content#0.2.0",
+          "en": "hashtag#YEPA",
+          "bg": ""
+        },
+        {
+          "path": "content#0.3",
+          "en": " Online Workshop Series 🚀",
+          "bg": ""
+        },
+        {
+          "path": "content#0.7",
+          "en": "L'entrepreneuriat féminin est en pleine (r)évolution, mais le chemin vers la ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.8.0",
+          "en": "hashtag#Parité",
+          "bg": ""
+        },
+        {
+          "path": "content#0.9",
+          "en": " et l’",
+          "bg": ""
+        },
+        {
+          "path": "content#0.10.0",
+          "en": "hashtag#Inclusivité",
+          "bg": ""
+        },
+        {
+          "path": "content#0.11",
+          "en": " est encore long. Les chiffres parlent d’eux-mêmes : seulement 15 % des start-ups à fort potentiel ont au moins une femme parmi les fondateurs, et moins de 6 % sont créées exclusivement par une ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.12.0",
+          "en": "hashtag#Entrepreneure",
+          "bg": ""
+        },
+        {
+          "path": "content#0.13",
+          "en": ".",
+          "bg": ""
+        },
+        {
+          "path": "content#0.17",
+          "en": "Pour défendre l'égalité entre les sexes et lutter contre les stéréotypes de genre et les discriminations au sein de son ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.18.0",
+          "en": "hashtag#Ecosystème",
+          "bg": ""
+        },
+        {
+          "path": "content#0.19",
+          "en": ", rien de tel que de libérer la parole.",
+          "bg": ""
+        },
+        {
+          "path": "content#0.21",
+          "en": "🇫🇷 C'est pourquoi j'ai accepté avec plaisir de représenter la ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.22.0",
+          "en": "hashtag#France",
+          "bg": ""
+        },
+        {
+          "path": "content#0.23",
+          "en": " lors du panel « Young women in innovative and high-growth entrepreneurship » organisé dans le cadre de la série d'ateliers en ligne ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.24.0",
+          "en": "hashtag#YEPA",
+          "bg": ""
+        },
+        {
+          "path": "content#0.25",
+          "en": ".",
+          "bg": ""
+        },
+        {
+          "path": "content#0.29",
+          "en": "Cet ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.30.0",
+          "en": "hashtag#Engagement",
+          "bg": ""
+        },
+        {
+          "path": "content#0.31",
+          "en": " découle naturellement de ma participation au lancement de l'Académie UE-OCDE des politiques en faveur de l’",
+          "bg": ""
+        },
+        {
+          "path": "content#0.32.0",
+          "en": "hashtag#Entrepreneuriat",
+          "bg": ""
+        },
+        {
+          "path": "content#0.33",
+          "en": " des jeunes à Bruxelles il y a quelques mois de cela.",
+          "bg": ""
+        },
+        {
+          "path": "content#0.37",
+          "en": "Avant de fonder ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.38.0",
+          "en": "FretBay",
+          "bg": ""
+        },
+        {
+          "path": "content#0.39",
+          "en": " et ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.40.0",
+          "en": "MyBoxMan",
+          "bg": ""
+        },
+        {
+          "path": "content#0.41",
+          "en": " j’étais enseignante d'anglais. Lors de mon intervention, j’ai expliqué quand et comment j’ai eu le déclic pour prendre cette décision qui a changé ma vie : celle de quitter mon métier pour créer ma propre ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.42.0",
+          "en": "hashtag#StartUp",
+          "bg": ""
+        },
+        {
+          "path": "content#0.43",
+          "en": ". Nous avons terminé le panel de discussion en émettant des ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.44.0",
+          "en": "hashtag#recommandations",
+          "bg": ""
+        },
+        {
+          "path": "content#0.45",
+          "en": " aux différents gouvernements présents pour favoriser l’entrepreneuriat féminin. ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.49",
+          "en": "Bien sûr, en 15 ans, mon aventure entrepreneuriale en tant que ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.50.0",
+          "en": "hashtag#FemmeEntrepreneur",
+          "bg": ""
+        },
+        {
+          "path": "content#0.51",
+          "en": " n’a pas uniquement été faite de succès. J’ai connu des échecs qui m’ont fait grandir et de nombreux obstacles se sont dressés sur ma route… Mais je n’ai rien lâché ! 💪",
+          "bg": ""
+        },
+        {
+          "path": "content#0.53",
+          "en": "Tout comme ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.54.0",
+          "en": "Emilė R.",
+          "bg": ""
+        },
+        {
+          "path": "content#0.55",
+          "en": " de ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.56.0",
+          "en": "Samphire Neuroscience",
+          "bg": ""
+        },
+        {
+          "path": "content#0.57",
+          "en": ", ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.58.0",
+          "en": "Maria Sivkova",
+          "bg": ""
+        },
+        {
+          "path": "content#0.59",
+          "en": " de ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.60.0",
+          "en": "Conversion Century",
+          "bg": ""
+        },
+        {
+          "path": "content#0.61",
+          "en": " et ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.62.0",
+          "en": "Yasemin Yusuf",
+          "bg": ""
+        },
+        {
+          "path": "content#0.63",
+          "en": " de ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.64.0",
+          "en": "Jasmine's Classroom",
+          "bg": ""
+        },
+        {
+          "path": "content#0.65",
+          "en": " des femmes entrepreneurs exceptionnelles présentes lors de ce workshop.",
+          "bg": ""
+        },
+        {
+          "path": "content#0.69",
+          "en": "Je remercie l'Union européenne et l'OCDE pour cette initiative remarquable qui encourage le dialogue et la collaboration entre décideurs politiques, experts et jeunes entrepreneurs ainsi que ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.70.0",
+          "en": "Solène LE COZ-FORTIS",
+          "bg": ""
+        },
+        {
+          "path": "content#0.71",
+          "en": " Directrice de projets Entrepreneuriat et développement des entreprises à la ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.72.0",
+          "en": "Direction générale du Trésor",
+          "bg": ""
+        },
+        {
+          "path": "content#0.73",
+          "en": " et ",
+          "bg": ""
+        },
+        {
+          "path": "content#0.74.0",
+          "en": "David Halabisky",
+          "bg": ""
+        },
+        {
+          "path": "content#0.75",
+          "en": " pour la qualité de ces échanges.L'entrepreneuriat féminin est en pleine (r)évolution, mais le chemin vers la #Parité et l’#Inclusivité est encore long.",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 82,
+      "label": "Young Ladies in Business Summit",
+      "fields": [
+        {
+          "path": "title",
+          "en": "Young Ladies in Business Summit",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "location",
+          "en": "Online",
+          "bg": ""
+        },
+        {
+          "path": "excerpt",
+          "en": "Днес е денят! Ще представим България и общността ни пред предприемачи, експерти и министри от цяла Европа!",
+          "bg": ""
+        },
+        {
+          "path": "content#0.0",
+          "en": "Ще представим България и общността ни пред предприемачи, експерти и министри от цяла Европа!",
+          "bg": ""
+        },
+        {
+          "path": "content#1.0",
+          "en": "А две от нашите момичета Yasemin Yusuf и Maria Sivkova ще имат възможност да разкажат за своя предприемачески път, стартирането на бизнес и значението на членството им в клуба",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 83,
+      "label": "Varna July Festival",
+      "fields": [
+        {
+          "path": "title",
+          "en": "Varna July Festival",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "location",
+          "en": "Varna, Bulgaria",
+          "bg": ""
+        },
+        {
+          "path": "excerpt",
+          "en": "eкзалтирана публика отбелязаха дебютната вечер на Varna July Festival.",
+          "bg": ""
+        },
+        {
+          "path": "content#0.0",
+          "en": "Post Details",
+          "bg": ""
+        },
+        {
+          "path": "content#1.0",
+          "en": "Разгорещени емоции и екзалтирана публика отбелязаха дебютната вечер на Varna July Festival.",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 84,
+      "label": "MUZE 4th Anniversary Celebration",
+      "fields": [
+        {
+          "path": "title",
+          "en": "MUZE 4th Anniversary Celebration",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "location",
+          "en": "Sofia, Bulgaria",
+          "bg": ""
+        },
+        {
+          "path": "excerpt",
+          "en": "Happy MUZE day! 4 years of: Excellence, Pragmatism, Effectiveness, Efficiency. No shortcuts.",
+          "bg": ""
+        },
+        {
+          "path": "content#0.0",
+          "en": "Post Details",
+          "bg": ""
+        },
+        {
+          "path": "content#1.0",
+          "en": "Happy MUZE day! 4 years of: Excellence, Pragmatism, Effectiveness, Efficiency. No shortcuts.",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 85,
+      "label": "Green Conference Day",
+      "fields": [
+        {
+          "path": "title",
+          "en": "Green Conference Day",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "location",
+          "en": "Sofia, Bulgaria",
+          "bg": ""
+        },
+        {
+          "path": "excerpt",
+          "en": "Special thanks to our lecturers and student representatives that made our Green Conference Day a reality!",
+          "bg": ""
+        },
+        {
+          "path": "content#0.0",
+          "en": "Post Details",
+          "bg": ""
+        },
+        {
+          "path": "content#1.0",
+          "en": "Special thanks to our lecturers and student representatives that made our Green Conference Day a reality!",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 86,
+      "label": "Varna July Festival Prep",
+      "fields": [
+        {
+          "path": "title",
+          "en": "Varna July Festival Prep",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "location",
+          "en": "Varna, Bulgaria",
+          "bg": ""
+        },
+        {
+          "path": "excerpt",
+          "en": "Lil Pump оглавява VARNA JULY FESTIVAL! Варна става столица на хип-хопа. Вход СВОБОДЕН!",
+          "bg": ""
+        },
+        {
+          "path": "content#0.0",
+          "en": "Post Details",
+          "bg": ""
+        },
+        {
+          "path": "content#1.0",
+          "en": "Lil Pump оглавява VARNA JULY FESTIVAL! Варна става столица на хип-хопа. Вход СВОБОДЕН!",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 87,
+      "label": "Kyustendil Green Future",
+      "fields": [
+        {
+          "path": "title",
+          "en": "Kyustendil Green Future",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "location",
+          "en": "Kyustendil, Bulgaria",
+          "bg": ""
+        },
+        {
+          "path": "excerpt",
+          "en": "Зеленото бъдеще на град Кюстендил! Ти си промяната! Имам огромното удоволствие да ви поканя на вълнуващо събитие...",
+          "bg": ""
+        },
+        {
+          "path": "content#0.0",
+          "en": "Post Details",
+          "bg": ""
+        },
+        {
+          "path": "content#1.0",
+          "en": "Зеленото бъдеще на град Кюстендил! Ти си промяната! Имам огромното удоволствие да ви поканя на вълнуващо събитие...",
+          "bg": ""
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,163 @@
+{
+  "collection": "case-studies",
+  "sourceLocale": "en",
+  "targetLocale": "bg",
+  "exportedAt": "2026-10-23T06:51:37.999Z",
+  "docs": [
+    {
+      "id": 1,
+      "label": "Ozone Organic Search Growth",
+      "fields": [
+        {
+          "path": "title",
+          "en": "Ozone Organic Search Growth",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "overview",
+          "en": "50.2% more organic users and 20.19% higher organic revenue in the reported annual comparison.",
+          "bg": ""
+        },
+        {
+          "path": "achievements[id=6ab3cc7cc6755847bbbef182].metric",
+          "en": "Increase in organic users",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "achievements[id=6ab3cc85c6755847bbbef184].metric",
+          "en": "Increase in organic sessions",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "achievements[id=6ab3cca4c6755847bbbef188].metric",
+          "en": "Increase in organic revenue",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "description#0.0",
+          "en": "Reporting period: 8 December 2018 to 8 December 2019, compared with 2 December 2017 to 8 December 2018, as displayed in the supplied analytics table.",
+          "bg": ""
+        },
+        {
+          "path": "description#1.0",
+          "en": "Conversion Century helped Ozone.bg strengthen its organic performance through keyword research, on-page improvements, technical fixes, content and link building. We began by improving the existing website, then expanded the strategy to support its growing product range and seasonal demand.",
+          "bg": ""
+        },
+        {
+          "path": "description#2.0",
+          "en": "About the client",
+          "bg": ""
+        },
+        {
+          "path": "description#3.0",
+          "en": "Ozone.bg is a Bulgarian online retailer founded in 2008. Initially focused on video games and gaming accessories, the business expanded into books, toys, technology, merchandise and other product categories. At the time of the project, it was already an established name in the Bulgarian e-commerce market.",
+          "bg": ""
+        },
+        {
+          "path": "description#4.0",
+          "en": "The challenge",
+          "bg": ""
+        },
+        {
+          "path": "description#5.0",
+          "en": "Ozone had strong brand recognition and attracted visitors through paid search and display advertising, but had not yet followed a consistent SEO strategy. Its expanding catalogue created an opportunity to improve visibility across a wider range of product searches.",
+          "bg": ""
+        },
+        {
+          "path": "description#6.0",
+          "en": "The objective was to grow organic traffic and improve search rankings by strengthening existing pages, resolving optimisation gaps and building relevant content and authority.",
+          "bg": ""
+        },
+        {
+          "path": "description#7.0",
+          "en": "Our approach",
+          "bg": ""
+        },
+        {
+          "path": "description#8.0",
+          "en": "We started with an analysis of the website and its search performance. The initial priority was to improve the existing site before expanding content production and link building. This gave the later activity a stronger foundation.",
+          "bg": ""
+        },
+        {
+          "path": "description#9.0",
+          "en": "Research demand across an expanding catalogue",
+          "bg": ""
+        },
+        {
+          "path": "description#10.0",
+          "en": "We analysed Ozone’s existing keyword visibility and competitor rankings to identify relevant opportunities across its growing product range. Research covered commercially relevant searches and longer, more specific queries that could inform useful blog and outreach content.",
+          "bg": ""
+        },
+        {
+          "path": "description#11.0",
+          "en": "Improve existing pages",
+          "bg": ""
+        },
+        {
+          "path": "description#12.0",
+          "en": "We developed page titles, meta descriptions and heading structures around the research. Pages with limited information received attention through more useful, original content, helping clarify their purpose and provide customers with better information.",
+          "bg": ""
+        },
+        {
+          "path": "description#13.0",
+          "en": "Resolve technical issues",
+          "bg": ""
+        },
+        {
+          "path": "description#14.0",
+          "en": "Alongside on-page work, we reviewed loading speed, mobile responsiveness, redirects and internal linking. Although the website’s overall technical performance was strong, its large number of pages created issues that required correction.",
+          "bg": ""
+        },
+        {
+          "path": "description#15.0",
+          "en": "Develop content and relevant links",
+          "bg": ""
+        },
+        {
+          "path": "description#16.0",
+          "en": "Once the initial optimisation was completed, we expanded into content marketing and link building. Longer search queries informed articles designed to answer customer questions and support relevant product discovery. The work also encouraged product reviews and developed publishing partnerships.",
+          "bg": ""
+        },
+        {
+          "path": "description#17.0",
+          "en": "The campaign secured more than 230 backlinks from authoritative websites, alongside growth in referring domains and pages.",
+          "bg": ""
+        },
+        {
+          "path": "description#18.0",
+          "en": "Adapt to seasonal buying demand",
+          "bg": ""
+        },
+        {
+          "path": "description#19.0",
+          "en": "Ongoing consultation kept the strategy aligned with the retail calendar and changes in the business. Work focused on stationery and books around the September school season, followed by toys and puzzles ahead of Christmas. Regular communication also helped identify and resolve emerging website issues.",
+          "bg": ""
+        },
+        {
+          "path": "description#20.0",
+          "en": "The results",
+          "bg": ""
+        },
+        {
+          "path": "description#21.0",
+          "en": "The supplied analytics report shows growth in organic audience, engagement and commercial performance during the reporting period.",
+          "bg": ""
+        },
+        {
+          "path": "description#24.0",
+          "en": " Percentage changes are reproduced from the supplied report. Bounce rate fell by 3.73 percentage points; conversion rate rose by 0.82 percentage points. The previous comparison period is slightly longer, so these are the report’s figures rather than a normalised calculation.",
+          "bg": ""
+        },
+        {
+          "path": "description#26.0",
+          "en": "Original analytics evidence supplied with the case study.",
+          "bg": ""
+        }
+      ]
+    }
+  ]
+}

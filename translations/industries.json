@@ -1,0 +1,979 @@
+{
+  "collection": "industries",
+  "sourceLocale": "en",
+  "targetLocale": "bg",
+  "exportedAt": "2026-10-23T06:51:38.068Z",
+  "docs": [
+    {
+      "id": 1,
+      "label": "B2B",
+      "fields": [
+        {
+          "path": "title",
+          "en": "B2B",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "description#0.0",
+          "en": "Make your business visible where potential clients look for expertise, solutions and suppliers. Conversion Century helps B2B companies strengthen their presence in search engines and AI-powered discovery, connecting their capabilities with relevant customer demand.",
+          "bg": ""
+        },
+        {
+          "path": "description#1.0",
+          "en": "Clients in B2B",
+          "bg": ""
+        },
+        {
+          "path": "description#2.0",
+          "en": "SaaS companies · Manufacturers · Industrial suppliers · Wholesale distributors · Logistics companies · Technology providers  · Business service providers",
+          "bg": ""
+        },
+        {
+          "path": "description#3.0",
+          "en": "Client logos:",
+          "bg": ""
+        },
+        {
+          "path": "description#3.1",
+          "en": " Distribusha · My Flex · Poligroup",
+          "bg": ""
+        },
+        {
+          "path": "description#4.0",
+          "en": "Search Visibility Is Part of Your Business Presence",
+          "bg": ""
+        },
+        {
+          "path": "description#5.0",
+          "en": "Your website is an important part of how other businesses discover, evaluate and trust your company. SEO helps connect that presence with the searches potential clients make when researching a problem, comparing providers or looking for a specialist partner.",
+          "bg": ""
+        },
+        {
+          "path": "description#6.0",
+          "en": "For B2B companies, the opportunity often lies in specific searches for services, technical capabilities, applications and industry solutions. These searches may attract smaller audiences, but they can represent valuable business needs.",
+          "bg": ""
+        },
+        {
+          "path": "description#7.0",
+          "en": "Visibility across search engines and AI-powered tools makes clear, credible information about your business increasingly important. Your expertise should be easy to find, understand and evaluate wherever the research begins.",
+          "bg": ""
+        },
+        {
+          "path": "description#8.0",
+          "en": "How We Help B2B Companies Grow",
+          "bg": ""
+        },
+        {
+          "path": "description#9.0",
+          "en": "Reach the Right Business Buyers",
+          "bg": ""
+        },
+        {
+          "path": "description#10.0",
+          "en": "We research how potential customers search for solutions, suppliers and specialist capabilities. Priorities reflect your ideal customers, target markets and commercial value, including specific searches with lower volume but strong buying intent.",
+          "bg": ""
+        },
+        {
+          "path": "description#11.0",
+          "en": "Make Complex Offers Clear",
+          "bg": ""
+        },
+        {
+          "path": "description#12.0",
+          "en": "We plan and improve service, product, industry and application pages so buyers can understand your capabilities. Content combines your team’s expertise with clear explanations, relevant specifications and practical reasons to choose your business.",
+          "bg": ""
+        },
+        {
+          "path": "description#13.0",
+          "en": "Support Evaluation and Build Trust",
+          "bg": ""
+        },
+        {
+          "path": "description#14.0",
+          "en": "We develop case studies, comparisons, guides and answers to buying questions. These resources help different stakeholders assess suitability and give your sales team useful material to support ongoing conversations.",
+          "bg": ""
+        },
+        {
+          "path": "description#15.0",
+          "en": "Build a Website That Supports Expansion",
+          "bg": ""
+        },
+        {
+          "path": "description#16.0",
+          "en": "We address technical barriers, strengthen internal linking and develop relevant authority. Where your plans include new markets or languages, we help organise the website and content around local customer demand.",
+          "bg": ""
+        },
+        {
+          "path": "description#17.0",
+          "en": "Measure Progress Beyond Website Visits",
+          "bg": ""
+        },
+        {
+          "path": "description#18.0",
+          "en": "A useful B2B enquiry comes from a company you can serve, with a relevant need and realistic commercial potential. That makes lead quality an essential part of evaluating organic performance.",
+          "bg": ""
+        },
+        {
+          "path": "description#19.0",
+          "en": "We work with your marketing and sales teams to connect search activity with available conversion and CRM data. Your feedback helps us understand which enquiries develop into opportunities and where the strategy needs to improve.",
+          "bg": ""
+        },
+        {
+          "path": "description#20.0",
+          "en": "Relevant Visibility",
+          "bg": ""
+        },
+        {
+          "path": "description#20.2",
+          "en": "Presence for searches connected with your priority services, capabilities and customer needs.",
+          "bg": ""
+        },
+        {
+          "path": "description#21.0",
+          "en": "Qualified Enquiries",
+          "bg": ""
+        },
+        {
+          "path": "description#21.2",
+          "en": "Contact requests, quote enquiries and other actions from potential customers who fit your offer.",
+          "bg": ""
+        },
+        {
+          "path": "description#22.0",
+          "en": "Sales Opportunities",
+          "bg": ""
+        },
+        {
+          "path": "description#22.2",
+          "en": "Evidence of how organic discovery contributes to commercially valuable conversations, recognising longer sales cycles and multiple customer touchpoints.",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "label": "Ecommerce",
+      "fields": [
+        {
+          "path": "title",
+          "en": "Ecommerce",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "description#0.0",
+          "en": "Help more customers discover your products, in your home market and internationally. Conversion Century helps online stores grow organic traffic and sales through optimised categories, product pages and images, with experience ranging from specialist stores to large multilingual websites.",
+          "bg": ""
+        },
+        {
+          "path": "description#1.0",
+          "en": "Clients in E-commerce",
+          "bg": ""
+        },
+        {
+          "path": "description#2.0",
+          "en": "Niche product stores · Multi-brand retailers · Direct-to-consumer brands · Specialist online shops · International e-commerce businesses",
+          "bg": ""
+        },
+        {
+          "path": "description#3.0",
+          "en": "Client logos:",
+          "bg": ""
+        },
+        {
+          "path": "description#3.1",
+          "en": " AVVA · EVniculus · BeFit · Carpetmax",
+          "bg": ""
+        },
+        {
+          "path": "description#4.0",
+          "en": "Build Product Visibility Across Markets and Languages",
+          "bg": ""
+        },
+        {
+          "path": "description#5.0",
+          "en": "Customers search in different ways: by product, category, brand, feature or the problem they want to solve. Your store should connect those searches with relevant products and make it easy to compare options and buy.",
+          "bg": ""
+        },
+        {
+          "path": "description#6.0",
+          "en": "We work with specialist stores built around a focused product range, as well as larger websites managing extensive catalogues and multiple languages. Each requires a considered approach to category structure, product information and technical SEO.",
+          "bg": ""
+        },
+        {
+          "path": "description#7.0",
+          "en": "Whether you want to strengthen sales in your home market or expand internationally, the strategy starts with understanding local demand. Search terminology, buying expectations and competition can differ between countries, so expansion requires market-specific research and localisation.",
+          "bg": ""
+        },
+        {
+          "path": "description#8.0",
+          "en": "How We Help E-commerce Businesses Grow",
+          "bg": ""
+        },
+        {
+          "path": "description#9.0",
+          "en": "Strengthen Visibility in Your Home Market",
+          "bg": ""
+        },
+        {
+          "path": "description#10.0",
+          "en": "We research how local customers search for your products and prioritise opportunities across categories, brands and buying needs. The strategy helps your store reach relevant audiences through search engines and AI-powered discovery.",
+          "bg": ""
+        },
+        {
+          "path": "description#11.0",
+          "en": "Optimise Categories and Product Pages",
+          "bg": ""
+        },
+        {
+          "path": "description#12.0",
+          "en": "We improve category structure, product titles, descriptions, specifications and internal links. Clear, useful information helps customers evaluate products, while distinct page priorities support visibility across broad category searches and specific product queries.",
+          "bg": ""
+        },
+        {
+          "path": "description#13.0",
+          "en": "Improve Product Images and Shopping Experience",
+          "bg": ""
+        },
+        {
+          "path": "description#14.0",
+          "en": "We optimise image filenames, alternative text, sizing and delivery, working with your team on visual quality and consistency. Product pages should show customers the details they need, load efficiently and provide a clear path towards purchase.",
+          "bg": ""
+        },
+        {
+          "path": "description#15.0",
+          "en": "Support International and Multilingual Expansion",
+          "bg": ""
+        },
+        {
+          "path": "description#16.0",
+          "en": "We research demand in each target market and plan the language structure, localisation and technical requirements. For larger catalogues, we address filters, variants, duplicate URLs and indexation so the store can expand with a manageable SEO structure.",
+          "bg": ""
+        },
+        {
+          "path": "description#17.0",
+          "en": "Measure Progress Through Traffic and Sales",
+          "bg": ""
+        },
+        {
+          "path": "description#18.0",
+          "en": "E-commerce growth requires both discovery and a shopping experience that converts interest into orders. We evaluate organic traffic alongside product engagement, transactions and revenue, with attention to availability, seasonality and commercial priorities.",
+          "bg": ""
+        },
+        {
+          "path": "description#19.0",
+          "en": "We work with your team to compare performance across categories, products, countries and languages. The findings help identify where optimisation is working, which markets deserve further investment and where customers encounter barriers to purchase.",
+          "bg": ""
+        },
+        {
+          "path": "description#20.0",
+          "en": "Relevant Shopping Traffic",
+          "bg": ""
+        },
+        {
+          "path": "description#20.2",
+          "en": "Growth in organic visitors searching for the categories, brands and products your store offers.",
+          "bg": ""
+        },
+        {
+          "path": "description#21.0",
+          "en": "Product and Category Performance",
+          "bg": ""
+        },
+        {
+          "path": "description#21.2",
+          "en": "Visibility, engagement and conversion across priority product ranges, supported by clear content and useful imagery.",
+          "bg": ""
+        },
+        {
+          "path": "description#22.0",
+          "en": "Revenue Across Markets",
+          "bg": ""
+        },
+        {
+          "path": "description#22.2",
+          "en": "Organic orders and revenue by market and language, considered alongside product margins and the cost of expansion.",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "label": "Professional Services",
+      "fields": [
+        {
+          "path": "title",
+          "en": "Professional Services",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "description#0.0",
+          "en": "Be visible when people search for the services and expertise you provide. Conversion Century helps service businesses strengthen their presence in search engines, local results and AI-powered discovery, connecting them with people looking for a trusted provider.",
+          "bg": ""
+        },
+        {
+          "path": "description#2.0",
+          "en": "Clients in Professional B2C services",
+          "bg": ""
+        },
+        {
+          "path": "description#3.0",
+          "en": "Law firms · Real estate agencies · Interior designers · Architectural studios · Home service providers · Universities · Training centres · Medical clinics · Dental practices · Healthcare specialists",
+          "bg": ""
+        },
+        {
+          "path": "description#4.0",
+          "en": "Client logos:",
+          "bg": ""
+        },
+        {
+          "path": "description#4.1",
+          "en": " Distribusha · My Flex · Poligroup",
+          "bg": ""
+        },
+        {
+          "path": "description#5.0",
+          "en": "Be Found Where Clients Look for Local Expertise",
+          "bg": ""
+        },
+        {
+          "path": "description#6.0",
+          "en": "Whether someone needs a plumber, a solicitor, a dental appointment or a training course, their search often includes a location and a specific need. Your online presence should make it easy to understand what you offer, where you operate and how to contact you.",
+          "bg": ""
+        },
+        {
+          "path": "description#7.0",
+          "en": "SEO connects those searches with relevant service pages, location information and useful content. Local visibility helps people discover your business when proximity, availability and trust influence their choice.",
+          "bg": ""
+        },
+        {
+          "path": "description#8.0",
+          "en": "Your website, Google Business Profile and wider business information should present a clear, consistent picture. As people also use AI-powered tools to research providers, your services, expertise and credentials need to be easy to understand and evaluate.",
+          "bg": ""
+        },
+        {
+          "path": "description#9.0",
+          "en": "How We Help Professional Service Businesses Grow",
+          "bg": ""
+        },
+        {
+          "path": "description#10.0",
+          "en": "Reach People Searching for Your Services",
+          "bg": ""
+        },
+        {
+          "path": "description#11.0",
+          "en": "We research how potential clients search for your services, specialisms and locations. Priorities reflect the enquiries you want to attract, from urgent home repairs and legal consultations to planned treatments, property services and educational programmes.",
+          "bg": ""
+        },
+        {
+          "path": "description#12.0",
+          "en": "Strengthen Your Local Presence",
+          "bg": ""
+        },
+        {
+          "path": "description#13.0",
+          "en": "We optimise your Google Business Profile, service and location pages, and relevant business listings. Clear contact details, accurate service information and a considered approach to reviews help people evaluate your business and take the next step.",
+          "bg": ""
+        },
+        {
+          "path": "description#14.0",
+          "en": "Explain Your Services and Build Trust",
+          "bg": ""
+        },
+        {
+          "path": "description#15.0",
+          "en": "We create and improve content that answers practical questions about your services, process and expertise. Qualifications, team profiles, reviews and relevant examples help potential clients understand whether you are the right provider for their needs.",
+          "bg": ""
+        },
+        {
+          "path": "description#16.0",
+          "en": "Support Visibility Across Search and AI",
+          "bg": ""
+        },
+        {
+          "path": "description#17.0",
+          "en": "We address technical barriers, improve website structure and strengthen relevant authority. Clear service information and expert content support your presence across search engines and help AI-powered tools understand your business accurately.",
+          "bg": ""
+        },
+        {
+          "path": "description#18.0",
+          "en": "Measure Progress Beyond Website Visits",
+          "bg": ""
+        },
+        {
+          "path": "description#19.0",
+          "en": "A valuable enquiry comes from someone who needs a service you provide, in a location you serve. That makes enquiry relevance, appointments and bookings central to evaluating organic performance.",
+          "bg": ""
+        },
+        {
+          "path": "description#20.0",
+          "en": "We work with your team to connect search activity with available website, booking and enquiry data. Your feedback helps us understand which services attract suitable clients and where visibility or conversion needs to improve.",
+          "bg": ""
+        },
+        {
+          "path": "description#21.0",
+          "en": "Relevant Visibility",
+          "bg": ""
+        },
+        {
+          "path": "description#21.2",
+          "en": "Presence for searches connected with your services, specialisms and target locations.",
+          "bg": ""
+        },
+        {
+          "path": "description#22.0",
+          "en": "Qualified Enquiries",
+          "bg": ""
+        },
+        {
+          "path": "description#22.2",
+          "en": "Calls, contact forms and appointment requests from people whose needs match your offer.",
+          "bg": ""
+        },
+        {
+          "path": "description#23.0",
+          "en": "New Client Opportunities",
+          "bg": ""
+        },
+        {
+          "path": "description#23.2",
+          "en": "Evidence of how organic discovery contributes to consultations, bookings, applications and new client relationships.",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "label": "Financial Sector",
+      "fields": [
+        {
+          "path": "title",
+          "en": "Financial Sector",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "description#0.0",
+          "en": "Financial Sector",
+          "bg": ""
+        },
+        {
+          "path": "description#1.0",
+          "en": "Be visible when customers research financial products, compare providers and look for trusted advice. Conversion Century helps financial businesses strengthen their presence in search engines and AI-powered discovery through clear content, technical SEO and a focus on relevant enquiries and applications.",
+          "bg": ""
+        },
+        {
+          "path": "description#2.0",
+          "en": "Clients in the Financial Sector",
+          "bg": ""
+        },
+        {
+          "path": "description#3.0",
+          "en": "Banks · Insurance companies · Credit providers · Payment providers · Investment platforms · Financial advisory firms",
+          "bg": ""
+        },
+        {
+          "path": "description#4.0",
+          "en": "Client logos:",
+          "bg": ""
+        },
+        {
+          "path": "description#4.1",
+          "en": " KBC · Allianz · TradingView",
+          "bg": ""
+        },
+        {
+          "path": "description#5.0",
+          "en": "Build Visibility Around Financial Decisions",
+          "bg": ""
+        },
+        {
+          "path": "description#6.0",
+          "en": "Choosing a financial product often involves questions about costs, eligibility, terms and risk. Your website should help people find the relevant information, understand their options and identify an appropriate next step.",
+          "bg": ""
+        },
+        {
+          "path": "description#7.0",
+          "en": "SEO connects these searches with product pages, service information and expert resources. Opportunities range from broad research about financial needs to specific searches for insurance cover, banking services or financing options.",
+          "bg": ""
+        },
+        {
+          "path": "description#8.0",
+          "en": "Visibility across search engines and AI-powered tools makes accuracy, clarity and consistency especially important. We work with your specialists to present financial information clearly and keep content aligned with your products, approved messaging and review requirements.",
+          "bg": ""
+        },
+        {
+          "path": "description#9.0",
+          "en": "How We Help Financial Businesses Grow",
+          "bg": ""
+        },
+        {
+          "path": "description#10.0",
+          "en": "Reach Relevant Financial Audiences",
+          "bg": ""
+        },
+        {
+          "path": "description#11.0",
+          "en": "We research how individuals and businesses search for your products and services. Priorities reflect customer intent, target markets and commercial relevance, distinguishing general information searches from demand for a specific financial solution.",
+          "bg": ""
+        },
+        {
+          "path": "description#12.0",
+          "en": "Make Products and Services Easier to Understand",
+          "bg": ""
+        },
+        {
+          "path": "description#13.0",
+          "en": "We improve page structure, terminology, headings and internal links so visitors can find important details. Content helps explain features, costs, eligibility and application steps, with product information reviewed by your team.",
+          "bg": ""
+        },
+        {
+          "path": "description#14.0",
+          "en": "Strengthen Expertise and Trust",
+          "bg": ""
+        },
+        {
+          "path": "description#15.0",
+          "en": "We develop useful guides, FAQs and expert content with your subject-matter specialists. Clear authorship, professional credentials, current information and accessible supporting sources help customers evaluate the information and the business behind it.",
+          "bg": ""
+        },
+        {
+          "path": "description#16.0",
+          "en": "Support Technical Quality and Market Expansion",
+          "bg": ""
+        },
+        {
+          "path": "description#17.0",
+          "en": "We address technical barriers across product pages, resources and multilingual sections. Where relevant, the strategy includes local branch visibility, international structures and market-specific content, coordinated with your technical and compliance teams.",
+          "bg": ""
+        },
+        {
+          "path": "description#18.0",
+          "en": "Measure Progress Through Relevant Demand and Applications",
+          "bg": ""
+        },
+        {
+          "path": "description#19.0",
+          "en": "Financial SEO should attract people whose needs match the products and services you offer. Traffic growth matters alongside the quality of enquiries, application journeys and the information customers use before deciding.",
+          "bg": ""
+        },
+        {
+          "path": "description#20.0",
+          "en": "We work with your team to connect organic performance with available analytics and business data. Reporting distinguishes actions such as application starts from completed applications and qualified opportunities, helping identify where visibility or the customer journey needs improvement.",
+          "bg": ""
+        },
+        {
+          "path": "description#21.0",
+          "en": "Relevant Visibility",
+          "bg": ""
+        },
+        {
+          "path": "description#21.2",
+          "en": "Presence for searches connected with your financial products, services and target customer needs.",
+          "bg": ""
+        },
+        {
+          "path": "description#22.0",
+          "en": "Qualified Enquiries and Applications",
+          "bg": ""
+        },
+        {
+          "path": "description#22.2",
+          "en": "Relevant consultation requests, quote enquiries and applications from potential customers within your intended audience.",
+          "bg": ""
+        },
+        {
+          "path": "description#23.0",
+          "en": "Commercial Contribution",
+          "bg": ""
+        },
+        {
+          "path": "description#23.2",
+          "en": "Evidence of how organic discovery supports completed applications, new customer relationships and business outcomes, where measurement is available.",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "label": "Real Estate",
+      "fields": [
+        {
+          "path": "title",
+          "en": "Real Estate",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "description#0.0",
+          "en": "Bring more potential buyers, tenants and property owners to your website. Conversion Century helps real estate businesses grow relevant organic traffic, improve the visibility of property listings and generate qualified enquiries through search engines and AI-powered discovery.",
+          "bg": ""
+        },
+        {
+          "path": "description#1.0",
+          "en": "Clients in Real Estate",
+          "bg": ""
+        },
+        {
+          "path": "description#2.0",
+          "en": "Real estate agencies · Property developers · Residential property companies · Commercial property advisers · Property management companies",
+          "bg": ""
+        },
+        {
+          "path": "description#3.0",
+          "en": "Client logos:",
+          "bg": ""
+        },
+        {
+          "path": "description#3.1",
+          "en": " Address · UES",
+          "bg": ""
+        },
+        {
+          "path": "description#4.0",
+          "en": "Turn Property Searches Into Website Visits and Enquiries",
+          "bg": ""
+        },
+        {
+          "path": "description#5.0",
+          "en": "Property searches range from broad research about locations and prices to specific requirements for buying or renting. Your website should reach people across that journey and help them find properties that match their needs.",
+          "bg": ""
+        },
+        {
+          "path": "description#6.0",
+          "en": "SEO connects this demand with your location pages, property categories, development projects and individual listings. A clear structure helps you attract a larger relevant audience while making available offers easier to discover.",
+          "bg": ""
+        },
+        {
+          "path": "description#7.0",
+          "en": "Search engines and AI-powered tools also give potential clients ways to research neighbourhoods, compare developments and identify agencies. Accurate property information and useful local content strengthen your presence throughout that process.",
+          "bg": ""
+        },
+        {
+          "path": "description#8.0",
+          "en": "How We Help Real Estate Businesses Grow",
+          "bg": ""
+        },
+        {
+          "path": "description#9.0",
+          "en": "Attract More Relevant Visitors",
+          "bg": ""
+        },
+        {
+          "path": "description#10.0",
+          "en": "We research how people search by location, property type, transaction and specific requirements. The strategy combines broader opportunities that can grow website traffic with more specific searches that indicate a clear intention to buy, rent or sell.",
+          "bg": ""
+        },
+        {
+          "path": "description#11.0",
+          "en": "Optimise Property Offers and Listings",
+          "bg": ""
+        },
+        {
+          "path": "description#12.0",
+          "en": "We improve listing titles, descriptions, headings, images and internal links so each offer communicates its key features clearly. Location, property type, price, size and amenities help visitors assess suitability and make more informed enquiries.",
+          "bg": ""
+        },
+        {
+          "path": "description#13.0",
+          "en": "Strengthen Location and Property Category Pages",
+          "bg": ""
+        },
+        {
+          "path": "description#14.0",
+          "en": "We develop and optimise pages for cities, neighbourhoods, property types and development projects. These pages connect relevant searches with available offers and provide a lasting source of visibility as individual listings change.",
+          "bg": ""
+        },
+        {
+          "path": "description#15.0",
+          "en": "Make Large Property Websites Easier to Discover",
+          "bg": ""
+        },
+        {
+          "path": "description#16.0",
+          "en": "We address technical issues involving filters, duplicate URLs, pagination, internal linking and expired listings. The aim is to help search engines discover important pages and make it easier for visitors to navigate towards suitable properties.",
+          "bg": ""
+        },
+        {
+          "path": "description#17.0",
+          "en": "Measure Progress Through Traffic and Lead Quality",
+          "bg": ""
+        },
+        {
+          "path": "description#18.0",
+          "en": "Growing website traffic is valuable when it brings more people with relevant property needs. We evaluate audience growth alongside engagement with listings and the enquiries those visits generate.",
+          "bg": ""
+        },
+        {
+          "path": "description#19.0",
+          "en": "We work with your team to connect organic performance with available enquiry and CRM data. Feedback on budgets, preferred locations, property requirements and viewing requests helps us understand which pages attract qualified prospects.",
+          "bg": ""
+        },
+        {
+          "path": "description#20.0",
+          "en": "Relevant Website Traffic",
+          "bg": ""
+        },
+        {
+          "path": "description#20.2",
+          "en": "Growth in organic visitors searching for properties, locations and services connected with your available offers.",
+          "bg": ""
+        },
+        {
+          "path": "description#21.0",
+          "en": "Listing Engagement",
+          "bg": ""
+        },
+        {
+          "path": "description#21.2",
+          "en": "Visits to property pages, exploration of related offers and actions that indicate interest in specific listings or developments.",
+          "bg": ""
+        },
+        {
+          "path": "description#22.0",
+          "en": "Qualified Property Enquiries",
+          "bg": ""
+        },
+        {
+          "path": "description#22.2",
+          "en": "Calls, contact forms and viewing requests from potential clients whose requirements match your properties and services.",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "label": "Healthcare",
+      "fields": [
+        {
+          "path": "title",
+          "en": "Healthcare",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "description#0.0",
+          "en": "Help patients find your services and understand the expertise behind them. Conversion Century helps healthcare providers strengthen their presence in search engines, local results and AI-powered discovery through clear service information, expert content and accessible paths to booking.",
+          "bg": ""
+        },
+        {
+          "path": "description#1.0",
+          "en": "Clients in Healthcare",
+          "bg": ""
+        },
+        {
+          "path": "description#2.0",
+          "en": "Medical centres · Specialist clinics · Dental practices · Fertility clinics · Diagnostic centres · Independent healthcare specialists",
+          "bg": ""
+        },
+        {
+          "path": "description#3.0",
+          "en": "Client logos:",
+          "bg": ""
+        },
+        {
+          "path": "description#3.1",
+          "en": " Medical Dent · Adella Fertility",
+          "bg": ""
+        },
+        {
+          "path": "description#4.0",
+          "en": "Build Visibility Around Medical Expertise and Trust",
+          "bg": ""
+        },
+        {
+          "path": "description#5.0",
+          "en": "Choosing a healthcare provider is a personal decision. Patients need to understand who will care for them, what experience the team brings and whether the clinic provides the services they need.",
+          "bg": ""
+        },
+        {
+          "path": "description#6.0",
+          "en": "Your website should make that expertise clear through detailed specialist profiles, verified qualifications, clinical experience and accurate treatment information. Practical details about consultations, facilities and locations help patients evaluate their options.",
+          "bg": ""
+        },
+        {
+          "path": "description#7.0",
+          "en": "Healthcare falls within Your Money or Your Life (YMYL), where inaccurate information can affect people’s wellbeing. We approach SEO with particular attention to experience, expertise, authoritativeness and trustworthiness, supported by medical review, credible sources and transparent information about the people behind the content.",
+          "bg": ""
+        },
+        {
+          "path": "description#8.0",
+          "en": "How We Help Healthcare Providers Grow",
+          "bg": ""
+        },
+        {
+          "path": "description#9.0",
+          "en": "Showcase Professional Experience",
+          "bg": ""
+        },
+        {
+          "path": "description#10.0",
+          "en": "We develop specialist profiles and service content that communicate your team’s qualifications, areas of practice and relevant clinical experience. Professional memberships, additional training and documented expertise help patients understand who is responsible for their care.",
+          "bg": ""
+        },
+        {
+          "path": "description#11.0",
+          "en": "Build Trust Through Clear Patient Information",
+          "bg": ""
+        },
+        {
+          "path": "description#12.0",
+          "en": "We improve treatment and consultation pages so patients can understand the service, its purpose and what to expect. Content presents benefits, limitations and relevant considerations with input from your clinicians, avoiding unsupported claims or promises of outcomes.",
+          "bg": ""
+        },
+        {
+          "path": "description#13.0",
+          "en": "Apply Healthcare and YMYL Content Standards",
+          "bg": ""
+        },
+        {
+          "path": "description#14.0",
+          "en": "We establish clear authorship, qualified medical review, appropriate sourcing and content review processes. We assess trust signals across the website, including provider information, contact details and editorial transparency, adapting the work to your speciality and market requirements.",
+          "bg": ""
+        },
+        {
+          "path": "description#15.0",
+          "en": "Strengthen Visibility Across Search and AI",
+          "bg": ""
+        },
+        {
+          "path": "description#16.0",
+          "en": "We connect relevant patient searches with your services, specialists and locations. Technical SEO, clear website structure, accurate Google Business Profiles and consistent professional information support discovery and help search engines and AI-powered tools understand your practice.",
+          "bg": ""
+        },
+        {
+          "path": "description#17.0",
+          "en": "Measure Progress Through Trust, Visibility and Appointments",
+          "bg": ""
+        },
+        {
+          "path": "description#18.0",
+          "en": "Healthcare SEO should help people find reliable information and connect with appropriate professional care. We assess visibility for priority services alongside engagement with specialist profiles, patient enquiries and appointment requests.",
+          "bg": ""
+        },
+        {
+          "path": "description#19.0",
+          "en": "We work with your team using appropriate aggregate reporting and feedback on enquiry relevance. Content quality and medical review remain part of the ongoing work as your services, team and patient information develop.",
+          "bg": ""
+        },
+        {
+          "path": "description#20.0",
+          "en": "Relevant Visibility",
+          "bg": ""
+        },
+        {
+          "path": "description#20.2",
+          "en": "Presence for searches connected with your clinical expertise, services and practice locations.",
+          "bg": ""
+        },
+        {
+          "path": "description#21.0",
+          "en": "Patient Trust and Engagement",
+          "bg": ""
+        },
+        {
+          "path": "description#21.2",
+          "en": "Engagement with specialist profiles, reviewed service information and practical resources that help patients evaluate your practice.",
+          "bg": ""
+        },
+        {
+          "path": "description#22.0",
+          "en": "Consultation and Appointment Requests",
+          "bg": ""
+        },
+        {
+          "path": "description#22.2",
+          "en": "Evidence of how organic discovery contributes to relevant enquiries and booking requests, where suitable measurement is available.",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "label": "Fashion",
+      "fields": [
+        {
+          "path": "title",
+          "en": "Fashion",
+          "bg": "",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "label": "Automotive",
+      "fields": [
+        {
+          "path": "title",
+          "en": "Automotive",
+          "bg": "",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "label": "Cosmetics & Personal Care",
+      "fields": [
+        {
+          "path": "title",
+          "en": "Cosmetics & Personal Care",
+          "bg": "",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "label": "Household Appliances",
+      "fields": [
+        {
+          "path": "title",
+          "en": "Household Appliances",
+          "bg": "",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "label": "Entertainment & Other",
+      "fields": [
+        {
+          "path": "title",
+          "en": "Entertainment & Other",
+          "bg": "",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "label": "B2C Services",
+      "fields": [
+        {
+          "path": "title",
+          "en": "B2C Services",
+          "bg": "",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "label": "SaaS",
+      "fields": [
+        {
+          "path": "title",
+          "en": "SaaS",
+          "bg": "",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

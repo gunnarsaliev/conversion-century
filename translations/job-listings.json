@@ -1,0 +1,699 @@
+{
+  "collection": "job-listings",
+  "sourceLocale": "en",
+  "targetLocale": "bg",
+  "exportedAt": "2026-10-23T06:51:37.918Z",
+  "docs": [
+    {
+      "id": 1,
+      "label": "Digital Marketing Specialist",
+      "fields": [
+        {
+          "path": "title",
+          "en": "Digital Marketing Specialist",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "location",
+          "en": "Sofia",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.0.0",
+          "en": "‍Availability to work 20 hours a week with a flexible schedule for the part-time position and 40 hours a week with a flexible schedule for the full-time position.",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.1.0",
+          "en": "Fluent in Bulgarian & English",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.2.0",
+          "en": "Multitasking abilities ",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.3.0",
+          "en": "Excellent verbal and written communication skills",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.4.0",
+          "en": "Diligent, organized, with great attention to detail and self-driven",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.5.0",
+          "en": "Proactive team player with ability to work in a changing environment and ",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.5.1",
+          "en": "without direct supervision",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.6.0",
+          "en": "Experience with blogging and WordPress is a plus, but is not required",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.7.0",
+          "en": "Strong interest in Digital Marketing and SEO (No prior SEO experience needed)",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.0.0",
+          "en": "Digital Marketing/SEO training and guidance",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.1.0",
+          "en": "Work in a dynamic and friendly environment ",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.2.0",
+          "en": "Work from any location (virtual office) and with a flexible schedule",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.3.0",
+          "en": "Opportunity to learn about SEO and digital marketing from established professionals",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.4.0",
+          "en": "Attractive salary and performance bonuses",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.5.0",
+          "en": "Personal and professional growth",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.6.0",
+          "en": "Friendly work environment ",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.7.0",
+          "en": "Opportunity to work with clients from all over the world",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "label": "Junior SEO & AI Strategy Specialist",
+      "fields": [
+        {
+          "path": "title",
+          "en": "Junior SEO & AI Strategy Specialist",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "location",
+          "en": "Sofia, Bulgaria",
+          "bg": ""
+        },
+        {
+          "path": "description#0.0",
+          "en": "We are looking for a proactive, analytical and detail-oriented Junior SEO & AI Strategy Specialist to join our team. You will support international client projects, implement SEO strategies and use AI tools thoughtfully to improve research, execution and reporting.",
+          "bg": ""
+        },
+        {
+          "path": "description#1.0",
+          "en": "If you want to learn quickly, gain international experience and develop practical skills in SEO and AI-powered search, this role offers the opportunity to build a long-term career in digital marketing.",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.0.0",
+          "en": "SEO and AI Search Optimisation:",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.0.1",
+          "en": " Support the implementation of SEO and AI search strategies for international clients under the guidance of senior specialists.",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.1.0",
+          "en": "On-Page SEO:",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.1.1",
+          "en": " Conduct keyword research focused on search intent and optimise page titles, meta descriptions, content structure and internal linking.",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.2.0",
+          "en": "Content Collaboration:",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.2.1",
+          "en": " Work with writers to develop content aligned with SEO objectives. Use AI for research, ideas and structure, applying critical thinking, fact-checking and editorial judgement.",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.3.0",
+          "en": "Technical SEO Audits:",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.3.1",
+          "en": " Help identify crawling, indexing, website speed and mobile usability issues. Support implementation and verify fixes alongside senior specialists and developers.",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.4.0",
+          "en": "Digital PR and Link Building:",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.4.1",
+          "en": " Support outreach campaigns, relevant directory submissions and digital PR activities to earn quality links and strengthen brand authority.",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.5.0",
+          "en": "AI Workflow Development:",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.5.1",
+          "en": " Test and apply tools such as ChatGPT, Claude, custom GPTs and automation platforms where they can improve research, daily tasks and reporting.",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.6.0",
+          "en": "Performance Analysis:",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.6.1",
+          "en": " Monitor organic visibility, keyword rankings, traffic and conversions using Google Analytics, Google Search Console, Ahrefs and Semrush.",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.7.0",
+          "en": "Client Reporting and Coordination:",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.7.1",
+          "en": " Help prepare clear, data-driven reports explaining results, completed work and recommended next steps.",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.0.0",
+          "en": "Education:",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.0.1",
+          "en": " A completed or ongoing bachelor’s degree in Marketing, Business Administration, Computer Science, Data Analytics or a related field, or completion of a recognised digital marketing programme.",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.1.0",
+          "en": "SEO Knowledge:",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.1.1",
+          "en": " A sound understanding of SEO fundamentals, how search engines work, and on-page and off-page best practices.",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.2.0",
+          "en": "Critical Thinking and Interest in AI:",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.2.1",
+          "en": " Curiosity about emerging technologies and a thoughtful approach to using AI tools, including checking their outputs and recognising their limitations.",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.3.0",
+          "en": "Analytical Skills:",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.3.1",
+          "en": " Confidence working with data, identifying patterns and turning findings into practical recommendations.",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.4.0",
+          "en": "Communication:",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.4.1",
+          "en": " Strong written and spoken English at B2 level or above, with the ability to explain ideas clearly and professionally.",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.5.0",
+          "en": "Organisation and Initiative:",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.5.1",
+          "en": " Attention to detail, a proactive approach to problem-solving and the ability to manage competing priorities and deadlines.",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.6.0",
+          "en": "Tools:",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.6.1",
+          "en": " Hands-on experience with Google Analytics, Google Search Console, Ahrefs, Semrush, Moz or similar tools is a strong advantage.",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.0.0",
+          "en": "Competitive Compensation:",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.0.1",
+          "en": " A fixed base salary plus performance-related bonuses.",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.1.0",
+          "en": "Structured Onboarding and Mentorship:",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.1.1",
+          "en": " A clear onboarding plan and direct guidance from experienced specialists and agency leadership.",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.2.0",
+          "en": "Hybrid and Flexible Working:",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.2.1",
+          "en": " A balanced hybrid schedule with a flexible start time between 8:00 and 10:00 a.m.",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.3.0",
+          "en": "Professional Development:",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.3.1",
+          "en": " Company-funded certifications, SEO and AI training, internal research and curated learning resources, including a Notion knowledge base and a book library.",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.4.0",
+          "en": "International Client Experience:",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.4.1",
+          "en": " Work on projects across Europe and the United States in B2B, e-commerce, financial services, real estate and healthcare.",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.5.0",
+          "en": "Paid Leave:",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.5.1",
+          "en": " 20 days of paid annual leave, plus Bulgarian public holidays.",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.6.0",
+          "en": "Additional Health Insurance.",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.7.0",
+          "en": "Fully Employer-Funded Sports Card.",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.8.0",
+          "en": "A Supportive Team:",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.8.1",
+          "en": " Collaboration, open communication, regular team events and opportunities for long-term career development.",
+          "bg": ""
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "label": "Senior SEO & AI Strategy Specialist",
+      "fields": [
+        {
+          "path": "title",
+          "en": "Senior SEO & AI Strategy Specialist",
+          "bg": "",
+          "required": true
+        },
+        {
+          "path": "location",
+          "en": "Sofia, Bulgaria",
+          "bg": ""
+        },
+        {
+          "path": "description#0.0",
+          "en": "We are looking for an experienced, proactive and strategically minded Senior SEO & AI Strategy Specialist to lead SEO and AI search strategies for clients across Europe and the United States.",
+          "bg": ""
+        },
+        {
+          "path": "description#1.0",
+          "en": "You will manage key client accounts, develop long-term strategies and oversee complex projects, translating data into clear business decisions. Working closely with SEO specialists, writers, developers and client teams, you will also mentor junior colleagues and help develop the agency’s methods and processes.",
+          "bg": ""
+        },
+        {
+          "path": "description#2.0",
+          "en": "If you have a strong SEO track record, understand how technical performance, content and customer behaviour connect with business results, and actively follow developments in AI-powered search, this role offers the opportunity to shape international projects and influence how we work.",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.0.0",
+          "en": "SEO and AI Search Strategy:",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.0.1",
+          "en": " Develop and manage strategies aligned with each client’s business objectives, target markets and competitive landscape. Define priorities, resources, implementation milestones and success metrics.",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.1.0",
+          "en": "Keyword Research and Website Architecture:",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.1.1",
+          "en": " Research keywords, search intent, competitors and market opportunities. Develop keyword maps, topic clusters, website structures and long-term plans for organic growth.",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.2.0",
+          "en": "On-Page SEO:",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.2.1",
+          "en": " Lead improvements to metadata, content, internal linking and commercial landing pages, ensuring clear targeting and alignment with customer needs.",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.3.0",
+          "en": "Content and AI Search Visibility:",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.3.1",
+          "en": " Work with writers and editors to develop useful, expert content. Guide semantic SEO, topic coverage and visibility across AI-powered search experiences. Use AI for research, analysis and workflow improvements, with critical judgement and human review.",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.4.0",
+          "en": "Technical SEO:",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.4.1",
+          "en": " Lead audits covering crawling, indexing, Core Web Vitals, structured data, JavaScript rendering, international SEO, mobile performance and crawl efficiency. Prepare actionable development briefs, prioritise issues by business impact and verify implementation.",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.5.0",
+          "en": "Digital PR and Link Building:",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.5.1",
+          "en": " Develop strategies for relevant editorial coverage, outreach and quality links. Analyse backlink profiles, evaluate potential sources and identify opportunities to strengthen brand authority.",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.6.0",
+          "en": "AI Integration and Automation:",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.6.1",
+          "en": " Research, test and implement AI and automation tools across analysis, research, delivery, quality assurance and reporting. Develop repeatable workflows and assess their accuracy and practical value.",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.7.0",
+          "en": "Data Analysis and Forecasting:",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.7.1",
+          "en": " Analyse performance using Google Analytics, Google Search Console, Ahrefs, Semrush and other platforms. Monitor visibility, traffic, conversions and commercial outcomes, identify opportunities and prepare realistic growth forecasts with clear assumptions.",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.8.0",
+          "en": "Client Consulting and Reporting:",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.8.1",
+          "en": " Lead client communication and strategic meetings. Present results and recommendations to business owners, marketing leaders and other stakeholders, explaining completed work, business implications and next priorities.",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.9.0",
+          "en": "Mentoring and Team Coordination:",
+          "bg": ""
+        },
+        {
+          "path": "responsibilities#0.9.1",
+          "en": " Support junior specialists, provide constructive feedback and coordinate delivery across internal teams and external partners.",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.0.0",
+          "en": "Professional Experience:",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.0.1",
+          "en": " At least five years of hands-on SEO experience, preferably in an agency or a role involving multiple client accounts.",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.1.0",
+          "en": "Proven Results:",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.1.1",
+          "en": " A track record of measurable improvements in organic traffic, rankings, conversions and revenue across competitive sectors and international markets.",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.2.0",
+          "en": "Strategic SEO Expertise:",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.2.1",
+          "en": " Strong knowledge of technical SEO, content strategy, website architecture, on-page and off-page optimisation, and international SEO.",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.3.0",
+          "en": "Technical Skills:",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.3.1",
+          "en": " Practical experience with crawling and indexing, Core Web Vitals, structured data, JavaScript SEO, canonicalisation, hreflang, website migrations and large websites.",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.4.0",
+          "en": "SEO and Analytics Tools:",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.4.1",
+          "en": " Advanced proficiency with Google Analytics, Google Search Console, Ahrefs, Semrush, Screaming Frog and related analysis, monitoring and automation tools.",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.5.0",
+          "en": "AI and LLM Skills:",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.5.1",
+          "en": " Practical experience with ChatGPT, Claude, custom GPTs and automation tools, alongside an active interest in AI-powered search. Ability to assess outputs critically and integrate tools responsibly into SEO workflows.",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.6.0",
+          "en": "Analytical and Commercial Thinking:",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.6.1",
+          "en": " Ability to interpret complex data and connect SEO performance with revenue, qualified enquiries, conversions and wider business priorities.",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.7.0",
+          "en": "Communication:",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.7.1",
+          "en": " Strong written and spoken English at B2 level or above, with the confidence to present strategies, findings and recommendations clearly to clients and colleagues.",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.8.0",
+          "en": "Leadership:",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.8.1",
+          "en": " Experience coordinating people and projects, providing constructive feedback and supporting junior specialists.",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.9.0",
+          "en": "Organisation and Initiative:",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.9.1",
+          "en": " Attention to detail, independence and accountability, with the ability to manage several complex projects and competing deadlines.",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.10.0",
+          "en": "Education:",
+          "bg": ""
+        },
+        {
+          "path": "requirements#0.10.1",
+          "en": " A bachelor’s degree in Marketing, Business Administration, Computer Science, Data Analytics or a related field. A master’s degree and additional professional certifications are an advantage.",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.0.0",
+          "en": "Competitive Compensation:",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.0.1",
+          "en": " A salary appropriate to a senior role, plus bonuses linked to individual performance and results.",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.1.0",
+          "en": "Hybrid and Flexible Working:",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.1.1",
+          "en": " A balanced hybrid schedule with a flexible start time between 8:00 and 10:00 a.m.",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.2.0",
+          "en": "Professional Development:",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.2.1",
+          "en": " Company-funded certifications, specialist SEO and AI training, conference participation, internal research and curated learning resources, including a Notion knowledge base and professional book library.",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.3.0",
+          "en": "International Client Experience:",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.3.1",
+          "en": " Work with international businesses and established brands across B2B, e-commerce, financial services, real estate, healthcare, technology and other competitive sectors in Europe and the United States.",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.4.0",
+          "en": "Strategic Influence:",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.4.1",
+          "en": " The opportunity to propose and implement ideas, develop the agency’s SEO and AI methods, and contribute to key client decisions.",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.5.0",
+          "en": "Career and Leadership Development:",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.5.1",
+          "en": " Opportunities to progress into a leadership role, manage larger teams and contribute to the agency’s strategic direction.",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.6.0",
+          "en": "Paid Leave:",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.6.1",
+          "en": " 20 days of paid annual leave, plus Bulgarian public holidays.",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.7.0",
+          "en": "Additional Benefits:",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.7.1",
+          "en": " Additional health insurance and a fully employer-funded sports card.",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.8.0",
+          "en": "A Supportive Team:",
+          "bg": ""
+        },
+        {
+          "path": "offer#0.8.1",
+          "en": " A collaborative environment with high professional standards, open communication, regular team events and knowledge sharing.",
+          "bg": ""
+        }
+      ]
+    }
+  ]
+}
