@@ -1,8 +1,9 @@
 # Content translations (English → Bulgarian)
 
-Each `<collection>.json` file here lists the website content that has English
-text but no Bulgarian translation yet. They are generated with
-`pnpm translations:export` and read back with `pnpm translations:import`.
+Each `<collection>.json` file lists the website content that has English
+text but no Bulgarian translation yet. Admins download them from
+**Dashboard → Translations** (or `pnpm translations:export`) and upload the
+translated files on the same page (or `pnpm translations:import`).
 
 ## For the translator
 
@@ -34,6 +35,8 @@ becomes
   „Bulgarian quotes“ instead.
 
 ## For developers
+
+The dashboard page and the scripts share `src/lib/translations/`.
 
 ```sh
 pnpm translations:export                 # all collections

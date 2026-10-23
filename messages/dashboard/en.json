@@ -18,7 +18,8 @@
       "team": "Staff & Roles",
       "docs": "Docs",
       "admin": "Admin",
-      "settings": "Settings"
+      "settings": "Settings",
+      "translations": "Translations"
     },
     "user": {
       "profile": "Profile Settings",
@@ -395,5 +396,71 @@
     "noDescription": "No description yet.",
     "highlights": "Highlights",
     "included": "What's Included"
+  },
+  "Translations": {
+    "title": "Translations",
+    "description": "Translate the website's content (services, solutions, blog posts…) into Bulgarian: download what still needs translating, send it to the translator, then import the finished files.",
+    "collections": {
+      "blog": "Blog posts",
+      "case-studies": "Case studies",
+      "events": "Events & media",
+      "industries": "Industries",
+      "job-listings": "Job listings",
+      "media": "Media (alt text & captions)",
+      "services": "Services",
+      "solutions": "Solutions"
+    },
+    "export": {
+      "title": "1. Export",
+      "description": "Only fields with English text and no Bulgarian yet are included.",
+      "collection": "Collection",
+      "documents": "Documents",
+      "fields": "Fields",
+      "words": "Words",
+      "download": "Download",
+      "downloadJson": "Download JSON",
+      "downloadAll": "Download all (.zip)",
+      "done": "Fully translated",
+      "total": "Total"
+    },
+    "import": {
+      "title": "2. Import",
+      "description": "Upload the translated .json files (or the .zip). Check them first: nothing is saved until you apply. Only empty Bulgarian fields are filled, never existing translations.",
+      "choose": "Choose files",
+      "noFiles": "No files selected",
+      "preview": "Check files",
+      "checking": "Checking…",
+      "apply": "Apply {count, plural, one {# translation} other {# translations}}",
+      "applying": "Applying…",
+      "confirm": "Save {count, plural, one {# translation} other {# translations}} to the website in Bulgarian?",
+      "previewed": "{count, plural, one {# field} other {# fields}} will be filled. Review the details below, then apply.",
+      "nothingToApply": "Nothing to import: these fields are already translated, empty in the file, or changed since the export.",
+      "applied": "Done: {count, plural, one {# field} other {# fields}} filled in Bulgarian.",
+      "downloadBackup": "Download backup of previous values"
+    },
+    "report": {
+      "filled": "{count} to fill",
+      "existing": "{count} already translated",
+      "stale": "{count} changed since export",
+      "incomplete": "{count} incomplete",
+      "missing": "{count} no longer exist",
+      "failed": "{count, plural, one {# document} other {# documents}} not saved",
+      "showDetails": "Show details",
+      "nothing": "No translated fields in this file."
+    },
+    "kinds": {
+      "fill": "Fill",
+      "stale": "Changed",
+      "missing": "Gone",
+      "partial": "Incomplete",
+      "error": "Not saved"
+    },
+    "errors": {
+      "adminOnly": "Only admins can import translations.",
+      "noFiles": "Choose at least one file.",
+      "invalidJson": "A file isn't valid JSON. Ask the translator to check it.",
+      "notTranslationFile": "A file isn't a translation file exported from this page.",
+      "importFailed": "Something went wrong while importing the translations."
+    }
   }
 }

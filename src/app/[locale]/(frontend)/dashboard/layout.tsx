@@ -8,7 +8,7 @@ import { DashboardLayout } from "@/components/dashboard16-layout";
 import type { UserData } from "@/components/dashboard16-layout";
 import { getNotificationsForUser, type NotificationFeed } from "@/lib/notifications";
 import { getDashboardLocale, getDashboardMessages } from "@/lib/dashboard-locale";
-import { isAdminOrEditor } from "@/lib/roles";
+import { isAdmin, isAdminOrEditor } from "@/lib/roles";
 
 // Internal area: never indexed, even after launch.
 export const metadata: Metadata = {
@@ -64,6 +64,7 @@ export default async function Dashboard({
         <DashboardLayout
           user={sidebarUser}
           isAdmin={isAdminOrEditor(user)}
+          canManageTranslations={isAdmin(user)}
           notifications={notifications}
         >
           {children}

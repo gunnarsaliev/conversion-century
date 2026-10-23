@@ -9,6 +9,7 @@ import {
   Globe,
   Handshake,
   Images,
+  Languages,
   LayoutDashboard,
   LogOut,
   Palette,
@@ -292,14 +293,16 @@ const NavUser = ({ user }: { user: UserData }) => {
 const AppSidebar = ({
   user,
   isAdmin,
+  canManageTranslations,
   ...props
 }: React.ComponentProps<typeof Sidebar> & {
   user?: UserData;
   isAdmin?: boolean;
+  canManageTranslations?: boolean;
 }) => {
   const t = useTranslations("Nav.groups");
   const navGroups = React.useMemo(() => {
-    if (!isAdmin) return sidebarData.navGroups;
+    if (!isAdmin && !canManageTranslations) return sidebarData.navGroups;
 
     return sidebarData.navGroups.map((group) => {
       if (group.key !== "administration") return group;
@@ -308,11 +311,14 @@ const AppSidebar = ({
         ...group,
         items: [
           ...group.items,
-          { key: "admin", icon: ShieldCheck, href: "/admin" },
+          ...(canManageTranslations
+            ? [{ key: "translations", icon: Languages, href: "/dashboard/translations" }]
+            : []),
+          ...(isAdmin ? [{ key: "admin", icon: ShieldCheck, href: "/admin" }] : []),
         ],
       };
     });
-  }, [isAdmin]);
+  }, [isAdmin, canManageTranslations]);
 
   return (
     <Sidebar variant="inset" collapsible="icon" {...props}>
@@ -353,12 +359,16 @@ const DashboardLayout = ({
   className,
   user,
   isAdmin,
+  canManageTranslations,
   notifications,
 }: {
   children: React.ReactNode;
   className?: string;
   user?: UserData;
+  /** Admins and editors: shows the link to /admin. */
   isAdmin?: boolean;
+  /** Admins only: shows Translations. */
+  canManageTranslations?: boolean;
   notifications?: NotificationFeed;
 }) => {
   const t = useTranslations("Nav");
@@ -372,7 +382,7 @@ const DashboardLayout = ({
         >
           {t("skipToContent")}
         </a>
-        <AppSidebar user={user} isAdmin={isAdmin} />
+        <AppSidebar user={user} isAdmin={isAdmin} canManageTranslations={canManageTranslations} />
         <div className="h-svh w-full overflow-hidden lg:p-2">
           <div className="flex h-full w-full flex-col bg-background lg:rounded-xl lg:border">
             <div className="min-h-0 flex-1 overflow-hidden">

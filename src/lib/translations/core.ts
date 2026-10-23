@@ -1,4 +1,5 @@
-// Shared helpers for scripts/translations-export.ts and translations-import.ts.
+// Shared helpers for exporting/importing content translations (used by the
+// dashboard's Translations page and scripts/translations-*.ts).
 //
 // Localized text lives at "paths" inside a document. A path is dot-separated
 // field names; array rows are addressed by their row id rather than index
@@ -243,16 +244,4 @@ export function translatableCollections(payload: Payload): string[] {
   return payload.config.collections
     .filter((collection) => localizedLeaves(collection.fields).length > 0)
     .map((collection) => collection.slug)
-}
-
-// `payload run` only forwards positional arguments (its own parser swallows
-// --flags), so arguments are plain words: collection slugs, plus `apply`.
-//   pnpm translations:import services blog apply
-export function readArgs(argv = process.argv.slice(2)) {
-  const words = argv.flatMap((arg) => arg.split(',')).filter(Boolean)
-  const collections = words.filter((word) => word !== 'apply')
-  return {
-    collections: collections.length > 0 ? collections : undefined,
-    apply: words.includes('apply'),
-  }
 }
