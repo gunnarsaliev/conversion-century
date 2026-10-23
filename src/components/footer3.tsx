@@ -16,28 +16,60 @@ const sections = [
       { key: "ongoingSeoManagement", href: "/services/ongoing-seo-management" },
       { key: "aiSearchOptimization", href: "/services/ai-search-optimization" },
       { key: "seoAudit", href: "/services/seo-audit" },
-      { key: "internationalSeo", href: "/services" },
+      { key: "internationalSeo", href: "/services/international-seo" },
       { key: "localSeo", href: "/services/local-seo" },
       { key: "technicalSeo", href: "/services/technical-seo" },
+      { key: "contentStrategy", href: "/services/content-strategy-and-copywriting" },
+      { key: "linkBuilding", href: "/services/link-building-and-digital-pr" },
+      { key: "organicSearchTraining", href: "/services/organic-search-training" },
+    ],
+  },
+  {
+    key: "solutions",
+    links: [
+      { key: "growOrganicRevenue", href: "/solutions/grow-organic-revenue" },
+      { key: "enterNewMarkets", href: "/solutions/enter-new-markets" },
+      { key: "recoverLostTraffic", href: "/solutions/recover-lost-traffic" },
+      { key: "migrateWithoutLosingSeo", href: "/solutions/migrate-without-losing-seo" },
+      { key: "improveVisibilityInAi", href: "/solutions/improve-visibility-in-ai" },
+      { key: "outsourcedSeoDepartment", href: "/solutions/build-an-outsourced-seo-department" },
+      { key: "reduceAdDependence", href: "/solutions/reduce-dependence-on-ads" },
+      { key: "launchSeoReadyWebsite", href: "/solutions/launch-an-seo-ready-website" },
     ],
   },
   {
     key: "industries",
     links: [
-      { key: "b2b", href: "#" },
-      { key: "ecommerce", href: "#" },
-      { key: "professionalServices", href: "#" },
-      { key: "financialSector", href: "#" },
-      { key: "realEstate", href: "#" },
-      { key: "healthcare", href: "#" },
+      { key: "b2b", href: "/industries/b2b" },
+      { key: "ecommerce", href: "/industries/ecommerce" },
+      { key: "professionalServices", href: "/industries/professional-services" },
+      { key: "financialSector", href: "/industries/financial-sector" },
+      { key: "realEstate", href: "/industries/real-estate" },
+      { key: "healthcare", href: "/industries/healthcare" },
+    ],
+  },
+  {
+    key: "proof",
+    links: [
+      { key: "clients", href: "/clients" },
+      { key: "caseStudies", href: "/case-studies" },
+      { key: "reviews", href: "/reviews" },
     ],
   },
   {
     key: "about",
     links: [
-      { key: "ourStory", href: "#" },
-      { key: "career", href: "#" },
-      { key: "team", href: "#" },
+      { key: "ourStory", href: "/about" },
+      { key: "career", href: "/open-positions" },
+      { key: "team", href: "/team" },
+    ],
+  },
+  {
+    key: "insights",
+    links: [
+      { key: "blog", href: "/blog" },
+      { key: "checklists", href: "/docs/getting-started" },
+      { key: "eventsAndMedia", href: "/events-and-media" },
     ],
   },
 ] as const;
@@ -91,13 +123,9 @@ const Footer3 = ({
                       key={link.key}
                       className="font-medium hover:text-primary"
                     >
-                      {link.href.startsWith("/") ? (
-                        <Link href={link.href}>
-                          {t(`${section.key}.links.${link.key}`)}
-                        </Link>
-                      ) : (
-                        <a href={link.href}>{t(`${section.key}.links.${link.key}`)}</a>
-                      )}
+                      <Link href={link.href}>
+                        {t(`${section.key}.links.${link.key}`)}
+                      </Link>
                     </li>
                   ))}
                 </ul>

@@ -43,7 +43,7 @@ const defaultItems: CaseStudiesCarouselItem[] = [
       title: "Unified pipeline analytics in a single view",
       description:
         "How a revenue team unified CRM data and product telemetry to shorten sales cycles and make forecasting review meetings less painful.",
-      href: "#",
+      href: "/case-studies",
       image: "https://deifkwefumgah.cloudfront.net/shadcnblocks/image-set/modern/photos3/photo-1-3x4.jpg",
     },
     {
@@ -53,7 +53,7 @@ const defaultItems: CaseStudiesCarouselItem[] = [
       title: "Coordinating a multi-team product launch",
       description:
         "Design, engineering, and go-to-market aligned on one timeline with shared blocks and checklists so launch week stayed predictable.",
-      href: "#",
+      href: "/case-studies",
       image: "https://deifkwefumgah.cloudfront.net/shadcnblocks/image-set/modern/photos3/photo-2-3x4.jpg",
     },
     {
@@ -63,7 +63,7 @@ const defaultItems: CaseStudiesCarouselItem[] = [
       title: "Scaling onboarding without growing headcount",
       description:
         "Automated nudges and in-app guidance replaced one-off emails while support kept a clear view of who needed a human touch.",
-      href: "#",
+      href: "/case-studies",
       image: "https://deifkwefumgah.cloudfront.net/shadcnblocks/image-set/modern/photos3/photo-3-3x4.jpg",
     },
     {
@@ -73,7 +73,7 @@ const defaultItems: CaseStudiesCarouselItem[] = [
       title: "Passing enterprise security review faster",
       description:
         "The team turned a checklist-heavy review into a tracked workflow so legal and IT could sign off without thrashing the roadmap.",
-      href: "#",
+      href: "/case-studies",
       image: "https://deifkwefumgah.cloudfront.net/shadcnblocks/image-set/modern/photos3/photo-4-3x4.jpg",
     },
     {
@@ -83,7 +83,7 @@ const defaultItems: CaseStudiesCarouselItem[] = [
       title: "One design system across marketing and product",
       description:
         "Shared tokens and documented sections cut duplicate UI work and made brand updates roll out consistently across surfaces.",
-      href: "#",
+      href: "/case-studies",
       image: "https://deifkwefumgah.cloudfront.net/shadcnblocks/image-set/modern/photos3/photo-5-3x4.jpg",
     },
     {
@@ -93,7 +93,7 @@ const defaultItems: CaseStudiesCarouselItem[] = [
       title: "Revenue ops that fits how teams actually work",
       description:
         "Forecasting and pipeline hygiene moved out of spreadsheets into one place so leadership could see risk early without extra ceremony.",
-      href: "#",
+      href: "/case-studies",
       image: "https://deifkwefumgah.cloudfront.net/shadcnblocks/image-set/modern/photos3/photo-6-3x4.jpg",
     },
 ];
@@ -137,6 +137,13 @@ const CaseStudies8 = (props: Props) => {
               {title}
             </h2>
             <p className="max-w-xl text-muted-foreground">{description}</p>
+            <Link
+              href="/case-studies"
+              className="flex w-fit items-center gap-1.5 font-medium transition-colors hover:text-primary"
+            >
+              {t("viewAll")}
+              <ArrowRight className="size-4" />
+            </Link>
           </div>
           <div className="hidden shrink-0 gap-2 md:flex">
             <Button

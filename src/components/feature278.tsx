@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  ArrowRight,
   BarChart3,
   Bot,
   FileText,
@@ -15,6 +16,8 @@ import { AnimatePresence, motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { cn } from "cn";
+
+import { Link } from "@/i18n/navigation";
 
 interface FeatureIconListItem {
   title: string;
@@ -35,15 +38,15 @@ type Props = Partial<Feature278Props>;
 
 // Default copy lives in the `Feature278` messages, keyed like the icons.
 const DEFAULT_FEATURES = [
-  { key: "ongoingSeo", icon: <Search className="size-5" /> },
-  { key: "technicalSeo", icon: <Wrench className="size-5" /> },
-  { key: "contentStrategy", icon: <FileText className="size-5" /> },
-  { key: "internationalSeo", icon: <Globe className="size-5" /> },
-  { key: "aiSearch", icon: <Bot className="size-5" /> },
-  { key: "digitalPr", icon: <Link2 className="size-5" /> },
-  { key: "audits", icon: <BarChart3 className="size-5" /> },
-  { key: "localSeo", icon: <MapPin className="size-5" /> },
-  { key: "training", icon: <GraduationCap className="size-5" /> },
+  { key: "ongoingSeo", icon: <Search className="size-5" />, href: "/services/ongoing-seo-management" },
+  { key: "technicalSeo", icon: <Wrench className="size-5" />, href: "/services/technical-seo" },
+  { key: "contentStrategy", icon: <FileText className="size-5" />, href: "/services/content-strategy-and-copywriting" },
+  { key: "internationalSeo", icon: <Globe className="size-5" />, href: "/services/international-seo" },
+  { key: "aiSearch", icon: <Bot className="size-5" />, href: "/services/ai-search-optimization" },
+  { key: "digitalPr", icon: <Link2 className="size-5" />, href: "/services/link-building-and-digital-pr" },
+  { key: "audits", icon: <BarChart3 className="size-5" />, href: "/services/seo-audit" },
+  { key: "localSeo", icon: <MapPin className="size-5" />, href: "/services/local-seo" },
+  { key: "training", icon: <GraduationCap className="size-5" />, href: "/services/organic-search-training" },
 ] as const;
 
 const MAX_FEATURES = 9;
@@ -65,8 +68,9 @@ const Feature278 = (props: Props) => {
   const {
     heading = t("heading"),
     description = t("description"),
-    features = DEFAULT_FEATURES.map(({ key, icon }) => ({
+    features = DEFAULT_FEATURES.map(({ key, icon, href }) => ({
       icon,
+      href,
       title: t(`features.${key}.title`),
       description: t(`features.${key}.description`),
     })),
@@ -92,8 +96,9 @@ const Feature278 = (props: Props) => {
             {items.map((item, idx) => {
               const { color, bgColor } = COLORS[idx % COLORS.length];
               return (
-                <div
+                <Link
                   key={idx}
+                  href={item.href ?? "/services"}
                   className="group relative block h-full w-full p-2"
                   onMouseEnter={() => setHoveredIndex(idx)}
                   onMouseLeave={() => setHoveredIndex(null)}
@@ -136,10 +141,17 @@ const Feature278 = (props: Props) => {
                       {item.description}
                     </p>
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>
+          <Link
+            href="/services"
+            className="mt-10 flex items-center gap-1.5 font-medium transition-colors hover:text-primary"
+          >
+            {t("viewAll")}
+            <ArrowRight className="size-4" />
+          </Link>
         </div>
       </div>
     </section>

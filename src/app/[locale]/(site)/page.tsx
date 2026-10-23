@@ -85,7 +85,7 @@ export default async function WebsitePage() {
       <StaticPageJsonLd page="home" />
       <div>
         <Hero104 {...await getHomeHero()} />
-        <ClientLogos />
+        <ClientLogos viewAllHref="/clients" />
         <Hero262 />      
         <Feature278 />
         <CaseStudies8 />

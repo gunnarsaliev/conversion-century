@@ -1,9 +1,11 @@
 "use client";
 
+import { ArrowRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { startTransition, useEffect, useState } from "react";
 import { cn } from "cn";
 
+import { Link } from "@/i18n/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import type { CarouselApi } from "@/components/ui/carousel";
 import {
@@ -102,9 +104,18 @@ const Testimonial17 = ({
     <section className={cn("py-32", className)}>
       <div className="container">
         <div className="flex flex-col gap-14 lg:grid lg:grid-cols-3 lg:gap-0">
-          <h2 className="text-center text-3xl font-bold lg:text-left lg:text-4xl">
-            {heading ?? t("heading")}
-          </h2>
+          <div className="flex flex-col items-center gap-6 lg:items-start">
+            <h2 className="text-center text-3xl font-bold lg:text-left lg:text-4xl">
+              {heading ?? t("heading")}
+            </h2>
+            <Link
+              href="/reviews"
+              className="flex items-center gap-1.5 font-medium transition-colors hover:text-primary"
+            >
+              {t("viewAll")}
+              <ArrowRight className="size-4" />
+            </Link>
+          </div>
           <Carousel setApi={setApi} className="w-full lg:hidden">
             <CarouselContent>
               {items.map((item, index) => (

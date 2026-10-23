@@ -1,8 +1,11 @@
 "use client";
 
+import { ArrowRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { cn } from "cn";
+
+import { Link } from "@/i18n/navigation";
 
 const CDN = "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos";
 
@@ -15,6 +18,8 @@ interface Logos35Props {
   eyebrow?: string;
   heading?: string;
   footer?: string;
+  /** Optional "see all clients" link shown under the grid. */
+  viewAllHref?: string;
   logos?: BrandLogo[];
   className?: string;
 }
@@ -45,6 +50,7 @@ const Logos35 = (props: Props) => {
     eyebrow = t("eyebrow"),
     heading = t("heading"),
     footer = t("footer"),
+    viewAllHref,
     logos = defaultProps.logos!,
     className,
   } = props;
@@ -94,6 +100,15 @@ const Logos35 = (props: Props) => {
           <p className="mt-8 text-center text-sm text-muted-foreground">
             {footer}
           </p>
+        )}
+        {viewAllHref && (
+          <Link
+            href={viewAllHref}
+            className="mx-auto mt-4 flex w-fit items-center gap-1.5 text-sm font-medium transition-colors hover:text-primary"
+          >
+            {t("viewAll")}
+            <ArrowRight className="size-4" />
+          </Link>
         )}
       </div>
     </section>

@@ -79,7 +79,23 @@
         "seoAudit": "SEO одит",
         "internationalSeo": "Международно SEO",
         "localSeo": "Локално SEO",
-        "technicalSeo": "Техническо SEO"
+        "technicalSeo": "Техническо SEO",
+        "contentStrategy": "Съдържателна стратегия и копирайтинг",
+        "linkBuilding": "Линк билдинг и дигитален PR",
+        "organicSearchTraining": "Обучение по органично търсене"
+      }
+    },
+    "solutions": {
+      "title": "Решения",
+      "links": {
+        "growOrganicRevenue": "Увеличете органичните приходи",
+        "enterNewMarkets": "Навлезте на нови пазари",
+        "recoverLostTraffic": "Възстановете изгубен трафик",
+        "migrateWithoutLosingSeo": "Миграция без загуба на SEO",
+        "improveVisibilityInAi": "Видимост в AI търсенето",
+        "outsourcedSeoDepartment": "Изнесен SEO отдел",
+        "reduceAdDependence": "По-малка зависимост от реклами",
+        "launchSeoReadyWebsite": "Стартирайте SEO-готов уебсайт"
       }
     },
     "industries": {
@@ -93,12 +109,28 @@
         "healthcare": "Здравеопазване"
       }
     },
+    "proof": {
+      "title": "Доказателства",
+      "links": {
+        "clients": "Клиенти",
+        "caseStudies": "Казуси",
+        "reviews": "Отзиви"
+      }
+    },
     "about": {
       "title": "За нас",
       "links": {
         "ourStory": "Нашата история",
         "career": "Кариери",
         "team": "Екип"
+      }
+    },
+    "insights": {
+      "title": "Знания",
+      "links": {
+        "blog": "Блог",
+        "checklists": "Чеклисти",
+        "eventsAndMedia": "Събития и медии"
       }
     },
     "copyright": "© {year} Conversion Century. Всички права запазени.",
@@ -294,7 +326,8 @@
         "title": "Обучение по органично търсене",
         "description": "Дайте на екипа си практически знания за SEO и AI търсене, съобразени с вашия бизнес, индустрия и отговорности."
       }
-    }
+    },
+    "viewAll": "Всички услуги"
   },
   "Hero262": {
     "heading": "Повече от SEO доставчик",
@@ -325,7 +358,8 @@
     "description": "Реални резултати на нашите клиенти: ръст на трафика, позициите и приходите, постигнат заедно.",
     "previous": "Назад",
     "next": "Напред",
-    "goToSlide": "Към слайд {number}"
+    "goToSlide": "Към слайд {number}",
+    "viewAll": "Всички казуси"
   },
   "Feature104": {
     "badge": "Акценти",
@@ -411,7 +445,8 @@
     "cta": "Запознайте се с Мария и екипа"
   },
   "Testimonial17": {
-    "heading": "Какво казват клиентите ни за работата с нас"
+    "heading": "Какво казват клиентите ни за работата с нас",
+    "viewAll": "Всички отзиви"
   },
   "About": {
     "hero": {
@@ -808,7 +843,8 @@
   "Logos35": {
     "eyebrow": "Доверие от бизнеси като",
     "heading": "Брандове, които растат с нас",
-    "footer": "От местни бизнеси до международни брандове – компаниите, на които помагаме да растат органично."
+    "footer": "От местни бизнеси до международни брандове – компаниите, на които помагаме да растат органично.",
+    "viewAll": "Всички клиенти"
   },
   "Testimonial21": {
     "badge": "Отзиви от клиенти",

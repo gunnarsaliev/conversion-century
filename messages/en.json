@@ -79,7 +79,23 @@
         "seoAudit": "SEO Audit",
         "internationalSeo": "International SEO",
         "localSeo": "Local SEO",
-        "technicalSeo": "Technical SEO"
+        "technicalSeo": "Technical SEO",
+        "contentStrategy": "Content Strategy and Copywriting",
+        "linkBuilding": "Link Building and Digital PR",
+        "organicSearchTraining": "Organic Search Training"
+      }
+    },
+    "solutions": {
+      "title": "Solutions",
+      "links": {
+        "growOrganicRevenue": "Grow Organic Revenue",
+        "enterNewMarkets": "Enter New Markets",
+        "recoverLostTraffic": "Recover Lost Traffic",
+        "migrateWithoutLosingSeo": "Migrate without losing SEO",
+        "improveVisibilityInAi": "Improve visibility in AI",
+        "outsourcedSeoDepartment": "Build an Outsourced SEO Department",
+        "reduceAdDependence": "Reduce Dependence on Ads",
+        "launchSeoReadyWebsite": "Launch an SEO-Ready Website"
       }
     },
     "industries": {
@@ -93,12 +109,28 @@
         "healthcare": "Healthcare"
       }
     },
+    "proof": {
+      "title": "Proof",
+      "links": {
+        "clients": "Clients",
+        "caseStudies": "Case Studies",
+        "reviews": "Reviews"
+      }
+    },
     "about": {
       "title": "About",
       "links": {
         "ourStory": "Our Story",
         "career": "Career",
         "team": "Team"
+      }
+    },
+    "insights": {
+      "title": "Insights",
+      "links": {
+        "blog": "Blog",
+        "checklists": "Checklists",
+        "eventsAndMedia": "Events and Media"
       }
     },
     "copyright": "© {year} Conversion Century. All rights reserved.",
@@ -294,7 +326,8 @@
         "title": "Organic Search Training",
         "description": "Equip your team with practical SEO and AI search knowledge tailored to your business, industry and responsibilities."
       }
-    }
+    },
+    "viewAll": "View all services"
   },
   "Hero262": {
     "heading": "More than an SEO provider",
@@ -325,7 +358,8 @@
     "description": "Real results from our clients: traffic, rankings and revenue growth achieved together.",
     "previous": "Previous",
     "next": "Next",
-    "goToSlide": "Go to slide {number}"
+    "goToSlide": "Go to slide {number}",
+    "viewAll": "View all case studies"
   },
   "Feature104": {
     "badge": "Highlights",
@@ -411,7 +445,8 @@
     "cta": "Meet Maria and the Team"
   },
   "Testimonial17": {
-    "heading": "What our clients say about working with us"
+    "heading": "What our clients say about working with us",
+    "viewAll": "Read all reviews"
   },
   "About": {
     "hero": {
@@ -808,7 +843,8 @@
   "Logos35": {
     "eyebrow": "Trusted by businesses at",
     "heading": "Brands that grow with us",
-    "footer": "From local businesses to international brands — the companies we help grow organically."
+    "footer": "From local businesses to international brands — the companies we help grow organically.",
+    "viewAll": "See all clients"
   },
   "Testimonial21": {
     "badge": "Client reviews",
