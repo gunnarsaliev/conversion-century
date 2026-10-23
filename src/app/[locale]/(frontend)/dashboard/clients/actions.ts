@@ -71,6 +71,7 @@ async function createClient(
 
     revalidatePath("/dashboard/clients");
     revalidatePath("/dashboard/leads");
+    revalidatePath("/dashboard/consultations");
 
     return { success: true, id: client.id };
   } catch {
@@ -116,8 +117,10 @@ async function updateClient(
 
     revalidatePath("/dashboard/clients");
     revalidatePath("/dashboard/leads");
+    revalidatePath("/dashboard/consultations");
     revalidatePath(`/dashboard/clients/${id}`);
     revalidatePath(`/dashboard/leads/${id}`);
+    revalidatePath(`/dashboard/consultations/${id}`);
 
     return { success: true, id: client.id };
   } catch {
@@ -152,6 +155,7 @@ async function deleteClient(
 
     revalidatePath("/dashboard/clients");
     revalidatePath("/dashboard/leads");
+    revalidatePath("/dashboard/consultations");
 
     return { success: true };
   } catch {

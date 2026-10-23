@@ -21,6 +21,7 @@ import { Badge } from "@/components/ui/badge";
 const statusBadgeClassName: Record<string, string> = {
   active: "bg-green-100 text-green-800",
   lead: "bg-amber-100 text-amber-800",
+  consultation: "bg-sky-100 text-sky-800",
   inactive: "bg-muted text-muted-foreground",
 };
 

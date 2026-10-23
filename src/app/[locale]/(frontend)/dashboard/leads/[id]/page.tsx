@@ -27,7 +27,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { isLeadStatus } from "@/lib/client-status";
+import { clientSection, isLeadStatus } from "@/lib/client-status";
 import { NotificationBell } from "@/components/dashboard/notification-bell";
 import { getDashboardLocale, getDashboardTranslations } from "@/lib/dashboard-locale";
 import { clientContacts, primaryContactName } from "@/lib/primary-contact";
@@ -36,6 +36,7 @@ import { requireDashboardUser } from "@/lib/dashboard-auth";
 const statusBadgeClassName: Record<string, string> = {
   active: "bg-green-100 text-green-800",
   lead: "bg-amber-100 text-amber-800",
+  consultation: "bg-sky-100 text-sky-800",
   inactive: "bg-muted text-muted-foreground",
 };
 
@@ -47,7 +48,6 @@ export default async function LeadPage({ params }: LeadPageProps) {
   await requireDashboardUser();
   const { id } = await params;
   const t = await getDashboardTranslations("Clients");
-  const tSection = await getDashboardTranslations("Leads");
   const tCommon = await getDashboardTranslations("Common");
   const locale = await getDashboardLocale();
 
@@ -64,6 +64,13 @@ export default async function LeadPage({ params }: LeadPageProps) {
   if (!client || !isLeadStatus(client.status)) {
     notFound();
   }
+
+  // Served at both /leads/[id] and /consultations/[id] (older links may
+  // use either), so the breadcrumb follows the record's status.
+  const section = clientSection(client.status);
+  const tSection = await getDashboardTranslations(
+    section === "consultations" ? "Consultations" : "Leads",
+  );
 
   const contacts = clientContacts(client);
 
@@ -106,7 +113,7 @@ export default async function LeadPage({ params }: LeadPageProps) {
           <LayoutDashboard className="size-3.5" aria-hidden="true" />
           <span>{tCommon("overview")}</span>
           <ChevronRight className="size-3.5" aria-hidden="true" />
-          <Link href="/dashboard/leads" className="hover:text-foreground">
+          <Link href={`/dashboard/${section}`} className="hover:text-foreground">
             {tSection("title")}
           </Link>
           <ChevronRight className="size-3.5" aria-hidden="true" />

@@ -5,21 +5,34 @@ import config from "@payload-config";
 import { ClientFormDrawer } from "@/components/dashboard/client-form-drawer";
 import { ClientList, type ClientListItem } from "@/components/dashboard/client-list";
 import { Button } from "@/components/ui/button";
-import type { User } from "../../../../../../payload-types";
-import { LEAD_STATUSES } from "@/lib/client-status";
+import type { Client, User } from "../../../payload-types";
 import { NotificationBell } from "@/components/dashboard/notification-bell";
 import { getDashboardTranslations } from "@/lib/dashboard-locale";
 import { primaryContactName } from "@/lib/primary-contact";
 import { requireDashboardUser } from "@/lib/dashboard-auth";
 
-export default async function LeadsPage() {
+type ClientPipelinePageProps = {
+  // Client statuses listed on this page.
+  statuses: Client["status"][];
+  // Dashboard messages namespace with `title`, `description` and `new`.
+  namespace: string;
+  // Status preselected when creating a record from this page.
+  newStatus: Client["status"];
+};
+
+// Shared list page for the not-yet-client sections (Leads, Consultations).
+async function ClientPipelinePage({
+  statuses,
+  namespace,
+  newStatus,
+}: ClientPipelinePageProps) {
   await requireDashboardUser();
-  const t = await getDashboardTranslations("Leads");
+  const t = await getDashboardTranslations(namespace);
   const tCommon = await getDashboardTranslations("Common");
   const payload = await getPayload({ config });
-  const leads = await payload.find({
+  const clients = await payload.find({
     collection: "clients",
-    where: { status: { in: [...LEAD_STATUSES] } },
+    where: { status: { in: statuses } },
     depth: 2,
     limit: 100,
     joins: {
@@ -47,7 +60,7 @@ export default async function LeadsPage() {
     };
   };
 
-  const leadListItems: ClientListItem[] = leads.docs.map((client) => {
+  const listItems: ClientListItem[] = clients.docs.map((client) => {
     const accountManagers = (client["Account Manager"] ?? [])
       .map(toPerson)
       .filter((person): person is NonNullable<typeof person> => person !== null);
@@ -152,7 +165,7 @@ export default async function LeadsPage() {
             <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
               {t("title")}
               <span className="ml-2 text-lg font-normal text-muted-foreground">
-                ({leads.totalDocs})
+                ({clients.totalDocs})
               </span>
             </h1>
             <p className="mt-1 text-sm text-muted-foreground">
@@ -160,6 +173,7 @@ export default async function LeadsPage() {
             </p>
           </div>
           <ClientFormDrawer
+            defaultStatus={newStatus}
             trigger={
               <button
                 type="button"
@@ -173,7 +187,9 @@ export default async function LeadsPage() {
         </div>
       </section>
 
-      <ClientList clients={leadListItems} />
+      <ClientList clients={listItems} />
     </>
   );
 }
+
+export { ClientPipelinePage };

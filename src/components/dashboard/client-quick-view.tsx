@@ -44,7 +44,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { isLeadStatus } from "@/lib/client-status";
+import { clientSection } from "@/lib/client-status";
 
 // ---------------------------------------------------------------------------
 // Client quick view (drawer)
@@ -57,6 +57,7 @@ import { isLeadStatus } from "@/lib/client-status";
 const statusBadgeClassName: Record<string, string> = {
   active: "bg-green-100 text-green-800",
   lead: "bg-amber-100 text-amber-800",
+  consultation: "bg-sky-100 text-sky-800",
   inactive: "bg-muted text-muted-foreground",
 };
 
@@ -109,8 +110,7 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
   const [isDeleting, setIsDeleting] = React.useState(false);
   const [editOpen, setEditOpen] = React.useState(false);
 
-  const basePath =
-    isLeadStatus(client.status) ? "/dashboard/leads" : "/dashboard/clients";
+  const basePath = `/dashboard/${clientSection(client.status)}`;
 
   const handleDelete = async () => {
     if (

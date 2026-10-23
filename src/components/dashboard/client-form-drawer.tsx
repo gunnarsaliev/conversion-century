@@ -81,7 +81,7 @@ type ClientFormDrawerProps = {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
 } & (
-  | { mode?: "create" }
+  | { mode?: "create"; defaultStatus?: ClientFormValues["status"] }
   | {
       mode: "edit";
       client: {
@@ -116,7 +116,7 @@ const ClientFormDrawer = (props: ClientFormDrawerProps) => {
           status:
             (props.client.status as ClientFormValues["status"]) ?? "lead",
         }
-      : emptyValues;
+      : { ...emptyValues, status: props.defaultStatus ?? emptyValues.status };
 
   const {
     control,

@@ -129,7 +129,7 @@ function InquiryList({
           </p>
         </div>
         <Link
-          href="/dashboard/leads"
+          href="/dashboard/consultations"
           className="inline-flex items-center gap-1 text-sm font-medium hover:underline"
         >
           {t("inquiries.all")} <ArrowRight className="size-3.5" aria-hidden="true" />
@@ -143,7 +143,7 @@ function InquiryList({
           {inquiries.map((inquiry) => (
             <li key={inquiry.id}>
               <Link
-                href={`/dashboard/leads/${inquiry.id}`}
+                href={`/dashboard/consultations/${inquiry.id}`}
                 className="group flex flex-col gap-1 py-3 outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
               >
                 <div className="flex items-baseline justify-between gap-3">

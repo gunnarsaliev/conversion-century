@@ -19,7 +19,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { isLeadStatus } from "@/lib/client-status";
+import { clientSection } from "@/lib/client-status";
 import { NotificationBell } from "@/components/dashboard/notification-bell";
 import { getDashboardTranslations } from "@/lib/dashboard-locale";
 import { requireDashboardUser } from "@/lib/dashboard-auth";
@@ -221,9 +221,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
                   return (
                     <Link
                       key={client.id}
-                      href={`/dashboard/${
-                        isLeadStatus(client.status) ? "leads" : "clients"
-                      }/${client.id}`}
+                      href={`/dashboard/${clientSection(client.status)}/${client.id}`}
                       className={`flex items-center justify-between gap-2 py-2 hover:underline ${
                         index < clientsUsingService.docs.length - 1
                           ? "border-b"

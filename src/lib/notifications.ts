@@ -1,7 +1,7 @@
 import type { Payload, PayloadRequest } from "payload";
 
 import type { Notification } from "../../payload-types";
-import { isLeadStatus } from "./client-status";
+import { clientSection } from "./client-status";
 
 // ---------------------------------------------------------------------------
 // Dashboard notifications (bell + toasts)
@@ -101,9 +101,9 @@ async function getNotificationsForUser(
   return { items, unreadCount: items.filter((item) => !item.read).length };
 }
 
-// Leads and clients have separate, status-gated detail pages.
+// Consultations, leads and clients have separate, status-gated detail pages.
 function clientHref(client: { id: number; status?: string | null }) {
-  return `/dashboard/${isLeadStatus(client.status) ? "leads" : "clients"}/${client.id}`;
+  return `/dashboard/${clientSection(client.status)}/${client.id}`;
 }
 
 function readerIds(readBy: Notification["readBy"]): number[] {

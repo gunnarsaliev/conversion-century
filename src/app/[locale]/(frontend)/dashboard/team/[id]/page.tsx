@@ -29,7 +29,7 @@ import {
 import { formatBirthday, formatWorkStart, getCompletedYears } from "@/lib/celebrations";
 import { requireDashboardUser } from "@/lib/dashboard-auth";
 import { getDashboardLocale, getDashboardTranslations } from "@/lib/dashboard-locale";
-import { isLeadStatus } from "@/lib/client-status";
+import { clientSection } from "@/lib/client-status";
 import { isAdminOrEditor } from "@/lib/roles";
 import { NotificationBell } from "@/components/dashboard/notification-bell";
 
@@ -352,9 +352,7 @@ export default async function TeamMemberPage({
                     return (
                       <Link
                         key={client.id}
-                        href={`/dashboard/${
-                          isLeadStatus(client.status) ? "leads" : "clients"
-                        }/${client.id}`}
+                        href={`/dashboard/${clientSection(client.status)}/${client.id}`}
                         className={`flex items-center justify-between gap-2 py-2 hover:underline ${
                           index < group.docs.length - 1 ? "border-b" : ""
                         }`}

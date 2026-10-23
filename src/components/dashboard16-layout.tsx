@@ -2,6 +2,7 @@
 
 import {
   BookOpen,
+  CalendarCheck,
   ChevronRight,
   ChevronsUpDown,
   Euro,
@@ -117,8 +118,9 @@ const sidebarData: SidebarData = {
           href: "/dashboard",
           isActive: true,
         },
-        { key: "clients", icon: Users, href: "/dashboard/clients" },
+        { key: "consultations", icon: CalendarCheck, href: "/dashboard/consultations" },
         { key: "leads", icon: Handshake, href: "/dashboard/leads" },
+        { key: "clients", icon: Users, href: "/dashboard/clients" },
         { key: "offers", icon: FileText, href: "/dashboard/offers" },
         { key: "pricelist", icon: Euro, href: "/dashboard/pricelist" },
         { key: "media", icon: Images, href: "/dashboard/media" },
