@@ -34,3 +34,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Pre-import Bulgarian values written by scripts/translations-import.ts
+/translations/backup/

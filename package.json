@@ -11,7 +11,9 @@
     "migrate": "node scripts/payload-esm.mjs migrate",
     "migrate:create": "node scripts/payload-esm.mjs migrate:create",
     "seed:solutions": "node scripts/payload-esm.mjs run scripts/seed-solutions.ts",
-    "seed:offers": "node scripts/payload-esm.mjs run scripts/seed-offers.ts"
+    "seed:offers": "node scripts/payload-esm.mjs run scripts/seed-offers.ts",
+    "translations:export": "node scripts/payload-esm.mjs run scripts/translations-export.ts",
+    "translations:import": "node scripts/payload-esm.mjs run scripts/translations-import.ts"
   },
   "browserslist": "defaults, not ie <= 11",
   "dependencies": {

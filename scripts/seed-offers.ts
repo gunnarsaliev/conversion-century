@@ -1,5 +1,5 @@
 // Imports the Ayurvedabio fixture (src/data/offers/ayurvedabio-seo-migration.json)
-// into the Offers collection, so /website/offers has a real record to show.
+// into the Offers collection, so /offers has a real record to show.
 // Safe to re-run: the client's offer is matched and updated.
 //
 // Run with: pnpm seed:offers

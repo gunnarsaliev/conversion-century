@@ -17,7 +17,7 @@ import type { Solution } from '../payload-types'
 
 const SEED_DIR = path.resolve(
   process.cwd(),
-  'src/app/[locale]/(frontend)/website/solutions/seed-data/json-seed',
+  'src/app/[locale]/(site)/solutions/seed-data/json-seed',
 )
 
 type TitleDescription = { title: string; description?: string }
