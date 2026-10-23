@@ -61,7 +61,6 @@ const sections = [
     links: [
       { key: "ourStory", href: "/about" },
       { key: "career", href: "/open-positions" },
-      { key: "team", href: "/team" },
     ],
   },
   {
@@ -131,7 +130,7 @@ const Footer3 = ({
                 </ul>
               </div>
             ))}
-            <div className="sm:col-span-2 lg:col-span-1">
+            <div className="sm:col-span-2">
               <ul className="mb-10 flex items-center gap-2 text-muted-foreground">
                 <li className="font-medium">
                   <a

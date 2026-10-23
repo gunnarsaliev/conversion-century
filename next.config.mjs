@@ -25,6 +25,9 @@ const nextConfig = {
   async redirects() {
     return [
       { source: '/website', destination: '/', permanent: true },
+      // The standalone team page was folded into About.
+      { source: '/team', destination: '/about', permanent: true },
+      { source: '/:locale(en|bg)/team', destination: '/:locale/about', permanent: true },
       { source: '/website/:path*', destination: '/:path*', permanent: true },
       { source: '/:locale(en|bg)/website', destination: '/:locale', permanent: true },
       {

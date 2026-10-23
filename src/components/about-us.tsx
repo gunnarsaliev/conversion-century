@@ -10,7 +10,6 @@ import {
 
 import { useLocale, useTranslations } from "next-intl";
 
-import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import type { TeamMember } from "@/lib/team-members";
 
@@ -74,7 +73,7 @@ export function AboutHero() {
         </div>
         <Button
           className="mt-10 h-12 rounded-full px-6 text-[15px]"
-          render={<Link href="/team" />}
+          render={<a href="#team" />}
           nativeButton={false}
         >
           {t("cta")}
@@ -121,7 +120,7 @@ export function AboutPeople({ members }: { members: TeamMember[] }) {
   const t = useTranslations("About.people");
 
   return (
-    <section className="border-t border-border">
+    <section id="team" className="scroll-mt-24 border-t border-border">
       <div className="container mx-auto py-16 lg:py-24">
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-16">
           <div>

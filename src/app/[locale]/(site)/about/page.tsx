@@ -19,7 +19,7 @@ export async function generateMetadata() {
 }
 
 export default async function AboutPage() {
-  const members = await getTeamMembers();
+  const members = await getTeamMembers(undefined, true);
   const t = await getTranslations("About.leadership");
 
   return (

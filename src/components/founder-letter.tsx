@@ -38,7 +38,7 @@ const FounderLetter = (props: Props) => {
     name = t("name"),
     role = t("role"),
     ctaText = t("cta"),
-    ctaUrl = "/team",
+    ctaUrl = "/about#team",
     className,
   } = props;
 

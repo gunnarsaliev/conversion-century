@@ -17,16 +17,21 @@ export type TeamMember = {
 // it, so only the public fields (name, job title, photo) are returned.
 //
 // With `ids`, returns just those users in that order. Without, returns
-// everyone with a photo, featured members first.
+// everyone with a photo, featured members first. With `activeOnly`, users
+// on leave or inactive are left out.
 // Wrapped in React `cache` so repeated calls in one render share a query.
 export const getTeamMembers = cache(
-  async (ids?: readonly number[]): Promise<TeamMember[]> => {
+  async (
+    ids?: readonly number[],
+    activeOnly = false,
+  ): Promise<TeamMember[]> => {
     const payload = await getPayload({ config });
     const { docs } = await payload.find({
       collection: "users",
       where: {
         profileImage: { exists: true },
         ...(ids ? { id: { in: ids } } : {}),
+        ...(activeOnly ? { status: { equals: "active" } } : {}),
       },
       select: {
         firstName: true,

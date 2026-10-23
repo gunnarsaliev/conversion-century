@@ -98,7 +98,6 @@ const documentationLinks = [
 const aboutLinks = [
   { key: "ourStory", href: "/about", icon: FileText },
   { key: "career", href: "/open-positions", icon: CalendarClock },
-  { key: "team", href: "/team", icon: Users },
 ] as const;
 
 const resourceLinks = [
@@ -176,6 +175,9 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
     | null
   >(null);
   const [menuDirection, setMenuDirection] = useState(0);
+  // Desktop dropdown last opened. Only updated on open, so a closing sheet
+  // keeps its alignment instead of jumping while it animates out.
+  const [activeMenu, setActiveMenu] = useState<unknown>(null);
 
   const openSubmenu = (
     nextSubmenu:
@@ -229,7 +231,13 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
       )}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <NavigationMenu className="min-w-full items-start [&>div:last-child]:left-1/2 [&>div:last-child]:-translate-x-1/2">
+        <NavigationMenu
+          // Insights is the rightmost item, so its wide sheet opens to the left.
+          align={activeMenu === "insights" ? "end" : "start"}
+          onValueChange={(value) => {
+            if (value != null) setActiveMenu(value);
+          }}
+          className="min-w-full items-start [&>div:last-child]:left-1/2 [&>div:last-child]:-translate-x-1/2">
           <div className="relative z-110 flex w-full items-center justify-between gap-12">
             {/* Logo */}
             <div>
@@ -409,15 +417,17 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                   </div>
                 </NavigationMenuContent>
               </NavigationMenuItem>
-              <NavigationMenuItem>
+              <NavigationMenuItem value="insights">
                 <NavigationMenuTrigger>{t("insights.label")}</NavigationMenuTrigger>
                 <NavigationMenuContent className="w-max p-5">
-                  <div className="flex gap-6">
-                    <div className="w-[32rem] shrink-0">
+                  <div className="flex gap-5">
+                    {/* Fixed column widths let the intros wrap to ~2 lines instead of
+                        stretching the sheet to fit them on one. */}
+                    <div className="w-96 shrink-0">
                       <div className="mb-3 text-xs font-semibold tracking-wide text-foreground uppercase">
                         {t("blog.label")}
                       </div>
-                      <div className="mb-4 text-sm font-normal text-muted-foreground">
+                      <div className="mb-3 text-sm font-normal text-muted-foreground">
                         {t("blog.intro")}
                       </div>
                       <div className="grid grid-cols-2 gap-3">
@@ -434,8 +444,8 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                                 className="h-full w-full object-cover object-center"
                               />
                             </div>
-                            <div className="p-4">
-                              <div className="text-base font-medium text-foreground">
+                            <div className="p-3">
+                              <div className="line-clamp-2 text-sm font-medium text-foreground">
                                 {post.title}
                               </div>
                             </div>
@@ -443,11 +453,11 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                         ))}
                       </div>
                     </div>
-                    <div className="w-max shrink-0">
+                    <div className="w-56 shrink-0">
                       <div className="mb-3 text-xs font-semibold tracking-wide text-foreground uppercase">
                         {t("insights.label")}
                       </div>
-                      <div className="mb-4 text-sm font-normal text-muted-foreground">
+                      <div className="mb-3 text-sm font-normal text-muted-foreground">
                         {t("insights.intro")}
                       </div>
                       <div className="space-y-1">

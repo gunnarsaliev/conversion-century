@@ -39,11 +39,6 @@
       "title": "SEO blog",
       "description": "Practical articles on technical SEO, content, link building and AI search from the Conversion Century team."
     },
-    "team": {
-      "name": "Team",
-      "title": "Our team",
-      "description": "The SEO specialists, strategists and writers behind Conversion Century."
-    },
     "clients": {
       "name": "Clients",
       "title": "Our clients",
@@ -121,8 +116,7 @@
       "title": "About",
       "links": {
         "ourStory": "Our Story",
-        "career": "Career",
-        "team": "Team"
+        "career": "Career"
       }
     },
     "insights": {
@@ -137,7 +131,8 @@
     "language": "Language",
     "terms": "Terms and Conditions",
     "privacy": "Privacy Policy",
-    "cookies": "Cookie Policy"
+    "cookies": "Cookie Policy",
+    "legal": "Legal"
   },
   "Forms": {
     "invalidInput": "Invalid input",
@@ -237,8 +232,7 @@
       "intro": "Get to know the people behind Conversion Century",
       "items": {
         "ourStory": "Our Story",
-        "career": "Career",
-        "team": "Team"
+        "career": "Career"
       }
     },
     "blog": {
@@ -564,10 +558,6 @@
         }
       }
     }
-  },
-  "TeamPage": {
-    "heading": "Meet the team behind your growth",
-    "description": "Real people, real SEO expertise - get to know who works on your account."
   },
   "Careers": {
     "types": {

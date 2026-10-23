@@ -3,22 +3,21 @@
 import { Link, usePathname } from '@/i18n/navigation'
 import { cn } from '@/lib/utils'
 
-const LEGAL_PAGES = [
-  { title: 'Terms and Conditions', href: '/legal/terms-and-conditions' },
-  { title: 'Privacy Policy', href: '/legal/privacy-policy' },
-  { title: 'Cookie Policy', href: '/legal/cookie-policy' },
-]
+type LegalNavProps = {
+  label: string
+  pages: { title: string; href: string }[]
+}
 
-export function LegalNav() {
+export function LegalNav({ label, pages }: LegalNavProps) {
   const pathname = usePathname()
 
   return (
-    <nav aria-label="Legal">
+    <nav aria-label={label}>
       <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-        Legal
+        {label}
       </p>
       <ul className="flex gap-2 overflow-x-auto lg:flex-col lg:gap-1">
-        {LEGAL_PAGES.map((page) => {
+        {pages.map((page) => {
           const isActive = pathname === page.href
           return (
             <li key={page.href} className="shrink-0">

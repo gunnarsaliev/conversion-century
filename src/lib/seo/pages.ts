@@ -17,7 +17,6 @@ export const STATIC_PAGES = {
   industries: "/industries",
   caseStudies: "/case-studies",
   blog: "/blog",
-  team: "/team",
   clients: "/clients",
   reviews: "/reviews",
   openPositions: "/open-positions",
