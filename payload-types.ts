@@ -85,6 +85,8 @@ export interface Config {
     testimonials: Testimonial;
     offers: Offer;
     notifications: Notification;
+    'page-meta': PageMeta;
+    redirects: Redirect;
     exports: Export;
     imports: Import;
     'payload-kv': PayloadKv;
@@ -125,6 +127,8 @@ export interface Config {
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     offers: OffersSelect<false> | OffersSelect<true>;
     notifications: NotificationsSelect<false> | NotificationsSelect<true>;
+    'page-meta': PageMetaSelect<false> | PageMetaSelect<true>;
+    redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     exports: ExportsSelect<false> | ExportsSelect<true>;
     imports: ImportsSelect<false> | ImportsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -1285,6 +1289,50 @@ export interface Notification {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-meta".
+ */
+export interface PageMeta {
+  id: number;
+  page:
+    | 'home'
+    | 'about'
+    | 'services'
+    | 'solutions'
+    | 'industries'
+    | 'caseStudies'
+    | 'blog'
+    | 'clients'
+    | 'reviews'
+    | 'openPositions'
+    | 'bookAConsultation'
+    | 'eventsAndMedia'
+    | 'docsGettingStarted';
+  title?: string | null;
+  description?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "redirects".
+ */
+export interface Redirect {
+  id: number;
+  /**
+   * Old path, e.g. /old-page (matches with or without /bg).
+   */
+  from: string;
+  /**
+   * New path (/new-page) or full URL (https://…).
+   */
+  to: string;
+  statusCode: '301' | '302';
+  enabled?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "exports".
  */
 export interface Export {
@@ -1557,6 +1605,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'notifications';
         value: number | Notification;
+      } | null)
+    | ({
+        relationTo: 'page-meta';
+        value: number | PageMeta;
+      } | null)
+    | ({
+        relationTo: 'redirects';
+        value: number | Redirect;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -2346,6 +2402,29 @@ export interface NotificationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-meta_select".
+ */
+export interface PageMetaSelect<T extends boolean = true> {
+  page?: T;
+  title?: T;
+  description?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "redirects_select".
+ */
+export interface RedirectsSelect<T extends boolean = true> {
+  from?: T;
+  to?: T;
+  statusCode?: T;
+  enabled?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "exports_select".
  */
 export interface ExportsSelect<T extends boolean = true> {
@@ -2549,6 +2628,8 @@ export interface TaskCreateCollectionExport {
       | 'testimonials'
       | 'offers'
       | 'notifications'
+      | 'page-meta'
+      | 'redirects'
       | 'exports'
       | 'imports';
     drafts?: ('yes' | 'no') | null;

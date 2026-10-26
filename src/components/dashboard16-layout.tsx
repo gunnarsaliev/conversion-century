@@ -14,6 +14,7 @@ import {
   LayoutDashboard,
   LogOut,
   Palette,
+  SearchCheck,
   Settings,
   ShieldCheck,
   User,
@@ -313,6 +314,7 @@ const AppSidebar = ({
         ...group,
         items: [
           ...group.items,
+          ...(isAdmin ? [{ key: "seo", icon: SearchCheck, href: "/dashboard/seo" }] : []),
           ...(canManageTranslations
             ? [{ key: "translations", icon: Languages, href: "/dashboard/translations" }]
             : []),

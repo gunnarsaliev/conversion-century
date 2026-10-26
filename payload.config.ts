@@ -28,9 +28,12 @@ import { Events } from './src/collections/Events'
 import { Testimonials } from './src/collections/Testimonials'
 import { Offers } from './src/collections/Offers'
 import { Notifications } from './src/collections/Notifications'
+import { PageMeta } from './src/collections/PageMeta'
+import { Redirects } from './src/collections/Redirects'
 import { notifyContractRenewals } from './src/jobs/notifyContractRenewals'
 import { clearUploadedFileAfterProcessing } from './src/utilities/clearUploadedFile'
 import { exportAll } from './src/endpoints/exportAll'
+import { seoRedirects } from './src/endpoints/seoRedirects'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -46,7 +49,8 @@ export default buildConfig({
   },
 
   // GET /api/export-all: every collection as one JSON download (admins only).
-  endpoints: [exportAll],
+  // GET /api/seo-redirects: enabled redirects, read by src/proxy.ts.
+  endpoints: [exportAll, seoRedirects],
 
   collections: [
     Users,
@@ -67,6 +71,8 @@ export default buildConfig({
     Testimonials,
     Offers,
     Notifications,
+    PageMeta,
+    Redirects,
   ],
 
   plugins: [

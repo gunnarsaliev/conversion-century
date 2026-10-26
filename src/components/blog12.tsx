@@ -11,7 +11,8 @@ import { Separator } from "@/components/ui/separator";
 export interface Blog12Post {
   title: string;
   description: string;
-  image: string;
+  /** Omitted for posts without a featured image (a placeholder shows). */
+  image?: string;
   author: string;
   authorAvatar?: string;
   readTime: string;
@@ -93,11 +94,17 @@ const Blog12 = ({ className, posts }: Blog12Props) => {
           {items.map((post, index) => (
             <Link key={index} className="rounded-xl border" href={post.link}>
               <div className="p-2">
-                <img
-                  src={post.image}
-                  alt={post.title}
-                  className="aspect-video w-full rounded-lg object-cover"
-                />
+                {post.image ? (
+                  <img
+                    src={post.image}
+                    alt={post.title}
+                    className="aspect-video w-full rounded-lg object-cover"
+                  />
+                ) : (
+                  <div className="flex aspect-video w-full items-center justify-center rounded-lg bg-muted">
+                    <FileText className="size-8 text-muted-foreground/50" aria-hidden="true" />
+                  </div>
+                )}
               </div>
               <div className="px-3 pt-2 pb-4">
                 <h2 className="mb-1 font-medium">{post.title}</h2>

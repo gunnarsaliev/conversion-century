@@ -21,7 +21,8 @@ interface CaseStudiesCarouselItem {
   title: string;
   description: string;
   href: string;
-  image: string;
+  /** Omitted when the case study has no image (a plain background shows). */
+  image?: string;
 }
 
 interface CaseStudiesCarouselProps {
@@ -192,12 +193,14 @@ const CaseStudies8 = (props: Props) => {
                 className="basis-full pl-5 md:min-w-0 md:basis-1/3"
               >
                 <Link href={item.href} className="group block rounded-xl">
-                  <div className="group relative aspect-3/4 w-full max-w-full overflow-hidden rounded-xl">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="absolute h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
-                    />
+                  <div className="group relative aspect-3/4 w-full max-w-full overflow-hidden rounded-xl bg-muted-foreground">
+                    {item.image && (
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="absolute h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
+                      />
+                    )}
                     <div className="absolute inset-0 h-full bg-linear-to-t from-black/80 via-black/28 to-transparent" />
                     <div className="absolute inset-x-0 bottom-0 flex flex-col items-start p-5 text-white md:p-6">
                       <div className="mb-3 flex h-9 items-center pt-3">

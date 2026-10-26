@@ -20,7 +20,8 @@
       "docs": "Docs",
       "admin": "Admin",
       "settings": "Settings",
-      "translations": "Translations"
+      "translations": "Translations",
+      "seo": "SEO"
     },
     "user": {
       "profile": "Profile Settings",
@@ -414,7 +415,8 @@
       "job-listings": "Job listings",
       "media": "Media (alt text & captions)",
       "services": "Services",
-      "solutions": "Solutions"
+      "solutions": "Solutions",
+      "page-meta": "Page meta (SEO)"
     },
     "export": {
       "title": "1. Export",
@@ -467,6 +469,160 @@
       "invalidJson": "A file isn't valid JSON. Ask the translator to check it.",
       "notTranslationFile": "A file isn't a translation file exported from this page.",
       "importFailed": "Something went wrong while importing the translations."
+    }
+  },
+  "Seo": {
+    "title": "SEO",
+    "description": "Manage how the website appears in search results: meta titles and descriptions, and redirects for moved or removed pages.",
+    "overview": {
+      "metaData": {
+        "title": "Meta data",
+        "description": "Meta titles and descriptions for every page, in English and Bulgarian.",
+        "count": "{count, plural, =0 {No custom pages yet} one {# page customised} other {# pages customised}}"
+      },
+      "redirects": {
+        "title": "Redirects",
+        "description": "Send visitors and search engines from old URLs to new ones.",
+        "count": "{count, plural, =0 {No active redirects} one {# active redirect} other {# active redirects}}"
+      },
+      "open": "Open",
+      "stats": {
+        "pages": "Static pages",
+        "pagesHint": "{count} of {total} customised",
+        "collections": "Collection pages",
+        "collectionsHint": "{count} of {total} have a custom meta title",
+        "redirects": "Redirects",
+        "redirectsHint": "{count} active of {total}"
+      },
+      "recent": "Recently updated",
+      "noRecentMeta": "No custom meta data yet.",
+      "noRecentRedirects": "No redirects yet.",
+      "openMeta": "Manage meta data",
+      "openRedirects": "Manage redirects"
+    },
+    "metaData": {
+      "title": "Meta data",
+      "description": "The title and description search engines show for each page. Leave a field empty to use the default.",
+      "pages": "Pages",
+      "pagesDescription": "Static pages of the website. Empty fields use the built-in default (shown as a placeholder).",
+      "collections": "Collection pages",
+      "collectionsDescription": "Detail pages from the content collections. These are the same SEO fields as in /admin; empty fields fall back to the document's title and summary.",
+      "collectionNames": {
+        "blog": "Blog posts",
+        "case-studies": "Case studies",
+        "industries": "Industries",
+        "events": "Events & media",
+        "services": "Services",
+        "solutions": "Solutions"
+      },
+      "locales": {
+        "en": "English",
+        "bg": "Bulgarian"
+      },
+      "metaTitle": "Meta title",
+      "metaDescription": "Meta description",
+      "fallbackTitle": "Falls back to: {value}",
+      "fallbackDescription": "Falls back to the page's summary",
+      "length": "{count} / {max}",
+      "tooLong": "Longer than the recommended {max} characters — search engines may cut it off.",
+      "custom": "Custom",
+      "default": "Default",
+      "save": "Save",
+      "saving": "Saving…",
+      "saved": "Saved",
+      "reset": "Reset to default",
+      "view": "View page",
+      "empty": "No documents yet.",
+      "untitled": "Untitled",
+      "errors": {
+        "signedOut": "Your session has expired. Please log in again.",
+        "forbidden": "You don't have permission to change SEO settings.",
+        "invalid": "Some fields are invalid.",
+        "save": "Could not save. Please try again."
+      },
+      "searchPlaceholder": "Search pages…",
+      "filters": {
+        "label": "Filter",
+        "all": "All",
+        "custom": "Custom",
+        "default": "Default",
+        "issues": "Too long"
+      },
+      "previewLanguage": "Preview language",
+      "pagesTab": "Pages",
+      "edit": "Edit",
+      "editTitle": "Edit meta data",
+      "preview": "Search preview",
+      "previewHint": "How the page may appear on Google. Search engines can rewrite it.",
+      "noResults": "Nothing matches",
+      "noResultsHint": "Try another search or filter.",
+      "tooLongShort": "Too long",
+      "cancel": "Cancel",
+      "usingDefault": "Using the default"
+    },
+    "redirects": {
+      "title": "Redirects",
+      "description": "Redirect old URLs to new ones. Rules match with or without the /bg prefix, and the visitor's language is kept. Changes apply within a minute.",
+      "from": "From",
+      "to": "To",
+      "type": "Type",
+      "enabled": "Active",
+      "actions": "Actions",
+      "fromPlaceholder": "/old-page",
+      "toPlaceholder": "/new-page or https://…",
+      "permanent": "301 · permanent",
+      "temporary": "302 · temporary",
+      "add": "Add redirect",
+      "adding": "Adding…",
+      "edit": "Edit",
+      "save": "Save",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "confirmDelete": "Confirm delete",
+      "empty": "No redirects yet.",
+      "count": "{count, plural, one {# redirect} other {# redirects}}",
+      "errors": {
+        "fromRequired": "Enter the old path, e.g. /old-page.",
+        "toRequired": "Enter the new path or URL.",
+        "reserved": "Dashboard, admin, API and login paths can't be redirected.",
+        "loop": "A redirect can't point to itself.",
+        "duplicate": "There is already a redirect from this path.",
+        "invalidUrl": "Enter a path starting with / or a full URL starting with https://.",
+        "signedOut": "Your session has expired. Please log in again.",
+        "forbidden": "You don't have permission to change redirects.",
+        "save": "Could not save. Please try again."
+      },
+      "searchPlaceholder": "Search redirects…",
+      "filters": {
+        "label": "Filter",
+        "all": "All",
+        "active": "Active",
+        "paused": "Paused"
+      },
+      "newTitle": "New redirect",
+      "editTitle": "Edit redirect",
+      "dialogDescription": "Visitors and search engines asking for the old path are sent to the new one.",
+      "fromHelp": "A path on this site. Also matches the /bg/ version.",
+      "toHelp": "A path on this site, or a full URL.",
+      "permanentHint": "Moved for good. Passes rankings to the new URL.",
+      "temporaryHint": "Short-term move. The old URL keeps its rankings.",
+      "activeHint": "Paused redirects are kept but not applied.",
+      "preview": "Preview",
+      "emptyTitle": "No redirects yet",
+      "emptyDescription": "Add a redirect when you move or delete a page, so visitors and search engines don't land on a 404.",
+      "noResults": "No redirects match your filters.",
+      "deleteTitle": "Delete this redirect?",
+      "deleteDescription": "{from} will stop redirecting and may return a 404.",
+      "deleting": "Deleting…",
+      "paused": "Paused",
+      "active": "Active",
+      "external": "External",
+      "status": "Status",
+      "openMenu": "Open menu",
+      "created": "Redirect added",
+      "updated": "Redirect saved",
+      "deleted": "Redirect deleted",
+      "testOld": "Test old URL"
     }
   }
 }

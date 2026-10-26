@@ -6,40 +6,64 @@ import config from "@payload-config";
 
 import { buildMetadata } from "./metadata";
 import { breadcrumbSchema, type Crumb } from "./schema";
+import { STATIC_PAGES, type SeoPageKey, type StaticPageKey } from "./page-keys";
 import { toLocale, type Locale, type LocalizedPath } from "./site";
 
-// Static public pages: href + key into the `Metadata` messages namespace.
-export const STATIC_PAGES = {
-  home: "/",
-  about: "/about",
-  services: "/services",
-  solutions: "/solutions",
-  industries: "/industries",
-  caseStudies: "/case-studies",
-  blog: "/blog",
-  clients: "/clients",
-  reviews: "/reviews",
-  openPositions: "/open-positions",
-  bookAConsultation: "/book-a-consultation",
-  eventsAndMedia: "/events-and-media",
-} as const;
-
-export type StaticPageKey = keyof typeof STATIC_PAGES;
+export { SEO_PAGES, STATIC_PAGES, type SeoPageKey, type StaticPageKey } from "./page-keys";
 
 export async function getSeoLocale(): Promise<Locale> {
   return toLocale(await getLocale());
 }
 
-// generateMetadata for a static page, from messages/{locale}.json.
+// Overrides saved in Dashboard → SEO → Meta data (the `page-meta`
+// collection), keyed by page. Cached per request. If the lookup fails (e.g.
+// the migration hasn't run yet) pages fall back to their defaults instead of
+// erroring.
+export const getPageMetaOverrides = cache(async (locale: Locale) => {
+  const payload = await getPayload({ config });
+  try {
+    const { docs } = await payload.find({
+      collection: "page-meta",
+      locale,
+      depth: 0,
+      pagination: false,
+      select: { page: true, title: true, description: true },
+    });
+    return new Map(docs.map((doc) => [doc.page as SeoPageKey, doc]));
+  } catch (error) {
+    payload.logger.error({ err: error, msg: "page-meta lookup failed; using default metadata" });
+    return new Map<SeoPageKey, { title?: string | null; description?: string | null }>();
+  }
+});
+
+// Title/description for a page: the dashboard override, else the default
+// from messages/{locale}.json → Metadata.
+async function seoPageText(key: SeoPageKey, locale: Locale) {
+  const [t, overrides] = await Promise.all([
+    getTranslations({ locale, namespace: "Metadata" }),
+    getPageMetaOverrides(locale),
+  ]);
+  const override = overrides.get(key);
+  return {
+    title: override?.title || t(`${key}.title`),
+    description: override?.description || t(`${key}.description`),
+  };
+}
+
+// generateMetadata for a static page.
 export async function staticPageMetadata(key: StaticPageKey): Promise<Metadata> {
   const locale = await getSeoLocale();
-  const t = await getTranslations({ locale, namespace: "Metadata" });
   return buildMetadata({
-    title: t(`${key}.title`),
-    description: t(`${key}.description`),
+    ...(await seoPageText(key, locale)),
     path: STATIC_PAGES[key],
     locale,
   });
+}
+
+// generateMetadata for a docs page: title/description only. The docs area is
+// internal and stays noindex (see docs/layout.tsx), so no canonical/hreflang.
+export async function docsPageMetadata(key: Exclude<SeoPageKey, StaticPageKey>): Promise<Metadata> {
+  return seoPageText(key, await getSeoLocale());
 }
 
 // BreadcrumbList for a page: Home › (sections…) › (current page).

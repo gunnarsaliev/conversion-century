@@ -63,6 +63,11 @@
       "name": "Събития и медии",
       "title": "Събития и медии",
       "description": "Конференции, уебинари, подкасти и публикации с участието на екипа на Conversion Century."
+    },
+    "docsGettingStarted": {
+      "name": "Първи стъпки",
+      "title": "Getting started",
+      "description": "Comprehensive technical SEO audit recommendations and implementation guidelines for website optimization."
     }
   },
   "Footer": {

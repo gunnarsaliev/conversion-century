@@ -2,6 +2,11 @@ import createMiddleware from 'next-intl/middleware'
 import { NextResponse, type NextRequest } from 'next/server'
 
 import { routing } from '@/i18n/routing'
+import {
+  isAbsoluteUrl,
+  redirectLookupPath,
+  type RedirectRule,
+} from '@/lib/seo/redirects'
 
 const handleI18nRouting = createMiddleware(routing)
 
@@ -29,6 +34,65 @@ const SESSION_COOKIE_NAME = 'payload-token'
 // to the default-locale route segment.
 const DASHBOARD_PATH = /^\/(?:([a-z]{2})\/)?dashboard(?=\/|$)(.*)$/
 
+// Redirects from Dashboard → SEO → Redirects. The proxy can't use Payload's
+// local API, so it reads the public GET /api/seo-redirects list and keeps it
+// in memory for REDIRECTS_TTL_MS per instance. On any error it keeps the last
+// list it had (or none), so a failing lookup never blocks the site.
+const REDIRECTS_TTL_MS = 60_000
+const LOCALE_PREFIX = /^\/(en|bg)(?=\/|$)/
+let redirectRules: { map: Map<string, RedirectRule>; fetchedAt: number } | null = null
+let redirectRulesRequest: Promise<Map<string, RedirectRule>> | null = null
+
+async function getRedirectRules(request: NextRequest) {
+  if (redirectRules && Date.now() - redirectRules.fetchedAt < REDIRECTS_TTL_MS) {
+    return redirectRules.map
+  }
+  redirectRulesRequest ??= fetch(new URL('/api/seo-redirects', request.url), {
+    cache: 'no-store',
+    signal: AbortSignal.timeout(3000),
+  })
+    .then(async (response) => {
+      if (!response.ok) throw new Error(`seo-redirects: ${response.status}`)
+      const rules = (await response.json()) as RedirectRule[]
+      const map = new Map(rules.map((rule) => [rule.from, rule]))
+      redirectRules = { map, fetchedAt: Date.now() }
+      return map
+    })
+    .catch(() => {
+      // Retry after the TTL rather than on every request.
+      const map = redirectRules?.map ?? new Map<string, RedirectRule>()
+      redirectRules = { map, fetchedAt: Date.now() }
+      return map
+    })
+    .finally(() => {
+      redirectRulesRequest = null
+    })
+  return redirectRulesRequest
+}
+
+async function seoRedirect(request: NextRequest) {
+  const { pathname, search } = request.nextUrl
+  const rule = (await getRedirectRules(request)).get(redirectLookupPath(pathname))
+  if (!rule) return null
+
+  let destination: URL
+  if (isAbsoluteUrl(rule.to)) {
+    destination = new URL(rule.to)
+  } else {
+    // Keep the visitor's locale prefix (/bg/old → /bg/new), unless the
+    // target already names a locale.
+    const locale = LOCALE_PREFIX.exec(pathname)?.[1]
+    const target =
+      locale && !LOCALE_PREFIX.test(rule.to)
+        ? `/${locale}${rule.to === '/' ? '' : rule.to}`
+        : rule.to
+    destination = new URL(target, request.url)
+  }
+  if (!destination.search && search) destination.search = search
+
+  return NextResponse.redirect(destination, rule.statusCode === '302' ? 302 : 301)
+}
+
 function loginRedirect(request: NextRequest, locale: string, target: string) {
   const loginPathname =
     locale === routing.defaultLocale ? '/login' : `/${locale}/login`
@@ -37,7 +101,7 @@ function loginRedirect(request: NextRequest, locale: string, target: string) {
   return NextResponse.redirect(loginUrl)
 }
 
-export default function proxy(request: NextRequest) {
+export default async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl
 
   const dashboard = DASHBOARD_PATH.exec(pathname)
@@ -58,6 +122,9 @@ export default function proxy(request: NextRequest) {
       )
     }
   }
+
+  const redirect = await seoRedirect(request)
+  if (redirect) return redirect
 
   const response = handleI18nRouting(request)
 

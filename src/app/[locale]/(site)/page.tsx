@@ -72,7 +72,7 @@ export default async function WebsitePage() {
     return {
       title: post.title,
       description: post.excerpt ?? "",
-      image: image?.url ?? "",
+      image: image?.url ?? undefined,
       author: authorName(post.author),
       authorAvatar: authorAvatar(post.author),
       readTime: tCommon("readTime", { minutes: readTime }),
@@ -117,7 +117,7 @@ export default async function WebsitePage() {
       title: caseStudy.title,
       description: caseStudy.overview ?? "",
       href: `/case-studies/${caseStudy.slug ?? caseStudy.id}`,
-      image: image?.url ?? "",
+      image: image?.url ?? undefined,
     };
   });
 
