@@ -57,7 +57,7 @@ const CaseStudies13 = ({
                     <img
                       src={c.image}
                       alt={c.title}
-                      className="absolute inset-0 size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="absolute inset-0 size-full object-cover object-left transition-transform duration-500 group-hover:scale-105"
                     />
                   )}
                   {c.metric && (
