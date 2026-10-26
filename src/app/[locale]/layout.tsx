@@ -39,10 +39,9 @@ export async function generateMetadata({
 
   return {
     metadataBase: new URL(SITE_URL),
-    title: {
-      template: `%s | ${SITE_NAME}`,
-      default: t('title'),
-    },
+    // Page titles are used as is (no "| Conversion Century" suffix), so what
+    // is set in Dashboard → SEO → Meta data is exactly what search shows.
+    title: t('title'),
     description: t('description'),
     applicationName: SITE_NAME,
     robots: { index: IS_INDEXABLE, follow: IS_INDEXABLE },
