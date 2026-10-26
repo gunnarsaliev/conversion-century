@@ -1,3 +1,4 @@
+import { EXTERNAL_LINK_REL } from "@/lib/external-link";
 import {
   Cake,
   ChevronRight,
@@ -313,7 +314,7 @@ export default async function TeamMemberPage({
                     key={document.id ?? document.file.id}
                     href={document.file.url ?? undefined}
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel={EXTERNAL_LINK_REL}
                     className={`flex items-start gap-3 py-2.5 hover:underline ${
                       index < documents.length - 1 ? "border-b" : ""
                     }`}

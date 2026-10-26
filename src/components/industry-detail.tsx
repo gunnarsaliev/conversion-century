@@ -1,4 +1,4 @@
-import { RichText } from "@payloadcms/richtext-lexical/react";
+import { RichText } from "@/components/rich-text";
 import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 import { useTranslations } from "next-intl";
 import { cn } from "cn";
@@ -12,7 +12,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Button } from "@/components/ui/button";
 
 interface IndustryDetailClient {
   name: string;
@@ -25,18 +24,16 @@ interface IndustryDetailProps {
   image?: string;
   description?: SerializedEditorState;
   clients?: IndustryDetailClient[];
-  ctaHeading?: string;
   className?: string;
 }
 
-// Detail page layout shared by industries and solutions.
+// Detail page layout for industries.
 const IndustryDetail = ({
   label,
   title,
   image,
   description,
   clients = [],
-  ctaHeading,
   className,
 }: IndustryDetailProps) => {
   const t = useTranslations("IndustryDetail");
@@ -55,6 +52,12 @@ const IndustryDetail = ({
               </BreadcrumbItem>
               <BreadcrumbSeparator>/</BreadcrumbSeparator>
               <BreadcrumbItem>
+                <BreadcrumbLink render={<Link href="/industries" />}>
+                  {t("breadcrumb")}
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator>/</BreadcrumbSeparator>
+              <BreadcrumbItem>
                 <BreadcrumbPage>{title}</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
@@ -66,6 +69,29 @@ const IndustryDetail = ({
           <h1 className="text-4xl font-bold tracking-tight text-balance sm:text-5xl">
             {title}
           </h1>
+
+          {clients.length > 0 && (
+            <div className="mt-10">
+              <h2 className="mb-6 text-2xl font-semibold tracking-tight">
+                {t("clientsIn", { title })}
+              </h2>
+              <ul className="flex flex-wrap gap-2.5">
+                {clients.map((client) => (
+                  <li
+                    key={client.name}
+                    className="flex items-center rounded-full border border-border bg-card px-5 py-2.5"
+                  >
+                    <img
+                      src={client.logo}
+                      alt={client.name}
+                      title={client.name}
+                      className="h-7 w-auto max-w-28 object-contain"
+                    />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           {image && (
             <img
@@ -80,36 +106,6 @@ const IndustryDetail = ({
               <RichText data={description} />
             </div>
           )}
-
-          {clients.length > 0 && (
-            <div className="mt-16">
-              <h2 className="mb-6 text-2xl font-semibold tracking-tight">
-                {t("clientsIn", { title })}
-              </h2>
-              <ul className="flex flex-wrap gap-2.5">
-                {clients.map((client) => (
-                  <li
-                    key={client.name}
-                    className="flex items-center gap-2 rounded-full border border-border bg-card px-3.5 py-2"
-                  >
-                    <img src={client.logo} alt="" className="h-4 w-auto" />
-                    <span className="text-xs font-medium">{client.name}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          <div className="mt-16 flex flex-col items-start gap-3 border-t border-dashed pt-10">
-            <p className="text-lg font-semibold">{ctaHeading ?? t("ctaHeading", { title })}</p>
-            <Button
-              nativeButton={false}
-              className="bg-black text-white hover:bg-black/80"
-              render={<Link href="/book-a-consultation" />}
-            >
-              {tCommon("bookConsultation")}
-            </Button>
-          </div>
         </div>
       </div>
     </section>

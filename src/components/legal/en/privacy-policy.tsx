@@ -1,4 +1,5 @@
 import { Link } from "@/i18n/navigation";
+import { EXTERNAL_LINK_REL } from "@/lib/external-link";
 
 export function PrivacyPolicyEn() {
   return (
@@ -294,7 +295,7 @@ export function PrivacyPolicyEn() {
           <br />
           E-mail: <a href="mailto:kzld@cpdp.bg">kzld@cpdp.bg</a>
           <br />
-          Website: <a href="https://www.cpdp.bg">www.cpdp.bg</a>
+          Website: <a href="https://www.cpdp.bg" rel={EXTERNAL_LINK_REL}>www.cpdp.bg</a>
         </p>
 
         <h2>V. Website enquiries and newsletter</h2>
@@ -327,7 +328,7 @@ export function PrivacyPolicyEn() {
           France) to store contact details and send emails. Brevo acts as our
           data processor under a data processing agreement and stores data
           within the European Union. See{" "}
-          <a href="https://www.brevo.com/legal/privacypolicy/">
+          <a href="https://www.brevo.com/legal/privacypolicy/" rel={EXTERNAL_LINK_REL}>
             Brevo&apos;s privacy policy
           </a>{" "}
           for details. Information about cookies is available in our{" "}

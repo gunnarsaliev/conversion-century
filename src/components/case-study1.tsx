@@ -1,4 +1,4 @@
-import { RichText } from "@payloadcms/richtext-lexical/react";
+import { RichText } from "@/components/rich-text";
 import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 import { useTranslations } from "next-intl";
 import { cn } from "cn";

@@ -1,15 +1,13 @@
 "use client";
 
 import { createElement } from "react";
-import {
-  RichText,
-  type JSXConvertersFunction,
-} from "@payloadcms/richtext-lexical/react";
+import type { JSXConvertersFunction } from "@payloadcms/richtext-lexical/react";
 import type {
   SerializedEditorState,
 } from "@payloadcms/richtext-lexical/lexical";
 import type { DefaultNodeTypes } from "@payloadcms/richtext-lexical";
 
+import { RichText } from "@/components/rich-text";
 import { extractHeadings } from "@/lib/extract-headings";
 
 interface PostRichTextProps {

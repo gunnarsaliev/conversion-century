@@ -1,3 +1,4 @@
+import { EXTERNAL_LINK_REL } from "@/lib/external-link";
 import {
   ArrowDown,
   ArrowUp,
@@ -153,16 +154,16 @@ const UserProfile9 = ({
           {/* Social Links */}
           <div className="mt-4 flex items-center gap-2">
             {user.socialLinks?.twitter && (
-              <Button variant="ghost" size="icon" className="size-8" render={<a href={user.socialLinks.twitter} target="_blank" rel="noopener noreferrer" />} nativeButton={false}><Send className="size-4" /></Button>
+              <Button variant="ghost" size="icon" className="size-8" render={<a href={user.socialLinks.twitter} target="_blank" rel={EXTERNAL_LINK_REL} />} nativeButton={false}><Send className="size-4" /></Button>
             )}
             {user.socialLinks?.linkedin && (
-              <Button variant="ghost" size="icon" className="size-8" render={<a href={user.socialLinks.linkedin} target="_blank" rel="noopener noreferrer" />} nativeButton={false}><LinkIcon className="size-4" /></Button>
+              <Button variant="ghost" size="icon" className="size-8" render={<a href={user.socialLinks.linkedin} target="_blank" rel={EXTERNAL_LINK_REL} />} nativeButton={false}><LinkIcon className="size-4" /></Button>
             )}
             {user.socialLinks?.github && (
-              <Button variant="ghost" size="icon" className="size-8" render={<a href={user.socialLinks.github} target="_blank" rel="noopener noreferrer" />} nativeButton={false}><LinkIcon className="size-4" /></Button>
+              <Button variant="ghost" size="icon" className="size-8" render={<a href={user.socialLinks.github} target="_blank" rel={EXTERNAL_LINK_REL} />} nativeButton={false}><LinkIcon className="size-4" /></Button>
             )}
             {user.socialLinks?.website && (
-              <Button variant="ghost" size="icon" className="size-8" render={<a href={user.socialLinks.website} target="_blank" rel="noopener noreferrer" />} nativeButton={false}><Globe className="size-4" /></Button>
+              <Button variant="ghost" size="icon" className="size-8" render={<a href={user.socialLinks.website} target="_blank" rel={EXTERNAL_LINK_REL} />} nativeButton={false}><Globe className="size-4" /></Button>
             )}
           </div>
         </CardContent>

@@ -1,4 +1,5 @@
 import { Link } from "@/i18n/navigation";
+import { EXTERNAL_LINK_REL } from "@/lib/external-link";
 
 export function CookiePolicyBg() {
   return (
@@ -88,7 +89,7 @@ export function CookiePolicyBg() {
           така че YouTube не записва бисквитки на устройството ви само защото
           разглеждате страницата. Когато пуснете видеоклип, YouTube може да
           съхранява информация на устройството ви в съответствие с{" "}
-          <a href="https://policies.google.com/privacy">
+          <a href="https://policies.google.com/privacy" rel={EXTERNAL_LINK_REL}>
             политиката за поверителност на Google
           </a>
           .

@@ -1,3 +1,4 @@
+import { EXTERNAL_LINK_REL } from "@/lib/external-link";
 import {
   Calendar,
   Globe,
@@ -182,7 +183,7 @@ const UserProfile3 = ({
                     key={key}
                     href={href}
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel={EXTERNAL_LINK_REL}
                     className="text-muted-foreground transition-colors hover:text-foreground"
                   >
                     <Icon className="size-5" />

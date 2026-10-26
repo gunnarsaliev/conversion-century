@@ -45,6 +45,30 @@ const nodes = {
       )
     },
   },
+  // Links to other sites open in a new tab with the same rel as the rest of
+  // the site (EXTERNAL_LINK_REL in src/lib/external-link.ts).
+  link: {
+    ...defaultNodes.link,
+    transform(node, config) {
+      let attributes = node.transformAttributes(config)
+      let children = node.transformChildren(config)
+      let host = /^(https?:)?\/\//i.test(attributes.href ?? '')
+        ? new URL(attributes.href, 'https://conversion-century.com').hostname
+        : null
+      let external =
+        host !== null &&
+        host !== 'conversion-century.com' &&
+        host !== 'www.conversion-century.com'
+
+      return new Tag(
+        'a',
+        external
+          ? { ...attributes, target: '_blank', rel: 'nofollow noopener noreferrer' }
+          : attributes,
+        children,
+      )
+    },
+  },
   th: {
     ...defaultNodes.th,
     attributes: {

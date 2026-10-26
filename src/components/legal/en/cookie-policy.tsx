@@ -1,4 +1,5 @@
 import { Link } from "@/i18n/navigation";
+import { EXTERNAL_LINK_REL } from "@/lib/external-link";
 
 export function CookiePolicyEn() {
   return (
@@ -86,7 +87,7 @@ export function CookiePolicyEn() {
           store cookies on your device just because you view the page. Once
           you play a video, YouTube may store information on your device in
           accordance with{" "}
-          <a href="https://policies.google.com/privacy">
+          <a href="https://policies.google.com/privacy" rel={EXTERNAL_LINK_REL}>
             Google&apos;s privacy policy
           </a>
           .

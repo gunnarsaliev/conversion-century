@@ -2,6 +2,7 @@
 
 import { Star } from "lucide-react";
 import { cn } from "cn";
+import { EXTERNAL_LINK_REL, isExternalHref } from "@/lib/external-link";
 
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -115,6 +116,7 @@ const Hero80 = (props: Props) => {
             {badge && (
               <a
                 href={badge.url ?? "https://www.shadcnblocks.com"}
+                rel={isExternalHref(badge.url ?? "https://www.shadcnblocks.com") ? EXTERNAL_LINK_REL : undefined}
                 className="my-6 text-xs font-bold tracking-[0.3em] text-muted-foreground uppercase hover:underline"
               >
                 {badge.text}

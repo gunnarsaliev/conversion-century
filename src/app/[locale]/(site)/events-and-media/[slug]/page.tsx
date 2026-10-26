@@ -1,4 +1,5 @@
 import { cache } from "react";
+import { EXTERNAL_LINK_REL } from "@/lib/external-link";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -119,7 +120,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
           <a
             href={event.externalUrl}
             target="_blank"
-            rel="noopener noreferrer"
+            rel={EXTERNAL_LINK_REL}
             className={cn(buttonVariants(), "ml-auto rounded-full")}
           >
             {t("learnMore")}

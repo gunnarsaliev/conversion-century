@@ -362,7 +362,7 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
               <NavigationMenuItem>
                 <NavigationMenuTrigger>{t("proof.label")}</NavigationMenuTrigger>
                 <NavigationMenuContent className="w-max p-5">
-                  <div>
+                  <div className="w-56">
                     <div className="mb-3 text-xs font-semibold tracking-wide text-foreground uppercase">
                       {t("proof.label")}
                     </div>
@@ -391,7 +391,7 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
               <NavigationMenuItem>
                 <NavigationMenuTrigger>{t("about.label")}</NavigationMenuTrigger>
                 <NavigationMenuContent className="w-max p-5">
-                  <div>
+                  <div className="w-56">
                     <div className="mb-3 text-xs font-semibold tracking-wide text-foreground uppercase">
                       {t("about.label")}
                     </div>

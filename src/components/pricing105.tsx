@@ -1,4 +1,5 @@
 import { Check } from "lucide-react";
+import { EXTERNAL_LINK_REL } from "@/lib/external-link";
 import { cn } from "cn";
 
 import { Button } from "@/components/ui/button";
@@ -109,7 +110,7 @@ const Pricing105 = (props: Props) => {
                     </li>
                   ))}
                 </ul>
-                <Button className="mt-8 w-full sm:w-auto" render={<a href={plan.button.url} target="_blank" rel="noreferrer" />} nativeButton={false}>{plan.button.text}</Button>
+                <Button className="mt-8 w-full sm:w-auto" render={<a href={plan.button.url} target="_blank" rel={EXTERNAL_LINK_REL} />} nativeButton={false}>{plan.button.text}</Button>
               </div>
             </div>
           </div>

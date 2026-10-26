@@ -1,4 +1,5 @@
 import { ArrowRight, ArrowUpRight, type LucideIcon } from "lucide-react";
+import { EXTERNAL_LINK_REL } from "@/lib/external-link";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -116,7 +117,7 @@ function BannerStandardAction({
       variant="default"
       render={
         external ? (
-          <a href={href} target="_blank" rel="noopener noreferrer" />
+          <a href={href} target="_blank" rel={EXTERNAL_LINK_REL} />
         ) : (
           <Link href={href} />
         )

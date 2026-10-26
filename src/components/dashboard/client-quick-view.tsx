@@ -1,5 +1,6 @@
 "use client";
 
+import { EXTERNAL_LINK_REL } from "@/lib/external-link";
 import {
   CheckCircle2,
   Circle,
@@ -342,7 +343,7 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
                           key={link.id ?? index}
                           href={link.url ?? "#"}
                           target="_blank"
-                          rel="noreferrer"
+                          rel={EXTERNAL_LINK_REL}
                           title={link.url ?? undefined}
                           aria-label={link.url ?? t("links.websiteLink")}
                           className="flex size-8 items-center justify-center rounded-md border text-muted-foreground hover:bg-muted hover:text-foreground"
@@ -364,7 +365,7 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
                           key={link.id ?? index}
                           href={link.url ?? "#"}
                           target="_blank"
-                          rel="noreferrer"
+                          rel={EXTERNAL_LINK_REL}
                           title={link.url ?? undefined}
                           aria-label={link.url ?? t("links.loginLink")}
                           className="flex size-8 items-center justify-center rounded-md border text-muted-foreground hover:bg-muted hover:text-foreground"
@@ -385,7 +386,7 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
                           key={link.id ?? index}
                           href={link.url ?? "#"}
                           target="_blank"
-                          rel="noreferrer"
+                          rel={EXTERNAL_LINK_REL}
                           title={link.url ?? undefined}
                           aria-label={link.url ?? t("links.report")}
                           className="flex size-8 items-center justify-center rounded-md border text-muted-foreground hover:bg-muted hover:text-foreground"
@@ -405,7 +406,7 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
                         <a
                           href={client.linkBuildingDocsUrl}
                           target="_blank"
-                          rel="noreferrer"
+                          rel={EXTERNAL_LINK_REL}
                           title={client.linkBuildingDocsUrl}
                           aria-label={t("links.linkBuildingDocs")}
                           className="flex size-8 items-center justify-center rounded-md border text-muted-foreground hover:bg-muted hover:text-foreground"
@@ -417,7 +418,7 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
                         <a
                           href={client.blogDocsUrl}
                           target="_blank"
-                          rel="noreferrer"
+                          rel={EXTERNAL_LINK_REL}
                           title={client.blogDocsUrl}
                           aria-label={t("links.blogDocs")}
                           className="flex size-8 items-center justify-center rounded-md border text-muted-foreground hover:bg-muted hover:text-foreground"

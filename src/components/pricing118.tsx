@@ -1,4 +1,5 @@
 import { Check } from 'lucide-react'
+import { EXTERNAL_LINK_REL } from "@/lib/external-link";
 import { cn } from 'cn'
 
 import { Button } from '@/components/ui/button'
@@ -188,7 +189,7 @@ const Pricing118 = (props: Props) => {
                     <a
                       href={plan.button.url}
                       target="_blank"
-                      rel="noreferrer"
+                      rel={EXTERNAL_LINK_REL}
                     />
                   }
                   nativeButton={false}

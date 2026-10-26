@@ -1,9 +1,10 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { EXTERNAL_LINK_REL } from "@/lib/external-link";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { cn } from "cn";
-import { RichText } from "@payloadcms/richtext-lexical/react";
+import { RichText } from "@/components/rich-text";
 import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 
 import { useMediaQuery } from "@/hooks/useMediaQuery";
@@ -187,7 +188,7 @@ const ReviewCard = ({ review }: ReviewCardType) => {
             <a
               href={company.link}
               target="_blank"
-              rel="noopener noreferrer"
+              rel={EXTERNAL_LINK_REL}
               className="group flex items-center gap-3"
             >
               {companyContent}

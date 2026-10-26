@@ -616,9 +616,9 @@
     "heading": "Explore solutions tailored to your industry"
   },
   "IndustryDetail": {
+    "breadcrumb": "Industries",
     "label": "Industry",
-    "clientsIn": "Clients in {title}",
-    "ctaHeading": "Want to grow your {title} business?"
+    "clientsIn": "Clients in {title}"
   },
   "Reviews22": {
     "heading": "Positive Reviews From Our Clients",

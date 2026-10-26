@@ -1,5 +1,6 @@
 import { Logo } from "@/components/Logo";
 import type { Offer, OfferStatic } from "@/types/offer";
+import { EXTERNAL_LINK_REL, isExternalHref } from "@/lib/external-link";
 import { LogoOrName, formatDate } from "./offer-ui";
 
 export function OfferHero({
@@ -35,6 +36,7 @@ export function OfferHero({
           Изготвено от:{" "}
           <a
             href={`https://${brand.website}`}
+            rel={isExternalHref(`https://${brand.website}`) ? EXTERNAL_LINK_REL : undefined}
             className="font-medium text-foreground hover:underline"
           >
             {brand.website}

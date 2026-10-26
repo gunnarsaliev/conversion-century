@@ -45,10 +45,9 @@ const Integration37 = ({
               {pills.map((pill) => (
                 <li
                   key={pill.name}
-                  className="flex items-center gap-2 rounded-full border border-border bg-card px-3.5 py-2"
+                  className="flex items-center rounded-full border border-border bg-card px-5 py-2.5"
                 >
-                  <img src={pill.src} alt="" className="h-4 w-auto" />
-                  <span className="text-xs font-medium">{pill.name}</span>
+                  <img src={pill.src} alt={pill.name} title={pill.name} className="h-7 w-auto max-w-28 object-contain" />
                 </li>
               ))}
             </ul>

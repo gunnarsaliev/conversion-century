@@ -1,3 +1,4 @@
+import { EXTERNAL_LINK_REL } from "@/lib/external-link";
 import {
   ChevronRight,
   FileText,
@@ -9,7 +10,7 @@ import {
   Search,
   Users,
 } from "lucide-react";
-import { RichText } from "@payloadcms/richtext-lexical/react";
+import { RichText } from "@/components/rich-text";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -213,7 +214,7 @@ export default async function LeadPage({ params }: LeadPageProps) {
                     <a
                       href={websiteLinks[0].url}
                       target="_blank"
-                      rel="noopener noreferrer"
+                      rel={EXTERNAL_LINK_REL}
                     />
                   }
                   nativeButton={false}
@@ -425,7 +426,7 @@ export default async function LeadPage({ params }: LeadPageProps) {
                     key={link.id ?? index}
                     href={link.url ?? "#"}
                     target="_blank"
-                    rel="noreferrer"
+                    rel={EXTERNAL_LINK_REL}
                     className="flex items-center gap-2 hover:underline"
                   >
                     <LinkIcon className="size-3.5 text-muted-foreground" aria-hidden="true" />
@@ -447,7 +448,7 @@ export default async function LeadPage({ params }: LeadPageProps) {
                     key={link.id ?? index}
                     href={link.url ?? "#"}
                     target="_blank"
-                    rel="noreferrer"
+                    rel={EXTERNAL_LINK_REL}
                     className="flex items-center gap-2 hover:underline"
                   >
                     <LinkIcon className="size-3.5 text-muted-foreground" aria-hidden="true" />

@@ -5,7 +5,7 @@ import config from "@payload-config";
 import { Hero104 } from "@/components/hero104";
 import { getHomeHero } from "@/lib/home-hero";
 import { ClientLogos } from "@/components/client-logos";
-import type { Media, User } from "../../../../payload-types";
+import type { Client, Media, User } from "../../../../payload-types";
 import { Feature13 } from "@/components/feature13";
 import { Feature278 } from "@/components/feature278";
 import { Feature104 } from "@/components/feature104";
@@ -16,7 +16,7 @@ import { Blog12, type Blog12Post } from "@/components/blog12";
 import { Hero80 } from "@/components/hero80"; 
 import { FounderLetter } from "@/components/founder-letter";
 import { Hero262 } from "@/components/hero262";
-import { CaseStudies8 } from "@/components/case-studies8";
+import { CaseStudies8, type CaseStudies8Item } from "@/components/case-studies8";
 import { StaticPageJsonLd } from "@/components/static-page-json-ld";
 import { staticPageMetadata } from "@/lib/seo/pages";
 
@@ -80,6 +80,47 @@ export default async function WebsitePage() {
     };
   });
 
+  const { docs: caseStudies } = await payload.find({
+    collection: "case-studies",
+    locale: locale as "en" | "bg",
+    // depth: 2 so client.logo resolves to a Media object with its url.
+    depth: 2,
+    limit: 6,
+    sort: "-createdAt",
+    select: { title: true, slug: true, client: true, image: true, overview: true },
+    // Clients is admin-only CRM data and the local API bypasses access
+    // control, so only populate the public fields.
+    populate: {
+      clients: { companyName: true, logo: true, showOnWebsite: true },
+    },
+  });
+
+  const caseStudyItems: CaseStudies8Item[] = caseStudies.map((caseStudy) => {
+    const image =
+      caseStudy.image && typeof caseStudy.image === "object"
+        ? (caseStudy.image as Media)
+        : null;
+    const client =
+      caseStudy.client && typeof caseStudy.client === "object"
+        ? (caseStudy.client as Client)
+        : null;
+    // A client's logo is only public once it is marked showOnWebsite.
+    const logo =
+      client?.showOnWebsite && typeof client.logo === "object"
+        ? client.logo?.url ?? undefined
+        : undefined;
+
+    return {
+      id: String(caseStudy.id),
+      logo,
+      logoAlt: client?.companyName,
+      title: caseStudy.title,
+      description: caseStudy.overview ?? "",
+      href: `/case-studies/${caseStudy.slug ?? caseStudy.id}`,
+      image: image?.url ?? "",
+    };
+  });
+
   return (
     <>
       <StaticPageJsonLd page="home" />
@@ -88,7 +129,7 @@ export default async function WebsitePage() {
         <ClientLogos viewAllHref="/clients" />
         <Hero262 />      
         <Feature278 />
-        <CaseStudies8 />
+        <CaseStudies8 items={caseStudyItems.length > 0 ? caseStudyItems : undefined} />
         <Feature13 />
         <Feature104 />
         <FounderLetter />

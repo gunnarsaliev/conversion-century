@@ -7,8 +7,8 @@ import type { Industry, Media } from "../../../../../payload-types";
 import { Hero237 } from "@/components/hero237";
 import { ChartCard5, type ChartCard5Item } from "@/components/chart-card5";
 import { TrustStrip4 } from "@/components/trust-strip4";
-import { Hero104 } from "@/components/hero104";
-import { getHomeHero } from "@/lib/home-hero";
+// import { Hero104 } from "@/components/hero104";
+// import { getHomeHero } from "@/lib/home-hero";
 import { StaticPageJsonLd } from "@/components/static-page-json-ld";
 import { staticPageMetadata } from "@/lib/seo/pages";
 import { LEAD_STATUSES } from "@/lib/client-status";
@@ -53,7 +53,7 @@ export default async function ClientsPage() {
       industries: true,
     },
     populate: {
-      industries: { title: true },
+      industries: { title: true, _status: true },
     },
   });
 
@@ -69,7 +69,8 @@ export default async function ClientsPage() {
     if (!logo) continue;
 
     for (const industry of client.industries ?? []) {
-      if (typeof industry !== "object") continue;
+      // Draft industries aren't public yet, so leave them out.
+      if (typeof industry !== "object" || industry._status !== "published") continue;
       const title = (industry as Industry).title;
       const pills = groups.get(title) ?? [];
       pills.push({ name: client.companyName, src: logo });
@@ -117,7 +118,7 @@ export default async function ClientsPage() {
       industries: true,
     },
     populate: {
-      industries: { title: true },
+      industries: { title: true, _status: true },
     },
   });
 
@@ -146,7 +147,8 @@ export default async function ClientsPage() {
   const industryCounts = new Map<string, number>();
   for (const client of pastClients) {
     for (const industry of client.industries ?? []) {
-      if (typeof industry !== "object") continue;
+      // Draft industries aren't public yet, so leave them out.
+      if (typeof industry !== "object" || industry._status !== "published") continue;
       const title = (industry as Industry).title;
       industryCounts.set(title, (industryCounts.get(title) ?? 0) + 1);
     }
@@ -182,8 +184,8 @@ export default async function ClientsPage() {
   return (
     <>
       <StaticPageJsonLd page="clients" />
-      <div className="py-32">
-        <Hero104 {...await getHomeHero()} containerClassName="lg:px-0" />
+      <div className="pt-8 pb-32">
+        {/* <Hero104 {...await getHomeHero()} containerClassName="lg:px-0" /> */}
         <Hero237
           icons={heroLogos}
           cta={{ text: tCommon("bookConsultation"), href: "/book-a-consultation" }}

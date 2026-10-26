@@ -1,5 +1,5 @@
 import { ArrowLeft, BriefcaseBusiness, MapPin } from 'lucide-react'
-import { RichText } from '@payloadcms/richtext-lexical/react'
+import { RichText } from '@/components/rich-text'
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
 
 import JobApplicationForm from '@/components/job-application-form'

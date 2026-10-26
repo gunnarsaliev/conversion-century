@@ -1,4 +1,5 @@
 import { Link } from "@/i18n/navigation";
+import { EXTERNAL_LINK_REL } from "@/lib/external-link";
 
 export function PrivacyPolicyBg() {
   return (
@@ -300,7 +301,7 @@ export function PrivacyPolicyBg() {
           <br />
           Имейл: <a href="mailto:kzld@cpdp.bg">kzld@cpdp.bg</a>
           <br />
-          Уебсайт: <a href="https://www.cpdp.bg">www.cpdp.bg</a>
+          Уебсайт: <a href="https://www.cpdp.bg" rel={EXTERNAL_LINK_REL}>www.cpdp.bg</a>
         </p>
 
         <h2>V. Запитвания през уебсайта и бюлетин</h2>
@@ -336,7 +337,7 @@ export function PrivacyPolicyBg() {
           имейли. Brevo действа като обработващ лични данни от наше име по
           силата на споразумение за обработване на данни и съхранява данните
           в рамките на Европейския съюз. Подробности ще намерите в{" "}
-          <a href="https://www.brevo.com/legal/privacypolicy/">
+          <a href="https://www.brevo.com/legal/privacypolicy/" rel={EXTERNAL_LINK_REL}>
             политиката за поверителност на Brevo
           </a>
           . Информация за бисквитките е налична в нашата{" "}

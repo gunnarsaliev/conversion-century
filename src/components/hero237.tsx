@@ -155,9 +155,9 @@ const Hero237 = (props: Props) => {
         </div>
         <div className="relative h-112 lg:w-1/2">
           <div className="relative -left-35 flex h-[1100px] w-[1500px] flex-col items-center justify-center lg:absolute lg:left-0">
-            <OrbitingCircles iconSize={40} radius={310} speed={2}>
+            <OrbitingCircles iconSize={64} radius={310} speed={2}>
               {circle1Images.map((icon, index) => (
-                <div key={index} className="size-12">
+                <div key={index} className="size-16">
                   <img
                     src={icon.src}
                     className="size-full object-contain"
@@ -166,9 +166,9 @@ const Hero237 = (props: Props) => {
                 </div>
               ))}
             </OrbitingCircles>
-            <OrbitingCircles iconSize={40} radius={390} reverse speed={2}>
+            <OrbitingCircles iconSize={64} radius={390} reverse speed={2}>
               {circle2Images.map((icon, index) => (
-                <div key={index} className="size-12">
+                <div key={index} className="size-16">
                   <img
                     src={icon.src}
                     className="size-full object-contain"
@@ -177,9 +177,9 @@ const Hero237 = (props: Props) => {
                 </div>
               ))}
             </OrbitingCircles>
-            <OrbitingCircles iconSize={40} radius={470} speed={2}>
+            <OrbitingCircles iconSize={64} radius={470} speed={2}>
               {circle3Images.map((icon, index) => (
-                <div key={index} className="size-12">
+                <div key={index} className="size-16">
                   <img
                     src={icon.src}
                     className="size-full object-contain"
@@ -188,9 +188,9 @@ const Hero237 = (props: Props) => {
                 </div>
               ))}
             </OrbitingCircles>
-            <OrbitingCircles iconSize={40} radius={550} reverse speed={1}>
+            <OrbitingCircles iconSize={64} radius={550} reverse speed={1}>
               {circle4Images.map((icon, index) => (
-                <div key={index} className="size-12">
+                <div key={index} className="size-16">
                   <img
                     src={icon.src}
                     className="size-full object-contain"

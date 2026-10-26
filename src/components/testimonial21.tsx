@@ -1,6 +1,7 @@
 import { Handshake } from "lucide-react";
+import { EXTERNAL_LINK_REL } from "@/lib/external-link";
 import { useTranslations } from "next-intl";
-import { RichText } from "@payloadcms/richtext-lexical/react";
+import { RichText } from "@/components/rich-text";
 import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 import { cn } from "cn";
 
@@ -93,7 +94,7 @@ const Testimonial21 = ({ testimonials, className }: Testimonial21Props) => {
                   <a
                     href={company.link}
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel={EXTERNAL_LINK_REL}
                     className="w-fit"
                   >
                     {logo}

@@ -16,7 +16,7 @@ import {
 
 interface CaseStudiesCarouselItem {
   id: string;
-  logo: string;
+  logo?: string;
   logoAlt?: string;
   title: string;
   description: string;
@@ -30,6 +30,8 @@ interface CaseStudiesCarouselProps {
   items: CaseStudiesCarouselItem[];
   className?: string;
 }
+
+export type CaseStudies8Item = CaseStudiesCarouselItem;
 
 interface CaseStudies8Props extends CaseStudiesCarouselProps {}
 type Props = Partial<CaseStudies8Props>;
@@ -199,11 +201,19 @@ const CaseStudies8 = (props: Props) => {
                     <div className="absolute inset-0 h-full bg-linear-to-t from-black/80 via-black/28 to-transparent" />
                     <div className="absolute inset-x-0 bottom-0 flex flex-col items-start p-5 text-white md:p-6">
                       <div className="mb-3 flex h-9 items-center pt-3">
-                        <img
-                          src={item.logo}
-                          alt={item.logoAlt ?? ""}
-                          className="max-h-7 w-auto max-w-[140px] object-contain object-left md:max-h-8 md:max-w-[160px]"
-                        />
+                        {item.logo ? (
+                          <img
+                            src={item.logo}
+                            alt={item.logoAlt ?? ""}
+                            className="max-h-7 w-auto max-w-[140px] object-contain object-left md:max-h-8 md:max-w-[160px]"
+                          />
+                        ) : (
+                          item.logoAlt && (
+                            <span className="text-sm font-medium tracking-wide uppercase">
+                              {item.logoAlt}
+                            </span>
+                          )
+                        )}
                       </div>
                       <div className="text-lg font-semibold md:text-xl">
                         {item.title}

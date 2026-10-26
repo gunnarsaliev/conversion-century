@@ -1,6 +1,7 @@
 "use client";
 
 import { Check } from "lucide-react";
+import { EXTERNAL_LINK_REL } from "@/lib/external-link";
 import { useState } from "react";
 import { cn } from "cn";
 
@@ -127,9 +128,9 @@ const Pricing106 = (props: Props) => {
                 ))}
               </ul>
               <div className="flex flex-col gap-2">
-                <Button className="w-full" render={<a href={plan.button.url} target="_blank" rel="noreferrer" />} nativeButton={false}>{plan.button.text}</Button>
+                <Button className="w-full" render={<a href={plan.button.url} target="_blank" rel={EXTERNAL_LINK_REL} />} nativeButton={false}>{plan.button.text}</Button>
                 {plan.secondaryButton ? (
-                  <Button variant="ghost" className="w-full" render={<a href={plan.secondaryButton.url} target="_blank" rel="noreferrer" />} nativeButton={false}>{plan.secondaryButton.text}</Button>
+                  <Button variant="ghost" className="w-full" render={<a href={plan.secondaryButton.url} target="_blank" rel={EXTERNAL_LINK_REL} />} nativeButton={false}>{plan.secondaryButton.text}</Button>
                 ) : null}
               </div>
             </CardContent>

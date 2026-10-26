@@ -1,4 +1,5 @@
 import { FaFacebookF, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { EXTERNAL_LINK_REL } from "@/lib/external-link";
 import { useTranslations } from "next-intl";
 import { cn } from "cn";
 
@@ -136,7 +137,7 @@ const Footer3 = ({
                   <a
                     href="https://www.facebook.com/people/Conversion-Century-Ltd/100086510380518/"
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel={EXTERNAL_LINK_REL}
                   >
                     <span className="flex size-12 items-center justify-center rounded-full bg-muted transition-colors hover:text-primary">
                       <FaFacebookF className="size-6" />
@@ -147,7 +148,7 @@ const Footer3 = ({
                   <a
                     href="https://www.instagram.com/conversioncentury/"
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel={EXTERNAL_LINK_REL}
                   >
                     <span className="flex size-12 items-center justify-center rounded-full bg-muted transition-colors hover:text-primary">
                       <FaInstagram className="size-6" />
@@ -158,7 +159,7 @@ const Footer3 = ({
                   <a
                     href="https://www.linkedin.com/company/conversion-century/"
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel={EXTERNAL_LINK_REL}
                   >
                     <span className="flex size-12 items-center justify-center rounded-full bg-muted transition-colors hover:text-primary">
                       <FaLinkedin className="size-6" />
