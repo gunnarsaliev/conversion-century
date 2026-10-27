@@ -6,6 +6,7 @@ import { BackgroundPattern27 } from '@/components/background-pattern27'
 import { Footer3 } from '@/components/footer3'
 import { Navbar3 } from '@/components/navbar3'
 import type { Media } from '../../../../payload-types'
+import { translated, untranslatedHrefs } from '@/utilities/findByLocalizedSlug'
 
 export default async function FrontendLayout({
   children,
@@ -23,6 +24,7 @@ export default async function FrontendLayout({
     sort: '-publishedAt',
     where: {
       _status: { equals: 'published' },
+      ...translated,
     },
   })
 
@@ -40,13 +42,15 @@ export default async function FrontendLayout({
     }
   })
 
+  const hiddenHrefs = await untranslatedHrefs(locale)
+
   return (
     <div className="relative isolate w-full min-w-0 overflow-x-clip">
       <BackgroundPattern27 />
-      <Navbar3 blogPosts={navbarBlogPosts} />
+      <Navbar3 blogPosts={navbarBlogPosts} hiddenHrefs={hiddenHrefs} />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {children}
-        <Footer3 />
+        <Footer3 hiddenHrefs={hiddenHrefs} />
       </div>
     </div>
   )

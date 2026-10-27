@@ -81,6 +81,8 @@ interface Footer3Props {
     alt: string;
     title: string;
   };
+  // Link hrefs whose page isn't translated into the current locale.
+  hiddenHrefs?: string[];
   className?: string;
 }
 const Footer3 = ({
@@ -90,6 +92,7 @@ const Footer3 = ({
     alt: "Conversion Century",
     title: "Conversion Century",
   },
+  hiddenHrefs = [],
   className,
 }: Footer3Props) => {
   const t = useTranslations("Footer");
@@ -118,7 +121,9 @@ const Footer3 = ({
               <div key={section.key}>
                 <h3 className="mb-4 font-bold">{t(`${section.key}.title`)}</h3>
                 <ul className="space-y-4 text-muted-foreground">
-                  {section.links.map((link) => (
+                  {section.links
+                    .filter((link) => !hiddenHrefs.includes(link.href))
+                    .map((link) => (
                     <li
                       key={link.key}
                       className="font-medium hover:text-primary"

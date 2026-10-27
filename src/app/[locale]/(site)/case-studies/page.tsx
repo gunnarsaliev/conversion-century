@@ -6,6 +6,7 @@ import { CaseStudies13, type CaseStudies13Item } from "@/components/case-studies
 import type { Client, Media } from "../../../../../payload-types";
 import { StaticPageJsonLd } from "@/components/static-page-json-ld";
 import { staticPageMetadata } from "@/lib/seo/pages";
+import { translated } from "@/utilities/findByLocalizedSlug";
 
 export async function generateMetadata() {
   return staticPageMetadata("caseStudies");
@@ -18,6 +19,7 @@ export default async function CaseStudiesPage() {
   const { docs: caseStudies } = await payload.find({
     collection: "case-studies",
     locale: locale as "en" | "bg",
+    where: translated,
     depth: 1,
     limit: 100,
     sort: "-createdAt",

@@ -30,6 +30,6 @@ export const routing = defineRouting({
       en: '/events-and-media/[slug]',
       bg: '/sabitiya-i-media/[slug]',
     },
-    '/authors/[id]': { en: '/authors/[id]', bg: '/avtori/[id]' },
+    '/authors/[slug]': { en: '/authors/[slug]', bg: '/avtori/[slug]' },
   },
 })

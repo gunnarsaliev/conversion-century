@@ -36,7 +36,11 @@ interface FeatureCardListProps {
   className?: string;
 }
 
-interface Feature13Props extends FeatureCardListProps {}
+interface Feature13Props extends FeatureCardListProps {
+  // Default feature hrefs whose page isn't translated into the current
+  // locale; those cards link to the industries list instead.
+  hiddenHrefs?: string[];
+}
 type Props = Partial<Feature13Props>;
 
 // Default copy lives in the `Feature13` messages (`features.<key>`).
@@ -61,9 +65,10 @@ const Feature13 = (props: Props) => {
     eyebrow = t("eyebrow"),
     heading = t("heading"),
     description = t("description"),
+    hiddenHrefs = [],
     features = DEFAULT_FEATURES.map(({ key, icon, image, href }): FeatureCardListItem => ({
       icon,
-      href,
+      href: hiddenHrefs.includes(href) ? "/industries" : href,
       title: t(`features.${key}.title`),
       description: t(`features.${key}.description`),
       image: { src: IMAGE_BASE + image, alt: t(`features.${key}.title`) },

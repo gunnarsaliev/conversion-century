@@ -2,8 +2,6 @@ import { cache } from 'react'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getLocale } from 'next-intl/server'
-import { getPayload } from 'payload'
-import config from '@payload-config'
 
 import JobListing from '@/components/job-listing'
 import { JsonLd } from '@/components/json-ld'
@@ -12,6 +10,7 @@ import { buildMetadata, truncate } from '@/lib/seo/metadata'
 import { localizedDocPath, pageBreadcrumbs } from '@/lib/seo/pages'
 import { graph, jobPostingSchema } from '@/lib/seo/schema'
 import { toLocale } from '@/lib/seo/site'
+import { findByLocalizedSlug } from '@/utilities/findByLocalizedSlug'
 import type { JobListing as JobListingDoc } from '../../../../../../payload-types'
 
 type PageProps = {
@@ -20,19 +19,9 @@ type PageProps = {
 
 // Shared by generateMetadata and the page so the lookup runs once per
 // request.
-const getListing = cache(async (slug: string, locale: string) => {
-  const payload = await getPayload({ config })
-
-  const { docs } = await payload.find({
-    collection: 'job-listings',
-    locale: locale as 'en' | 'bg',
-    where: { slug: { equals: slug } },
-    depth: 0,
-    limit: 1,
-  })
-
-  return docs[0] ?? null
-})
+const getListing = cache((slug: string, locale: string) =>
+  findByLocalizedSlug('job-listings', slug, locale, { depth: 0 }),
+)
 
 const plainDescription = (listing: JobListingDoc) =>
   [

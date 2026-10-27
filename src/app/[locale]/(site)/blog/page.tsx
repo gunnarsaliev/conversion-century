@@ -6,6 +6,7 @@ import { Blog28, type Blog28Post } from "@/components/blog28";
 import type { Media, User } from "../../../../../payload-types";
 import { StaticPageJsonLd } from "@/components/static-page-json-ld";
 import { staticPageMetadata } from "@/lib/seo/pages";
+import { translated } from "@/utilities/findByLocalizedSlug";
 
 const formatDate = (value: string | null | undefined, locale: string) => {
   if (!value) return "";
@@ -32,6 +33,7 @@ export default async function BlogPage() {
   const { docs: posts } = await payload.find({
     collection: "blog",
     locale: locale as "en" | "bg",
+    where: translated,
     depth: 1,
     limit: 100,
     sort: "-publishedAt",

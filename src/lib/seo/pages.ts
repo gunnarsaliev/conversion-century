@@ -116,13 +116,19 @@ export function docPathFromSlugs(
   basePath: string,
   slugs: unknown,
   id: number | string,
-): Record<Locale, string> {
+): Partial<Record<Locale, string>> {
   const map = (slugs && typeof slugs === "object" ? slugs : {}) as Partial<
     Record<Locale, string | null>
   >;
-  const fallback = map.bg || map.en || String(id);
-  return {
-    bg: `${basePath}/${map.bg || fallback}`,
-    en: `${basePath}/${map.en || fallback}`,
-  };
+  // Only locales with a slug of their own: the doc isn't translated into the
+  // others (see utilities/findByLocalizedSlug). Docs without any slug keep
+  // their id-based URL.
+  const paths = Object.fromEntries(
+    Object.entries(map)
+      .filter(([, slug]) => slug)
+      .map(([locale, slug]) => [locale, `${basePath}/${slug}`]),
+  ) as Partial<Record<Locale, string>>;
+  return Object.keys(paths).length
+    ? paths
+    : { bg: `${basePath}/${id}`, en: `${basePath}/${id}` };
 }

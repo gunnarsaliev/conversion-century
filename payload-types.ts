@@ -194,6 +194,10 @@ export interface User {
   lastName?: string | null;
   jobTitle?: string | null;
   about?: string | null;
+  /**
+   * Author page URL. Generated from the name when left empty.
+   */
+  slug?: string | null;
   profileImage?: (number | null) | Media;
   status: 'active' | 'on-leave' | 'inactive';
   birthday?: string | null;
@@ -1665,6 +1669,7 @@ export interface UsersSelect<T extends boolean = true> {
   lastName?: T;
   jobTitle?: T;
   about?: T;
+  slug?: T;
   profileImage?: T;
   status?: T;
   birthday?: T;

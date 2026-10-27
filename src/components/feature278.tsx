@@ -33,7 +33,11 @@ interface FeatureIconListProps {
   className?: string;
 }
 
-interface Feature278Props extends FeatureIconListProps {}
+interface Feature278Props extends FeatureIconListProps {
+  // Default feature hrefs whose page isn't translated into the current
+  // locale; those cards link to the services list instead.
+  hiddenHrefs?: string[];
+}
 type Props = Partial<Feature278Props>;
 
 // Default copy lives in the `Feature278` messages, keyed like the icons.
@@ -68,9 +72,10 @@ const Feature278 = (props: Props) => {
   const {
     heading = t("heading"),
     description = t("description"),
+    hiddenHrefs = [],
     features = DEFAULT_FEATURES.map(({ key, icon, href }) => ({
       icon,
-      href,
+      href: hiddenHrefs.includes(href) ? undefined : href,
       title: t(`features.${key}.title`),
       description: t(`features.${key}.description`),
     })),

@@ -5,6 +5,7 @@ import config from "@payload-config";
 import { Careers2, type Careers2Job } from "@/components/careers2";
 import { StaticPageJsonLd } from "@/components/static-page-json-ld";
 import { staticPageMetadata } from "@/lib/seo/pages";
+import { translated } from "@/utilities/findByLocalizedSlug";
 
 export async function generateMetadata() {
   return staticPageMetadata("openPositions");
@@ -18,6 +19,7 @@ export default async function OpenPositionsPage() {
   const { docs: listings } = await payload.find({
     collection: "job-listings",
     locale: locale as "en" | "bg",
+    where: translated,
     depth: 0,
     limit: 100,
     sort: "-createdAt",

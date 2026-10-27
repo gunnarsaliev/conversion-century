@@ -2,8 +2,6 @@ import { cache } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getLocale } from "next-intl/server";
-import { getPayload } from "payload";
-import config from "@payload-config";
 import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 
 import { CaseStudy1 } from "@/components/case-study1";
@@ -13,6 +11,7 @@ import { buildMetadata, mediaImage, truncate } from "@/lib/seo/metadata";
 import { localizedDocPath, pageBreadcrumbs } from "@/lib/seo/pages";
 import { graph, articleSchema } from "@/lib/seo/schema";
 import { toLocale } from "@/lib/seo/site";
+import { findByLocalizedSlug } from "@/utilities/findByLocalizedSlug";
 
 type CaseStudyPageProps = {
   params: Promise<{ slug: string }>;
@@ -20,15 +19,9 @@ type CaseStudyPageProps = {
 
 // Shared by generateMetadata and the page so the lookup runs once per
 // request.
-const getCaseStudy = cache(async (slug: string, locale: string) => {
-  const payload = await getPayload({ config });
-
-  const { docs } = await payload.find({
-    collection: "case-studies",
-    locale: locale as "en" | "bg",
-    where: { slug: { equals: slug } },
+const getCaseStudy = cache((slug: string, locale: string) =>
+  findByLocalizedSlug("case-studies", slug, locale, {
     depth: 2,
-    limit: 1,
     // Clients is admin-only CRM data and the local API bypasses access
     // control, so only populate the client's public name, logo and
     // industries.
@@ -36,10 +29,8 @@ const getCaseStudy = cache(async (slug: string, locale: string) => {
       clients: { companyName: true, logo: true, industries: true },
       industries: { title: true, slug: true },
     },
-  });
-
-  return docs[0] ?? null;
-});
+  }),
+);
 
 export async function generateMetadata({
   params,

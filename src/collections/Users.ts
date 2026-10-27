@@ -1,6 +1,11 @@
 import type { CollectionConfig } from 'payload'
+import slugify from 'slugify'
 import { documentsField } from '../fields/documentsField'
 import { adminOnly, adminOnlyCollection, adminOrEditor } from '../lib/roles'
+
+// Names may be in Cyrillic; the bg locale transliterates them to Latin.
+export const toSlug = (value: string) =>
+  slugify(value, { lower: true, strict: true, locale: 'bg' })
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -48,6 +53,53 @@ export const Users: CollectionConfig = {
     {
       name: 'about',
       type: 'textarea',
+    },
+    {
+      // Public author page URL (/authors/<slug>). Generated from the name
+      // when empty and then kept, so links don't break when a name changes;
+      // clear it to regenerate.
+      name: 'slug',
+      type: 'text',
+      unique: true,
+      index: true,
+      admin: {
+        position: 'sidebar',
+        description: 'Author page URL. Generated from the name when left empty.',
+      },
+      hooks: {
+        beforeChange: [
+          async ({ value, data, originalDoc, req }) => {
+            // Partial updates (e.g. dismissing a banner) don't send the slug.
+            const current = value ?? originalDoc?.slug
+            const source =
+              current ||
+              [
+                data?.firstName ?? originalDoc?.firstName,
+                data?.lastName ?? originalDoc?.lastName,
+              ]
+                .filter(Boolean)
+                .join(' ')
+            if (!source) return null
+
+            const base = toSlug(source)
+            if (current) return base
+
+            // Same name as another user: suffix -2, -3, …
+            for (let n = 1; ; n++) {
+              const candidate = n === 1 ? base : `${base}-${n}`
+              const { totalDocs } = await req.payload.count({
+                collection: 'users',
+                where: {
+                  slug: { equals: candidate },
+                  ...(originalDoc?.id && { id: { not_equals: originalDoc.id } }),
+                },
+                req,
+              })
+              if (!totalDocs) return candidate
+            }
+          },
+        ],
+      },
     },
     {
       name: 'profileImage',

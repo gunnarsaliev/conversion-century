@@ -115,7 +115,12 @@ export default async function MetaDataPage() {
           id: `${slug}:${record.id}`,
           target: { kind: "collection", collection: slug, id: record.id },
           label: titles[dashboardLocale] || titles.en || titles.bg || t("untitled"),
-          href: { en: localeHref(paths.en, "en"), bg: localeHref(paths.bg, "bg") },
+          // Untranslated docs have no path in that locale; link the
+          // other locale's slug so editors still see where it would go.
+          href: {
+            en: localeHref(paths.en ?? paths.bg!, "en"),
+            bg: localeHref(paths.bg ?? paths.en!, "bg"),
+          },
           values: Object.fromEntries(
             LOCALES.map((locale) => [
               locale,

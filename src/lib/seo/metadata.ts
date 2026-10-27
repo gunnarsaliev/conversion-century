@@ -6,6 +6,7 @@ import {
   SITE_NAME,
   SITE_URL,
   alternateLanguages,
+  localesOf,
   localizedUrl,
   type Locale,
   type LocalizedPath,
@@ -68,7 +69,9 @@ export function buildMetadata({
       url,
       siteName: SITE_NAME,
       locale: OG_LOCALES[locale],
-      alternateLocale: OG_LOCALES[otherLocale],
+      alternateLocale: localesOf(path).includes(otherLocale)
+        ? OG_LOCALES[otherLocale]
+        : undefined,
       images,
       ...(type === "article"
         ? {

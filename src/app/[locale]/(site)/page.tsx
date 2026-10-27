@@ -19,6 +19,7 @@ import { Hero262 } from "@/components/hero262";
 import { CaseStudies8, type CaseStudies8Item } from "@/components/case-studies8";
 import { StaticPageJsonLd } from "@/components/static-page-json-ld";
 import { staticPageMetadata } from "@/lib/seo/pages";
+import { translated, untranslatedHrefs } from "@/utilities/findByLocalizedSlug";
 
 const WORDS_PER_MINUTE = 200;
 
@@ -40,6 +41,7 @@ export async function generateMetadata() {
 
 export default async function WebsitePage() {
   const locale = await getLocale();
+  const hiddenHrefs = await untranslatedHrefs(locale);
   const payload = await getPayload({ config });
   const tCommon = await getTranslations("Common");
 
@@ -51,6 +53,7 @@ export default async function WebsitePage() {
   const { docs: blogPosts } = await payload.find({
     collection: "blog",
     locale: locale as "en" | "bg",
+    where: translated,
     // depth: 2 so post.author.profileImage resolves to a Media object
     // (not just an ID) for the author avatar.
     depth: 2,
@@ -83,6 +86,7 @@ export default async function WebsitePage() {
   const { docs: caseStudies } = await payload.find({
     collection: "case-studies",
     locale: locale as "en" | "bg",
+    where: translated,
     // depth: 2 so client.logo resolves to a Media object with its url.
     depth: 2,
     limit: 6,
@@ -128,9 +132,9 @@ export default async function WebsitePage() {
         <Hero104 {...await getHomeHero()} />
         <ClientLogos viewAllHref="/clients" />
         <Hero262 />      
-        <Feature278 />
+        <Feature278 hiddenHrefs={hiddenHrefs} />
         <CaseStudies8 items={caseStudyItems.length > 0 ? caseStudyItems : undefined} />
-        <Feature13 />
+        <Feature13 hiddenHrefs={hiddenHrefs} />
         <Feature104 />
         <FounderLetter />
         <Testimonial17

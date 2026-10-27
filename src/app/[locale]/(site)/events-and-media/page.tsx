@@ -11,6 +11,7 @@ import {
 import type { Event } from "../../../../../payload-types";
 import { StaticPageJsonLd } from "@/components/static-page-json-ld";
 import { staticPageMetadata } from "@/lib/seo/pages";
+import { translated } from "@/utilities/findByLocalizedSlug";
 
 export async function generateMetadata() {
   return staticPageMetadata("eventsAndMedia");
@@ -25,7 +26,7 @@ export default async function EventsAndMediaPage() {
     collection: "events",
     locale: locale as "en" | "bg",
     // Local API bypasses access control, so filter out drafts explicitly.
-    where: { _status: { equals: "published" } },
+    where: { _status: { equals: "published" }, ...translated },
     depth: 1,
     limit: 100,
     sort: "-startDate",

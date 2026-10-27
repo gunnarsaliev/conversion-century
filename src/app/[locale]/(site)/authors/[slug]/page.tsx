@@ -1,6 +1,6 @@
 import { cache } from "react";
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { getLocale } from "next-intl/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
@@ -8,14 +8,16 @@ import config from "@payload-config";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Blog28, type Blog28Post } from "@/components/blog28";
 import { JsonLd } from "@/components/json-ld";
-import { buildMetadata, mediaImage } from "@/lib/seo/metadata";
+import { buildMetadata, mediaImage, truncate } from "@/lib/seo/metadata";
 import { pageBreadcrumbs } from "@/lib/seo/pages";
 import { graph, personSchema, profilePageSchema } from "@/lib/seo/schema";
-import { localizedUrl, toLocale } from "@/lib/seo/site";
+import { getPathname } from "@/i18n/navigation";
+import { authorPath, localizedUrl, toLocale } from "@/lib/seo/site";
 import type { Media, User } from "../../../../../../payload-types";
+import { translated } from "@/utilities/findByLocalizedSlug";
 
 type AuthorPageProps = {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 };
 
 const formatDate = (value: string | null | undefined, locale: string) => {
@@ -27,16 +29,22 @@ const formatDate = (value: string | null | undefined, locale: string) => {
   }).format(new Date(value));
 };
 
-const getAuthor = cache(async (id: string) => {
+// By slug, or by id for links from before authors had slugs (the page
+// redirects those to the slug URL). The Local API bypasses Users'
+// login-gated `read` access — needed so a logged-out visitor can view this
+// public author page.
+const getAuthor = cache(async (slug: string) => {
   const payload = await getPayload({ config });
+  const { docs } = await payload.find({
+    collection: "users",
+    where: { slug: { equals: slug } },
+    depth: 1,
+    limit: 1,
+  });
+  if (docs[0]) return docs[0];
+  if (!/^\d+$/.test(slug)) return null;
   return payload
-    .findByID({
-      collection: "users",
-      id,
-      depth: 1,
-      // Local API bypasses Users' login-gated `read` access — needed so a
-      // logged-out visitor can view this public author page.
-    })
+    .findByID({ collection: "users", id: slug, depth: 1 })
     .catch(() => null);
 });
 
@@ -47,30 +55,35 @@ const publicName = (author: User) =>
 export async function generateMetadata({
   params,
 }: AuthorPageProps): Promise<Metadata> {
-  const { id } = await params;
+  const { slug } = await params;
   const locale = toLocale(await getLocale());
-  const author = await getAuthor(id);
+  const author = await getAuthor(slug);
 
   if (!author || !publicName(author)) return {};
 
   return buildMetadata({
     title: publicName(author),
-    description: author.jobTitle,
-    path: `/authors/${author.id}`,
+    description: truncate(author.about) || author.jobTitle,
+    path: authorPath(author),
     locale,
     image: mediaImage(author.profileImage),
   });
 }
 
 export default async function AuthorPage({ params }: AuthorPageProps) {
-  const { id } = await params;
+  const { slug } = await params;
   const locale = await getLocale();
   const payload = await getPayload({ config });
 
-  const author = await getAuthor(id);
+  const author = await getAuthor(slug);
 
   if (!author) {
     notFound();
+  }
+
+  const path = authorPath(author);
+  if (path !== `/authors/${slug}`) {
+    permanentRedirect(getPathname({ href: path, locale: toLocale(locale) }));
   }
 
   const name = [author.firstName, author.lastName].filter(Boolean).join(" ") || author.email;
@@ -89,6 +102,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
     where: {
       author: { equals: author.id },
       _status: { equals: "published" },
+      ...translated,
     },
   });
 
@@ -109,7 +123,6 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
   });
 
   const seoLocale = toLocale(locale);
-  const authorPath = `/authors/${author.id}`;
   const fullName = publicName(author);
 
   return (
@@ -117,13 +130,14 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
       {fullName && (
         <JsonLd
           data={graph(
-            await pageBreadcrumbs(seoLocale, ["blog", { name: fullName, path: authorPath }]),
+            await pageBreadcrumbs(seoLocale, ["blog", { name: fullName, path }]),
             profilePageSchema(
               seoLocale,
-              localizedUrl(authorPath, seoLocale),
+              localizedUrl(path, seoLocale),
               personSchema({
                 locale: seoLocale,
                 id: author.id,
+                slug: author.slug,
                 name: fullName,
                 jobTitle: author.jobTitle,
                 image: avatar?.url,
@@ -144,6 +158,11 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
               <p className="mt-1 text-muted-foreground">{author.jobTitle}</p>
             )}
           </div>
+          {author.about && (
+            <p className="max-w-2xl whitespace-pre-line text-muted-foreground">
+              {author.about}
+            </p>
+          )}
         </div>
       </div>
 

@@ -2,10 +2,11 @@ import type { MetadataRoute } from 'next'
 import { getPayload, type Where } from 'payload'
 import config from '@payload-config'
 
-import { routing } from '@/i18n/routing'
 import { STATIC_PAGES, docPathFromSlugs } from '@/lib/seo/pages'
 import {
   alternateLanguages,
+  authorPath,
+  localesOf,
   localizedUrl,
   type LocalizedPath,
 } from '@/lib/seo/site'
@@ -49,13 +50,14 @@ const DETAIL_COLLECTIONS = [
   { collection: 'job-listings', basePath: '/careers' },
 ] as const
 
-// One <url> per language version, each listing all alternates (hreflang).
+// One <url> per existing language version, each listing all alternates
+// (hreflang).
 function entries(
   path: LocalizedPath,
   lastModified?: string | Date,
 ): MetadataRoute.Sitemap {
   const languages = alternateLanguages(path)
-  return routing.locales.map((locale) => ({
+  return localesOf(path).map((locale) => ({
     url: localizedUrl(path, locale),
     lastModified,
     alternates: { languages },
@@ -110,8 +112,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     if (!previous || previous < post.updatedAt)
       authorUpdatedAt.set(key, post.updatedAt)
   }
-  const authorEntries = [...authorUpdatedAt].flatMap(([id, updatedAt]) =>
-    entries(`/authors/${id}`, updatedAt),
+  const authors = await safely('authors', async () => {
+    if (!authorUpdatedAt.size) return []
+    const { docs } = await payload.find({
+      collection: 'users',
+      depth: 0,
+      pagination: false,
+      where: { id: { in: [...authorUpdatedAt.keys()] } },
+      select: { slug: true },
+    })
+    return docs
+  })
+  const authorEntries = authors.flatMap((author) =>
+    entries(authorPath(author), authorUpdatedAt.get(String(author.id))),
   )
 
   return [...staticEntries, ...detailEntries.flat(), ...authorEntries]

@@ -130,6 +130,8 @@ interface NavbarBlogPost {
 
 interface Navbar3Props {
   blogPosts?: NavbarBlogPost[];
+  // Menu hrefs whose page isn't translated into the current locale.
+  hiddenHrefs?: string[];
   className?: string;
 }
 
@@ -156,8 +158,16 @@ const mobileMenuShellClassName =
 const mobileMenuPanelClassName =
   "absolute inset-0 flex h-full w-full flex-col overflow-x-hidden overflow-y-auto overscroll-y-contain bg-popover will-change-transform";
 
-const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
+const Navbar3 = ({
+  blogPosts: blogPostsProp,
+  hiddenHrefs = [],
+  className,
+}: Navbar3Props) => {
   const blogPosts = blogPostsProp ?? defaultBlogPosts;
+  const isShown = (item: { href: string }) => !hiddenHrefs.includes(item.href);
+  const shownFeatures = platformFeatures.filter(isShown);
+  const shownSolutions = solutions.filter(isShown);
+  const shownIndustries = industries.filter(isShown);
   const t = useTranslations("Navbar");
   const locale = useLocale();
   // NavigationMenuLink and the mobile menu render plain <a>s, so add the
@@ -267,7 +277,7 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                     {t("services.intro")}
                   </div>
                   <div className="grid grid-cols-2 gap-1">
-                    {platformFeatures.map((feature, index) => (
+                    {shownFeatures.map((feature, index) => (
                       <NavigationMenuLink
                         key={feature.key}
                         href={localize(feature.href)}
@@ -301,7 +311,7 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                     {t("solutions.intro")}
                   </div>
                   <div className="grid grid-cols-2 gap-1">
-                    {solutions.map((solution, index) => (
+                    {shownSolutions.map((solution, index) => (
                       <NavigationMenuLink
                         key={index}
                         href={localize(solution.href)}
@@ -335,7 +345,7 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                     {t("industries.intro")}
                   </div>
                   <div className="grid grid-cols-2 gap-1">
-                    {industries.map((industry, index) => (
+                    {shownIndustries.map((industry, index) => (
                       <NavigationMenuLink
                         key={index}
                         href={localize(industry.href)}
@@ -582,7 +592,7 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                             {t("services.intro")}
                           </div>
                           <div className="border-t border-border pb-16">
-                            {platformFeatures.map((feature, index) => (
+                            {shownFeatures.map((feature, index) => (
                               <a
                                 key={index}
                                 href={localize(feature.href)}
@@ -614,7 +624,7 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                             {t("solutions.intro")}
                           </div>
                           <div>
-                            {solutions.map((solution, index) => (
+                            {shownSolutions.map((solution, index) => (
                               <a
                                 key={index}
                                 href={localize(solution.href)}
@@ -648,7 +658,7 @@ const Navbar3 = ({ blogPosts: blogPostsProp, className }: Navbar3Props) => {
                             {t("industries.intro")}
                           </div>
                           <div>
-                            {industries.map((industry, index) => (
+                            {shownIndustries.map((industry, index) => (
                               <a
                                 key={index}
                                 href={localize(industry.href)}

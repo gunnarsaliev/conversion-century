@@ -30,26 +30,46 @@ export const OG_LOCALES: Record<Locale, string> = {
   en: "en_US",
 };
 
-// A path per locale, or one path shared by both (static pages).
-export type LocalizedPath = string | Record<Locale, string>;
+// One path shared by both locales (static pages), or a path per locale the
+// page exists in (detail pages leave out locales they aren't translated to).
+export type LocalizedPath = string | Partial<Record<Locale, string>>;
 
-export function pathFor(path: LocalizedPath, locale: Locale) {
+export function localesOf(path: LocalizedPath): Locale[] {
+  return routing.locales.filter((locale) => pathFor(path, locale) !== undefined);
+}
+
+function pathFor(path: LocalizedPath, locale: Locale) {
   return typeof path === "string" ? path : path[locale];
 }
 
 // Absolute URL for an internal href (e.g. "/blog/foo") in a locale.
 // en is the default locale and has no prefix; bg is served under /bg.
+// A locale the page doesn't exist in falls back to one it does.
 export function localizedUrl(path: LocalizedPath, locale: Locale) {
-  const pathname = getPathname({ href: pathFor(path, locale), locale });
+  const href =
+    pathFor(path, locale) ?? pathFor(path, localesOf(path)[0] ?? locale) ?? "/";
+  const pathname = getPathname({ href, locale });
   return `${SITE_URL}${pathname === "/" ? "" : pathname}`;
 }
 
+// hreflang alternates for the locales the page exists in. x-default is the
+// default locale's version, or the only one there is.
 export function alternateLanguages(path: LocalizedPath) {
+  const locales = localesOf(path);
+  const xDefault = locales.includes(routing.defaultLocale)
+    ? routing.defaultLocale
+    : locales[0];
   return {
-    bg: localizedUrl(path, "bg"),
-    en: localizedUrl(path, "en"),
-    "x-default": localizedUrl(path, routing.defaultLocale),
+    ...Object.fromEntries(
+      locales.map((locale) => [locale, localizedUrl(path, locale)]),
+    ),
+    ...(xDefault && { "x-default": localizedUrl(path, xDefault) }),
   };
+}
+
+// Author page path: by slug, or by id for users saved before slugs existed.
+export function authorPath(author: { id: number | string; slug?: string | null }) {
+  return `/authors/${author.slug || author.id}`;
 }
 
 export function toLocale(locale: string): Locale {

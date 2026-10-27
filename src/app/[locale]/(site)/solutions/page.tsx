@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/card";
 import { StaticPageJsonLd } from "@/components/static-page-json-ld";
 import { staticPageMetadata } from "@/lib/seo/pages";
+import { translated } from "@/utilities/findByLocalizedSlug";
 
 export async function generateMetadata() {
   return staticPageMetadata("solutions");
@@ -26,6 +27,7 @@ export default async function SolutionsPage() {
   const { docs: solutions } = await payload.find({
     collection: "solutions",
     locale: locale as "en" | "bg",
+    where: translated,
     depth: 1,
     limit: 100,
     sort: "name",

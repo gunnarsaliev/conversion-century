@@ -25,7 +25,8 @@ interface Blogpost5Props {
   title: string;
   authorName?: string;
   authorAvatar?: string;
-  authorId?: number | string;
+  // Author page path (see lib/seo/site authorPath).
+  authorHref?: string;
   dateLabel?: string;
   featuredImage?: string;
   content?: SerializedEditorState;
@@ -37,7 +38,7 @@ const Blogpost5 = ({
   title,
   authorName,
   authorAvatar,
-  authorId,
+  authorHref,
   dateLabel,
   featuredImage,
   content,
@@ -79,9 +80,9 @@ const Blogpost5 = ({
             )}
             <span>
               {authorName &&
-                (authorId ? (
+                (authorHref ? (
                   <Link
-                    href={`/authors/${authorId}`}
+                    href={authorHref}
                     className="font-medium hover:underline"
                   >
                     {authorName}

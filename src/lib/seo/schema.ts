@@ -17,6 +17,7 @@ import {
   ORGANIZATION,
   SITE_NAME,
   SITE_URL,
+  authorPath,
   localizedUrl,
   type Locale,
   type LocalizedPath,
@@ -131,17 +132,19 @@ export function articleSchema(input: ArticleInput & { about?: string | null }): 
 export function personSchema({
   locale,
   id,
+  slug,
   name,
   jobTitle,
   image,
 }: {
   locale: Locale;
   id: string | number;
+  slug?: string | null;
   name: string;
   jobTitle?: string | null;
   image?: string | null;
 }): Person {
-  const url = localizedUrl(`/authors/${id}`, locale);
+  const url = localizedUrl(authorPath({ id, slug }), locale);
   return {
     "@type": "Person",
     "@id": `${url}#person`,

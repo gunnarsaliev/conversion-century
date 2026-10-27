@@ -2,15 +2,14 @@ import { cache } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getLocale } from "next-intl/server";
-import { getPayload } from "payload";
-import config from "@payload-config";
 
 import { Blogpost5 } from "@/components/blogpost5";
 import { JsonLd } from "@/components/json-ld";
 import { buildMetadata, mediaImage, truncate } from "@/lib/seo/metadata";
 import { localizedDocPath, pageBreadcrumbs } from "@/lib/seo/pages";
 import { blogPostingSchema, graph, personSchema } from "@/lib/seo/schema";
-import { toLocale } from "@/lib/seo/site";
+import { authorPath, toLocale } from "@/lib/seo/site";
+import { findByLocalizedSlug } from "@/utilities/findByLocalizedSlug";
 import type { Media } from "../../../../../../payload-types";
 
 type BlogPostPageProps = {
@@ -19,21 +18,9 @@ type BlogPostPageProps = {
 
 // Shared by generateMetadata and the page so the lookup runs once per
 // request.
-const getPost = cache(async (slug: string, locale: string) => {
-  const payload = await getPayload({ config });
-
-  const { docs } = await payload.find({
-    collection: "blog",
-    locale: locale as "en" | "bg",
-    where: { slug: { equals: slug } },
-    depth: 1,
-    limit: 1,
-    // Local API bypasses access control; the collection's own `read`
-    // access already restricts logged-out visitors to published posts.
-  });
-
-  return docs[0] ?? null;
-});
+const getPost = cache((slug: string, locale: string) =>
+  findByLocalizedSlug("blog", slug, locale),
+);
 
 export async function generateMetadata({
   params,
@@ -114,6 +101,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 ? personSchema({
                     locale: seoLocale,
                     id: author.id,
+                    slug: author.slug,
                     name: authorFullName,
                     jobTitle: author.jobTitle,
                     image: authorAvatar,
@@ -126,7 +114,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         title={post.title}
         authorName={authorName}
         authorAvatar={authorAvatar}
-        authorId={author?.id}
+        authorHref={author ? authorPath(author) : undefined}
         dateLabel={dateLabel}
         featuredImage={featuredImage?.url ?? undefined}
         content={post.content ?? undefined}
