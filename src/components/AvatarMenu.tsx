@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { useLocale } from "next-intl";
-import { useRouter, usePathname } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/navigation";
+import { useSwitchLocale } from "@/i18n/use-switch-locale";
 import { Menu } from "@base-ui/react/menu";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -16,7 +17,7 @@ const themes = [
   { name: "System", value: "system" },
 ];
 
-const otherLocale: Record<string, string> = {
+const otherLocale: Record<string, "en" | "bg"> = {
   bg: "en",
   en: "bg",
 };
@@ -48,7 +49,7 @@ function CheckIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 
 export function AvatarMenu({ user }: { user?: User | null }) {
   const router = useRouter();
-  const pathname = usePathname();
+  const switchLocale = useSwitchLocale();
   const locale = useLocale();
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -64,7 +65,7 @@ export function AvatarMenu({ user }: { user?: User | null }) {
     setMounted(true);
   }, []);
 
-  const nextLocale = otherLocale[locale] ?? locale;
+  const nextLocale = otherLocale[locale] ?? "en";
 
   const handleLogout = async () => {
     try {
@@ -132,7 +133,7 @@ export function AvatarMenu({ user }: { user?: User | null }) {
 
             <Menu.Item
               className={cn(itemClassName, "flex items-center justify-between")}
-              onClick={() => router.replace(pathname, { locale: nextLocale })}
+              onClick={() => switchLocale(nextLocale)}
             >
               Language
               <span className="ml-3 text-xs text-slate-400 dark:text-slate-500">

@@ -2,110 +2,8 @@
   "collection": "job-listings",
   "sourceLocale": "en",
   "targetLocale": "bg",
-  "exportedAt": "2026-10-23T06:51:37.918Z",
+  "exportedAt": "2026-10-27T08:52:34.435Z",
   "docs": [
-    {
-      "id": 1,
-      "label": "Digital Marketing Specialist",
-      "fields": [
-        {
-          "path": "title",
-          "en": "Digital Marketing Specialist",
-          "bg": "",
-          "required": true
-        },
-        {
-          "path": "location",
-          "en": "Sofia",
-          "bg": ""
-        },
-        {
-          "path": "requirements#0.0.0",
-          "en": "‍Availability to work 20 hours a week with a flexible schedule for the part-time position and 40 hours a week with a flexible schedule for the full-time position.",
-          "bg": ""
-        },
-        {
-          "path": "requirements#0.1.0",
-          "en": "Fluent in Bulgarian & English",
-          "bg": ""
-        },
-        {
-          "path": "requirements#0.2.0",
-          "en": "Multitasking abilities ",
-          "bg": ""
-        },
-        {
-          "path": "requirements#0.3.0",
-          "en": "Excellent verbal and written communication skills",
-          "bg": ""
-        },
-        {
-          "path": "requirements#0.4.0",
-          "en": "Diligent, organized, with great attention to detail and self-driven",
-          "bg": ""
-        },
-        {
-          "path": "requirements#0.5.0",
-          "en": "Proactive team player with ability to work in a changing environment and ",
-          "bg": ""
-        },
-        {
-          "path": "requirements#0.5.1",
-          "en": "without direct supervision",
-          "bg": ""
-        },
-        {
-          "path": "requirements#0.6.0",
-          "en": "Experience with blogging and WordPress is a plus, but is not required",
-          "bg": ""
-        },
-        {
-          "path": "requirements#0.7.0",
-          "en": "Strong interest in Digital Marketing and SEO (No prior SEO experience needed)",
-          "bg": ""
-        },
-        {
-          "path": "offer#0.0.0",
-          "en": "Digital Marketing/SEO training and guidance",
-          "bg": ""
-        },
-        {
-          "path": "offer#0.1.0",
-          "en": "Work in a dynamic and friendly environment ",
-          "bg": ""
-        },
-        {
-          "path": "offer#0.2.0",
-          "en": "Work from any location (virtual office) and with a flexible schedule",
-          "bg": ""
-        },
-        {
-          "path": "offer#0.3.0",
-          "en": "Opportunity to learn about SEO and digital marketing from established professionals",
-          "bg": ""
-        },
-        {
-          "path": "offer#0.4.0",
-          "en": "Attractive salary and performance bonuses",
-          "bg": ""
-        },
-        {
-          "path": "offer#0.5.0",
-          "en": "Personal and professional growth",
-          "bg": ""
-        },
-        {
-          "path": "offer#0.6.0",
-          "en": "Friendly work environment ",
-          "bg": ""
-        },
-        {
-          "path": "offer#0.7.0",
-          "en": "Opportunity to work with clients from all over the world",
-          "bg": ""
-        }
-      ]
-    },
     {
       "id": 2,
       "label": "Junior SEO & AI Strategy Specialist",
@@ -113,253 +11,253 @@
         {
           "path": "title",
           "en": "Junior SEO & AI Strategy Specialist",
-          "bg": "",
+          "bg": "Младши специалист по SEO и AI стратегии",
           "required": true
         },
         {
           "path": "location",
           "en": "Sofia, Bulgaria",
-          "bg": ""
+          "bg": "София, България"
         },
         {
           "path": "description#0.0",
           "en": "We are looking for a proactive, analytical and detail-oriented Junior SEO & AI Strategy Specialist to join our team. You will support international client projects, implement SEO strategies and use AI tools thoughtfully to improve research, execution and reporting.",
-          "bg": ""
+          "bg": "Търсим проактивен, аналитичен и ориентиран към детайлите Младши специалист по SEO и AI стратегии, който да се присъедини към нашия екип. Ще подпомагате международни клиентски проекти, ще прилагате SEO стратегии и ще използвате разумно AI инструменти за подобряване на проучванията, изпълнението и отчитането."
         },
         {
           "path": "description#1.0",
           "en": "If you want to learn quickly, gain international experience and develop practical skills in SEO and AI-powered search, this role offers the opportunity to build a long-term career in digital marketing.",
-          "bg": ""
+          "bg": "Ако искате да се учите бързо, да натрупате международен опит и да развиете практически умения в SEO и AI-базираното търсене, тази роля предлага възможността да изградите дългосрочна кариера в дигиталния маркетинг."
         },
         {
           "path": "responsibilities#0.0.0",
           "en": "SEO and AI Search Optimisation:",
-          "bg": ""
+          "bg": "SEO и оптимизация за AI търсене:"
         },
         {
           "path": "responsibilities#0.0.1",
           "en": " Support the implementation of SEO and AI search strategies for international clients under the guidance of senior specialists.",
-          "bg": ""
+          "bg": " Подпомагане внедряването на SEO и AI стратегии за търсене за международни клиенти под ръководството на старши специалисти."
         },
         {
           "path": "responsibilities#0.1.0",
           "en": "On-Page SEO:",
-          "bg": ""
+          "bg": "On-Page SEO (Вътрешна оптимизация):"
         },
         {
           "path": "responsibilities#0.1.1",
           "en": " Conduct keyword research focused on search intent and optimise page titles, meta descriptions, content structure and internal linking.",
-          "bg": ""
+          "bg": " Провеждане на проучване на ключови думи, фокусирано върху намерението за търсене, и оптимизиране на заглавия на страници, мета описания, структура на съдържанието и вътрешни линкове."
         },
         {
           "path": "responsibilities#0.2.0",
           "en": "Content Collaboration:",
-          "bg": ""
+          "bg": "Сътрудничество при създаване на съдържание:"
         },
         {
           "path": "responsibilities#0.2.1",
           "en": " Work with writers to develop content aligned with SEO objectives. Use AI for research, ideas and structure, applying critical thinking, fact-checking and editorial judgement.",
-          "bg": ""
+          "bg": " Работа с автори на съдържание за разработване на текстове, съобразени със SEO целите. Използване на AI за проучвания, идеи и структуриране, прилагайки критично мислене, проверка на фактите и редакторска преценка."
         },
         {
           "path": "responsibilities#0.3.0",
           "en": "Technical SEO Audits:",
-          "bg": ""
+          "bg": "Технически SEO одити:"
         },
         {
           "path": "responsibilities#0.3.1",
           "en": " Help identify crawling, indexing, website speed and mobile usability issues. Support implementation and verify fixes alongside senior specialists and developers.",
-          "bg": ""
+          "bg": " Помощ при идентифицирането на проблеми с обхождането, индексирането, скоростта на уебсайта и използваемостта на мобилни устройства. Подкрепа при внедряването и проверка на корекциите съвместно със старши специалисти и разработчици."
         },
         {
           "path": "responsibilities#0.4.0",
           "en": "Digital PR and Link Building:",
-          "bg": ""
+          "bg": "Дигитален PR и Link Building (Изграждане на връзки):"
         },
         {
           "path": "responsibilities#0.4.1",
           "en": " Support outreach campaigns, relevant directory submissions and digital PR activities to earn quality links and strengthen brand authority.",
-          "bg": ""
+          "bg": " Подпомагане на кампании за свързване, добавяне в подходящи директории и дигитални PR активности за придобиване на качествени връзки и укрепване на авторитета на марката."
         },
         {
           "path": "responsibilities#0.5.0",
           "en": "AI Workflow Development:",
-          "bg": ""
+          "bg": "Разработване на AI работни процеси:"
         },
         {
           "path": "responsibilities#0.5.1",
           "en": " Test and apply tools such as ChatGPT, Claude, custom GPTs and automation platforms where they can improve research, daily tasks and reporting.",
-          "bg": ""
+          "bg": " Тестване и прилагане на инструменти като ChatGPT, Claude, персонализирани GPT и платформи за автоматизация там, където могат да подобрят проучванията, ежедневните задачи и отчитането."
         },
         {
           "path": "responsibilities#0.6.0",
           "en": "Performance Analysis:",
-          "bg": ""
+          "bg": "Анализ на представянето:"
         },
         {
           "path": "responsibilities#0.6.1",
           "en": " Monitor organic visibility, keyword rankings, traffic and conversions using Google Analytics, Google Search Console, Ahrefs and Semrush.",
-          "bg": ""
+          "bg": " Наблюдение на органичната видимост, класирането по ключови думи, трафика и конверсиите с помощта на Google Analytics, Google Search Console, Ahrefs и Semrush."
         },
         {
           "path": "responsibilities#0.7.0",
           "en": "Client Reporting and Coordination:",
-          "bg": ""
+          "bg": "Отчитане пред клиенти и координация:"
         },
         {
           "path": "responsibilities#0.7.1",
           "en": " Help prepare clear, data-driven reports explaining results, completed work and recommended next steps.",
-          "bg": ""
+          "bg": " Помощ при подготовката на ясни, базирани на данни отчети, обясняващи резултатите, свършената работа и препоръчаните следващи стъпки."
         },
         {
           "path": "requirements#0.0.0",
           "en": "Education:",
-          "bg": ""
+          "bg": "Образование:"
         },
         {
           "path": "requirements#0.0.1",
           "en": " A completed or ongoing bachelor’s degree in Marketing, Business Administration, Computer Science, Data Analytics or a related field, or completion of a recognised digital marketing programme.",
-          "bg": ""
+          "bg": " Завършена или текуща бакалавърска степен по маркетинг, бизнес администрация, компютърни науки, анализ на данни или сродна област, или завършена призната програма по дигитален маркетинг."
         },
         {
           "path": "requirements#0.1.0",
           "en": "SEO Knowledge:",
-          "bg": ""
+          "bg": "SEO познания:"
         },
         {
           "path": "requirements#0.1.1",
           "en": " A sound understanding of SEO fundamentals, how search engines work, and on-page and off-page best practices.",
-          "bg": ""
+          "bg": " Добро разбиране на основите на SEO, как работят търсачките и най-добрите on-page и off-page практики."
         },
         {
           "path": "requirements#0.2.0",
           "en": "Critical Thinking and Interest in AI:",
-          "bg": ""
+          "bg": "Критично мислене и интерес към AI:"
         },
         {
           "path": "requirements#0.2.1",
           "en": " Curiosity about emerging technologies and a thoughtful approach to using AI tools, including checking their outputs and recognising their limitations.",
-          "bg": ""
+          "bg": " Любопитство към нововъзникващите технологии и обмислен подход към използването на AI инструменти, включително проверка на резултатите им и разпознаване на техните ограничения."
         },
         {
           "path": "requirements#0.3.0",
           "en": "Analytical Skills:",
-          "bg": ""
+          "bg": "Аналитични умения:"
         },
         {
           "path": "requirements#0.3.1",
           "en": " Confidence working with data, identifying patterns and turning findings into practical recommendations.",
-          "bg": ""
+          "bg": " Увереност при работа с данни, идентифициране на модели и превръщане на констатациите в практически препоръки."
         },
         {
           "path": "requirements#0.4.0",
           "en": "Communication:",
-          "bg": ""
+          "bg": "Комуникация:"
         },
         {
           "path": "requirements#0.4.1",
           "en": " Strong written and spoken English at B2 level or above, with the ability to explain ideas clearly and professionally.",
-          "bg": ""
+          "bg": " Отлично владеене на писмен и говорим английски език на ниво B2 или по-високо, с умение за ясно и професионално обяснение на идеи."
         },
         {
           "path": "requirements#0.5.0",
           "en": "Organisation and Initiative:",
-          "bg": ""
+          "bg": "Организация и инициативност:"
         },
         {
           "path": "requirements#0.5.1",
           "en": " Attention to detail, a proactive approach to problem-solving and the ability to manage competing priorities and deadlines.",
-          "bg": ""
+          "bg": " Внимание към детайла, проактивен подход към решаването на проблеми и способност за управление на конкуриращи се приоритети и срокове."
         },
         {
           "path": "requirements#0.6.0",
           "en": "Tools:",
-          "bg": ""
+          "bg": "Инструменти:"
         },
         {
           "path": "requirements#0.6.1",
           "en": " Hands-on experience with Google Analytics, Google Search Console, Ahrefs, Semrush, Moz or similar tools is a strong advantage.",
-          "bg": ""
+          "bg": " Практическият опит с Google Analytics, Google Search Console, Ahrefs, Semrush, Moz или подобни инструменти е силно предимство."
         },
         {
           "path": "offer#0.0.0",
           "en": "Competitive Compensation:",
-          "bg": ""
+          "bg": "Конкурентно възнаграждение:"
         },
         {
           "path": "offer#0.0.1",
           "en": " A fixed base salary plus performance-related bonuses.",
-          "bg": ""
+          "bg": " Твърда основна заплата плюс бонуси, обвързани с постигнатите резултати."
         },
         {
           "path": "offer#0.1.0",
           "en": "Structured Onboarding and Mentorship:",
-          "bg": ""
+          "bg": "Структурирано въвеждане и менторство:"
         },
         {
           "path": "offer#0.1.1",
           "en": " A clear onboarding plan and direct guidance from experienced specialists and agency leadership.",
-          "bg": ""
+          "bg": " Ясен план за въвеждане в работата и директно ръководство от опитни специалисти и ръководството на агенцията."
         },
         {
           "path": "offer#0.2.0",
           "en": "Hybrid and Flexible Working:",
-          "bg": ""
+          "bg": "Хибриден и гъвкав модел на работа:"
         },
         {
           "path": "offer#0.2.1",
           "en": " A balanced hybrid schedule with a flexible start time between 8:00 and 10:00 a.m.",
-          "bg": ""
+          "bg": " Балансиран хибриден график с гъвкаво начално време между 8:00 и 10:00 ч."
         },
         {
           "path": "offer#0.3.0",
           "en": "Professional Development:",
-          "bg": ""
+          "bg": "Професионално развитие:"
         },
         {
           "path": "offer#0.3.1",
           "en": " Company-funded certifications, SEO and AI training, internal research and curated learning resources, including a Notion knowledge base and a book library.",
-          "bg": ""
+          "bg": " Финансирани от компанията сертификати, SEO и AI обучения, вътрешни проучвания и подбрани ресурси за обучение, включително база от знания в Notion и библиотека с книги."
         },
         {
           "path": "offer#0.4.0",
           "en": "International Client Experience:",
-          "bg": ""
+          "bg": "Опит с международни клиенти:"
         },
         {
           "path": "offer#0.4.1",
           "en": " Work on projects across Europe and the United States in B2B, e-commerce, financial services, real estate and healthcare.",
-          "bg": ""
+          "bg": " Работа по проекти в Европа и САЩ в сферата на B2B, електронната търговия, финансовите услуги, недвижимите имоти и здравеопазването."
         },
         {
           "path": "offer#0.5.0",
           "en": "Paid Leave:",
-          "bg": ""
+          "bg": "Платен отпуск:"
         },
         {
           "path": "offer#0.5.1",
           "en": " 20 days of paid annual leave, plus Bulgarian public holidays.",
-          "bg": ""
+          "bg": " 20 дни платен годишен отпуск, плюс българските официални празници."
         },
         {
           "path": "offer#0.6.0",
           "en": "Additional Health Insurance.",
-          "bg": ""
+          "bg": "Допълнително здравно осигуряване."
         },
         {
           "path": "offer#0.7.0",
           "en": "Fully Employer-Funded Sports Card.",
-          "bg": ""
+          "bg": "Напълно платена от работодателя спортна карта."
         },
         {
           "path": "offer#0.8.0",
           "en": "A Supportive Team:",
-          "bg": ""
+          "bg": "Подкрепящ екип:"
         },
         {
           "path": "offer#0.8.1",
           "en": " Collaboration, open communication, regular team events and opportunities for long-term career development.",
-          "bg": ""
+          "bg": " Сътрудничество, отворена комуникация, редовни екипни събития и възможности за дългосрочно кариерно развитие."
         }
       ]
     },
@@ -370,328 +268,328 @@
         {
           "path": "title",
           "en": "Senior SEO & AI Strategy Specialist",
-          "bg": "",
+          "bg": "Старши специалист по SEO и AI стратегии",
           "required": true
         },
         {
           "path": "location",
           "en": "Sofia, Bulgaria",
-          "bg": ""
+          "bg": "София, България"
         },
         {
           "path": "description#0.0",
           "en": "We are looking for an experienced, proactive and strategically minded Senior SEO & AI Strategy Specialist to lead SEO and AI search strategies for clients across Europe and the United States.",
-          "bg": ""
+          "bg": "Търсим опитен, проактивен и стратегически мислещ Старши специалист по SEO и AI стратегии, който да ръководи SEO и AI стратегиите за търсене за клиенти в Европа и САЩ."
         },
         {
           "path": "description#1.0",
           "en": "You will manage key client accounts, develop long-term strategies and oversee complex projects, translating data into clear business decisions. Working closely with SEO specialists, writers, developers and client teams, you will also mentor junior colleagues and help develop the agency’s methods and processes.",
-          "bg": ""
+          "bg": "Ще управлявате ключови клиентски акаунти, ще разработвате дългосрочни стратегии и ще ръководите сложни проекти, превръщайки данните в ясни бизнес решения. Работейки в тясно сътрудничество със SEO специалисти, автори, разработчици и екипи на клиенти, вие също така ще бъдете ментор на младши колеги и ще помагате за развитието на методите и процесите на агенцията."
         },
         {
           "path": "description#2.0",
           "en": "If you have a strong SEO track record, understand how technical performance, content and customer behaviour connect with business results, and actively follow developments in AI-powered search, this role offers the opportunity to shape international projects and influence how we work.",
-          "bg": ""
+          "bg": "Ако имате доказан опит в SEO, разбирате как техническото представяне, съдържанието и поведението на потребителите се свързват с бизнес резултатите и активно следите развитието на AI-базираното търсене, тази роля предлага възможността да оформяте международни проекти и да влияете на начина ни на работа."
         },
         {
           "path": "responsibilities#0.0.0",
           "en": "SEO and AI Search Strategy:",
-          "bg": ""
+          "bg": "SEO и стратегия за AI търсене:"
         },
         {
           "path": "responsibilities#0.0.1",
           "en": " Develop and manage strategies aligned with each client’s business objectives, target markets and competitive landscape. Define priorities, resources, implementation milestones and success metrics.",
-          "bg": ""
+          "bg": " Разработване и управление на стратегии, съобразени с бизнес целите, целевите пазари и конкурентната среда на всеки клиент. Определяне на приоритети, ресурси, етапи на внедряване и показатели за успех."
         },
         {
           "path": "responsibilities#0.1.0",
           "en": "Keyword Research and Website Architecture:",
-          "bg": ""
+          "bg": "Проучване на ключови думи и архитектура на уебсайта:"
         },
         {
           "path": "responsibilities#0.1.1",
           "en": " Research keywords, search intent, competitors and market opportunities. Develop keyword maps, topic clusters, website structures and long-term plans for organic growth.",
-          "bg": ""
+          "bg": " Проучване на ключови думи, намерение за търсене, конкуренти и пазарни възможности. Разработване на карти на ключови думи, тематични клъстери, структури на уебсайтове и дългосрочни планове за органичен растеж."
         },
         {
           "path": "responsibilities#0.2.0",
           "en": "On-Page SEO:",
-          "bg": ""
+          "bg": "On-Page SEO (Вътрешна оптимизация):"
         },
         {
           "path": "responsibilities#0.2.1",
           "en": " Lead improvements to metadata, content, internal linking and commercial landing pages, ensuring clear targeting and alignment with customer needs.",
-          "bg": ""
+          "bg": " Ръководене на подобрения в метаданни, съдържание, вътрешни връзки и търговски целеви страници (landing pages), осигурявайки ясно таргетиране и съответствие с нуждите на клиентите."
         },
         {
           "path": "responsibilities#0.3.0",
           "en": "Content and AI Search Visibility:",
-          "bg": ""
+          "bg": "Видимост на съдържанието и AI търсенето:"
         },
         {
           "path": "responsibilities#0.3.1",
           "en": " Work with writers and editors to develop useful, expert content. Guide semantic SEO, topic coverage and visibility across AI-powered search experiences. Use AI for research, analysis and workflow improvements, with critical judgement and human review.",
-          "bg": ""
+          "bg": " Работа с автори и редактори за създаване на полезно, експертно съдържание. Насочване на семантичното SEO, тематичния обхват и видимостта в AI-базирани търсения. Използване на AI за проучвания, анализ и подобряване на работните процеси с критична преценка и човешка проверка."
         },
         {
           "path": "responsibilities#0.4.0",
           "en": "Technical SEO:",
-          "bg": ""
+          "bg": "Техническо SEO:"
         },
         {
           "path": "responsibilities#0.4.1",
           "en": " Lead audits covering crawling, indexing, Core Web Vitals, structured data, JavaScript rendering, international SEO, mobile performance and crawl efficiency. Prepare actionable development briefs, prioritise issues by business impact and verify implementation.",
-          "bg": ""
+          "bg": " Ръководене на одити, обхващащи обхождане, индексиране, Core Web Vitals, структурирани данни, рендиране на JavaScript, международно SEO, мобилно представяне и ефективност на обхождането. Изготвяне на практически задания за разработчиците, приоритизиране на проблемите според бизнес въздействието и проверка на изпълнението."
         },
         {
           "path": "responsibilities#0.5.0",
           "en": "Digital PR and Link Building:",
-          "bg": ""
+          "bg": "Дигитален PR и Link Building:"
         },
         {
           "path": "responsibilities#0.5.1",
           "en": " Develop strategies for relevant editorial coverage, outreach and quality links. Analyse backlink profiles, evaluate potential sources and identify opportunities to strengthen brand authority.",
-          "bg": ""
+          "bg": " Разработване на стратегии за подходящо редакционно отразяване, кампании за достигане (outreach) и качествени връзки. Анализиране на профили с обратни връзки (backlinks), оценка на потенциални източници и идентифициране на възможности за укрепване на авторитета на марката."
         },
         {
           "path": "responsibilities#0.6.0",
           "en": "AI Integration and Automation:",
-          "bg": ""
+          "bg": "AI интеграция и автоматизация:"
         },
         {
           "path": "responsibilities#0.6.1",
           "en": " Research, test and implement AI and automation tools across analysis, research, delivery, quality assurance and reporting. Develop repeatable workflows and assess their accuracy and practical value.",
-          "bg": ""
+          "bg": " Проучване, тестване и внедряване на AI и инструменти за автоматизация при анализи, проучвания, доставка, осигуряване на качество и отчитане. Разработване на повтаряеми работни процеси и оценка на тяхната точност и практическа стойност."
         },
         {
           "path": "responsibilities#0.7.0",
           "en": "Data Analysis and Forecasting:",
-          "bg": ""
+          "bg": "Анализ на данни и прогнозиране:"
         },
         {
           "path": "responsibilities#0.7.1",
           "en": " Analyse performance using Google Analytics, Google Search Console, Ahrefs, Semrush and other platforms. Monitor visibility, traffic, conversions and commercial outcomes, identify opportunities and prepare realistic growth forecasts with clear assumptions.",
-          "bg": ""
+          "bg": " Анализиране на представянето с помощта на Google Analytics, Google Search Console, Ahrefs, Semrush и други платформи. Наблюдение на видимостта, трафика, конверсиите и търговските резултати, идентифициране на възможности и подготовка на реалистични прогнози за растеж с ясни предположения."
         },
         {
           "path": "responsibilities#0.8.0",
           "en": "Client Consulting and Reporting:",
-          "bg": ""
+          "bg": "Консултиране на клиенти и отчитане:"
         },
         {
           "path": "responsibilities#0.8.1",
           "en": " Lead client communication and strategic meetings. Present results and recommendations to business owners, marketing leaders and other stakeholders, explaining completed work, business implications and next priorities.",
-          "bg": ""
+          "bg": " Ръководене на комуникацията с клиенти и стратегически срещи. Представяне на резултати и препоръки пред собственици на бизнес, маркетинг лидери и други заинтересовани страни, обяснявайки завършената работа, бизнес последиците и следващите приоритети."
         },
         {
           "path": "responsibilities#0.9.0",
           "en": "Mentoring and Team Coordination:",
-          "bg": ""
+          "bg": "Менторство и координация на екипа:"
         },
         {
           "path": "responsibilities#0.9.1",
           "en": " Support junior specialists, provide constructive feedback and coordinate delivery across internal teams and external partners.",
-          "bg": ""
+          "bg": " Подкрепа за младши специалисти, предоставяне на конструктивна обратна връзка и координиране на изпълнението между вътрешни екипи и външни партньори."
         },
         {
           "path": "requirements#0.0.0",
           "en": "Professional Experience:",
-          "bg": ""
+          "bg": "Професионален опит:"
         },
         {
           "path": "requirements#0.0.1",
           "en": " At least five years of hands-on SEO experience, preferably in an agency or a role involving multiple client accounts.",
-          "bg": ""
+          "bg": " Най-малко пет години практически опит в SEO, за предпочитане в агенция или на роля, включваща работа с множество клиентски акаунти."
         },
         {
           "path": "requirements#0.1.0",
           "en": "Proven Results:",
-          "bg": ""
+          "bg": "Доказани резултати:"
         },
         {
           "path": "requirements#0.1.1",
           "en": " A track record of measurable improvements in organic traffic, rankings, conversions and revenue across competitive sectors and international markets.",
-          "bg": ""
+          "bg": " Доказана история на измерими подобрения в органичния трафик, класиранията, конверсиите и приходите в конкурентни сектори и международни пазари."
         },
         {
           "path": "requirements#0.2.0",
           "en": "Strategic SEO Expertise:",
-          "bg": ""
+          "bg": "Стратегическа SEO експертиза:"
         },
         {
           "path": "requirements#0.2.1",
           "en": " Strong knowledge of technical SEO, content strategy, website architecture, on-page and off-page optimisation, and international SEO.",
-          "bg": ""
+          "bg": " Задълбочени познания по техническо SEO, стратегия за съдържание, архитектура на уебсайтове, on-page и off-page оптимизация, и международно SEO."
         },
         {
           "path": "requirements#0.3.0",
           "en": "Technical Skills:",
-          "bg": ""
+          "bg": "Технически умения:"
         },
         {
           "path": "requirements#0.3.1",
           "en": " Practical experience with crawling and indexing, Core Web Vitals, structured data, JavaScript SEO, canonicalisation, hreflang, website migrations and large websites.",
-          "bg": ""
+          "bg": " Практически опит с обхождане и индексиране, Core Web Vitals, структурирани данни, JavaScript SEO, канонизация, hreflang, миграции на уебсайтове и големи уебсайтове."
         },
         {
           "path": "requirements#0.4.0",
           "en": "SEO and Analytics Tools:",
-          "bg": ""
+          "bg": "SEO и аналитични инструменти:"
         },
         {
           "path": "requirements#0.4.1",
           "en": " Advanced proficiency with Google Analytics, Google Search Console, Ahrefs, Semrush, Screaming Frog and related analysis, monitoring and automation tools.",
-          "bg": ""
+          "bg": " Отлично владеене на Google Analytics, Google Search Console, Ahrefs, Semrush, Screaming Frog и свързани инструменти за анализ, наблюдение и автоматизация."
         },
         {
           "path": "requirements#0.5.0",
           "en": "AI and LLM Skills:",
-          "bg": ""
+          "bg": "AI и LLM умения:"
         },
         {
           "path": "requirements#0.5.1",
           "en": " Practical experience with ChatGPT, Claude, custom GPTs and automation tools, alongside an active interest in AI-powered search. Ability to assess outputs critically and integrate tools responsibly into SEO workflows.",
-          "bg": ""
+          "bg": " Практически опит с ChatGPT, Claude, персонализирани GPT и инструменти за автоматизация, заедно с активен интерес към AI-базираното търсене. Способност за критична оценка на резултатите и отговорно интегриране на инструментите в SEO работните процеси."
         },
         {
           "path": "requirements#0.6.0",
           "en": "Analytical and Commercial Thinking:",
-          "bg": ""
+          "bg": "Аналитично и търговско мислене:"
         },
         {
           "path": "requirements#0.6.1",
           "en": " Ability to interpret complex data and connect SEO performance with revenue, qualified enquiries, conversions and wider business priorities.",
-          "bg": ""
+          "bg": " Умение за интерпретиране на сложни данни и свързване на SEO представянето с приходите, квалифицираните запитвания, конверсиите и по-широките бизнес приоритети."
         },
         {
           "path": "requirements#0.7.0",
           "en": "Communication:",
-          "bg": ""
+          "bg": "Комуникация:"
         },
         {
           "path": "requirements#0.7.1",
           "en": " Strong written and spoken English at B2 level or above, with the confidence to present strategies, findings and recommendations clearly to clients and colleagues.",
-          "bg": ""
+          "bg": " Отлично владеене на писмен и говорим английски език на ниво B2 или по-високо, с увереност за ясно представяне на стратегии, констатации и препоръки пред клиенти и колеги."
         },
         {
           "path": "requirements#0.8.0",
           "en": "Leadership:",
-          "bg": ""
+          "bg": "Лидерство:"
         },
         {
           "path": "requirements#0.8.1",
           "en": " Experience coordinating people and projects, providing constructive feedback and supporting junior specialists.",
-          "bg": ""
+          "bg": " Опит в координирането на хора и проекти, предоставянето на конструктивна обратна връзка и подпомагането на младши специалисти."
         },
         {
           "path": "requirements#0.9.0",
           "en": "Organisation and Initiative:",
-          "bg": ""
+          "bg": "Организация и инициативност:"
         },
         {
           "path": "requirements#0.9.1",
           "en": " Attention to detail, independence and accountability, with the ability to manage several complex projects and competing deadlines.",
-          "bg": ""
+          "bg": " Внимание към детайла, самостоятелност и отчетност, със способност за управление на няколко сложни проекта и конкуриращи се срокове."
         },
         {
           "path": "requirements#0.10.0",
           "en": "Education:",
-          "bg": ""
+          "bg": "Образование:"
         },
         {
           "path": "requirements#0.10.1",
           "en": " A bachelor’s degree in Marketing, Business Administration, Computer Science, Data Analytics or a related field. A master’s degree and additional professional certifications are an advantage.",
-          "bg": ""
+          "bg": " Бакалавърска степен по маркетинг, бизнес администрация, компютърни науки, анализ на данни или сродна област. Магистърска степен и допълнителни професионални сертификати са предимство."
         },
         {
           "path": "offer#0.0.0",
           "en": "Competitive Compensation:",
-          "bg": ""
+          "bg": "Конкурентно възнаграждение:"
         },
         {
           "path": "offer#0.0.1",
           "en": " A salary appropriate to a senior role, plus bonuses linked to individual performance and results.",
-          "bg": ""
+          "bg": " Заплата, подходяща за старши специалист, плюс бонуси, обвързани с индивидуалното представяне и резултати."
         },
         {
           "path": "offer#0.1.0",
           "en": "Hybrid and Flexible Working:",
-          "bg": ""
+          "bg": "Хибриден и гъвкав модел на работа:"
         },
         {
           "path": "offer#0.1.1",
           "en": " A balanced hybrid schedule with a flexible start time between 8:00 and 10:00 a.m.",
-          "bg": ""
+          "bg": " Балансиран хибриден график с гъвкаво начално време между 8:00 и 10:00 ч."
         },
         {
           "path": "offer#0.2.0",
           "en": "Professional Development:",
-          "bg": ""
+          "bg": "Професионално развитие:"
         },
         {
           "path": "offer#0.2.1",
           "en": " Company-funded certifications, specialist SEO and AI training, conference participation, internal research and curated learning resources, including a Notion knowledge base and professional book library.",
-          "bg": ""
+          "bg": " Финансирани от компанията сертификати, специализирани SEO и AI обучения, участие в конференции, вътрешни проучвания и подбрани ресурси за обучение, включително база от знания в Notion и професионална библиотека с книги."
         },
         {
           "path": "offer#0.3.0",
           "en": "International Client Experience:",
-          "bg": ""
+          "bg": "Опит с международни клиенти:"
         },
         {
           "path": "offer#0.3.1",
           "en": " Work with international businesses and established brands across B2B, e-commerce, financial services, real estate, healthcare, technology and other competitive sectors in Europe and the United States.",
-          "bg": ""
+          "bg": " Работа с международни бизнеси и утвърдени марки в сферата на B2B, електронната търговия, финансовите услуги, недвижимите имоти, здравеопазването, технологиите и други конкурентни сектори в Европа и САЩ."
         },
         {
           "path": "offer#0.4.0",
           "en": "Strategic Influence:",
-          "bg": ""
+          "bg": "Стратегическо влияние:"
         },
         {
           "path": "offer#0.4.1",
           "en": " The opportunity to propose and implement ideas, develop the agency’s SEO and AI methods, and contribute to key client decisions.",
-          "bg": ""
+          "bg": " Възможност за предлагане и внедряване на идеи, развиване на SEO и AI методите на агенцията и допринасяне за ключови клиентски решения."
         },
         {
           "path": "offer#0.5.0",
           "en": "Career and Leadership Development:",
-          "bg": ""
+          "bg": "Кариерно и лидерско развитие:"
         },
         {
           "path": "offer#0.5.1",
           "en": " Opportunities to progress into a leadership role, manage larger teams and contribute to the agency’s strategic direction.",
-          "bg": ""
+          "bg": " Възможности за израстване до лидерска роля, управление на по-големи екипи и принос към стратегическата посока на агенцията."
         },
         {
           "path": "offer#0.6.0",
           "en": "Paid Leave:",
-          "bg": ""
+          "bg": "Платен отпуск:"
         },
         {
           "path": "offer#0.6.1",
           "en": " 20 days of paid annual leave, plus Bulgarian public holidays.",
-          "bg": ""
+          "bg": " 20 дни платен годишен отпуск, плюс българските официални празници."
         },
         {
           "path": "offer#0.7.0",
           "en": "Additional Benefits:",
-          "bg": ""
+          "bg": "Допълнителни придобивки:"
         },
         {
           "path": "offer#0.7.1",
           "en": " Additional health insurance and a fully employer-funded sports card.",
-          "bg": ""
+          "bg": " Допълнително здравно осигуряване и напълно платена от работодателя спортна карта."
         },
         {
           "path": "offer#0.8.0",
           "en": "A Supportive Team:",
-          "bg": ""
+          "bg": "Подкрепящ екип:"
         },
         {
           "path": "offer#0.8.1",
           "en": " A collaborative environment with high professional standards, open communication, regular team events and knowledge sharing.",
-          "bg": ""
+          "bg": " Среда на сътрудничество с високи професионални стандарти, отворена комуникация, редовни екипни събития и споделяне на знания."
         }
       ]
     }
