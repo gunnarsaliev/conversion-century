@@ -17,8 +17,8 @@ import { Services } from './src/collections/Services'
 import { Media } from './src/collections/Media'
 import { Documents } from './src/collections/Documents'
 import { Blog } from './src/collections/Blog'
-import { WorkChecklist } from './src/collections/WorkChecklist'
-import { ClientChecklistProgress } from './src/collections/ClientChecklistProgress'
+import { ChecklistItems } from './src/collections/ChecklistItems'
+import { ClientProgress } from './src/collections/ClientProgress'
 import { JobListings } from './src/collections/JobListings'
 import { JobApplicants } from './src/collections/JobApplicants'
 import { CaseStudies } from './src/collections/CaseStudies'
@@ -60,8 +60,8 @@ export default buildConfig({
     Media,
     Documents,
     Blog,
-    WorkChecklist,
-    ClientChecklistProgress,
+    ChecklistItems,
+    ClientProgress,
     JobListings,
     JobApplicants,
     CaseStudies,

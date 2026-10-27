@@ -10,7 +10,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 // Checklist item checkbox
 // ---------------------------------------------------------------------------
 //
-// Toggles a checklist progress entry between "done" and "pending". Applies
+// Toggles a checklist progress entry between "done" and "not-started". Applies
 // the change optimistically, then reverts if the server action fails. On
 // success the page is revalidated and the parent remounts this component
 // (keyed by id + status) so it picks up the new Done / Not Done grouping.

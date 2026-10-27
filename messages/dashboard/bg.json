@@ -348,7 +348,7 @@
       "noneDone": "Все още няма.",
       "allDone": "Всичко е готово.",
       "details": "Детайли за {name}",
-      "type": "Тип",
+      "service": "Услуга",
       "team": "Екип",
       "priority": "Приоритет",
       "label": "Етикет",
@@ -356,7 +356,7 @@
       "markDone": "Маркирай „{label}“ като готово",
       "markNotDone": "Маркирай „{label}“ като неготово",
       "status": {
-        "pending": "Предстои",
+        "not-started": "Не е започнато",
         "in-progress": "В процес",
         "done": "Готово"
       }

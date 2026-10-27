@@ -710,7 +710,7 @@ export interface ClientChecklistProgress {
   id: number;
   client: number | Client;
   checklistItem: number | WorkChecklist;
-  status: 'pending' | 'in-progress' | 'done';
+  status: 'not-started' | 'in-progress' | 'done';
   completedAt?: string | null;
   notes?: string | null;
   updatedAt: string;
@@ -723,46 +723,7 @@ export interface ClientChecklistProgress {
 export interface WorkChecklist {
   id: number;
   name: string;
-  type:
-    | '301s-and-302s'
-    | '404s'
-    | '500s'
-    | 'additional'
-    | 'breadcrumbs'
-    | 'duplicate-pages'
-    | 'force-https'
-    | 'general'
-    | 'google-analytics-and-gsc'
-    | 'h1'
-    | 'images'
-    | 'indexation'
-    | 'internal-linking'
-    | 'keywords'
-    | 'localized-content'
-    | 'meta-titles-and-descriptions'
-    | 'navigation'
-    | 'page-content'
-    | 'pagination'
-    | 'robots-txt'
-    | 'schema-markup'
-    | 'site-speed'
-    | 'url-structure'
-    | 'xml-sitemap';
-  shortDescription?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+  service?: (number | null) | Service;
   description?: {
     root: {
       type: string;
@@ -784,9 +745,6 @@ export interface WorkChecklist {
         id?: string | null;
       }[]
     | null;
-  priority?: ('low' | 'medium' | 'high') | null;
-  label?: ('technical' | 'copyright') | null;
-  team?: ('content' | 'dev' | 'seo') | null;
   clientUsage?: {
     docs?: (number | ClientChecklistProgress)[];
     hasNextPage?: boolean;
@@ -2026,8 +1984,7 @@ export interface BlogSelect<T extends boolean = true> {
  */
 export interface WorkChecklistSelect<T extends boolean = true> {
   name?: T;
-  type?: T;
-  shortDescription?: T;
+  service?: T;
   description?: T;
   links?:
     | T
@@ -2035,9 +1992,6 @@ export interface WorkChecklistSelect<T extends boolean = true> {
         url?: T;
         id?: T;
       };
-  priority?: T;
-  label?: T;
-  team?: T;
   clientUsage?: T;
   updatedAt?: T;
   createdAt?: T;

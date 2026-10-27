@@ -171,7 +171,7 @@ async function deleteClient(
 // ---------------------------------------------------------------------------
 
 type UpdateChecklistProgressResult =
-  | { success: true; status: "pending" | "done" }
+  | { success: true; status: "not-started" | "done" }
   | { success: false; error: string };
 
 async function setChecklistProgressDone(
@@ -179,7 +179,7 @@ async function setChecklistProgressDone(
   clientId: string | number,
   done: boolean,
 ): Promise<UpdateChecklistProgressResult> {
-  const status = done ? "done" : "pending";
+  const status = done ? "done" : "not-started";
 
   const t = await getDashboardTranslations("Clients");
 

@@ -55,7 +55,7 @@ const statusBadgeClassName: Record<string, string> = {
 };
 
 const checklistStatusBadgeClassName: Record<string, string> = {
-  pending: "bg-muted text-muted-foreground",
+  "not-started": "bg-muted text-muted-foreground",
   "in-progress": "bg-amber-100 text-amber-800",
   done: "bg-emerald-100 text-emerald-800",
 };
@@ -66,10 +66,7 @@ type ChecklistEntry = {
   notes?: string | null;
   completedAt?: string | null;
   name: string;
-  type?: string | null;
-  priority?: string | null;
-  team?: string | null;
-  label?: string | null;
+  service?: string | null;
   description?: SerializedEditorState | null;
 };
 
@@ -96,7 +93,7 @@ const ChecklistEntryHoverCard = ({
           <Badge
             className={
               checklistStatusBadgeClassName[entry.status] ??
-              checklistStatusBadgeClassName.pending
+              checklistStatusBadgeClassName["not-started"]
             }
           >
             {t.has(`checklist.status.${entry.status}`) ? t(`checklist.status.${entry.status}`) : entry.status}
@@ -108,34 +105,10 @@ const ChecklistEntryHoverCard = ({
           </div>
         ) : null}
         <dl className="mt-2 space-y-1.5 text-xs text-muted-foreground">
-          {entry.type ? (
+          {entry.service ? (
             <div className="flex justify-between gap-2">
-              <dt>{t("checklist.type")}</dt>
-              <dd className="text-right text-foreground">{entry.type}</dd>
-            </div>
-          ) : null}
-          {entry.team ? (
-            <div className="flex justify-between gap-2">
-              <dt>{t("checklist.team")}</dt>
-              <dd className="text-right text-foreground capitalize">
-                {entry.team}
-              </dd>
-            </div>
-          ) : null}
-          {entry.priority ? (
-            <div className="flex justify-between gap-2">
-              <dt>{t("checklist.priority")}</dt>
-              <dd className="text-right text-foreground capitalize">
-                {entry.priority}
-              </dd>
-            </div>
-          ) : null}
-          {entry.label ? (
-            <div className="flex justify-between gap-2">
-              <dt>{t("checklist.label")}</dt>
-              <dd className="text-right text-foreground capitalize">
-                {entry.label}
-              </dd>
+              <dt>{t("checklist.service")}</dt>
+              <dd className="text-right text-foreground">{entry.service}</dd>
             </div>
           ) : null}
           {entry.completedAt ? (
@@ -187,7 +160,8 @@ export default async function ClientPage({ params }: ClientPageProps) {
   const checklistProgress = await payload.find({
     collection: "client-checklist-progress",
     where: { client: { equals: id } },
-    depth: 1,
+    depth: 2,
+    populate: { services: { name: true } },
     limit: 500,
     sort: "checklistItem",
   });
@@ -205,10 +179,10 @@ export default async function ClientPage({ params }: ClientPageProps) {
         notes: entry.notes,
         completedAt: entry.completedAt,
         name: checklistItem?.name ?? null,
-        type: checklistItem?.type ?? null,
-        priority: checklistItem?.priority ?? null,
-        team: checklistItem?.team ?? null,
-        label: checklistItem?.label ?? null,
+        service:
+          checklistItem?.service && typeof checklistItem.service === "object"
+            ? checklistItem.service.name
+            : null,
         description: checklistItem?.description ?? null,
       };
     })
@@ -218,10 +192,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
     notes?: string | null;
     completedAt?: string | null;
     name: string;
-    type?: string | null;
-    priority?: string | null;
-    team?: string | null;
-    label?: string | null;
+    service?: string | null;
     description?: SerializedEditorState | null;
   }[];
 

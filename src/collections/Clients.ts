@@ -1,10 +1,16 @@
 import type {
+  CollectionAfterChangeHook,
   CollectionBeforeDeleteHook,
   CollectionBeforeValidateHook,
   CollectionConfig,
 } from 'payload'
 import { documentsField } from '../fields/documentsField'
 import { adminOnlyCollection, isAdminOrEditor } from '../lib/roles'
+import {
+  assignChecklistItems,
+  relationIds,
+  removeUntouchedChecklistItems,
+} from '../lib/client-checklist'
 
 // CSV can't express a hasMany relationship as a native array, so we
 // serialize it to a single `;`-separated column of related IDs on export,
@@ -115,6 +121,26 @@ const deleteClientContacts: CollectionBeforeDeleteHook = async ({ id, req }) => 
   })
 }
 
+// Each service brings its checklist items: adding a service assigns them to
+// the client as "not started", removing one drops the rows never started.
+const syncClientChecklist: CollectionAfterChangeHook = async ({ doc, previousDoc, req }) => {
+  const current = relationIds(doc.services)
+  const previous = relationIds(previousDoc?.services)
+
+  await assignChecklistItems({
+    req,
+    clientIds: [doc.id],
+    serviceIds: current.filter((id) => !previous.includes(id)),
+  })
+  await removeUntouchedChecklistItems({
+    req,
+    clientId: doc.id,
+    serviceIds: previous.filter((id) => !current.includes(id)),
+  })
+
+  return doc
+}
+
 export const Clients: CollectionConfig = {
   slug: 'clients',
   admin: {
@@ -123,6 +149,7 @@ export const Clients: CollectionConfig = {
   },
   hooks: {
     beforeValidate: [resolveAccountManagerAndPublisherEmails],
+    afterChange: [syncClientChecklist],
     beforeDelete: [deleteClientContacts],
   },
   access: {

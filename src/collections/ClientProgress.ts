@@ -1,8 +1,9 @@
 import type { CollectionConfig } from 'payload'
 import { adminOnlyCollection } from '../lib/roles'
 
-export const ClientChecklistProgress: CollectionConfig = {
+export const ClientProgress: CollectionConfig = {
   slug: 'client-checklist-progress',
+  labels: { singular: 'Client Progress', plural: 'Client Progress' },
   admin: {
     ...adminOnlyCollection.admin,
     useAsTitle: 'id',
@@ -30,9 +31,9 @@ export const ClientChecklistProgress: CollectionConfig = {
       name: 'status',
       type: 'select',
       required: true,
-      defaultValue: 'pending',
+      defaultValue: 'not-started',
       options: [
-        { label: 'Pending', value: 'pending' },
+        { label: 'Not started', value: 'not-started' },
         { label: 'In progress', value: 'in-progress' },
         { label: 'Done', value: 'done' },
       ],
