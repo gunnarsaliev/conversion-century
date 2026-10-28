@@ -853,7 +853,8 @@
     "empty": "No reviews yet.",
     "logoAlt": "{name} logo",
     "photoAlt": "Photo of {name}",
-    "roleAt": "{role}, {company}"
+    "roleAt": "{role}, {company}",
+    "readFull": "Read full review"
   },
   "PartnerBadges": {
     "ahrefs": "Ahrefs Agency Partner",

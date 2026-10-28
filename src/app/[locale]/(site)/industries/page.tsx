@@ -53,6 +53,7 @@ export default async function IndustriesPage() {
         eyebrow={t("eyebrow")}
         heading={t("heading")}
         cases={items}
+        imageClassName="aspect-square"
       />
     </>
   );

@@ -18,6 +18,8 @@ interface CaseStudies13Props {
   heading?: string;
   cases: CaseStudies13Item[];
   className?: string;
+  /** Sizing for each card's image frame, e.g. "aspect-square". */
+  imageClassName?: string;
 }
 
 const CaseStudies13 = ({
@@ -25,6 +27,7 @@ const CaseStudies13 = ({
   heading,
   cases,
   className,
+  imageClassName = "h-48",
 }: CaseStudies13Props) => {
   const t = useTranslations("CaseStudies13");
 
@@ -52,7 +55,7 @@ const CaseStudies13 = ({
                 href={c.href}
                 className="group relative flex flex-col overflow-hidden rounded-2xl border border-border transition-colors hover:border-primary/30"
               >
-                <div className="relative h-48 overflow-hidden bg-muted">
+                <div className={cn("relative overflow-hidden bg-muted", imageClassName)}>
                   {c.image && (
                     <img
                       src={c.image}

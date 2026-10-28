@@ -853,7 +853,8 @@
     "empty": "Все още няма отзиви.",
     "logoAlt": "Лого на {name}",
     "photoAlt": "Снимка на {name}",
-    "roleAt": "{role}, {company}"
+    "roleAt": "{role}, {company}",
+    "readFull": "Прочетете целия отзив"
   },
   "PartnerBadges": {
     "ahrefs": "Ahrefs агенция партньор",

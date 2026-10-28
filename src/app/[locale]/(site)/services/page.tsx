@@ -66,7 +66,7 @@ export default async function ServicesPage() {
                 >
                   <Card className="h-full transition-shadow group-hover:shadow-md">
                     {image?.url && (
-                      <div className="relative aspect-video w-full overflow-hidden">
+                      <div className="relative aspect-square w-full overflow-hidden">
                         <Image
                           src={image.url}
                           alt={image.alt ?? service.name}

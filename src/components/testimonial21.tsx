@@ -8,6 +8,7 @@ import { cn } from "cn";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { ClampedQuote } from "@/components/clamped-quote";
 
 // ---------------------------------------------------------------------------
 // Testimonial grid (reviews page)
@@ -50,8 +51,8 @@ const Testimonial21 = ({ testimonials, className }: Testimonial21Props) => {
 
   return (
     <section className={cn("py-32", className)}>
-      <div className="border-y">
-        <div className="container flex flex-col gap-6 border-x py-4 max-lg:border-x lg:py-8">
+      <div>
+        <div className="container flex flex-col gap-6 py-4 lg:py-8">
           <Badge
             variant="outline"
             className="w-fit gap-1 bg-card px-3 text-sm font-normal tracking-tight shadow-sm"
@@ -71,7 +72,7 @@ const Testimonial21 = ({ testimonials, className }: Testimonial21Props) => {
       {testimonials.length === 0 ? (
         <p className="container mt-10 text-muted-foreground md:mt-14">{t("empty")}</p>
       ) : (
-        <div className="container mt-10 grid gap-8 sm:grid-cols-2 md:mt-14 lg:grid-cols-3">
+        <div className="container mt-10 grid auto-rows-fr gap-8 sm:grid-cols-2 md:mt-14 lg:grid-cols-3">
           {testimonials.map((testimonial, index) => {
             const { author, company } = testimonial;
             const logo = company.logo ? (
@@ -88,7 +89,7 @@ const Testimonial21 = ({ testimonials, className }: Testimonial21Props) => {
             return (
               <Card
                 key={index}
-                className="flex flex-col gap-6 rounded-md bg-background p-6 shadow-sm"
+                className="flex flex-col gap-6 rounded-md bg-white p-6 shadow-sm dark:bg-card"
               >
                 {company.link ? (
                   <a
@@ -104,7 +105,9 @@ const Testimonial21 = ({ testimonials, className }: Testimonial21Props) => {
                 )}
 
                 <blockquote className="text-lg font-normal text-muted-foreground italic">
-                  <RichText data={testimonial.quote} className="space-y-3" />
+                  <ClampedQuote moreLabel={t("readFull")}>
+                    <RichText data={testimonial.quote} className="space-y-3" />
+                  </ClampedQuote>
                 </blockquote>
 
                 <div className="mt-auto flex items-center gap-4">
@@ -132,10 +135,6 @@ const Testimonial21 = ({ testimonials, className }: Testimonial21Props) => {
           })}
         </div>
       )}
-
-      <div className="mt-12 h-8 w-full border-y md:h-12 lg:h-[112px]">
-        <div className="container h-full w-full border-x"></div>
-      </div>
     </section>
   );
 };

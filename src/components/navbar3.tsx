@@ -20,7 +20,7 @@ import {
   HeartPulse,
   Landmark,
   Link2,
-  ListChecks,
+  // ListChecks, // used by the commented-out Checklists link below
   Map,
   MapPin,
   Menu,
@@ -102,7 +102,7 @@ const aboutLinks = [
 
 const resourceLinks = [
   { key: "blog", href: "/blog", icon: Newspaper },
-  { key: "checklists", href: "/docs/getting-started", icon: ListChecks },
+  // { key: "checklists", href: "/docs/getting-started", icon: ListChecks },
   { key: "eventsAndMedia", href: "/events-and-media", icon: Calendar },
 ] as const;
 
@@ -447,7 +447,7 @@ const Navbar3 = ({
                             href={localize(post.href)}
                             className="flex h-full flex-col overflow-clip rounded-lg border border-muted outline-none focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-1"
                           >
-                            <div className="aspect-video w-full overflow-hidden border-b border-muted">
+                            <div className="aspect-square w-full overflow-hidden border-b border-muted">
                               <img
                                 src={post.image}
                                 alt={post.alt}
@@ -754,7 +754,7 @@ const Navbar3 = ({
                                 href={localize(post.href)}
                                 className="block overflow-clip rounded-lg border border-border outline-none focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-1"
                               >
-                                <div className="aspect-video w-full overflow-hidden border-b border-border">
+                                <div className="aspect-square w-full overflow-hidden border-b border-border">
                                   <img
                                     src={post.image}
                                     alt={post.alt}
