@@ -75,7 +75,7 @@ const Hero104 = ({
                   <Button variant="default" className="h-fit w-full rounded-lg border-2 border-primary px-8 py-4 text-lg bg-green-800 text-white font-semibold sm:w-fit hover:bg-green-700" render={<Link href={primaryCta.href} />} nativeButton={false}>{primaryCta.label}</Button>
                 )}
                 {secondaryCta && (
-                  <Button variant="ghost" className="h-fit w-full rounded-lg border-2 px-8 py-4 text-lg font-semibold hover:border-green-800 hover:bg-transparent sm:w-fit" render={<a href={secondaryCta.href} />} nativeButton={false}>{secondaryCta.label}</Button>
+                  <Button variant="ghost" className="h-fit w-full rounded-lg border-2 px-8 py-4 text-lg font-semibold hover:border-green-800 hover:bg-transparent sm:w-fit" render={<Link href={secondaryCta.href} />} nativeButton={false}>{secondaryCta.label}</Button>
                 )}
               </div>
             )}

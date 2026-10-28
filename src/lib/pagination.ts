@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 
 export const PAGE_SIZE = 12;
 
-export type PageSearchParams = Promise<{ page?: string | string[] }>;
+export type PageSearchParams = Promise<Record<string, string | string[] | undefined>>;
 
 // `?page=N` → N. Missing means page 1; anything that isn't a positive
 // integer 404s rather than silently showing page 1 under another URL.

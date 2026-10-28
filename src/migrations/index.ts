@@ -6,6 +6,7 @@ import * as migration_20261027_131524_user_slug from './20261027_131524_user_slu
 import * as migration_20261027_135858_checklist_item_service from './20261027_135858_checklist_item_service';
 import * as migration_20261027_141308_checklist_item_trim_fields from './20261027_141308_checklist_item_trim_fields';
 import * as migration_20261027_144159_client_progress_not_started from './20261027_144159_client_progress_not_started';
+import * as migration_20261028_083000_blog_category_checklists from './20261028_083000_blog_category_checklists';
 
 export const migrations = [
   {
@@ -46,6 +47,11 @@ export const migrations = [
   {
     up: migration_20261027_144159_client_progress_not_started.up,
     down: migration_20261027_144159_client_progress_not_started.down,
-    name: '20261027_144159_client_progress_not_started'
+    name: '20261027_144159_client_progress_not_started',
+  },
+  {
+    up: migration_20261028_083000_blog_category_checklists.up,
+    down: migration_20261028_083000_blog_category_checklists.down,
+    name: '20261028_083000_blog_category_checklists'
   },
 ];

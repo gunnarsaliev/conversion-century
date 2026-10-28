@@ -45,6 +45,24 @@ export default async function WebsitePage() {
   const payload = await getPayload({ config });
   const tCommon = await getTranslations("Common");
 
+  // Published industries for the Feature13 cards — which cards to show and
+  // their images — keyed by the cards' internal hrefs (/industries/<en slug>).
+  const { docs: industries } = await payload.find({
+    collection: "industries",
+    locale: "en",
+    where: { _status: { equals: "published" } },
+    depth: 1,
+    pagination: false,
+    select: { slug: true, image: true },
+  });
+  const industryCards = industries.flatMap((industry) => {
+    if (!industry.slug) return [];
+    const image =
+      industry.image && typeof industry.image === "object"
+        ? (industry.image as Media)
+        : null;
+    return [{ href: `/industries/${industry.slug}`, image: image?.url ?? undefined }];
+  });
 
   const testimonials: Testimonial17Item[] = (
     await getClientTestimonials(payload)
@@ -134,7 +152,7 @@ export default async function WebsitePage() {
         <Hero262 />      
         <Feature278 hiddenHrefs={hiddenHrefs} />
         <CaseStudies8 items={caseStudyItems.length > 0 ? caseStudyItems : undefined} />
-        <Feature13 hiddenHrefs={hiddenHrefs} />
+        <Feature13 hiddenHrefs={hiddenHrefs} industries={industryCards} />
         <Feature104 />
         <FounderLetter />
         <Testimonial17

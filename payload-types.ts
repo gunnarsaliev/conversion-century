@@ -780,6 +780,7 @@ export interface Blog {
         | 'seo-consulting'
         | 'keyword-research'
         | 'link-building'
+        | 'checklists'
       )[]
     | null;
   publishedAt?: string | null;

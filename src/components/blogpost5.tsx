@@ -14,12 +14,18 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { PostRichText } from "@/components/blog-rich-text";
 import { TableOfContents } from "@/components/table-of-contents";
+
+interface RelatedPost {
+  title: string;
+  href: string;
+  image?: string;
+  dateLabel?: string;
+}
 
 interface Blogpost5Props {
   title: string;
@@ -28,6 +34,9 @@ interface Blogpost5Props {
   // Author page path (see lib/seo/site authorPath).
   authorHref?: string;
   dateLabel?: string;
+  // Each links to its category page; the first one ends the breadcrumb.
+  categories?: { label: string; href: string }[];
+  relatedPosts?: RelatedPost[];
   featuredImage?: string;
   content?: SerializedEditorState;
   locale?: "en" | "bg";
@@ -40,6 +49,8 @@ const Blogpost5 = ({
   authorAvatar,
   authorHref,
   dateLabel,
+  categories = [],
+  relatedPosts = [],
   featuredImage,
   content,
   locale = "en",
@@ -47,6 +58,37 @@ const Blogpost5 = ({
 }: Blogpost5Props) => {
   const t = useTranslations("Blogpost5");
   const tCommon = useTranslations("Common");
+
+  const related =
+    relatedPosts.length > 0 ? (
+      <div>
+        <p className="font-medium text-muted-foreground">{t("related")}</p>
+        <ul className="mt-3 space-y-4">
+          {relatedPosts.map((post) => (
+            <li key={post.href}>
+              <Link href={post.href} className="group flex gap-3">
+                {post.image && (
+                  <img
+                    src={post.image}
+                    alt=""
+                    loading="lazy"
+                    className="size-16 shrink-0 rounded-md border object-cover"
+                  />
+                )}
+                <span className="flex min-w-0 flex-col gap-1">
+                  <span className="line-clamp-2 font-medium transition-colors group-hover:text-primary">
+                    {post.title}
+                  </span>
+                  {post.dateLabel && (
+                    <span className="text-muted-foreground">{post.dateLabel}</span>
+                  )}
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ) : null;
 
   return (
     <section className={cn("py-32", className)}>
@@ -62,20 +104,27 @@ const Blogpost5 = ({
             <BreadcrumbItem>
               <BreadcrumbLink render={<Link href="/blog" />}>{t("breadcrumb")}</BreadcrumbLink>
             </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>{title}</BreadcrumbPage>
-            </BreadcrumbItem>
+            {/* The post's first category rather than repeating the h1. */}
+            {categories[0] && (
+              <>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbLink render={<Link href={categories[0].href} />}>
+                    {categories[0].label}
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+              </>
+            )}
           </BreadcrumbList>
         </Breadcrumb>
-        <h1 className="mt-9 mb-7 max-w-3xl text-4xl font-bold md:mb-10 md:text-7xl">
+        <h1 className="mt-9 mb-7 text-4xl font-bold md:mb-10 md:text-7xl">
           {title}
         </h1>
         {(authorName || dateLabel) && (
           <div className="flex items-center gap-3 text-sm md:text-base">
             {authorAvatar && (
               <Avatar className="h-8 w-8 border">
-                <AvatarImage src={authorAvatar} />
+                <AvatarImage src={authorAvatar} alt={authorName ?? ""} />
               </Avatar>
             )}
             <span>
@@ -99,7 +148,7 @@ const Blogpost5 = ({
           </div>
         )}
         <div className="relative mt-12 grid max-w-7xl gap-14 lg:mt-14 lg:grid lg:grid-cols-12 lg:gap-6">
-          <div className="order-2 lg:order-none lg:col-span-8">
+          <div className="order-1 lg:order-none lg:col-span-8">
             {featuredImage && (
               <img
                 src={featuredImage}
@@ -108,12 +157,13 @@ const Blogpost5 = ({
               />
             )}
             {content && (
-              <div className="prose dark:prose-invert max-w-none">
+              <div className="prose dark:prose-invert max-w-none prose-headings:mt-6 prose-headings:mb-2 prose-headings:scroll-mt-24 prose-p:my-3">
                 <PostRichText data={content} locale={locale} />
               </div>
             )}
           </div>
-          <div className="order-1 flex h-fit flex-col text-sm lg:sticky lg:top-8 lg:order-none lg:col-span-3 lg:col-start-10 lg:text-xs">
+          {/* Below the article on mobile, beside it on desktop. */}
+          <div className="order-2 flex h-fit flex-col text-sm lg:sticky lg:top-8 lg:order-none lg:col-span-3 lg:col-start-10 lg:text-xs">
             <div className="order-1 flex flex-col gap-2 lg:order-none">
               <p className="font-medium text-muted-foreground">
                 {t("share")}
@@ -159,6 +209,7 @@ const Blogpost5 = ({
                 <TableOfContents content={content} locale={locale} />
               </div>
             )}
+            {related && <div className="mt-8">{related}</div>}
           </div>
         </div>
       </div>
@@ -167,3 +218,4 @@ const Blogpost5 = ({
 };
 
 export { Blogpost5 };
+export type { RelatedPost };

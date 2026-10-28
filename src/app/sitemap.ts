@@ -2,12 +2,14 @@ import type { MetadataRoute } from 'next'
 import { getPayload, type Where } from 'payload'
 import config from '@payload-config'
 
+import { blogCategoryPath, isBlogCategory, type BlogCategory } from '@/lib/blog-categories'
 import { STATIC_PAGES, docPathFromSlugs } from '@/lib/seo/pages'
 import {
   alternateLanguages,
   authorPath,
   localesOf,
   localizedUrl,
+  type Locale,
   type LocalizedPath,
 } from '@/lib/seo/site'
 
@@ -127,5 +129,50 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entries(authorPath(author), authorUpdatedAt.get(String(author.id))),
   )
 
-  return [...staticEntries, ...detailEntries.flat(), ...authorEntries]
+  // Category pages, in each locale that has a published post in them.
+  const categorized = await safely('blog categories', async () => {
+    const { docs } = await payload.find({
+      collection: 'blog',
+      locale: 'all',
+      depth: 0,
+      pagination: false,
+      where: { ...published, categories: { exists: true } },
+      select: { slug: true, categories: true, updatedAt: true },
+    })
+    return docs
+  })
+  const categoryPages = new Map<
+    BlogCategory,
+    { locales: Set<Locale>; updatedAt: string }
+  >()
+  for (const post of categorized) {
+    // With locale 'all', localized fields come back as { en, bg }.
+    const slugs = (post.slug ?? {}) as unknown as Partial<Record<Locale, string>>
+    const locales = (Object.keys(slugs) as Locale[]).filter((l) => slugs[l])
+    for (const category of post.categories ?? []) {
+      if (!isBlogCategory(category)) continue
+      const page = categoryPages.get(category) ?? {
+        locales: new Set<Locale>(),
+        updatedAt: post.updatedAt,
+      }
+      locales.forEach((l) => page.locales.add(l))
+      if (page.updatedAt < post.updatedAt) page.updatedAt = post.updatedAt
+      categoryPages.set(category, page)
+    }
+  }
+  const categoryEntries = [...categoryPages].flatMap(([category, page]) =>
+    entries(
+      Object.fromEntries(
+        [...page.locales].map((locale) => [locale, blogCategoryPath(category)]),
+      ),
+      page.updatedAt,
+    ),
+  )
+
+  return [
+    ...staticEntries,
+    ...detailEntries.flat(),
+    ...authorEntries,
+    ...categoryEntries,
+  ]
 }

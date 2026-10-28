@@ -698,7 +698,8 @@
   "Blogpost5": {
     "breadcrumb": "Blog",
     "publishedOn": "on {date}",
-    "share": "Share this article:"
+    "share": "Share this article:",
+    "related": "Related articles"
   },
   "SolutionHero": {
     "secondaryCta": "Explore Our Results",
@@ -863,5 +864,17 @@
     "previous": "Previous",
     "next": "Next",
     "page": "Page {page}"
+  },
+  "BlogCategories": {
+    "web-development": "Web development",
+    "seo-performance": "SEO performance",
+    "content-optimization": "Content optimization",
+    "blogging": "Blogging",
+    "seo-consulting": "SEO consulting",
+    "keyword-research": "Keyword research",
+    "link-building": "Link building",
+    "checklists": "Checklists",
+    "all": "All",
+    "filterLabel": "Filter posts by category"
   }
 }

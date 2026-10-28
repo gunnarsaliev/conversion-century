@@ -112,6 +112,7 @@ export default async function AuthorPage({
       ? (author.profileImage as Media)
       : null;
 
+  const tCategories = await getTranslations("BlogCategories");
   const { docs: posts, totalPages } = await payload.find({
     collection: "blog",
     locale: locale as "en" | "bg",
@@ -141,6 +142,7 @@ export default async function AuthorPage({
       image: image?.url ?? "",
       link: `/blog/${post.slug ?? post.id}`,
       description: post.excerpt ?? "",
+      categories: (post.categories ?? []).map((c) => tCategories(c)),
     };
   });
 

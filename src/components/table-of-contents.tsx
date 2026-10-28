@@ -60,14 +60,32 @@ const TableOfContents = ({
               style={{
                 paddingLeft: `${(heading.level - minLevel) * 0.75}rem`,
               }}
+              // Entries fit on one line; the full text shows on hover.
+              title={heading.text}
+              onClick={(event) => {
+                const target = document.getElementById(heading.id);
+                if (!target) return;
+                event.preventDefault();
+                const reduceMotion = window.matchMedia(
+                  "(prefers-reduced-motion: reduce)",
+                ).matches;
+                target.scrollIntoView({
+                  behavior: reduceMotion ? "auto" : "smooth",
+                  block: "start",
+                });
+                // Keep the #hash in the URL, as a plain anchor jump would.
+                history.replaceState(null, "", `#${heading.id}`);
+              }}
               className={cn(
-                "line-clamp-2 py-1 transition-colors duration-200",
+                "block py-1 transition-colors duration-200",
                 activeId === heading.id
                   ? "text-muted-foreground lg:text-primary"
                   : "text-muted-foreground hover:text-primary",
               )}
             >
-              {heading.text}
+              {/* Clamp an inner span: on the padded link itself, overflow is
+                  clipped at the padding edge and the next line peeks through. */}
+              <span className="line-clamp-1">{heading.text}</span>
             </a>
           </li>
         ))}

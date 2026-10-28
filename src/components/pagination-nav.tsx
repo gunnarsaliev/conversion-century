@@ -7,7 +7,7 @@ import { getPathname } from "@/i18n/navigation";
 import { toLocale } from "@/lib/seo/site";
 
 interface PaginationNavProps {
-  /** Internal path of page 1, e.g. "/blog" or "/authors/jane". */
+  /** Internal path of page 1, e.g. "/blog", "/blog/link-building" or "/authors/jane". */
   basePath: string;
   page: number;
   totalPages: number;

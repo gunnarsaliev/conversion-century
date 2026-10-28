@@ -203,13 +203,16 @@ const CaseStudies8 = (props: Props) => {
                     )}
                     <div className="absolute inset-0 h-full bg-linear-to-t from-black/80 via-black/28 to-transparent" />
                     <div className="absolute inset-x-0 bottom-0 flex flex-col items-start p-5 text-white md:p-6">
-                      <div className="mb-3 flex h-9 items-center pt-3">
+                      <div className="mb-3 flex min-h-9 items-center">
                         {item.logo ? (
-                          <img
-                            src={item.logo}
-                            alt={item.logoAlt ?? ""}
-                            className="max-h-7 w-auto max-w-[140px] object-contain object-left md:max-h-8 md:max-w-[160px]"
-                          />
+                          // Translucent white plate so dark logos stay readable on the photo.
+                          <span className="inline-flex items-center rounded-md bg-white/80 px-3 py-1.5 backdrop-blur-sm">
+                            <img
+                              src={item.logo}
+                              alt={item.logoAlt ?? ""}
+                              className="max-h-7 w-auto max-w-[140px] object-contain object-left md:max-h-8 md:max-w-[160px]"
+                            />
+                          </span>
                         ) : (
                           item.logoAlt && (
                             <span className="text-sm font-medium tracking-wide uppercase">

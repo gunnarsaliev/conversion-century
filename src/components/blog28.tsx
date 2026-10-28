@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { cn } from "cn";
 
 import { Link } from "@/i18n/navigation";
+import { Badge } from "@/components/ui/badge";
 
 interface Post {
   date: string;
@@ -12,6 +13,8 @@ interface Post {
   image: string;
   link: string;
   description: string;
+  /** Translated category labels. */
+  categories?: string[];
 }
 
 const posts: Post[] = [
@@ -72,14 +75,29 @@ interface Blog28Props {
   heading?: string;
   posts?: Post[];
   className?: string;
+  /** Rendered above the grid, e.g. a category filter. */
+  filters?: React.ReactNode;
   /** Rendered under the grid, e.g. pagination. */
   children?: React.ReactNode;
 }
+
+// Plain labels: the whole card is already a link.
+const CategoryBadges = ({ categories }: { categories?: string[] }) =>
+  categories && categories.length > 0 ? (
+    <div className="mb-2.5 flex flex-wrap gap-1.5">
+      {categories.map((category) => (
+        <Badge key={category} variant="secondary">
+          {category}
+        </Badge>
+      ))}
+    </div>
+  ) : null;
 
 const Blog28 = ({
   heading: headingProp,
   posts: postsProp,
   className,
+  filters,
   children,
 }: Blog28Props) => {
   const t = useTranslations("Blog28");
@@ -95,6 +113,7 @@ const Blog28 = ({
               {heading}
             </h1>
           )}
+          {filters && <div className="mb-12">{filters}</div>}
           <p className="text-center text-muted-foreground">
             {t("empty")}
           </p>
@@ -111,12 +130,18 @@ const Blog28 = ({
             {heading}
           </h1>
         )}
+        {filters}
 
-        <div className="xs:grid-cols-1 mt-24 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div
+          className={cn(
+            "xs:grid-cols-1 grid gap-4 sm:grid-cols-2 lg:grid-cols-4",
+            filters ? "mt-12" : "mt-24",
+          )}
+        >
           <div className="relative md:row-span-2 lg:col-span-2">
             <Link
               href={items[0].link}
-              className="block h-fit rounded-lg p-3 md:top-0"
+              className="block h-fit rounded-lg bg-card p-3 shadow-md transition-shadow hover:shadow-lg md:top-0"
             >
               <img
                 src={items[0].image}
@@ -124,6 +149,7 @@ const Blog28 = ({
                 className="h-48 w-full rounded-lg object-cover hover:opacity-80 md:h-80 lg:h-96"
               />
               <div className="mt-5">
+                <CategoryBadges categories={items[0].categories} />
                 <div className="mb-2.5 flex items-center gap-1 text-sm text-muted-foreground">
                   <time>{items[0].date}</time>·<span>{items[0].author}</span>
                 </div>
@@ -137,13 +163,14 @@ const Blog28 = ({
             </Link>
           </div>
           {items.slice(1).map((post, idx) => (
-            <Link key={idx} href={post.link} className="rounded-lg p-3">
+            <Link key={idx} href={post.link} className="rounded-lg bg-card p-3 shadow-md transition-shadow hover:shadow-lg">
               <img
                 src={post.image}
                 alt={post.title}
                 className="h-48 w-full rounded-lg object-cover hover:opacity-80"
               />
               <div className="mt-5">
+                <CategoryBadges categories={post.categories} />
                 <div className="mb-2.5 flex items-center gap-1 text-sm text-muted-foreground">
                   <time>{post.date}</time>·<span>{post.author}</span>
                 </div>

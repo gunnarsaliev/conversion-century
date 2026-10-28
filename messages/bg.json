@@ -698,7 +698,8 @@
   "Blogpost5": {
     "breadcrumb": "Блог",
     "publishedOn": "на {date}",
-    "share": "Споделете статията:"
+    "share": "Споделете статията:",
+    "related": "Свързани статии"
   },
   "SolutionHero": {
     "secondaryCta": "Вижте нашите резултати",
@@ -863,5 +864,17 @@
     "previous": "Предишна",
     "next": "Следваща",
     "page": "Страница {page}"
+  },
+  "BlogCategories": {
+    "web-development": "Уеб разработка",
+    "seo-performance": "SEO ефективност",
+    "content-optimization": "Оптимизация на съдържанието",
+    "blogging": "Блогване",
+    "seo-consulting": "SEO консултации",
+    "keyword-research": "Проучване на ключови думи",
+    "link-building": "Изграждане на връзки",
+    "checklists": "Чеклисти",
+    "all": "Всички",
+    "filterLabel": "Филтриране на статиите по категория"
   }
 }

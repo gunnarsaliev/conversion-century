@@ -1,13 +1,34 @@
-import type { CollectionConfig } from 'payload'
+import { ValidationError, type CollectionConfig } from 'payload'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { localizedSlugField } from '../utilities/localizedSlugField'
 import { metaFields } from '../fields/sectionFields'
+import { BLOG_CATEGORIES, BLOG_CATEGORY_LABELS, isBlogCategory } from '../lib/blog-categories'
 
 export const Blog: CollectionConfig = {
   slug: 'blog',
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'author', '_status', 'updatedAt'],
+  },
+  hooks: {
+    // /blog/<category> is a category page, so a post with that slug would
+    // be unreachable.
+    beforeValidate: [
+      ({ data }) => {
+        if (isBlogCategory(data?.slug)) {
+          throw new ValidationError({
+            collection: 'blog',
+            errors: [
+              {
+                path: 'slug',
+                message: `"${data.slug}" is reserved for the blog category page. Choose another slug.`,
+              },
+            ],
+          })
+        }
+        return data
+      },
+    ],
   },
   access: {
     // Logged-in users (editors/admins) always see every version, including
@@ -64,15 +85,10 @@ export const Blog: CollectionConfig = {
       name: 'categories',
       type: 'select',
       hasMany: true,
-      options: [
-        { label: 'Web development', value: 'web-development' },
-        { label: 'SEO performance', value: 'seo-performance' },
-        { label: 'Content optimization', value: 'content-optimization' },
-        { label: 'Blogging', value: 'blogging' },
-        { label: 'SEO consulting', value: 'seo-consulting' },
-        { label: 'Keyword research', value: 'keyword-research' },
-        { label: 'Link building', value: 'link-building' },
-      ],
+      options: BLOG_CATEGORIES.map((value) => ({
+        label: BLOG_CATEGORY_LABELS[value],
+        value,
+      })),
       admin: {
         position: 'sidebar',
       },

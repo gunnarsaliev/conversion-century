@@ -40,6 +40,10 @@ interface Feature13Props extends FeatureCardListProps {
   // Default feature hrefs whose page isn't translated into the current
   // locale; those cards link to the industries list instead.
   hiddenHrefs?: string[];
+  // Published industries by href (e.g. "/industries/b2b"). When given, only
+  // default cards for these industries — and translated into the current
+  // locale — are shown, with the industry's image where it has one.
+  industries?: { href: string; image?: string }[];
 }
 type Props = Partial<Feature13Props>;
 
@@ -66,13 +70,20 @@ const Feature13 = (props: Props) => {
     heading = t("heading"),
     description = t("description"),
     hiddenHrefs = [],
-    features = DEFAULT_FEATURES.map(({ key, icon, image, href }): FeatureCardListItem => ({
-      icon,
-      href: hiddenHrefs.includes(href) ? "/industries" : href,
-      title: t(`features.${key}.title`),
-      description: t(`features.${key}.description`),
-      image: { src: IMAGE_BASE + image, alt: t(`features.${key}.title`) },
-    })),
+    industries,
+    features = DEFAULT_FEATURES.flatMap(({ key, icon, image, href }): FeatureCardListItem[] => {
+      const industry = industries?.find((item) => item.href === href);
+      if (industries && (!industry || hiddenHrefs.includes(href))) return [];
+      return [
+        {
+          icon,
+          href: hiddenHrefs.includes(href) ? "/industries" : href,
+          title: t(`features.${key}.title`),
+          description: t(`features.${key}.description`),
+          image: { src: industry?.image ?? IMAGE_BASE + image, alt: t(`features.${key}.title`) },
+        },
+      ];
+    }),
     className,
   } = props;
 
