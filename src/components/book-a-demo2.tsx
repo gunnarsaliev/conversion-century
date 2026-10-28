@@ -72,8 +72,8 @@ const BookADemo2Avatar = ({
 
 interface Description {
   text: string;
-  hyperlink: string;
-  url: string;
+  hyperlink?: string;
+  url?: string;
 }
 
 interface Header {
@@ -90,13 +90,19 @@ const BookADemo2Header = ({ heading, description, avatars }: Header) => {
       </h3>
 
       <p className="font-medium text-muted-foreground sm:text-lg md:text-xl">
-        <span>{description.text.split(description.hyperlink)[0]}</span>
-        <span className="text-foreground">
-          <Link href={description.url} className="underline">
-            {description.hyperlink}
-          </Link>
-        </span>
-        <span>{description.text.split(description.hyperlink)[1]}</span>
+        {description.hyperlink && description.url ? (
+          <>
+            <span>{description.text.split(description.hyperlink)[0]}</span>
+            <span className="text-foreground">
+              <Link href={description.url} className="underline">
+                {description.hyperlink}
+              </Link>
+            </span>
+            <span>{description.text.split(description.hyperlink)[1]}</span>
+          </>
+        ) : (
+          description.text
+        )}
       </p>
 
       <div className="pointer-events-none absolute inset-0 hidden lg:block">

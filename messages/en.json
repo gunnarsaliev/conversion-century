@@ -562,6 +562,11 @@
           "content": "We value the knowledge your team brings. Some of our client relationships span more than seven years, built through collaboration, consistency and a shared commitment to progress."
         }
       }
+    },
+    "partners": {
+      "eyebrow": "Partnerships",
+      "heading": "Certified agency partners",
+      "body": "We are an official agency partner of Ahrefs and Semrush, two of the most widely used SEO platforms. That gives our team deep, hands-on expertise with the data and tools behind every audit, strategy and report we deliver."
     }
   },
   "Careers": {
@@ -745,7 +750,6 @@
     "page": {
       "heading": "Book Your Free SEO Consultation",
       "description": "Talk to one of our SEO strategists about your traffic, rankings and organic growth goals. If you have questions first, feel free to reach out to our team.",
-      "descriptionLink": "reach out to our team",
       "logosEyebrow": "Trusted by businesses at",
       "logosHeading": "Real results for real SEO clients",
       "logosFooter": "From local SEO to enterprise organic growth — see who we've helped rank higher."
@@ -849,5 +853,15 @@
     "logoAlt": "{name} logo",
     "photoAlt": "Photo of {name}",
     "roleAt": "{role}, {company}"
+  },
+  "PartnerBadges": {
+    "ahrefs": "Ahrefs Agency Partner",
+    "semrush": "Semrush Certified Agency Partner"
+  },
+  "Pagination": {
+    "label": "Pagination",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page {page}"
   }
 }

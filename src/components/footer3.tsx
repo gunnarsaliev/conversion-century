@@ -7,6 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { Logo, LogoImage } from "@/components/shadcnblocks/logo";
 import { NewsletterForm } from "@/components/newsletter-form";
 import { FooterLanguageSwitcher } from "@/components/footer-language-switcher";
+import { PartnerBadges } from "@/components/partner-badges";
 import { SeoCta } from "./cta-seo";
 
 // Link text lives in the `Footer` messages, keyed by section and link.
@@ -173,6 +174,7 @@ const Footer3 = ({
                 </li>
               </ul>
               <NewsletterForm />
+              <PartnerBadges className="mt-10" />
             </div>
           </div>
           <div className="mt-24 flex flex-col flex-wrap justify-between gap-4 border-t pt-8 text-sm font-medium text-muted-foreground md:flex-row md:items-center">

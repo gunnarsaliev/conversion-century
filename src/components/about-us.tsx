@@ -10,6 +10,7 @@ import {
 
 import { useLocale, useTranslations } from "next-intl";
 
+import { PartnerBadges } from "@/components/partner-badges";
 import { Button } from "@/components/ui/button";
 import type { TeamMember } from "@/lib/team-members";
 
@@ -218,6 +219,30 @@ export function AboutCollaboration() {
         <div className="space-y-4 text-base leading-relaxed text-muted-foreground lg:pt-10">
           <Paragraphs text={t("body")} />
         </div>
+      </div>
+    </section>
+  );
+}
+
+export function AboutPartners() {
+  const t = useTranslations("About.partners");
+
+  return (
+    <section className="border-t border-border">
+      <div className="container mx-auto grid items-center gap-8 py-16 lg:grid-cols-2 lg:gap-16 lg:py-24">
+        <div>
+          <Eyebrow>{t("eyebrow")}</Eyebrow>
+          <div className="mt-3">
+            <SectionHeading>{t("heading")}</SectionHeading>
+          </div>
+          <p className="mt-6 text-base leading-relaxed text-muted-foreground">
+            {t("body")}
+          </p>
+        </div>
+        <PartnerBadges
+          className="justify-center gap-8 lg:justify-end"
+          badgeClassName="size-32 sm:size-40"
+        />
       </div>
     </section>
   );

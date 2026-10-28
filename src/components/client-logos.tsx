@@ -5,7 +5,16 @@ type ClientLogosProps = Omit<React.ComponentProps<typeof Logos35>, "logos">;
 
 // Logos35 filled with live client logos from Payload. Falls back to
 // Logos35's own defaults when no client has a public logo yet.
-export async function ClientLogos(props: ClientLogosProps) {
+export async function ClientLogos({
+  viewAllHref = "/clients",
+  ...props
+}: ClientLogosProps) {
   const logos = await getClientLogos();
-  return <Logos35 {...props} logos={logos.length > 0 ? logos : undefined} />;
+  return (
+    <Logos35
+      {...props}
+      viewAllHref={viewAllHref}
+      logos={logos.length > 0 ? logos : undefined}
+    />
+  );
 }

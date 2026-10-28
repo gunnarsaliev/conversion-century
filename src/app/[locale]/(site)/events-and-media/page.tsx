@@ -1,8 +1,10 @@
+import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
 import { EventCard } from "@/components/event-card";
+import { PaginationNav } from "@/components/pagination-nav";
 import {
   formatEventDate,
   getEventImage,
@@ -11,26 +13,50 @@ import {
 import type { Event } from "../../../../../payload-types";
 import { StaticPageJsonLd } from "@/components/static-page-json-ld";
 import { staticPageMetadata } from "@/lib/seo/pages";
+import {
+  PAGE_SIZE,
+  getPage,
+  paginatedMetadata,
+  type PageSearchParams,
+} from "@/lib/pagination";
 import { translated } from "@/utilities/findByLocalizedSlug";
 
-export async function generateMetadata() {
-  return staticPageMetadata("eventsAndMedia");
+type EventsAndMediaPageProps = {
+  searchParams: PageSearchParams;
+};
+
+export async function generateMetadata({ searchParams }: EventsAndMediaPageProps) {
+  const page = await getPage(searchParams);
+  const t = await getTranslations("Pagination");
+  return paginatedMetadata(
+    await staticPageMetadata("eventsAndMedia"),
+    page,
+    t("page", { page }),
+  );
 }
 
-export default async function EventsAndMediaPage() {
+export default async function EventsAndMediaPage({
+  searchParams,
+}: EventsAndMediaPageProps) {
+  const page = await getPage(searchParams);
   const locale = await getLocale();
   const payload = await getPayload({ config });
   const t = await getTranslations("Events");
 
-  const { docs: events } = await payload.find({
+  const { docs: events, totalPages } = await payload.find({
     collection: "events",
     locale: locale as "en" | "bg",
     // Local API bypasses access control, so filter out drafts explicitly.
     where: { _status: { equals: "published" }, ...translated },
     depth: 1,
-    limit: 100,
+    limit: PAGE_SIZE,
+    page,
     sort: "-startDate",
   });
+
+  if (page > 1 && page > totalPages) notFound();
+
+  // Newest start dates first, so upcoming events land on the first page(s).
 
   const { upcoming, past } = splitEventsByTime(events);
 
@@ -81,6 +107,11 @@ export default async function EventsAndMediaPage() {
                 {renderGrid(past)}
               </section>
             )}
+            <PaginationNav
+              basePath="/events-and-media"
+              page={page}
+              totalPages={totalPages}
+            />
           </>
         )}
       </div>

@@ -59,10 +59,7 @@ export default async function BookAConsultationPage() {
           header={{
             heading: t("heading"),
             description: {
-              // `hyperlink` must appear verbatim in `text`.
               text: t("description"),
-              hyperlink: t("descriptionLink"),
-              url: "/about",
             },
             avatars: [
               {

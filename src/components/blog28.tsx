@@ -72,12 +72,15 @@ interface Blog28Props {
   heading?: string;
   posts?: Post[];
   className?: string;
+  /** Rendered under the grid, e.g. pagination. */
+  children?: React.ReactNode;
 }
 
 const Blog28 = ({
   heading: headingProp,
   posts: postsProp,
   className,
+  children,
 }: Blog28Props) => {
   const t = useTranslations("Blog28");
   const heading = headingProp ?? t("heading");
@@ -149,6 +152,7 @@ const Blog28 = ({
             </Link>
           ))}
         </div>
+        {children}
       </div>
     </section>
   );

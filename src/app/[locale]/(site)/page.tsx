@@ -130,7 +130,7 @@ export default async function WebsitePage() {
       <StaticPageJsonLd page="home" />
       <div>
         <Hero104 {...await getHomeHero()} />
-        <ClientLogos viewAllHref="/clients" />
+        <ClientLogos />
         <Hero262 />      
         <Feature278 hiddenHrefs={hiddenHrefs} />
         <CaseStudies8 items={caseStudyItems.length > 0 ? caseStudyItems : undefined} />

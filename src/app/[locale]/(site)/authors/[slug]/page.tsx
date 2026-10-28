@@ -1,12 +1,13 @@
 import { cache } from "react";
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Blog28, type Blog28Post } from "@/components/blog28";
+import { PaginationNav } from "@/components/pagination-nav";
 import { JsonLd } from "@/components/json-ld";
 import { buildMetadata, mediaImage, truncate } from "@/lib/seo/metadata";
 import { pageBreadcrumbs } from "@/lib/seo/pages";
@@ -15,9 +16,16 @@ import { getPathname } from "@/i18n/navigation";
 import { authorPath, localizedUrl, toLocale } from "@/lib/seo/site";
 import type { Media, User } from "../../../../../../payload-types";
 import { translated } from "@/utilities/findByLocalizedSlug";
+import {
+  PAGE_SIZE,
+  getPage,
+  paginatedMetadata,
+  type PageSearchParams,
+} from "@/lib/pagination";
 
 type AuthorPageProps = {
   params: Promise<{ slug: string }>;
+  searchParams: PageSearchParams;
 };
 
 const formatDate = (value: string | null | undefined, locale: string) => {
@@ -54,24 +62,35 @@ const publicName = (author: User) =>
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: AuthorPageProps): Promise<Metadata> {
   const { slug } = await params;
+  const page = await getPage(searchParams);
   const locale = toLocale(await getLocale());
   const author = await getAuthor(slug);
 
   if (!author || !publicName(author)) return {};
 
-  return buildMetadata({
-    title: publicName(author),
-    description: truncate(author.about) || author.jobTitle,
-    path: authorPath(author),
-    locale,
-    image: mediaImage(author.profileImage),
-  });
+  const t = await getTranslations("Pagination");
+  return paginatedMetadata(
+    buildMetadata({
+      title: publicName(author),
+      description: truncate(author.about) || author.jobTitle,
+      path: authorPath(author),
+      locale,
+      image: mediaImage(author.profileImage),
+    }),
+    page,
+    t("page", { page }),
+  );
 }
 
-export default async function AuthorPage({ params }: AuthorPageProps) {
+export default async function AuthorPage({
+  params,
+  searchParams,
+}: AuthorPageProps) {
   const { slug } = await params;
+  const page = await getPage(searchParams);
   const locale = await getLocale();
   const payload = await getPayload({ config });
 
@@ -93,11 +112,12 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
       ? (author.profileImage as Media)
       : null;
 
-  const { docs: posts } = await payload.find({
+  const { docs: posts, totalPages } = await payload.find({
     collection: "blog",
     locale: locale as "en" | "bg",
     depth: 1,
-    limit: 100,
+    limit: PAGE_SIZE,
+    page,
     sort: "-publishedAt",
     where: {
       author: { equals: author.id },
@@ -105,6 +125,8 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
       ...translated,
     },
   });
+
+  if (page > 1 && page > totalPages) notFound();
 
   const items: Blog28Post[] = posts.map((post) => {
     const image =
@@ -166,7 +188,9 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
         </div>
       </div>
 
-      <Blog28 heading="" posts={items} />
+      <Blog28 heading="" posts={items}>
+        <PaginationNav basePath={path} page={page} totalPages={totalPages} />
+      </Blog28>
     </div>
   );
 }

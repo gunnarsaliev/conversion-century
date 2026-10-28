@@ -5,6 +5,7 @@ import {
   AboutHero,
   AboutMarkets,
   AboutMission,
+  AboutPartners,
   AboutPeople,
   AboutPrinciples,
   AboutStory,
@@ -37,6 +38,7 @@ export default async function AboutPage() {
         ctaText=""
       />
       <AboutMarkets />
+      <AboutPartners />
       <AboutCollaboration />
       <AboutMission />
       <AboutPrinciples />
