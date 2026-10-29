@@ -1,7 +1,8 @@
-import { getLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
+import { cmsCache } from "@/lib/cms/cache";
 import { CaseStudies13, type CaseStudies13Item } from "@/components/case-studies13";
 import type { Client, Media } from "../../../../../payload-types";
 import { StaticPageJsonLd } from "@/components/static-page-json-ld";
@@ -12,11 +13,12 @@ export async function generateMetadata() {
   return staticPageMetadata("caseStudies");
 }
 
-export default async function CaseStudiesPage() {
-  const locale = await getLocale();
+// Cached across requests; refreshed when the collection changes.
+async function getCaseStudies(locale: string) {
+  "use cache";
+  cmsCache("case-studies", "clients", "media");
   const payload = await getPayload({ config });
-
-  const { docs: caseStudies } = await payload.find({
+  return payload.find({
     collection: "case-studies",
     locale: locale as "en" | "bg",
     where: translated,
@@ -37,6 +39,17 @@ export default async function CaseStudiesPage() {
       clients: { companyName: true },
     },
   });
+}
+
+export default async function CaseStudiesPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
+  const { docs: caseStudies } = await getCaseStudies(locale);
 
   const cases: CaseStudies13Item[] = caseStudies.map((caseStudy) => {
     const image =

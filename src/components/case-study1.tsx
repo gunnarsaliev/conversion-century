@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { CmsImage } from "@/components/cms-image";
 
 interface CaseStudy1Achievement {
   value: string;
@@ -76,10 +77,12 @@ const CaseStudy1 = ({
                 <p className="mt-2 text-lg text-muted-foreground">{overview}</p>
               )}
               {image && (
-                <img
+                <CmsImage
                   src={image}
                   alt={title}
-                  className="my-8 aspect-video w-full rounded-lg object-cover"
+                  preload
+                  sizes="(min-width: 1024px) 66vw, 100vw"
+                  wrapperClassName="my-8 aspect-video w-full rounded-lg"
                 />
               )}
               {achievements.length > 0 && (
@@ -105,6 +108,8 @@ const CaseStudy1 = ({
             <div className="h-fit mt-10 lg:sticky lg:top-24 lg:mt-0 lg:w-96 lg:shrink-0">
               {client?.logo && (
                 <img
+                  loading="lazy"
+                  decoding="async"
                   src={client.logo}
                   alt={client.name}
                   className="mb-6 w-20"

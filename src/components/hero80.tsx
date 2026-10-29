@@ -6,6 +6,7 @@ import { EXTERNAL_LINK_REL, isExternalHref } from "@/lib/external-link";
 
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { CmsImage } from "@/components/cms-image";
 
 interface Reviews {
   count: number;
@@ -176,10 +177,12 @@ const Hero80 = (props: Props) => {
 
           {portrait && (
             <div className="relative aspect-3/4 w-full max-w-sm overflow-hidden rounded-lg bg-muted shadow-sm lg:justify-self-end">
-              <img
+              <CmsImage
                 src={portrait.src}
                 alt={portrait.alt}
-                className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+                sizes="384px"
+                wrapperClassName="h-full w-full"
+                className="transition-transform duration-300 hover:scale-105"
               />
             </div>
           )}

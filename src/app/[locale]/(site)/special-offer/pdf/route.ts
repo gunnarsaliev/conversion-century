@@ -11,8 +11,6 @@ import offerData from "@/data/offers/ayurvedabio-seo-migration.json";
 import staticData from "@/data/offers/static.json";
 import type { Offer, OfferStatic } from "@/types/offer";
 
-export const runtime = "nodejs";
-
 // The offer page's images, bundled next to the /offer page.
 const IMAGES_DIR = path.join(
   process.cwd(),

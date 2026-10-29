@@ -4,13 +4,14 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowUpRight, CalendarDays, MapPin } from "lucide-react";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { PostRichText } from "@/components/blog-rich-text";
 import { EventPill } from "@/components/event-card";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { formatEventDate, getEventImage } from "@/lib/events";
+import { slugStaticParams } from "@/lib/cms/slugs";
 import { findByLocalizedSlug } from "@/utilities/findByLocalizedSlug";
 import { JsonLd } from "@/components/json-ld";
 import { buildMetadata, mediaImage, truncate } from "@/lib/seo/metadata";
@@ -19,7 +20,7 @@ import { graph, articleSchema, eventSchema } from "@/lib/seo/schema";
 import { toLocale } from "@/lib/seo/site";
 
 type EventDetailPageProps = {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 };
 
 // Conferences/webinars/workshops are real events (schema.org Event);
@@ -32,11 +33,14 @@ const getEvent = cache(async (slug: string, locale: string) => {
   return event?._status === "published" ? event : null;
 });
 
+// Published docs are prerendered at build; new ones render on first visit
+// and are then cached.
+export const generateStaticParams = slugStaticParams("events");
+
 export async function generateMetadata({
   params,
 }: EventDetailPageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const locale = await getLocale();
+  const { locale, slug } = await params;
   const event = await getEvent(slug, locale);
 
   if (!event) return {};
@@ -54,8 +58,8 @@ export async function generateMetadata({
 }
 
 export default async function EventDetailPage({ params }: EventDetailPageProps) {
-  const { slug } = await params;
-  const locale = await getLocale();
+  const { locale, slug } = await params;
+  setRequestLocale(locale);
   const t = await getTranslations("Events");
   const event = await getEvent(slug, locale);
 

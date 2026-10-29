@@ -1,9 +1,10 @@
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
+import { cmsCache } from "@/lib/cms/cache";
 import { Link } from "@/i18n/navigation";
 import {
   Card,
@@ -19,12 +20,12 @@ export async function generateMetadata() {
   return staticPageMetadata("services");
 }
 
-export default async function ServicesPage() {
-  const locale = await getLocale();
+// Cached across requests; refreshed when the collection changes.
+async function getServices(locale: string) {
+  "use cache";
+  cmsCache("services", "media");
   const payload = await getPayload({ config });
-  const t = await getTranslations("ServicesPage");
-
-  const { docs: services } = await payload.find({
+  return payload.find({
     collection: "services",
     locale: locale as "en" | "bg",
     where: translated,
@@ -32,6 +33,18 @@ export default async function ServicesPage() {
     limit: 100,
     sort: "name",
   });
+}
+
+export default async function ServicesPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("ServicesPage");
+
+  const { docs: services } = await getServices(locale);
 
   return (
     <>

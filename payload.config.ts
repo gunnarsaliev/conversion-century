@@ -34,6 +34,7 @@ import { notifyContractRenewals } from './src/jobs/notifyContractRenewals'
 import { clearUploadedFileAfterProcessing } from './src/utilities/clearUploadedFile'
 import { exportAll } from './src/endpoints/exportAll'
 import { seoRedirects } from './src/endpoints/seoRedirects'
+import { withCmsRevalidation } from './src/lib/cms/revalidate'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -52,26 +53,28 @@ export default buildConfig({
   // GET /api/seo-redirects: enabled redirects, read by src/proxy.ts.
   endpoints: [exportAll, seoRedirects],
 
+  // Collections the public site reads are wrapped so an edit refreshes the
+  // cached pages that show them (see src/lib/cms).
   collections: [
-    Users,
-    Clients,
-    Contacts,
-    Services,
-    Media,
+    withCmsRevalidation(Users),
+    withCmsRevalidation(Clients),
+    withCmsRevalidation(Contacts),
+    withCmsRevalidation(Services),
+    withCmsRevalidation(Media),
     Documents,
-    Blog,
+    withCmsRevalidation(Blog),
     ChecklistItems,
     ClientProgress,
-    JobListings,
+    withCmsRevalidation(JobListings),
     JobApplicants,
-    CaseStudies,
-    Industries,
-    Solutions,
-    Events,
-    Testimonials,
+    withCmsRevalidation(CaseStudies),
+    withCmsRevalidation(Industries),
+    withCmsRevalidation(Solutions),
+    withCmsRevalidation(Events),
+    withCmsRevalidation(Testimonials),
     Offers,
     Notifications,
-    PageMeta,
+    withCmsRevalidation(PageMeta),
     Redirects,
   ],
 

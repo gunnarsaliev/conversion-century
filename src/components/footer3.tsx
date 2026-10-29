@@ -1,5 +1,6 @@
 import { FaFacebookF, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { EXTERNAL_LINK_REL } from "@/lib/external-link";
+import { Suspense } from "react";
 import { useTranslations } from "next-intl";
 import { cn } from "cn";
 
@@ -84,6 +85,9 @@ interface Footer3Props {
   };
   // Link hrefs whose page isn't translated into the current locale.
   hiddenHrefs?: string[];
+  // Passed in rather than read here: the footer is part of the prerendered
+  // shell, which can't read the clock (see the site layout).
+  year: number;
   className?: string;
 }
 const Footer3 = ({
@@ -94,6 +98,7 @@ const Footer3 = ({
     title: "Conversion Century",
   },
   hiddenHrefs = [],
+  year,
   className,
 }: Footer3Props) => {
   const t = useTranslations("Footer");
@@ -178,8 +183,12 @@ const Footer3 = ({
             </div>
           </div>
           <div className="mt-24 flex flex-col flex-wrap justify-between gap-4 border-t pt-8 text-sm font-medium text-muted-foreground md:flex-row md:items-center">
-            <span>{t("copyright", { year: new Date().getFullYear() })}</span>
-            <FooterLanguageSwitcher label={t("language")} />
+            <span>{t("copyright", { year })}</span>
+            {/* It reads the route params, which on private pages without
+                prerendered params (offers/[id]) are only known per request. */}
+            <Suspense fallback={<div className="h-9 w-52 rounded-full bg-muted" />}>
+              <FooterLanguageSwitcher label={t("language")} />
+            </Suspense>
             <ul className="flex gap-4">
               <li className="whitespace-nowrap underline hover:text-primary">
                 <Link href="/legal/terms-and-conditions">{t("terms")}</Link>

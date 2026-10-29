@@ -1,7 +1,8 @@
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
+import { cmsCache } from "@/lib/cms/cache";
 import { CaseStudies13, type CaseStudies13Item } from "@/components/case-studies13";
 import type { Media } from "../../../../../payload-types";
 import { StaticPageJsonLd } from "@/components/static-page-json-ld";
@@ -12,12 +13,12 @@ export async function generateMetadata() {
   return staticPageMetadata("industries");
 }
 
-export default async function IndustriesPage() {
-  const locale = await getLocale();
+// Cached across requests; refreshed when the collection changes.
+async function getIndustries(locale: string) {
+  "use cache";
+  cmsCache("industries", "media");
   const payload = await getPayload({ config });
-  const t = await getTranslations("IndustriesPage");
-
-  const { docs: industries } = await payload.find({
+  return payload.find({
     collection: "industries",
     locale: locale as "en" | "bg",
     where: { _status: { equals: "published" }, ...translated },
@@ -31,6 +32,18 @@ export default async function IndustriesPage() {
       meta: true,
     },
   });
+}
+
+export default async function IndustriesPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("IndustriesPage");
+
+  const { docs: industries } = await getIndustries(locale);
 
   const items: CaseStudies13Item[] = industries.map((industry) => {
     const image =

@@ -1,7 +1,7 @@
 import { cache } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
 import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 
 import { CaseStudy1 } from "@/components/case-study1";
@@ -11,10 +11,11 @@ import { buildMetadata, mediaImage, truncate } from "@/lib/seo/metadata";
 import { localizedDocPath, pageBreadcrumbs } from "@/lib/seo/pages";
 import { graph, articleSchema } from "@/lib/seo/schema";
 import { toLocale } from "@/lib/seo/site";
+import { slugStaticParams } from "@/lib/cms/slugs";
 import { findByLocalizedSlug } from "@/utilities/findByLocalizedSlug";
 
 type CaseStudyPageProps = {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 };
 
 // Shared by generateMetadata and the page so the lookup runs once per
@@ -32,11 +33,14 @@ const getCaseStudy = cache((slug: string, locale: string) =>
   }),
 );
 
+// Published docs are prerendered at build; new ones render on first visit
+// and are then cached.
+export const generateStaticParams = slugStaticParams("case-studies");
+
 export async function generateMetadata({
   params,
 }: CaseStudyPageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const locale = await getLocale();
+  const { locale, slug } = await params;
   const caseStudy = await getCaseStudy(slug, locale);
 
   if (!caseStudy) return {};
@@ -54,8 +58,8 @@ export async function generateMetadata({
 }
 
 export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
-  const { slug } = await params;
-  const locale = await getLocale();
+  const { locale, slug } = await params;
+  setRequestLocale(locale);
   const caseStudy = await getCaseStudy(slug, locale);
 
   if (!caseStudy) {

@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import {
   ArrowRightLeft,
   ChartLine,
@@ -27,6 +28,7 @@ import { Faq2 } from "@/components/faq2";
 import { List3 } from "@/components/list3";
 import { Pricing78 } from "@/components/pricing78";
 import { requireDashboardUser } from "@/lib/dashboard-auth";
+import { ArticleSkeleton } from "@/components/skeletons";
 
 const content = staticData as OfferStatic;
 
@@ -54,7 +56,7 @@ const stats: { title: string; value: string; suffix?: string }[] = [
   },
 ];
 
-export default async function SpecialOfferPage() {
+async function SpecialOfferPage() {
   // proxy.ts only checks for a session cookie; offers are private.
   await requireDashboardUser();
   return (
@@ -364,5 +366,15 @@ export default async function SpecialOfferPage() {
         </div>
       </div>
     </section>
+  );
+}
+
+// Private and per user (session cookie), so it renders per request; the
+// layout and this skeleton show immediately.
+export default function SpecialOfferPageRoute() {
+  return (
+    <Suspense fallback={<ArticleSkeleton />}>
+      <SpecialOfferPage />
+    </Suspense>
   );
 }

@@ -61,6 +61,8 @@ const BookADemo2Avatar = ({
           size={18}
         />
         <img
+          loading="lazy"
+          decoding="async"
           src={image}
           alt="avatar"
           className="size-full rounded-full object-cover"
@@ -363,6 +365,8 @@ const BookADemo2Testimonials = ({ testimonials }: TestimonialsProps) => {
             >
               <div className="flex items-center gap-3">
                 <img
+                  loading="lazy"
+                  decoding="async"
                   src={testimonial.companyLogo}
                   alt={t("logoAlt", { name: testimonial.author.name })}
                   className="h-16 w-auto object-contain md:h-16 dark:invert"
@@ -397,6 +401,8 @@ const BookADemo2Testimonials = ({ testimonials }: TestimonialsProps) => {
 
                 <div className="flex items-center gap-3">
                   <img
+                    loading="lazy"
+                    decoding="async"
                     src={testimonial.author.profilePicture}
                     alt={testimonial.author.name}
                     className="size-9 rounded-full object-cover"

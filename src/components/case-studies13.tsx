@@ -2,6 +2,7 @@ import { useTranslations } from "next-intl";
 import { cn } from "cn";
 
 import { Link } from "@/i18n/navigation";
+import { CmsImage } from "@/components/cms-image";
 
 export interface CaseStudies13Item {
   title: string;
@@ -57,10 +58,12 @@ const CaseStudies13 = ({
               >
                 <div className={cn("relative overflow-hidden bg-muted", imageClassName)}>
                   {c.image && (
-                    <img
+                    <CmsImage
                       src={c.image}
                       alt={c.title}
-                      className="absolute inset-0 size-full object-cover object-left transition-transform duration-500 group-hover:scale-105"
+                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      wrapperClassName="absolute inset-0"
+                      className="object-left transition-transform duration-500 group-hover:scale-105"
                     />
                   )}
                   {c.metric && (

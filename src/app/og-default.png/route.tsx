@@ -5,7 +5,7 @@ import { SITE_NAME } from "@/lib/seo/site";
 // Default social share image (1200×630), used by buildMetadata when a page
 // has no CMS image. Lives at a fixed, dotted path (/og-default.png) so the
 // URL is stable and src/proxy.ts never login-gates or locale-rewrites it.
-export const dynamic = "force-static";
+// No request data is read, so Cache Components prerenders this at build.
 
 export function GET() {
   return new ImageResponse(

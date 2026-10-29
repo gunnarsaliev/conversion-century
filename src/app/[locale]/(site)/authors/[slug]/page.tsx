@@ -1,10 +1,12 @@
-import { cache } from "react";
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
+import { cmsCache } from "@/lib/cms/cache";
+import { BlogGridSkeleton } from "@/components/skeletons";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Blog28, type Blog28Post } from "@/components/blog28";
 import { PaginationNav } from "@/components/pagination-nav";
@@ -24,7 +26,7 @@ import {
 } from "@/lib/pagination";
 
 type AuthorPageProps = {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
   searchParams: PageSearchParams;
 };
 
@@ -40,8 +42,10 @@ const formatDate = (value: string | null | undefined, locale: string) => {
 // By slug, or by id for links from before authors had slugs (the page
 // redirects those to the slug URL). The Local API bypasses Users'
 // login-gated `read` access — needed so a logged-out visitor can view this
-// public author page.
-const getAuthor = cache(async (slug: string) => {
+// public author page. Cached across requests.
+async function getAuthor(slug: string) {
+  "use cache";
+  cmsCache("users", "media");
   const payload = await getPayload({ config });
   const { docs } = await payload.find({
     collection: "users",
@@ -54,7 +58,50 @@ const getAuthor = cache(async (slug: string) => {
   return payload
     .findByID({ collection: "users", id: slug, depth: 1 })
     .catch(() => null);
-});
+}
+
+// Authors with a published post are prerendered at build time.
+export async function generateStaticParams() {
+  "use cache";
+  cmsCache("blog", "users");
+  const payload = await getPayload({ config });
+  const { docs } = await payload.find({
+    collection: "blog",
+    where: { _status: { equals: "published" } },
+    depth: 1,
+    pagination: false,
+    select: { author: true },
+    populate: { users: { slug: true } },
+  });
+  const slugs = new Set(
+    docs.flatMap((post) =>
+      post.author && typeof post.author === "object" && post.author.slug
+        ? [post.author.slug]
+        : [],
+    ),
+  );
+  return (slugs.size > 0 ? [...slugs] : ["_"]).map((slug) => ({ slug }));
+}
+
+// The author's posts, one page. Cached across requests.
+async function getAuthorPosts(authorId: number, locale: string, page: number) {
+  "use cache";
+  cmsCache("blog", "media");
+  const payload = await getPayload({ config });
+  return payload.find({
+    collection: "blog",
+    locale: locale as "en" | "bg",
+    depth: 1,
+    limit: PAGE_SIZE,
+    page,
+    sort: "-publishedAt",
+    where: {
+      author: { equals: authorId },
+      _status: { equals: "published" },
+      ...translated,
+    },
+  });
+}
 
 // Public name only — never fall back to the email in metadata.
 const publicName = (author: User) =>
@@ -64,9 +111,9 @@ export async function generateMetadata({
   params,
   searchParams,
 }: AuthorPageProps): Promise<Metadata> {
-  const { slug } = await params;
+  const { locale: rawLocale, slug } = await params;
   const page = await getPage(searchParams);
-  const locale = toLocale(await getLocale());
+  const locale = toLocale(rawLocale);
   const author = await getAuthor(slug);
 
   if (!author || !publicName(author)) return {};
@@ -89,10 +136,8 @@ export default async function AuthorPage({
   params,
   searchParams,
 }: AuthorPageProps) {
-  const { slug } = await params;
-  const page = await getPage(searchParams);
-  const locale = await getLocale();
-  const payload = await getPayload({ config });
+  const { locale, slug } = await params;
+  setRequestLocale(locale);
 
   const author = await getAuthor(slug);
 
@@ -111,40 +156,6 @@ export default async function AuthorPage({
     author.profileImage && typeof author.profileImage === "object"
       ? (author.profileImage as Media)
       : null;
-
-  const tCategories = await getTranslations("BlogCategories");
-  const { docs: posts, totalPages } = await payload.find({
-    collection: "blog",
-    locale: locale as "en" | "bg",
-    depth: 1,
-    limit: PAGE_SIZE,
-    page,
-    sort: "-publishedAt",
-    where: {
-      author: { equals: author.id },
-      _status: { equals: "published" },
-      ...translated,
-    },
-  });
-
-  if (page > 1 && page > totalPages) notFound();
-
-  const items: Blog28Post[] = posts.map((post) => {
-    const image =
-      post.featuredImage && typeof post.featuredImage === "object"
-        ? (post.featuredImage as Media)
-        : null;
-
-    return {
-      date: formatDate(post.publishedAt, locale),
-      author: name,
-      title: post.title,
-      image: image?.url ?? "",
-      link: `/blog/${post.slug ?? post.id}`,
-      description: post.excerpt ?? "",
-      categories: (post.categories ?? []).map((c) => tCategories(c)),
-    };
-  });
 
   const seoLocale = toLocale(locale);
   const fullName = publicName(author);
@@ -190,9 +201,60 @@ export default async function AuthorPage({
         </div>
       </div>
 
-      <Blog28 heading="" posts={items}>
-        <PaginationNav basePath={path} page={page} totalPages={totalPages} />
-      </Blog28>
+      {/* ?page= is only known per request; the profile above is prerendered. */}
+      <Suspense fallback={<div className="container"><BlogGridSkeleton /></div>}>
+        <AuthorPosts
+          authorId={author.id}
+          name={name}
+          path={path}
+          locale={locale}
+          searchParams={searchParams}
+        />
+      </Suspense>
     </div>
+  );
+}
+
+async function AuthorPosts({
+  authorId,
+  name,
+  path,
+  locale,
+  searchParams,
+}: {
+  authorId: number;
+  name: string;
+  path: string;
+  locale: string;
+  searchParams: PageSearchParams;
+}) {
+  const page = await getPage(searchParams);
+  const tCategories = await getTranslations("BlogCategories");
+  const { docs: posts, totalPages } = await getAuthorPosts(authorId, locale, page);
+
+  if (page > 1 && page > totalPages) notFound();
+
+  const items: Blog28Post[] = posts.map((post) => {
+    const image =
+      post.featuredImage && typeof post.featuredImage === "object"
+        ? (post.featuredImage as Media)
+        : null;
+
+    return {
+      date: formatDate(post.publishedAt, locale),
+      author: name,
+      title: post.title,
+      image: image?.url ?? "",
+      link: `/blog/${post.slug ?? post.id}`,
+      description: post.excerpt ?? "",
+      categories: (post.categories ?? []).map((c) => tCategories(c)),
+    };
+  });
+
+
+  return (
+    <Blog28 heading="" posts={items}>
+      <PaginationNav basePath={path} page={page} totalPages={totalPages} />
+    </Blog28>
   );
 }

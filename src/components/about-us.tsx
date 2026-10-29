@@ -13,6 +13,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { PartnerBadges } from "@/components/partner-badges";
 import { Button } from "@/components/ui/button";
 import type { TeamMember } from "@/lib/team-members";
+import { CmsImage } from "@/components/cms-image";
 
 // Content of the About page (copy from "About US.md"), in the `About`
 // messages.
@@ -142,14 +143,12 @@ export function AboutPeople({ members }: { members: TeamMember[] }) {
           <ul className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
             {members.map((member) => (
               <li key={member.id}>
-                <div className="aspect-square overflow-hidden rounded-2xl bg-muted">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    loading="lazy"
-                    className="h-full w-full object-cover"
-                  />
-                </div>
+                <CmsImage
+                  src={member.image}
+                  alt={member.name}
+                  sizes="(min-width: 1024px) 20vw, (min-width: 640px) 33vw, 50vw"
+                  wrapperClassName="aspect-square rounded-2xl bg-muted"
+                />
                 <p className="mt-3 text-sm font-semibold">{member.name}</p>
                 {member.role && <p className="text-sm text-muted-foreground">{member.role}</p>}
               </li>

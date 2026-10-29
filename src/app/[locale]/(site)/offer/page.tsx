@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 
 import { OfferAgency, PILLAR_ICONS } from "@/components/offer/offer-agency";
@@ -23,6 +24,7 @@ import { ChartGroup12 } from "@/components/chart-group12";
 import { formatNumber } from "@/components/offer/offer-ui";
 import TimelineActivity1 from "@/components/timeline-activity-1";
 import { requireDashboardUser } from "@/lib/dashboard-auth";
+import { ArticleSkeleton } from "@/components/skeletons";
 
 // Static preview of a client offer, fed by JSON fixtures until the dynamic
 // `offers/[client]/[offer-id]` route and its Payload collection exist.
@@ -51,7 +53,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default async function OfferPage() {
+async function OfferPage() {
   // proxy.ts only checks for a session cookie; offers are private.
   await requireDashboardUser();
   return (
@@ -114,5 +116,15 @@ export default async function OfferPage() {
       <OfferTeam offer={offer} team={content.team} />
       <OfferContact trackRecord={content.trackRecord} />
     </main>
+  );
+}
+
+// Private and per user (session cookie), so it renders per request; the
+// layout and this skeleton show immediately.
+export default function OfferPageRoute() {
+  return (
+    <Suspense fallback={<ArticleSkeleton />}>
+      <OfferPage />
+    </Suspense>
   );
 }

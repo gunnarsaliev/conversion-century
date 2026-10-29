@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { headers as getHeaders } from 'next/headers'
 import { getPayload } from 'payload'
@@ -12,7 +13,27 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
-export default async function DocsLayout({
+export default function DocsLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  // The docs content is static; only the signed-in user in the chrome is
+  // per request, so the page shows straight away and the user streams in.
+  return (
+    <Suspense
+      fallback={
+        <Layout isAdmin={false} user={null}>
+          {children}
+        </Layout>
+      }
+    >
+      <DocsLayoutWithUser>{children}</DocsLayoutWithUser>
+    </Suspense>
+  )
+}
+
+async function DocsLayoutWithUser({
   children,
 }: {
   children: React.ReactNode

@@ -1,6 +1,7 @@
-import { cache } from 'react'
 import { getPayload, type PopulateType, type Where } from 'payload'
 import config from '@payload-config'
+
+import { cmsCache } from '@/lib/cms/cache'
 
 type Locale = 'en' | 'bg'
 
@@ -39,12 +40,15 @@ async function hasSlugIn(
 // falls back to the English slug and loads that document in the current
 // locale — so a hardcoded English link still works on the Bulgarian site.
 // Returns null (→ 404) for docs that aren't translated into `locale`.
+// Cached across requests; populated relations can come from media/users.
 export async function findByLocalizedSlug<T extends SluggedCollection>(
   collection: T,
   slug: string,
   locale: string,
   { depth = 1, populate }: { depth?: number; populate?: PopulateType } = {},
 ) {
+  'use cache'
+  cmsCache(collection, 'media', 'users')
   const payload = await getPayload({ config })
 
   const findBySlug = (slugLocale: Locale) =>
@@ -88,8 +92,10 @@ export const translated = { slug: { exists: true } } satisfies Where
 
 // Hardcoded menu links (navbar, footer, home page) point at services,
 // solutions and industries by their English slug. These are the ones not
-// translated into `locale`, which would 404 there. Cached per request.
-export const untranslatedHrefs = cache(async (locale: string) => {
+// translated into `locale`, which would 404 there. Cached across requests.
+export async function untranslatedHrefs(locale: string) {
+  'use cache'
+  cmsCache('services', 'solutions', 'industries')
   const payload = await getPayload({ config })
   const linked = [
     { collection: 'services', basePath: '/services' },
@@ -113,4 +119,4 @@ export const untranslatedHrefs = cache(async (locale: string) => {
     }),
   )
   return hrefs.flat()
-})
+}

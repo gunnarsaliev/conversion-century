@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -7,6 +8,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getOffers, type OfferListItem } from "@/lib/offers";
 import { requireDashboardUser } from "@/lib/dashboard-auth";
+import { ListingPageSkeleton } from "@/components/skeletons";
 
 // Offers are private, so keep them out of search and the sitemap.
 export const metadata: Metadata = {
@@ -24,7 +26,7 @@ const STATUS: Record<
   declined: { label: "Отказана", variant: "destructive" },
 };
 
-export default async function OffersPage() {
+async function OffersPage() {
   // proxy.ts only checks for a session cookie; offers are private.
   await requireDashboardUser();
   const offers = await getOffers();
@@ -90,5 +92,15 @@ export default async function OffersPage() {
         )}
       </div>
     </section>
+  );
+}
+
+// Private and per user (session cookie), so it renders per request; the
+// layout and this skeleton show immediately.
+export default function OffersPageRoute() {
+  return (
+    <Suspense fallback={<ListingPageSkeleton />}>
+      <OffersPage />
+    </Suspense>
   );
 }

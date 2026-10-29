@@ -19,6 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { PostRichText } from "@/components/blog-rich-text";
 import { TableOfContents } from "@/components/table-of-contents";
+import { CmsImage } from "@/components/cms-image";
 
 interface RelatedPost {
   title: string;
@@ -68,11 +69,11 @@ const Blogpost5 = ({
             <li key={post.href}>
               <Link href={post.href} className="group flex gap-3">
                 {post.image && (
-                  <img
+                  <CmsImage
                     src={post.image}
                     alt=""
-                    loading="lazy"
-                    className="size-16 shrink-0 rounded-md border object-cover"
+                    sizes="64px"
+                    wrapperClassName="size-16 shrink-0 rounded-md border"
                   />
                 )}
                 <span className="flex min-w-0 flex-col gap-1">
@@ -150,10 +151,12 @@ const Blogpost5 = ({
         <div className="relative mt-12 grid max-w-7xl gap-14 lg:mt-14 lg:grid lg:grid-cols-12 lg:gap-6">
           <div className="order-1 lg:order-none lg:col-span-8">
             {featuredImage && (
-              <img
+              <CmsImage
                 src={featuredImage}
                 alt={title}
-                className="mt-0 mb-8 aspect-video w-full rounded-lg border object-cover"
+                preload
+                sizes="(min-width: 1024px) 66vw, 100vw"
+                wrapperClassName="mt-0 mb-8 aspect-video w-full rounded-lg border"
               />
             )}
             {content && (

@@ -11,8 +11,6 @@ import staticData from "@/data/offers/static.json";
 import { getOffer } from "@/lib/offers";
 import type { OfferStatic } from "@/types/offer";
 
-export const runtime = "nodejs";
-
 // The badge strip bundled next to the /offer page.
 const CERTIFICATIONS_PATH = path.join(
   process.cwd(),

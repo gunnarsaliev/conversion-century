@@ -2,6 +2,7 @@ import { useTranslations } from "next-intl";
 
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
+import { CmsImage } from "@/components/cms-image";
 
 interface Image {
   src: string;
@@ -63,10 +64,11 @@ const FounderLetter = (props: Props) => {
         <div className="grid gap-10 lg:grid-cols-[minmax(0,320px)_1fr] lg:items-start lg:gap-16">
           {portrait && (
             <div className="mx-auto aspect-3/4 w-full max-w-xs overflow-hidden rounded-2xl bg-muted lg:mx-0">
-              <img
+              <CmsImage
                 src={portrait.src}
                 alt={portrait.alt}
-                className="h-full w-full object-cover"
+                sizes="320px"
+                wrapperClassName="h-full w-full"
               />
             </div>
           )}

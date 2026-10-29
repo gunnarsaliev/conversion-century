@@ -1,14 +1,13 @@
 import { cache } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getLocale } from "next-intl/server";
-import { getPayload } from "payload";
-import config from "@payload-config";
+import { setRequestLocale } from "next-intl/server";
 
 import { Faq28 } from "@/components/faq28";
 import { ClientLogos } from "@/components/client-logos";
 import { Testimonial30 } from "@/components/testimonial30";
 import { getClientTestimonials } from "@/lib/client-testimonials";
+import { slugStaticParams } from "@/lib/cms/slugs";
 import { findByLocalizedSlug } from "@/utilities/findByLocalizedSlug";
 import { Hero297 } from "@/components/hero297";
 import { Feature99 } from "@/components/feature99";
@@ -23,7 +22,7 @@ import { graph, faqSchema, serviceSchema } from "@/lib/seo/schema";
 import { toLocale } from "@/lib/seo/site";
 
 type SolutionDetailPageProps = {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 };
 
 const getSolution = cache((slug: string, locale: string) =>
@@ -38,11 +37,14 @@ function splitParagraphs(text?: string | null) {
     .filter(Boolean);
 }
 
+// Published docs are prerendered at build; new ones render on first visit
+// and are then cached.
+export const generateStaticParams = slugStaticParams("solutions");
+
 export async function generateMetadata({
   params,
 }: SolutionDetailPageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const locale = await getLocale();
+  const { locale, slug } = await params;
   const solution = await getSolution(slug, locale);
 
   if (!solution) return {};
@@ -61,17 +63,16 @@ export async function generateMetadata({
 export default async function SolutionDetailPage({
   params,
 }: SolutionDetailPageProps) {
-  const { slug } = await params;
-  const locale = await getLocale();
+  const { locale, slug } = await params;
+  setRequestLocale(locale);
   const solution = await getSolution(slug, locale);
 
   if (!solution) {
     notFound();
   }
 
-  const payload = await getPayload({ config });
 
-  const testimonials = await getClientTestimonials(payload);
+  const testimonials = await getClientTestimonials();
 
   const {
     hero,

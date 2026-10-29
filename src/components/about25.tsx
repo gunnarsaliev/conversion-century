@@ -12,6 +12,7 @@ import { cn } from "cn";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { CmsImage } from "@/components/cms-image";
 
 interface AboutAgencySection {
   title: string;
@@ -344,10 +345,11 @@ const About25 = (props: Props) => {
           viewport={{ once: true }}
           className="mt-16 overflow-hidden rounded-xl"
         >
-          <img
+          <CmsImage
             src={photo.src}
             alt={photo.alt}
-            className="aspect-video w-full object-cover"
+            sizes="(min-width: 1280px) 1280px, 100vw"
+            wrapperClassName="aspect-video w-full"
           />
         </motion.div>
       )}

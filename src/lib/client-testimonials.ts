@@ -1,4 +1,7 @@
-import type { Payload } from "payload";
+import { getPayload } from "payload";
+import config from "@payload-config";
+
+import { cmsCache } from "@/lib/cms/cache";
 
 import { richTextToPlainText } from "@/lib/rich-text-to-plain-text";
 import type { Client, Contact, Media, Testimonial } from "../../payload-types";
@@ -25,10 +28,13 @@ export const mediaUrl = (value: unknown) => populated<Media>(value)?.url ?? unde
 // Testimonials, Clients and Contacts are admin-only, so this reads with
 // overrideAccess and keeps only the fields that are safe to publish.
 // `featured` limits it to the hand-picked ones, in their set order.
+// Cached across requests.
 export async function getApprovedTestimonials(
-  payload: Payload,
   { featured = false }: { featured?: boolean } = {},
 ): Promise<PublicTestimonial[]> {
+  "use cache";
+  cmsCache("testimonials", "clients", "contacts", "media");
+  const payload = await getPayload({ config });
   const { docs } = await payload.find({
     collection: "testimonials",
     where: {
@@ -54,10 +60,8 @@ export async function getApprovedTestimonials(
   }));
 }
 
-export async function getClientTestimonials(
-  payload: Payload,
-): Promise<ClientTestimonial[]> {
-  const testimonials = await getApprovedTestimonials(payload, { featured: true });
+export async function getClientTestimonials(): Promise<ClientTestimonial[]> {
+  const testimonials = await getApprovedTestimonials({ featured: true });
 
   return testimonials
     .map(({ testimonial, client, contact }): ClientTestimonial | null => {

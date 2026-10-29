@@ -117,6 +117,10 @@ const Hero104 = ({
                 className="aspect-square w-full max-w-[34rem] object-contain"
                 width={600}
                 height={600}
+                // The page's LCP image. Hidden below lg, so mobile only
+                // fetches the smallest variant.
+                preload
+                sizes="(min-width: 1024px) 544px, 1px"
               />
             </div>
           )}

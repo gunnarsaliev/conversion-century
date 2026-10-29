@@ -1,5 +1,4 @@
-import { getPayload } from "payload";
-import config from "@payload-config";
+import { setRequestLocale } from "next-intl/server";
 import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 
 import { Testimonial21, type Testimonial21Item } from "@/components/testimonial21";
@@ -26,10 +25,14 @@ export async function generateMetadata() {
   return staticPageMetadata("reviews");
 }
 
-export default async function ReviewsPage() {
-  const payload = await getPayload({ config });
+export default async function ReviewsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  setRequestLocale((await params).locale);
 
-  const testimonials = await getApprovedTestimonials(payload);
+  const testimonials = await getApprovedTestimonials();
 
   const reviews: Testimonial21Item[] = testimonials
     .filter(({ testimonial, client }) => client && hasText(testimonial.root))

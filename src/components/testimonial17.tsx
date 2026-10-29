@@ -123,6 +123,8 @@ const Testimonial17 = ({
                   <div className="rounded-2xl border p-8 select-none">
                     {item.logoUrl ? (
                       <img
+                        loading="lazy"
+                        decoding="async"
                         src={item.logoUrl}
                         alt={item.name}
                         className="mb-6 h-8 dark:invert"
@@ -167,6 +169,8 @@ const Testimonial17 = ({
               <div className="rounded-2xl border p-8">
                 {items[0].logoUrl ? (
                   <img
+                    loading="lazy"
+                    decoding="async"
                     src={items[0].logoUrl}
                     alt={items[0].name}
                     className="mb-6 h-9 dark:invert"
@@ -201,6 +205,8 @@ const Testimonial17 = ({
                 <div key={index} className="rounded-2xl border p-8">
                   {item.logoUrl ? (
                     <img
+                      loading="lazy"
+                      decoding="async"
                       src={item.logoUrl}
                       alt={item.name}
                       className="mb-6 h-10 dark:invert"

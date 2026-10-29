@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { CmsImage } from "@/components/cms-image";
 
 interface Editor {
   name: string;
@@ -81,10 +82,11 @@ const Team55 = (props: Props) => {
                 key={editor.name}
                 className="flex overflow-hidden rounded-2xl border border-border bg-card"
               >
-                <img
+                <CmsImage
                   src={editor.image}
                   alt={editor.name}
-                  className="min-h-48 w-28 shrink-0 self-stretch object-cover sm:w-36"
+                  sizes="144px"
+                  wrapperClassName="min-h-48 w-28 shrink-0 self-stretch sm:w-36"
                 />
                 <div className="flex flex-col justify-between gap-4 py-6 pr-6 pl-6">
                   <div className="flex flex-col gap-0.5">

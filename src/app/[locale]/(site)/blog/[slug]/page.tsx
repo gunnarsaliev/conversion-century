@@ -1,10 +1,10 @@
-import { cache } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getPayload, type Where } from "payload";
 import config from "@payload-config";
 
+import { cmsCache } from "@/lib/cms/cache";
 import { Blogpost5, type RelatedPost } from "@/components/blogpost5";
 import { JsonLd } from "@/components/json-ld";
 import { buildMetadata, mediaImage, truncate } from "@/lib/seo/metadata";
@@ -12,19 +12,21 @@ import { localizedDocPath, pageBreadcrumbs } from "@/lib/seo/pages";
 import { blogPostingSchema, graph, personSchema } from "@/lib/seo/schema";
 import { authorPath, toLocale } from "@/lib/seo/site";
 import { findByLocalizedSlug, translated } from "@/utilities/findByLocalizedSlug";
-import { blogCategoryPath, isBlogCategory } from "@/lib/blog-categories";
+import { BLOG_CATEGORIES, blogCategoryPath, isBlogCategory } from "@/lib/blog-categories";
 import { getPage, type PageSearchParams } from "@/lib/pagination";
-import { BlogListing, blogListingMetadata } from "../blog-listing";
-import type { Blog, Media } from "../../../../../../payload-types";
+import { SuspendedBlogListing, blogListingMetadata } from "../blog-listing";
+import type { Media } from "../../../../../../payload-types";
 
 const RELATED_COUNT = 4;
 
 // Up to RELATED_COUNT other posts, newest first: same-category posts first,
-// topped up with the latest posts from any category.
+// topped up with the latest posts from any category. Cached across requests.
 async function getRelatedPosts(
-  post: Blog,
+  post: { id: number; categories?: string[] | null },
   locale: string,
 ): Promise<RelatedPost[]> {
+  "use cache";
+  cmsCache("blog", "media");
   const payload = await getPayload({ config });
   const base: Where = {
     ...translated,
@@ -79,27 +81,52 @@ async function getRelatedPosts(
 }
 
 type BlogPostPageProps = {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
   searchParams: PageSearchParams;
 };
 
-// Shared by generateMetadata and the page so the lookup runs once per
-// request.
-const getPost = cache((slug: string, locale: string) =>
+// Shared by generateMetadata and the page; findByLocalizedSlug is cached.
+const getPost = (slug: string, locale: string) =>
   // depth 2 so the author's profileImage comes back as a Media doc (avatar).
-  findByLocalizedSlug("blog", slug, locale, { depth: 2 }),
-);
+  findByLocalizedSlug("blog", slug, locale, { depth: 2 });
+
+// Category pages and every published post are prerendered at build time;
+// posts published later render on first visit and are then cached.
+export async function generateStaticParams({
+  params,
+}: {
+  params: { locale: string };
+}) {
+  return [
+    ...BLOG_CATEGORIES.map((slug) => ({ slug })),
+    ...(await getPostSlugs(params.locale)).map((slug) => ({ slug })),
+  ];
+}
+
+async function getPostSlugs(locale: string) {
+  "use cache";
+  cmsCache("blog");
+  const payload = await getPayload({ config });
+  const { docs } = await payload.find({
+    collection: "blog",
+    locale: locale as "en" | "bg",
+    where: { ...translated, _status: { equals: "published" } },
+    depth: 0,
+    pagination: false,
+    select: { slug: true },
+  });
+  return docs.flatMap((doc) => (doc.slug ? [doc.slug] : []));
+}
 
 export async function generateMetadata({
   params,
   searchParams,
 }: BlogPostPageProps): Promise<Metadata> {
-  const { slug } = await params;
+  const { locale, slug } = await params;
   // /blog/<category> is the blog listing filtered to that category.
   if (isBlogCategory(slug)) {
     return blogListingMetadata(await getPage(searchParams), slug);
   }
-  const locale = await getLocale();
   const post = await getPost(slug, locale);
 
   if (!post) return {};
@@ -120,11 +147,11 @@ export default async function BlogPostPage({
   params,
   searchParams,
 }: BlogPostPageProps) {
-  const { slug } = await params;
+  const { locale, slug } = await params;
+  setRequestLocale(locale);
   if (isBlogCategory(slug)) {
-    return <BlogListing page={await getPage(searchParams)} category={slug} />;
+    return <SuspendedBlogListing locale={locale} searchParams={searchParams} category={slug} />;
   }
-  const locale = await getLocale();
   const post = await getPost(slug, locale);
 
   if (!post) {
@@ -169,7 +196,10 @@ export default async function BlogPostPage({
 
   const seoLocale = toLocale(locale);
   const path = await localizedDocPath("blog", post.id, "/blog");
-  const relatedPosts = await getRelatedPosts(post, locale);
+  const relatedPosts = await getRelatedPosts(
+    { id: post.id, categories: post.categories },
+    locale,
+  );
 
   return (
     <>

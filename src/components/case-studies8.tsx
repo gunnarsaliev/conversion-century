@@ -13,6 +13,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import { CmsImage } from "@/components/cms-image";
 
 interface CaseStudiesCarouselItem {
   id: string;
@@ -195,10 +196,12 @@ const CaseStudies8 = (props: Props) => {
                 <Link href={item.href} className="group block rounded-xl">
                   <div className="group relative aspect-4/3 w-full max-w-full overflow-hidden rounded-xl bg-muted-foreground">
                     {item.image && (
-                      <img
+                      <CmsImage
                         src={item.image}
                         alt={item.title}
-                        className="absolute h-full w-full object-cover object-left transition-transform duration-300 group-hover:scale-105"
+                        sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                        wrapperClassName="absolute inset-0"
+                        className="object-left transition-transform duration-300 group-hover:scale-105"
                       />
                     )}
                     <div className="absolute inset-0 h-full bg-linear-to-t from-black/80 via-black/28 to-transparent" />
@@ -208,6 +211,8 @@ const CaseStudies8 = (props: Props) => {
                           // Translucent white plate so dark logos stay readable on the photo.
                           <span className="inline-flex items-center rounded-md bg-white/80 px-3 py-1.5 backdrop-blur-sm">
                             <img
+                              loading="lazy"
+                              decoding="async"
                               src={item.logo}
                               alt={item.logoAlt ?? ""}
                               className="max-h-7 w-auto max-w-[140px] object-contain object-left md:max-h-8 md:max-w-[160px]"

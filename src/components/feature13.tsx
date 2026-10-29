@@ -13,6 +13,7 @@ import { useTranslations } from "next-intl";
 import { cn } from "cn";
 
 import { Link } from "@/i18n/navigation";
+import { CmsImage } from "@/components/cms-image";
 
 interface FeatureCardListItem {
   title: string;
@@ -128,10 +129,12 @@ const Feature13 = (props: Props) => {
                 </div>
                 <div className="w-2/5 shrink-0 rounded-r-lg border-l md:w-1/3">
                   <Link href={feature.href ?? "#"}>
-                    <img
+                    <CmsImage
                       src={feature.image.src}
                       alt={feature.image.alt}
-                      className="aspect-4/3 h-full w-full rounded-t-lg object-cover object-top transition-opacity hover:opacity-80"
+                      sizes="(min-width: 768px) 20vw, 40vw"
+                      wrapperClassName="aspect-4/3 h-full w-full rounded-t-lg"
+                      className="object-top transition-opacity hover:opacity-80"
                     />
                   </Link>
                 </div>

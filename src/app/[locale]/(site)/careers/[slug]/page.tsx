@@ -1,7 +1,7 @@
 import { cache } from 'react'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getLocale } from 'next-intl/server'
+import { setRequestLocale } from 'next-intl/server'
 
 import JobListing from '@/components/job-listing'
 import { JsonLd } from '@/components/json-ld'
@@ -10,11 +10,12 @@ import { buildMetadata, truncate } from '@/lib/seo/metadata'
 import { localizedDocPath, pageBreadcrumbs } from '@/lib/seo/pages'
 import { graph, jobPostingSchema } from '@/lib/seo/schema'
 import { toLocale } from '@/lib/seo/site'
+import { slugStaticParams } from '@/lib/cms/slugs'
 import { findByLocalizedSlug } from '@/utilities/findByLocalizedSlug'
 import type { JobListing as JobListingDoc } from '../../../../../../payload-types'
 
 type PageProps = {
-  params: Promise<{ slug: string }>
+  params: Promise<{ locale: string; slug: string }>
 }
 
 // Shared by generateMetadata and the page so the lookup runs once per
@@ -33,9 +34,12 @@ const plainDescription = (listing: JobListingDoc) =>
     .filter(Boolean)
     .join(' ')
 
+// Published docs are prerendered at build; new ones render on first visit
+// and are then cached.
+export const generateStaticParams = slugStaticParams('job-listings')
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { slug } = await params
-  const locale = await getLocale()
+  const { locale, slug } = await params
   const listing = await getListing(slug, locale)
 
   if (!listing) return {}
@@ -49,8 +53,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function Page({ params }: PageProps) {
-  const { slug } = await params
-  const locale = await getLocale()
+  const { locale, slug } = await params
+  setRequestLocale(locale)
   const listing = await getListing(slug, locale)
 
   if (!listing) {

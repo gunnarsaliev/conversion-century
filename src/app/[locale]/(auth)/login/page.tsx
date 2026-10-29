@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { headers as getHeaders } from "next/headers";
 import { getLocale } from "next-intl/server";
 import { redirect } from "@/i18n/navigation";
@@ -20,11 +21,20 @@ function stripLocalePrefix(pathname: string): string {
   return pathname;
 }
 
-export default async function LoginPage({
-  searchParams,
-}: {
+type LoginPageProps = {
   searchParams: Promise<{ redirect?: string }>;
-}) {
+};
+
+// Reads the session and ?redirect=, so it renders per request.
+export default function LoginPage(props: LoginPageProps) {
+  return (
+    <Suspense>
+      <Login {...props} />
+    </Suspense>
+  );
+}
+
+async function Login({ searchParams }: LoginPageProps) {
   const headers = await getHeaders();
   const payload = await getPayload({ config });
   const { user } = await payload.auth({ headers });

@@ -1,6 +1,4 @@
-import { getTranslations } from "next-intl/server";
-import { getPayload } from "payload";
-import config from "@payload-config";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { convertLexicalToPlaintext } from "@payloadcms/richtext-lexical/plaintext";
 
 import { BookADemo2 } from "@/components/book-a-demo2";
@@ -21,11 +19,15 @@ export async function generateMetadata() {
   return staticPageMetadata("bookAConsultation");
 }
 
-export default async function BookAConsultationPage() {
-  const payload = await getPayload({ config });
+export default async function BookAConsultationPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  setRequestLocale((await params).locale);
   const t = await getTranslations("Consultation.page");
 
-  const featured = await getApprovedTestimonials(payload, { featured: true });
+  const featured = await getApprovedTestimonials({ featured: true });
 
   const testimonials = featured
     .filter(({ client }) => client !== null)

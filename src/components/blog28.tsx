@@ -5,6 +5,7 @@ import { cn } from "cn";
 
 import { Link } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
+import { CmsImage } from "@/components/cms-image";
 
 interface Post {
   date: string;
@@ -143,10 +144,13 @@ const Blog28 = ({
               href={items[0].link}
               className="block h-fit rounded-lg bg-card p-3 shadow-md transition-shadow hover:shadow-lg md:top-0"
             >
-              <img
+              <CmsImage
                 src={items[0].image}
                 alt={items[0].title}
-                className="h-48 w-full rounded-lg object-cover hover:opacity-80 md:h-80 lg:h-96"
+                preload
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                wrapperClassName="h-48 w-full rounded-lg md:h-80 lg:h-96"
+                className="hover:opacity-80"
               />
               <div className="mt-5">
                 <CategoryBadges categories={items[0].categories} />
@@ -164,10 +168,12 @@ const Blog28 = ({
           </div>
           {items.slice(1).map((post, idx) => (
             <Link key={idx} href={post.link} className="rounded-lg bg-card p-3 shadow-md transition-shadow hover:shadow-lg">
-              <img
+              <CmsImage
                 src={post.image}
                 alt={post.title}
-                className="h-48 w-full rounded-lg object-cover hover:opacity-80"
+                sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                wrapperClassName="h-48 w-full rounded-lg"
+                className="hover:opacity-80"
               />
               <div className="mt-5">
                 <CategoryBadges categories={post.categories} />

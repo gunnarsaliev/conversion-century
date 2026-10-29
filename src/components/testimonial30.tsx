@@ -106,6 +106,8 @@ const Testimonial30 = ({ testimonials, className }: Testimonial30Props) => {
                     {testimonial.logoUrl && (
                       <span className="flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-lg border bg-white p-1">
                         <img
+                          loading="lazy"
+                          decoding="async"
                           src={testimonial.logoUrl}
                           alt=""
                           className="max-h-full max-w-full object-contain"
@@ -125,6 +127,8 @@ const Testimonial30 = ({ testimonials, className }: Testimonial30Props) => {
                 {testimonial.logoUrl && (
                   <div className="flex aspect-square w-full max-w-52 shrink-0 items-center justify-center rounded-lg border bg-white p-8">
                     <img
+                      loading="lazy"
+                      decoding="async"
                       src={testimonial.logoUrl}
                       alt={testimonial.company}
                       className="max-h-full max-w-full object-contain"

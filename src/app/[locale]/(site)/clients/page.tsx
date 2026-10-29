@@ -1,7 +1,8 @@
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
+import { cmsCache } from "@/lib/cms/cache";
 import { Integration37, type Integration37Pill } from "@/components/integration37";
 import type { Industry, Media } from "../../../../../payload-types";
 import { Hero237 } from "@/components/hero237";
@@ -31,13 +32,12 @@ export async function generateMetadata() {
   return staticPageMetadata("clients");
 }
 
-export default async function ClientsPage() {
-  const locale = await getLocale();
+// Cached across requests; refreshed when the collection changes.
+async function getClientsByIndustry(locale: string) {
+  "use cache";
+  cmsCache("clients", "industries", "media");
   const payload = await getPayload({ config });
-  const t = await getTranslations("ClientsPage");
-  const tCommon = await getTranslations("Common");
-
-  const { docs: clients } = await payload.find({
+  return payload.find({
     collection: "clients",
     locale: locale as "en" | "bg",
     // Clients without industries are skipped below.
@@ -56,6 +56,58 @@ export default async function ClientsPage() {
       industries: { title: true, _status: true },
     },
   });
+}
+
+async function getPublicClientLogos(locale: string) {
+  "use cache";
+  cmsCache("clients", "media");
+  const payload = await getPayload({ config });
+  return payload.find({
+    collection: "clients",
+    where: {
+      and: [{ showOnWebsite: { equals: true } }, { logo: { exists: true } }],
+    },
+    depth: 1,
+    limit: 21,
+    sort: "companyName",
+    select: {
+      companyName: true,
+      logo: true,
+    },
+  });
+}
+
+async function getPastClients(locale: string) {
+  "use cache";
+  cmsCache("clients", "industries");
+  const payload = await getPayload({ config });
+  return payload.find({
+    collection: "clients",
+    locale: locale as "en" | "bg",
+    where: { status: { not_in: [...LEAD_STATUSES] } },
+    depth: 1,
+    pagination: false,
+    select: {
+      businessSize: true,
+      industries: true,
+    },
+    populate: {
+      industries: { title: true, _status: true },
+    },
+  });
+}
+
+export default async function ClientsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("ClientsPage");
+  const tCommon = await getTranslations("Common");
+
+  const { docs: clients } = await getClientsByIndustry(locale);
 
   // Industry title -> its clients. A client with several industries is
   // listed under each of them.
@@ -83,19 +135,7 @@ export default async function ClientsPage() {
   );
 
   // Hero logos: only clients explicitly flagged as public on the website.
-  const { docs: publicClients } = await payload.find({
-    collection: "clients",
-    where: {
-      and: [{ showOnWebsite: { equals: true } }, { logo: { exists: true } }],
-    },
-    depth: 1,
-    limit: 21,
-    sort: "companyName",
-    select: {
-      companyName: true,
-      logo: true,
-    },
-  });
+  const { docs: publicClients } = await getPublicClientLogos(locale);
 
   const heroLogos = publicClients.flatMap((client) => {
     const logo =
@@ -107,20 +147,7 @@ export default async function ClientsPage() {
 
   // "Our experience" stats: every client we've worked with (not leads).
   // Only aggregate percentages leave the server, never individual records.
-  const { docs: pastClients } = await payload.find({
-    collection: "clients",
-    locale: locale as "en" | "bg",
-    where: { status: { not_in: [...LEAD_STATUSES] } },
-    depth: 1,
-    pagination: false,
-    select: {
-      businessSize: true,
-      industries: true,
-    },
-    populate: {
-      industries: { title: true, _status: true },
-    },
-  });
+  const { docs: pastClients } = await getPastClients(locale);
 
   const sizedClients = pastClients.filter((client) => client.businessSize);
   const sizeData: ChartCard5Item[] = BUSINESS_SIZES.map((size, index) => {

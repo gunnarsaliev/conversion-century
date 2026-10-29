@@ -1,12 +1,14 @@
 import { cache } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
-import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
+
+import { cmsCache } from "@/lib/cms/cache";import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 
 import { IndustryDetail } from "@/components/industry-detail";
+import { slugStaticParams } from "@/lib/cms/slugs";
 import { findByLocalizedSlug } from "@/utilities/findByLocalizedSlug";
 import { richTextToPlainText } from "@/lib/rich-text-to-plain-text";
 import type { Media } from "../../../../../../payload-types";
@@ -17,7 +19,7 @@ import { graph, serviceSchema } from "@/lib/seo/schema";
 import { toLocale } from "@/lib/seo/site";
 
 type IndustryPageProps = {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 };
 
 // Local API bypasses access control, so hide drafts explicitly.
@@ -26,11 +28,14 @@ const getIndustry = cache(async (slug: string, locale: string) => {
   return industry?._status === "published" ? industry : null;
 });
 
+// Published docs are prerendered at build; new ones render on first visit
+// and are then cached.
+export const generateStaticParams = slugStaticParams("industries");
+
 export async function generateMetadata({
   params,
 }: IndustryPageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const locale = await getLocale();
+  const { locale, slug } = await params;
   const industry = await getIndustry(slug, locale);
 
   if (!industry) return {};
@@ -48,27 +53,20 @@ export async function generateMetadata({
   });
 }
 
-export default async function IndustryPage({ params }: IndustryPageProps) {
-  const { slug } = await params;
-  const locale = await getLocale();
-  const industry = await getIndustry(slug, locale);
-
-  if (!industry) {
-    notFound();
-  }
-
+// Only clients flagged as public on the website, and only their name and
+// logo — Clients is admin-only CRM data and the local API bypasses access
+// control. Cached across requests.
+async function getIndustryClients(industryId: number) {
+  "use cache";
+  cmsCache("clients", "media");
   const payload = await getPayload({ config });
-
-  // Only clients flagged as public on the website, and only their name and
-  // logo — Clients is admin-only CRM data and the local API bypasses access
-  // control.
-  const { docs: clients } = await payload.find({
+  return payload.find({
     collection: "clients",
     where: {
       and: [
         { showOnWebsite: { equals: true } },
         { logo: { exists: true } },
-        { industries: { in: [industry.id] } },
+        { industries: { in: [industryId] } },
       ],
     },
     depth: 1,
@@ -79,6 +77,18 @@ export default async function IndustryPage({ params }: IndustryPageProps) {
       logo: true,
     },
   });
+}
+
+export default async function IndustryPage({ params }: IndustryPageProps) {
+  const { locale, slug } = await params;
+  setRequestLocale(locale);
+  const industry = await getIndustry(slug, locale);
+
+  if (!industry) {
+    notFound();
+  }
+
+  const { docs: clients } = await getIndustryClients(industry.id);
 
   const image =
     industry.image && typeof industry.image === "object"

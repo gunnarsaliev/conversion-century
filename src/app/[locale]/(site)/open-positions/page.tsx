@@ -1,7 +1,8 @@
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
+import { cmsCache } from "@/lib/cms/cache";
 import { Careers2, type Careers2Job } from "@/components/careers2";
 import { StaticPageJsonLd } from "@/components/static-page-json-ld";
 import { staticPageMetadata } from "@/lib/seo/pages";
@@ -11,12 +12,12 @@ export async function generateMetadata() {
   return staticPageMetadata("openPositions");
 }
 
-export default async function OpenPositionsPage() {
-  const locale = await getLocale();
+// Cached across requests; refreshed when the collection changes.
+async function getJobListings(locale: string) {
+  "use cache";
+  cmsCache("job-listings");
   const payload = await getPayload({ config });
-  const t = await getTranslations("Careers");
-
-  const { docs: listings } = await payload.find({
+  return payload.find({
     collection: "job-listings",
     locale: locale as "en" | "bg",
     where: translated,
@@ -25,6 +26,18 @@ export default async function OpenPositionsPage() {
     sort: "-createdAt",
     select: { title: true, slug: true, type: true, location: true },
   });
+}
+
+export default async function OpenPositionsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("Careers");
+
+  const { docs: listings } = await getJobListings(locale);
 
   const jobs: Careers2Job[] = listings.map((listing) => ({
     title: listing.title,

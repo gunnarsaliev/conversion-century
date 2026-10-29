@@ -3,9 +3,7 @@ import type { Metadata } from "next";
 import { Check } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { notFound } from "next/navigation";
-import { getLocale, getTranslations } from "next-intl/server";
-import { getPayload } from "payload";
-import config from "@payload-config";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { Faq28 } from "@/components/faq28";
 import { Hero104 } from "@/components/hero104";
@@ -13,6 +11,7 @@ import { getHomeHero } from "@/lib/home-hero";
 import { ClientLogos } from "@/components/client-logos";
 import { Testimonial30 } from "@/components/testimonial30";
 import { getClientTestimonials } from "@/lib/client-testimonials";
+import { slugStaticParams } from "@/lib/cms/slugs";
 import { findByLocalizedSlug } from "@/utilities/findByLocalizedSlug";
 import { Hero297 } from "@/components/hero297";
 import { Feature67 } from "@/components/feature67";
@@ -28,7 +27,7 @@ import { graph, faqSchema, serviceSchema } from "@/lib/seo/schema";
 import { toLocale } from "@/lib/seo/site";
 
 type ServiceDetailPageProps = {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 };
 
 type ListItem = { text: string; id?: string | null };
@@ -97,11 +96,14 @@ function HeadingListSection({ section }: { section?: HeadingSection | null }) {
   );
 }
 
+// Published docs are prerendered at build; new ones render on first visit
+// and are then cached.
+export const generateStaticParams = slugStaticParams("services");
+
 export async function generateMetadata({
   params,
 }: ServiceDetailPageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const locale = await getLocale();
+  const { locale, slug } = await params;
   const service = await getService(slug, locale);
 
   if (!service) return {};
@@ -118,8 +120,8 @@ export async function generateMetadata({
 export default async function ServiceDetailPage({
   params,
 }: ServiceDetailPageProps) {
-  const { slug } = await params;
-  const locale = await getLocale();
+  const { locale, slug } = await params;
+  setRequestLocale(locale);
   const service = await getService(slug, locale);
 
   if (!service) {
@@ -129,9 +131,8 @@ export default async function ServiceDetailPage({
   const image =
     service.image && typeof service.image === "object" ? service.image : null;
 
-  const payload = await getPayload({ config });
 
-  const testimonials = await getClientTestimonials(payload);
+  const testimonials = await getClientTestimonials();
   const homeHero = await getHomeHero();
   const t = await getTranslations("ServicesPage");
   const tCommon = await getTranslations("Common");

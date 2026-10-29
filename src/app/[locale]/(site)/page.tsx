@@ -1,7 +1,8 @@
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
+import { cmsCache } from "@/lib/cms/cache";
 import { Hero104 } from "@/components/hero104";
 import { getHomeHero } from "@/lib/home-hero";
 import { ClientLogos } from "@/components/client-logos";
@@ -39,11 +40,12 @@ export async function generateMetadata() {
   return staticPageMetadata("home");
 }
 
-export default async function WebsitePage() {
-  const locale = await getLocale();
-  const hiddenHrefs = await untranslatedHrefs(locale);
+// Everything the home page reads from Payload. Cached across requests; read
+// times are returned in minutes and formatted by the page.
+async function getHomeContent(locale: string) {
+  "use cache";
+  cmsCache("industries", "blog", "case-studies", "clients", "users", "media");
   const payload = await getPayload({ config });
-  const tCommon = await getTranslations("Common");
 
   // Published industries for the Feature13 cards — which cards to show and
   // their images — keyed by the cards' internal hrefs (/industries/<en slug>).
@@ -64,10 +66,6 @@ export default async function WebsitePage() {
     return [{ href: `/industries/${industry.slug}`, image: image?.url ?? undefined }];
   });
 
-  const testimonials: Testimonial17Item[] = (
-    await getClientTestimonials(payload)
-  ).map(({ quote, name, role, logoUrl }) => ({ quote, name, role, logoUrl }));
-
   const { docs: blogPosts } = await payload.find({
     collection: "blog",
     locale: locale as "en" | "bg",
@@ -82,13 +80,12 @@ export default async function WebsitePage() {
     // published posts, so this still only ever serves public content.
   });
 
-  const blogItems: Blog12Post[] = blogPosts.map((post) => {
+  const blogItems = blogPosts.map((post) => {
     const image =
       post.featuredImage && typeof post.featuredImage === "object"
         ? (post.featuredImage as Media)
         : null;
     const wordCount = richTextToPlainText(post.content).split(/\s+/).filter(Boolean).length;
-    const readTime = Math.max(1, Math.round(wordCount / WORDS_PER_MINUTE));
 
     return {
       title: post.title,
@@ -96,7 +93,7 @@ export default async function WebsitePage() {
       image: image?.url ?? undefined,
       author: authorName(post.author),
       authorAvatar: authorAvatar(post.author),
-      readTime: tCommon("readTime", { minutes: readTime }),
+      readMinutes: Math.max(1, Math.round(wordCount / WORDS_PER_MINUTE)),
       link: `/blog/${post.slug ?? post.id}`,
     };
   });
@@ -142,6 +139,34 @@ export default async function WebsitePage() {
       image: image?.url ?? undefined,
     };
   });
+
+  return { industryCards, blogItems, caseStudyItems };
+}
+
+export default async function WebsitePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
+  const [hiddenHrefs, content, clientTestimonials, tCommon] = await Promise.all([
+    untranslatedHrefs(locale),
+    getHomeContent(locale),
+    getClientTestimonials(),
+    getTranslations("Common"),
+  ]);
+  const { industryCards, caseStudyItems } = content;
+
+  const testimonials: Testimonial17Item[] = clientTestimonials.map(
+    ({ quote, name, role, logoUrl }) => ({ quote, name, role, logoUrl }),
+  );
+
+  const blogItems: Blog12Post[] = content.blogItems.map(({ readMinutes, ...post }) => ({
+    ...post,
+    readTime: tCommon("readTime", { minutes: readMinutes }),
+  }));
 
   return (
     <>

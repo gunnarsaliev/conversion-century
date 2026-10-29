@@ -55,6 +55,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import { CmsImage } from "@/components/cms-image";
 // Menu text lives in the `Navbar` messages: `<group>.items.<key>` (and
 // `.description` for services, shown in the mobile menu).
 const platformFeatures = [
@@ -448,10 +449,11 @@ const Navbar3 = ({
                             className="flex h-full flex-col overflow-clip rounded-lg border border-muted outline-none focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-1"
                           >
                             <div className="aspect-square w-full overflow-hidden border-b border-muted">
-                              <img
+                              <CmsImage
                                 src={post.image}
                                 alt={post.alt}
-                                className="h-full w-full object-cover object-center"
+                                sizes="240px"
+                                wrapperClassName="h-full w-full"
                               />
                             </div>
                             <div className="p-3">
@@ -755,10 +757,11 @@ const Navbar3 = ({
                                 className="block overflow-clip rounded-lg border border-border outline-none focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-1"
                               >
                                 <div className="aspect-square w-full overflow-hidden border-b border-border">
-                                  <img
+                                  <CmsImage
                                     src={post.image}
                                     alt={post.alt}
-                                    className="h-full w-full object-cover object-center"
+                                    sizes="(min-width: 640px) 50vw, 100vw"
+                                    wrapperClassName="h-full w-full"
                                   />
                                 </div>
                                 <div className="p-4">

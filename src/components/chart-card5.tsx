@@ -55,7 +55,12 @@ const ChartCard5 = ({
       <CardContent>
         <div className="flex items-center justify-center gap-8">
           <div className="relative size-40">
-            <ResponsiveContainer width="100%" height="100%">
+            {/* size-40 = 160px; used on the server, before it can measure. */}
+            <ResponsiveContainer
+              width="100%"
+              height="100%"
+              initialDimension={{ width: 160, height: 160 }}
+            >
               <PieChart>
                 <Pie
                   data={data}

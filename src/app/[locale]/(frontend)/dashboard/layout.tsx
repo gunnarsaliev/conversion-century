@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { headers as getHeaders } from "next/headers";
 import { NextIntlClientProvider } from "next-intl";
@@ -5,6 +6,7 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 
 import { DashboardLayout } from "@/components/dashboard16-layout";
+import { DashboardSkeleton } from "@/components/skeletons";
 import type { UserData } from "@/components/dashboard16-layout";
 import { getNotificationsForUser, type NotificationFeed } from "@/lib/notifications";
 import { getDashboardLocale, getDashboardMessages } from "@/lib/dashboard-locale";
@@ -15,7 +17,21 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default async function Dashboard({
+// Everything here is per user (session cookie, dashboard language), so it
+// renders per request behind a skeleton of the dashboard shell.
+export default function Dashboard({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <Suspense fallback={<DashboardSkeleton />}>
+      <DashboardWithUser>{children}</DashboardWithUser>
+    </Suspense>
+  );
+}
+
+async function DashboardWithUser({
   children,
 }: {
   children: React.ReactNode;

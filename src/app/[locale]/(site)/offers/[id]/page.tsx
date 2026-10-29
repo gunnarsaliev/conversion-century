@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -7,6 +8,7 @@ import { getClientLogos } from "@/lib/client-logos";
 import { getOffer } from "@/lib/offers";
 import type { OfferStatic } from "@/types/offer";
 import { getDashboardUser, requireDashboardUser } from "@/lib/dashboard-auth";
+import { ArticleSkeleton } from "@/components/skeletons";
 
 type OfferPageProps = {
   params: Promise<{ id: string }>;
@@ -24,7 +26,7 @@ export async function generateMetadata({ params }: OfferPageProps): Promise<Meta
 }
 
 // One client's offer, from the `offers` collection.
-export default async function OfferPage({ params }: OfferPageProps) {
+async function OfferPage({ params }: OfferPageProps) {
   // proxy.ts only checks for a session cookie; offers are private.
   await requireDashboardUser();
   const { id } = await params;
@@ -38,5 +40,15 @@ export default async function OfferPage({ params }: OfferPageProps) {
       pdfHref={`/offers/${id}/pdf`}
       clientLogos={clientLogos}
     />
+  );
+}
+
+// Private and per user (session cookie), so it renders per request; the
+// layout and this skeleton show immediately.
+export default function OfferPageRoute(props: React.ComponentProps<typeof OfferPage>) {
+  return (
+    <Suspense fallback={<ArticleSkeleton />}>
+      <OfferPage {...props} />
+    </Suspense>
   );
 }

@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next'
+import { cacheLife, cacheTag } from 'next/cache'
 import { getPayload, type Where } from 'payload'
 import config from '@payload-config'
 
@@ -12,8 +13,6 @@ import {
   type Locale,
   type LocalizedPath,
 } from '@/lib/seo/site'
-
-export const revalidate = 3600 // 1 hour
 
 const published: Where = { _status: { equals: 'published' } }
 
@@ -67,6 +66,9 @@ function entries(
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  'use cache'
+  cacheLife('hours')
+  cacheTag('sitemap')
   const payload = await getPayload({ config })
 
   const staticEntries = Object.values(STATIC_PAGES).flatMap((path) =>

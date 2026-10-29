@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { headers as getHeaders } from "next/headers";
 import { notFound } from "next/navigation";
@@ -8,6 +9,7 @@ import { OfferForm } from "@/components/offer/offer-form";
 import type { OfferFormOptions } from "@/lib/offer-form";
 import { isAdmin } from "@/lib/roles";
 import { primaryContactName } from "@/lib/primary-contact";
+import { ArticleSkeleton } from "@/components/skeletons";
 
 export const metadata: Metadata = {
   title: "Нова оферта",
@@ -18,7 +20,7 @@ export const metadata: Metadata = {
 const OFFER_LOCALE = "bg";
 
 // Creates a record in the `offers` collection (admins only, like the admin panel).
-export default async function NewOfferPage() {
+async function NewOfferPage() {
   const payload = await getPayload({ config });
   const { user } = await payload.auth({ headers: await getHeaders() });
   if (!isAdmin(user)) notFound();
@@ -73,5 +75,15 @@ export default async function NewOfferPage() {
         />
       </div>
     </section>
+  );
+}
+
+// Private and per user (session cookie), so it renders per request; the
+// layout and this skeleton show immediately.
+export default function NewOfferPageRoute() {
+  return (
+    <Suspense fallback={<ArticleSkeleton />}>
+      <NewOfferPage />
+    </Suspense>
   );
 }

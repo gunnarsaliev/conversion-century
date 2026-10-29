@@ -12,6 +12,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { CmsImage } from "@/components/cms-image";
 
 interface IndustryDetailClient {
   name: string;
@@ -82,6 +83,8 @@ const IndustryDetail = ({
                     className="flex items-center rounded-full border border-border bg-card px-5 py-2.5"
                   >
                     <img
+                      loading="lazy"
+                      decoding="async"
                       src={client.logo}
                       alt={client.name}
                       title={client.name}
@@ -94,10 +97,11 @@ const IndustryDetail = ({
           )}
 
           {image && (
-            <img
+            <CmsImage
               src={image}
               alt={title}
-              className="mt-10 aspect-video w-full rounded-lg object-cover"
+              sizes="(min-width: 1280px) 1280px, 100vw"
+              wrapperClassName="mt-10 aspect-video w-full rounded-lg"
             />
           )}
 

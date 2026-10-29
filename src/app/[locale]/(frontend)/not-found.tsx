@@ -1,3 +1,7 @@
+'use client'
+
+// A client component so Link takes the locale from the provider; the
+// server Link would read it from the request, which not-found can't.
 import { Link } from '@/i18n/navigation'
 
 export default function NotFound() {

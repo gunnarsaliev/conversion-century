@@ -1,4 +1,4 @@
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import {
   AboutCollaboration,
@@ -19,7 +19,12 @@ export async function generateMetadata() {
   return staticPageMetadata("about");
 }
 
-export default async function AboutPage() {
+export default async function AboutPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  setRequestLocale((await params).locale);
   const members = await getTeamMembers(undefined, true);
   const t = await getTranslations("About.leadership");
 

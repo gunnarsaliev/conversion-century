@@ -1,16 +1,19 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
+import { cmsCache } from "@/lib/cms/cache";
+import { BlogGridSkeleton, PageHeaderSkeleton } from "@/components/skeletons";
 import { Blog28, type Blog28Post } from "@/components/blog28";
 import { BlogCategoryFilter } from "@/components/blog-category-filter";
 import { JsonLd } from "@/components/json-ld";
 import { PaginationNav } from "@/components/pagination-nav";
 import { StaticPageJsonLd } from "@/components/static-page-json-ld";
 import { BLOG_CATEGORIES, blogCategoryPath, type BlogCategory } from "@/lib/blog-categories";
-import { PAGE_SIZE, paginatedMetadata } from "@/lib/pagination";
+import { PAGE_SIZE, getPage, paginatedMetadata, type PageSearchParams } from "@/lib/pagination";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { getSeoLocale, pageBreadcrumbs, staticPageMetadata } from "@/lib/seo/pages";
 import { graph } from "@/lib/seo/schema";
@@ -53,16 +56,43 @@ export async function blogListingMetadata(
   return paginatedMetadata(metadata, page, t("page", { page }));
 }
 
-export async function BlogListing({
-  page,
-  category,
-}: {
-  page: number;
+// The listing with its ?page= read per request: the layout and this
+// skeleton are prerendered, and the (cached) posts stream in.
+export function SuspendedBlogListing(props: {
+  locale: string;
+  searchParams: PageSearchParams;
   category?: BlogCategory;
 }) {
-  const locale = await getLocale();
+  return (
+    <Suspense
+      fallback={
+        <div className="py-32" aria-busy="true">
+          <PageHeaderSkeleton />
+          <BlogGridSkeleton />
+        </div>
+      }
+    >
+      <BlogListingPage {...props} />
+    </Suspense>
+  );
+}
+
+async function BlogListingPage({
+  searchParams,
+  ...props
+}: {
+  locale: string;
+  searchParams: PageSearchParams;
+  category?: BlogCategory;
+}) {
+  return <BlogListing {...props} page={await getPage(searchParams)} />;
+}
+
+// Cached across requests; refreshed when a post changes.
+async function getBlogListing(locale: string, page: number, category?: BlogCategory) {
+  "use cache";
+  cmsCache("blog", "users", "media");
   const payload = await getPayload({ config });
-  const tCategories = await getTranslations("BlogCategories");
 
   // Every category with at least one post in this locale, for the filter.
   const { docs: categorized } = await payload.find({
@@ -88,6 +118,21 @@ export async function BlogListing({
     // own `read` access already restricts logged-out visitors to
     // published posts, so this still only ever serves public content.
   });
+
+  return { categories, posts, totalPages };
+}
+
+export async function BlogListing({
+  locale,
+  page,
+  category,
+}: {
+  locale: string;
+  page: number;
+  category?: BlogCategory;
+}) {
+  const tCategories = await getTranslations("BlogCategories");
+  const { categories, posts, totalPages } = await getBlogListing(locale, page, category);
 
   if (page > 1 && page > totalPages) notFound();
 

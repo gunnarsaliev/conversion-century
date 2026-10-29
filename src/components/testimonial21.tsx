@@ -78,6 +78,8 @@ const Testimonial21 = ({ testimonials, className }: Testimonial21Props) => {
             const logo = company.logo ? (
               // eslint-disable-next-line @next/next/no-img-element -- client logos have no known dimensions; sized by height via CSS.
               <img
+                loading="lazy"
+                decoding="async"
                 src={company.logo}
                 alt={t("logoAlt", { name: company.name })}
                 className="h-9 w-auto max-w-[140px] object-contain object-left dark:invert"

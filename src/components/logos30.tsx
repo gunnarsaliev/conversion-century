@@ -95,6 +95,8 @@ const Logos30 = (props: Props) => {
               className="flex h-16 items-center justify-center"
             >
               <img
+                loading="lazy"
+                decoding="async"
                 src={logo.src}
                 alt={logo.alt}
                 // `m-0` so a surrounding `prose` doesn't add its image margins.

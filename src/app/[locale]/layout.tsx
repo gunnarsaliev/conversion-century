@@ -55,7 +55,9 @@ export default async function LocaleLayout({ children, params }: Props) {
   }
 
   setRequestLocale(locale)
-  const messages = pickClientMessages(await getMessages())
+  // Explicit locale: without it next-intl may fall back to reading request
+  // headers, which would make every page dynamic.
+  const messages = pickClientMessages(await getMessages({ locale }))
 
   return (
     <html

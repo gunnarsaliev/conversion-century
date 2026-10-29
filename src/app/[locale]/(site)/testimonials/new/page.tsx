@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
+import { cmsCache } from "@/lib/cms/cache";
 import { TestimonialForm, type TestimonialClientOption } from "@/components/testimonial-form";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -13,13 +14,13 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function NewTestimonialPage() {
+// Only clients already public on the website (logo strip) are listed, so
+// the form never reveals other CRM client names. Cached across requests.
+async function getPublicClients() {
+  "use cache";
+  cmsCache("clients", "media");
   const payload = await getPayload({ config });
-  const t = await getTranslations("TestimonialForm.page");
-
-  // Only clients already public on the website (logo strip) are listed, so
-  // the form never reveals other CRM client names.
-  const { docs: clients } = await payload.find({
+  return payload.find({
     collection: "clients",
     where: { showOnWebsite: { equals: true } },
     depth: 1,
@@ -27,6 +28,16 @@ export default async function NewTestimonialPage() {
     sort: "companyName",
     select: { companyName: true, logo: true },
   });
+}
+
+export default async function NewTestimonialPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  setRequestLocale((await params).locale);
+  const t = await getTranslations("TestimonialForm.page");
+  const { docs: clients } = await getPublicClients();
 
   const options: TestimonialClientOption[] = clients.map((client) => ({
     value: String(client.id),

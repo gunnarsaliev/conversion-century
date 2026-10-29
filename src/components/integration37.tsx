@@ -47,7 +47,7 @@ const Integration37 = ({
                   key={pill.name}
                   className="flex items-center rounded-full border border-border bg-card px-5 py-2.5"
                 >
-                  <img src={pill.src} alt={pill.name} title={pill.name} className="h-7 w-auto max-w-28 object-contain" />
+                  <img loading="lazy" decoding="async" src={pill.src} alt={pill.name} title={pill.name} className="h-7 w-auto max-w-28 object-contain" />
                 </li>
               ))}
             </ul>

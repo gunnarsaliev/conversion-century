@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { CmsImage } from "@/components/cms-image";
 
 export interface Blog12Post {
   title: string;
@@ -95,10 +96,11 @@ const Blog12 = ({ className, posts }: Blog12Props) => {
             <Link key={index} className="rounded-xl border" href={post.link}>
               <div className="p-2">
                 {post.image ? (
-                  <img
+                  <CmsImage
                     src={post.image}
                     alt={post.title}
-                    className="aspect-video w-full rounded-lg object-cover"
+                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                    wrapperClassName="aspect-video w-full rounded-lg"
                   />
                 ) : (
                   <div className="flex aspect-video w-full items-center justify-center rounded-lg bg-muted">

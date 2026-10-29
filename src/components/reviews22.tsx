@@ -143,6 +143,8 @@ const ReviewCard = ({ review }: ReviewCardType) => {
       {company.image && (
         <div className="size-10 shrink-0 overflow-hidden rounded-sm">
           <img
+            loading="lazy"
+            decoding="async"
             src={company.image}
             alt={company.name}
             className="block size-full object-contain object-center"

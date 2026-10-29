@@ -1,14 +1,17 @@
-import { cache } from "react";
 import { getPayload } from "payload";
 import config from "@payload-config";
+
+import { cmsCache } from "@/lib/cms/cache";
 
 export type ClientLogo = { name: string; src: string };
 
 // Logos of clients marked `showOnWebsite`, for logo strips like Logos35.
 // Only the name and logo URL are selected; everything else on a client is
-// admin-only CRM data. Wrapped in React `cache` so several components on
+// admin-only CRM data. Cached across requests, so several components on
 // one page share a single query.
-export const getClientLogos = cache(async (): Promise<ClientLogo[]> => {
+export async function getClientLogos(): Promise<ClientLogo[]> {
+  "use cache";
+  cmsCache("clients", "media");
   const payload = await getPayload({ config });
   const { docs } = await payload.find({
     collection: "clients",
@@ -29,4 +32,4 @@ export const getClientLogos = cache(async (): Promise<ClientLogo[]> => {
       ? [{ name: client.companyName, src: client.logo.url }]
       : [],
   );
-});
+}
