@@ -61,7 +61,13 @@ export default async function IndustriesPage({
 
   return (
     <>
-      <StaticPageJsonLd page="industries" />
+      <StaticPageJsonLd
+        page="industries"
+        items={industries.map((industry) => ({
+          name: industry.title,
+          path: `/industries/${industry.slug ?? industry.id}`,
+        }))}
+      />
       <CaseStudies13
         eyebrow={t("eyebrow")}
         heading={t("heading")}

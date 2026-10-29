@@ -56,7 +56,8 @@ export async function generateMetadata({
       truncate(splitParagraphs(solution.hero?.paragraphs)[0]),
     path: await localizedDocPath("solutions", solution.id, "/solutions"),
     locale: toLocale(locale),
-    image: mediaImage(solution.image),
+    image: mediaImage(solution.meta?.image) ?? mediaImage(solution.image),
+    noindex: solution.meta?.noindex,
   });
 }
 

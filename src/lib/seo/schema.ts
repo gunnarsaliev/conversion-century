@@ -2,6 +2,7 @@ import type {
   Article,
   BlogPosting,
   BreadcrumbList,
+  CollectionPage,
   Event,
   FAQPage,
   JobPosting,
@@ -38,13 +39,33 @@ export function graph(...nodes: Array<Thing | null | undefined | false>) {
   };
 }
 
-export function organizationSchema(locale: Locale): Organization {
+// The markets the company serves (see the About page copy).
+const AREA_SERVED = [
+  { "@type": "Country", name: "Bulgaria" },
+  { "@type": "Place", name: "Europe" },
+] as const;
+
+export function organizationSchema(locale: Locale, description?: string): Organization {
   return {
     "@type": "Organization",
     "@id": ORGANIZATION_ID,
     name: ORGANIZATION.name,
+    legalName: ORGANIZATION.legalName,
     url: localizedUrl(HOME_PATH, locale),
-    logo: ORGANIZATION.logo,
+    description,
+    logo: { "@type": "ImageObject", url: ORGANIZATION.logo },
+    email: ORGANIZATION.email,
+    telephone: ORGANIZATION.telephone,
+    vatID: ORGANIZATION.vatID,
+    address: { "@type": "PostalAddress", ...ORGANIZATION.address },
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "sales",
+      email: ORGANIZATION.email,
+      telephone: ORGANIZATION.telephone,
+      availableLanguage: ["en", "bg"],
+    },
+    areaServed: [...AREA_SERVED],
     sameAs: ORGANIZATION.sameAs,
   };
 }
@@ -80,6 +101,40 @@ export function breadcrumbSchema(
   };
 }
 
+// An index page (blog, services, …) and the items it links to, so search
+// and AI engines can see the collection, not just a page with links.
+export function collectionPageSchema({
+  locale,
+  path,
+  name,
+  items,
+}: {
+  locale: Locale;
+  path: LocalizedPath;
+  name: string;
+  items: Crumb[];
+}): CollectionPage {
+  const url = localizedUrl(path, locale);
+  return {
+    "@type": "CollectionPage",
+    "@id": `${url}#collection`,
+    url,
+    name,
+    inLanguage: locale,
+    isPartOf: { "@id": WEBSITE_ID },
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: items.length,
+      itemListElement: items.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: item.name,
+        url: localizedUrl(item.path, locale),
+      })),
+    },
+  };
+}
+
 type ArticleInput = {
   locale: Locale;
   path: LocalizedPath;
@@ -89,6 +144,8 @@ type ArticleInput = {
   datePublished?: string | null;
   dateModified?: string | null;
   author?: Person | null;
+  // Category names.
+  articleSection?: string[];
 };
 
 function articleFields({
@@ -100,6 +157,7 @@ function articleFields({
   datePublished,
   dateModified,
   author,
+  articleSection,
 }: ArticleInput) {
   const url = localizedUrl(path, locale);
   return {
@@ -113,6 +171,7 @@ function articleFields({
     inLanguage: locale,
     author: author ?? orgRef,
     publisher: orgRef,
+    articleSection: articleSection?.length ? articleSection : undefined,
   };
 }
 
@@ -189,10 +248,12 @@ export function serviceSchema({
     "@type": "Service",
     "@id": `${url}#service`,
     name,
+    serviceType: name,
     url,
     description: description ?? undefined,
     image: image ?? undefined,
     provider: orgRef,
+    areaServed: [...AREA_SERVED],
     ...(audience ? { audience: { "@type": "BusinessAudience", name: audience } } : {}),
   };
 }
@@ -267,6 +328,7 @@ export function jobPostingSchema({
   title,
   description,
   datePosted,
+  validThrough,
   employmentType,
   location,
 }: {
@@ -275,6 +337,7 @@ export function jobPostingSchema({
   title: string;
   description: string;
   datePosted: string;
+  validThrough?: string | null;
   employmentType?: "full-time" | "full-time-hybrid" | "part-time" | null;
   location?: string | null;
 }): JobPosting {
@@ -284,6 +347,7 @@ export function jobPostingSchema({
     title,
     description,
     datePosted,
+    validThrough: validThrough ?? undefined,
     url: localizedUrl(path, locale),
     employmentType:
       employmentType === "part-time"

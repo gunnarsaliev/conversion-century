@@ -15,6 +15,9 @@ export const STATIC_PAGES = {
   openPositions: "/open-positions",
   bookAConsultation: "/book-a-consultation",
   eventsAndMedia: "/events-and-media",
+  termsAndConditions: "/legal/terms-and-conditions",
+  privacyPolicy: "/legal/privacy-policy",
+  cookiePolicy: "/legal/cookie-policy",
 } as const;
 
 export type StaticPageKey = keyof typeof STATIC_PAGES;

@@ -6,7 +6,7 @@ export function PrivacyPolicyEn() {
     <div className="max-w-[48rem] pb-16 md:pb-24">
       <div className="prose dark:prose-invert max-w-none">
         <h1>Privacy Policy</h1>
-        <p className="text-muted-foreground">Last updated: October 19, 2026</p>
+        <p className="text-muted-foreground">Last updated: October 29, 2026</p>
         <p className="lead">
           Processing and protection of personal data concerning partners of
           Conversion Century Ltd.
@@ -332,6 +332,70 @@ export function PrivacyPolicyEn() {
             Brevo&apos;s privacy policy
           </a>{" "}
           for details. Information about cookies is available in our{" "}
+          <Link href="/legal/cookie-policy">Cookie Policy</Link>.
+        </p>
+        <h2>VI. Website analytics and cookie consent</h2>
+
+        <h3>Analytics</h3>
+        <p>
+          If you consent to statistics cookies, we use Google Analytics 4 to
+          understand how the website is used, for example which pages are
+          visited, how visitors arrive and which forms are submitted. This
+          involves an online identifier stored in a cookie, your IP address
+          (used to estimate your approximate location and not stored by
+          Google Analytics), device and browser details, and the pages you
+          view. We don&apos;t send your name, email address or other details
+          you enter in our forms to Google Analytics. The legal basis is your
+          consent (Art. 6(1)(a) GDPR). Analytics data is kept for 14 months.
+        </p>
+        <p>
+          If you don&apos;t consent, no analytics cookies are set and no
+          identifier is used. We use Google Consent Mode, which then sends
+          Google only limited, cookieless signals (for example that a page
+          was viewed, with the time, page address and basic browser
+          information), which Google uses to estimate overall visitor
+          numbers without recognising individual visitors. The legal basis
+          for these signals is our legitimate interest in understanding how
+          many people use the website (Art. 6(1)(f) GDPR).
+        </p>
+        <p>
+          Analytics data passes through our own server-side tagging server,
+          hosted by Stape in the European Union, before it reaches Google.
+          Google Ireland Limited (Gordon House, Barrow Street, Dublin 4,
+          Ireland) acts as our data processor under Google&apos;s data
+          processing terms. Google may transfer data to the United States;
+          such transfers rely on the EU–US Data Privacy Framework and the
+          European Commission&apos;s standard contractual clauses. See{" "}
+          <a href="https://policies.google.com/privacy" rel={EXTERNAL_LINK_REL}>
+            Google&apos;s privacy policy
+          </a>{" "}
+          for details.
+        </p>
+
+        <h3>Consent management</h3>
+        <p>
+          We use Cookiebot (Usercentrics A/S, Havnegade 39, 1058 Copenhagen,
+          Denmark) to ask for and record your cookie choices. Cookiebot
+          stores your choice, an anonymous consent ID, the date and time of
+          consent and your anonymised IP address, as proof of consent
+          required by law (Art. 6(1)(c) and Art. 7(1) GDPR). Consent records
+          are kept for 12 months. You can withdraw your consent at any time
+          with the &quot;Cookie settings&quot; link at the bottom of every
+          page; withdrawal doesn&apos;t affect the lawfulness of processing
+          before it.
+        </p>
+
+        <h3>Performance monitoring</h3>
+        <p>
+          We use Vercel Speed Insights (Vercel Inc., 440 N Barranca Ave
+          #4133, Covina, CA 91723, USA) to measure how fast our pages load
+          for real visitors. It doesn&apos;t use cookies and doesn&apos;t
+          identify you: it collects page load timings together with the page
+          URL, device type and browser. The legal basis is our legitimate
+          interest in a fast, working website (Art. 6(1)(f) GDPR).
+        </p>
+        <p>
+          More details about the cookies we use are in our{" "}
           <Link href="/legal/cookie-policy">Cookie Policy</Link>.
         </p>
       </div>

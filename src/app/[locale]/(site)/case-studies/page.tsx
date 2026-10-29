@@ -75,7 +75,13 @@ export default async function CaseStudiesPage({
 
   return (
     <>
-      <StaticPageJsonLd page="caseStudies" />
+      <StaticPageJsonLd
+        page="caseStudies"
+        items={caseStudies.map((caseStudy) => ({
+          name: caseStudy.title,
+          path: `/case-studies/${caseStudy.slug ?? caseStudy.id}`,
+        }))}
+      />
       <CaseStudies13 cases={cases} />
     </>
   );

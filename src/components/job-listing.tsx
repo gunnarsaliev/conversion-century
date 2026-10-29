@@ -46,7 +46,7 @@ export default function JobListing({
   const t = useTranslations('Careers')
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-12 sm:px-6 md:py-20 lg:px-8">
+    <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 md:py-20 lg:px-8">
       <Link
         href="/open-positions"
         className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
@@ -94,6 +94,6 @@ export default function JobListing({
           <JobApplicationForm />
         </aside>
       </div>
-    </main>
+    </div>
   )
 }

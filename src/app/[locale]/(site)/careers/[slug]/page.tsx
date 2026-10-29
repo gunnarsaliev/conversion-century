@@ -75,6 +75,7 @@ export default async function Page({ params }: PageProps) {
             title: listing.title,
             description: plainDescription(listing) || listing.title,
             datePosted: listing.createdAt,
+            validThrough: listing.expiresAt,
             employmentType: listing.type,
             location: listing.location,
           }),

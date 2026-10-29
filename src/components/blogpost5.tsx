@@ -35,6 +35,10 @@ interface Blogpost5Props {
   // Author page path (see lib/seo/site authorPath).
   authorHref?: string;
   dateLabel?: string;
+  // ISO dates for <time dateTime>.
+  publishedAt?: string;
+  updatedLabel?: string;
+  updatedAt?: string;
   // Each links to its category page; the first one ends the breadcrumb.
   categories?: { label: string; href: string }[];
   relatedPosts?: RelatedPost[];
@@ -50,6 +54,9 @@ const Blogpost5 = ({
   authorAvatar,
   authorHref,
   dateLabel,
+  publishedAt,
+  updatedLabel,
+  updatedAt,
   categories = [],
   relatedPosts = [],
   featuredImage,
@@ -142,7 +149,19 @@ const Blogpost5 = ({
                 ))}
               {dateLabel && (
                 <span className="ml-1 text-muted-foreground">
-                  {t("publishedOn", { date: dateLabel })}
+                  {t.rich("publishedOn", {
+                    date: dateLabel,
+                    time: (chunks) => <time dateTime={publishedAt}>{chunks}</time>,
+                  })}
+                </span>
+              )}
+              {updatedLabel && (
+                <span className="ml-1 text-muted-foreground">
+                  ·{" "}
+                  {t.rich("updatedOn", {
+                    date: updatedLabel,
+                    time: (chunks) => <time dateTime={updatedAt}>{chunks}</time>,
+                  })}
                 </span>
               )}
             </span>

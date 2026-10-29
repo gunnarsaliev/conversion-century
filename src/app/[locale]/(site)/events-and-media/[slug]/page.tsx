@@ -51,7 +51,8 @@ export async function generateMetadata({
     description: event.meta?.description || truncate(event.excerpt),
     path: await localizedDocPath("events", event.id, "/events-and-media"),
     locale: toLocale(locale),
-    image: mediaImage(event.image),
+    image: mediaImage(event.meta?.image) ?? mediaImage(event.image),
+    noindex: event.meta?.noindex,
     type: isArticle ? "article" : "website",
     publishedTime: isArticle ? event.startDate : undefined,
   });
@@ -139,7 +140,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
             src={image.url}
             alt={image.alt ?? event.title}
             fill
-            priority
+            preload
             sizes="(min-width: 896px) 896px, 100vw"
             className="object-cover"
           />

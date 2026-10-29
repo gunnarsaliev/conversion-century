@@ -46,6 +46,19 @@ export const JobListings: CollectionConfig = {
       },
     },
     {
+      // After this date the listing leaves the sitemap and its JobPosting
+      // markup carries it as validThrough, as Google requires for expired
+      // jobs. Left empty, the listing stays open.
+      name: 'expiresAt',
+      type: 'date',
+      admin: {
+        position: 'sidebar',
+        date: {
+          pickerAppearance: 'dayOnly',
+        },
+      },
+    },
+    {
       name: 'description',
       type: 'richText',
       editor: lexicalEditor(),

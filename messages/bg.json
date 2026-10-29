@@ -68,6 +68,21 @@
       "name": "Първи стъпки",
       "title": "Getting started",
       "description": "Comprehensive technical SEO audit recommendations and implementation guidelines for website optimization."
+    },
+    "termsAndConditions": {
+      "name": "Общи условия",
+      "title": "Общи условия",
+      "description": "Общите условия за използване на уебсайта и услугите на Conversion Century."
+    },
+    "privacyPolicy": {
+      "name": "Политика за поверителност",
+      "title": "Политика за поверителност",
+      "description": "Как Conversion Century събира, използва и защитава личните ви данни и какви са правата ви съгласно GDPR."
+    },
+    "cookiePolicy": {
+      "name": "Политика за бисквитките",
+      "title": "Политика за бисквитките",
+      "description": "Какви бисквитки използва уебсайтът на Conversion Century, защо и как да промените или оттеглите съгласието си."
     }
   },
   "Footer": {
@@ -137,7 +152,8 @@
     "terms": "Общи условия",
     "privacy": "Политика за поверителност",
     "cookies": "Политика за бисквитките",
-    "legal": "Правна информация"
+    "legal": "Правна информация",
+    "cookieSettings": "Настройки на бисквитките"
   },
   "Forms": {
     "invalidInput": "Невалидни данни",
@@ -697,9 +713,10 @@
   },
   "Blogpost5": {
     "breadcrumb": "Блог",
-    "publishedOn": "на {date}",
+    "publishedOn": "на <time>{date}</time>",
     "share": "Споделете статията:",
-    "related": "Свързани статии"
+    "related": "Свързани статии",
+    "updatedOn": "обновено на <time>{date}</time>"
   },
   "SolutionHero": {
     "secondaryCta": "Вижте нашите резултати",
@@ -877,5 +894,13 @@
     "checklists": "Чеклисти",
     "all": "Всички",
     "filterLabel": "Филтриране на статиите по категория"
+  },
+  "NotFound": {
+    "title": "Страницата не е намерена",
+    "heading": "Страницата не е намерена",
+    "description": "Съжаляваме, не успяхме да намерим страницата, която търсите. Възможно е да е преместена или вече да не съществува.",
+    "home": "Към началната страница",
+    "services": "Разгледайте нашите услуги",
+    "blog": "Прочетете блога"
   }
 }

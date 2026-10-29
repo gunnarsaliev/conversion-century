@@ -15,7 +15,9 @@ import '@/styles/tailwind.css'
 // Global typeface for body, UI and headings. Variable font, so every weight
 // is available; includes Cyrillic for Bulgarian.
 const montserrat = Montserrat({
-  subsets: ['latin', 'latin-ext', 'cyrillic', 'cyrillic-ext'],
+  // Only these are preloaded; latin-ext/cyrillic-ext glyphs still load on
+  // demand via unicode-range when a page uses them.
+  subsets: ['latin', 'cyrillic'],
   style: ['normal', 'italic'],
   display: 'swap',
   variable: '--font-montserrat',
@@ -45,6 +47,13 @@ export async function generateMetadata({
     description: t('description'),
     applicationName: SITE_NAME,
     robots: { index: IS_INDEXABLE, follow: IS_INDEXABLE },
+    // Search Console / Bing Webmaster Tools ownership tags, when configured.
+    verification: {
+      google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
+      other: process.env.BING_SITE_VERIFICATION
+        ? { 'msvalidate.01': process.env.BING_SITE_VERIFICATION }
+        : undefined,
+    },
   }
 }
 

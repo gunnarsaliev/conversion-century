@@ -4,6 +4,10 @@ export const routing = defineRouting({
   locales: ['en', 'bg'],
   defaultLocale: 'en',
   localePrefix: 'as-needed',
+  // No Accept-Language redirect on unprefixed URLs: crawlers (which send
+  // no or English headers) and visitors alike get the URL they asked for.
+  // Language switching is explicit, via the switcher and hreflang.
+  localeDetection: false,
   // Bulgarian URLs for public sections (keys are the app/[locale] folder
   // paths, which en keeps). Anything not listed here (blog, legal, docs,
   // offers, login, …) is served at the same path in both locales.

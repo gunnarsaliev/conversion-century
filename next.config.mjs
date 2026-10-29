@@ -23,6 +23,22 @@ const nextConfig = {
       './src/app/**/offer/*.png',
     ],
   },
+  // Security headers on every response. No full CSP yet: GTM/Cookiebot load
+  // third-party scripts, so a script-src policy needs testing against them.
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains' },
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          { key: 'Content-Security-Policy', value: "frame-ancestors 'self'" },
+          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+        ],
+      },
+    ]
+  },
   // The public site used to live under /website (behind the pre-launch login
   // gate); old links, including ones saved in Payload rich text, still work.
   async redirects() {
@@ -57,6 +73,9 @@ const nextConfig = {
   experimental: {
     // `next/root-params`: src/i18n/request.ts reads the locale from it.
     rootParams: true,
+    // src/app/global-not-found.tsx: 404 page for URLs outside [locale]
+    // (e.g. /old-page.php, which the locale proxy doesn't match).
+    globalNotFound: true,
     serverActions: {
       // The testimonial form uploads up to two images (2 MB each) via a
       // Server Action; the 1 MB default is too small. Stays under Vercel's

@@ -113,7 +113,8 @@ export async function generateMetadata({
     description: service.meta?.description || truncate(service.hero?.description),
     path: await localizedDocPath("services", service.id, "/services"),
     locale: toLocale(locale),
-    image: mediaImage(service.image),
+    image: mediaImage(service.meta?.image) ?? mediaImage(service.image),
+    noindex: service.meta?.noindex,
   });
 }
 

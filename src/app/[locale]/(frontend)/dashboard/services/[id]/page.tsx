@@ -94,7 +94,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
               fill
               sizes="100vw"
               className="object-cover object-bottom"
-              priority
+              preload
             />
           </div>
           <CardContent className="relative pb-6">

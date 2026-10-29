@@ -1,5 +1,5 @@
 import createMiddleware from 'next-intl/middleware'
-import { NextResponse, type NextRequest } from 'next/server'
+import { NextResponse, type NextFetchEvent, type NextRequest } from 'next/server'
 
 import { routing } from '@/i18n/routing'
 import {
@@ -36,17 +36,17 @@ const DASHBOARD_PATH = /^\/(?:([a-z]{2})\/)?dashboard(?=\/|$)(.*)$/
 
 // Redirects from Dashboard → SEO → Redirects. The proxy can't use Payload's
 // local API, so it reads the public GET /api/seo-redirects list and keeps it
-// in memory for REDIRECTS_TTL_MS per instance. On any error it keeps the last
-// list it had (or none), so a failing lookup never blocks the site.
+// in memory per instance. Once an instance has a list, requests never wait
+// on the lookup: after REDIRECTS_TTL_MS the stale list is still used while a
+// refresh runs in the background. Only an instance's first request waits.
+// On any error it keeps the last list it had (or none), so a failing lookup
+// never blocks the site.
 const REDIRECTS_TTL_MS = 60_000
 const LOCALE_PREFIX = /^\/(en|bg)(?=\/|$)/
 let redirectRules: { map: Map<string, RedirectRule>; fetchedAt: number } | null = null
 let redirectRulesRequest: Promise<Map<string, RedirectRule>> | null = null
 
-async function getRedirectRules(request: NextRequest) {
-  if (redirectRules && Date.now() - redirectRules.fetchedAt < REDIRECTS_TTL_MS) {
-    return redirectRules.map
-  }
+function fetchRedirectRules(request: NextRequest) {
   redirectRulesRequest ??= fetch(new URL('/api/seo-redirects', request.url), {
     cache: 'no-store',
     signal: AbortSignal.timeout(3000),
@@ -70,9 +70,18 @@ async function getRedirectRules(request: NextRequest) {
   return redirectRulesRequest
 }
 
-async function seoRedirect(request: NextRequest) {
+async function getRedirectRules(request: NextRequest, event: NextFetchEvent) {
+  if (!redirectRules) return fetchRedirectRules(request)
+  if (Date.now() - redirectRules.fetchedAt >= REDIRECTS_TTL_MS) {
+    // Stale-while-revalidate: refresh for later requests, don't wait for it.
+    event.waitUntil(fetchRedirectRules(request))
+  }
+  return redirectRules.map
+}
+
+async function seoRedirect(request: NextRequest, event: NextFetchEvent) {
   const { pathname, search } = request.nextUrl
-  const rule = (await getRedirectRules(request)).get(redirectLookupPath(pathname))
+  const rule = (await getRedirectRules(request, event)).get(redirectLookupPath(pathname))
   if (!rule) return null
 
   let destination: URL
@@ -101,7 +110,7 @@ function loginRedirect(request: NextRequest, locale: string, target: string) {
   return NextResponse.redirect(loginUrl)
 }
 
-export default async function proxy(request: NextRequest) {
+export default async function proxy(request: NextRequest, event: NextFetchEvent) {
   const { pathname, search } = request.nextUrl
 
   const dashboard = DASHBOARD_PATH.exec(pathname)
@@ -123,7 +132,7 @@ export default async function proxy(request: NextRequest) {
     }
   }
 
-  const redirect = await seoRedirect(request)
+  const redirect = await seoRedirect(request, event)
   if (redirect) return redirect
 
   const response = handleI18nRouting(request)
@@ -158,11 +167,16 @@ export const config = {
   matcher: [
     // Match all pathnames except for
     // - … if they start with `/api`, `/admin`, `/tools`, `/_next` or `/_vercel`
+    // - … `/apple-icon` (src/app/apple-icon.tsx, served without an extension)
     // - … the ones containing a dot (e.g. `favicon.ico`)
-    '/((?!api|admin|tools|_next|_vercel|.*\\..*).*)',
+    '/((?!api|admin|tools|_next|_vercel|apple-icon|.*\\..*).*)',
 
     // However, always match the `robots.txt` doc page (a page slug, not a
     // static file) — it would otherwise be excluded by the dot above.
     '/:locale(bg|en)?/docs/technical-seo/robots.txt',
+
+    // And legacy page URLs from older sites (/about.html, /index.php), so
+    // CMS redirects can catch them; without a rule they get the site 404.
+    '/((?!api|admin|tools|_next|_vercel).*\\.(?:html?|php|aspx?))',
   ],
 }

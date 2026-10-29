@@ -2,7 +2,7 @@
 import { Check } from "lucide-react";
 import { cn } from "cn";
 
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
@@ -87,7 +87,15 @@ const Hero104 = ({
                       key={avatar.src}
                       className="size-8 border-2 border-background"
                     >
-                      <AvatarImage src={avatar.src} alt={avatar.alt} />
+                      {/* next/image instead of AvatarImage: the source
+                          logos are full-size PNGs, shown here at 32px. */}
+                      <Image
+                        src={avatar.src}
+                        alt={avatar.alt}
+                        width={32}
+                        height={32}
+                        className="aspect-square size-full rounded-full object-cover"
+                      />
                     </Avatar>
                   ))}
                 </div>

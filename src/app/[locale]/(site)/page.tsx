@@ -69,15 +69,13 @@ async function getHomeContent(locale: string) {
   const { docs: blogPosts } = await payload.find({
     collection: "blog",
     locale: locale as "en" | "bg",
-    where: translated,
+    // Local API bypasses access control, so filter out drafts explicitly.
+    where: { ...translated, _status: { equals: "published" } },
     // depth: 2 so post.author.profileImage resolves to a Media object
     // (not just an ID) for the author avatar.
     depth: 2,
     limit: 3,
     sort: "-publishedAt",
-    // Local API calls bypass access control by default; the collection's
-    // own `read` access already restricts logged-out visitors to
-    // published posts, so this still only ever serves public content.
   });
 
   const blogItems = blogPosts.map((post) => {

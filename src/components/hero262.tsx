@@ -78,9 +78,9 @@ const Hero262 = (props: Hero262Props) => {
     <section className={cn("py-28 lg:py-32", className)}>
       <div className="container flex max-w-5xl flex-col justify-between gap-8 md:gap-20 lg:flex-row lg:items-center lg:gap-24 xl:gap-24">
         <div className="flex-[1.5]">
-          <h1 className="text-3xl tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
+          <h2 className="text-3xl tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
             {heading}
-          </h1>
+          </h2>
 
           <p className="mt-5 text-2xl text-muted-foreground md:text-3xl lg:text-4xl">
             {subheading}

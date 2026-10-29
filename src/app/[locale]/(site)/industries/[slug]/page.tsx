@@ -49,7 +49,8 @@ export async function generateMetadata({
       ),
     path: await localizedDocPath("industries", industry.id, "/industries"),
     locale: toLocale(locale),
-    image: mediaImage(industry.image),
+    image: mediaImage(industry.meta?.image) ?? mediaImage(industry.image),
+    noindex: industry.meta?.noindex,
   });
 }
 

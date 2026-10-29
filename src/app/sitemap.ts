@@ -3,6 +3,7 @@ import { cacheLife, cacheTag } from 'next/cache'
 import { getPayload, type Where } from 'payload'
 import config from '@payload-config'
 
+import { openJobListings } from '@/lib/cms/jobs'
 import { blogCategoryPath, isBlogCategory, type BlogCategory } from '@/lib/blog-categories'
 import { STATIC_PAGES, docPathFromSlugs } from '@/lib/seo/pages'
 import {
@@ -32,8 +33,13 @@ async function safely<T>(label: string, fn: () => Promise<T[]>): Promise<T[]> {
 }
 
 // Collection → detail page base path. `where` hides drafts for collections
-// with versions enabled.
-const DETAIL_COLLECTIONS = [
+// with versions enabled, and expired job listings (a function, as it reads
+// the clock when the sitemap is generated).
+const DETAIL_COLLECTIONS: Array<{
+  collection: 'blog' | 'events' | 'services' | 'solutions' | 'industries' | 'case-studies' | 'job-listings'
+  basePath: string
+  where?: Where | (() => Where)
+}> = [
   { collection: 'blog', basePath: '/blog', where: published },
   {
     collection: 'events',
@@ -48,8 +54,8 @@ const DETAIL_COLLECTIONS = [
     where: published,
   },
   { collection: 'case-studies', basePath: '/case-studies' },
-  { collection: 'job-listings', basePath: '/careers' },
-] as const
+  { collection: 'job-listings', basePath: '/careers', where: openJobListings },
+]
 
 // One <url> per existing language version, each listing all alternates
 // (hreflang).
@@ -76,19 +82,29 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   )
 
   const detailEntries = await Promise.all(
-    DETAIL_COLLECTIONS.map(({ collection, basePath, ...rest }) =>
+    DETAIL_COLLECTIONS.map(({ collection, basePath, where }) =>
       safely(collection, async () => {
         const { docs } = await payload.find({
           collection,
           locale: 'all',
           depth: 0,
           pagination: false,
-          where: 'where' in rest ? rest.where : undefined,
-          select: { slug: true, updatedAt: true },
+          where: typeof where === 'function' ? where() : where,
+          select: {
+            slug: true,
+            updatedAt: true,
+            ...(collection !== 'job-listings' && { meta: { noindex: true } }),
+          },
         })
-        return docs.flatMap((doc) =>
-          entries(docPathFromSlugs(basePath, doc.slug, doc.id), doc.updatedAt),
-        )
+        return docs
+          // Job listings have no SEO group.
+          .filter(
+            (doc) =>
+              !('meta' in doc && (doc.meta as { noindex?: boolean | null } | undefined)?.noindex),
+          )
+          .flatMap((doc) =>
+            entries(docPathFromSlugs(basePath, doc.slug, doc.id), doc.updatedAt),
+          )
       }),
     ),
   )

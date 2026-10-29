@@ -18,7 +18,7 @@ export function Hero() {
               width={530}
               height={530}
               unoptimized
-              priority
+              preload
             />
             <div className="relative">
               <p className="inline bg-linear-to-r from-indigo-200 via-sky-400 to-indigo-200 bg-clip-text font-display text-5xl tracking-tight text-transparent">
@@ -47,7 +47,7 @@ export function Hero() {
                 width={530}
                 height={530}
                 unoptimized
-                priority
+                preload
               />
               <Image
                 className="absolute -right-44 -bottom-40"
@@ -56,7 +56,7 @@ export function Hero() {
                 width={567}
                 height={568}
                 unoptimized
-                priority
+                preload
               />
               {/* <div className="absolute inset-0 rounded-2xl bg-linear-to-tr from-sky-300 via-sky-300/70 to-blue-300 opacity-10 blur-lg" />
               <div className="absolute inset-0 rounded-2xl bg-linear-to-tr from-sky-300 via-sky-300/70 to-blue-300 opacity-10" /> */}

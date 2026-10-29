@@ -3,6 +3,7 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 
 import { cmsCache } from "@/lib/cms/cache";
+import { openJobListings } from "@/lib/cms/jobs";
 import { Careers2, type Careers2Job } from "@/components/careers2";
 import { StaticPageJsonLd } from "@/components/static-page-json-ld";
 import { staticPageMetadata } from "@/lib/seo/pages";
@@ -20,7 +21,7 @@ async function getJobListings(locale: string) {
   return payload.find({
     collection: "job-listings",
     locale: locale as "en" | "bg",
-    where: translated,
+    where: { and: [translated, openJobListings()] },
     depth: 0,
     limit: 100,
     sort: "-createdAt",

@@ -57,7 +57,7 @@ async function OfferPage() {
   // proxy.ts only checks for a session cookie; offers are private.
   await requireDashboardUser();
   return (
-    <main>
+    <div>
       {/* <OfferHeroV1 offer={offer} brand={content.brand} /> */}
       <OfferHeroV2 offer={offer} brand={content.brand} />
       <OfferIntro brand={content.brand} />
@@ -115,7 +115,7 @@ async function OfferPage() {
       <OfferPricing offer={offer} pricing={content.pricing} />
       <OfferTeam offer={offer} team={content.team} />
       <OfferContact trackRecord={content.trackRecord} />
-    </main>
+    </div>
   );
 }
 

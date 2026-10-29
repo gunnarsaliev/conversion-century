@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "cn";
 
 import {
@@ -11,7 +11,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import { Link } from "@/i18n/navigation";
 type Testimonial30Item = {
   company: string;
@@ -29,52 +28,31 @@ interface Testimonial30Props {
 const Testimonial30 = ({ testimonials, className }: Testimonial30Props) => {
   const t = useTranslations("Testimonial30");
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [progress, setProgress] = useState(0);
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  const startTimer = useCallback(() => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-    }
-
-    timerRef.current = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
-      setProgress(0);
-    }, 5000);
-  }, [testimonials.length]);
+  // Rotation is driven by the progress bar's CSS animation (its
+  // animationend advances the slide), so there's no timer re-rendering the
+  // section while it plays. It's paused while the section is off screen.
+  const [inView, setInView] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    startTimer();
-
-    return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-      }
-    };
-  }, [startTimer]);
-
-  useEffect(() => {
-    const progressInterval = setInterval(() => {
-      setProgress((prevProgress) => {
-        if (prevProgress >= 100) {
-          return 0;
-        }
-        return prevProgress + 2;
-      });
-    }, 100);
-
-    return () => clearInterval(progressInterval);
-  }, [currentIndex]);
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([entry]) =>
+      setInView(entry.isIntersecting),
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   if (testimonials.length === 0) return null;
 
   return (
-    <section className={cn("py-32", className)}>
+    <section ref={sectionRef} className={cn("py-32", className)}>
       <div className="container">
         <div className="mb-12 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
-          <h1 className="text-3xl font-semibold md:text-4xl">
+          <h2 className="text-3xl font-semibold md:text-4xl">
             {t("heading")}
-          </h1>
+          </h2>
           <Button
             variant="outline"
             render={<Link href="/reviews" />}
@@ -86,12 +64,7 @@ const Testimonial30 = ({ testimonials, className }: Testimonial30Props) => {
         <Accordion
           value={[currentIndex.toString()]}
           onValueChange={(value) => {
-            if (value.length) {
-              const index = parseInt(value[0]);
-              setCurrentIndex(index);
-              setProgress(0);
-              startTimer();
-            }
+            if (value.length) setCurrentIndex(parseInt(value[0]));
           }}
         >
           {testimonials.map((testimonial, index) => (
@@ -148,7 +121,27 @@ const Testimonial30 = ({ testimonials, className }: Testimonial30Props) => {
                         {testimonial.role}
                       </p>
                     </div>
-                    <Progress value={progress} className="h-1 w-16 self-end" />
+                    {index === currentIndex && (
+                      <div
+                        role="presentation"
+                        className="h-1 w-16 self-end overflow-hidden rounded-full bg-muted"
+                      >
+                        {/* key restarts the animation on every slide change,
+                            including a manual pick. */}
+                        <div
+                          key={currentIndex}
+                          className={cn(
+                            "h-full origin-left animate-progress-fill bg-primary",
+                            !inView && "[animation-play-state:paused]",
+                          )}
+                          onAnimationEnd={() =>
+                            setCurrentIndex(
+                              (prev) => (prev + 1) % testimonials.length,
+                            )
+                          }
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
               </AccordionContent>

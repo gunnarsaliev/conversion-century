@@ -68,7 +68,7 @@ const Signup10 = ({ className, redirectTo }: Signup10Props) => {
       <div className="flex min-h-screen flex-col items-center justify-between gap-20 py-16 lg:flex-row lg:gap-0 lg:py-0">
         <div className="mx-auto flex w-full max-w-xl flex-col items-center gap-6 px-6 lg:w-1/2 lg:px-0">
           <div className="flex items-center justify-center">
-            <Logo className="h-auto w-36" width={144} height={144} priority />
+            <Logo className="h-auto w-36" width={144} height={144} preload />
           </div>
 
           <h1 className="mb-8 w-full text-center text-3xl font-medium tracking-tighter text-foreground md:text-4xl">
@@ -133,7 +133,7 @@ const Signup10 = ({ className, redirectTo }: Signup10Props) => {
             fill
             sizes="50vw"
             className="object-cover"
-            priority
+            preload
           />
         </div>
       </div>

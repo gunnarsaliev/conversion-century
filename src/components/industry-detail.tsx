@@ -101,6 +101,8 @@ const IndustryDetail = ({
               src={image}
               alt={title}
               sizes="(min-width: 1280px) 1280px, 100vw"
+              // Right under the h1, so usually the LCP element.
+              preload
               wrapperClassName="mt-10 aspect-video w-full rounded-lg"
             />
           )}

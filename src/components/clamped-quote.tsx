@@ -36,24 +36,29 @@ export function ClampedQuote({ children, moreLabel, className }: ClampedQuotePro
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-linear-to-t from-white to-transparent dark:from-card" />
         )}
       </div>
-      {overflowing && (
-        <Popover>
-          <PopoverTrigger
-            openOnHover
-            delay={150}
-            className="w-fit text-sm font-medium text-primary underline-offset-4 hover:underline"
-          >
-            {moreLabel}
-          </PopoverTrigger>
-          <PopoverContent
-            side="top"
-            align="start"
-            className="max-h-[60vh] w-[min(90vw,32rem)] overflow-y-auto p-4 text-base text-muted-foreground italic"
-          >
-            {children}
-          </PopoverContent>
-        </Popover>
-      )}
+      {/* The link only appears after hydration (it needs measuring), so its
+          row is reserved up front: one text-sm line. Keeps the card from
+          growing and shifting the layout below it. */}
+      <div className="min-h-5">
+        {overflowing && (
+          <Popover>
+            <PopoverTrigger
+              openOnHover
+              delay={150}
+              className="w-fit text-sm font-medium text-primary underline-offset-4 hover:underline"
+            >
+              {moreLabel}
+            </PopoverTrigger>
+            <PopoverContent
+              side="top"
+              align="start"
+              className="max-h-[60vh] w-[min(90vw,32rem)] overflow-y-auto p-4 text-base text-muted-foreground italic"
+            >
+              {children}
+            </PopoverContent>
+          </Popover>
+        )}
+      </div>
     </div>
   );
 }

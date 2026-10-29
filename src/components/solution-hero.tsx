@@ -32,7 +32,7 @@ export default function SolutionHero({
 
   return (
     // The before: layer copies the background out to the viewport edges, past the layout's max-width container.
-    <main className="relative isolate bg-[#0f4637] text-[#fbfaf5] before:absolute before:inset-y-0 before:left-1/2 before:-z-10 before:w-screen before:-translate-x-1/2 before:bg-inherit">
+    <section className="relative isolate bg-[#0f4637] text-[#fbfaf5] before:absolute before:inset-y-0 before:left-1/2 before:-z-10 before:w-screen before:-translate-x-1/2 before:bg-inherit">
       <div className="mx-auto flex w-full max-w-[1240px] flex-col px-6 pb-5 sm:px-10 lg:px-0">
         <nav aria-label={tCommon('breadcrumb')} className="pt-5 text-sm text-white/60">
           <ol className="flex items-center gap-3">
@@ -79,6 +79,6 @@ export default function SolutionHero({
           </section>
         )}
       </div>
-    </main>
+    </section>
   )
 }

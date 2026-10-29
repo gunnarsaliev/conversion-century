@@ -3,10 +3,11 @@
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowLeft, ArrowRight, MousePointer2 } from "lucide-react";
 import React, { SubmitEvent, useState, useTransition } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { cn } from "cn";
 
 import { submitConsultationRequest } from "@/app/[locale]/(site)/book-a-consultation/actions";
+import { track } from "@/lib/analytics/datalayer";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -87,9 +88,9 @@ interface Header {
 const BookADemo2Header = ({ heading, description, avatars }: Header) => {
   return (
     <div className="relative flex w-full max-w-2xl flex-col items-center gap-4 text-center">
-      <h3 className="text-4xl font-semibold sm:text-5xl md:text-6xl">
+      <h1 className="text-4xl font-semibold sm:text-5xl md:text-6xl">
         {heading}
-      </h3>
+      </h1>
 
       <p className="font-medium text-muted-foreground sm:text-lg md:text-xl">
         {description.hyperlink && description.url ? (
@@ -133,6 +134,7 @@ const FormGroup = ({ children, className }: FormGroupProps) => {
 
 const BookADemo2ContactForm = () => {
   const t = useTranslations("Consultation.form");
+  const locale = useLocale();
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -146,6 +148,7 @@ const BookADemo2ContactForm = () => {
       const result = await submitConsultationRequest(formData);
       if (result.success) {
         setSubmitted(true);
+        track({ event: "generate_lead", form_name: "consultation", locale });
       } else {
         setError(result.error);
       }

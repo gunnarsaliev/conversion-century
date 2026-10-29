@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import { getPayload } from "payload";
+import { getPayload, type Where } from "payload";
 import config from "@payload-config";
 
 import { cmsCache } from "@/lib/cms/cache";
@@ -57,17 +57,25 @@ export async function blogListingMetadata(
 }
 
 // The listing with its ?page= read per request: the layout and this
-// skeleton are prerendered, and the (cached) posts stream in.
-export function SuspendedBlogListing(props: {
+// skeleton are prerendered, and the (cached) posts stream in. The category
+// pills don't depend on the page, so they're prerendered as-is rather
+// than skeletoned.
+export async function SuspendedBlogListing(props: {
   locale: string;
   searchParams: PageSearchParams;
   category?: BlogCategory;
 }) {
+  const categories = await getBlogCategories(props.locale);
   return (
     <Suspense
       fallback={
         <div className="py-32" aria-busy="true">
           <PageHeaderSkeleton />
+          <BlogCategoryFilter
+            categories={categories}
+            active={props.category}
+            className="mt-12"
+          />
           <BlogGridSkeleton />
         </div>
       }
@@ -88,38 +96,44 @@ async function BlogListingPage({
   return <BlogListing {...props} page={await getPage(searchParams)} />;
 }
 
+// Local API bypasses access control, so filter out drafts explicitly.
+const published = { ...translated, _status: { equals: "published" } } satisfies Where;
+
+// Every category with at least one post in this locale, for the filter.
+// Cached across requests; refreshed when a post changes.
+async function getBlogCategories(locale: string) {
+  "use cache";
+  cmsCache("blog");
+  const payload = await getPayload({ config });
+  const { docs: categorized } = await payload.find({
+    collection: "blog",
+    locale: locale as "en" | "bg",
+    where: { ...published, categories: { exists: true } },
+    depth: 0,
+    pagination: false,
+    select: { categories: true },
+  });
+  const used = new Set(categorized.flatMap((post) => post.categories ?? []));
+  return BLOG_CATEGORIES.filter((c) => used.has(c));
+}
+
 // Cached across requests; refreshed when a post changes.
 async function getBlogListing(locale: string, page: number, category?: BlogCategory) {
   "use cache";
   cmsCache("blog", "users", "media");
   const payload = await getPayload({ config });
 
-  // Every category with at least one post in this locale, for the filter.
-  const { docs: categorized } = await payload.find({
-    collection: "blog",
-    locale: locale as "en" | "bg",
-    where: { ...translated, categories: { exists: true } },
-    depth: 0,
-    pagination: false,
-    select: { categories: true },
-  });
-  const used = new Set(categorized.flatMap((post) => post.categories ?? []));
-  const categories = BLOG_CATEGORIES.filter((c) => used.has(c));
-
   const { docs: posts, totalPages } = await payload.find({
     collection: "blog",
     locale: locale as "en" | "bg",
-    where: category ? { ...translated, categories: { in: [category] } } : translated,
+    where: category ? { ...published, categories: { in: [category] } } : published,
     depth: 1,
     limit: PAGE_SIZE,
     page,
     sort: "-publishedAt",
-    // Local API calls bypass access control by default; the collection's
-    // own `read` access already restricts logged-out visitors to
-    // published posts, so this still only ever serves public content.
   });
 
-  return { categories, posts, totalPages };
+  return { posts, totalPages };
 }
 
 export async function BlogListing({
@@ -132,7 +146,10 @@ export async function BlogListing({
   category?: BlogCategory;
 }) {
   const tCategories = await getTranslations("BlogCategories");
-  const { categories, posts, totalPages } = await getBlogListing(locale, page, category);
+  const [categories, { posts, totalPages }] = await Promise.all([
+    getBlogCategories(locale),
+    getBlogListing(locale, page, category),
+  ]);
 
   if (page > 1 && page > totalPages) notFound();
 
@@ -167,9 +184,17 @@ export async function BlogListing({
           )}
         />
       ) : (
-        <StaticPageJsonLd page="blog" />
+        <StaticPageJsonLd
+          page="blog"
+          items={posts.map((post) => ({
+            name: post.title,
+            path: `/blog/${post.slug ?? post.id}`,
+          }))}
+        />
       )}
       <Blog28
+        // Category pages get their own h1 instead of the generic "Blog".
+        heading={category ? tCategories(category) : undefined}
         posts={items}
         filters={<BlogCategoryFilter categories={categories} active={category} />}
       >

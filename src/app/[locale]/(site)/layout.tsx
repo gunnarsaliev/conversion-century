@@ -4,6 +4,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 
 import { cmsCache } from '@/lib/cms/cache'
+import { Analytics } from '@/components/analytics/analytics'
 import { BackgroundPattern27 } from '@/components/background-pattern27'
 import { Footer3 } from '@/components/footer3'
 import { Navbar3 } from '@/components/navbar3'
@@ -72,9 +73,10 @@ export default async function FrontendLayout({
       <BackgroundPattern27 />
       <Navbar3 blogPosts={navbarBlogPosts} hiddenHrefs={hiddenHrefs} />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {children}
+        <main>{children}</main>
         <Footer3 hiddenHrefs={hiddenHrefs} year={year} />
       </div>
+      <Analytics />
     </div>
   )
 }

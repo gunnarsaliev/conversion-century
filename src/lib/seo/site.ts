@@ -18,8 +18,18 @@ export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || DEFAULT_SITE_URL).r
 
 export const SITE_NAME = "Conversion Century";
 
+// Company details as published in the legal pages (src/components/legal).
 export const ORGANIZATION = {
   name: SITE_NAME,
+  legalName: "Conversion Century Ltd.",
+  vatID: "BG203901347",
+  email: "info@conversion-century.com",
+  telephone: "+359 896 150 980",
+  address: {
+    streetAddress: "Yakubitsa 19",
+    addressLocality: "Sofia",
+    addressCountry: "BG",
+  },
   // Same asset as the footer logo (src/components/footer3.tsx).
   logo: "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/conversion-century-logo.svg",
   sameAs: ["https://www.linkedin.com/company/conversion-century/"],

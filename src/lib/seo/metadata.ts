@@ -21,6 +21,8 @@ type BuildMetadataOptions = {
   type?: "website" | "article";
   publishedTime?: string | null;
   modifiedTime?: string | null;
+  // Per-page opt-out (the SEO group's "Hide from search engines").
+  noindex?: boolean | null;
 };
 
 // Canonical + hreflang, Open Graph, Twitter and robots for a public page.
@@ -33,6 +35,7 @@ export function buildMetadata({
   type = "website",
   publishedTime,
   modifiedTime,
+  noindex,
 }: BuildMetadataOptions): Metadata {
   const url = localizedUrl(path, locale);
   const otherLocale: Locale = locale === "bg" ? "en" : "bg";
@@ -87,7 +90,7 @@ export function buildMetadata({
       description: description || undefined,
       images: images.map((i) => i.url),
     },
-    robots: { index: IS_INDEXABLE, follow: IS_INDEXABLE },
+    robots: { index: IS_INDEXABLE && !noindex, follow: IS_INDEXABLE },
   };
 }
 

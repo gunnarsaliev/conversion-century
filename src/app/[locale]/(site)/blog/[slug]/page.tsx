@@ -86,9 +86,12 @@ type BlogPostPageProps = {
 };
 
 // Shared by generateMetadata and the page; findByLocalizedSlug is cached.
-const getPost = (slug: string, locale: string) =>
+// Local API bypasses access control, so hide drafts explicitly.
+const getPost = async (slug: string, locale: string) => {
   // depth 2 so the author's profileImage comes back as a Media doc (avatar).
-  findByLocalizedSlug("blog", slug, locale, { depth: 2 });
+  const post = await findByLocalizedSlug("blog", slug, locale, { depth: 2 });
+  return post?._status === "published" ? post : null;
+};
 
 // Category pages and every published post are prerendered at build time;
 // posts published later render on first visit and are then cached.
@@ -136,7 +139,8 @@ export async function generateMetadata({
     description: post.meta?.description || truncate(post.excerpt),
     path: await localizedDocPath("blog", post.id, "/blog"),
     locale: toLocale(locale),
-    image: mediaImage(post.featuredImage),
+    image: mediaImage(post.meta?.image) ?? mediaImage(post.featuredImage),
+    noindex: post.meta?.noindex,
     type: "article",
     publishedTime: post.publishedAt,
     modifiedTime: post.updatedAt,
@@ -178,13 +182,22 @@ export default async function BlogPostPage({
       ? (author.profileImage as Media).url ?? undefined
       : undefined;
 
+  const dateFormat = new Intl.DateTimeFormat(locale, {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
   const dateLabel = post.publishedAt
-    ? new Intl.DateTimeFormat(locale, {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      }).format(new Date(post.publishedAt))
+    ? dateFormat.format(new Date(post.publishedAt))
     : undefined;
+  // A visible "Updated" date (a freshness signal for search and AI answers),
+  // only when the post changed on a later day than it was published.
+  const updatedLabel =
+    post.publishedAt &&
+    dateFormat.format(new Date(post.updatedAt)) !== dateLabel &&
+    new Date(post.updatedAt) > new Date(post.publishedAt)
+      ? dateFormat.format(new Date(post.updatedAt))
+      : undefined;
 
   const tCategories = await getTranslations("BlogCategories");
   // The first category stands in for the post in the breadcrumb trail.
@@ -220,6 +233,7 @@ export default async function BlogPostPage({
             image: featuredImage?.url,
             datePublished: post.publishedAt ?? post.createdAt,
             dateModified: post.updatedAt,
+            articleSection: categories.map((category) => category.label),
             author:
               author && authorFullName
                 ? personSchema({
@@ -240,6 +254,9 @@ export default async function BlogPostPage({
         authorAvatar={authorAvatar}
         authorHref={author ? authorPath(author) : undefined}
         dateLabel={dateLabel}
+        publishedAt={post.publishedAt ?? undefined}
+        updatedLabel={updatedLabel}
+        updatedAt={post.updatedAt}
         categories={categories}
         relatedPosts={relatedPosts}
         featuredImage={featuredImage?.url ?? undefined}

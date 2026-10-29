@@ -68,6 +68,21 @@
       "name": "Getting started",
       "title": "Getting started",
       "description": "Comprehensive technical SEO audit recommendations and implementation guidelines for website optimization."
+    },
+    "termsAndConditions": {
+      "name": "Terms and Conditions",
+      "title": "Terms and Conditions",
+      "description": "The terms and conditions for using the Conversion Century website and services."
+    },
+    "privacyPolicy": {
+      "name": "Privacy Policy",
+      "title": "Privacy Policy",
+      "description": "How Conversion Century collects, uses and protects your personal data, and the rights you have under GDPR."
+    },
+    "cookiePolicy": {
+      "name": "Cookie Policy",
+      "title": "Cookie Policy",
+      "description": "Which cookies the Conversion Century website uses, why, and how to change or withdraw your consent."
     }
   },
   "Footer": {
@@ -137,7 +152,8 @@
     "terms": "Terms and Conditions",
     "privacy": "Privacy Policy",
     "cookies": "Cookie Policy",
-    "legal": "Legal"
+    "legal": "Legal",
+    "cookieSettings": "Cookie settings"
   },
   "Forms": {
     "invalidInput": "Invalid input",
@@ -697,9 +713,10 @@
   },
   "Blogpost5": {
     "breadcrumb": "Blog",
-    "publishedOn": "on {date}",
+    "publishedOn": "on <time>{date}</time>",
     "share": "Share this article:",
-    "related": "Related articles"
+    "related": "Related articles",
+    "updatedOn": "updated <time>{date}</time>"
   },
   "SolutionHero": {
     "secondaryCta": "Explore Our Results",
@@ -877,5 +894,13 @@
     "checklists": "Checklists",
     "all": "All",
     "filterLabel": "Filter posts by category"
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "heading": "Page not found",
+    "description": "Sorry, we couldn’t find the page you’re looking for. It may have been moved or no longer exists.",
+    "home": "Go back home",
+    "services": "Explore our services",
+    "blog": "Read the blog"
   }
 }

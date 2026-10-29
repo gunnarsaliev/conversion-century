@@ -14,11 +14,12 @@ type CmsImageProps = Omit<ImageProps, "src" | "fill" | "width" | "height"> & {
 
 // A CMS (Payload/R2) image through next/image: resized, modern formats,
 // lazy unless `preload` is set. Fills its wrapper, which shows a Skeleton
-// until the image has loaded and then fades it in. With no src the
-// wrapper just keeps its size as a neutral block.
+// behind the image until it has loaded. With no src the wrapper just keeps
+// its size as a neutral block.
 //
-// Give above-the-fold (LCP) images `preload`; they skip the fade so they
-// paint as soon as they arrive.
+// The image is never hidden while loading: hiding it until onLoad (which
+// needs hydration) would hold back LCP until the page's JS has run.
+// Give above-the-fold (LCP) images `preload` so they're fetched early.
 export function CmsImage({
   src,
   alt,
@@ -53,12 +54,7 @@ export function CmsImage({
             setLoaded(true);
             onLoad?.(event);
           }}
-          className={cn(
-            "object-cover",
-            !preload && "transition-opacity duration-300",
-            !preload && !loaded && "opacity-0",
-            className,
-          )}
+          className={cn("object-cover", className)}
         />
       )}
     </div>

@@ -7,6 +7,7 @@ import {
   UserCheck,
   Users,
 } from "lucide-react";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { cn } from "cn";
 
@@ -66,11 +67,17 @@ const Feature104 = ({ className }: Feature104Props) => {
             ))}
           </div>
 
-          <img
-            src="https://images.unsplash.com/photo-1590098563176-07884b06d7f7"
-            alt=""
-            className="hidden h-full rounded-lg object-cover lg:block"
-          />
+          {/* Desktop only. next/image lazy-loads, so mobile (display: none)
+              never downloads it; the 1 MB original is resized per breakpoint. */}
+          <div className="relative hidden overflow-hidden rounded-lg lg:block">
+            <Image
+              src="https://images.unsplash.com/photo-1590098563176-07884b06d7f7"
+              alt=""
+              fill
+              sizes="(min-width: 1280px) 400px, 33vw"
+              className="object-cover"
+            />
+          </div>
           <div className="flex flex-col gap-2.5">
             {RIGHT_POINTS.map(({ key, icon: Icon }) => (
               <div key={key} className="gap flex flex-col gap-3 rounded-lg border p-6">

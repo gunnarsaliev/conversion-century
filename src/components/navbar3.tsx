@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, LazyMotion, m } from "motion/react";
 import {
   ArrowRight,
   Bot,
@@ -56,6 +56,10 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { CmsImage } from "@/components/cms-image";
+
+const loadMotionFeatures = () =>
+  import("@/lib/motion-features").then((mod) => mod.default);
+
 // Menu text lives in the `Navbar` messages: `<group>.items.<key>` (and
 // `.description` for services, shown in the mobile menu).
 const platformFeatures = [
@@ -515,293 +519,296 @@ const Navbar3 = ({
             </div>
           </div>
 
-          {/* Mobile Menu */}
-          <AnimatePresence>
-            {open && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.18, ease: "easeOut" }}
-                className={mobileMenuShellClassName}
-              >
-                {submenu && (
-                  <div className="relative z-10 shrink-0 border-b border-border bg-popover px-4 py-3">
-                    <Button variant="outline" onClick={closeSubmenu}>
-                      <ChevronLeft />
-                      {t("back")}
-                    </Button>
-                  </div>
-                )}
-                <div className="relative min-h-0 flex-1">
-                  <AnimatePresence
-                    mode="sync"
-                    custom={menuDirection}
-                    initial={false}
-                  >
-                    <motion.div
-                      key={submenu ?? "root"}
+          {/* Mobile Menu. LazyMotion + m: the animation features load
+              async instead of shipping in every page's initial JS. */}
+          <LazyMotion features={loadMotionFeatures} strict>
+            <AnimatePresence>
+              {open && (
+                <m.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.18, ease: "easeOut" }}
+                  className={mobileMenuShellClassName}
+                >
+                  {submenu && (
+                    <div className="relative z-10 shrink-0 border-b border-border bg-popover px-4 py-3">
+                      <Button variant="outline" onClick={closeSubmenu}>
+                        <ChevronLeft />
+                        {t("back")}
+                      </Button>
+                    </div>
+                  )}
+                  <div className="relative min-h-0 flex-1">
+                    <AnimatePresence
+                      mode="sync"
                       custom={menuDirection}
-                      variants={mobilePanelVariants}
-                      initial="initial"
-                      animate="animate"
-                      exit="exit"
-                      transition={mobileMenuTransition}
-                      className={mobileMenuPanelClassName}
+                      initial={false}
                     >
-                      {!submenu && (
-                        <>
-                          <div>
-                            {(
-                              [
-                                "services",
-                                "solutions",
-                                "industries",
-                                "proof",
-                                "about",
-                                "insights",
-                              ] as const
-                            ).map((key) => (
-                              <button
-                                key={key}
-                                type="button"
-                                className="flex w-full items-center border-b border-border px-8 py-7 text-left transition-colors hover:bg-muted/30 dark:hover:bg-muted/25"
-                                onClick={() => openSubmenu(key)}
-                              >
-                                <span className="flex-1">{t(`${key}.label`)}</span>
-                                <span className="shrink-0">
-                                  <ChevronRight className="size-4" />
-                                </span>
-                              </button>
-                            ))}
-                          </div>
-                          <div className="mx-8 mt-auto flex flex-col gap-4 py-12">
-                            <Link href="/book-a-consultation">
-                              <Button className="relative w-full" size="lg">
-                                {t("cta")}
-                              </Button>
-                            </Link>
-                          </div>
-                        </>
-                      )}
+                      <m.div
+                        key={submenu ?? "root"}
+                        custom={menuDirection}
+                        variants={mobilePanelVariants}
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                        transition={mobileMenuTransition}
+                        className={mobileMenuPanelClassName}
+                      >
+                        {!submenu && (
+                          <>
+                            <div>
+                              {(
+                                [
+                                  "services",
+                                  "solutions",
+                                  "industries",
+                                  "proof",
+                                  "about",
+                                  "insights",
+                                ] as const
+                              ).map((key) => (
+                                <button
+                                  key={key}
+                                  type="button"
+                                  className="flex w-full items-center border-b border-border px-8 py-7 text-left transition-colors hover:bg-muted/30 dark:hover:bg-muted/25"
+                                  onClick={() => openSubmenu(key)}
+                                >
+                                  <span className="flex-1">{t(`${key}.label`)}</span>
+                                  <span className="shrink-0">
+                                    <ChevronRight className="size-4" />
+                                  </span>
+                                </button>
+                              ))}
+                            </div>
+                            <div className="mx-8 mt-auto flex flex-col gap-4 py-12">
+                              <Link href="/book-a-consultation">
+                                <Button className="relative w-full" size="lg">
+                                  {t("cta")}
+                                </Button>
+                              </Link>
+                            </div>
+                          </>
+                        )}
 
-                      {submenu === "services" && (
-                        <>
-                          <div className="px-8 pt-8 pb-3.5 text-xs font-semibold tracking-wide text-foreground uppercase">
-                            {t("services.label")}
-                          </div>
-                          <div className="mb-4 px-8 text-sm font-normal text-muted-foreground">
-                            {t("services.intro")}
-                          </div>
-                          <div className="border-t border-border pb-16">
-                            {shownFeatures.map((feature, index) => (
-                              <a
-                                key={index}
-                                href={localize(feature.href)}
-                                className="group flex w-full items-start gap-x-4 border-b border-border px-8 py-7 text-left transition-colors hover:bg-muted/30 dark:hover:bg-muted/25"
-                              >
-                                <div className="shrink-0">
-                                  <feature.icon className="size-6" />
-                                </div>
-                                <div>
-                                  <div className="mb-1.5 text-base">
-                                    {t(`services.items.${feature.key}`)}
+                        {submenu === "services" && (
+                          <>
+                            <div className="px-8 pt-8 pb-3.5 text-xs font-semibold tracking-wide text-foreground uppercase">
+                              {t("services.label")}
+                            </div>
+                            <div className="mb-4 px-8 text-sm font-normal text-muted-foreground">
+                              {t("services.intro")}
+                            </div>
+                            <div className="border-t border-border pb-16">
+                              {shownFeatures.map((feature, index) => (
+                                <a
+                                  key={index}
+                                  href={localize(feature.href)}
+                                  className="group flex w-full items-start gap-x-4 border-b border-border px-8 py-7 text-left transition-colors hover:bg-muted/30 dark:hover:bg-muted/25"
+                                >
+                                  <div className="shrink-0">
+                                    <feature.icon className="size-6" />
                                   </div>
-                                  <div className="text-sm font-normal text-muted-foreground">
-                                    {t(`services.descriptions.${feature.key}`)}
+                                  <div>
+                                    <div className="mb-1.5 text-base">
+                                      {t(`services.items.${feature.key}`)}
+                                    </div>
+                                    <div className="text-sm font-normal text-muted-foreground">
+                                      {t(`services.descriptions.${feature.key}`)}
+                                    </div>
                                   </div>
-                                </div>
-                              </a>
-                            ))}
-                          </div>
-                        </>
-                      )}
+                                </a>
+                              ))}
+                            </div>
+                          </>
+                        )}
 
-                      {submenu === "solutions" && (
-                        <>
-                          <div className="px-8 pt-8 pb-3.5 text-xs font-semibold tracking-wide text-foreground uppercase">
-                            {t("solutions.label")}
-                          </div>
-                          <div className="mb-4 px-8 text-sm font-normal text-muted-foreground">
-                            {t("solutions.intro")}
-                          </div>
-                          <div>
-                            {shownSolutions.map((solution, index) => (
-                              <a
-                                key={index}
-                                href={localize(solution.href)}
-                                className="group flex w-full items-start gap-x-4 border-t border-border px-8 py-7 text-left transition-colors hover:bg-muted/30 dark:hover:bg-muted/25"
+                        {submenu === "solutions" && (
+                          <>
+                            <div className="px-8 pt-8 pb-3.5 text-xs font-semibold tracking-wide text-foreground uppercase">
+                              {t("solutions.label")}
+                            </div>
+                            <div className="mb-4 px-8 text-sm font-normal text-muted-foreground">
+                              {t("solutions.intro")}
+                            </div>
+                            <div>
+                              {shownSolutions.map((solution, index) => (
+                                <a
+                                  key={index}
+                                  href={localize(solution.href)}
+                                  className="group flex w-full items-start gap-x-4 border-t border-border px-8 py-7 text-left transition-colors hover:bg-muted/30 dark:hover:bg-muted/25"
+                                >
+                                  <div className="shrink-0">
+                                    <solution.icon className="size-6" />
+                                  </div>
+                                  <div className="text-base">
+                                    {t(`solutions.items.${solution.key}`)}
+                                  </div>
+                                </a>
+                              ))}
+                              <Link
+                                href="/solutions"
+                                className="flex w-full items-center gap-x-2 border-t border-border px-8 py-7 text-base font-medium transition-colors hover:bg-muted/30 dark:hover:bg-muted/25"
                               >
-                                <div className="shrink-0">
-                                  <solution.icon className="size-6" />
-                                </div>
-                                <div className="text-base">
-                                  {t(`solutions.items.${solution.key}`)}
-                                </div>
-                              </a>
-                            ))}
-                            <Link
-                              href="/solutions"
-                              className="flex w-full items-center gap-x-2 border-t border-border px-8 py-7 text-base font-medium transition-colors hover:bg-muted/30 dark:hover:bg-muted/25"
-                            >
-                              {t("solutions.viewAll")}
-                              <ArrowRight className="size-4" />
-                            </Link>
-                          </div>
-                        </>
-                      )}
+                                {t("solutions.viewAll")}
+                                <ArrowRight className="size-4" />
+                              </Link>
+                            </div>
+                          </>
+                        )}
 
-                      {submenu === "industries" && (
-                        <>
-                          <div className="px-8 pt-8 pb-3.5 text-xs font-semibold tracking-wide text-foreground uppercase">
-                            {t("industries.label")}
-                          </div>
-                          <div className="mb-4 px-8 text-sm font-normal text-muted-foreground">
-                            {t("industries.intro")}
-                          </div>
-                          <div>
-                            {shownIndustries.map((industry, index) => (
-                              <a
-                                key={index}
-                                href={localize(industry.href)}
-                                className="group flex w-full items-start gap-x-4 border-t border-border px-8 py-7 text-left transition-colors hover:bg-muted/30 dark:hover:bg-muted/25"
+                        {submenu === "industries" && (
+                          <>
+                            <div className="px-8 pt-8 pb-3.5 text-xs font-semibold tracking-wide text-foreground uppercase">
+                              {t("industries.label")}
+                            </div>
+                            <div className="mb-4 px-8 text-sm font-normal text-muted-foreground">
+                              {t("industries.intro")}
+                            </div>
+                            <div>
+                              {shownIndustries.map((industry, index) => (
+                                <a
+                                  key={index}
+                                  href={localize(industry.href)}
+                                  className="group flex w-full items-start gap-x-4 border-t border-border px-8 py-7 text-left transition-colors hover:bg-muted/30 dark:hover:bg-muted/25"
+                                >
+                                  <div className="shrink-0">
+                                    <industry.icon className="size-6" />
+                                  </div>
+                                  <div className="text-base">
+                                    {t(`industries.items.${industry.key}`)}
+                                  </div>
+                                </a>
+                              ))}
+                              <Link
+                                href="/industries"
+                                className="flex w-full items-center gap-x-2 border-t border-border px-8 py-7 text-base font-medium transition-colors hover:bg-muted/30 dark:hover:bg-muted/25"
                               >
-                                <div className="shrink-0">
-                                  <industry.icon className="size-6" />
-                                </div>
-                                <div className="text-base">
-                                  {t(`industries.items.${industry.key}`)}
-                                </div>
-                              </a>
-                            ))}
-                            <Link
-                              href="/industries"
-                              className="flex w-full items-center gap-x-2 border-t border-border px-8 py-7 text-base font-medium transition-colors hover:bg-muted/30 dark:hover:bg-muted/25"
-                            >
-                              {t("industries.viewAll")}
-                              <ArrowRight className="size-4" />
-                            </Link>
-                          </div>
-                        </>
-                      )}
+                                {t("industries.viewAll")}
+                                <ArrowRight className="size-4" />
+                              </Link>
+                            </div>
+                          </>
+                        )}
 
-                      {submenu === "proof" && (
-                        <>
-                          <div className="px-8 pt-8 pb-3.5 text-xs font-semibold tracking-wide text-foreground uppercase">
-                            {t("proof.label")}
-                          </div>
-                          <div className="mb-4 px-8 text-sm font-normal text-muted-foreground">
-                            {t("proof.intro")}
-                          </div>
-                          <div className="space-y-1 px-8 pb-16">
-                            {documentationLinks.map(
-                              (documentationLink, index) => (
+                        {submenu === "proof" && (
+                          <>
+                            <div className="px-8 pt-8 pb-3.5 text-xs font-semibold tracking-wide text-foreground uppercase">
+                              {t("proof.label")}
+                            </div>
+                            <div className="mb-4 px-8 text-sm font-normal text-muted-foreground">
+                              {t("proof.intro")}
+                            </div>
+                            <div className="space-y-1 px-8 pb-16">
+                              {documentationLinks.map(
+                                (documentationLink, index) => (
+                                  <NavigationMenuLink
+                                    key={index}
+                                    href={localize(documentationLink.href)}
+                                    className="group flex flex-row items-center gap-3 rounded-md px-2 py-2 transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
+                                  >
+                                    <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5">
+                                      <documentationLink.icon className="size-3.5 text-foreground" />
+                                    </span>
+                                    <div className="text-sm font-medium">
+                                      {t(`proof.items.${documentationLink.key}`)}
+                                    </div>
+                                  </NavigationMenuLink>
+                                ),
+                              )}
+                            </div>
+                          </>
+                        )}
+
+                        {submenu === "about" && (
+                          <>
+                            <div className="px-8 pt-8 pb-3.5 text-xs font-semibold tracking-wide text-foreground uppercase">
+                              {t("about.label")}
+                            </div>
+                            <div className="mb-4 px-8 text-sm font-normal text-muted-foreground">
+                              {t("about.intro")}
+                            </div>
+                            <div className="space-y-1 px-8 pb-16">
+                              {aboutLinks.map((aboutLink, index) => (
                                 <NavigationMenuLink
                                   key={index}
-                                  href={localize(documentationLink.href)}
+                                  href={localize(aboutLink.href)}
                                   className="group flex flex-row items-center gap-3 rounded-md px-2 py-2 transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
                                 >
                                   <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5">
-                                    <documentationLink.icon className="size-3.5 text-foreground" />
+                                    <aboutLink.icon className="size-3.5 text-foreground" />
                                   </span>
                                   <div className="text-sm font-medium">
-                                    {t(`proof.items.${documentationLink.key}`)}
+                                    {t(`about.items.${aboutLink.key}`)}
                                   </div>
                                 </NavigationMenuLink>
-                              ),
-                            )}
-                          </div>
-                        </>
-                      )}
+                              ))}
+                            </div>
+                          </>
+                        )}
 
-                      {submenu === "about" && (
-                        <>
-                          <div className="px-8 pt-8 pb-3.5 text-xs font-semibold tracking-wide text-foreground uppercase">
-                            {t("about.label")}
-                          </div>
-                          <div className="mb-4 px-8 text-sm font-normal text-muted-foreground">
-                            {t("about.intro")}
-                          </div>
-                          <div className="space-y-1 px-8 pb-16">
-                            {aboutLinks.map((aboutLink, index) => (
-                              <NavigationMenuLink
-                                key={index}
-                                href={localize(aboutLink.href)}
-                                className="group flex flex-row items-center gap-3 rounded-md px-2 py-2 transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
-                              >
-                                <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5">
-                                  <aboutLink.icon className="size-3.5 text-foreground" />
-                                </span>
-                                <div className="text-sm font-medium">
-                                  {t(`about.items.${aboutLink.key}`)}
-                                </div>
-                              </NavigationMenuLink>
-                            ))}
-                          </div>
-                        </>
-                      )}
-
-                      {submenu === "insights" && (
-                        <>
-                          <div className="px-8 pt-8 pb-3.5 text-xs font-semibold tracking-wide text-foreground uppercase">
-                            {t("blog.label")}
-                          </div>
-                          <div className="mb-4 px-8 text-sm font-normal text-muted-foreground">
-                            {t("blog.intro")}
-                          </div>
-                          <div className="space-y-4 px-8 pb-8">
-                            {blogPosts.map((post, index) => (
-                              <a
-                                key={index}
-                                href={localize(post.href)}
-                                className="block overflow-clip rounded-lg border border-border outline-none focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-1"
-                              >
-                                <div className="aspect-square w-full overflow-hidden border-b border-border">
-                                  <CmsImage
-                                    src={post.image}
-                                    alt={post.alt}
-                                    sizes="(min-width: 640px) 50vw, 100vw"
-                                    wrapperClassName="h-full w-full"
-                                  />
-                                </div>
-                                <div className="p-4">
-                                  <div className="text-base font-medium text-foreground">
-                                    {post.title}
+                        {submenu === "insights" && (
+                          <>
+                            <div className="px-8 pt-8 pb-3.5 text-xs font-semibold tracking-wide text-foreground uppercase">
+                              {t("blog.label")}
+                            </div>
+                            <div className="mb-4 px-8 text-sm font-normal text-muted-foreground">
+                              {t("blog.intro")}
+                            </div>
+                            <div className="space-y-4 px-8 pb-8">
+                              {blogPosts.map((post, index) => (
+                                <a
+                                  key={index}
+                                  href={localize(post.href)}
+                                  className="block overflow-clip rounded-lg border border-border outline-none focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-1"
+                                >
+                                  <div className="aspect-square w-full overflow-hidden border-b border-border">
+                                    <CmsImage
+                                      src={post.image}
+                                      alt={post.alt}
+                                      sizes="(min-width: 640px) 50vw, 100vw"
+                                      wrapperClassName="h-full w-full"
+                                    />
                                   </div>
-                                </div>
-                              </a>
-                            ))}
-                          </div>
-                          <div className="px-8 py-3.5 text-xs font-semibold tracking-wide text-foreground uppercase">
-                            {t("insights.label")}
-                          </div>
-                          <div className="mb-4 px-8 text-sm font-normal text-muted-foreground">
-                            {t("insights.intro")}
-                          </div>
-                          <div className="space-y-1 px-8 pb-16">
-                            {resourceLinks.map((resourceLink, index) => (
-                              <NavigationMenuLink
-                                key={index}
-                                href={localize(resourceLink.href)}
-                                className="group flex flex-row items-center gap-3 rounded-md px-2 py-2 transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
-                              >
-                                <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5">
-                                  <resourceLink.icon className="size-3.5 text-foreground" />
-                                </span>
-                                <div className="text-sm font-medium">
-                                  {t(`insights.items.${resourceLink.key}`)}
-                                </div>
-                              </NavigationMenuLink>
-                            ))}
-                          </div>
-                        </>
-                      )}
-                    </motion.div>
-                  </AnimatePresence>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                                  <div className="p-4">
+                                    <div className="text-base font-medium text-foreground">
+                                      {post.title}
+                                    </div>
+                                  </div>
+                                </a>
+                              ))}
+                            </div>
+                            <div className="px-8 py-3.5 text-xs font-semibold tracking-wide text-foreground uppercase">
+                              {t("insights.label")}
+                            </div>
+                            <div className="mb-4 px-8 text-sm font-normal text-muted-foreground">
+                              {t("insights.intro")}
+                            </div>
+                            <div className="space-y-1 px-8 pb-16">
+                              {resourceLinks.map((resourceLink, index) => (
+                                <NavigationMenuLink
+                                  key={index}
+                                  href={localize(resourceLink.href)}
+                                  className="group flex flex-row items-center gap-3 rounded-md px-2 py-2 transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
+                                >
+                                  <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5">
+                                    <resourceLink.icon className="size-3.5 text-foreground" />
+                                  </span>
+                                  <div className="text-sm font-medium">
+                                    {t(`insights.items.${resourceLink.key}`)}
+                                  </div>
+                                </NavigationMenuLink>
+                              ))}
+                            </div>
+                          </>
+                        )}
+                      </m.div>
+                    </AnimatePresence>
+                  </div>
+                </m.div>
+              )}
+            </AnimatePresence>
+          </LazyMotion>
         </NavigationMenu>
       </div>
     </section>

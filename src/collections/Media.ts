@@ -14,6 +14,15 @@ export const Media: CollectionConfig = {
     disableLocalStorage: true,
     staticDir: 'media',
     mimeTypes: ['image/*'],
+    // Caps the stored original. Pages read the original through next/image,
+    // so multi-megapixel camera uploads only slow the optimizer down.
+    // Smaller images are kept as is.
+    resizeOptions: {
+      width: 2400,
+      height: 2400,
+      fit: 'inside',
+      withoutEnlargement: true,
+    },
     imageSizes: [
       {
         name: 'thumbnail',

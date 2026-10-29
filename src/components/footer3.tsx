@@ -1,5 +1,6 @@
 import { FaFacebookF, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { EXTERNAL_LINK_REL } from "@/lib/external-link";
+import { CookieSettingsButton } from "@/components/analytics/cookie-settings-button";
 import { Suspense } from "react";
 import { useTranslations } from "next-intl";
 import { cn } from "cn";
@@ -189,7 +190,7 @@ const Footer3 = ({
             <Suspense fallback={<div className="h-9 w-52 rounded-full bg-muted" />}>
               <FooterLanguageSwitcher label={t("language")} />
             </Suspense>
-            <ul className="flex gap-4">
+            <ul className="flex flex-wrap gap-x-4 gap-y-2">
               <li className="whitespace-nowrap underline hover:text-primary">
                 <Link href="/legal/terms-and-conditions">{t("terms")}</Link>
               </li>
@@ -198,6 +199,9 @@ const Footer3 = ({
               </li>
               <li className="whitespace-nowrap underline hover:text-primary">
                 <Link href="/legal/cookie-policy">{t("cookies")}</Link>
+              </li>
+              <li className="whitespace-nowrap">
+                <CookieSettingsButton label={t("cookieSettings")} />
               </li>
             </ul>
           </div>

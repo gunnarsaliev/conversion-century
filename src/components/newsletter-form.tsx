@@ -1,9 +1,10 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { SubmitEvent, useState, useTransition } from "react";
 
 import { subscribeToNewsletter } from "@/app/[locale]/(frontend)/newsletter/actions";
+import { track } from "@/lib/analytics/datalayer";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,6 +12,7 @@ import { Label } from "@/components/ui/label";
 
 const NewsletterForm = () => {
   const t = useTranslations("Newsletter");
+  const locale = useLocale();
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -24,6 +26,7 @@ const NewsletterForm = () => {
       const result = await subscribeToNewsletter(formData);
       if (result.success) {
         setSubmitted(true);
+        track({ event: "sign_up", method: "newsletter", form_name: "footer_newsletter", locale });
       } else {
         setError(result.error);
       }

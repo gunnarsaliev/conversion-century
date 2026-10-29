@@ -127,6 +127,15 @@
   100% {
     background-position: 100% -100%;
     }
+  }
+  --animate-progress-fill: progress-fill var(--duration, 5s) linear forwards;
+  @keyframes progress-fill {
+  from {
+    transform: scaleX(0);
+    }
+  to {
+    transform: scaleX(1);
+    }
   }}
 
 :root {

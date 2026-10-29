@@ -25,16 +25,16 @@ export function WhyUs({ items }: WhyUsProps = {}) {
 
   return (
     <div className="my-12">
-    <h1 className="mb-16 max-w-2xl text-5xl font-black leading-[0.98] tracking-[-0.04em] md:text-6xl">
+    <h2 className="mb-16 max-w-2xl text-5xl font-black leading-[0.98] tracking-[-0.04em] md:text-6xl">
       {t.rich('heading', { br: () => <br /> })}
-    </h1>
+    </h2>
 
         <div className="grid grid-cols-1 gap-x-12 gap-y-12 md:grid-cols-3 md:gap-y-10 lg:gap-x-20">
           {cards.map((feature) => (
             <article key={feature.title}>
-              <h2 className="mb-3 text-lg font-bold leading-snug tracking-[-0.015em] md:text-xl">
+              <h3 className="mb-3 text-lg font-bold leading-snug tracking-[-0.015em] md:text-xl">
                 {feature.title}
-              </h2>
+              </h3>
               <p className="max-w-sm text-[15px] leading-relaxed text-[#59615d] md:text-base">
                 {feature.description}
               </p>

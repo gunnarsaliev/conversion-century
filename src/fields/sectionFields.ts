@@ -63,6 +63,30 @@ export const faqFields: Field[] = [
   },
 ]
 
+// Social image + noindex for a detail page's SEO group. Shared with the
+// collections that define their own meta title/description inline.
+export const metaExtraFields: Field[] = [
+  {
+    name: 'image',
+    label: 'Social share image',
+    type: 'upload',
+    relationTo: 'media',
+    admin: {
+      description:
+        'Shown when the page is shared (Open Graph / X). Defaults to the main image. Best at 1200×630.',
+    },
+  },
+  {
+    name: 'noindex',
+    label: 'Hide from search engines',
+    type: 'checkbox',
+    defaultValue: false,
+    admin: {
+      description: 'Adds noindex and leaves the page out of the sitemap.',
+    },
+  },
+]
+
 export const metaFields: Field[] = [
   { name: 'title', label: 'Meta title', type: 'text', localized: true },
   {
@@ -71,4 +95,5 @@ export const metaFields: Field[] = [
     type: 'textarea',
     localized: true,
   },
+  ...metaExtraFields,
 ]

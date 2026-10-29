@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { adminOnlyCollection } from '../lib/roles'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { localizedSlugField } from '../utilities/localizedSlugField'
+import { metaExtraFields } from '../fields/sectionFields'
 
 export const CaseStudies: CollectionConfig = {
   slug: 'case-studies',
@@ -29,6 +30,18 @@ export const CaseStudies: CollectionConfig = {
       relationTo: 'clients',
       admin: {
         position: 'sidebar',
+      },
+    },
+    {
+      // Shown to search engines as the article's datePublished. Left empty,
+      // the creation date is used.
+      name: 'publishedAt',
+      type: 'date',
+      admin: {
+        position: 'sidebar',
+        date: {
+          pickerAppearance: 'dayOnly',
+        },
       },
     },
     {
@@ -84,6 +97,7 @@ export const CaseStudies: CollectionConfig = {
           type: 'textarea',
           localized: true,
         },
+        ...metaExtraFields,
       ],
     },
   ],

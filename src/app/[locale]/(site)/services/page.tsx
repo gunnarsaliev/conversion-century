@@ -48,7 +48,13 @@ export default async function ServicesPage({
 
   return (
     <>
-      <StaticPageJsonLd page="services" />
+      <StaticPageJsonLd
+        page="services"
+        items={services.map((service) => ({
+          name: service.name,
+          path: `/services/${service.slug ?? service.id}`,
+        }))}
+      />
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <h1 className="text-4xl leading-tight font-semibold tracking-[-1px] sm:text-5xl">
@@ -84,6 +90,8 @@ export default async function ServicesPage({
                           src={image.url}
                           alt={image.alt ?? service.name}
                           fill
+                          // 1 / 2 / 3 columns inside the 80rem container.
+                          sizes="(min-width: 1280px) 400px, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                           className="object-cover transition-transform group-hover:scale-105"
                         />
                       </div>

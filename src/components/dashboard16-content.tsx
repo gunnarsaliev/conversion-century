@@ -1,6 +1,6 @@
 "use client";
 
-import { useMotionValueEvent, useSpring } from "framer-motion";
+import { useMotionValueEvent, useSpring } from "motion/react";
 import {
   ArrowDownRight,
   ArrowUpRight,

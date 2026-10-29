@@ -662,6 +662,14 @@ export interface Service {
   meta?: {
     title?: string | null;
     description?: string | null;
+    /**
+     * Shown when the page is shared (Open Graph / X). Defaults to the main image. Best at 1200×630.
+     */
+    image?: (number | null) | Media;
+    /**
+     * Adds noindex and leaves the page out of the sitemap.
+     */
+    noindex?: boolean | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -697,6 +705,14 @@ export interface Industry {
   meta?: {
     title?: string | null;
     description?: string | null;
+    /**
+     * Shown when the page is shared (Open Graph / X). Defaults to the main image. Best at 1200×630.
+     */
+    image?: (number | null) | Media;
+    /**
+     * Adds noindex and leaves the page out of the sitemap.
+     */
+    noindex?: boolean | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -802,6 +818,14 @@ export interface Blog {
   meta?: {
     title?: string | null;
     description?: string | null;
+    /**
+     * Shown when the page is shared (Open Graph / X). Defaults to the main image. Best at 1200×630.
+     */
+    image?: (number | null) | Media;
+    /**
+     * Adds noindex and leaves the page out of the sitemap.
+     */
+    noindex?: boolean | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -821,6 +845,7 @@ export interface JobListing {
   slug: string;
   type: 'part-time' | 'full-time' | 'full-time-hybrid';
   location?: string | null;
+  expiresAt?: string | null;
   description?: {
     root: {
       type: string;
@@ -924,6 +949,7 @@ export interface CaseStudy {
   generateSlug?: boolean | null;
   slug: string;
   client?: (number | null) | Client;
+  publishedAt?: string | null;
   image?: (number | null) | Media;
   overview?: string | null;
   achievements?:
@@ -954,6 +980,14 @@ export interface CaseStudy {
   meta?: {
     title?: string | null;
     description?: string | null;
+    /**
+     * Shown when the page is shared (Open Graph / X). Defaults to the main image. Best at 1200×630.
+     */
+    image?: (number | null) | Media;
+    /**
+     * Adds noindex and leaves the page out of the sitemap.
+     */
+    noindex?: boolean | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -1109,6 +1143,14 @@ export interface Solution {
   meta?: {
     title?: string | null;
     description?: string | null;
+    /**
+     * Shown when the page is shared (Open Graph / X). Defaults to the main image. Best at 1200×630.
+     */
+    image?: (number | null) | Media;
+    /**
+     * Adds noindex and leaves the page out of the sitemap.
+     */
+    noindex?: boolean | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -1159,6 +1201,14 @@ export interface Event {
   meta?: {
     title?: string | null;
     description?: string | null;
+    /**
+     * Shown when the page is shared (Open Graph / X). Defaults to the main image. Best at 1200×630.
+     */
+    image?: (number | null) | Media;
+    /**
+     * Adds noindex and leaves the page out of the sitemap.
+     */
+    noindex?: boolean | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -1269,6 +1319,9 @@ export interface PageMeta {
     | 'openPositions'
     | 'bookAConsultation'
     | 'eventsAndMedia'
+    | 'termsAndConditions'
+    | 'privacyPolicy'
+    | 'cookiePolicy'
     | 'docsGettingStarted';
   title?: string | null;
   description?: string | null;
@@ -1890,6 +1943,8 @@ export interface ServicesSelect<T extends boolean = true> {
     | {
         title?: T;
         description?: T;
+        image?: T;
+        noindex?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -1974,6 +2029,8 @@ export interface BlogSelect<T extends boolean = true> {
     | {
         title?: T;
         description?: T;
+        image?: T;
+        noindex?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -2020,6 +2077,7 @@ export interface JobListingsSelect<T extends boolean = true> {
   slug?: T;
   type?: T;
   location?: T;
+  expiresAt?: T;
   description?: T;
   responsibilities?: T;
   requirements?: T;
@@ -2048,6 +2106,7 @@ export interface CaseStudiesSelect<T extends boolean = true> {
   generateSlug?: T;
   slug?: T;
   client?: T;
+  publishedAt?: T;
   image?: T;
   overview?: T;
   achievements?:
@@ -2063,6 +2122,8 @@ export interface CaseStudiesSelect<T extends boolean = true> {
     | {
         title?: T;
         description?: T;
+        image?: T;
+        noindex?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -2082,6 +2143,8 @@ export interface IndustriesSelect<T extends boolean = true> {
     | {
         title?: T;
         description?: T;
+        image?: T;
+        noindex?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -2242,6 +2305,8 @@ export interface SolutionsSelect<T extends boolean = true> {
     | {
         title?: T;
         description?: T;
+        image?: T;
+        noindex?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -2267,6 +2332,8 @@ export interface EventsSelect<T extends boolean = true> {
     | {
         title?: T;
         description?: T;
+        image?: T;
+        noindex?: T;
       };
   updatedAt?: T;
   createdAt?: T;

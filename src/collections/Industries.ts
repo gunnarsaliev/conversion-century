@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { adminOnlyCollection } from '../lib/roles'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { localizedSlugField } from '../utilities/localizedSlugField'
+import { metaExtraFields } from '../fields/sectionFields'
 
 export const Industries: CollectionConfig = {
   slug: 'industries',
@@ -67,6 +68,7 @@ export const Industries: CollectionConfig = {
           type: 'textarea',
           localized: true,
         },
+        ...metaExtraFields,
       ],
     },
   ],
