@@ -500,7 +500,7 @@ const Navbar3 = ({
 
             <div className="hidden items-center lg:flex">
               <Link href="/book-a-consultation">
-                <Button variant="default" size="lg" className="px-6 py-6 cursor-pointer bg-yellow-300 hover:bg-yellow-200">
+                <Button variant="default" size="lg" className="px-6 py-6 cursor-pointer bg-warning hover:bg-warning/85">
                   {t("cta")}
                 </Button>
               </Link>

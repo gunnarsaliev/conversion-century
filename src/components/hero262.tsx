@@ -95,7 +95,7 @@ const Hero262 = (props: Hero262Props) => {
           {ctaText && ctaUrl && (
             <Button
               variant="outline"
-              className="bg-yellow-400 p-6 rounded-full hover:bg-yellow-300 mt-8 lg:mt-12"
+              className="bg-warning p-6 rounded-full hover:bg-warning/85 mt-8 lg:mt-12"
               size="lg"
               render={<Link href={ctaUrl} />}
               nativeButton={false}

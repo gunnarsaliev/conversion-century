@@ -72,10 +72,10 @@ const Hero104 = ({
             {(primaryCta || secondaryCta) && (
               <div className="flex flex-col items-center justify-center gap-5 sm:flex-row lg:justify-normal">
                 {primaryCta && (
-                  <Button variant="default" className="h-fit w-full rounded-lg border-2 border-primary px-8 py-4 text-lg bg-green-800 text-white font-semibold sm:w-fit hover:bg-green-700" render={<Link href={primaryCta.href} />} nativeButton={false}>{primaryCta.label}</Button>
+                  <Button variant="default" className="h-fit w-full rounded-lg border-2 border-primary px-8 py-4 text-lg bg-primary text-primary-foreground font-semibold sm:w-fit hover:bg-primary/85" render={<Link href={primaryCta.href} />} nativeButton={false}>{primaryCta.label}</Button>
                 )}
                 {secondaryCta && (
-                  <Button variant="ghost" className="h-fit w-full rounded-lg border-2 px-8 py-4 text-lg font-semibold hover:border-green-800 hover:bg-transparent sm:w-fit" render={<Link href={secondaryCta.href} />} nativeButton={false}>{secondaryCta.label}</Button>
+                  <Button variant="ghost" className="h-fit w-full rounded-lg border-2 px-8 py-4 text-lg font-semibold hover:border-primary hover:bg-transparent sm:w-fit" render={<Link href={secondaryCta.href} />} nativeButton={false}>{secondaryCta.label}</Button>
                 )}
               </div>
             )}

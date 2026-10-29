@@ -27,7 +27,7 @@ export function LegalNav({ label, pages }: LegalNavProps) {
                 className={cn(
                   'block rounded-lg px-3 py-2 text-sm transition-colors',
                   isActive
-                    ? 'bg-green-50 font-semibold text-green-800 dark:bg-green-950 dark:text-green-300'
+                    ? 'bg-primary/10 font-semibold text-foreground'
                     : 'text-muted-foreground hover:bg-muted hover:text-foreground',
                 )}
               >

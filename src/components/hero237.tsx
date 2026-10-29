@@ -146,7 +146,7 @@ const Hero237 = (props: Props) => {
             <Button
               variant="default"
               nativeButton={false}
-              className="h-fit w-full rounded-lg border-2 border-primary bg-green-800 px-8 py-4 text-lg font-semibold text-white hover:bg-green-700 sm:w-fit"
+              className="h-fit w-full rounded-lg border-2 border-primary bg-primary px-8 py-4 text-lg font-semibold text-primary-foreground hover:bg-primary/85 sm:w-fit"
               render={<Link href={cta.href} />}
             >
               {cta.text}

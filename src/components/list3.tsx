@@ -81,7 +81,7 @@ const List3 = ({
                     <Separator />
                     {textAsTooltip ? (
                       <p className="my-1 flex items-start gap-2 text-sm">
-                        <Check className="mt-0.5 size-4 shrink-0 text-green-600" />
+                        <Check className="mt-0.5 size-4 shrink-0 text-primary" />
                         {row.title}
                         {row.text && (
                           <Tooltip>
@@ -100,7 +100,7 @@ const List3 = ({
                     ) : (
                       <div className="my-1 grid gap-1 text-sm sm:grid-cols-[1fr_2fr]">
                         <p className="flex items-start gap-2">
-                          <Check className="mt-0.5 size-4 shrink-0 text-green-600" />
+                          <Check className="mt-0.5 size-4 shrink-0 text-primary" />
                           {row.title}
                         </p>
                         <p className="text-muted-foreground">{row.text}</p>

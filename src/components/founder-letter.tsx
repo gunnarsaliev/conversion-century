@@ -103,7 +103,7 @@ const FounderLetter = (props: Props) => {
               <div>
                 <Button
                   variant="outline"
-                  className="bg-yellow-400 p-6 rounded-full hover:bg-yellow-300"
+                  className="bg-warning p-6 rounded-full hover:bg-warning/85"
                   render={<Link href={ctaUrl} />}
                   nativeButton={false}
                 >
