@@ -60,9 +60,9 @@ export default async function ServicesPage({
           <h1 className="text-4xl leading-tight font-semibold tracking-[-1px] sm:text-5xl">
             {t("heading")}
           </h1>
-          <p className="mt-4 text-lg text-muted-foreground">
+          <h2 className="mt-4 text-lg text-muted-foreground">
             {t("description")}
-          </p>
+          </h2>
         </div>
 
         {services.length === 0 ? (
@@ -71,7 +71,7 @@ export default async function ServicesPage({
           </p>
         ) : (
           <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {services.map((service) => {
+            {services.map((service, index) => {
               const image =
                 service.image && typeof service.image === "object"
                   ? service.image
@@ -92,12 +92,18 @@ export default async function ServicesPage({
                           fill
                           // 1 / 2 / 3 columns inside the 80rem container.
                           sizes="(min-width: 1280px) 400px, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                          // The first row is above the fold; the first
+                          // image is the LCP on every breakpoint.
+                          loading={index < 3 ? "eager" : undefined}
+                          preload={index === 0}
                           className="object-cover transition-transform group-hover:scale-105"
                         />
                       </div>
                     )}
                     <CardHeader>
-                      <CardTitle className="text-lg">{service.name}</CardTitle>
+                      <CardTitle className="text-lg">
+                        <h3>{service.name}</h3>
+                      </CardTitle>
                     </CardHeader>
                     <CardContent className="flex flex-1 flex-col justify-between gap-4">
                       {service.hero?.description && (

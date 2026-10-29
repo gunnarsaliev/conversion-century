@@ -146,6 +146,8 @@ export async function BlogListing({
   category?: BlogCategory;
 }) {
   const tCategories = await getTranslations("BlogCategories");
+  const tDescriptions = await getTranslations("BlogCategoryDescriptions");
+  const tBlog = await getTranslations("Blog28");
   const [categories, { posts, totalPages }] = await Promise.all([
     getBlogCategories(locale),
     getBlogListing(locale, page, category),
@@ -195,6 +197,7 @@ export async function BlogListing({
       <Blog28
         // Category pages get their own h1 instead of the generic "Blog".
         heading={category ? tCategories(category) : undefined}
+        description={category ? tDescriptions(category) : tBlog("description")}
         posts={items}
         filters={<BlogCategoryFilter categories={categories} active={category} />}
       >

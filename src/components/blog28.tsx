@@ -74,6 +74,8 @@ const posts: Post[] = [
 
 interface Blog28Props {
   heading?: string;
+  /** Short intro under the heading, rendered as an h2. */
+  description?: string;
   posts?: Post[];
   className?: string;
   /** Rendered above the grid, e.g. a category filter. */
@@ -96,6 +98,7 @@ const CategoryBadges = ({ categories }: { categories?: string[] }) =>
 
 const Blog28 = ({
   heading: headingProp,
+  description,
   posts: postsProp,
   className,
   filters,
@@ -110,9 +113,19 @@ const Blog28 = ({
       <section className={cn("py-32", className)}>
         <div className="container">
           {heading && (
-            <h1 className="mb-12 text-center text-4xl font-medium md:text-7xl">
+            <h2
+              className={cn(
+                "text-center text-4xl font-medium md:text-7xl",
+                description ? "mb-4" : "mb-12",
+              )}
+            >
               {heading}
-            </h1>
+            </h2>
+          )}
+          {description && (
+            <h2 className="mx-auto mb-12 max-w-3xl text-center text-lg text-muted-foreground">
+              {description}
+            </h2>
           )}
           {filters && <div className="mb-12">{filters}</div>}
           <p className="text-center text-muted-foreground">
@@ -127,9 +140,19 @@ const Blog28 = ({
     <section className={cn("py-32", className)}>
       <div className="container">
         {heading && (
-          <h1 className="mb-12 text-center text-4xl font-medium md:text-7xl">
+          <h1
+            className={cn(
+              "text-center text-4xl font-medium md:text-7xl",
+              description ? "mb-4" : "mb-12",
+            )}
+          >
             {heading}
           </h1>
+        )}
+        {description && (
+          <h2 className="mx-auto mb-12 max-w-3xl text-center text-lg text-muted-foreground">
+            {description}
+          </h2>
         )}
         {filters}
 

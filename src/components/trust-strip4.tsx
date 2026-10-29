@@ -44,7 +44,7 @@ const TrustStrip4 = ({
                     key={i}
                     className={cn(
                       "size-4",
-                      i < Math.floor(rating)
+                      i < Math.round(rating)
                         ? "fill-amber-400 text-amber-400"
                         : "fill-muted text-muted",
                     )}

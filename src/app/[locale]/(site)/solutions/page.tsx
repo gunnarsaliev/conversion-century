@@ -57,9 +57,9 @@ export default async function SolutionsPage({
       />
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
-          <h1 className="text-4xl leading-tight font-semibold tracking-[-1px] sm:text-5xl">
+          <h2 className="text-4xl leading-tight font-semibold tracking-[-1px] sm:text-5xl">
             {t("heading")}
-          </h1>
+          </h2>
           <p className="mt-4 text-lg text-muted-foreground">
             {t("description")}
           </p>
@@ -98,7 +98,9 @@ export default async function SolutionsPage({
                       </div>
                     )}
                     <CardHeader>
-                      <CardTitle className="text-lg">{solution.name}</CardTitle>
+                      <CardTitle className="text-lg">
+                        <h3>{solution.name}</h3>
+                      </CardTitle>
                     </CardHeader>
                     <CardContent className="flex flex-1 flex-col justify-between gap-4">
                       {summary && (

@@ -709,6 +709,7 @@
   },
   "Blog28": {
     "heading": "Latest from our blog",
+    "description": "Practical SEO, content and AI search advice to help your business grow organic traffic and revenue.",
     "empty": "No posts published yet."
   },
   "Blogpost5": {
@@ -894,6 +895,16 @@
     "checklists": "Checklists",
     "all": "All",
     "filterLabel": "Filter posts by category"
+  },
+  "BlogCategoryDescriptions": {
+    "web-development": "How to build fast, crawlable websites that search engines and visitors love.",
+    "seo-performance": "Tactics and insights to improve your rankings, traffic and conversions from search.",
+    "content-optimization": "How to plan, write and refine content that ranks and converts.",
+    "blogging": "Tips for running a business blog that attracts and keeps the right readers.",
+    "seo-consulting": "Expert advice on choosing, planning and getting results from SEO services.",
+    "keyword-research": "How to find the search terms your customers use and turn them into a content plan.",
+    "link-building": "Strategies for earning quality backlinks that build your website's authority.",
+    "checklists": "Step-by-step SEO checklists to audit and improve your website."
   },
   "NotFound": {
     "title": "Page not found",

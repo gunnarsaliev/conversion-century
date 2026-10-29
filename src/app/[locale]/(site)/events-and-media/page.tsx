@@ -71,9 +71,9 @@ export default async function EventsAndMediaPage({
           <h1 className="text-4xl leading-tight font-semibold tracking-[-1px] sm:text-5xl">
             {t("heading")}
           </h1>
-          <p className="mt-4 text-lg text-muted-foreground">
+          <h2 className="mt-4 text-lg text-muted-foreground">
             {t("description")}
-          </p>
+          </h2>
         </div>
 
         {/* ?page= is only known per request; the header above is prerendered. */}

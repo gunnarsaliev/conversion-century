@@ -126,7 +126,7 @@ const Footer3 = ({
           <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {sections.map((section) => (
               <div key={section.key}>
-                <h3 className="mb-4 font-bold">{t(`${section.key}.title`)}</h3>
+                <p className="mb-4 font-bold">{t(`${section.key}.title`)}</p>
                 <ul className="space-y-4 text-muted-foreground">
                   {section.links
                     .filter((link) => !hiddenHrefs.includes(link.href))

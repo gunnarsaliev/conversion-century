@@ -84,9 +84,9 @@ const Blog12 = ({ className, posts }: Blog12Props) => {
           <Badge variant="outline" className="gap-1 py-1">
             <FileText className="h-full w-4" /> {t("badge")}
           </Badge>
-          <h1 className="text-4xl font-semibold text-balance">
+          <h2 className="text-4xl font-semibold text-balance">
             {t("heading")}
-          </h1>
+          </h2>
           <p className="text-muted-foreground">
             {t("description")}
           </p>
@@ -109,7 +109,7 @@ const Blog12 = ({ className, posts }: Blog12Props) => {
                 )}
               </div>
               <div className="px-3 pt-2 pb-4">
-                <h2 className="mb-1 font-medium">{post.title}</h2>
+                <h3 className="mb-1 font-medium">{post.title}</h3>
                 <p className="line-clamp-2 text-sm text-muted-foreground">
                   {post.description}
                 </p>

@@ -35,7 +35,9 @@ export const EventCard = ({
   <Link href={href} className="group">
     <Card className="h-full w-full overflow-hidden transition-shadow group-hover:shadow-md">
       <CardHeader>
-        <CardTitle className="text-lg">{title}</CardTitle>
+        <CardTitle className="text-lg">
+          <h3>{title}</h3>
+        </CardTitle>
         {excerpt && (
           <CardDescription className="line-clamp-2">{excerpt}</CardDescription>
         )}
