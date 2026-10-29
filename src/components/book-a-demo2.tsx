@@ -372,7 +372,7 @@ const BookADemo2Testimonials = ({ testimonials }: TestimonialsProps) => {
                   decoding="async"
                   src={testimonial.companyLogo}
                   alt={t("logoAlt", { name: testimonial.author.name })}
-                  className="h-16 w-auto object-contain md:h-16 dark:invert"
+                  className="h-10 w-auto max-w-40 object-contain dark:invert"
                 />
               </div>
 

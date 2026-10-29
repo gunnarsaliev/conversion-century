@@ -14,7 +14,9 @@ import { authorPath, toLocale } from "@/lib/seo/site";
 import { findByLocalizedSlug, translated } from "@/utilities/findByLocalizedSlug";
 import { BLOG_CATEGORIES, blogCategoryPath, isBlogCategory } from "@/lib/blog-categories";
 import { getPage, type PageSearchParams } from "@/lib/pagination";
-import { SuspendedBlogListing, blogListingMetadata } from "../blog-listing";
+import { SuspendedBlogListing, blogListingMetadata, getBlogCategories } from "../blog-listing";
+import { Blog12, type Blog12Post } from "@/components/blog12";
+import { getLatestBlogPosts } from "@/lib/latest-blog-posts";
 import type { Media } from "../../../../../../payload-types";
 
 const RELATED_COUNT = 4;
@@ -209,10 +211,22 @@ export default async function BlogPostPage({
 
   const seoLocale = toLocale(locale);
   const path = await localizedDocPath("blog", post.id, "/blog");
-  const relatedPosts = await getRelatedPosts(
-    { id: post.id, categories: post.categories },
-    locale,
-  );
+  const [relatedPosts, usedCategories, latest, tCommon] = await Promise.all([
+    getRelatedPosts({ id: post.id, categories: post.categories }, locale),
+    getBlogCategories(locale),
+    getLatestBlogPosts(locale, { excludeId: post.id }),
+    getTranslations("Common"),
+  ]);
+  const tPost = await getTranslations("Blogpost5");
+  // Every category with posts in this locale, for the sidebar.
+  const allCategories = usedCategories.map((category) => ({
+    label: tCategories(category),
+    href: blogCategoryPath(category),
+  }));
+  const latestPosts: Blog12Post[] = latest.map(({ readMinutes, ...latestPost }) => ({
+    ...latestPost,
+    readTime: tCommon("readTime", { minutes: readMinutes }),
+  }));
 
   return (
     <>
@@ -259,10 +273,14 @@ export default async function BlogPostPage({
         updatedAt={post.updatedAt}
         categories={categories}
         relatedPosts={relatedPosts}
+        allCategories={allCategories}
         featuredImage={featuredImage?.url ?? undefined}
         content={post.content ?? undefined}
         locale={locale as "en" | "bg"}
       />
+      {latestPosts.length > 0 && (
+        <Blog12 posts={latestPosts} heading={tPost("latest")} className="pt-0" />
+      )}
     </>
   );
 }

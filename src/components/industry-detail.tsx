@@ -13,6 +13,8 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { CmsImage } from "@/components/cms-image";
+import { RelatedLinks } from "@/components/related-links";
+import type { RelatedItem } from "@/lib/cms/related";
 
 interface IndustryDetailClient {
   name: string;
@@ -25,6 +27,8 @@ interface IndustryDetailProps {
   image?: string;
   description?: SerializedEditorState;
   clients?: IndustryDetailClient[];
+  /** Shown at the end as "Check other industries". */
+  otherIndustries?: RelatedItem[];
   className?: string;
 }
 
@@ -35,6 +39,7 @@ const IndustryDetail = ({
   image,
   description,
   clients = [],
+  otherIndustries = [],
   className,
 }: IndustryDetailProps) => {
   const t = useTranslations("IndustryDetail");
@@ -100,10 +105,10 @@ const IndustryDetail = ({
             <CmsImage
               src={image}
               alt={title}
-              sizes="(min-width: 1280px) 1280px, 100vw"
+              sizes="(min-width: 512px) 448px, 100vw"
               // Right under the h1, so usually the LCP element.
               preload
-              wrapperClassName="mt-10 aspect-video w-full rounded-lg"
+              wrapperClassName="mt-10 aspect-square w-full max-w-md rounded-lg"
             />
           )}
 
@@ -112,6 +117,12 @@ const IndustryDetail = ({
               <RichText data={description} />
             </div>
           )}
+
+          <RelatedLinks
+            heading={t("otherIndustries")}
+            items={otherIndustries}
+            className="mt-20"
+          />
         </div>
       </div>
     </section>

@@ -287,7 +287,7 @@
       "secondaryDescription": "We combine strategic thinking, technical expertise, quality content and digital authority with something just as important: genuine commitment to every client’s success.",
       "secondaryCta": "Explore Our Results",
       "avatarAlt": "Client logo",
-      "socialProof": "Trusted by 100+ businesses worldwide",
+      "socialProof": "Trusted by 1200+ businesses worldwide",
       "highlights": {
         "founded": "Established in 2016",
         "relationships": "Client relationships lasting 7+ years",
@@ -644,7 +644,8 @@
   "IndustryDetail": {
     "breadcrumb": "Industries",
     "label": "Industry",
-    "clientsIn": "Clients in {title}"
+    "clientsIn": "Clients in {title}",
+    "otherIndustries": "Check other industries"
   },
   "Reviews22": {
     "heading": "Positive Reviews From Our Clients",
@@ -656,14 +657,16 @@
     "description": "Explore the ways we help businesses grow organic search visibility and revenue.",
     "empty": "No services are available yet.",
     "learnMore": "Learn more",
-    "breadcrumb": "Services"
+    "breadcrumb": "Services",
+    "otherServices": "Check other services"
   },
   "SolutionsPage": {
     "heading": "Our Solutions",
     "description": "Explore how we help businesses reach their organic growth goals.",
     "empty": "No solutions are available yet.",
     "learnMore": "Learn more",
-    "breadcrumb": "Solutions"
+    "breadcrumb": "Solutions",
+    "otherSolutions": "Check other solutions"
   },
   "WhyUs": {
     "heading": "Why Work With<br></br>Conversion Century?",
@@ -717,7 +720,9 @@
     "publishedOn": "on <time>{date}</time>",
     "share": "Share this article:",
     "related": "Related articles",
-    "updatedOn": "updated <time>{date}</time>"
+    "updatedOn": "updated <time>{date}</time>",
+    "categories": "Categories",
+    "latest": "Latest blog posts"
   },
   "SolutionHero": {
     "secondaryCta": "Explore Our Results",

@@ -10,6 +10,7 @@ import { cmsCache } from "@/lib/cms/cache";import type { SerializedEditorState }
 import { IndustryDetail } from "@/components/industry-detail";
 import { slugStaticParams } from "@/lib/cms/slugs";
 import { findByLocalizedSlug } from "@/utilities/findByLocalizedSlug";
+import { getRelated } from "@/lib/cms/related";
 import { richTextToPlainText } from "@/lib/rich-text-to-plain-text";
 import type { Media } from "../../../../../../payload-types";
 import { JsonLd } from "@/components/json-ld";
@@ -89,7 +90,10 @@ export default async function IndustryPage({ params }: IndustryPageProps) {
     notFound();
   }
 
-  const { docs: clients } = await getIndustryClients(industry.id);
+  const [{ docs: clients }, otherIndustries] = await Promise.all([
+    getIndustryClients(industry.id),
+    getRelated("industries", locale, industry.id),
+  ]);
 
   const image =
     industry.image && typeof industry.image === "object"
@@ -132,6 +136,7 @@ export default async function IndustryPage({ params }: IndustryPageProps) {
               : null;
           return logo ? [{ name: client.companyName, logo }] : [];
         })}
+        otherIndustries={otherIndustries}
       />
     </>
   );

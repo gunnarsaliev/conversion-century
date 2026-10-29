@@ -1,7 +1,7 @@
 import { cache } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { Faq28 } from "@/components/faq28";
 import { ClientLogos } from "@/components/client-logos";
@@ -9,6 +9,8 @@ import { Testimonial30 } from "@/components/testimonial30";
 import { getClientTestimonials } from "@/lib/client-testimonials";
 import { slugStaticParams } from "@/lib/cms/slugs";
 import { findByLocalizedSlug } from "@/utilities/findByLocalizedSlug";
+import { getRelated } from "@/lib/cms/related";
+import { RelatedLinks } from "@/components/related-links";
 import { Hero297 } from "@/components/hero297";
 import { Feature99 } from "@/components/feature99";
 import { Feature18 } from "@/components/feature18";
@@ -74,6 +76,8 @@ export default async function SolutionDetailPage({
 
 
   const testimonials = await getClientTestimonials();
+  const otherSolutions = await getRelated("solutions", locale, solution.id);
+  const t = await getTranslations("SolutionsPage");
 
   const {
     hero,
@@ -185,6 +189,10 @@ export default async function SolutionDetailPage({
           description={consultation.description ?? ""}
         />
       )}
+
+      <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+        <RelatedLinks heading={t("otherSolutions")} items={otherSolutions} />
+      </section>
     </div>
   );
 }

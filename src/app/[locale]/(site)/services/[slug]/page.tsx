@@ -13,6 +13,8 @@ import { Testimonial30 } from "@/components/testimonial30";
 import { getClientTestimonials } from "@/lib/client-testimonials";
 import { slugStaticParams } from "@/lib/cms/slugs";
 import { findByLocalizedSlug } from "@/utilities/findByLocalizedSlug";
+import { getRelated } from "@/lib/cms/related";
+import { RelatedLinks } from "@/components/related-links";
 import { Hero297 } from "@/components/hero297";
 import { Feature67 } from "@/components/feature67";
 import { Feature99 } from "@/components/feature99";
@@ -135,6 +137,7 @@ export default async function ServiceDetailPage({
 
   const testimonials = await getClientTestimonials();
   const homeHero = await getHomeHero();
+  const otherServices = await getRelated("services", locale, service.id);
   const t = await getTranslations("ServicesPage");
   const tCommon = await getTranslations("Common");
 
@@ -253,6 +256,10 @@ export default async function ServiceDetailPage({
       ) : (
         <Faq28 />
       )}
+
+      <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+        <RelatedLinks heading={t("otherServices")} items={otherServices} />
+      </section>
     </div>
   );
 }

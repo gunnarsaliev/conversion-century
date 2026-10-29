@@ -24,7 +24,7 @@ interface FounderLetterProps {
 }
 
 const PORTRAIT_SRC =
-  "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/maria-avatar-image.png";
+  "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/maria-sivkova.jpeg";
 
 type Props = Partial<FounderLetterProps>;
 

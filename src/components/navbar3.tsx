@@ -275,12 +275,6 @@ const Navbar3 = ({
                 <NavigationMenuTrigger>{t("services.label")}</NavigationMenuTrigger>
                 {/* Same compact layout as Solutions: icon + title rows. */}
                 <NavigationMenuContent className="min-w-[500px] p-5">
-                  <div className="mb-3 text-xs font-semibold tracking-wide text-foreground uppercase">
-                    {t("services.label")}
-                  </div>
-                  <div className="mb-4 text-sm font-normal text-muted-foreground">
-                    {t("services.intro")}
-                  </div>
                   <div className="grid grid-cols-2 gap-1">
                     {shownFeatures.map((feature, index) => (
                       <NavigationMenuLink
@@ -309,12 +303,6 @@ const Navbar3 = ({
               <NavigationMenuItem>
                 <NavigationMenuTrigger>{t("solutions.label")}</NavigationMenuTrigger>
                 <NavigationMenuContent className="min-w-[500px] p-5">
-                  <div className="mb-3 text-xs font-semibold tracking-wide text-foreground uppercase">
-                    {t("solutions.label")}
-                  </div>
-                  <div className="mb-4 text-sm font-normal text-muted-foreground">
-                    {t("solutions.intro")}
-                  </div>
                   <div className="grid grid-cols-2 gap-1">
                     {shownSolutions.map((solution, index) => (
                       <NavigationMenuLink
@@ -343,12 +331,6 @@ const Navbar3 = ({
               <NavigationMenuItem>
                 <NavigationMenuTrigger>{t("industries.label")}</NavigationMenuTrigger>
                 <NavigationMenuContent className="min-w-[500px] p-5">
-                  <div className="mb-3 text-xs font-semibold tracking-wide text-foreground uppercase">
-                    {t("industries.label")}
-                  </div>
-                  <div className="mb-4 text-sm font-normal text-muted-foreground">
-                    {t("industries.intro")}
-                  </div>
                   <div className="grid grid-cols-2 gap-1">
                     {shownIndustries.map((industry, index) => (
                       <NavigationMenuLink
@@ -378,12 +360,6 @@ const Navbar3 = ({
                 <NavigationMenuTrigger>{t("proof.label")}</NavigationMenuTrigger>
                 <NavigationMenuContent className="w-max p-5">
                   <div className="w-56">
-                    <div className="mb-3 text-xs font-semibold tracking-wide text-foreground uppercase">
-                      {t("proof.label")}
-                    </div>
-                    <div className="mb-4 text-sm font-normal text-muted-foreground">
-                      {t("proof.intro")}
-                    </div>
                     <div className="space-y-1">
                       {documentationLinks.map((documentationLink, index) => (
                         <NavigationMenuLink
@@ -407,12 +383,6 @@ const Navbar3 = ({
                 <NavigationMenuTrigger>{t("about.label")}</NavigationMenuTrigger>
                 <NavigationMenuContent className="w-max p-5">
                   <div className="w-56">
-                    <div className="mb-3 text-xs font-semibold tracking-wide text-foreground uppercase">
-                      {t("about.label")}
-                    </div>
-                    <div className="mb-4 text-sm font-normal text-muted-foreground">
-                      {t("about.intro")}
-                    </div>
                     <div className="space-y-1">
                       {aboutLinks.map((aboutLink, index) => (
                         <NavigationMenuLink
@@ -436,15 +406,7 @@ const Navbar3 = ({
                 <NavigationMenuTrigger>{t("insights.label")}</NavigationMenuTrigger>
                 <NavigationMenuContent className="w-max p-5">
                   <div className="flex gap-5">
-                    {/* Fixed column widths let the intros wrap to ~2 lines instead of
-                        stretching the sheet to fit them on one. */}
                     <div className="w-96 shrink-0">
-                      <div className="mb-3 text-xs font-semibold tracking-wide text-foreground uppercase">
-                        {t("blog.label")}
-                      </div>
-                      <div className="mb-3 text-sm font-normal text-muted-foreground">
-                        {t("blog.intro")}
-                      </div>
                       <div className="grid grid-cols-2 gap-3">
                         {blogPosts.map((post, index) => (
                           <a
@@ -470,12 +432,6 @@ const Navbar3 = ({
                       </div>
                     </div>
                     <div className="w-56 shrink-0">
-                      <div className="mb-3 text-xs font-semibold tracking-wide text-foreground uppercase">
-                        {t("insights.label")}
-                      </div>
-                      <div className="mb-3 text-sm font-normal text-muted-foreground">
-                        {t("insights.intro")}
-                      </div>
                       <div className="space-y-1">
                         {resourceLinks.map((resourceLink, index) => (
                           <NavigationMenuLink

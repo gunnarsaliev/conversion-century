@@ -107,11 +107,14 @@ const Hero104 = ({
               </div>
             )}
             {highlights.length > 0 && (
-              <div className="mt-6 flex flex-wrap justify-center gap-7 lg:justify-normal">
+              <div className="mt-6 flex flex-wrap justify-center gap-3 lg:justify-normal">
                 {highlights.map((text, i) => (
-                  <div key={`${i}`} className="flex items-center gap-2">
-                    <Check className="h-3 w-3 stroke-muted-foreground" />
-                    <p className="text-sm text-muted-foreground">{text}</p>
+                  <div
+                    key={`${i}`}
+                    className="flex items-center gap-2 rounded-full bg-primary/10 px-3.5 py-1.5"
+                  >
+                    <Check className="size-4 shrink-0 stroke-3 text-primary" />
+                    <p className="text-sm font-medium text-foreground">{text}</p>
                   </div>
                 ))}
               </div>

@@ -23,6 +23,8 @@ export interface Blog12Post {
 interface Blog12Props {
   className?: string;
   posts?: Blog12Post[];
+  /** Replaces the default heading and drops the badge and description. */
+  heading?: string;
 }
 
 const defaultPosts: Blog12Post[] = [
@@ -73,7 +75,7 @@ const initials = (name: string) =>
     .join("")
     .toUpperCase();
 
-const Blog12 = ({ className, posts }: Blog12Props) => {
+const Blog12 = ({ className, posts, heading }: Blog12Props) => {
   const items = posts && posts.length > 0 ? posts : defaultPosts;
   const t = useTranslations("Blog12");
 
@@ -81,15 +83,19 @@ const Blog12 = ({ className, posts }: Blog12Props) => {
     <section className={cn("py-32", className)}>
       <div className="container">
         <div className="mx-auto flex max-w-3xl flex-col items-center gap-4 text-center">
-          <Badge variant="outline" className="gap-1 py-1">
-            <FileText className="h-full w-4" /> {t("badge")}
-          </Badge>
+          {!heading && (
+            <Badge variant="outline" className="gap-1 py-1">
+              <FileText className="h-full w-4" /> {t("badge")}
+            </Badge>
+          )}
           <h2 className="text-4xl font-semibold text-balance">
-            {t("heading")}
+            {heading ?? t("heading")}
           </h2>
-          <p className="text-muted-foreground">
-            {t("description")}
-          </p>
+          {!heading && (
+            <p className="text-muted-foreground">
+              {t("description")}
+            </p>
+          )}
         </div>
         <div className="mt-20 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {items.map((post, index) => (

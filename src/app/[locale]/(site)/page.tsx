@@ -6,12 +6,12 @@ import { cmsCache } from "@/lib/cms/cache";
 import { Hero104 } from "@/components/hero104";
 import { getHomeHero } from "@/lib/home-hero";
 import { ClientLogos } from "@/components/client-logos";
-import type { Client, Media, User } from "../../../../payload-types";
+import type { Client, Media } from "../../../../payload-types";
 import { Feature13 } from "@/components/feature13";
 import { Feature278 } from "@/components/feature278";
 import { Feature104 } from "@/components/feature104";
 import { Testimonial17, type Testimonial17Item } from "@/components/testimonial17";
-import { richTextToPlainText } from "@/lib/rich-text-to-plain-text";
+import { getLatestBlogPosts } from "@/lib/latest-blog-posts";
 import { getClientTestimonials } from "@/lib/client-testimonials";
 import { Blog12, type Blog12Post } from "@/components/blog12";
 import { Hero80 } from "@/components/hero80"; 
@@ -21,20 +21,6 @@ import { CaseStudies8, type CaseStudies8Item } from "@/components/case-studies8"
 import { StaticPageJsonLd } from "@/components/static-page-json-ld";
 import { staticPageMetadata } from "@/lib/seo/pages";
 import { translated, untranslatedHrefs } from "@/utilities/findByLocalizedSlug";
-
-const WORDS_PER_MINUTE = 200;
-
-const authorName = (author: number | User | null | undefined) => {
-  if (!author || typeof author !== "object") return "";
-  return [author.firstName, author.lastName].filter(Boolean).join(" ") || author.email;
-};
-
-const authorAvatar = (author: number | User | null | undefined) => {
-  if (!author || typeof author !== "object") return undefined;
-  return typeof author.profileImage === "object" && author.profileImage?.url
-    ? author.profileImage.url
-    : undefined;
-};
 
 export async function generateMetadata() {
   return staticPageMetadata("home");
@@ -66,35 +52,7 @@ async function getHomeContent(locale: string) {
     return [{ href: `/industries/${industry.slug}`, image: image?.url ?? undefined }];
   });
 
-  const { docs: blogPosts } = await payload.find({
-    collection: "blog",
-    locale: locale as "en" | "bg",
-    // Local API bypasses access control, so filter out drafts explicitly.
-    where: { ...translated, _status: { equals: "published" } },
-    // depth: 2 so post.author.profileImage resolves to a Media object
-    // (not just an ID) for the author avatar.
-    depth: 2,
-    limit: 3,
-    sort: "-publishedAt",
-  });
-
-  const blogItems = blogPosts.map((post) => {
-    const image =
-      post.featuredImage && typeof post.featuredImage === "object"
-        ? (post.featuredImage as Media)
-        : null;
-    const wordCount = richTextToPlainText(post.content).split(/\s+/).filter(Boolean).length;
-
-    return {
-      title: post.title,
-      description: post.excerpt ?? "",
-      image: image?.url ?? undefined,
-      author: authorName(post.author),
-      authorAvatar: authorAvatar(post.author),
-      readMinutes: Math.max(1, Math.round(wordCount / WORDS_PER_MINUTE)),
-      link: `/blog/${post.slug ?? post.id}`,
-    };
-  });
+  const blogItems = await getLatestBlogPosts(locale);
 
   const { docs: caseStudies } = await payload.find({
     collection: "case-studies",

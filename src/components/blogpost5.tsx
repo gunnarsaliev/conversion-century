@@ -42,6 +42,8 @@ interface Blogpost5Props {
   // Each links to its category page; the first one ends the breadcrumb.
   categories?: { label: string; href: string }[];
   relatedPosts?: RelatedPost[];
+  // Every blog category with posts, listed in the sidebar.
+  allCategories?: { label: string; href: string }[];
   featuredImage?: string;
   content?: SerializedEditorState;
   locale?: "en" | "bg";
@@ -59,6 +61,7 @@ const Blogpost5 = ({
   updatedAt,
   categories = [],
   relatedPosts = [],
+  allCategories = [],
   featuredImage,
   content,
   locale = "en",
@@ -232,6 +235,23 @@ const Blogpost5 = ({
               </div>
             )}
             {related && <div className="mt-8">{related}</div>}
+            {allCategories.length > 0 && (
+              <nav aria-label={t("categories")} className="mt-8">
+                <p className="font-medium text-muted-foreground">{t("categories")}</p>
+                <ul className="mt-3 flex flex-wrap gap-2">
+                  {allCategories.map((category) => (
+                    <li key={category.href}>
+                      <Link
+                        href={category.href}
+                        className="inline-flex items-center rounded-full border px-3 py-1 font-medium transition-colors hover:border-primary hover:text-primary"
+                      >
+                        {category.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            )}
           </div>
         </div>
       </div>

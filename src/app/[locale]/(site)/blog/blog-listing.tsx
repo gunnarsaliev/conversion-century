@@ -101,7 +101,7 @@ const published = { ...translated, _status: { equals: "published" } } satisfies 
 
 // Every category with at least one post in this locale, for the filter.
 // Cached across requests; refreshed when a post changes.
-async function getBlogCategories(locale: string) {
+export async function getBlogCategories(locale: string) {
   "use cache";
   cmsCache("blog");
   const payload = await getPayload({ config });
