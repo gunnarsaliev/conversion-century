@@ -158,7 +158,9 @@ const mobilePanelVariants = {
 };
 
 const mobileMenuShellClassName =
-  "fixed inset-0 top-[72px] z-100 flex flex-col overflow-hidden border-t border-border bg-popover text-popover-foreground lg:hidden";
+  // Covers the whole viewport; the logo/close row (z-110) stays on top, so
+  // the content starts below it.
+  "fixed inset-0 z-100 flex h-dvh w-screen flex-col overflow-hidden bg-popover pt-[72px] text-popover-foreground lg:hidden";
 
 const mobileMenuPanelClassName =
   "absolute inset-0 flex h-full w-full flex-col overflow-x-hidden overflow-y-auto overscroll-y-contain bg-popover will-change-transform";
@@ -487,6 +489,7 @@ const Navbar3 = ({
                   transition={{ duration: 0.18, ease: "easeOut" }}
                   className={mobileMenuShellClassName}
                 >
+                  <div className="shrink-0 border-t border-border" />
                   {submenu && (
                     <div className="relative z-10 shrink-0 border-b border-border bg-popover px-4 py-3">
                       <Button variant="outline" onClick={closeSubmenu}>
