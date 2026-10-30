@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { RichText } from "@/components/rich-text";
 import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 import { useTranslations } from "next-intl";
@@ -27,9 +28,25 @@ interface IndustryDetailProps {
   image?: string;
   description?: SerializedEditorState;
   clients?: IndustryDetailClient[];
+  /** Rendered right after the first paragraph of the description. */
+  afterFirstParagraph?: ReactNode;
   /** Shown at the end as "Check other industries". */
   otherIndustries?: RelatedItem[];
   className?: string;
+}
+
+// Splits rich text into everything up to and including the first paragraph,
+// and whatever follows it. Either half is undefined when empty.
+function splitAfterFirstParagraph(
+  data: SerializedEditorState | undefined,
+): [SerializedEditorState | undefined, SerializedEditorState | undefined] {
+  if (!data) return [undefined, undefined];
+  const children = data.root.children;
+  const index = children.findIndex((node) => node.type === "paragraph");
+  if (index === -1) return [data, undefined];
+  const part = (nodes: typeof children) =>
+    nodes.length > 0 ? { ...data, root: { ...data.root, children: nodes } } : undefined;
+  return [part(children.slice(0, index + 1)), part(children.slice(index + 1))];
 }
 
 // Detail page layout for industries.
@@ -39,11 +56,13 @@ const IndustryDetail = ({
   image,
   description,
   clients = [],
+  afterFirstParagraph,
   otherIndustries = [],
   className,
 }: IndustryDetailProps) => {
   const t = useTranslations("IndustryDetail");
   const tCommon = useTranslations("Common");
+  const [intro, rest] = splitAfterFirstParagraph(description);
 
   return (
     <section className={cn("py-32", className)}>
@@ -112,9 +131,17 @@ const IndustryDetail = ({
             />
           )}
 
-          {description && (
+          {intro && (
             <div className="prose mt-10 max-w-none dark:prose-invert">
-              <RichText data={description} />
+              <RichText data={intro} />
+            </div>
+          )}
+
+          {afterFirstParagraph}
+
+          {rest && (
+            <div className="prose mt-10 max-w-none dark:prose-invert">
+              <RichText data={rest} />
             </div>
           )}
 

@@ -7,6 +7,7 @@ import config from "@payload-config";
 
 import { cmsCache } from "@/lib/cms/cache";import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 
+import { ClientLogos } from "@/components/client-logos";
 import { IndustryDetail } from "@/components/industry-detail";
 import { slugStaticParams } from "@/lib/cms/slugs";
 import { findByLocalizedSlug } from "@/utilities/findByLocalizedSlug";
@@ -136,6 +137,7 @@ export default async function IndustryPage({ params }: IndustryPageProps) {
               : null;
           return logo ? [{ name: client.companyName, logo }] : [];
         })}
+        afterFirstParagraph={<ClientLogos className="py-12" />}
         otherIndustries={otherIndustries}
       />
     </>
