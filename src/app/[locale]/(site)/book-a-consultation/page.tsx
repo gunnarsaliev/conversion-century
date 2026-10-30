@@ -30,10 +30,10 @@ export default async function BookAConsultationPage({
   const featured = await getApprovedTestimonials({ featured: true });
 
   const testimonials = featured
-    .filter(({ client }) => client !== null)
+    .filter(({ client, testimonial }) => client !== null && testimonial)
     .map(({ testimonial, client, contact }) => {
       const companyName = client!.companyName;
-      const fullQuote = convertLexicalToPlaintext({ data: testimonial }).trim();
+      const fullQuote = convertLexicalToPlaintext({ data: testimonial! }).trim();
 
       return {
         companyLogo: mediaUrl(client!.logo) ?? "",

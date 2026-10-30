@@ -3,6 +3,7 @@ import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical
 
 import { Testimonial21, type Testimonial21Item } from "@/components/testimonial21";
 import { getApprovedTestimonials, mediaUrl } from "@/lib/client-testimonials";
+import { getGoogleReviews } from "@/lib/google-reviews";
 import { StaticPageJsonLd } from "@/components/static-page-json-ld";
 import { staticPageMetadata } from "@/lib/seo/pages";
 
@@ -32,23 +33,52 @@ export default async function ReviewsPage({
 }) {
   setRequestLocale((await params).locale);
 
-  const testimonials = await getApprovedTestimonials();
+  const [testimonials, googleReviews] = await Promise.all([
+    getApprovedTestimonials(),
+    getGoogleReviews(),
+  ]);
 
-  const reviews: Testimonial21Item[] = testimonials
-    .filter(({ testimonial, client }) => client && hasText(testimonial.root))
-    .map(({ testimonial, client, contact }) => ({
-      quote: testimonial as SerializedEditorState,
-      author: {
-        name: contact?.name || client!.companyName,
-        role: contact?.role ?? undefined,
-        image: mediaUrl(contact?.profileImage),
+  // Every approved testimonial, with or without a client, text or rating,
+  // plus the live Google reviews, all newest first.
+  const reviews: Testimonial21Item[] = [
+    ...testimonials.map(
+      ({ testimonial, source, rating, date, client, contact, submittedBy, newClient }) => {
+        const companyName = client?.companyName || newClient?.companyName || undefined;
+        return {
+          source,
+          quote: hasText(testimonial?.root)
+            ? (testimonial as SerializedEditorState)
+            : undefined,
+          author: {
+            name: contact?.name || submittedBy?.name || companyName,
+            role: contact?.role || submittedBy?.role || undefined,
+            image: mediaUrl(contact?.profileImage ?? submittedBy?.profileImage),
+          },
+          company: companyName
+            ? {
+                name: companyName,
+                logo: mediaUrl(client ? client.logo : newClient?.logo),
+                link: toExternalUrl(
+                  client ? client.websiteLinks?.[0]?.url : newClient?.website,
+                ),
+              }
+            : undefined,
+          rating: rating ?? undefined,
+          date,
+        };
       },
-      company: {
-        name: client!.companyName,
-        logo: mediaUrl(client!.logo),
-        link: toExternalUrl(client!.websiteLinks?.[0]?.url),
-      },
-    }));
+    ),
+    ...googleReviews.map((review) => ({
+      source: "google" as const,
+      quote: review.text,
+      author: { name: review.name, image: review.photo },
+      rating: review.rating,
+      date: review.date,
+    })),
+  ]
+    // Skip only the ones with nothing to show.
+    .filter((review) => review.quote || review.rating)
+    .sort((a, b) => (b.date ?? "").localeCompare(a.date ?? ""));
 
   return (
     <>

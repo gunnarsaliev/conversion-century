@@ -8,6 +8,11 @@ import * as migration_20261027_141308_checklist_item_trim_fields from './2026102
 import * as migration_20261027_144159_client_progress_not_started from './20261027_144159_client_progress_not_started';
 import * as migration_20261028_083000_blog_category_checklists from './20261028_083000_blog_category_checklists';
 import * as migration_20261029_081442_seo_fields_2026 from './20261029_081442_seo_fields_2026';
+import * as migration_20261030_140046_contacts_client_optional from './20261030_140046_contacts_client_optional';
+import * as migration_20261030_140921_testimonials_rating_date from './20261030_140921_testimonials_rating_date';
+import * as migration_20261030_141122_testimonials_source_optional_text from './20261030_141122_testimonials_source_optional_text';
+import * as migration_20261030_141347_testimonials_drop_client_type from './20261030_141347_testimonials_drop_client_type';
+import * as migration_20261030_142041_testimonials_rating_default from './20261030_142041_testimonials_rating_default';
 
 export const migrations = [
   {
@@ -58,6 +63,31 @@ export const migrations = [
   {
     up: migration_20261029_081442_seo_fields_2026.up,
     down: migration_20261029_081442_seo_fields_2026.down,
-    name: '20261029_081442_seo_fields_2026'
+    name: '20261029_081442_seo_fields_2026',
+  },
+  {
+    up: migration_20261030_140046_contacts_client_optional.up,
+    down: migration_20261030_140046_contacts_client_optional.down,
+    name: '20261030_140046_contacts_client_optional',
+  },
+  {
+    up: migration_20261030_140921_testimonials_rating_date.up,
+    down: migration_20261030_140921_testimonials_rating_date.down,
+    name: '20261030_140921_testimonials_rating_date',
+  },
+  {
+    up: migration_20261030_141122_testimonials_source_optional_text.up,
+    down: migration_20261030_141122_testimonials_source_optional_text.down,
+    name: '20261030_141122_testimonials_source_optional_text',
+  },
+  {
+    up: migration_20261030_141347_testimonials_drop_client_type.up,
+    down: migration_20261030_141347_testimonials_drop_client_type.down,
+    name: '20261030_141347_testimonials_drop_client_type',
+  },
+  {
+    up: migration_20261030_142041_testimonials_rating_default.up,
+    down: migration_20261030_142041_testimonials_rating_default.down,
+    name: '20261030_142041_testimonials_rating_default'
   },
 ];

@@ -8,6 +8,7 @@ import {
   Sprout,
 } from "lucide-react";
 
+import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 
 import { PartnerBadges } from "@/components/partner-badges";
@@ -17,6 +18,9 @@ import { CmsImage } from "@/components/cms-image";
 
 // Content of the About page (copy from "About US.md"), in the `About`
 // messages.
+
+const HERO_IMAGE =
+  "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/Cosmic%20Teamwork%20Around%20a%20Futuristic%20Table.png";
 
 const STORY_YEARS = [
   "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026",
@@ -64,8 +68,8 @@ export function AboutHero() {
   const t = useTranslations("About.hero");
 
   return (
-    <section className="container mx-auto py-16 lg:py-24">
-      <div className="max-w-4xl">
+    <section className="container mx-auto grid items-center gap-12 py-16 lg:grid-cols-2 lg:gap-16 lg:py-24">
+      <div>
         <Eyebrow>{t("eyebrow")}</Eyebrow>
         <h1 className="mt-4 text-4xl leading-tight font-semibold tracking-[-1px] text-balance sm:text-5xl lg:text-6xl">
           {t("heading")}
@@ -82,6 +86,16 @@ export function AboutHero() {
           <ArrowRight className="size-4" />
         </Button>
       </div>
+      {/* The page's largest image above the fold, so it's preloaded. */}
+      <Image
+        src={HERO_IMAGE}
+        alt={t("imageAlt")}
+        width={1536}
+        height={1024}
+        sizes="(min-width: 1024px) 50vw, 100vw"
+        preload
+        className="h-auto w-full rounded-2xl object-cover shadow-sm"
+      />
     </section>
   );
 }

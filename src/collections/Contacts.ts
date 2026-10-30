@@ -1,8 +1,9 @@
 import type { CollectionConfig } from 'payload'
 import { adminOnlyCollection, adminOrEditor } from '../lib/roles'
 
-// People at a client company. A client can have several; one of them is the
-// client's `primaryContact`. Testimonials link to the contact who wrote them.
+// People, usually at a client company. A client can have several; one of them
+// is the client's `primaryContact`. Testimonials link to the contact who wrote
+// them. `client` is optional for contacts not tied to a client.
 export const Contacts: CollectionConfig = {
   slug: 'contacts',
   admin: {
@@ -61,7 +62,6 @@ export const Contacts: CollectionConfig = {
       name: 'client',
       type: 'relationship',
       relationTo: 'clients',
-      required: true,
       admin: {
         position: 'sidebar',
       },

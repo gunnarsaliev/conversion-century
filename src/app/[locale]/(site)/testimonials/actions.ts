@@ -145,6 +145,7 @@ async function submitTestimonial(formData: FormData): Promise<TestimonialFormRes
     const submission = {
       testimonial: plainTextToLexical(data.testimonial) as Testimonial["testimonial"],
       status: "pending" as const,
+      source: "website" as const,
       submittedBy: {
         name: data.name,
         email: data.email,
@@ -156,7 +157,7 @@ async function submitTestimonial(formData: FormData): Promise<TestimonialFormRes
     if (data.clientType === "existing") {
       await payload.create({
         collection: "testimonials",
-        data: { ...submission, clientType: "existing", client: data.clientId },
+        data: { ...submission, client: data.clientId },
       });
     } else {
       const logoId = logo ? await uploadImage(payload, logo, data.companyName) : undefined;
@@ -164,7 +165,6 @@ async function submitTestimonial(formData: FormData): Promise<TestimonialFormRes
         collection: "testimonials",
         data: {
           ...submission,
-          clientType: "new",
           newClient: {
             companyName: data.companyName,
             website: data.website,

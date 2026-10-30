@@ -32,8 +32,8 @@ const setTitle: CollectionBeforeChangeHook<Testimonial> = async ({ data, req }) 
 
 // Submissions from /testimonials/new arrive as `pending` with the
 // person's details in `submittedBy`. When an admin switches one to
-// `approved`, link it to a real client and contact: the chosen existing
-// client (or a new client created as a Lead), and the contact on that client
+// `approved`, link it to a real client and contact: the chosen client (or,
+// when none is chosen, a new Lead from `newClient`), and the contact on that client
 // with the submitted email (or a new one). Runs in the same transaction as
 // the save (`req`).
 const applyApprovedTestimonial: CollectionAfterChangeHook<Testimonial> = async ({
@@ -51,7 +51,7 @@ const applyApprovedTestimonial: CollectionAfterChangeHook<Testimonial> = async (
 
   let clientId = relationId(doc.client)
 
-  if (!clientId && doc.clientType === 'new' && doc.newClient?.companyName) {
+  if (!clientId && doc.newClient?.companyName) {
     const client = await req.payload.create({
       collection: 'clients',
       data: {
@@ -125,7 +125,7 @@ export const Testimonials: CollectionConfig = {
   slug: 'testimonials',
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'client', 'status', 'featured', 'createdAt'],
+    defaultColumns: ['title', 'client', 'source', 'status', 'featured', 'createdAt'],
     description:
       'Submitted from /testimonials/new. Approving one links it to the client and contact (creating them if needed). Approved testimonials are shown on the website.',
   },
@@ -150,7 +150,52 @@ export const Testimonials: CollectionConfig = {
     {
       name: 'testimonial',
       type: 'richText',
+      admin: {
+        description: 'Optional, e.g. for a star rating left without a written review.',
+      },
+    },
+    {
+      name: 'source',
+      type: 'select',
       required: true,
+      defaultValue: 'website',
+      options: [
+        { label: 'Website form', value: 'website' },
+        { label: 'Google reviews', value: 'google' },
+        { label: 'Clutch', value: 'clutch' },
+        { label: 'Trustpilot', value: 'trustpilot' },
+        { label: 'LinkedIn', value: 'linkedin' },
+        { label: 'Facebook', value: 'facebook' },
+        { label: 'Other', value: 'other' },
+      ],
+      admin: {
+        position: 'sidebar',
+        description: 'Where the testimonial was given.',
+      },
+    },
+    {
+      name: 'rating',
+      label: 'Star rating',
+      type: 'number',
+      min: 1,
+      max: 5,
+      defaultValue: 5,
+      admin: {
+        position: 'sidebar',
+        step: 1,
+        description: '1–5 stars.',
+      },
+    },
+    {
+      name: 'date',
+      label: 'Date added',
+      type: 'date',
+      defaultValue: () => new Date().toISOString(),
+      admin: {
+        position: 'sidebar',
+        date: { pickerAppearance: 'dayOnly', displayFormat: 'd MMM yyyy' },
+        description: 'When the testimonial was given. Change it to backdate older ones.',
+      },
     },
     {
       name: 'status',
@@ -183,30 +228,10 @@ export const Testimonials: CollectionConfig = {
       },
     },
     {
-      name: 'clientType',
-      label: 'Client',
-      type: 'select',
-      required: true,
-      defaultValue: 'existing',
-      options: [
-        { label: 'Existing client', value: 'existing' },
-        { label: 'New client', value: 'new' },
-      ],
-      admin: { position: 'sidebar' },
-    },
-    {
       name: 'client',
       type: 'relationship',
       relationTo: 'clients',
-      admin: {
-        position: 'sidebar',
-        condition: (data) => data?.clientType === 'existing' || Boolean(data?.client),
-      },
-      validate: (
-        value: unknown,
-        { data }: { data: Partial<Testimonial> },
-      ) =>
-        data?.clientType === 'existing' && !value ? 'Choose the client.' : true,
+      admin: { position: 'sidebar' },
     },
     {
       name: 'contact',
@@ -247,17 +272,14 @@ export const Testimonials: CollectionConfig = {
       label: 'New client details',
       type: 'group',
       admin: {
-        condition: (data) => data?.clientType === 'new',
+        description:
+          'A company submitted on the public form. Approving creates it as a Lead unless a client is chosen above.',
+        condition: (data) => Boolean(data?.newClient?.companyName),
       },
       fields: [
         {
           name: 'companyName',
           type: 'text',
-          validate: (
-            value: unknown,
-            { data }: { data: Partial<Testimonial> },
-          ) =>
-            data?.clientType === 'new' && !value ? 'Company name is required.' : true,
         },
         {
           name: 'website',

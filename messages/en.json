@@ -468,7 +468,8 @@
       "eyebrow": "About Conversion Century",
       "heading": "A Focused Team. A Shared Commitment to Your Growth.",
       "body": "Conversion Century is a boutique SEO agency based in Sofia, Bulgaria, working with businesses across Europe and the United States.\n\nSince 2016, we have combined technical expertise, professional content and strategic thinking to help businesses strengthen their organic presence. Today, that work spans search engines and AI-powered discovery, with the same focus: connecting your business with people who need what you offer.",
-      "cta": "Meet the team"
+      "cta": "Meet the team",
+      "imageAlt": "The Conversion Century team working together around a futuristic table"
     },
     "story": {
       "eyebrow": "Since 2016",
@@ -877,7 +878,18 @@
     "logoAlt": "{name} logo",
     "photoAlt": "Photo of {name}",
     "roleAt": "{role}, {company}",
-    "readFull": "Read full review"
+    "readFull": "Read full review",
+    "anonymous": "Anonymous",
+    "sources": {
+      "website": "Website review",
+      "google": "Google review",
+      "clutch": "Clutch review",
+      "trustpilot": "Trustpilot review",
+      "linkedin": "LinkedIn recommendation",
+      "facebook": "Facebook review",
+      "other": "Review"
+    },
+    "ratingLabel": "{rating} out of 5 stars"
   },
   "PartnerBadges": {
     "ahrefs": "Ahrefs Agency Partner",

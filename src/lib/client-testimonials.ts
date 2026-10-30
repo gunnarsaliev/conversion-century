@@ -16,8 +16,16 @@ export type ClientTestimonial = {
 
 export type PublicTestimonial = {
   testimonial: Testimonial["testimonial"];
+  source: Testimonial["source"];
+  rating: number | null;
+  // When it was given; falls back to when it was added for older ones.
+  date: string;
   client: Client | null;
   contact: Contact | null;
+  // From the public form, for approved ones not linked to a contact/client.
+  // Only the fields that are safe to publish (no email).
+  submittedBy: { name: string | null; role: string | null; profileImage?: unknown } | null;
+  newClient: { companyName: string | null; website: string | null; logo?: unknown } | null;
 };
 
 const populated = <T extends object>(value: unknown): T | null =>
@@ -27,7 +35,8 @@ export const mediaUrl = (value: unknown) => populated<Media>(value)?.url ?? unde
 
 // Testimonials, Clients and Contacts are admin-only, so this reads with
 // overrideAccess and keeps only the fields that are safe to publish.
-// `featured` limits it to the hand-picked ones, in their set order.
+// `featured` limits it to the hand-picked ones, in their set order; otherwise
+// it's every approved one, newest first.
 // Cached across requests.
 export async function getApprovedTestimonials(
   { featured = false }: { featured?: boolean } = {},
@@ -41,12 +50,22 @@ export async function getApprovedTestimonials(
       status: { equals: "approved" },
       ...(featured ? { featured: { equals: true } } : {}),
     },
-    sort: featured ? ["order", "-createdAt"] : "-createdAt",
+    sort: featured ? ["order", "-date"] : ["-date", "-createdAt"],
     // 2 levels: testimonial → client/contact → logo/profile image.
     depth: 2,
-    limit: 100,
+    pagination: false,
     overrideAccess: true,
-    select: { testimonial: true, client: true, contact: true },
+    select: {
+      testimonial: true,
+      source: true,
+      rating: true,
+      date: true,
+      createdAt: true,
+      client: true,
+      contact: true,
+      submittedBy: { name: true, role: true, profileImage: true },
+      newClient: { companyName: true, website: true, logo: true },
+    },
     populate: {
       clients: { companyName: true, logo: true, websiteLinks: true },
       contacts: { name: true, role: true, profileImage: true },
@@ -55,8 +74,25 @@ export async function getApprovedTestimonials(
 
   return docs.map((doc) => ({
     testimonial: doc.testimonial,
+    source: doc.source ?? "website",
+    rating: doc.rating ?? null,
+    date: doc.date ?? doc.createdAt,
     client: populated<Client>(doc.client),
     contact: populated<Contact>(doc.contact),
+    submittedBy: doc.submittedBy?.name
+      ? {
+          name: doc.submittedBy.name,
+          role: doc.submittedBy.role ?? null,
+          profileImage: doc.submittedBy.profileImage,
+        }
+      : null,
+    newClient: doc.newClient?.companyName
+      ? {
+          companyName: doc.newClient.companyName,
+          website: doc.newClient.website ?? null,
+          logo: doc.newClient.logo,
+        }
+      : null,
   }));
 }
 

@@ -444,7 +444,7 @@ export interface Contact {
    */
   profileImage?: (number | null) | Media;
   status: 'active' | 'pending' | 'archived';
-  client: number | Client;
+  client?: (number | null) | Client;
   testimonials?: {
     docs?: (number | Testimonial)[];
     hasNextPage?: boolean;
@@ -462,7 +462,10 @@ export interface Contact {
 export interface Testimonial {
   id: number;
   title?: string | null;
-  testimonial: {
+  /**
+   * Optional, e.g. for a star rating left without a written review.
+   */
+  testimonial?: {
     root: {
       type: string;
       children: {
@@ -476,7 +479,19 @@ export interface Testimonial {
       version: number;
     };
     [k: string]: unknown;
-  };
+  } | null;
+  /**
+   * Where the testimonial was given.
+   */
+  source: 'website' | 'google' | 'clutch' | 'trustpilot' | 'linkedin' | 'facebook' | 'other';
+  /**
+   * 1–5 stars.
+   */
+  rating?: number | null;
+  /**
+   * When the testimonial was given. Change it to backdate older ones.
+   */
+  date?: string | null;
   status: 'pending' | 'approved' | 'rejected';
   /**
    * Show on the homepage, service/solution pages and the consultation page.
@@ -486,7 +501,6 @@ export interface Testimonial {
    * Lower numbers show first among featured testimonials.
    */
   order?: number | null;
-  clientType: 'existing' | 'new';
   client?: (number | null) | Client;
   /**
    * Set automatically on approval from the submitted details.
@@ -501,6 +515,9 @@ export interface Testimonial {
     role?: string | null;
     profileImage?: (number | null) | Media;
   };
+  /**
+   * A company submitted on the public form. Approving creates it as a Lead unless a client is chosen above.
+   */
   newClient?: {
     companyName?: string | null;
     website?: string | null;
@@ -2346,10 +2363,12 @@ export interface EventsSelect<T extends boolean = true> {
 export interface TestimonialsSelect<T extends boolean = true> {
   title?: T;
   testimonial?: T;
+  source?: T;
+  rating?: T;
+  date?: T;
   status?: T;
   featured?: T;
   order?: T;
-  clientType?: T;
   client?: T;
   contact?: T;
   submittedBy?:
