@@ -823,6 +823,7 @@
     }
   },
   "TestimonialForm": {
+    "addReview": "Добавете отзив",
     "page": {
       "metaTitle": "Споделете отзив",
       "heading": "Споделете своя опит",

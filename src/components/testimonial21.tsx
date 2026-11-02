@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { Handshake, Star } from "lucide-react";
 import { EXTERNAL_LINK_REL } from "@/lib/external-link";
 import { useTranslations } from "next-intl";
@@ -43,10 +44,14 @@ export type Testimonial21Item = {
   };
   rating?: number;
   date?: string;
+  // Where the review can be seen, e.g. our Google Business profile.
+  sourceLink?: string;
 };
 
 interface Testimonial21Props {
   testimonials: Testimonial21Item[];
+  // Shown on the right of the hero, e.g. an "Add a review" button.
+  action?: ReactNode;
   className?: string;
 }
 
@@ -59,26 +64,29 @@ const initials = (name: string) =>
     .map((part) => part.charAt(0).toUpperCase())
     .join("");
 
-const Testimonial21 = ({ testimonials, className }: Testimonial21Props) => {
+const Testimonial21 = ({ testimonials, action, className }: Testimonial21Props) => {
   const t = useTranslations("Testimonial21");
 
   return (
     <section className={cn("py-32", className)}>
       <div>
-        <div className="container flex flex-col gap-6 py-4 lg:py-8">
-          <Badge
-            variant="outline"
-            className="w-fit gap-1 bg-card px-3 text-sm font-normal tracking-tight shadow-sm"
-          >
-            <Handshake className="size-4" aria-hidden="true" />
-            <span>{t("badge")}</span>
-          </Badge>
-          <h1 className="text-3xl leading-tight tracking-tight md:text-4xl lg:text-6xl">
-            {t("heading")}
-          </h1>
-          <p className="max-w-[600px] tracking-[-0.32px] text-muted-foreground">
-            {t("description")}
-          </p>
+        <div className="container flex flex-col gap-6 py-4 md:flex-row md:items-end md:justify-between lg:py-8">
+          <div className="flex flex-col gap-6">
+            <Badge
+              variant="outline"
+              className="w-fit gap-1 bg-card px-3 text-sm font-normal tracking-tight shadow-sm"
+            >
+              <Handshake className="size-4" aria-hidden="true" />
+              <span>{t("badge")}</span>
+            </Badge>
+            <h1 className="text-3xl leading-tight tracking-tight md:text-4xl lg:text-6xl">
+              {t("heading")}
+            </h1>
+            <p className="max-w-[600px] tracking-[-0.32px] text-muted-foreground">
+              {t("description")}
+            </p>
+          </div>
+          {action && <div className="shrink-0">{action}</div>}
         </div>
       </div>
 
@@ -87,7 +95,8 @@ const Testimonial21 = ({ testimonials, className }: Testimonial21Props) => {
       ) : (
         <div className="container mt-10 grid auto-rows-fr gap-8 sm:grid-cols-2 md:mt-14 lg:grid-cols-3">
           {testimonials.map((testimonial, index) => {
-            const { source, quote, author: rawAuthor, company, rating, date } = testimonial;
+            const { source, quote, author: rawAuthor, company, rating, date, sourceLink } =
+              testimonial;
             const author = { ...rawAuthor, name: rawAuthor.name || t("anonymous") };
 
             const logo = company ? (
@@ -180,10 +189,22 @@ const Testimonial21 = ({ testimonials, className }: Testimonial21Props) => {
                   <div>
                     <p className="text-lg tracking-[-0.36px]">{author.name}</p>
                     {subtitle && <p className="text-muted-foreground">{subtitle}</p>}
-                    <p className="mt-0.5 flex items-center gap-1.5 text-sm text-muted-foreground">
-                      {source === "google" && <GoogleLogo className="size-3.5" />}
-                      {t(`sources.${source}`)}
-                    </p>
+                    {sourceLink ? (
+                      <a
+                        href={sourceLink}
+                        target="_blank"
+                        rel={EXTERNAL_LINK_REL}
+                        className="mt-0.5 flex w-fit items-center gap-1.5 text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+                      >
+                        {source === "google" && <GoogleLogo className="size-3.5" />}
+                        {t(`sources.${source}`)}
+                      </a>
+                    ) : (
+                      <p className="mt-0.5 flex items-center gap-1.5 text-sm text-muted-foreground">
+                        {source === "google" && <GoogleLogo className="size-3.5" />}
+                        {t(`sources.${source}`)}
+                      </p>
+                    )}
                   </div>
                 </div>
               </Card>

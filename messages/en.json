@@ -823,6 +823,7 @@
     }
   },
   "TestimonialForm": {
+    "addReview": "Add a review",
     "page": {
       "metaTitle": "Share your testimonial",
       "heading": "Share your experience",

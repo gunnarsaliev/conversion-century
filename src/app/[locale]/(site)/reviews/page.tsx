@@ -2,7 +2,12 @@ import { setRequestLocale } from "next-intl/server";
 import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 
 import { Testimonial21, type Testimonial21Item } from "@/components/testimonial21";
-import { getApprovedTestimonials, mediaUrl } from "@/lib/client-testimonials";
+import { AddReviewDialog } from "@/components/add-review-dialog";
+import {
+  getApprovedTestimonials,
+  getPublicClientOptions,
+  mediaUrl,
+} from "@/lib/client-testimonials";
 import { getGoogleReviews } from "@/lib/google-reviews";
 import { StaticPageJsonLd } from "@/components/static-page-json-ld";
 import { staticPageMetadata } from "@/lib/seo/pages";
@@ -22,6 +27,19 @@ const toExternalUrl = (url: string | null | undefined) => {
   return /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
 };
 
+// 0: comment + brand, 1: comment without brand,
+// 2: no comment, no brand, but a profile image, 3: everything else.
+const reviewTier = ({ quote, company, author }: Testimonial21Item) => {
+  if (quote && company) return 0;
+  if (quote) return 1;
+  if (!company && author?.image) return 2;
+  return 3;
+};
+
+// Our Google Business profile, where every Google review can be read.
+const GOOGLE_REVIEWS_URL =
+  "https://www.google.com/search?num=10&sa=X&sca_esv=ae1f6386fa4752fd&biw=2304&bih=1161&sxsrf=APpeQnt7gavxsKWJaH8BieM7mKMjVKukaQ:1792408134314&kgmid=/g/11s2q9smzc&q=Conversion+Century&shem=dlvs1,epsd1,esd2e,ltae,rimspwouoe,sdpie&shndl=30&source=sh/x/loc/uni/m1/1&kgs=0449fef1662cddfb&utm_source=dlvs1,epsd1,esd2e,ltae,rimspwouoe,sdpie,sh/x/loc/uni/m1/1";
+
 export async function generateMetadata() {
   return staticPageMetadata("reviews");
 }
@@ -33,9 +51,10 @@ export default async function ReviewsPage({
 }) {
   setRequestLocale((await params).locale);
 
-  const [testimonials, googleReviews] = await Promise.all([
+  const [testimonials, googleReviews, clientOptions] = await Promise.all([
     getApprovedTestimonials(),
     getGoogleReviews(),
+    getPublicClientOptions(),
   ]);
 
   // Every approved testimonial, with or without a client, text or rating,
@@ -65,6 +84,7 @@ export default async function ReviewsPage({
             : undefined,
           rating: rating ?? undefined,
           date,
+          sourceLink: source === "google" ? GOOGLE_REVIEWS_URL : undefined,
         };
       },
     ),
@@ -74,16 +94,25 @@ export default async function ReviewsPage({
       author: { name: review.name, image: review.photo },
       rating: review.rating,
       date: review.date,
+      sourceLink: GOOGLE_REVIEWS_URL,
     })),
   ]
     // Skip only the ones with nothing to show.
     .filter((review) => review.quote || review.rating)
-    .sort((a, b) => (b.date ?? "").localeCompare(a.date ?? ""));
+    // Group by richness, newest first within each group.
+    .sort(
+      (a, b) =>
+        reviewTier(a) - reviewTier(b) ||
+        (b.date ?? "").localeCompare(a.date ?? ""),
+    );
 
   return (
     <>
       <StaticPageJsonLd page="reviews" />
-      <Testimonial21 testimonials={reviews} />
+      <Testimonial21
+        testimonials={reviews}
+        action={<AddReviewDialog clients={clientOptions} />}
+      />
     </>
   );
 }

@@ -114,3 +114,25 @@ export async function getClientTestimonials(): Promise<ClientTestimonial[]> {
     })
     .filter((item): item is ClientTestimonial => item !== null);
 }
+
+// Clients already public on the website (logo strip), as options for the
+// public testimonial form, so the form never reveals other CRM client names.
+// Cached across requests.
+export async function getPublicClientOptions() {
+  "use cache";
+  cmsCache("clients", "media");
+  const payload = await getPayload({ config });
+  const { docs } = await payload.find({
+    collection: "clients",
+    where: { showOnWebsite: { equals: true } },
+    depth: 1,
+    limit: 500,
+    sort: "companyName",
+    select: { companyName: true, logo: true },
+  });
+  return docs.map((client) => ({
+    value: String(client.id),
+    label: client.companyName,
+    logo: client.logo && typeof client.logo === "object" ? client.logo.url : null,
+  }));
+}
