@@ -88,7 +88,6 @@ export default async function SolutionDetailPage({
     outcomes,
     process,
     faq,
-    consultation,
   } = solution;
 
   const seoLocale = toLocale(locale);
@@ -181,13 +180,6 @@ export default async function SolutionDetailPage({
         />
       ) : (
         <Faq28 />
-      )}
-
-      {consultation?.heading && (
-        <Hero297
-          heading={consultation.heading}
-          description={consultation.description ?? ""}
-        />
       )}
 
       <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">

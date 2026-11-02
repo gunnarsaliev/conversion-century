@@ -32,7 +32,7 @@ export default function SolutionHero({
 
   return (
     // The before: layer copies the background out to the viewport edges, past the layout's max-width container.
-    <section className="relative isolate bg-[#0f4637] text-[#fbfaf5] before:absolute before:inset-y-0 before:left-1/2 before:-z-10 before:w-screen before:-translate-x-1/2 before:bg-inherit">
+    <section className="relative isolate bg-primary-700 text-[#fbfaf5] before:absolute before:inset-y-0 before:left-1/2 before:-z-10 before:w-screen before:-translate-x-1/2 before:bg-inherit">
       <div className="mx-auto flex w-full max-w-[1240px] flex-col px-6 pb-5 sm:px-10 lg:px-0">
         <nav aria-label={tCommon('breadcrumb')} className="pt-5 text-sm text-white/60">
           <ol className="flex items-center gap-3">
@@ -46,7 +46,7 @@ export default function SolutionHero({
 
         <section className="flex flex-col items-center pb-16 text-center">
           {eyebrow && (
-            <div className="mt-12 rounded-full bg-[#ffb91f] px-5 py-2 text-[12px] font-bold tracking-[0.08em] text-[#102f25] uppercase sm:mt-12">
+            <div className="mt-12 rounded-full bg-[#ffb91f] px-5 py-2 text-[12px] font-bold tracking-[0.08em] text-primary-950 uppercase sm:mt-12">
               {eyebrow}
             </div>
           )}
@@ -64,7 +64,7 @@ export default function SolutionHero({
             </p>
           ))}
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <Link href={primaryCta.href} className="rounded-full bg-[#ffb91f] px-8 py-4 text-sm font-bold text-[#102f25] transition-transform hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ffb91f]">
+            <Link href={primaryCta.href} className="rounded-full bg-[#ffb91f] px-8 py-4 text-sm font-bold text-primary-950 transition-transform hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ffb91f]">
               {primaryCta.label}
             </Link>
             <Link href={secondaryCta.href} className="rounded-full border border-white/40 px-8 py-4 text-sm font-bold text-white transition-colors hover:border-white hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">

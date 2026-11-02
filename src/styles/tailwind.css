@@ -94,6 +94,19 @@
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
+  /* Shades of the brand green, mixed from --primary so they follow it.
+     Lighter tints toward white, darker shades toward black. */
+  --color-primary-50: color-mix(in oklab, var(--primary) 10%, white);
+  --color-primary-100: color-mix(in oklab, var(--primary) 20%, white);
+  --color-primary-200: color-mix(in oklab, var(--primary) 40%, white);
+  --color-primary-300: color-mix(in oklab, var(--primary) 65%, white);
+  --color-primary-400: color-mix(in oklab, var(--primary) 85%, white);
+  --color-primary-500: var(--primary);
+  --color-primary-600: color-mix(in oklab, var(--primary) 85%, black);
+  --color-primary-700: color-mix(in oklab, var(--primary) 70%, black);
+  --color-primary-800: color-mix(in oklab, var(--primary) 55%, black);
+  --color-primary-900: color-mix(in oklab, var(--primary) 40%, black);
+  --color-primary-950: color-mix(in oklab, var(--primary) 25%, black);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
