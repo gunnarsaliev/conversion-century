@@ -9,6 +9,11 @@ import { cmsCache } from "@/lib/cms/cache";import type { SerializedEditorState }
 
 import { ClientLogos } from "@/components/client-logos";
 import { Hero118 } from "@/components/hero118";
+import { Hero297 } from "@/components/hero297";
+import { Feature42 } from "@/components/feature42";
+import { Feature276 } from "@/components/feature276";
+import { RichText } from "@/components/rich-text";
+import { HighlightPill } from "@/components/highlight-pill";
 import {
   IndustryDetail,
   splitAfterFirstParagraph,
@@ -45,6 +50,10 @@ const getIndustry = cache(async (slug: string, locale: string) => {
 
 // Published docs are prerendered at build; new ones render on first visit
 // and are then cached.
+// Vertical padding for the content sections below the hero; tighter than
+// the components' own defaults (py-20 / py-32) so the page reads as one flow.
+const SECTION_SPACING = "py-10 md:py-14";
+
 export const generateStaticParams = slugStaticParams("industries");
 
 export async function generateMetadata({
@@ -69,9 +78,10 @@ export async function generateMetadata({
   });
 }
 
-// Only clients flagged as public on the website, and only their name and
-// logo — Clients is admin-only CRM data and the local API bypasses access
-// control. Cached across requests.
+// Every client in this industry that has a logo — deliberately NOT limited
+// to `showOnWebsite`, so the hero strip shows the industry's full client
+// list. Only the name and logo are selected: Clients is admin-only CRM data
+// and the local API bypasses access control. Cached across requests.
 async function getIndustryClients(industryId: number) {
   "use cache";
   cmsCache("clients", "media");
@@ -80,13 +90,12 @@ async function getIndustryClients(industryId: number) {
     collection: "clients",
     where: {
       and: [
-        { showOnWebsite: { equals: true } },
         { logo: { exists: true } },
         { industries: { in: [industryId] } },
       ],
     },
     depth: 1,
-    limit: 100,
+    limit: 40,
     sort: "companyName",
     select: {
       companyName: true,
@@ -129,6 +138,28 @@ export default async function IndustryPage({ params }: IndustryPageProps) {
         : null;
     return logo ? [{ src: logo, alt: client.companyName }] : [];
   });
+
+  const clientTypes = (industry.clientTypes ?? []).filter((type) => type.text);
+
+  // Hero297 splits its description on blank lines, one <p> per paragraph.
+  const goalHeading = industry.industryGoal?.heading;
+  const goalDescription = (industry.industryGoal?.paragraphs ?? [])
+    .map((p) => p.text)
+    .filter(Boolean)
+    .join("\n\n");
+
+  const howWeHelpHeading = industry.howWeHelp?.heading;
+  const howWeHelpItems = (industry.howWeHelp?.items ?? []).map((item) => ({
+    title: item.heading,
+    description: item.paragraph ?? "",
+  }));
+
+  const progress = industry.measureProgress;
+  const progressHeading = progress?.heading;
+  const progressItems = (progress?.items ?? []).map((item) => ({
+    title: item.heading,
+    description: item.paragraph ?? "",
+  }));
 
   const seoLocale = toLocale(locale);
   const path = await localizedDocPath("industries", industry.id, "/industries");
@@ -180,7 +211,7 @@ export default async function IndustryPage({ params }: IndustryPageProps) {
         description={richTextToPlainText(intro)}
         buttons={{
           primary: {
-            text: tCommon("bookConsultation"),
+            text: t("heroCta"),
             url: "/book-a-consultation",
           },
         }}
@@ -198,11 +229,49 @@ export default async function IndustryPage({ params }: IndustryPageProps) {
         }
         logos={clientLogos.length > 0 ? clientLogos : undefined}
         logosLabel={t("clientsIn", { title: industry.title })}
+        beforeButtons={
+          clientTypes.length > 0 && (
+            <ul className="flex flex-wrap gap-2">
+              {clientTypes.map((type) => (
+                <li key={type.id ?? type.text}>
+                  <HighlightPill size="sm">{type.text}</HighlightPill>
+                </li>
+              ))}
+            </ul>
+          )
+        }
       />
+      {goalHeading && (
+        <Hero297
+          heading={goalHeading}
+          description={goalDescription}
+          className={SECTION_SPACING}
+        />
+      )}
+      {howWeHelpHeading && howWeHelpItems.length > 0 && (
+        <Feature42
+          heading={howWeHelpHeading}
+          features={howWeHelpItems}
+          className={SECTION_SPACING}
+        />
+      )}
+      {progressHeading && progressItems.length > 0 && (
+        <Feature276
+          heading={progressHeading}
+          description={
+            progress?.description ? (
+              <RichText data={progress.description as SerializedEditorState} />
+            ) : undefined
+          }
+          features={progressItems}
+          className={SECTION_SPACING}
+        />
+      )}
       <IndustryDetail
         description={body}
-        afterDescription={<ClientLogos className="mt-20 py-12" />}
+        afterDescription={<ClientLogos className="mt-8 py-8" />}
         otherIndustries={otherIndustries}
+        className="pb-16 md:pb-20"
       />
     </>
   );

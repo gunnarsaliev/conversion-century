@@ -49,6 +49,8 @@ interface HeroSaasProps {
   className?: string;
   /** Rendered above the badge, e.g. a breadcrumb. */
   breadcrumb?: ReactNode;
+  /** Rendered right above the CTA buttons, e.g. highlight pills. */
+  beforeButtons?: ReactNode;
   heading: string;
   description: string;
   buttons?: Buttons;
@@ -160,6 +162,7 @@ const Hero118 = (props: Props) => {
     logosLabel,
     className,
     breadcrumb,
+    beforeButtons,
   } = {
     ...defaultProps,
     ...props,
@@ -202,6 +205,7 @@ const Hero118 = (props: Props) => {
                     {description}
                   </div>
                 </div>
+                {beforeButtons}
                 <div className="flex w-full flex-col items-stretch gap-4 sm:flex-row sm:items-center">
                   {buttons?.secondary && (
                     <div className="w-full flex-1 xl:w-fit xl:flex-initial">

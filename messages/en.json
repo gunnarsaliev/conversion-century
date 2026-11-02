@@ -646,7 +646,8 @@
     "breadcrumb": "Industries",
     "label": "Industry",
     "clientsIn": "Clients in {title}",
-    "otherIndustries": "Check other industries"
+    "otherIndustries": "Check other industries",
+    "heroCta": "Discuss Your Project"
   },
   "Reviews22": {
     "heading": "Positive Reviews From Our Clients",

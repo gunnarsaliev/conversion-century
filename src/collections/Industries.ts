@@ -53,6 +53,111 @@ export const Industries: CollectionConfig = {
       localized: true,
     },
     {
+      name: 'clientTypes',
+      label: 'Client Types',
+      type: 'array',
+      labels: { singular: 'Client Type', plural: 'Client Types' },
+      fields: [
+        {
+          name: 'text',
+          type: 'text',
+          required: true,
+          localized: true,
+        },
+      ],
+    },
+    {
+      name: 'industryGoal',
+      label: 'Industry Goal',
+      type: 'group',
+      fields: [
+        {
+          name: 'heading',
+          type: 'text',
+          localized: true,
+        },
+        {
+          name: 'paragraphs',
+          type: 'array',
+          labels: { singular: 'Paragraph', plural: 'Paragraphs' },
+          fields: [
+            {
+              name: 'text',
+              type: 'textarea',
+              required: true,
+              localized: true,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'howWeHelp',
+      label: 'How We Help',
+      type: 'group',
+      fields: [
+        {
+          name: 'heading',
+          type: 'text',
+          localized: true,
+        },
+        {
+          name: 'items',
+          type: 'array',
+          labels: { singular: 'Item', plural: 'Items' },
+          fields: [
+            {
+              name: 'heading',
+              type: 'text',
+              required: true,
+              localized: true,
+            },
+            {
+              name: 'paragraph',
+              type: 'textarea',
+              localized: true,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'measureProgress',
+      label: 'Measure Progress',
+      type: 'group',
+      fields: [
+        {
+          name: 'heading',
+          type: 'text',
+          localized: true,
+        },
+        {
+          name: 'description',
+          type: 'richText',
+          editor: lexicalEditor(),
+          localized: true,
+        },
+        {
+          name: 'items',
+          type: 'array',
+          labels: { singular: 'Item', plural: 'Items' },
+          fields: [
+            {
+              name: 'heading',
+              type: 'text',
+              required: true,
+              localized: true,
+            },
+            {
+              name: 'paragraph',
+              type: 'textarea',
+              localized: true,
+            },
+          ],
+        },
+      ],
+    },
+    {
       name: 'meta',
       type: 'group',
       fields: [

@@ -719,6 +719,56 @@ export interface Industry {
     };
     [k: string]: unknown;
   } | null;
+  clientTypes?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  industryGoal?: {
+    heading?: string | null;
+    paragraphs?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  howWeHelp?: {
+    heading?: string | null;
+    items?:
+      | {
+          heading: string;
+          paragraph?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  measureProgress?: {
+    heading?: string | null;
+    description?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    items?:
+      | {
+          heading: string;
+          paragraph?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -2155,6 +2205,48 @@ export interface IndustriesSelect<T extends boolean = true> {
   slug?: T;
   image?: T;
   description?: T;
+  clientTypes?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  industryGoal?:
+    | T
+    | {
+        heading?: T;
+        paragraphs?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+      };
+  howWeHelp?:
+    | T
+    | {
+        heading?: T;
+        items?:
+          | T
+          | {
+              heading?: T;
+              paragraph?: T;
+              id?: T;
+            };
+      };
+  measureProgress?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        items?:
+          | T
+          | {
+              heading?: T;
+              paragraph?: T;
+              id?: T;
+            };
+      };
   meta?:
     | T
     | {

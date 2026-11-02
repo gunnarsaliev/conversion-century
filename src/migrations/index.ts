@@ -13,6 +13,8 @@ import * as migration_20261030_140921_testimonials_rating_date from './20261030_
 import * as migration_20261030_141122_testimonials_source_optional_text from './20261030_141122_testimonials_source_optional_text';
 import * as migration_20261030_141347_testimonials_drop_client_type from './20261030_141347_testimonials_drop_client_type';
 import * as migration_20261030_142041_testimonials_rating_default from './20261030_142041_testimonials_rating_default';
+import * as migration_20261102_125233_industries_content_fields from './20261102_125233_industries_content_fields';
+import * as migration_20261102_134333_industries_how_we_help_heading from './20261102_134333_industries_how_we_help_heading';
 
 export const migrations = [
   {
@@ -88,6 +90,16 @@ export const migrations = [
   {
     up: migration_20261030_142041_testimonials_rating_default.up,
     down: migration_20261030_142041_testimonials_rating_default.down,
-    name: '20261030_142041_testimonials_rating_default'
+    name: '20261030_142041_testimonials_rating_default',
+  },
+  {
+    up: migration_20261102_125233_industries_content_fields.up,
+    down: migration_20261102_125233_industries_content_fields.down,
+    name: '20261102_125233_industries_content_fields',
+  },
+  {
+    up: migration_20261102_134333_industries_how_we_help_heading.up,
+    down: migration_20261102_134333_industries_how_we_help_heading.down,
+    name: '20261102_134333_industries_how_we_help_heading'
   },
 ];

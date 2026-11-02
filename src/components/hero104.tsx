@@ -1,5 +1,5 @@
 "use client";
-import { Check } from "lucide-react";
+import { HighlightPill } from "@/components/highlight-pill";
 import { cn } from "cn";
 
 import { Avatar } from "@/components/ui/avatar";
@@ -109,13 +109,7 @@ const Hero104 = ({
             {highlights.length > 0 && (
               <div className="mt-6 flex flex-wrap justify-center gap-3 lg:justify-normal">
                 {highlights.map((text, i) => (
-                  <div
-                    key={`${i}`}
-                    className="flex items-center gap-2 rounded-full bg-primary/10 px-3.5 py-1.5"
-                  >
-                    <Check className="size-4 shrink-0 stroke-3 text-primary" />
-                    <p className="text-sm font-medium text-foreground">{text}</p>
-                  </div>
+                  <HighlightPill key={`${i}`}>{text}</HighlightPill>
                 ))}
               </div>
             )}
