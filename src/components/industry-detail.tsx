@@ -4,32 +4,14 @@ import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical
 import { useTranslations } from "next-intl";
 import { cn } from "cn";
 
-import { Link } from "@/i18n/navigation";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { CmsImage } from "@/components/cms-image";
 import { RelatedLinks } from "@/components/related-links";
 import type { RelatedItem } from "@/lib/cms/related";
 
-interface IndustryDetailClient {
-  name: string;
-  logo: string;
-}
-
 interface IndustryDetailProps {
-  label?: string;
-  title: string;
-  image?: string;
+  /** Body rich text, shown below the hero. */
   description?: SerializedEditorState;
-  clients?: IndustryDetailClient[];
-  /** Rendered right after the first paragraph of the description. */
-  afterFirstParagraph?: ReactNode;
+  /** Rendered after the description, before "Check other industries". */
+  afterDescription?: ReactNode;
   /** Shown at the end as "Check other industries". */
   otherIndustries?: RelatedItem[];
   className?: string;
@@ -37,7 +19,7 @@ interface IndustryDetailProps {
 
 // Splits rich text into everything up to and including the first paragraph,
 // and whatever follows it. Either half is undefined when empty.
-function splitAfterFirstParagraph(
+export function splitAfterFirstParagraph(
   data: SerializedEditorState | undefined,
 ): [SerializedEditorState | undefined, SerializedEditorState | undefined] {
   if (!data) return [undefined, undefined];
@@ -49,101 +31,26 @@ function splitAfterFirstParagraph(
   return [part(children.slice(0, index + 1)), part(children.slice(index + 1))];
 }
 
-// Detail page layout for industries.
+// Body of the industry detail page; the header is rendered by Hero118.
 const IndustryDetail = ({
-  label,
-  title,
-  image,
   description,
-  clients = [],
-  afterFirstParagraph,
+  afterDescription,
   otherIndustries = [],
   className,
 }: IndustryDetailProps) => {
   const t = useTranslations("IndustryDetail");
-  const tCommon = useTranslations("Common");
-  const [intro, rest] = splitAfterFirstParagraph(description);
 
   return (
-    <section className={cn("py-32", className)}>
+    <section className={cn("pb-32", className)}>
       <div className="container">
         <div className="mx-auto max-w-5xl">
-          <Breadcrumb className="mb-6 lg:mb-10">
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink render={<Link href="/" />}>
-                  {tCommon("home")}
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator>/</BreadcrumbSeparator>
-              <BreadcrumbItem>
-                <BreadcrumbLink render={<Link href="/industries" />}>
-                  {t("breadcrumb")}
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator>/</BreadcrumbSeparator>
-              <BreadcrumbItem>
-                <BreadcrumbPage>{title}</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-
-          <p className="mb-2 text-xs font-semibold tracking-widest text-muted-foreground uppercase">
-            {label ?? t("label")}
-          </p>
-          <h1 className="text-4xl font-bold tracking-tight text-balance sm:text-5xl">
-            {title}
-          </h1>
-
-          {clients.length > 0 && (
-            <div className="mt-10">
-              <h2 className="mb-6 text-2xl font-semibold tracking-tight">
-                {t("clientsIn", { title })}
-              </h2>
-              <ul className="flex flex-wrap gap-2.5">
-                {clients.map((client) => (
-                  <li
-                    key={client.name}
-                    className="flex items-center rounded-full border border-border bg-card px-5 py-2.5"
-                  >
-                    <img
-                      loading="lazy"
-                      decoding="async"
-                      src={client.logo}
-                      alt={client.name}
-                      title={client.name}
-                      className="h-7 w-auto max-w-28 object-contain"
-                    />
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {image && (
-            <CmsImage
-              src={image}
-              alt={title}
-              sizes="(min-width: 512px) 448px, 100vw"
-              // Right under the h1, so usually the LCP element.
-              preload
-              wrapperClassName="mt-10 aspect-square w-full max-w-md rounded-lg"
-            />
-          )}
-
-          {intro && (
+          {description && (
             <div className="prose mt-10 max-w-none dark:prose-invert">
-              <RichText data={intro} />
+              <RichText data={description} />
             </div>
           )}
 
-          {afterFirstParagraph}
-
-          {rest && (
-            <div className="prose mt-10 max-w-none dark:prose-invert">
-              <RichText data={rest} />
-            </div>
-          )}
+          {afterDescription}
 
           <RelatedLinks
             heading={t("otherIndustries")}

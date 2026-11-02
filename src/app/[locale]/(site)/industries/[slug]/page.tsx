@@ -1,14 +1,27 @@
 import { cache } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
 import { cmsCache } from "@/lib/cms/cache";import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 
 import { ClientLogos } from "@/components/client-logos";
-import { IndustryDetail } from "@/components/industry-detail";
+import { Hero118 } from "@/components/hero118";
+import {
+  IndustryDetail,
+  splitAfterFirstParagraph,
+} from "@/components/industry-detail";
+import { Link } from "@/i18n/navigation";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 import { slugStaticParams } from "@/lib/cms/slugs";
 import { findByLocalizedSlug } from "@/utilities/findByLocalizedSlug";
 import { getRelated } from "@/lib/cms/related";
@@ -101,6 +114,22 @@ export default async function IndustryPage({ params }: IndustryPageProps) {
       ? (industry.image as Media)
       : null;
 
+  const t = await getTranslations("IndustryDetail");
+  const tCommon = await getTranslations("Common");
+
+  // First paragraph becomes the hero copy; the rest is the page body.
+  const [intro, body] = splitAfterFirstParagraph(
+    (industry.description as SerializedEditorState | null) ?? undefined,
+  );
+
+  const clientLogos = clients.flatMap((client) => {
+    const logo =
+      client.logo && typeof client.logo === "object"
+        ? (client.logo as Media).url
+        : null;
+    return logo ? [{ src: logo, alt: client.companyName }] : [];
+  });
+
   const seoLocale = toLocale(locale);
   const path = await localizedDocPath("industries", industry.id, "/industries");
 
@@ -124,20 +153,55 @@ export default async function IndustryPage({ params }: IndustryPageProps) {
           }),
         )}
       />
-      <IndustryDetail
-        title={industry.title}
-        image={image?.url ?? undefined}
-        description={
-          (industry.description as SerializedEditorState | null) ?? undefined
+      <Hero118
+        breadcrumb={
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink render={<Link href="/" />}>
+                  {tCommon("home")}
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator>/</BreadcrumbSeparator>
+              <BreadcrumbItem>
+                <BreadcrumbLink render={<Link href="/industries" />}>
+                  {t("breadcrumb")}
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator>/</BreadcrumbSeparator>
+              <BreadcrumbItem>
+                <BreadcrumbPage>{industry.title}</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
         }
-        clients={clients.flatMap((client) => {
-          const logo =
-            client.logo && typeof client.logo === "object"
-              ? (client.logo as Media).url
-              : null;
-          return logo ? [{ name: client.companyName, logo }] : [];
-        })}
-        afterFirstParagraph={<ClientLogos className="py-12" />}
+        badge={{ text: t("label") }}
+        heading={industry.title}
+        description={richTextToPlainText(intro)}
+        buttons={{
+          primary: {
+            text: tCommon("bookConsultation"),
+            url: "/book-a-consultation",
+          },
+        }}
+        images={
+          image?.url
+            ? [
+                {
+                  src: image.url,
+                  alt: image.alt || industry.title,
+                  width: image.width ?? undefined,
+                  height: image.height ?? undefined,
+                },
+              ]
+            : undefined
+        }
+        logos={clientLogos.length > 0 ? clientLogos : undefined}
+        logosLabel={t("clientsIn", { title: industry.title })}
+      />
+      <IndustryDetail
+        description={body}
+        afterDescription={<ClientLogos className="mt-20 py-12" />}
         otherIndustries={otherIndustries}
       />
     </>

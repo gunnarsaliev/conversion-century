@@ -136,8 +136,8 @@ export default async function SolutionDetailPage({
         />
       )}
 
-      <Priorities section={solution.audience} />
-      <Priorities section={solution.partnerNeeds} className="bg-yellow-50 py-16" />
+      <Priorities section={solution.audience} className="bg-yellow-50"/>
+      <Priorities section={solution.partnerNeeds} className="bg-primary-100 py-16" />
 
       <WhyUs items={whyUs?.items} />
 
@@ -175,11 +175,12 @@ export default async function SolutionDetailPage({
 
       {faq?.items && faq.items.length > 0 ? (
         <Faq28
+          className="bg-primary-100"
           heading={faq.heading ?? undefined}
           items={faq.items.map(({ question, answer }) => ({ question, answer }))}
         />
       ) : (
-        <Faq28 />
+        <Faq28 className="bg-primary-100" />
       )}
 
       <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">

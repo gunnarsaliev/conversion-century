@@ -9,7 +9,7 @@ interface RelatedLinksProps {
 }
 
 // "Check other …" cards at the end of an industry, service or solution
-// page: square image, title and up to three lines of description.
+// page: square image (when set), title and up to three lines of description.
 export function RelatedLinks({ heading, items, className }: RelatedLinksProps) {
   if (items.length === 0) return null;
 
@@ -20,14 +20,16 @@ export function RelatedLinks({ heading, items, className }: RelatedLinksProps) {
         {items.map((item) => (
           <li key={item.href}>
             <Link href={item.href} className="group block">
-              <CmsImage
-                src={item.image}
-                alt={item.title}
-                sizes="(min-width: 640px) 320px, 100vw"
-                wrapperClassName="aspect-square w-full rounded-lg bg-muted"
-                className="transition-transform group-hover:scale-105"
-              />
-              <h3 className="mt-3 font-semibold group-hover:text-primary">
+              {item.image && (
+                <CmsImage
+                  src={item.image}
+                  alt={item.title}
+                  sizes="(min-width: 640px) 320px, 100vw"
+                  wrapperClassName="mb-3 aspect-square w-full rounded-lg bg-muted"
+                  className="transition-transform group-hover:scale-105"
+                />
+              )}
+              <h3 className="font-semibold group-hover:text-primary">
                 {item.title}
               </h3>
               {item.description && (
