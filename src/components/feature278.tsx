@@ -88,7 +88,7 @@ const Feature278 = (props: Props) => {
     <section className={cn("py-32", className)}>
       <div className="container">
         <div className="flex flex-col items-center justify-center">
-          <h2 className="relative z-20 mx-auto max-w-3xl py-2 text-center text-5xl font-semibold tracking-tight md:py-7">
+          <h2 className="relative z-20 mx-auto max-w-3xl py-2 text-center text-3xl font-semibold tracking-tight sm:text-4xl md:py-7 md:text-5xl">
             {heading}
           </h2>
           {description && (

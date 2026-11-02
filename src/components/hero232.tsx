@@ -81,7 +81,7 @@ const Hero232 = (props: Hero232Props) => {
               <span>{eyebrow}</span>
             </div>
           )}
-          <div className="relative flex max-w-4xl items-center justify-center text-center text-5xl font-medium tracking-tight md:text-7xl">
+          <div className="relative flex max-w-4xl items-center justify-center text-center text-3xl font-medium tracking-tight sm:text-5xl md:text-7xl">
             <h1 className="relative z-10 tracking-tighter">
               {titleBefore && (
                 <span className="mr-3 text-muted-foreground/50">

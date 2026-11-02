@@ -136,7 +136,7 @@ const Hero237 = (props: Props) => {
               {kicker}
             </p>
           )}
-          <h1 className="font-calSans mt-3 max-w-lg text-6xl font-medium lg:text-7xl">
+          <h1 className="font-calSans mt-3 max-w-lg text-4xl font-medium sm:text-5xl md:text-6xl lg:text-7xl">
             {heading}
           </h1>
           <p className="max-w-lg text-lg text-muted-foreground">

@@ -128,7 +128,7 @@ const Blogpost5 = ({
             )}
           </BreadcrumbList>
         </Breadcrumb>
-        <h1 className="mt-9 mb-7 text-4xl font-bold md:mb-10 md:text-7xl">
+        <h1 className="mt-9 mb-7 text-3xl font-bold text-balance sm:text-5xl md:mb-10 lg:text-7xl">
           {title}
         </h1>
         {(authorName || dateLabel) && (

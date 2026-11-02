@@ -82,7 +82,7 @@ const Hero262 = (props: Hero262Props) => {
             {heading}
           </h2>
 
-          <p className="mt-5 text-2xl text-muted-foreground md:text-3xl lg:text-4xl">
+          <p className="mt-5 text-xl text-muted-foreground sm:text-2xl md:text-3xl lg:text-4xl">
             {subheading}
           </p>
 

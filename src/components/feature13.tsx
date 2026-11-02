@@ -99,7 +99,7 @@ const Feature13 = (props: Props) => {
               </p>
             )}
             {heading && (
-              <h2 className="text-4xl font-semibold tracking-tight text-balance lg:text-5xl">
+              <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl lg:text-5xl">
                 {heading}
               </h2>
             )}

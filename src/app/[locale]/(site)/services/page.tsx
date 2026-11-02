@@ -57,7 +57,7 @@ export default async function ServicesPage({
       />
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
-          <h1 className="text-4xl leading-tight font-semibold tracking-[-1px] sm:text-5xl">
+          <h1 className="text-3xl leading-tight font-semibold tracking-[-1px] sm:text-5xl">
             {t("heading")}
           </h1>
           <h2 className="mt-4 text-lg text-muted-foreground">

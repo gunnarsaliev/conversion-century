@@ -50,11 +50,11 @@ export default function SolutionHero({
               {eyebrow}
             </div>
           )}
-          <h1 className="mt-8 max-w-[720px] text-[54px] font-bold leading-[0.93] tracking-[-0.045em] text-balance sm:text-[72px] lg:text-[80px]">
+          <h1 className="mt-8 max-w-[720px] text-[34px] font-bold leading-[1.02] tracking-[-0.035em] text-balance sm:text-[56px] sm:leading-[0.95] md:text-[72px] lg:text-[80px]">
             {heading || name}
           </h1>
           {lead && (
-            <p className="mt-12 max-w-[700px] text-[19px] font-medium leading-relaxed text-white sm:text-[20px]">
+            <p className="mt-8 max-w-[700px] text-[17px] font-medium leading-relaxed text-white sm:mt-12 sm:text-[20px]">
               {lead}
             </p>
           )}

@@ -74,7 +74,7 @@ const Pricing117 = (props: Props) => {
     <section className={cn("py-32", className)}>
       <div className="container">
         <div className="mx-auto max-w-5xl text-center">
-          <h2 className="mx-auto mb-4 max-w-3xl text-4xl font-semibold tracking-tight text-pretty lg:text-5xl">
+          <h2 className="mx-auto mb-4 max-w-3xl text-3xl font-semibold tracking-tight text-pretty sm:text-4xl lg:text-5xl">
             {heading}
           </h2>
           <p className="mx-auto mb-12 max-w-2xl text-muted-foreground lg:text-lg">

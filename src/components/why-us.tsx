@@ -25,7 +25,7 @@ export function WhyUs({ items }: WhyUsProps = {}) {
 
   return (
     <div className="my-12">
-    <h2 className="mb-16 max-w-2xl text-5xl font-black leading-[0.98] tracking-[-0.04em] md:text-6xl">
+    <h2 className="mb-10 max-w-2xl text-3xl font-black leading-[1.05] tracking-[-0.03em] sm:text-4xl md:mb-16 md:text-6xl md:leading-[0.98] md:tracking-[-0.04em]">
       {t.rich('heading', { br: () => <br /> })}
     </h2>
 

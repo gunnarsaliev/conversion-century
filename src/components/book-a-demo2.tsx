@@ -88,7 +88,7 @@ interface Header {
 const BookADemo2Header = ({ heading, description, avatars }: Header) => {
   return (
     <div className="relative flex w-full max-w-2xl flex-col items-center gap-4 text-center">
-      <h1 className="text-4xl font-semibold sm:text-5xl md:text-6xl">
+      <h1 className="text-3xl font-semibold sm:text-5xl md:text-6xl">
         {heading}
       </h1>
 

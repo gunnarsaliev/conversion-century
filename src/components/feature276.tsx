@@ -152,7 +152,7 @@ const Feature276 = (props: Props) => {
               {label}
             </p>
           )}
-          <h2 className="relative z-20 mx-auto max-w-3xl py-2 text-center text-5xl font-semibold tracking-tight md:py-7 lg:text-6xl">
+          <h2 className="relative z-20 mx-auto max-w-3xl py-2 text-center text-3xl font-semibold tracking-tight sm:text-4xl md:py-7 md:text-5xl lg:text-6xl">
             {heading}
           </h2>
           {description && (

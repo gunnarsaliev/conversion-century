@@ -16,7 +16,7 @@ export default function NotFound() {
   return (
     <div className="flex flex-col items-center py-24 text-center md:py-32">
       <p className="text-sm font-semibold text-muted-foreground">404</p>
-      <h1 className="mt-3 text-4xl font-semibold tracking-tight md:text-5xl">
+      <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
         {t('heading')}
       </h1>
       <p className="mt-4 max-w-xl text-muted-foreground md:text-lg">

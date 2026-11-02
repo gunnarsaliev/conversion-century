@@ -71,7 +71,7 @@ export function AboutHero() {
     <section className="container mx-auto grid items-center gap-12 py-16 lg:grid-cols-2 lg:gap-16 lg:py-24">
       <div>
         <Eyebrow>{t("eyebrow")}</Eyebrow>
-        <h1 className="mt-4 text-4xl leading-tight font-semibold tracking-[-1px] text-balance sm:text-5xl lg:text-6xl">
+        <h1 className="mt-4 text-3xl leading-tight font-semibold tracking-[-1px] text-balance sm:text-5xl lg:text-6xl">
           {t("heading")}
         </h1>
         <div className="mt-8 max-w-3xl space-y-4 text-lg text-muted-foreground">

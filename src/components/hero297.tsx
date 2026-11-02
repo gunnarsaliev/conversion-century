@@ -24,7 +24,7 @@ const Hero297 = ({ badge, heading, description, className }: Hero297Props) => {
                 {badge.text}
               </Badge>
             )}
-            <h2 className="max-w-3xl text-4xl font-semibold tracking-tight text-pretty md:text-5xl lg:text-6xl">
+            <h2 className="max-w-3xl text-3xl font-semibold tracking-tight text-pretty sm:text-4xl md:text-5xl lg:text-6xl">
               {heading}
             </h2>
           </div>

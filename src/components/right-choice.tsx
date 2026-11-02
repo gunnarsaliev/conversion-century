@@ -18,12 +18,12 @@ export function RightChoice({ rightChoice, notRight }: RightChoiceProps) {
     <section className="bg-[#edf3ef] shadow-[0_0_0_100vmax_#edf3ef] [clip-path:inset(0_-100vmax)] px-5 py-10 sm:px-8 sm:py-16 lg:px-[3.4rem] lg:py-[6.25rem]">
       <div className="mx-auto grid max-w-[119rem] items-start gap-8 lg:grid-cols-2">
         {rightChoice?.heading && (
-          <div className="rounded-[2.25rem] bg-white px-8 py-12 text-[#17201d] shadow-sm sm:px-12 sm:py-16 lg:px-[3.75rem] lg:py-[4.25rem]">
-            <h2 className="max-w-[32rem] text-[2.55rem] font-black leading-[0.98] tracking-[-0.045em] sm:text-[3rem]">
+          <div className="rounded-[2.25rem] bg-white px-6 py-10 text-[#17201d] shadow-sm sm:px-12 sm:py-16 lg:px-[3.75rem] lg:py-[4.25rem]">
+            <h2 className="max-w-[32rem] text-[1.875rem] font-black leading-[1.05] tracking-[-0.035em] sm:text-[2.55rem] sm:leading-[0.98] md:text-[3rem]">
               {rightChoice.heading}
             </h2>
             {rightChoice.listIntro && (
-              <p className="mt-12 text-[1.35rem] leading-relaxed text-[#56605d]">
+              <p className="mt-8 text-lg leading-relaxed text-[#56605d] sm:mt-12 sm:text-[1.35rem]">
                 {rightChoice.listIntro}
               </p>
             )}
@@ -41,11 +41,11 @@ export function RightChoice({ rightChoice, notRight }: RightChoiceProps) {
         )}
         {notRight?.heading && (
           <div className="rounded-[2.25rem] bg-[#0f4435] px-8 py-12 text-[#f8f7f1] sm:px-12 sm:py-16 lg:px-[3.75rem] lg:py-[4.25rem]">
-            <h2 className="max-w-[38rem] text-[2.55rem] font-black leading-[0.98] tracking-[-0.045em] sm:text-[3rem]">
+            <h2 className="max-w-[38rem] text-[1.875rem] font-black leading-[1.05] tracking-[-0.035em] sm:text-[2.55rem] sm:leading-[0.98] md:text-[3rem]">
               {notRight.heading}
             </h2>
             {notRight.paragraphs && notRight.paragraphs.length > 0 && (
-              <div className="mt-12 max-w-[47rem] space-y-7 text-[1.2rem] leading-[1.8] text-[#d6dfd9] sm:text-[1.3rem]">
+              <div className="mt-8 max-w-[47rem] space-y-6 text-[1.0625rem] leading-[1.75] text-[#d6dfd9] sm:mt-12 sm:space-y-7 sm:text-[1.3rem]">
                 {notRight.paragraphs.map((p, i) => (
                   <p key={i}>{p}</p>
                 ))}

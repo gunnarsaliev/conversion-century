@@ -88,7 +88,7 @@ const Blog12 = ({ className, posts, heading }: Blog12Props) => {
               <FileText className="h-full w-4" /> {t("badge")}
             </Badge>
           )}
-          <h2 className="text-4xl font-semibold text-balance">
+          <h2 className="text-3xl font-semibold text-balance md:text-4xl">
             {heading ?? t("heading")}
           </h2>
           {!heading && (

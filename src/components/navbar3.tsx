@@ -661,7 +661,7 @@ const Navbar3 = ({
                             <div className="space-y-1 px-8 pb-16">
                               {documentationLinks.map(
                                 (documentationLink, index) => (
-                                  <NavigationMenuLink
+                                  <a
                                     key={index}
                                     href={localize(documentationLink.href)}
                                     className="group flex flex-row items-center gap-3 rounded-md px-2 py-2 transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
@@ -672,7 +672,7 @@ const Navbar3 = ({
                                     <div className="text-sm font-medium">
                                       {t(`proof.items.${documentationLink.key}`)}
                                     </div>
-                                  </NavigationMenuLink>
+                                  </a>
                                 ),
                               )}
                             </div>
@@ -689,7 +689,7 @@ const Navbar3 = ({
                             </div>
                             <div className="space-y-1 px-8 pb-16">
                               {aboutLinks.map((aboutLink, index) => (
-                                <NavigationMenuLink
+                                <a
                                   key={index}
                                   href={localize(aboutLink.href)}
                                   className="group flex flex-row items-center gap-3 rounded-md px-2 py-2 transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
@@ -700,7 +700,7 @@ const Navbar3 = ({
                                   <div className="text-sm font-medium">
                                     {t(`about.items.${aboutLink.key}`)}
                                   </div>
-                                </NavigationMenuLink>
+                                </a>
                               ))}
                             </div>
                           </>
@@ -745,7 +745,7 @@ const Navbar3 = ({
                             </div>
                             <div className="space-y-1 px-8 pb-16">
                               {resourceLinks.map((resourceLink, index) => (
-                                <NavigationMenuLink
+                                <a
                                   key={index}
                                   href={localize(resourceLink.href)}
                                   className="group flex flex-row items-center gap-3 rounded-md px-2 py-2 transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
@@ -756,7 +756,7 @@ const Navbar3 = ({
                                   <div className="text-sm font-medium">
                                     {t(`insights.items.${resourceLink.key}`)}
                                   </div>
-                                </NavigationMenuLink>
+                                </a>
                               ))}
                             </div>
                           </>

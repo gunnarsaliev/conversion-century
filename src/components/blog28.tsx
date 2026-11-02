@@ -115,7 +115,7 @@ const Blog28 = ({
           {heading && (
             <h2
               className={cn(
-                "text-center text-4xl font-medium md:text-7xl",
+                "text-center text-3xl font-medium sm:text-5xl md:text-7xl",
                 description ? "mb-4" : "mb-12",
               )}
             >
@@ -142,7 +142,7 @@ const Blog28 = ({
         {heading && (
           <h1
             className={cn(
-              "text-center text-4xl font-medium md:text-7xl",
+              "text-center text-3xl font-medium sm:text-5xl md:text-7xl",
               description ? "mb-4" : "mb-12",
             )}
           >
