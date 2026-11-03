@@ -138,6 +138,9 @@ async function getBlogListing(locale: string, page: number, category?: BlogCateg
     // depth 2 so the author's profile image comes back as a Media doc for
     // the card avatar; populate keeps the author to the fields cards use.
     depth: 2,
+    populate: {
+      users: { firstName: true, lastName: true, email: true, profileImage: true },
+    },
     limit: PAGE_SIZE,
     page,
     sort: "-publishedAt",

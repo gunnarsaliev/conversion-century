@@ -63,11 +63,11 @@ Static page titles/descriptions are in the `Metadata` namespace of `messages/{bg
 
 ## Weekly backups
 
-Every Wednesday at 21:00 Bulgarian time, a Vercel Cron (`vercel.json`) calls `GET /api/backup-to-r2` (`src/endpoints/backupToR2.ts`). It builds the same ZIP as the admin dashboard's **Export all data** button and stores it in a private R2 bucket as `backups/conversion-century-export-<timestamp>.zip`. Backups are never deleted. Vercel crons are UTC-only, so the cron fires at 18:00 and 19:00 UTC, and the endpoint only runs when it is 21:00 in `Europe/Sofia`. That keeps the time correct across daylight saving.
+Every Wednesday at 18:00 UTC, a Vercel Cron (`vercel.json`) calls `GET /api/backup-to-r2` (`src/endpoints/backupToR2.ts`). That is 21:00 Bulgarian time in summer and 20:00 in winter; on the Hobby plan it can start at any minute within that hour. It builds the same ZIP as the admin dashboard's **Export all data** button and stores it in a private R2 bucket as `backups/conversion-century-export-<timestamp>.zip`. Backups are never deleted.
 
 | Env var | Purpose |
 |---|---|
 | `R2_BACKUP_BUCKET` | Private R2 bucket for backups. Keep public access off. It uses the same `R2_*` credentials and endpoint as media, so the API token needs read and write access to this bucket. |
 | `CRON_SECRET` | Random string (`openssl rand -hex 32`). Vercel sends it to the cron route, and the route accepts nothing else. |
 
-Manual backup: `curl -H "Authorization: Bearer $CRON_SECRET" "https://www.cc-hub.online/api/backup-to-r2?force=1"`
+Manual backup: `curl -H "Authorization: Bearer $CRON_SECRET" "https://www.cc-hub.online/api/backup-to-r2"`

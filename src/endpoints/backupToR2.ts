@@ -10,22 +10,9 @@ import { buildExportZip } from './exportAll'
 // Called by the Vercel Cron in vercel.json. Vercel sends
 // `Authorization: Bearer <CRON_SECRET>`, and that secret is the only way in.
 //
-// The backup runs every Wednesday at 21:00 Bulgarian time. Vercel crons are
-// UTC-only and Sofia is UTC+2 in winter and UTC+3 in summer, so the cron
-// fires at both 18:00 and 19:00 UTC. Only the call that lands on 21:00 in
-// Europe/Sofia does the work. `?force=1` skips that check for a manual run.
-
-const TIME_ZONE = 'Europe/Sofia'
-const BACKUP_HOUR = 21
-
-const sofiaHour = () =>
-  Number(
-    new Intl.DateTimeFormat('en-GB', {
-      timeZone: TIME_ZONE,
-      hour: 'numeric',
-      hourCycle: 'h23',
-    }).format(new Date()),
-  )
+// Scheduled for Wednesday 18:00 UTC: 21:00 Bulgarian time in summer, 20:00
+// in winter (Vercel crons are UTC-only). On the Hobby plan a cron may run at
+// most once a day and fires at any minute within its hour.
 
 function isAuthorized(header: string | null) {
   const secret = process.env.CRON_SECRET
@@ -46,11 +33,6 @@ export const backupToR2: Endpoint = {
     const bucket = process.env.R2_BACKUP_BUCKET
     if (!bucket) {
       return Response.json({ error: 'R2_BACKUP_BUCKET is not set.' }, { status: 500 })
-    }
-
-    const force = req.searchParams?.get('force') === '1'
-    if (!force && sofiaHour() !== BACKUP_HOUR) {
-      return Response.json({ ok: true, skipped: true, reason: `Not ${BACKUP_HOUR}:00 in ${TIME_ZONE}` })
     }
 
     const { zip, exportedAt, counts } = await buildExportZip(req)
