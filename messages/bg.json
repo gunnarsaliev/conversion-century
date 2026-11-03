@@ -717,6 +717,18 @@
     "description": "Практични съвети за SEO, съдържание и AI търсене, които помагат на бизнеса ви да увеличи органичния трафик и приходите си.",
     "empty": "Все още няма публикувани статии."
   },
+  "Share": {
+    "native": "Споделяне…",
+    "linkedin": "Споделете в LinkedIn",
+    "facebook": "Споделете във Facebook",
+    "x": "Споделете в X",
+    "whatsapp": "Споделете в WhatsApp",
+    "viber": "Споделете във Viber",
+    "telegram": "Споделете в Telegram",
+    "email": "Споделете по имейл",
+    "copy": "Копирайте линка",
+    "copied": "Линкът е копиран"
+  },
   "Blogpost5": {
     "breadcrumb": "Блог",
     "publishedOn": "на <time>{date}</time>",

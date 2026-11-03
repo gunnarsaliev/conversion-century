@@ -32,7 +32,9 @@ type AuthorPageProps = {
 
 const formatDate = (value: string | null | undefined, locale: string) => {
   if (!value) return "";
+  // Sofia time, matching the calendar ribbon on the card (blog28.tsx).
   return new Intl.DateTimeFormat(locale, {
+    timeZone: "Europe/Sofia",
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -206,6 +208,7 @@ export default async function AuthorPage({
         <AuthorPosts
           authorId={author.id}
           name={name}
+          avatarUrl={avatar?.url ?? undefined}
           path={path}
           locale={locale}
           searchParams={searchParams}
@@ -218,12 +221,14 @@ export default async function AuthorPage({
 async function AuthorPosts({
   authorId,
   name,
+  avatarUrl,
   path,
   locale,
   searchParams,
 }: {
   authorId: number;
   name: string;
+  avatarUrl?: string;
   path: string;
   locale: string;
   searchParams: PageSearchParams;
@@ -242,7 +247,9 @@ async function AuthorPosts({
 
     return {
       date: formatDate(post.publishedAt, locale),
+      publishedAt: post.publishedAt ?? undefined,
       author: name,
+      authorAvatar: avatarUrl,
       title: post.title,
       image: image?.url ?? "",
       link: `/blog/${post.slug ?? post.id}`,

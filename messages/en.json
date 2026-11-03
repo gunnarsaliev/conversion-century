@@ -717,6 +717,18 @@
     "description": "Practical SEO, content and AI search advice to help your business grow organic traffic and revenue.",
     "empty": "No posts published yet."
   },
+  "Share": {
+    "native": "Share…",
+    "linkedin": "Share on LinkedIn",
+    "facebook": "Share on Facebook",
+    "x": "Share on X",
+    "whatsapp": "Share on WhatsApp",
+    "viber": "Share on Viber",
+    "telegram": "Share on Telegram",
+    "email": "Share by email",
+    "copy": "Copy link",
+    "copied": "Link copied"
+  },
   "Blogpost5": {
     "breadcrumb": "Blog",
     "publishedOn": "on <time>{date}</time>",

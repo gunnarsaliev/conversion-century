@@ -25,11 +25,19 @@ import type { Media, User } from "../../../../../payload-types";
 
 const formatDate = (value: string | null | undefined, locale: string) => {
   if (!value) return "";
+  // Sofia time, matching the calendar ribbon on the card (blog28.tsx).
   return new Intl.DateTimeFormat(locale, {
+    timeZone: "Europe/Sofia",
     year: "numeric",
     month: "long",
     day: "numeric",
   }).format(new Date(value));
+};
+
+const authorAvatar = (author: number | User | null | undefined) => {
+  if (!author || typeof author !== "object") return undefined;
+  const image = author.profileImage;
+  return image && typeof image === "object" ? ((image as Media).url ?? undefined) : undefined;
 };
 
 const authorName = (author: number | User | null | undefined) => {
@@ -127,7 +135,9 @@ async function getBlogListing(locale: string, page: number, category?: BlogCateg
     collection: "blog",
     locale: locale as "en" | "bg",
     where: category ? { ...published, categories: { in: [category] } } : published,
-    depth: 1,
+    // depth 2 so the author's profile image comes back as a Media doc for
+    // the card avatar; populate keeps the author to the fields cards use.
+    depth: 2,
     limit: PAGE_SIZE,
     page,
     sort: "-publishedAt",
@@ -163,7 +173,9 @@ export async function BlogListing({
 
     return {
       date: formatDate(post.publishedAt, locale),
+      publishedAt: post.publishedAt ?? undefined,
       author: authorName(post.author),
+      authorAvatar: authorAvatar(post.author),
       title: post.title,
       image: image?.url ?? "",
       link: `/blog/${post.slug ?? post.id}`,

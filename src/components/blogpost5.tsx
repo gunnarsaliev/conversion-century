@@ -1,7 +1,6 @@
 "use client";
 
 import { Home } from "lucide-react";
-import { FaFacebookF, FaLinkedin, FaXTwitter } from "react-icons/fa6";
 import { useTranslations } from "next-intl";
 import { cn } from "cn";
 
@@ -16,7 +15,7 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Button } from "@/components/ui/button";
+import { ShareButtons } from "@/components/share-buttons";
 import { PostRichText } from "@/components/blog-rich-text";
 import { TableOfContents } from "@/components/table-of-contents";
 import { CmsImage } from "@/components/cms-image";
@@ -30,6 +29,8 @@ interface RelatedPost {
 
 interface Blogpost5Props {
   title: string;
+  // Absolute canonical URL of the post, for the share links.
+  shareUrl: string;
   authorName?: string;
   authorAvatar?: string;
   // Author page path (see lib/seo/site authorPath).
@@ -52,6 +53,7 @@ interface Blogpost5Props {
 
 const Blogpost5 = ({
   title,
+  shareUrl,
   authorName,
   authorAvatar,
   authorHref,
@@ -193,41 +195,7 @@ const Blogpost5 = ({
               <p className="font-medium text-muted-foreground">
                 {t("share")}
               </p>
-              <ul className="flex gap-2">
-                <li>
-                  <Button
-                    variant="secondary"
-                    size="icon"
-                    className="group rounded-full"
-                  >
-                    <a href="#">
-                      <FaFacebookF className="h-4 w-4 fill-muted-foreground text-muted-foreground transition-colors group-hover:fill-primary group-hover:text-primary" />
-                    </a>
-                  </Button>
-                </li>
-                <li>
-                  <Button
-                    variant="secondary"
-                    size="icon"
-                    className="group rounded-full"
-                  >
-                    <a href="#">
-                      <FaLinkedin className="h-4 w-4 fill-muted-foreground text-muted-foreground transition-colors group-hover:fill-primary group-hover:text-primary" />
-                    </a>
-                  </Button>
-                </li>
-                <li>
-                  <Button
-                    variant="secondary"
-                    size="icon"
-                    className="group rounded-full"
-                  >
-                    <a href="#">
-                      <FaXTwitter className="h-4 w-4 fill-muted-foreground text-muted-foreground transition-colors group-hover:fill-primary group-hover:text-primary" />
-                    </a>
-                  </Button>
-                </li>
-              </ul>
+              <ShareButtons url={shareUrl} title={title} />
             </div>
             {content && (
               <div className="order-2 mt-8 lg:order-none">

@@ -1,5 +1,5 @@
 import { strToU8, zipSync } from 'fflate'
-import type { CollectionSlug, Endpoint } from 'payload'
+import type { CollectionSlug, Endpoint, PayloadRequest } from 'payload'
 import { isAdmin } from '../lib/roles'
 
 // GET /api/export-all — every document of every content collection as one
@@ -59,6 +59,34 @@ function toCsv(docs: unknown[]): string {
   return `﻿${lines.join('\r\n')}\r\n`
 }
 
+// Builds the whole archive. Shared by this endpoint and the weekly backup
+// (src/endpoints/backupToR2.ts); callers do their own access checks.
+export async function buildExportZip(req: PayloadRequest) {
+  const slugs = req.payload.config.collections
+    .map((collection) => collection.slug)
+    .filter((slug) => !isInternal(slug)) as CollectionSlug[]
+
+  const files: Record<string, Uint8Array> = {}
+  const counts: Record<string, number> = {}
+  for (const slug of slugs) {
+    const { docs } = await req.payload.find({
+      collection: slug,
+      depth: 0,
+      locale: 'all',
+      pagination: false,
+      req,
+    })
+    counts[slug] = docs.length
+    files[`json/${slug}.json`] = strToU8(JSON.stringify(docs, null, 2))
+    files[`csv/${slug}.csv`] = strToU8(toCsv(docs))
+  }
+
+  const exportedAt = new Date().toISOString()
+  files['manifest.json'] = strToU8(JSON.stringify({ exportedAt, counts }, null, 2))
+
+  return { zip: zipSync(files, { level: 6 }), exportedAt, counts }
+}
+
 export const exportAll: Endpoint = {
   path: '/export-all',
   method: 'get',
@@ -67,29 +95,7 @@ export const exportAll: Endpoint = {
       return Response.json({ error: 'Only admins can export data.' }, { status: 403 })
     }
 
-    const slugs = req.payload.config.collections
-      .map((collection) => collection.slug)
-      .filter((slug) => !isInternal(slug)) as CollectionSlug[]
-
-    const files: Record<string, Uint8Array> = {}
-    const counts: Record<string, number> = {}
-    for (const slug of slugs) {
-      const { docs } = await req.payload.find({
-        collection: slug,
-        depth: 0,
-        locale: 'all',
-        pagination: false,
-        req,
-      })
-      counts[slug] = docs.length
-      files[`json/${slug}.json`] = strToU8(JSON.stringify(docs, null, 2))
-      files[`csv/${slug}.csv`] = strToU8(toCsv(docs))
-    }
-
-    const exportedAt = new Date().toISOString()
-    files['manifest.json'] = strToU8(JSON.stringify({ exportedAt, counts }, null, 2))
-
-    const zip = zipSync(files, { level: 6 })
+    const { zip, exportedAt } = await buildExportZip(req)
 
     return new Response(zip, {
       headers: {

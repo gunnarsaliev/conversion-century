@@ -10,7 +10,7 @@ import { JsonLd } from "@/components/json-ld";
 import { buildMetadata, mediaImage, truncate } from "@/lib/seo/metadata";
 import { localizedDocPath, pageBreadcrumbs } from "@/lib/seo/pages";
 import { blogPostingSchema, graph, personSchema } from "@/lib/seo/schema";
-import { authorPath, toLocale } from "@/lib/seo/site";
+import { authorPath, localizedUrl, toLocale } from "@/lib/seo/site";
 import { findByLocalizedSlug, translated } from "@/utilities/findByLocalizedSlug";
 import { BLOG_CATEGORIES, blogCategoryPath, isBlogCategory } from "@/lib/blog-categories";
 import { getPage, type PageSearchParams } from "@/lib/pagination";
@@ -264,6 +264,7 @@ export default async function BlogPostPage({
       />
       <Blogpost5
         title={post.title}
+        shareUrl={localizedUrl(path, seoLocale)}
         authorName={authorName}
         authorAvatar={authorAvatar}
         authorHref={author ? authorPath(author) : undefined}

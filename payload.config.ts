@@ -33,6 +33,7 @@ import { Redirects } from './src/collections/Redirects'
 import { notifyContractRenewals } from './src/jobs/notifyContractRenewals'
 import { clearUploadedFileAfterProcessing } from './src/utilities/clearUploadedFile'
 import { exportAll } from './src/endpoints/exportAll'
+import { backupToR2 } from './src/endpoints/backupToR2'
 import { seoRedirects } from './src/endpoints/seoRedirects'
 import { withCmsRevalidation } from './src/lib/cms/revalidate'
 
@@ -51,7 +52,9 @@ export default buildConfig({
 
   // GET /api/export-all: every collection as one JSON download (admins only).
   // GET /api/seo-redirects: enabled redirects, read by src/proxy.ts.
-  endpoints: [exportAll, seoRedirects],
+  // GET /api/backup-to-r2: weekly backup ZIP to the private R2 bucket
+  // (Vercel Cron in vercel.json, needs CRON_SECRET).
+  endpoints: [exportAll, seoRedirects, backupToR2],
 
   // Collections the public site reads are wrapped so an edit refreshes the
   // cached pages that show them (see src/lib/cms).

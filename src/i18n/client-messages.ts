@@ -18,6 +18,7 @@ const CLIENT_NAMESPACES = [
   'Navbar',
   'NotFound',
   'Newsletter',
+  'Share',
   'Testimonial17',
   'Testimonial30',
   'TestimonialForm',
