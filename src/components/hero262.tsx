@@ -49,7 +49,6 @@ interface Stat {
 
 interface Hero262Props {
   heading?: string;
-  subheading?: string;
   description?: string;
   stats?: Stat[];
   ctaText?: string;
@@ -57,13 +56,12 @@ interface Hero262Props {
   className?: string;
 }
 
-const STAT_KEYS = ["raised", "companies", "transactions", "connections"] as const;
+const STAT_KEYS = ["clients", "industries", "years"] as const;
 
 const Hero262 = (props: Hero262Props) => {
   const t = useTranslations("Hero262");
   const {
     heading = t("heading"),
-    subheading = t("subheading"),
     description = t("description"),
     stats = STAT_KEYS.map((key) => ({
       value: t(`stats.${key}.value`),
@@ -81,10 +79,6 @@ const Hero262 = (props: Hero262Props) => {
           <h2 className="text-3xl tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
             {heading}
           </h2>
-
-          <p className="mt-5 text-xl text-muted-foreground sm:text-2xl md:text-3xl lg:text-4xl">
-            {subheading}
-          </p>
 
           <div className="mt-8 hidden max-w-lg space-y-6 text-lg text-balance text-muted-foreground md:block lg:mt-12">
             {description.split("\n\n").map((paragraph, i) => (

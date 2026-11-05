@@ -91,7 +91,19 @@ type BlogPostPageProps = {
 // Local API bypasses access control, so hide drafts explicitly.
 const getPost = async (slug: string, locale: string) => {
   // depth 2 so the author's profileImage comes back as a Media doc (avatar).
-  const post = await findByLocalizedSlug("blog", slug, locale, { depth: 2 });
+  const post = await findByLocalizedSlug("blog", slug, locale, {
+    depth: 2,
+    populate: {
+      users: {
+        firstName: true,
+        lastName: true,
+        email: true,
+        slug: true,
+        jobTitle: true,
+        profileImage: true,
+      },
+    },
+  });
   return post?._status === "published" ? post : null;
 };
 

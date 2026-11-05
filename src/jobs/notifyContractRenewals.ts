@@ -11,7 +11,21 @@ const CATCH_UP_DAYS = 7
 
 export const notifyContractRenewals: TaskConfig<'notifyContractRenewals'> = {
   slug: 'notifyContractRenewals',
-  schedule: [{ cron: '0 6 * * *', queue: 'default' }],
+  schedule: [
+    {
+      cron: '0 6 * * *',
+      queue: 'default',
+      hooks: {
+        // Payload delays a scheduled job until the next cron time. The runner
+        // is only called once a day (vercel.json), so that would run this every
+        // other day. Without the delay, each call queues and runs it.
+        beforeSchedule: async (args) => ({
+          ...(await args.defaultBeforeSchedule(args)),
+          waitUntil: undefined,
+        }),
+      },
+    },
+  ],
   retries: 2,
   handler: async ({ req }) => {
     const endOfToday = new Date()

@@ -141,6 +141,16 @@ async function getBlogListing(locale: string, page: number, category?: BlogCateg
     populate: {
       users: { firstName: true, lastName: true, email: true, profileImage: true },
     },
+    // Cards never show the post body, the largest column in the database.
+    select: {
+      title: true,
+      slug: true,
+      excerpt: true,
+      publishedAt: true,
+      featuredImage: true,
+      author: true,
+      categories: true,
+    },
     limit: PAGE_SIZE,
     page,
     sort: "-publishedAt",

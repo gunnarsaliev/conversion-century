@@ -80,11 +80,7 @@ export default async function BookAConsultationPage({
           }}
           testimonials={testimonials.length > 0 ? testimonials : undefined}
         />
-        <ClientLogos
-          eyebrow={t("logosEyebrow")}
-          heading={t("logosHeading")}
-          footer={t("logosFooter")}
-        />
+        <ClientLogos />
       </>
     </>
   );

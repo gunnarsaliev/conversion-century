@@ -302,8 +302,8 @@
     "viewAll": "View All Blogs"
   },
   "Feature278": {
-    "heading": "Complete Support for Your Organic Presence",
-    "description": "Organic growth depends on more than one channel or isolated SEO task. We connect strategy, website performance, content, authority and measurement into one coordinated approach.",
+    "heading": "Find the Right SEO Support for Your Next Step",
+    "description": "You might need to fix a technical problem, reach customers in a new market or build an ongoing SEO programme. We start with what will make the biggest difference for your business and bring in the specialists you need to get it done.",
     "features": {
       "ongoingSeo": {
         "title": "Ongoing SEO Management",
@@ -345,32 +345,27 @@
     "viewAll": "View all services"
   },
   "Hero262": {
-    "heading": "More than an SEO provider",
-    "subheading": "Your business is never just another number.",
-    "description": "When you trust us with your website, you also trust us with the goals, ideas and ambitions behind it. We take that responsibility seriously. We learn how your business works, understand where you want to go and become an active part of the team working to get you there.\n\nWe celebrate your growth because we know what it took to achieve it. We investigate when something is not working, adapt when priorities change and continue looking for new opportunities even when they fall outside the original plan.\n\nOur role is not simply to complete a monthly list of SEO tasks. It is to understand what your business needs next and help make it happen.",
+    "heading": "An SEO Team That Gets to Know Your Business",
+    "description": "Before we recommend what to change on your website, we want to know how your business works. Which customers are the best fit? What do they need to know before they buy? Where do you want to grow next?\n\nThose answers shape what we do. We work directly with your team, explain why each priority matters and help put the plan into practice. When results fall short, we investigate. When your plans change, we adjust the strategy with you.\n\nSome clients have worked with us for more than seven years. Over time, we’ve helped teams through website launches, migrations and expansion into new markets. Knowing your business well helps us see what needs attention now and where the next opportunity might be.",
     "stats": {
-      "raised": {
-        "value": "$150M",
-        "label": "Raised"
+      "clients": {
+        "value": "100+",
+        "label": "Clients per year"
       },
-      "companies": {
-        "value": "20K",
-        "label": "Companies"
+      "industries": {
+        "value": "42+",
+        "label": "Industries served"
       },
-      "transactions": {
-        "value": "1.3B",
-        "label": "Monthly transactions"
-      },
-      "connections": {
-        "value": "1.5K",
-        "label": "Connections per minute"
+      "years": {
+        "value": "10+",
+        "label": "Years in SEO"
       }
     },
-    "cta": "Discover How We Work"
+    "cta": "Learn more about us"
   },
   "CaseStudies8": {
-    "title": "Case studies",
-    "description": "Real results from our clients: traffic, rankings and revenue growth achieved together.",
+    "title": "See What Organic Growth Looks Like in Practice",
+    "description": "See how we’ve helped clients grow organic revenue, reach new markets and navigate complex website migrations.",
     "previous": "Previous",
     "next": "Next",
     "goToSlide": "Go to slide {number}",
@@ -378,32 +373,32 @@
   },
   "Feature104": {
     "badge": "Highlights",
-    "heading": "WHY CONVERSION CENTURY",
-    "subheading": "Small Enough to Care Deeply. Experienced Enough to Deliver.",
+    "heading": "Why Work With Conversion Century?",
+    "subheading": "Senior Experts. Personal Commitment.",
     "points": {
-      "seniorSpecialists": {
-        "title": "Work Directly With Senior Specialists",
-        "description": "You work directly with the agency Owner, Head of Copywriting and Specialists responsible for the strategy and results. Important decisions are not passed through layers of account management."
+      "directAccess": {
+        "title": "You Work Directly With the People Doing the Work",
+        "description": "You’ll have direct access to our owner, Head of Copywriting and the specialists responsible for your strategy. You can ask questions, understand the decisions and give feedback to the people putting the plan into practice."
       },
-      "honestAssessment": {
-        "title": "An Honest Assessment Before We Begin",
-        "description": "We do not accept every enquiry. We first evaluate your website, objectives and market to determine whether SEO is the right investment and whether we are the right team. If another channel would serve your business better, we will tell you."
+      "honestAdvice": {
+        "title": "We’ll Tell You Where SEO Can Make a Difference",
+        "description": "Before we recommend an investment, we look at your website, market and goals. If your budget would be better spent on another channel or on fixing a more urgent issue, we’ll say so."
       },
-      "invested": {
-        "title": "Personally Invested in Your Success",
-        "description": "We treat your goals with the care and responsibility they deserve. Our role is not to complete a task list, it is to understand what your business needs next and help move it forward."
+      "measurement": {
+        "title": "We Measure What Matters to Your Business",
+        "description": "We agree on priorities and KPIs with you, then add the SEO metrics that help explain progress. You’ll see what we did, how performance changed and what we recommend next."
       },
-      "sustainable": {
-        "title": "Sustainable, Evidence-Led SEO",
-        "description": "We use tested white-hat strategies designed to build lasting organic value. We do not gamble with client websites through black-hat methods or unvalidated tactics that could damage performance for years."
+      "lastingImprovements": {
+        "title": "We Make Improvements Your Business Can Build On",
+        "description": "We focus on work that keeps serving your business over time: a technically sound website, content that answers customer questions and a reputation backed by relevant coverage and links."
       },
-      "evolving": {
-        "title": "Experience That Continues to Evolve",
-        "description": "Our work is grounded in developed know-how, international experience and continuous professional education. We follow world-class industry training, contribute to research and keep improving how we work as search evolves."
+      "learning": {
+        "title": "We Keep Learning as Search Changes",
+        "description": "We invest in training, research and testing so we can give you practical advice as search evolves. When a new development matters to your business, we explain what it means and what’s worth doing about it."
       },
       "collaboration": {
-        "title": "Collaboration Without Ego",
-        "description": "Strong results often require several teams. We work constructively with your employees, developers, designers, paid-media specialists and other agencies, focusing on the shared outcome rather than ownership of the process."
+        "title": "We Fit Into the Team You Already Have",
+        "description": "We work alongside your marketing team, developers, designers and agency partners. We agree on who does what and keep the work moving towards the same goal."
       }
     }
   },
@@ -787,10 +782,7 @@
   "Consultation": {
     "page": {
       "heading": "Book Your Free SEO Consultation",
-      "description": "Talk to one of our SEO strategists about your traffic, rankings and organic growth goals. If you have questions first, feel free to reach out to our team.",
-      "logosEyebrow": "Trusted by businesses at",
-      "logosHeading": "Real results for real SEO clients",
-      "logosFooter": "From local SEO to enterprise organic growth — see who we've helped rank higher."
+      "description": "Talk to one of our SEO strategists about your traffic, rankings and organic growth goals. If you have questions first, feel free to reach out to our team."
     },
     "form": {
       "successTitle": "Thank you!",
@@ -879,9 +871,9 @@
     }
   },
   "Logos35": {
-    "eyebrow": "Trusted by businesses at",
-    "heading": "Brands that grow with us",
-    "footer": "From local businesses to international brands — the companies we help grow organically.",
+    "eyebrow": "Our clients",
+    "heading": "Brands That Grow With Us",
+    "footer": "We help local businesses and international brands reach more of the right customers through search.",
     "viewAll": "See all clients"
   },
   "Testimonial21": {

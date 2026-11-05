@@ -71,3 +71,13 @@ Every Wednesday at 18:00 UTC, a Vercel Cron (`vercel.json`) calls `GET /api/back
 | `CRON_SECRET` | Random string (`openssl rand -hex 32`). Vercel sends it to the cron route, and the route accepts nothing else. |
 
 Manual backup: `curl -H "Authorization: Bearer $CRON_SECRET" "https://www.cc-hub.online/api/backup-to-r2"`
+
+## Neon network transfer
+
+The Neon free plan allows 5 GB of network transfer per project per month, and going over suspends the database until the next billing cycle. To stay under it:
+
+- **Local dev uses a local Postgres.** Point `DATABASE_URL` in `.env.local` at it (it overrides `.env`). A Neon branch doesn't help, because the allowance is shared across the project.
+- **Production migrations need the URL set explicitly:** `DATABASE_URL='<neon url>' pnpm migrate`. Plain `pnpm migrate` now targets the local database.
+- **Public pages stay cached for a week** (`src/lib/cms/cache.ts`). Saving in the deployed admin refreshes them immediately. Scripts and direct SQL (`translations:import`, seeds) don't, so those changes appear after the next deploy or within a week.
+- **Jobs run once a day** through a Vercel Cron on `GET /api/payload-jobs/run`, which needs `CRON_SECRET` or an admin session.
+

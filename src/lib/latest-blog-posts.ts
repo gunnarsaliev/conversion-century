@@ -44,6 +44,18 @@ export async function getLatestBlogPosts(
     depth: 2,
     limit,
     sort: "-publishedAt",
+    // `content` is only needed for the read time.
+    select: {
+      title: true,
+      slug: true,
+      excerpt: true,
+      content: true,
+      featuredImage: true,
+      author: true,
+    },
+    populate: {
+      users: { firstName: true, lastName: true, email: true, profileImage: true },
+    },
   });
 
   return docs.map((post) => {

@@ -97,6 +97,14 @@ async function getAuthorPosts(authorId: number, locale: string, page: number) {
     limit: PAGE_SIZE,
     page,
     sort: "-publishedAt",
+    select: {
+      title: true,
+      slug: true,
+      excerpt: true,
+      publishedAt: true,
+      featuredImage: true,
+      categories: true,
+    },
     where: {
       author: { equals: authorId },
       _status: { equals: "published" },

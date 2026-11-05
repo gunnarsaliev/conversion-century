@@ -73,7 +73,7 @@ function entries(
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   'use cache'
-  cacheLife('hours')
+  cacheLife('days')
   cacheTag('sitemap')
   const payload = await getPayload({ config })
 

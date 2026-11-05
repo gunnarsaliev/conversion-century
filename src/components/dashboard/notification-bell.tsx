@@ -28,7 +28,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 // and announces unseen unread ones with a sonner toast. NotificationBell
 // reads the provider, so any page header can drop it in.
 
-const POLL_INTERVAL_MS = 60_000;
+const POLL_INTERVAL_MS = 5 * 60_000;
 // More new items than this at once get one summary toast instead of a stack.
 const MAX_INDIVIDUAL_TOASTS = 3;
 // Newest createdAt this browser has announced, so a reload doesn't re-toast.

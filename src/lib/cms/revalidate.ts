@@ -1,5 +1,10 @@
 import { revalidateTag } from "next/cache";
-import type { CollectionAfterChangeHook, CollectionAfterDeleteHook, CollectionConfig } from "payload";
+import type {
+  CollectionAfterChangeHook,
+  CollectionAfterDeleteHook,
+  CollectionConfig,
+  PayloadRequest,
+} from "payload";
 
 import type { CmsCollection } from "./cache";
 
@@ -15,12 +20,20 @@ function expire(tag: CmsCollection) {
   }
 }
 
+// The admin panel's autosave and "Save draft" send `?draft=true` and only write
+// a new version, leaving the published row alone, so public pages can't have
+// changed. Publishing sends `_status: 'published'` and unpublishing doesn't
+// send `?draft=true`, so both still expire the cache.
+function isDraftOnlySave(doc: { _status?: unknown }, req: PayloadRequest) {
+  return doc._status === "draft" && String(req.query?.draft) === "true";
+}
+
 // Adds the hooks to a collection the public site reads, keeping any hooks
 // it already has.
 export function withCmsRevalidation(collection: CollectionConfig): CollectionConfig {
   const tag = collection.slug as CmsCollection;
-  const afterChange: CollectionAfterChangeHook = ({ doc, context }) => {
-    if (!context.disableRevalidate) expire(tag);
+  const afterChange: CollectionAfterChangeHook = ({ doc, context, req }) => {
+    if (!context.disableRevalidate && !isDraftOnlySave(doc, req)) expire(tag);
     return doc;
   };
   const afterDelete: CollectionAfterDeleteHook = ({ doc, context }) => {

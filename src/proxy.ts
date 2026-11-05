@@ -41,7 +41,7 @@ const DASHBOARD_PATH = /^\/(?:([a-z]{2})\/)?dashboard(?=\/|$)(.*)$/
 // refresh runs in the background. Only an instance's first request waits.
 // On any error it keeps the last list it had (or none), so a failing lookup
 // never blocks the site.
-const REDIRECTS_TTL_MS = 60_000
+const REDIRECTS_TTL_MS = 5 * 60_000
 const LOCALE_PREFIX = /^\/(en|bg)(?=\/|$)/
 let redirectRules: { map: Map<string, RedirectRule>; fetchedAt: number } | null = null
 let redirectRulesRequest: Promise<Map<string, RedirectRule>> | null = null

@@ -23,6 +23,7 @@ async function getNavbarBlogPosts(locale: string) {
     depth: 1,
     limit: 2,
     sort: '-publishedAt',
+    select: { title: true, slug: true, featuredImage: true },
     where: {
       _status: { equals: 'published' },
       ...translated,

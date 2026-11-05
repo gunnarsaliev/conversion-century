@@ -1,5 +1,5 @@
 import {
-  HandHeart,
+  BarChart3,
   Handshake,
   Medal,
   ShieldCheck,
@@ -18,14 +18,14 @@ interface Feature104Props {
 
 // Copy lives in the `Feature104` messages (`points.<key>`).
 const LEFT_POINTS = [
-  { key: "seniorSpecialists", icon: Users },
-  { key: "honestAssessment", icon: UserCheck },
-  { key: "invested", icon: HandHeart },
+  { key: "directAccess", icon: Users },
+  { key: "honestAdvice", icon: UserCheck },
+  { key: "measurement", icon: BarChart3 },
 ] as const;
 
 const RIGHT_POINTS = [
-  { key: "sustainable", icon: ShieldCheck },
-  { key: "evolving", icon: Sparkles },
+  { key: "lastingImprovements", icon: ShieldCheck },
+  { key: "learning", icon: Sparkles },
   { key: "collaboration", icon: Handshake },
 ] as const;
 

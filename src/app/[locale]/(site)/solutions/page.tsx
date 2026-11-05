@@ -32,6 +32,7 @@ async function getSolutions(locale: string) {
     depth: 1,
     limit: 100,
     sort: "name",
+    select: { name: true, slug: true, image: true, hero: { paragraphs: true } },
   });
 }
 

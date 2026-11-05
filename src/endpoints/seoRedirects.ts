@@ -24,7 +24,7 @@ export const seoRedirects: Endpoint = {
     }))
 
     return Response.json(rules, {
-      headers: { 'Cache-Control': 'public, max-age=0, s-maxage=30' },
+      headers: { 'Cache-Control': 'public, max-age=0, s-maxage=300' },
     })
   },
 }

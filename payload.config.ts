@@ -5,10 +5,10 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { s3Storage } from '@payloadcms/storage-s3'
 import { importExportPlugin } from '@payloadcms/plugin-import-export'
-import { buildConfig } from 'payload'
+import { buildConfig, type CollectionSlug } from 'payload'
 import { en } from '@payloadcms/translations/languages/en'
 import { bg } from '@payloadcms/translations/languages/bg'
-import { adminOnlyCollection, adminOrEditor } from './src/lib/roles'
+import { adminOnlyCollection, adminOrEditor, isAdmin } from './src/lib/roles'
 
 import { Users } from './src/collections/Users'
 import { Clients } from './src/collections/Clients'
@@ -33,7 +33,7 @@ import { Redirects } from './src/collections/Redirects'
 import { notifyContractRenewals } from './src/jobs/notifyContractRenewals'
 import { clearUploadedFileAfterProcessing } from './src/utilities/clearUploadedFile'
 import { exportAll } from './src/endpoints/exportAll'
-import { backupToR2 } from './src/endpoints/backupToR2'
+import { backupToR2, isAuthorized } from './src/endpoints/backupToR2'
 import { seoRedirects } from './src/endpoints/seoRedirects'
 import { withCmsRevalidation } from './src/lib/cms/revalidate'
 
@@ -111,22 +111,28 @@ export default buildConfig({
     }),
 
     importExportPlugin({
-      // Adds "Import" / "Export" (CSV or JSON) to each list view's menu.
+      // Adds "Import" / "Export" (CSV or JSON) to each list view's menu. They
+      // run inside the request rather than the jobs queue, which is only
+      // processed once a day (see `jobs` below).
       collections: [
-        { slug: 'users' },
-        { slug: 'clients' },
-        { slug: 'services' },
-        { slug: 'blog' },
-        { slug: 'work-checklist' },
-        { slug: 'client-checklist-progress' },
-        { slug: 'job-listings' },
-        { slug: 'case-studies' },
-        { slug: 'industries' },
-        { slug: 'solutions' },
-        { slug: 'events' },
-        { slug: 'testimonials' },
-        { slug: 'offers' },
-      ],
+        'users',
+        'clients',
+        'services',
+        'blog',
+        'work-checklist',
+        'client-checklist-progress',
+        'job-listings',
+        'case-studies',
+        'industries',
+        'solutions',
+        'events',
+        'testimonials',
+        'offers',
+      ].map((slug) => ({
+        slug: slug as CollectionSlug,
+        export: { disableJobsQueue: true },
+        import: { disableJobsQueue: true },
+      })),
       // Keep the generated imports/exports collections out of the root
       // sidebar; admins manage them, editors may only read them (and don't
       // see them in the sidebar), same as Clients.ts.
@@ -198,20 +204,16 @@ export default buildConfig({
     fallback: true,
   },
 
-  // Without this, jobs queued by the import/export plugin (and anything
-  // else using payload.jobs.queue) just sit in the `payload-jobs`
-  // collection with status "pending" forever — nothing runs them.
-  // autoRun both schedules and processes the default queue every minute
-  // inside this same Next.js process.
+  // A daily Vercel Cron (vercel.json) calls GET /api/payload-jobs/run, which
+  // schedules and runs due tasks. `autoRun` is for long-running servers: on
+  // Vercel it polled the database every minute while an instance was alive.
   jobs: {
     // Daily at 06:00: notify the dashboard about client contract renewals.
     tasks: [notifyContractRenewals],
-    autoRun: [
-      {
-        cron: '* * * * *',
-        queue: 'default',
-      },
-    ],
+    access: {
+      run: ({ req }) =>
+        isAdmin(req.user) || isAuthorized(req.headers.get('authorization')),
+    },
   },
 
   secret: process.env.PAYLOAD_SECRET || '',
