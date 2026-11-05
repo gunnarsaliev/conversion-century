@@ -9,7 +9,8 @@ import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 // Rendered inside the site layout (navbar + footer) for notFound() calls and,
-// via [...rest], for unknown URLs. Next sends it with a 404 status and noindex.
+// via [...rest], for unknown URLs. With Cache Components the response has
+// already started, so the status stays 200 and Next adds a noindex tag.
 export default function NotFound() {
   const t = useTranslations('NotFound')
 

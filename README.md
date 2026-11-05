@@ -50,7 +50,7 @@ Metadata (canonical, hreflang, Open Graph), JSON-LD, `robots.txt` and `sitemap.x
 
 | Env var | Purpose |
 |---|---|
-| `NEXT_PUBLIC_SITE_URL` | Optional override for the site origin (no trailing slash). Defaults to `https://www.cc-hub.online`. Used for canonical URLs, hreflang, sitemap and JSON-LD ids. |
+| `NEXT_PUBLIC_SITE_URL` | Optional override for the site origin (no trailing slash). Defaults to `https://www.conversion-century.com`. Used for canonical URLs, hreflang, sitemap and JSON-LD ids. |
 | `SITE_INDEXABLE` | `true` lets search engines in. Anything else: `robots.txt` disallows everything and every page is `noindex`. |
 
 Static page titles/descriptions are in the `Metadata` namespace of `messages/{bg,en}.json`; CMS pages use each document's **SEO** fields, falling back to its title/excerpt.
@@ -70,7 +70,7 @@ Every Wednesday at 18:00 UTC, a Vercel Cron (`vercel.json`) calls `GET /api/back
 | `R2_BACKUP_BUCKET` | Private R2 bucket for backups. Keep public access off. It uses the same `R2_*` credentials and endpoint as media, so the API token needs read and write access to this bucket. |
 | `CRON_SECRET` | Random string (`openssl rand -hex 32`). Vercel sends it to the cron route, and the route accepts nothing else. |
 
-Manual backup: `curl -H "Authorization: Bearer $CRON_SECRET" "https://www.cc-hub.online/api/backup-to-r2"`
+Manual backup: `curl -H "Authorization: Bearer $CRON_SECRET" "https://www.conversion-century.com/api/backup-to-r2"`
 
 ## Neon network transfer
 

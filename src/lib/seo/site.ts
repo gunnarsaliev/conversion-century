@@ -9,7 +9,7 @@ export const IS_INDEXABLE = process.env.SITE_INDEXABLE === "true";
 
 // Production origin, used for canonical URLs, hreflang, the sitemap and
 // JSON-LD ids. NEXT_PUBLIC_SITE_URL can override it (e.g. for a staging domain).
-const DEFAULT_SITE_URL = "https://www.cc-hub.online";
+const DEFAULT_SITE_URL = "https://www.conversion-century.com";
 
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || DEFAULT_SITE_URL).replace(
   /\/+$/,

@@ -30,7 +30,7 @@ const Careers2 = ({ jobs, className }: Careers2Props) => {
             <Badge variant="outline" className="w-fit">
               {t("badge")}
             </Badge>
-            <p className="text-2xl font-bold md:text-4xl">{t("heading")}</p>
+            <h1 className="text-2xl font-bold md:text-4xl">{t("heading")}</h1>
             <div className="max-w-2xl space-y-4 text-center text-muted-foreground">
               <p>{t("intro")}</p>
               <p>{t("growth")}</p>
