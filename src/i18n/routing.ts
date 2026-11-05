@@ -8,6 +8,10 @@ export const routing = defineRouting({
   // no or English headers) and visitors alike get the URL they asked for.
   // Language switching is explicit, via the switcher and hreflang.
   localeDetection: false,
+  // The middleware's hreflang `Link` header keeps the request's slug in every
+  // locale, which is wrong for CMS slugs that differ per locale. hreflang comes
+  // from page metadata and the sitemap instead (src/lib/seo).
+  alternateLinks: false,
   // Bulgarian URLs for public sections (keys are the app/[locale] folder
   // paths, which en keeps). Anything not listed here (blog, legal, docs,
   // offers, login, …) is served at the same path in both locales.

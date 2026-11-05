@@ -20,7 +20,7 @@ import { Hero262 } from "@/components/hero262";
 import { CaseStudies8, type CaseStudies8Item } from "@/components/case-studies8";
 import { StaticPageJsonLd } from "@/components/static-page-json-ld";
 import { staticPageMetadata } from "@/lib/seo/pages";
-import { translated, untranslatedHrefs } from "@/utilities/findByLocalizedSlug";
+import { menuLinks, translated } from "@/utilities/findByLocalizedSlug";
 
 export async function generateMetadata() {
   return staticPageMetadata("home");
@@ -107,8 +107,8 @@ export default async function WebsitePage({
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const [hiddenHrefs, content, clientTestimonials, tCommon] = await Promise.all([
-    untranslatedHrefs(locale),
+  const [links, content, clientTestimonials, tCommon] = await Promise.all([
+    menuLinks(locale),
     getHomeContent(locale),
     getClientTestimonials(),
     getTranslations("Common"),
@@ -131,9 +131,9 @@ export default async function WebsitePage({
         <Hero104 {...await getHomeHero()} />
         <ClientLogos />
         <Hero262 />      
-        <Feature278 hiddenHrefs={hiddenHrefs} />
+        <Feature278 {...links} />
         <CaseStudies8 items={caseStudyItems.length > 0 ? caseStudyItems : undefined} />
-        <Feature13 hiddenHrefs={hiddenHrefs} industries={industryCards} />
+        <Feature13 {...links} industries={industryCards} />
         <Feature104 />
         <FounderLetter />
         <Testimonial17

@@ -9,7 +9,7 @@ import { BackgroundPattern27 } from '@/components/background-pattern27'
 import { Footer3 } from '@/components/footer3'
 import { Navbar3 } from '@/components/navbar3'
 import type { Media } from '../../../../payload-types'
-import { translated, untranslatedHrefs } from '@/utilities/findByLocalizedSlug'
+import { menuLinks, translated } from '@/utilities/findByLocalizedSlug'
 
 // The navbar's "latest posts" preview. Cached across requests.
 async function getNavbarBlogPosts(locale: string) {
@@ -63,19 +63,19 @@ export default async function FrontendLayout({
   const { locale } = await params
   setRequestLocale(locale)
 
-  const [navbarBlogPosts, hiddenHrefs, year] = await Promise.all([
+  const [navbarBlogPosts, links, year] = await Promise.all([
     getNavbarBlogPosts(locale),
-    untranslatedHrefs(locale),
+    menuLinks(locale),
     getCurrentYear(),
   ])
 
   return (
     <div className="relative isolate w-full min-w-0 overflow-x-clip">
       <BackgroundPattern27 />
-      <Navbar3 blogPosts={navbarBlogPosts} hiddenHrefs={hiddenHrefs} />
+      <Navbar3 blogPosts={navbarBlogPosts} {...links} />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <main>{children}</main>
-        <Footer3 hiddenHrefs={hiddenHrefs} year={year} />
+        <Footer3 {...links} year={year} />
       </div>
       <Analytics />
     </div>

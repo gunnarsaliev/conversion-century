@@ -91,9 +91,11 @@ export async function findByLocalizedSlug<T extends SluggedCollection>(
 export const translated = { slug: { exists: true } } satisfies Where
 
 // Hardcoded menu links (navbar, footer, home page) point at services,
-// solutions and industries by their English slug. These are the ones not
-// translated into `locale`, which would 404 there. Cached across requests.
-export async function untranslatedHrefs(locale: string) {
+// solutions and industries by their English slug. `hiddenHrefs` are the ones
+// not translated into `locale`, which would 404 there; `localizedHrefs` maps
+// the rest to the slug they have in `locale`, so menus link straight to the
+// canonical URL. Cached across requests.
+export async function menuLinks(locale: string) {
   'use cache'
   cmsCache('services', 'solutions', 'industries')
   const payload = await getPayload({ config })
@@ -103,7 +105,7 @@ export async function untranslatedHrefs(locale: string) {
     { collection: 'industries', basePath: '/industries' },
   ] as const
 
-  const hrefs = await Promise.all(
+  const entries = await Promise.all(
     linked.map(async ({ collection, basePath }) => {
       const { docs } = await payload.find({
         collection,
@@ -114,9 +116,18 @@ export async function untranslatedHrefs(locale: string) {
       })
       return docs.flatMap((doc) => {
         const slugs = doc.slug as unknown as Partial<Record<string, string>> | null
-        return slugs?.en && !slugs[locale] ? [`${basePath}/${slugs.en}`] : []
+        if (!slugs?.en) return []
+        const slug = slugs[locale]
+        return [{ href: `${basePath}/${slugs.en}`, localizedHref: slug ? `${basePath}/${slug}` : null }]
       })
     }),
   )
-  return hrefs.flat()
+
+  const hiddenHrefs: string[] = []
+  const localizedHrefs: Record<string, string> = {}
+  for (const { href, localizedHref } of entries.flat()) {
+    if (!localizedHref) hiddenHrefs.push(href)
+    else if (localizedHref !== href) localizedHrefs[href] = localizedHref
+  }
+  return { hiddenHrefs, localizedHrefs }
 }

@@ -137,6 +137,8 @@ interface Navbar3Props {
   blogPosts?: NavbarBlogPost[];
   // Menu hrefs whose page isn't translated into the current locale.
   hiddenHrefs?: string[];
+  // English href → href with the slug it has in the current locale.
+  localizedHrefs?: Record<string, string>;
   className?: string;
 }
 
@@ -168,6 +170,7 @@ const mobileMenuPanelClassName =
 const Navbar3 = ({
   blogPosts: blogPostsProp,
   hiddenHrefs = [],
+  localizedHrefs = {},
   className,
 }: Navbar3Props) => {
   const blogPosts = blogPostsProp ?? defaultBlogPosts;
@@ -180,7 +183,9 @@ const Navbar3 = ({
   // NavigationMenuLink and the mobile menu render plain <a>s, so add the
   // locale prefix (e.g. /bg) that next-intl's <Link> would.
   const localize = (href: string) =>
-    href.startsWith("/") ? getPathname({ href, locale }) : href;
+    href.startsWith("/")
+      ? getPathname({ href: localizedHrefs[href] ?? href, locale })
+      : href;
   const [open, setOpen] = useState(false);
   const [submenu, setSubmenu] = useState<
     | "services"

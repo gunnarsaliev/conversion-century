@@ -71,7 +71,6 @@ const sections = [
     key: "insights",
     links: [
       { key: "blog", href: "/blog" },
-      { key: "checklists", href: "/docs/getting-started" },
       { key: "eventsAndMedia", href: "/events-and-media" },
     ],
   },
@@ -86,6 +85,8 @@ interface Footer3Props {
   };
   // Link hrefs whose page isn't translated into the current locale.
   hiddenHrefs?: string[];
+  // English href → href with the slug it has in the current locale.
+  localizedHrefs?: Record<string, string>;
   // Passed in rather than read here: the footer is part of the prerendered
   // shell, which can't read the clock (see the site layout).
   year: number;
@@ -99,6 +100,7 @@ const Footer3 = ({
     title: "Conversion Century",
   },
   hiddenHrefs = [],
+  localizedHrefs = {},
   year,
   className,
 }: Footer3Props) => {
@@ -135,7 +137,7 @@ const Footer3 = ({
                       key={link.key}
                       className="font-medium hover:text-primary"
                     >
-                      <Link href={link.href}>
+                      <Link href={localizedHrefs[link.href] ?? link.href}>
                         {t(`${section.key}.links.${link.key}`)}
                       </Link>
                     </li>

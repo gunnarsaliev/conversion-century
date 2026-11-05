@@ -41,6 +41,8 @@ interface Feature13Props extends FeatureCardListProps {
   // Default feature hrefs whose page isn't translated into the current
   // locale; those cards link to the industries list instead.
   hiddenHrefs?: string[];
+  // English href → href with the slug it has in the current locale.
+  localizedHrefs?: Record<string, string>;
   // Published industries by href (e.g. "/industries/b2b"). When given, only
   // default cards for these industries — and translated into the current
   // locale — are shown, with the industry's image where it has one.
@@ -71,6 +73,7 @@ const Feature13 = (props: Props) => {
     heading = t("heading"),
     description = t("description"),
     hiddenHrefs = [],
+    localizedHrefs = {},
     industries,
     features = DEFAULT_FEATURES.flatMap(({ key, icon, image, href }): FeatureCardListItem[] => {
       const industry = industries?.find((item) => item.href === href);
@@ -78,7 +81,7 @@ const Feature13 = (props: Props) => {
       return [
         {
           icon,
-          href: hiddenHrefs.includes(href) ? "/industries" : href,
+          href: hiddenHrefs.includes(href) ? "/industries" : (localizedHrefs[href] ?? href),
           title: t(`features.${key}.title`),
           description: t(`features.${key}.description`),
           image: { src: industry?.image ?? IMAGE_BASE + image, alt: t(`features.${key}.title`) },
