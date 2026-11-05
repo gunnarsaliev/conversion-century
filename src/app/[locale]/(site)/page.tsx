@@ -99,6 +99,9 @@ async function getHomeContent(locale: string) {
   return { industryCards, blogItems, caseStudyItems };
 }
 
+// Tighter vertical rhythm than the sections' default py-32, on this page only.
+const SECTION_SPACING = "py-12 lg:py-16";
+
 export default async function WebsitePage({
   params,
 }: {
@@ -129,17 +132,21 @@ export default async function WebsitePage({
       <StaticPageJsonLd page="home" />
       <div>
         <Hero104 {...await getHomeHero()} />
-        <ClientLogos />
-        <Hero262 />      
-        <Feature278 {...links} />
-        <CaseStudies8 items={caseStudyItems.length > 0 ? caseStudyItems : undefined} />
-        <Feature13 {...links} industries={industryCards} />
-        <Feature104 />
-        <FounderLetter />
+        <ClientLogos className={SECTION_SPACING} />
+        <Hero262 className={SECTION_SPACING} />
+        <Feature278 {...links} className={SECTION_SPACING} />
+        <CaseStudies8
+          className={SECTION_SPACING}
+          items={caseStudyItems.length > 0 ? caseStudyItems : undefined}
+        />
+        <Feature13 {...links} className={SECTION_SPACING} industries={industryCards} />
+        <Feature104 className={SECTION_SPACING} />
+        <FounderLetter contentClassName={SECTION_SPACING} />
         <Testimonial17
+          className={SECTION_SPACING}
           testimonials={testimonials.length > 0 ? testimonials : undefined}
         />
-        <Blog12 posts={blogItems.length > 0 ? blogItems : undefined} />
+        <Blog12 className={SECTION_SPACING} posts={blogItems.length > 0 ? blogItems : undefined} />
       </div>
     </>
   );

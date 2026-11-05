@@ -2,11 +2,11 @@
   "primaryCtaHref": "/book-a-consultation",
   "secondaryCtaHref": "/case-studies",
   "avatars": [
-    "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/bld.png",
-    "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/bozov-stil-400x300.png",
-    "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/ubb.svg",
-    "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/lg-logo-1.png",
-    "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/Speedy.png"
+    "https://media.cc-hub.online/bld.png",
+    "https://media.cc-hub.online/bozov-stil-400x300.png",
+    "https://media.cc-hub.online/ubb.svg",
+    "https://media.cc-hub.online/lg-logo-1.png",
+    "https://media.cc-hub.online/Speedy.png"
   ],
-  "image": "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/mascot-rocket.png"
+  "image": "https://media.cc-hub.online/mascot-rocket.png"
 }

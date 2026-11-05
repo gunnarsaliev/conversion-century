@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
+import { LogoImage } from "@/components/logo-image";
 type Testimonial30Item = {
   company: string;
   quote: string;
@@ -78,11 +79,11 @@ const Testimonial30 = ({ testimonials, className }: Testimonial30Props) => {
                   <div className="flex max-w-3xs flex-1 items-center gap-4">
                     {testimonial.logoUrl && (
                       <span className="flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-lg border bg-white p-1">
-                        <img
-                          loading="lazy"
-                          decoding="async"
+                        <LogoImage
                           src={testimonial.logoUrl}
                           alt=""
+                          width={32}
+                          height={32}
                           className="max-h-full max-w-full object-contain"
                         />
                       </span>
@@ -99,11 +100,11 @@ const Testimonial30 = ({ testimonials, className }: Testimonial30Props) => {
               <AccordionContent className="flex flex-col gap-12 px-0 py-4 md:flex-row md:items-center md:py-9 lg:px-12">
                 {testimonial.logoUrl && (
                   <div className="flex aspect-square w-full max-w-52 shrink-0 items-center justify-center rounded-lg border bg-white p-8">
-                    <img
-                      loading="lazy"
-                      decoding="async"
+                    <LogoImage
                       src={testimonial.logoUrl}
                       alt={testimonial.company}
+                      width={208}
+                      height={208}
                       className="max-h-full max-w-full object-contain"
                     />
                   </div>

@@ -3,8 +3,10 @@
 // ---------------------------------------------------------------------------
 //
 // Shared by the `redirects` collection, the dashboard actions and
-// src/proxy.ts, so it has no imports. `from` is matched against the request
-// path with any locale prefix stripped, so one rule covers /old and /bg/old.
+// src/proxy.ts, so it has no imports. A request is matched against the exact
+// path first, then with any locale prefix stripped. So /old covers both /old
+// and /bg/old, and a /bg/old rule takes priority for the Bulgarian path (needed
+// when the Bulgarian target's slug differs from the English one).
 
 export const REDIRECT_STATUS_CODES = ["301", "302"] as const;
 export type RedirectStatusCode = (typeof REDIRECT_STATUS_CODES)[number];
@@ -28,6 +30,12 @@ export function normalizeRedirectPath(value: string) {
 // The request path a rule is looked up by: normalized, locale prefix removed.
 export function redirectLookupPath(pathname: string) {
   return normalizeRedirectPath(pathname.replace(LOCALE_PREFIX, "") || "/");
+}
+
+// The rule for a request path: its own row (/bg/old) if there is one, else the
+// rule for the path without its locale prefix (/old).
+export function findRedirectRule<T>(rules: Map<string, T>, pathname: string) {
+  return rules.get(normalizeRedirectPath(pathname)) ?? rules.get(redirectLookupPath(pathname));
 }
 
 export function isReservedRedirectPath(path: string) {

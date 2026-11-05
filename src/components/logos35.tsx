@@ -6,6 +6,7 @@ import { useState } from "react";
 import { cn } from "cn";
 
 import { Link } from "@/i18n/navigation";
+import { LogoImage } from "@/components/logo-image";
 
 const CDN = "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos";
 
@@ -85,9 +86,7 @@ const Logos35 = (props: Props) => {
               )}
             >
               {brand.src ? (
-                <img
-                  loading="lazy"
-                  decoding="async"
+                <LogoImage
                   src={brand.src}
                   alt={brand.name}
                   className="h-10 w-36 object-contain opacity-50 grayscale transition-all duration-200 hover:opacity-100 hover:grayscale-0 dark:invert"

@@ -7,6 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { CmsImage } from "@/components/cms-image";
+import { BLOG_FEATURED_IMAGE_SIZES } from "@/lib/blog-image";
 
 interface Post {
   /** Formatted publish date, read out to screen readers. */
@@ -258,7 +259,7 @@ const Blog28 = ({
                   src={items[0].image}
                   alt={items[0].title}
                   preload
-                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  sizes={BLOG_FEATURED_IMAGE_SIZES}
                   wrapperClassName="h-48 w-full rounded-lg md:h-80 lg:h-96"
                   className="hover:opacity-80"
                 />

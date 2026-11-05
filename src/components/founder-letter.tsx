@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { CmsImage } from "@/components/cms-image";
+import { cn } from "@/lib/utils";
 
 interface Image {
   src: string;
@@ -21,10 +22,11 @@ interface FounderLetterProps {
   ctaText?: string;
   ctaUrl?: string;
   className?: string;
+  contentClassName?: string;
 }
 
 const PORTRAIT_SRC =
-  "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/maria-sivkova.jpeg";
+  "https://media.cc-hub.online/maria-sivkova.jpeg";
 
 type Props = Partial<FounderLetterProps>;
 
@@ -41,13 +43,14 @@ const FounderLetter = (props: Props) => {
     ctaText = t("cta"),
     ctaUrl = "/about#team",
     className,
+    contentClassName,
   } = props;
 
   const paragraphs = quote.split("\n\n");
 
   return (
     <section className={className}>
-      <div className="container mx-auto py-16 lg:py-24">
+      <div className={cn("container mx-auto py-16 lg:py-24", contentClassName)}>
         <div className="mx-auto mb-12 max-w-3xl text-center lg:mb-16">
           {eyebrow && (
             <p className="text-sm font-semibold tracking-wide text-primary uppercase">

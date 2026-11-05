@@ -71,7 +71,7 @@ const Feature104 = ({ className }: Feature104Props) => {
               never downloads it; the original is resized per breakpoint. */}
           <div className="relative hidden overflow-hidden rounded-lg lg:block">
             <Image
-              src="https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/Mint-toned%20workspace%20with%20branded%20mascots.png"
+              src="https://media.cc-hub.online/Mint-toned%20workspace%20with%20branded%20mascots.png"
               alt=""
               fill
               sizes="(min-width: 1280px) 400px, 33vw"

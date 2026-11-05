@@ -3,8 +3,8 @@ import { NextResponse, type NextFetchEvent, type NextRequest } from 'next/server
 
 import { routing } from '@/i18n/routing'
 import {
+  findRedirectRule,
   isAbsoluteUrl,
-  redirectLookupPath,
   type RedirectRule,
 } from '@/lib/seo/redirects'
 
@@ -81,7 +81,7 @@ async function getRedirectRules(request: NextRequest, event: NextFetchEvent) {
 
 async function seoRedirect(request: NextRequest, event: NextFetchEvent) {
   const { pathname, search } = request.nextUrl
-  const rule = (await getRedirectRules(request, event)).get(redirectLookupPath(pathname))
+  const rule = findRedirectRule(await getRedirectRules(request, event), pathname)
   if (!rule) return null
 
   let destination: URL

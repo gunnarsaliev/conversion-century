@@ -1,4 +1,5 @@
 import { cn } from "cn";
+import { LogoImage } from "@/components/logo-image";
 
 export interface Integration37Pill {
   name: string;
@@ -47,7 +48,7 @@ const Integration37 = ({
                   key={pill.name}
                   className="flex items-center rounded-full border border-border bg-card px-5 py-2.5"
                 >
-                  <img loading="lazy" decoding="async" src={pill.src} alt={pill.name} title={pill.name} className="h-7 w-auto max-w-28 object-contain" />
+                  <LogoImage src={pill.src} alt={pill.name} title={pill.name} className="h-7 w-auto max-w-28 object-contain" />
                 </li>
               ))}
             </ul>

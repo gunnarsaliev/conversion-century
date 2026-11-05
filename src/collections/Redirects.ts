@@ -9,7 +9,8 @@ import {
 
 // URL redirects managed from Dashboard → SEO → Redirects and applied by
 // src/proxy.ts (via the public GET /api/seo-redirects list). `from` is a
-// site path without locale prefix; `to` is a path or an absolute URL.
+// site path; without a locale prefix it also covers the /bg version, and a
+// /bg row takes priority for that path. `to` is a path or an absolute URL.
 export const Redirects: CollectionConfig = {
   slug: 'redirects',
   admin: {
@@ -39,7 +40,7 @@ export const Redirects: CollectionConfig = {
       required: true,
       unique: true,
       index: true,
-      admin: { description: 'Old path, e.g. /old-page (matches with or without /bg).' },
+      admin: { description: 'Old path, e.g. /old-page (also matches /bg/old-page, unless that has its own row).' },
       validate: ((value, { data }) => {
         const error = redirectRuleError(value ?? '', String((data as { to?: unknown })?.to ?? ''))
         return error && error !== 'toRequired' ? error : true

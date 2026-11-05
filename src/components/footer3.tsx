@@ -95,7 +95,7 @@ interface Footer3Props {
 const Footer3 = ({
   logo = {
     url: "/",
-    src: "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/conversion-century-logo.svg",
+    src: "https://media.cc-hub.online/conversion-century-logo.svg",
     alt: "Conversion Century",
     title: "Conversion Century",
   },

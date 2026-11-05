@@ -13,6 +13,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import { LogoImage } from "@/components/logo-image";
 
 export interface Testimonial17Item {
   quote: string;
@@ -122,12 +123,10 @@ const Testimonial17 = ({
                 <CarouselItem key={index}>
                   <div className="rounded-2xl border p-8 select-none">
                     {item.logoUrl ? (
-                      <img
-                        loading="lazy"
-                        decoding="async"
+                      <LogoImage
                         src={item.logoUrl}
                         alt={item.name}
-                        className="mb-6 h-8 dark:invert"
+                        className="mb-6 h-8 w-auto dark:invert"
                       />
                     ) : null}
                     <p className="mb-10 text-xl font-semibold">
@@ -168,12 +167,10 @@ const Testimonial17 = ({
             {items[0] ? (
               <div className="rounded-2xl border p-8">
                 {items[0].logoUrl ? (
-                  <img
-                    loading="lazy"
-                    decoding="async"
+                  <LogoImage
                     src={items[0].logoUrl}
                     alt={items[0].name}
-                    className="mb-6 h-9 dark:invert"
+                    className="mb-6 h-9 w-auto dark:invert"
                   />
                 ) : null}
                 <p className="mb-10 text-xl font-semibold">
@@ -204,12 +201,10 @@ const Testimonial17 = ({
               {items.slice(1, 3).map((item, index) => (
                 <div key={index} className="rounded-2xl border p-8">
                   {item.logoUrl ? (
-                    <img
-                      loading="lazy"
-                      decoding="async"
+                    <LogoImage
                       src={item.logoUrl}
                       alt={item.name}
-                      className="mb-6 h-10 dark:invert"
+                      className="mb-6 h-10 w-auto dark:invert"
                     />
                   ) : null}
                   <p className="mb-10 text-xl font-semibold">{item.quote}</p>

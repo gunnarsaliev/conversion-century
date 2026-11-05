@@ -14,6 +14,7 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { CmsImage } from "@/components/cms-image";
+import { LogoImage } from "@/components/logo-image";
 
 interface CaseStudiesCarouselItem {
   id: string;
@@ -210,9 +211,7 @@ const CaseStudies8 = (props: Props) => {
                         {item.logo ? (
                           // Translucent white plate so dark logos stay readable on the photo.
                           <span className="inline-flex items-center rounded-md bg-white/80 px-3 py-1.5 backdrop-blur-sm">
-                            <img
-                              loading="lazy"
-                              decoding="async"
+                            <LogoImage
                               src={item.logo}
                               alt={item.logoAlt ?? ""}
                               className="max-h-7 w-auto max-w-[140px] object-contain object-left md:max-h-8 md:max-w-[160px]"

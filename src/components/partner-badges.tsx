@@ -5,11 +5,11 @@ import { cn } from "cn";
 const badges = [
   {
     key: "ahrefs",
-    src: "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/ahrefs-agency-partner.png",
+    src: "https://media.cc-hub.online/ahrefs-agency-partner.png",
   },
   {
     key: "semrush",
-    src: "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/semruch-agency-partner.png",
+    src: "https://media.cc-hub.online/semruch-agency-partner.png",
   },
 ] as const;
 

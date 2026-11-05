@@ -20,7 +20,7 @@ import { CmsImage } from "@/components/cms-image";
 // messages.
 
 const HERO_IMAGE =
-  "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/Cosmic%20Teamwork%20Around%20a%20Futuristic%20Table.png";
+  "https://media.cc-hub.online/Cosmic%20Teamwork%20Around%20a%20Futuristic%20Table.png";
 
 const STORY_YEARS = [
   "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026",

@@ -1,0 +1,7 @@
+from,to,statusCode,enabled
+/contact-us,/book-a-consultation,301,true
+/terms-and-conditions,/legal/terms-and-conditions,301,true
+/privacy-policy,/legal/privacy-policy,301,true
+/bg/contact-us,/bg/zapazi-konsultatsiya,301,true
+/bg/terms-and-conditions,/bg/legal/terms-and-conditions,301,true
+/bg/privacy-policy,/bg/legal/privacy-policy,301,true

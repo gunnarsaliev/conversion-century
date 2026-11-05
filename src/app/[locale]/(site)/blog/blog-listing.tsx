@@ -1,5 +1,7 @@
 import { Suspense } from "react";
+import { preload } from "react-dom";
 import type { Metadata } from "next";
+import { getImageProps } from "next/image";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { getPayload, type Where } from "payload";
@@ -13,6 +15,7 @@ import { JsonLd } from "@/components/json-ld";
 import { PaginationNav } from "@/components/pagination-nav";
 import { StaticPageJsonLd } from "@/components/static-page-json-ld";
 import { BLOG_CATEGORIES, blogCategoryPath, type BlogCategory } from "@/lib/blog-categories";
+import { BLOG_FEATURED_IMAGE_SIZES } from "@/lib/blog-image";
 import { PAGE_SIZE, getPage, paginatedMetadata, type PageSearchParams } from "@/lib/pagination";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { getSeoLocale, pageBreadcrumbs, staticPageMetadata } from "@/lib/seo/pages";
@@ -73,7 +76,32 @@ export async function SuspendedBlogListing(props: {
   searchParams: PageSearchParams;
   category?: BlogCategory;
 }) {
-  const categories = await getBlogCategories(props.locale);
+  const [categories, { posts }] = await Promise.all([
+    getBlogCategories(props.locale),
+    getBlogListing(props.locale, 1, props.category),
+  ]);
+
+  // The posts stream in after the shell, so the browser would only find the
+  // featured (LCP) image late. Preload it from the shell instead. It's page 1's
+  // image because the shell can't read ?page=, which is a small waste on later
+  // pages. Same cached query as page 1 below, so no extra database read.
+  const featured = posts[0]?.featuredImage;
+  const featuredUrl = featured && typeof featured === "object" ? (featured as Media).url : null;
+  if (featuredUrl) {
+    const { props: image } = getImageProps({
+      src: featuredUrl,
+      alt: "",
+      fill: true,
+      sizes: BLOG_FEATURED_IMAGE_SIZES,
+    });
+    preload(image.src, {
+      as: "image",
+      imageSrcSet: image.srcSet,
+      imageSizes: image.sizes,
+      fetchPriority: "high",
+    });
+  }
+
   return (
     <Suspense
       fallback={

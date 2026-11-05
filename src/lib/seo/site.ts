@@ -31,7 +31,7 @@ export const ORGANIZATION = {
     addressCountry: "BG",
   },
   // Same asset as the footer logo (src/components/footer3.tsx).
-  logo: "https://pub-76ccbd1b05d242bb95e33c78f3b52f32.r2.dev/conversion-century-logo.svg",
+  logo: "https://media.cc-hub.online/conversion-century-logo.svg",
   sameAs: ["https://www.linkedin.com/company/conversion-century/"],
 };
 
