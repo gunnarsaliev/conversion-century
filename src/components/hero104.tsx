@@ -55,7 +55,7 @@ const Hero104 = ({
         )}
       >
         <div className="flex gap-8">
-          <div className="mx-auto max-w-[50rem] lg:max-w-full lg:shrink-0 lg:basis-2/3">
+          <div className="mx-auto min-w-0 max-w-[50rem] lg:max-w-full lg:flex-[2]">
             <h1 className="mb-[0.625rem] text-center text-3xl leading-tight font-semibold tracking-[-1px] sm:text-5xl md:text-6xl md:leading-[1.1] lg:text-left">
               {heading}
             </h1>
@@ -70,12 +70,12 @@ const Hero104 = ({
               </p>
             )} */}
             {(primaryCta || secondaryCta) && (
-              <div className="flex flex-col items-center justify-center gap-5 sm:flex-row lg:justify-normal">
+              <div className="flex flex-col flex-wrap items-center justify-center gap-5 sm:flex-row lg:justify-normal">
                 {primaryCta && (
-                  <Button variant="default" className="h-fit w-full rounded-lg border-2 border-primary px-8 py-4 text-lg bg-primary text-primary-foreground font-semibold sm:w-fit hover:bg-primary/85" render={<Link href={primaryCta.href} />} nativeButton={false}>{primaryCta.label}</Button>
+                  <Button variant="default" className="h-fit w-full rounded-lg whitespace-normal text-center border-2 border-primary px-8 py-4 text-lg bg-primary text-primary-foreground font-semibold sm:w-fit hover:bg-primary/85" render={<Link href={primaryCta.href} />} nativeButton={false}>{primaryCta.label}</Button>
                 )}
                 {secondaryCta && (
-                  <Button variant="ghost" className="h-fit w-full rounded-lg border-2 px-8 py-4 text-lg font-semibold hover:border-primary hover:bg-transparent sm:w-fit" render={<Link href={secondaryCta.href} />} nativeButton={false}>{secondaryCta.label}</Button>
+                  <Button variant="ghost" className="h-fit w-full rounded-lg whitespace-normal text-center border-2 px-4 py-4 text-lg font-semibold hover:border-primary hover:bg-transparent sm:w-fit" render={<Link href={secondaryCta.href} />} nativeButton={false}>{secondaryCta.label}</Button>
                 )}
               </div>
             )}
@@ -115,7 +115,7 @@ const Hero104 = ({
             )}
           </div>
           {image && (
-            <div className="hidden shrink-0 items-center justify-end lg:flex lg:basis-2/5">
+            <div className="hidden min-w-0 items-center justify-end lg:flex lg:flex-1">
               <Image
                 src={image.src}
                 alt={image.alt}
