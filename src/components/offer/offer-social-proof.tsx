@@ -11,7 +11,7 @@ export function OfferSocialProof({
 }) {
   return (
     <section id="clients" className="scroll-mt-24 border-t border-border py-16 sm:py-24">
-      <ClientLogos heading={socialProof.header} className="py-0" />
+      <ClientLogos className="py-0" />
 
       <div className="mt-10 flex flex-wrap justify-center gap-3">
         {socialProof.badges.map((badge) =>

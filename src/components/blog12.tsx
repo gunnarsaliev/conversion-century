@@ -106,16 +106,16 @@ const Blog12 = ({ className, posts, heading }: Blog12Props) => {
                     src={post.image}
                     alt={post.title}
                     sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                    wrapperClassName="aspect-video w-full rounded-lg"
+                    wrapperClassName="aspect-square w-full rounded-lg"
                   />
                 ) : (
-                  <div className="flex aspect-video w-full items-center justify-center rounded-lg bg-muted">
+                  <div className="flex aspect-square w-full items-center justify-center rounded-lg bg-muted">
                     <FileText className="size-8 text-muted-foreground/50" aria-hidden="true" />
                   </div>
                 )}
               </div>
               <div className="px-3 pt-2 pb-4">
-                <h3 className="mb-1 font-medium">{post.title}</h3>
+                <h3 className="mb-1 line-clamp-2 font-medium">{post.title}</h3>
                 <p className="line-clamp-2 text-sm text-muted-foreground">
                   {post.description}
                 </p>

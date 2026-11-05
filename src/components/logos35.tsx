@@ -68,6 +68,9 @@ const Logos35 = (props: Props) => {
           <h2 className="text-3xl font-bold tracking-tight text-balance sm:text-4xl">
             {heading}
           </h2>
+          {footer && (
+            <p className="mt-3 text-sm text-muted-foreground">{footer}</p>
+          )}
         </div>
 
         <div className="grid grid-cols-3 gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-4 lg:grid-cols-6">
@@ -98,15 +101,10 @@ const Logos35 = (props: Props) => {
           ))}
         </div>
 
-        {footer && (
-          <p className="mt-8 text-center text-sm text-muted-foreground">
-            {footer}
-          </p>
-        )}
         {viewAllHref && (
           <Link
             href={viewAllHref}
-            className="mx-auto mt-4 flex w-fit items-center gap-1.5 text-sm font-medium transition-colors hover:text-primary"
+            className="mx-auto mt-8 flex w-fit items-center gap-1.5 text-sm font-medium transition-colors hover:text-primary"
           >
             {t("viewAll")}
             <ArrowRight className="size-4" />

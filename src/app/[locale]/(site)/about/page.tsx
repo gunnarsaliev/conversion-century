@@ -39,6 +39,7 @@ export default async function AboutPage({
         eyebrow={t("eyebrow")}
         heading={t("heading")}
         intro={t("intro")}
+        quote={t("quote")}
         role={t("role")}
         ctaText=""
       />

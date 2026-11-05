@@ -80,7 +80,7 @@ const Hero262 = (props: Hero262Props) => {
             {heading}
           </h2>
 
-          <div className="mt-8 hidden max-w-lg space-y-6 text-lg text-balance text-muted-foreground md:block lg:mt-12">
+          <div className="mt-8 max-w-lg space-y-6 text-lg text-balance text-muted-foreground lg:mt-12">
             {description.split("\n\n").map((paragraph, i) => (
               <p key={i}>{paragraph}</p>
             ))}
