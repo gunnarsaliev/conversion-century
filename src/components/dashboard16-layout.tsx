@@ -13,6 +13,7 @@ import {
   Languages,
   LayoutDashboard,
   LogOut,
+  Menu,
   Palette,
   SearchCheck,
   Settings,
@@ -22,7 +23,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import * as React from "react";
 
@@ -30,6 +31,7 @@ import { cn } from "@/lib/utils";
 import type { NotificationFeed } from "@/lib/notifications";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   Collapsible,
   CollapsibleContent,
@@ -63,6 +65,7 @@ import {
   SidebarProvider,
   SidebarRail,
   SidebarTrigger,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -355,6 +358,43 @@ const AppSidebar = ({
 };
 
 // ---------------------------------------------------------------------------
+// Mobile top bar — below `md` the sidebar is a closed sheet, and its own
+// trigger lives inside it, so this is the only way to open it.
+// ---------------------------------------------------------------------------
+
+const MobileTopBar = () => {
+  const t = useTranslations("Nav");
+  const { openMobile, setOpenMobile } = useSidebar();
+  const pathname = usePathname();
+  const { logo } = sidebarData;
+
+  // The logo and account links navigate client-side, which keeps the sheet
+  // mounted, so close it once the route changes.
+  React.useEffect(() => {
+    setOpenMobile(false);
+  }, [pathname, setOpenMobile]);
+
+  return (
+    <header className="flex shrink-0 items-center gap-3 border-b px-3 py-2 md:hidden">
+      <Button
+        variant="outline"
+        size="icon"
+        className="size-10"
+        aria-label={t("openMenu")}
+        aria-expanded={openMobile}
+        onClick={() => setOpenMobile(true)}
+      >
+        <Menu className="size-4" aria-hidden="true" />
+      </Button>
+      <Link href="/dashboard" className="flex min-w-0 items-center gap-2">
+        <Image src={logo.src} alt="" width={24} height={24} className="size-6" />
+        <span className="truncate text-sm font-medium">{logo.title}</span>
+      </Link>
+    </header>
+  );
+};
+
+// ---------------------------------------------------------------------------
 // Dashboard shell — sidebar + chrome, wraps page content
 // ---------------------------------------------------------------------------
 
@@ -389,6 +429,7 @@ const DashboardLayout = ({
         <AppSidebar user={user} isAdmin={isAdmin} canManageTranslations={canManageTranslations} />
         <div className="h-svh w-full overflow-hidden lg:p-2">
           <div className="flex h-full w-full flex-col bg-background lg:rounded-xl lg:border">
+            <MobileTopBar />
             <div className="min-h-0 flex-1 overflow-hidden">
               <ScrollArea className="h-full">
                 <div

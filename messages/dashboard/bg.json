@@ -2,6 +2,7 @@
   "Nav": {
     "tagline": "Вашата SEO муза",
     "skipToContent": "Към основното съдържание",
+    "openMenu": "Отвори менюто",
     "groups": {
       "frontOffice": "Фронт офис",
       "administration": "Администрация",

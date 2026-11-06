@@ -103,7 +103,14 @@ export function DashboardSkeleton() {
           <Skeleton key={i} className="h-6 w-full" />
         ))}
       </div>
-      <DashboardPageSkeleton />
+      <div className="min-w-0 flex-1">
+        {/* Same height as the mobile top bar in dashboard16-layout. */}
+        <div className="flex items-center gap-3 border-b px-3 py-2 md:hidden">
+          <Skeleton className="size-10" />
+          <Skeleton className="h-5 w-32" />
+        </div>
+        <DashboardPageSkeleton />
+      </div>
     </div>
   );
 }
