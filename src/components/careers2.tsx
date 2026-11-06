@@ -61,6 +61,8 @@ const Careers2 = ({ jobs, className }: Careers2Props) => {
                   )}
                 </div>
                 <Link
+                  data-cta="apply_job"
+                  data-cta-location="job_listing"
                   href={job.link}
                   className={cn(buttonVariants(), "w-fit gap-1 lg:ml-auto text-white")}
                 >

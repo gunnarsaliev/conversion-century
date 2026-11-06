@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { CmsImage } from "@/components/cms-image";
 import { cn } from "@/lib/utils";
+import { ctaId } from "@/lib/analytics/cta";
 
 interface Image {
   src: string;
@@ -107,6 +108,8 @@ const FounderLetter = (props: Props) => {
                 <Button
                   variant="outline"
                   className="bg-warning p-6 rounded-full hover:bg-warning/85"
+                  data-cta={ctaId(ctaUrl)}
+                  data-cta-location="founder_letter"
                   render={<Link href={ctaUrl} />}
                   nativeButton={false}
                 >

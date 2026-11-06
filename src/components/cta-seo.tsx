@@ -22,6 +22,8 @@ export function SeoCta() {
           </p>
           <Button
             size="lg"
+            data-cta="book_a_consultation"
+            data-cta-location="footer_cta"
             render={<Link href="/book-a-consultation" />}
             nativeButton={false}
             className="mt-6 h-auto w-full rounded-full bg-[#2f6b46] px-8 py-4 text-base font-semibold text-white hover:bg-[#265739] sm:mt-8 sm:w-auto"

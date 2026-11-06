@@ -15,6 +15,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import { ctaId } from "@/lib/analytics/cta";
 
 interface Image {
   src: string;
@@ -209,12 +210,12 @@ const Hero118 = (props: Props) => {
                 <div className="flex w-full flex-col items-stretch gap-4 sm:flex-row sm:items-center">
                   {buttons?.secondary && (
                     <div className="w-full flex-1 xl:w-fit xl:flex-initial">
-                      <Button variant="secondary" className="border-muted2 block h-fit w-full rounded-xl border px-5 py-3 text-center text-[0.9375rem] leading-normal font-medium xl:w-fit" render={<Link href={buttons.secondary.url} />} nativeButton={false}>{buttons.secondary.text}</Button>
+                      <Button variant="secondary" className="border-muted2 block h-fit w-full rounded-xl border px-5 py-3 text-center text-[0.9375rem] leading-normal font-medium xl:w-fit" data-cta={ctaId(buttons.secondary.url)} data-cta-location="hero" render={<Link href={buttons.secondary.url} />} nativeButton={false}>{buttons.secondary.text}</Button>
                     </div>
                   )}
                   {buttons?.primary && (
                     <div className="w-full flex-1 xl:w-fit xl:flex-initial">
-                      <Button className="group flex h-fit w-full items-center justify-center gap-1 rounded-xl py-3 pr-4 pl-5 text-[0.9375rem] leading-normal font-medium transition-all duration-300 hover:pr-7 xl:w-fit" render={<Link href={buttons.primary.url} />} nativeButton={false}><div>{buttons.primary.text}</div><ArrowRight className="size-6! transition-transform duration-300 group-hover:translate-x-3" /></Button>
+                      <Button className="group flex h-fit w-full items-center justify-center gap-1 rounded-xl py-3 pr-4 pl-5 text-[0.9375rem] leading-normal font-medium transition-all duration-300 hover:pr-7 xl:w-fit" data-cta={ctaId(buttons.primary.url)} data-cta-location="hero" render={<Link href={buttons.primary.url} />} nativeButton={false}><div>{buttons.primary.text}</div><ArrowRight className="size-6! transition-transform duration-300 group-hover:translate-x-3" /></Button>
                     </div>
                   )}
                 </div>

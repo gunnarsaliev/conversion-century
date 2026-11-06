@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 
 import { OrbitingCircles } from "@/components/ui/orbiting-circles";
+import { ctaId } from "@/lib/analytics/cta";
 
 interface Image {
   src: string;
@@ -147,6 +148,8 @@ const Hero237 = (props: Props) => {
               variant="default"
               nativeButton={false}
               className="h-fit w-full rounded-lg border-2 border-primary bg-primary px-8 py-4 text-lg font-semibold text-primary-foreground hover:bg-primary/85 sm:w-fit"
+              data-cta={ctaId(cta.href)}
+              data-cta-location="hero"
               render={<Link href={cta.href} />}
             >
               {cta.text}

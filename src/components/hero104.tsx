@@ -6,6 +6,7 @@ import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
+import { ctaId } from "@/lib/analytics/cta";
 
 interface Hero104Cta {
   label: string;
@@ -79,10 +80,10 @@ const Hero104 = ({
             {(primaryCta || secondaryCta) && (
               <div className="flex flex-col flex-wrap items-center justify-center gap-5 sm:flex-row lg:justify-normal">
                 {primaryCta && (
-                  <Button variant="default" className="h-fit w-full rounded-lg whitespace-normal text-center border-2 border-primary px-8 py-4 text-lg bg-primary text-primary-foreground font-semibold sm:w-fit hover:bg-primary/85" render={<Link href={primaryCta.href} />} nativeButton={false}>{primaryCta.label}</Button>
+                  <Button variant="default" className="h-fit w-full rounded-lg whitespace-normal text-center border-2 border-primary px-8 py-4 text-lg bg-primary text-primary-foreground font-semibold sm:w-fit hover:bg-primary/85" data-cta={ctaId(primaryCta.href)} data-cta-location="hero" render={<Link href={primaryCta.href} />} nativeButton={false}>{primaryCta.label}</Button>
                 )}
                 {secondaryCta && (
-                  <Button variant="ghost" className="h-fit w-full rounded-lg whitespace-normal text-center border-2 px-4 py-4 text-lg font-semibold hover:border-primary hover:bg-transparent sm:w-fit" render={<Link href={secondaryCta.href} />} nativeButton={false}>{secondaryCta.label}</Button>
+                  <Button variant="ghost" className="h-fit w-full rounded-lg whitespace-normal text-center border-2 px-4 py-4 text-lg font-semibold hover:border-primary hover:bg-transparent sm:w-fit" data-cta={ctaId(secondaryCta.href)} data-cta-location="hero" render={<Link href={secondaryCta.href} />} nativeButton={false}>{secondaryCta.label}</Button>
                 )}
               </div>
             )}

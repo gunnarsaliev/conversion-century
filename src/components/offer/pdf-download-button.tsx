@@ -49,6 +49,8 @@ function PdfDownloadButton({
     <div className="flex flex-col gap-2">
       <Button
         type="button"
+        data-cta="download_offer_pdf"
+        data-cta-location="offer"
         onClick={download}
         loading={loading}
         loadingText="Генериране на PDF…"

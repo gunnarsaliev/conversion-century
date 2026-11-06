@@ -102,6 +102,17 @@ async function seoRedirect(request: NextRequest, event: NextFetchEvent) {
   return NextResponse.redirect(destination, rule.statusCode === '302' ? 302 : 301)
 }
 
+// The matcher below skips dotted paths, so without this `/.well-known/x` would
+// reach `[locale]` with ".well-known" as the locale and fail in CMS queries.
+// No page lives under a dotted first segment. Single segments like `/foo.txt`
+// aren't handled here (robots.txt, sitemap.xml etc. look the same); the (site)
+// layout and home page guard against those. A future src/app/.well-known route
+// must be excepted here and in the matcher.
+function isNonPagePath(pathname: string) {
+  const [, first = '', ...rest] = pathname.split('/')
+  return first.startsWith('.') || (first.includes('.') && rest.length > 0)
+}
+
 function loginRedirect(request: NextRequest, locale: string, target: string) {
   const loginPathname =
     locale === routing.defaultLocale ? '/login' : `/${locale}/login`
@@ -134,6 +145,8 @@ export default async function proxy(request: NextRequest, event: NextFetchEvent)
 
   const redirect = await seoRedirect(request, event)
   if (redirect) return redirect
+
+  if (isNonPagePath(pathname)) return new NextResponse(null, { status: 404 })
 
   const response = handleI18nRouting(request)
 
@@ -178,5 +191,10 @@ export const config = {
     // And legacy page URLs from older sites (/about.html, /index.php), so
     // CMS redirects can catch them; without a rule they get the site 404.
     '/((?!api|admin|tools|_next|_vercel).*\\.(?:html?|php|aspx?))',
+
+    // And paths that can't be a page (see isNonPagePath): dotfiles such as
+    // `/.env`, and dotted first segments such as `/.well-known/x`.
+    '/(\\.[^/]*)',
+    '/((?!api|admin|tools|_next|_vercel)[^/]*\\.[^/]*/.*)',
   ],
 }

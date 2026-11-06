@@ -1,6 +1,7 @@
 import { useTranslations } from 'next-intl'
 
 import { Link } from '@/i18n/navigation'
+import { ctaId } from '@/lib/analytics/cta'
 
 type Cta = { label: string; href: string }
 
@@ -64,10 +65,10 @@ export default function SolutionHero({
             </p>
           ))}
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <Link href={primaryCta.href} className="rounded-full bg-[#ffb91f] px-8 py-4 text-sm font-bold text-primary-950 transition-transform hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ffb91f]">
+            <Link href={primaryCta.href} data-cta={ctaId(primaryCta.href)} data-cta-location="hero" className="rounded-full bg-[#ffb91f] px-8 py-4 text-sm font-bold text-primary-950 transition-transform hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ffb91f]">
               {primaryCta.label}
             </Link>
-            <Link href={secondaryCta.href} className="rounded-full border border-white/40 px-8 py-4 text-sm font-bold text-white transition-colors hover:border-white hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
+            <Link href={secondaryCta.href} data-cta={ctaId(secondaryCta.href)} data-cta-location="hero" className="rounded-full border border-white/40 px-8 py-4 text-sm font-bold text-white transition-colors hover:border-white hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
               {secondaryCta.label}
             </Link>
           </div>

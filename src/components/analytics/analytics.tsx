@@ -2,6 +2,7 @@ import { Suspense } from 'react'
 import { GoogleTagManager } from '@next/third-parties/google'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
+import { CtaClickTracker } from './cta-click-tracker'
 import { RouteChangeTracker } from './route-change-tracker'
 
 // Tracking for the public site (rendered by the (site) layout only, so the
@@ -42,6 +43,7 @@ export function Analytics() {
           <Suspense fallback={null}>
             <RouteChangeTracker />
           </Suspense>
+          <CtaClickTracker />
         </>
       )}
       {/* Real-user Core Web Vitals (cookieless). */}

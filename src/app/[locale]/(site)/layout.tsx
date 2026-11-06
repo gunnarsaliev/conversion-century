@@ -1,8 +1,11 @@
 import { cacheLife } from 'next/cache'
+import { notFound } from 'next/navigation'
+import { hasLocale } from 'next-intl'
 import { setRequestLocale } from 'next-intl/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
+import { routing } from '@/i18n/routing'
 import { cmsCache } from '@/lib/cms/cache'
 import { Analytics } from '@/components/analytics/analytics'
 import { BackgroundPattern27 } from '@/components/background-pattern27'
@@ -61,6 +64,10 @@ export default async function FrontendLayout({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
+  // The root layout's check doesn't stop this one rendering, and an unknown
+  // locale (e.g. /foo.txt) makes the CMS queries below throw.
+  if (!hasLocale(routing.locales, locale)) notFound()
+
   setRequestLocale(locale)
 
   const [navbarBlogPosts, links, year] = await Promise.all([

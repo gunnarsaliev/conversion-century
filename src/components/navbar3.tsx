@@ -462,7 +462,7 @@ const Navbar3 = ({
             </NavigationMenuList>
 
             <div className="hidden items-center lg:flex">
-              <Link href="/book-a-consultation">
+              <Link href="/book-a-consultation" data-cta="book_a_consultation" data-cta-location="navbar">
                 <Button variant="default" size="lg" className="px-6 py-6 cursor-pointer bg-warning hover:bg-warning/85">
                   {t("cta")}
                 </Button>
@@ -546,7 +546,7 @@ const Navbar3 = ({
                               ))}
                             </div>
                             <div className="mx-8 mt-auto flex flex-col gap-4 py-12">
-                              <Link href="/book-a-consultation">
+                              <Link href="/book-a-consultation" data-cta="book_a_consultation" data-cta-location="navbar_mobile">
                                 <Button className="relative w-full" size="lg">
                                   {t("cta")}
                                 </Button>

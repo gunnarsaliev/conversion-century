@@ -3,6 +3,7 @@ import { cn } from "cn";
 
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
+import { ctaId } from "@/lib/analytics/cta";
 
 interface DashedLineProps {
   orientation?: "horizontal" | "vertical";
@@ -91,6 +92,8 @@ const Hero262 = (props: Hero262Props) => {
               variant="outline"
               className="bg-warning p-6 rounded-full hover:bg-warning/85 mt-8 lg:mt-12"
               size="lg"
+              data-cta={ctaId(ctaUrl)}
+              data-cta-location="hero_banner"
               render={<Link href={ctaUrl} />}
               nativeButton={false}
             >

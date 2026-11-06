@@ -141,6 +141,8 @@ const Blog12 = ({ className, posts, heading }: Blog12Props) => {
         <div className="mt-10 flex justify-center">
           <Button
             variant="outline"
+            data-cta="blog"
+            data-cta-location="latest_posts"
             render={<Link href="/blog" />}
             nativeButton={false}
           >

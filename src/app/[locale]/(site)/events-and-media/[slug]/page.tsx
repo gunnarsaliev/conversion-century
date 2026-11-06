@@ -123,6 +123,8 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
         )}
         {event.externalUrl && (
           <a
+            data-cta="event_external_link"
+            data-cta-location="event_page"
             href={event.externalUrl}
             target="_blank"
             rel={EXTERNAL_LINK_REL}

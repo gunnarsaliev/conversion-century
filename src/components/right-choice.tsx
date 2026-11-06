@@ -1,4 +1,5 @@
 import { Link } from "@/i18n/navigation";
+import { ctaId } from "@/lib/analytics/cta";
 
 type RightChoiceProps = {
   rightChoice?: {
@@ -53,6 +54,8 @@ export function RightChoice({ rightChoice, notRight }: RightChoiceProps) {
             )}
             {notRight.cta?.label && notRight.cta.href && (
               <Link
+                data-cta={ctaId(notRight.cta.href)}
+                data-cta-location="right_choice"
                 href={notRight.cta.href}
                 className="mt-10 inline-flex rounded-full bg-[#ffbd1b] px-11 py-5 text-[1.15rem] font-bold text-[#17201d] transition-transform hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ffbd1b]"
               >

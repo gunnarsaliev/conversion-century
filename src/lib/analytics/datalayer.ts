@@ -42,10 +42,12 @@ export type AnalyticsEvent =
       locale: string
     }
   | {
-      // A call-to-action click worth reporting on (not every link).
+      // A call-to-action click worth reporting on (not every link). Sent by
+      // CtaClickTracker for elements marked with `data-cta`.
       event: 'select_content'
       content_type: 'cta'
       item_id: string
+      cta_location: string
       link_url?: string
     }
 

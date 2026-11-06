@@ -1,7 +1,10 @@
+import { notFound } from "next/navigation";
+import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
+import { routing } from "@/i18n/routing";
 import { cmsCache } from "@/lib/cms/cache";
 import { Hero104 } from "@/components/hero104";
 import { getHomeHero } from "@/lib/home-hero";
@@ -108,6 +111,9 @@ export default async function WebsitePage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  // /foo.txt lands here with "foo.txt" as the locale (see the (site) layout).
+  if (!hasLocale(routing.locales, locale)) notFound();
+
   setRequestLocale(locale);
 
   const [links, content, clientTestimonials, tCommon] = await Promise.all([

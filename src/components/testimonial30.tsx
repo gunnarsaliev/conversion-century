@@ -56,6 +56,8 @@ const Testimonial30 = ({ testimonials, className }: Testimonial30Props) => {
           </h2>
           <Button
             variant="outline"
+            data-cta="reviews"
+            data-cta-location="testimonials"
             render={<Link href="/reviews" />}
             nativeButton={false}
           >

@@ -7,6 +7,7 @@ import { cn } from "cn";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { ctaId } from "@/lib/analytics/cta";
 
 /** One summary point with a bold lead-in, e.g. "Обхват на миграцията: …". */
 export interface Pricing78Highlight {
@@ -148,6 +149,8 @@ const Pricing78 = (props: Props) => {
                     <Button
                       className="mt-6 w-full"
                       variant={plan.highlighted ? "default" : "outline"}
+                      data-cta={ctaId(plan.button.url)}
+                      data-cta-location="pricing"
                       render={<a href={plan.button.url} />}
                       nativeButton={false}
                     >
