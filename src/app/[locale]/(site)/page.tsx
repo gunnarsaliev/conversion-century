@@ -131,7 +131,12 @@ export default async function WebsitePage({
     <>
       <StaticPageJsonLd page="home" />
       <div>
-        <Hero104 {...await getHomeHero()} />
+        <Hero104
+          {...await getHomeHero()}
+          // Fluid so the short home heading stays on one line in both locales;
+          // the coefficients track the column width at each breakpoint.
+          headingClassName="text-[length:calc(6.9vw-4px)] sm:text-[length:min(calc(6.9vw-6px),3.25rem)] md:text-[length:min(calc(6.9vw-6px),3.25rem)] lg:text-[length:min(calc(4.6vw-6.5px),3.25rem)]"
+        />
         <ClientLogos className={SECTION_SPACING} />
         <Hero262 className={SECTION_SPACING} />
         <Feature278 {...links} className={SECTION_SPACING} />

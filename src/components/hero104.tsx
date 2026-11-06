@@ -29,6 +29,7 @@ interface Hero104Props {
   image?: Hero104Image;
   className?: string;
   containerClassName?: string;
+  headingClassName?: string;
 }
 
 const MAX_AVATARS = 5;
@@ -45,6 +46,7 @@ const Hero104 = ({
   image,
   className,
   containerClassName,
+  headingClassName,
 }: Hero104Props) => {
   return (
     <section className={cn("py-12 md:py-20", className)}>
@@ -56,7 +58,12 @@ const Hero104 = ({
       >
         <div className="flex gap-8">
           <div className="mx-auto min-w-0 max-w-[50rem] lg:max-w-full lg:flex-[2]">
-            <h1 className="mb-[0.625rem] text-center text-3xl leading-tight font-semibold tracking-[-1px] sm:text-5xl md:text-6xl md:leading-[1.1] lg:text-left">
+            <h1
+              className={cn(
+                "mb-[0.625rem] text-center text-3xl leading-tight font-semibold tracking-[-1px] sm:text-5xl md:text-6xl md:leading-[1.1] lg:text-left",
+                headingClassName,
+              )}
+            >
               {heading}
             </h1>
             {description && (
