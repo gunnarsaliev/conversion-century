@@ -46,7 +46,7 @@ const Feature99 = ({ heading, steps, note, columns = 3, className }: Feature99Pr
             </div>
           ))}
           {note && (
-            <div className="flex items-center rounded-lg bg-yellow-50 p-6 md:p-8">
+            <div className="flex items-center rounded-lg bg-yellow-50 dark:bg-card p-6 md:p-8">
               <p className="text-sm text-muted-foreground"><span className="font-bold">Note:</span> {note}</p>
             </div>
           )}

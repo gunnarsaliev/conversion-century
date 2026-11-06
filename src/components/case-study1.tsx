@@ -153,7 +153,7 @@ const CaseStudy1 = ({
               <Button
                 size="lg"
                 nativeButton={false}
-                className="h-10 px-5 text-sm bg-black text-white hover:bg-black/80"
+                className="h-10 px-5 text-sm bg-black text-white hover:bg-black/80 dark:bg-white dark:text-black dark:hover:bg-white/80"
                 render={<Link href="/book-a-consultation" />}
               >
                 {tCommon("bookConsultation")}

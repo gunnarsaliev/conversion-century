@@ -14,7 +14,7 @@ export function SeoCta() {
       <div className="grid items-center gap-8 sm:gap-10 lg:grid-cols-2 lg:gap-16">
         {/* Left column */}
         <div>
-          <h2 className="text-balance text-3xl font-black leading-[1.08] tracking-tight text-[#12271c] sm:text-4xl lg:text-5xl lg:leading-[1.05]">
+          <h2 className="text-balance text-3xl font-black leading-[1.08] tracking-tight text-[#12271c] dark:text-foreground sm:text-4xl lg:text-5xl lg:leading-[1.05]">
             {t("heading")}
           </h2>
           <p className="mt-4 max-w-md text-base leading-relaxed text-muted-foreground sm:mt-6 sm:text-lg">

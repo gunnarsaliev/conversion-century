@@ -175,12 +175,12 @@ export default async function SolutionDetailPage({
 
       {faq?.items && faq.items.length > 0 ? (
         <Faq28
-          className="bg-primary-100"
+          className="bg-primary-100 dark:bg-card"
           heading={faq.heading ?? undefined}
           items={faq.items.map(({ question, answer }) => ({ question, answer }))}
         />
       ) : (
-        <Faq28 className="bg-primary-100" />
+        <Faq28 className="bg-primary-100 dark:bg-card" />
       )}
 
       <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">

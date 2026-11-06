@@ -110,14 +110,14 @@ const Footer3 = ({
     <section
       className={cn(
         // The before: layer copies the section's background out to the viewport edges.
-        "relative isolate bg-yellow-50 py-16 md:py-32 before:absolute before:inset-y-0 before:left-1/2 before:-z-10 before:w-screen before:-translate-x-1/2 before:bg-inherit",
+        "relative isolate bg-yellow-50 dark:bg-card py-16 md:py-32 before:absolute before:inset-y-0 before:left-1/2 before:-z-10 before:w-screen before:-translate-x-1/2 before:bg-inherit",
         className,
       )}
     >
      <SeoCta />
       <div className="mx-auto mt-16 max-w-7xl px-4 sm:px-6 md:mt-24 lg:px-8">
         <footer>
-          <Logo url={logo.url}>
+          <Logo url={logo.url} className="w-fit dark:max-h-none dark:rounded-md dark:bg-white dark:px-2 dark:py-1">
             <LogoImage
               src={logo.src}
               alt={logo.alt}

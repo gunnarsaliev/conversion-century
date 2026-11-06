@@ -35,7 +35,7 @@ export function WhyUs({ items }: WhyUsProps = {}) {
               <h3 className="mb-3 text-lg font-bold leading-snug tracking-[-0.015em] md:text-xl">
                 {feature.title}
               </h3>
-              <p className="max-w-sm text-[15px] leading-relaxed text-[#59615d] md:text-base">
+              <p className="max-w-sm text-[15px] leading-relaxed text-[#59615d] dark:text-muted-foreground md:text-base">
                 {feature.description}
               </p>
             </article>

@@ -263,7 +263,7 @@ const Navbar3 = ({
           <div className="relative z-110 flex w-full items-center justify-between gap-12">
             {/* Logo */}
             <div>
-              <Logo url="/">
+              <Logo url="/" className="dark:max-h-none dark:rounded-md dark:bg-white dark:px-2 dark:py-1">
                 <LogoImageDesktop
                   src="https://media.cc-hub.online/conversion-century-logo.svg"
                   className="h-7"
@@ -287,9 +287,9 @@ const Navbar3 = ({
                       <NavigationMenuLink
                         key={feature.key}
                         href={localize(feature.href)}
-                        className="group flex flex-row items-center gap-3 rounded-md px-2 py-1.5 transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
+                        className="group flex flex-row items-center gap-3 rounded-md px-2 py-1.5 transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-foreground/10 dark:focus:bg-foreground/10"
                       >
-                        <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5 transition-colors group-hover:bg-muted/80 dark:group-hover:bg-muted/70">
+                        <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5 transition-colors group-hover:bg-muted/80 dark:group-hover:bg-foreground/15">
                           <feature.icon className="size-3.5 text-foreground" />
                         </div>
                         <div className="text-sm font-medium text-foreground">
@@ -300,7 +300,7 @@ const Navbar3 = ({
                   </div>
                   <NavigationMenuLink
                     href={localize("/services")}
-                    className="mt-3 flex w-fit flex-row items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
+                    className="mt-3 flex w-fit flex-row items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-foreground/10 dark:focus:bg-foreground/10"
                   >
                     {t("services.viewAll")}
                     <ArrowRight className="size-3.5" />
@@ -315,9 +315,9 @@ const Navbar3 = ({
                       <NavigationMenuLink
                         key={index}
                         href={localize(solution.href)}
-                        className="group flex flex-row items-center gap-3 rounded-md px-2 py-1.5 transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
+                        className="group flex flex-row items-center gap-3 rounded-md px-2 py-1.5 transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-foreground/10 dark:focus:bg-foreground/10"
                       >
-                        <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5 transition-colors group-hover:bg-muted/80 dark:group-hover:bg-muted/70">
+                        <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5 transition-colors group-hover:bg-muted/80 dark:group-hover:bg-foreground/15">
                           <solution.icon className="size-3.5 text-foreground" />
                         </div>
                         <div className="text-sm font-medium text-foreground">
@@ -328,7 +328,7 @@ const Navbar3 = ({
                   </div>
                   <NavigationMenuLink
                     href={localize("/solutions")}
-                    className="mt-3 flex w-fit flex-row items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
+                    className="mt-3 flex w-fit flex-row items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-foreground/10 dark:focus:bg-foreground/10"
                   >
                     {t("solutions.viewAll")}
                     <ArrowRight className="size-3.5" />
@@ -343,9 +343,9 @@ const Navbar3 = ({
                       <NavigationMenuLink
                         key={index}
                         href={localize(industry.href)}
-                        className="group flex flex-row items-center gap-3 rounded-md px-2 py-1.5 transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
+                        className="group flex flex-row items-center gap-3 rounded-md px-2 py-1.5 transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-foreground/10 dark:focus:bg-foreground/10"
                       >
-                        <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5 transition-colors group-hover:bg-muted/80 dark:group-hover:bg-muted/70">
+                        <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5 transition-colors group-hover:bg-muted/80 dark:group-hover:bg-foreground/15">
                           <industry.icon className="size-3.5 text-foreground" />
                         </div>
                         <div className="text-sm font-medium text-foreground">
@@ -356,7 +356,7 @@ const Navbar3 = ({
                   </div>
                   <NavigationMenuLink
                     href={localize("/industries")}
-                    className="mt-3 flex w-fit flex-row items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
+                    className="mt-3 flex w-fit flex-row items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-foreground/10 dark:focus:bg-foreground/10"
                   >
                     {t("industries.viewAll")}
                     <ArrowRight className="size-3.5" />
@@ -372,9 +372,9 @@ const Navbar3 = ({
                         <NavigationMenuLink
                           key={index}
                           href={localize(documentationLink.href)}
-                          className="group flex flex-row items-center gap-3 rounded-md px-2 py-1.5 transition-colors hover:bg-muted/30 focus:bg-muted/30 focus:text-accent-foreground dark:hover:bg-muted/25 dark:focus:bg-muted/25"
+                          className="group flex flex-row items-center gap-3 rounded-md px-2 py-1.5 transition-colors hover:bg-muted/30 focus:bg-muted/30 focus:text-accent-foreground dark:hover:bg-foreground/10 dark:focus:bg-foreground/10"
                         >
-                          <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5 transition-colors group-hover:bg-muted/80 dark:group-hover:bg-muted/70">
+                          <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5 transition-colors group-hover:bg-muted/80 dark:group-hover:bg-foreground/15">
                             <documentationLink.icon className="size-3.5 text-foreground" />
                           </span>
                           <div className="text-sm font-medium text-foreground">
@@ -395,9 +395,9 @@ const Navbar3 = ({
                         <NavigationMenuLink
                           key={index}
                           href={localize(aboutLink.href)}
-                          className="group flex flex-row items-center gap-3 rounded-md px-2 py-1.5 transition-colors hover:bg-muted/30 focus:bg-muted/30 focus:text-accent-foreground dark:hover:bg-muted/25 dark:focus:bg-muted/25"
+                          className="group flex flex-row items-center gap-3 rounded-md px-2 py-1.5 transition-colors hover:bg-muted/30 focus:bg-muted/30 focus:text-accent-foreground dark:hover:bg-foreground/10 dark:focus:bg-foreground/10"
                         >
-                          <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5 transition-colors group-hover:bg-muted/80 dark:group-hover:bg-muted/70">
+                          <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5 transition-colors group-hover:bg-muted/80 dark:group-hover:bg-foreground/15">
                             <aboutLink.icon className="size-3.5 text-foreground" />
                           </span>
                           <div className="text-sm font-medium text-foreground">
@@ -444,9 +444,9 @@ const Navbar3 = ({
                           <NavigationMenuLink
                             key={index}
                             href={localize(resourceLink.href)}
-                            className="group flex flex-row items-center gap-3 rounded-md px-2 py-1.5 transition-colors hover:bg-muted/30 focus:bg-muted/30 focus:text-accent-foreground dark:hover:bg-muted/25 dark:focus:bg-muted/25"
+                            className="group flex flex-row items-center gap-3 rounded-md px-2 py-1.5 transition-colors hover:bg-muted/30 focus:bg-muted/30 focus:text-accent-foreground dark:hover:bg-foreground/10 dark:focus:bg-foreground/10"
                           >
-                            <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5 transition-colors group-hover:bg-muted/80 dark:group-hover:bg-muted/70">
+                            <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5 transition-colors group-hover:bg-muted/80 dark:group-hover:bg-foreground/15">
                               <resourceLink.icon className="size-3.5 text-foreground" />
                             </span>
                             <div className="text-sm font-medium text-foreground">
@@ -535,7 +535,7 @@ const Navbar3 = ({
                                 <button
                                   key={key}
                                   type="button"
-                                  className="flex w-full items-center border-b border-border px-8 py-7 text-left transition-colors hover:bg-muted/30 dark:hover:bg-muted/25"
+                                  className="flex w-full items-center border-b border-border px-8 py-7 text-left transition-colors hover:bg-muted/30 dark:hover:bg-foreground/10"
                                   onClick={() => openSubmenu(key)}
                                 >
                                   <span className="flex-1">{t(`${key}.label`)}</span>
@@ -568,7 +568,7 @@ const Navbar3 = ({
                                 <a
                                   key={index}
                                   href={localize(feature.href)}
-                                  className="group flex w-full items-start gap-x-4 border-b border-border px-8 py-7 text-left transition-colors hover:bg-muted/30 dark:hover:bg-muted/25"
+                                  className="group flex w-full items-start gap-x-4 border-b border-border px-8 py-7 text-left transition-colors hover:bg-muted/30 dark:hover:bg-foreground/10"
                                 >
                                   <div className="shrink-0">
                                     <feature.icon className="size-6" />
@@ -600,7 +600,7 @@ const Navbar3 = ({
                                 <a
                                   key={index}
                                   href={localize(solution.href)}
-                                  className="group flex w-full items-start gap-x-4 border-t border-border px-8 py-7 text-left transition-colors hover:bg-muted/30 dark:hover:bg-muted/25"
+                                  className="group flex w-full items-start gap-x-4 border-t border-border px-8 py-7 text-left transition-colors hover:bg-muted/30 dark:hover:bg-foreground/10"
                                 >
                                   <div className="shrink-0">
                                     <solution.icon className="size-6" />
@@ -612,7 +612,7 @@ const Navbar3 = ({
                               ))}
                               <Link
                                 href="/solutions"
-                                className="flex w-full items-center gap-x-2 border-t border-border px-8 py-7 text-base font-medium transition-colors hover:bg-muted/30 dark:hover:bg-muted/25"
+                                className="flex w-full items-center gap-x-2 border-t border-border px-8 py-7 text-base font-medium transition-colors hover:bg-muted/30 dark:hover:bg-foreground/10"
                               >
                                 {t("solutions.viewAll")}
                                 <ArrowRight className="size-4" />
@@ -634,7 +634,7 @@ const Navbar3 = ({
                                 <a
                                   key={index}
                                   href={localize(industry.href)}
-                                  className="group flex w-full items-start gap-x-4 border-t border-border px-8 py-7 text-left transition-colors hover:bg-muted/30 dark:hover:bg-muted/25"
+                                  className="group flex w-full items-start gap-x-4 border-t border-border px-8 py-7 text-left transition-colors hover:bg-muted/30 dark:hover:bg-foreground/10"
                                 >
                                   <div className="shrink-0">
                                     <industry.icon className="size-6" />
@@ -646,7 +646,7 @@ const Navbar3 = ({
                               ))}
                               <Link
                                 href="/industries"
-                                className="flex w-full items-center gap-x-2 border-t border-border px-8 py-7 text-base font-medium transition-colors hover:bg-muted/30 dark:hover:bg-muted/25"
+                                className="flex w-full items-center gap-x-2 border-t border-border px-8 py-7 text-base font-medium transition-colors hover:bg-muted/30 dark:hover:bg-foreground/10"
                               >
                                 {t("industries.viewAll")}
                                 <ArrowRight className="size-4" />
@@ -669,7 +669,7 @@ const Navbar3 = ({
                                   <a
                                     key={index}
                                     href={localize(documentationLink.href)}
-                                    className="group flex flex-row items-center gap-3 rounded-md px-2 py-2 transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
+                                    className="group flex flex-row items-center gap-3 rounded-md px-2 py-2 transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-foreground/10 dark:focus:bg-foreground/10"
                                   >
                                     <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5">
                                       <documentationLink.icon className="size-3.5 text-foreground" />
@@ -697,7 +697,7 @@ const Navbar3 = ({
                                 <a
                                   key={index}
                                   href={localize(aboutLink.href)}
-                                  className="group flex flex-row items-center gap-3 rounded-md px-2 py-2 transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
+                                  className="group flex flex-row items-center gap-3 rounded-md px-2 py-2 transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-foreground/10 dark:focus:bg-foreground/10"
                                 >
                                   <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5">
                                     <aboutLink.icon className="size-3.5 text-foreground" />
@@ -753,7 +753,7 @@ const Navbar3 = ({
                                 <a
                                   key={index}
                                   href={localize(resourceLink.href)}
-                                  className="group flex flex-row items-center gap-3 rounded-md px-2 py-2 transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-muted/25 dark:focus:bg-muted/25"
+                                  className="group flex flex-row items-center gap-3 rounded-md px-2 py-2 transition-colors hover:bg-muted/30 focus:bg-muted/30 dark:hover:bg-foreground/10 dark:focus:bg-foreground/10"
                                 >
                                   <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted p-1.5">
                                     <resourceLink.icon className="size-3.5 text-foreground" />
