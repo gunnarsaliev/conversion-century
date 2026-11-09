@@ -88,12 +88,8 @@ export default async function Dashboard() {
     (celebration) => !dismissedBanners.has(celebration.id),
   );
 
-  const userName =
-    [fullUser?.firstName, fullUser?.lastName].filter(Boolean).join(" ") || user?.email;
-
   return (
     <DashboardOverview
-      userName={userName}
       celebrations={celebrations}
       offers={{ created, sent, accepted, pending, declined }}
       pipeline={{ consultations, leads, clients }}

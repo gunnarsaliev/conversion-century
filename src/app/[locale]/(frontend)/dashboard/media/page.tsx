@@ -3,6 +3,7 @@ import config from "@payload-config";
 
 import { MediaHub } from "@/components/dashboard/media-hub";
 import { MediaHubHeader } from "@/components/dashboard/media-hub-header";
+import { MediaUploadDrawer } from "@/components/dashboard/media-upload-drawer";
 import { getDashboardTranslations } from "@/lib/dashboard-locale";
 import { toMediaHubItem } from "@/lib/media-files";
 import { requireDashboardUser } from "@/lib/dashboard-auth";
@@ -26,6 +27,7 @@ export default async function MediaPage() {
         active="all"
         count={media.totalDocs}
         description={t("all.description")}
+        actions={<MediaUploadDrawer />}
       />
       <MediaHub items={items} emptyMessage={t("all.empty")} />
     </>

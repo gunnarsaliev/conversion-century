@@ -1,23 +1,42 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { X } from "lucide-react";
+import { Plus, Trash2, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import * as React from "react";
-import { useTranslations } from "next-intl";
-import { Controller, useForm } from "react-hook-form";
-import { z } from "zod";
+import { useLocale, useTranslations } from "next-intl";
+import {
+  Controller,
+  useFieldArray,
+  useForm,
+  type Control,
+} from "react-hook-form";
 
 import {
   createClient,
   updateClient,
 } from "@/app/[locale]/(frontend)/dashboard/clients/actions";
+import { drawerFooterActionClassName, drawerFooterClassName } from "@/components/dashboard/drawer-footer-action";
 import { Button } from "@/components/ui/button";
+import {
+  Combobox,
+  ComboboxChip,
+  ComboboxChips,
+  ComboboxChipsInput,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxItem,
+  ComboboxList,
+  ComboboxValue,
+  useComboboxAnchor,
+} from "@/components/ui/combobox";
 import {
   Field,
   FieldError,
   FieldGroup,
   FieldLabel,
+  FieldLegend,
+  FieldSet,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import {
@@ -36,6 +55,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  clientFormSchema,
+  emptyClientFormValues,
+  type ClientFormOptions,
+  type ClientFormValues,
+} from "@/lib/client-form-schema";
+import { CLIENT_STATUSES, clientSection } from "@/lib/client-status";
+import { regionLabel, regionLabels } from "@/lib/regions";
 
 // ---------------------------------------------------------------------------
 // Client form (drawer) — create or edit
@@ -45,30 +73,9 @@ import {
 // button, scrollable body, footer). In "create" mode it submits to the
 // createClient server action; in "edit" mode, pre-filled from `client`, it
 // submits to updateClient. Both write through the Payload local API.
-
-const clientFormSchema = (t: (key: string) => string) =>
-  z.object({
-    companyName: z.string().trim().min(1, t("errors.companyName")),
-    contactName: z.string().trim().optional(),
-    email: z
-      .string()
-      .trim()
-      .email(t("errors.email"))
-      .optional()
-      .or(z.literal("")),
-    phone: z.string().trim().optional(),
-    status: z.enum(["lead", "consultation", "active", "inactive"]),
-  });
-
-type ClientFormValues = z.infer<ReturnType<typeof clientFormSchema>>;
-
-const emptyValues: ClientFormValues = {
-  companyName: "",
-  contactName: "",
-  email: "",
-  phone: "",
-  status: "lead",
-};
+//
+// Every field shown is saved, so edit mode must be given the record's full
+// current values (see toClientFormValues in src/lib/client-form-values.ts).
 
 type ClientFormDrawerProps = {
   // Either pass `trigger` to render an uncontrolled Sheet with its own
@@ -80,25 +87,149 @@ type ClientFormDrawerProps = {
   trigger?: React.ReactElement;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  // Choices for the services / team pickers. Without them those pickers
+  // are hidden (create from a page that didn't load them).
+  options?: ClientFormOptions;
 } & (
   | { mode?: "create"; defaultStatus?: ClientFormValues["status"] }
   | {
       mode: "edit";
-      client: {
-        id: string | number;
-        companyName: string;
-        contactName?: string | null;
-        email?: string | null;
-        phone?: string | null;
-        status: string;
-      };
+      client: { id: string | number; values: ClientFormValues };
+      // On a detail page, follow the record to its new dashboard section
+      // when the status change moves it (the old URL would 404).
+      navigateOnSectionChange?: boolean;
     }
 );
 
+type Option = { value: string | number; label: string };
+
+// Multi-select with chips, for hasMany selects and relationships.
+const MultiCombobox = ({
+  id,
+  items,
+  value,
+  onChange,
+  placeholder,
+  emptyText,
+}: {
+  id: string;
+  items: Option[];
+  value: (string | number)[];
+  onChange: (value: (string | number)[]) => void;
+  placeholder: string;
+  emptyText: string;
+}) => {
+  const anchor = useComboboxAnchor();
+  // Keep selected values even if they're missing from `items` (e.g. a
+  // deleted user), so saving never drops them silently.
+  const selected = value.map(
+    (entry) =>
+      items.find((item) => item.value === entry) ?? {
+        value: entry,
+        label: String(entry),
+      },
+  );
+
+  return (
+    <Combobox
+      multiple
+      items={items}
+      value={selected}
+      onValueChange={(next: Option[]) => onChange(next.map((item) => item.value))}
+      itemToStringLabel={(item: Option) => item.label}
+      isItemEqualToValue={(a: Option, b: Option) => a.value === b.value}
+    >
+      <ComboboxChips ref={anchor}>
+        <ComboboxValue>
+          {(values: Option[]) => (
+            <>
+              {values.map((item) => (
+                <ComboboxChip key={item.value}>{item.label}</ComboboxChip>
+              ))}
+              <ComboboxChipsInput
+                id={id}
+                placeholder={values.length === 0 ? placeholder : undefined}
+              />
+            </>
+          )}
+        </ComboboxValue>
+      </ComboboxChips>
+      <ComboboxContent anchor={anchor}>
+        <ComboboxEmpty>{emptyText}</ComboboxEmpty>
+        <ComboboxList>
+          {(item: Option) => (
+            <ComboboxItem key={item.value} value={item}>
+              {item.label}
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  );
+};
+
+// Repeating URL inputs for an array-of-links field.
+const LinkListField = ({
+  control,
+  name,
+  label,
+}: {
+  control: Control<ClientFormValues>;
+  name: "websiteLinks" | "reportUrls";
+  label: string;
+}) => {
+  const t = useTranslations("Clients");
+  const { fields, append, remove } = useFieldArray({ control, name });
+
+  return (
+    <Field>
+      <FieldLabel>{label}</FieldLabel>
+      <div className="flex flex-col gap-2">
+        {fields.map((item, index) => (
+          <div key={item.id} className="flex items-center gap-2">
+            <Controller
+              name={`${name}.${index}.url`}
+              control={control}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  type="url"
+                  aria-label={`${label} ${index + 1}`}
+                  placeholder="https://"
+                />
+              )}
+            />
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon-sm"
+              aria-label={t("form.removeLink")}
+              onClick={() => remove(index)}
+            >
+              <Trash2 />
+            </Button>
+          </div>
+        ))}
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="w-fit"
+          onClick={() => append({ url: "" })}
+        >
+          <Plus />
+          {t("form.addLink")}
+        </Button>
+      </div>
+    </Field>
+  );
+};
+
 const ClientFormDrawer = (props: ClientFormDrawerProps) => {
-  const { trigger, mode = "create" } = props;
+  const { trigger, options, mode = "create" } = props;
   const t = useTranslations("Clients");
   const tCommon = useTranslations("Common");
+  const locale = useLocale();
   const router = useRouter();
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(false);
   const isControlled = props.open !== undefined;
@@ -108,15 +239,11 @@ const ClientFormDrawer = (props: ClientFormDrawerProps) => {
 
   const defaultValues: ClientFormValues =
     props.mode === "edit"
-      ? {
-          companyName: props.client.companyName,
-          contactName: props.client.contactName ?? "",
-          email: props.client.email ?? "",
-          phone: props.client.phone ?? "",
-          status:
-            (props.client.status as ClientFormValues["status"]) ?? "lead",
-        }
-      : { ...emptyValues, status: props.defaultStatus ?? emptyValues.status };
+      ? props.client.values
+      : {
+          ...emptyClientFormValues,
+          status: props.defaultStatus ?? emptyClientFormValues.status,
+        };
 
   const {
     control,
@@ -127,6 +254,29 @@ const ClientFormDrawer = (props: ClientFormDrawerProps) => {
     resolver: zodResolver(clientFormSchema(t)),
     defaultValues,
   });
+
+  // Pick up fresh server values (after router.refresh) while closed.
+  React.useEffect(() => {
+    if (!open) reset(defaultValues);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, props.mode === "edit" ? props.client.values : null]);
+
+  const regionItems = React.useMemo<Option[]>(
+    () =>
+      Object.keys(regionLabels).map((code) => ({
+        value: code,
+        label: regionLabel(code, locale),
+      })),
+    [locale],
+  );
+  const serviceItems = React.useMemo<Option[]>(
+    () => (options?.services ?? []).map((s) => ({ value: s.id, label: s.name })),
+    [options],
+  );
+  const userItems = React.useMemo<Option[]>(
+    () => (options?.users ?? []).map((u) => ({ value: u.id, label: u.name })),
+    [options],
+  );
 
   const onSubmit = async (values: ClientFormValues) => {
     setServerError(null);
@@ -142,11 +292,69 @@ const ClientFormDrawer = (props: ClientFormDrawerProps) => {
     }
 
     if (mode === "create") {
-      reset(emptyValues);
+      reset(defaultValues);
     }
     setOpen(false);
-    router.refresh();
+
+    const movedSection =
+      props.mode === "edit" &&
+      props.navigateOnSectionChange &&
+      clientSection(values.status) !== clientSection(props.client.values.status);
+
+    if (movedSection) {
+      router.replace(`/dashboard/${clientSection(values.status)}/${result.id}`);
+    } else {
+      router.refresh();
+    }
   };
+
+  const textField = (
+    name: "companyName" | "contactName" | "email" | "phone" | "linkBuildingDocs" | "blogDocs",
+    label: string,
+    inputProps: React.ComponentProps<typeof Input> = {},
+  ) => (
+    <Controller
+      name={name}
+      control={control}
+      render={({ field, fieldState }) => (
+        <Field data-invalid={fieldState.invalid}>
+          <FieldLabel htmlFor={name}>{label}</FieldLabel>
+          <Input
+            {...field}
+            value={field.value ?? ""}
+            id={name}
+            aria-invalid={fieldState.invalid}
+            {...inputProps}
+          />
+          {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+        </Field>
+      )}
+    />
+  );
+
+  const multiField = (
+    name: "region" | "services" | "accountManagers" | "publishers" | "copywriters",
+    label: string,
+    items: Option[],
+  ) => (
+    <Controller
+      name={name}
+      control={control}
+      render={({ field }) => (
+        <Field>
+          <FieldLabel htmlFor={name}>{label}</FieldLabel>
+          <MultiCombobox
+            id={name}
+            items={items}
+            value={field.value}
+            onChange={field.onChange}
+            placeholder={t("form.selectPlaceholder")}
+            emptyText={t("form.noResults")}
+          />
+        </Field>
+      )}
+    />
+  );
 
   return (
     <Sheet
@@ -174,89 +382,22 @@ const ClientFormDrawer = (props: ClientFormDrawerProps) => {
           <form
             id="form-client"
             onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col gap-4"
+            className="flex flex-col gap-6"
           >
             <FieldGroup>
-              <Controller
-                name="companyName"
-                control={control}
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="companyName">
-                      {t("form.companyName")}
-                    </FieldLabel>
-                    <Input
-                      {...field}
-                      id="companyName"
-                      aria-invalid={fieldState.invalid}
-                      placeholder={t("form.companyPlaceholder")}
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
-              />
-
-              <Controller
-                name="contactName"
-                control={control}
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="contactName">
-                      {t("form.contactName")}
-                    </FieldLabel>
-                    <Input
-                      {...field}
-                      id="contactName"
-                      aria-invalid={fieldState.invalid}
-                      placeholder={t("form.contactPlaceholder")}
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
-              />
-
-              <Controller
-                name="email"
-                control={control}
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="email">{t("form.email")}</FieldLabel>
-                    <Input
-                      {...field}
-                      id="email"
-                      type="email"
-                      aria-invalid={fieldState.invalid}
-                      placeholder={t("form.emailPlaceholder")}
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
-              />
-
-              <Controller
-                name="phone"
-                control={control}
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="phone">{t("form.phone")}</FieldLabel>
-                    <Input
-                      {...field}
-                      id="phone"
-                      aria-invalid={fieldState.invalid}
-                      placeholder="+1 555 000 0000"
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
-              />
+              {textField("companyName", t("form.companyName"), {
+                placeholder: t("form.companyPlaceholder"),
+              })}
+              {textField("contactName", t("form.contactName"), {
+                placeholder: t("form.contactPlaceholder"),
+              })}
+              {textField("email", t("form.email"), {
+                type: "email",
+                placeholder: t("form.emailPlaceholder"),
+              })}
+              {textField("phone", t("form.phone"), {
+                placeholder: "+1 555 000 0000",
+              })}
 
               <Controller
                 name="status"
@@ -264,18 +405,18 @@ const ClientFormDrawer = (props: ClientFormDrawerProps) => {
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor="status">{t("form.status")}</FieldLabel>
-                    <Select
-                      value={field.value}
-                      onValueChange={field.onChange}
-                    >
+                    <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger id="status">
-                        <SelectValue />
+                        <SelectValue>
+                          {(value: string) => t(`status.${value}`)}
+                        </SelectValue>
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="lead">{t("status.lead")}</SelectItem>
-                        <SelectItem value="consultation">{t("status.consultation")}</SelectItem>
-                        <SelectItem value="active">{t("status.active")}</SelectItem>
-                        <SelectItem value="inactive">{t("status.inactive")}</SelectItem>
+                        {CLIENT_STATUSES.map((status) => (
+                          <SelectItem key={status} value={status}>
+                            {t(`status.${status}`)}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     {fieldState.invalid && (
@@ -286,14 +427,81 @@ const ClientFormDrawer = (props: ClientFormDrawerProps) => {
               />
             </FieldGroup>
 
+            <FieldSet>
+              <FieldLegend>{t("form.sectionDetails")}</FieldLegend>
+              <FieldGroup>
+                <Controller
+                  name="contractDate"
+                  control={control}
+                  render={({ field }) => (
+                    <Field>
+                      <FieldLabel htmlFor="contractDate">
+                        {t("form.contractDate")}
+                      </FieldLabel>
+                      <Input {...field} id="contractDate" type="date" />
+                    </Field>
+                  )}
+                />
+                {multiField("region", t("fields.region"), regionItems)}
+                {options && multiField("services", t("fields.services"), serviceItems)}
+                <Controller
+                  name="notes"
+                  control={control}
+                  render={({ field }) => (
+                    <Field>
+                      <FieldLabel htmlFor="notes">{t("detail.notes")}</FieldLabel>
+                      <Textarea {...field} id="notes" rows={4} />
+                    </Field>
+                  )}
+                />
+              </FieldGroup>
+            </FieldSet>
+
+            {options && (
+              <FieldSet>
+                <FieldLegend>{t("form.sectionTeam")}</FieldLegend>
+                <FieldGroup>
+                  {multiField("accountManagers", t("people.accountManagers"), userItems)}
+                  {multiField("publishers", t("people.publishers"), userItems)}
+                  {multiField("copywriters", t("people.copywriters"), userItems)}
+                </FieldGroup>
+              </FieldSet>
+            )}
+
+            <FieldSet>
+              <FieldLegend>{t("form.sectionLinks")}</FieldLegend>
+              <FieldGroup>
+                <LinkListField
+                  control={control}
+                  name="websiteLinks"
+                  label={t("links.website")}
+                />
+                <LinkListField
+                  control={control}
+                  name="reportUrls"
+                  label={t("links.reports")}
+                />
+                {textField("linkBuildingDocs", t("links.linkBuildingDocs"), {
+                  type: "url",
+                  placeholder: "https://",
+                })}
+                {textField("blogDocs", t("links.blogDocs"), {
+                  type: "url",
+                  placeholder: "https://",
+                })}
+              </FieldGroup>
+            </FieldSet>
+
             {serverError ? (
               <p className="text-sm text-destructive">{serverError}</p>
             ) : null}
           </form>
         </div>
 
-        <SheetFooter>
+        <SheetFooter className={drawerFooterClassName}>
           <Button
+            size="lg"
+            className={drawerFooterActionClassName}
             type="submit"
             form="form-client"
             loading={isSubmitting}

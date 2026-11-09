@@ -13,7 +13,8 @@
     "seed:solutions": "node scripts/payload-esm.mjs run scripts/seed-solutions.ts",
     "seed:offers": "node scripts/payload-esm.mjs run scripts/seed-offers.ts",
     "translations:export": "node scripts/payload-esm.mjs run scripts/translations-export.ts",
-    "translations:import": "node scripts/payload-esm.mjs run scripts/translations-import.ts"
+    "translations:import": "node scripts/payload-esm.mjs run scripts/translations-import.ts",
+    "icons:sidebar": "node scripts/generate-sidebar-icons.mjs"
   },
   "browserslist": "defaults, not ie <= 11",
   "dependencies": {
@@ -86,6 +87,7 @@
     "zod": "^4.5.4"
   },
   "devDependencies": {
+    "@iconify-json/fluent-color": "^1.2.21",
     "@types/node": "^24.1.0",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",

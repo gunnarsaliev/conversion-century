@@ -27,9 +27,11 @@ import * as React from "react";
 import { deleteClient } from "@/app/[locale]/(frontend)/dashboard/clients/actions";
 import { ClientFormDrawer } from "@/components/dashboard/client-form-drawer";
 import { ClientLogo } from "@/components/dashboard/client-logo";
+import { ClientStatusSelect } from "@/components/dashboard/client-status-select";
 import { PersonAvatarGroup, type Person } from "@/components/dashboard/person-avatar-group";
 import { regionLabel } from "@/lib/regions";
 import { Badge } from "@/components/ui/badge";
+import { drawerFooterActionClassName, drawerFooterClassName } from "@/components/dashboard/drawer-footer-action";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -41,10 +43,12 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import type { ClientFormOptions, ClientFormValues } from "@/lib/client-form-schema";
 import { clientSection } from "@/lib/client-status";
 
 // ---------------------------------------------------------------------------
@@ -54,13 +58,6 @@ import { clientSection } from "@/lib/client-status";
 // Sheet-based drawer adapted from feedback1.tsx's layout (header with close
 // button, scrollable body, footer) for previewing a client without leaving
 // the list.
-
-const statusBadgeClassName: Record<string, string> = {
-  active: "bg-green-100 text-green-800",
-  lead: "bg-amber-100 text-amber-800",
-  consultation: "bg-sky-100 text-sky-800",
-  inactive: "bg-muted text-muted-foreground",
-};
 
 type ClientLink = {
   id?: string | number | null;
@@ -96,14 +93,17 @@ type ClientQuickViewData = {
   checklist?: ChecklistSummary[];
   checklistDoneCount?: number;
   checklistTotalCount?: number;
+  // Full current values for the edit drawer (see toClientFormValues).
+  formValues: ClientFormValues;
 };
 
 type ClientQuickViewProps = {
   client: ClientQuickViewData;
   trigger: React.ReactElement;
+  options?: ClientFormOptions;
 };
 
-const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
+const ClientQuickView = ({ client, trigger, options }: ClientQuickViewProps) => {
   const t = useTranslations("Clients");
   const locale = useLocale();
   const router = useRouter();
@@ -209,7 +209,8 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
                   from a plain onClick above instead. */}
               <ClientFormDrawer
                 mode="edit"
-                client={client}
+                client={{ id: client.id, values: client.formValues }}
+                options={options}
                 open={editOpen}
                 onOpenChange={setEditOpen}
               />
@@ -224,14 +225,7 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
                 {client.companyName}
               </Link>
               <div className="flex flex-wrap items-center gap-2 text-muted-foreground">
-                <Badge
-                  className={
-                    statusBadgeClassName[client.status] ??
-                    statusBadgeClassName.inactive
-                  }
-                >
-                  {t(`status.${client.status}`)}
-                </Badge>
+                <ClientStatusSelect clientId={client.id} status={client.status} />
               </div>
             </div>
 
@@ -476,6 +470,17 @@ const ClientQuickView = ({ client, trigger }: ClientQuickViewProps) => {
             )}
           </div>
         </div>
+
+        <SheetFooter className={drawerFooterClassName}>
+          <Button
+            size="lg"
+            className={drawerFooterActionClassName}
+            nativeButton={false}
+            render={<Link href={`${basePath}/${client.id}`} />}
+          >
+            {t("quickView.viewDetails")}
+          </Button>
+        </SheetFooter>
       </SheetContent>
     </Sheet>
   );

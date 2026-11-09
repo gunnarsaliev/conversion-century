@@ -8,7 +8,6 @@ import {
   Mail,
   Megaphone,
   PartyPopper,
-  Search,
   Users,
 } from "lucide-react";
 import Image from "next/image";
@@ -32,7 +31,6 @@ import { requireDashboardUser } from "@/lib/dashboard-auth";
 import { getDashboardLocale, getDashboardTranslations } from "@/lib/dashboard-locale";
 import { clientSection } from "@/lib/client-status";
 import { isAdminOrEditor } from "@/lib/roles";
-import { NotificationBell } from "@/components/dashboard/notification-bell";
 
 const roleBadgeClassName: Record<string, string> = {
   admin: "bg-primary/10 text-primary",
@@ -140,17 +138,6 @@ export default async function TeamMemberPage({
           </Link>
           <ChevronRight className="size-3.5" aria-hidden="true" />
           <span className="text-foreground">{name}</span>
-        </div>
-        <div className="ml-auto flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="icon"
-            className="size-8"
-            aria-label={tCommon("search")}
-          >
-            <Search className="size-4" aria-hidden="true" />
-          </Button>
-          <NotificationBell />
         </div>
       </div>
 

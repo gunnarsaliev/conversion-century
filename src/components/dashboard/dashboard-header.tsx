@@ -1,11 +1,10 @@
 "use client";
 
-import { CalendarRange, ChevronDown, ChevronRight, LayoutDashboard, Search } from "lucide-react";
+import { CalendarRange, ChevronDown, ChevronRight, LayoutDashboard } from "lucide-react";
 import { useTranslations } from "next-intl";
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
-import { NotificationBell } from "@/components/dashboard/notification-bell";
 
 // ---------------------------------------------------------------------------
 // Dashboard header (breadcrumb + toolbar + greeting)
@@ -54,15 +53,6 @@ const DashboardHeader = ({
         </div>
         {!hideToolbar && (
           <div className="ml-auto flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="icon"
-              className="size-8"
-              aria-label={t("search")}
-            >
-              <Search className="size-4" aria-hidden="true" />
-            </Button>
-            <NotificationBell />
             <Button
               variant="outline"
               size="sm"

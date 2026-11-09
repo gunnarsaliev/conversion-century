@@ -1,8 +1,9 @@
-import { ChevronRight, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
+import type * as React from "react";
 
 import { getDashboardTranslations } from "@/lib/dashboard-locale";
 import { cn } from "@/lib/utils";
+import { PageHeaderBanner } from "@/components/dashboard/page-header-banner";
 
 // ---------------------------------------------------------------------------
 // Media hub header (breadcrumb, title, section tabs)
@@ -17,32 +18,24 @@ type MediaHubHeaderProps = {
   active: (typeof sections)[number]["key"];
   count: number;
   description: string;
+  /** Right side of the banner, e.g. the "Add new" upload button. */
+  actions?: React.ReactNode;
 };
 
-const MediaHubHeader = async ({ active, count, description }: MediaHubHeaderProps) => {
+const MediaHubHeader = async ({ active, count, description, actions }: MediaHubHeaderProps) => {
   const t = await getDashboardTranslations("Media");
-  const tCommon = await getDashboardTranslations("Common");
 
   return (
-  <section className="pb-4 sm:pb-5">
-    <div className="flex items-center gap-2 text-xs text-muted-foreground sm:text-sm">
-      <LayoutDashboard className="size-3.5" aria-hidden="true" />
-      <span>{tCommon("overview")}</span>
-      <ChevronRight className="size-3.5" aria-hidden="true" />
-      <span className="text-foreground">{t("title")}</span>
-    </div>
-    <div className="mt-3">
-      <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-        {t("title")}
-        <span className="ml-2 text-lg font-normal text-muted-foreground">
-          ({count})
-        </span>
-      </h1>
-      <p className="mt-1 text-sm text-muted-foreground">{description}</p>
-    </div>
+  <>
+    <PageHeaderBanner
+      title={t("title")}
+      count={count}
+      description={description}
+      actions={actions}
+    />
     <nav
       aria-label={t("sections")}
-      className="mt-4 inline-flex h-8 items-center rounded-lg bg-muted p-[3px] text-sm"
+      className="inline-flex h-8 items-center rounded-lg bg-muted p-[3px] text-sm"
     >
       {sections.map((section) => (
         <Link
@@ -58,7 +51,7 @@ const MediaHubHeader = async ({ active, count, description }: MediaHubHeaderProp
         </Link>
       ))}
     </nav>
-  </section>
+  </>
   );
 };
 

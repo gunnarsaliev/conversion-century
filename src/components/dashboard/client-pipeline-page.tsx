@@ -1,15 +1,16 @@
-import { ChevronRight, LayoutDashboard, Plus, Search } from "lucide-react";
+import { Plus } from "lucide-react";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
 import { ClientFormDrawer } from "@/components/dashboard/client-form-drawer";
 import { ClientList, type ClientListItem } from "@/components/dashboard/client-list";
-import { Button } from "@/components/ui/button";
 import type { Client, User } from "../../../payload-types";
-import { NotificationBell } from "@/components/dashboard/notification-bell";
 import { getDashboardTranslations } from "@/lib/dashboard-locale";
+import { getClientFormOptions } from "@/lib/client-form-options";
+import { toClientFormValues } from "@/lib/client-form-values";
 import { primaryContactName } from "@/lib/primary-contact";
 import { requireDashboardUser } from "@/lib/dashboard-auth";
+import { PageHeaderBanner, bannerPrimaryActionClassName } from "@/components/dashboard/page-header-banner";
 
 type ClientPipelinePageProps = {
   // Client statuses listed on this page.
@@ -28,8 +29,8 @@ async function ClientPipelinePage({
 }: ClientPipelinePageProps) {
   await requireDashboardUser();
   const t = await getDashboardTranslations(namespace);
-  const tCommon = await getDashboardTranslations("Common");
   const payload = await getPayload({ config });
+  const formOptions = await getClientFormOptions();
   const clients = await payload.find({
     collection: "clients",
     where: { status: { in: statuses } },
@@ -135,59 +136,31 @@ async function ClientPipelinePage({
         (entry) => entry.status === "done",
       ).length,
       checklistTotalCount: client.checklistProgress?.totalDocs ?? 0,
+      formValues: toClientFormValues(client),
     };
   });
 
   return (
     <>
-      <section className="pb-4 sm:pb-5">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-2 text-xs text-muted-foreground sm:text-sm">
-            <LayoutDashboard className="size-3.5" aria-hidden="true" />
-            <span>{tCommon("overview")}</span>
-            <ChevronRight className="size-3.5" aria-hidden="true" />
-            <span className="text-foreground">{t("title")}</span>
-          </div>
-          <div className="ml-auto flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="icon"
-              className="size-8"
-              aria-label={tCommon("search")}
-            >
-              <Search className="size-4" aria-hidden="true" />
-            </Button>
-            <NotificationBell />
-          </div>
-        </div>
-        <div className="mt-3 flex flex-wrap items-end justify-between gap-3">
-          <div>
-            <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-              {t("title")}
-              <span className="ml-2 text-lg font-normal text-muted-foreground">
-                ({clients.totalDocs})
-              </span>
-            </h1>
-            <p className="mt-1 text-sm text-muted-foreground">
-              {t("description")}
-            </p>
-          </div>
+      <PageHeaderBanner
+        title={t("title")}
+        count={clients.totalDocs}
+        description={t("description")}
+        actions={
           <ClientFormDrawer
+            options={formOptions}
             defaultStatus={newStatus}
             trigger={
-              <button
-                type="button"
-                className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-primary px-3 text-sm font-medium text-primary-foreground outline-none transition-all hover:bg-primary/80 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
-              >
-                <Plus className="size-3.5" aria-hidden="true" />
+              <button type="button" className={bannerPrimaryActionClassName}>
+                <Plus className="size-4" aria-hidden="true" />
                 {t("new")}
               </button>
             }
           />
-        </div>
-      </section>
+        }
+      />
 
-      <ClientList clients={listItems} />
+      <ClientList clients={listItems} options={formOptions} />
     </>
   );
 }

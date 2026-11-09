@@ -243,3 +243,31 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.56 0.021 213.5);
 }
+
+/* Dashboard shell: a soft indigo-tinted frame (top bar + sidebar) around
+   white content, with a light-blue pill for the current page. Scoped to the
+   dashboard so the public site keeps its own colours. The mobile sidebar
+   renders in a portal outside the shell, so it is matched too. */
+.dashboard-shell,
+[data-slot="sidebar"][data-mobile="true"] {
+  --sidebar: #f6f7fb;
+  --sidebar-accent: #eceef7;
+  --sidebar-border: #e1e4ef;
+  --nav-active: #dcebff;
+  --nav-active-foreground: #0b3f8a;
+  --action: #0073ea;
+  --action-hover: #0060c2;
+  --action-foreground: #ffffff;
+}
+
+.dark .dashboard-shell,
+.dark [data-slot="sidebar"][data-mobile="true"] {
+  --sidebar: oklch(0.2 0.012 270);
+  --sidebar-accent: oklch(0.26 0.016 270);
+  --sidebar-border: oklch(1 0 0 / 9%);
+  --nav-active: oklch(0.36 0.09 258 / 55%);
+  --nav-active-foreground: oklch(0.93 0.04 255);
+  --action: #2f8cf0;
+  --action-hover: #4b9ef5;
+  --action-foreground: #ffffff;
+}

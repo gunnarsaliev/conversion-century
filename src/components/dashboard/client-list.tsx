@@ -8,7 +8,8 @@ import {
   ClientQuickView,
   type ClientQuickViewData,
 } from "@/components/dashboard/client-quick-view";
-import { Badge } from "@/components/ui/badge";
+import { ClientStatusSelect } from "@/components/dashboard/client-status-select";
+import type { ClientFormOptions } from "@/lib/client-form-schema";
 
 // ---------------------------------------------------------------------------
 // Client list (card grid)
@@ -18,84 +19,79 @@ import { Badge } from "@/components/ui/badge";
 // client is rendered as a card with a logo, name/description, and a status
 // badge, linking through to its detail page.
 
-const statusBadgeClassName: Record<string, string> = {
-  active: "bg-green-100 text-green-800",
-  lead: "bg-amber-100 text-amber-800",
-  consultation: "bg-sky-100 text-sky-800",
-  inactive: "bg-muted text-muted-foreground",
-};
-
 type ClientListItem = ClientQuickViewData & {
   description?: string | null;
 };
 
 type ClientCardProps = {
   client: ClientListItem;
+  options?: ClientFormOptions;
 };
 
-const ClientCard = ({ client }: ClientCardProps) => {
-  const t = useTranslations("Clients");
+// The whole card opens the quick view, so the status dropdown sits on top
+// of it as a sibling (a menu button can't be nested inside the card button).
+const ClientCard = ({ client, options }: ClientCardProps) => {
   return (
-    <ClientQuickView
-      client={client}
-      trigger={
-        <button
-          type="button"
-          className="group flex h-48 w-full cursor-pointer flex-col gap-4 rounded-lg border bg-white dark:bg-gray-800 p-4 text-left outline-none transition-all hover:shadow-md focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
-        >
-          <div className="flex items-start justify-between gap-4">
-            <ClientLogo
-              companyName={client.companyName}
-              logoUrl={client.logoUrl}
-              logoWidth={client.logoWidth}
-              logoHeight={client.logoHeight}
-              size={64}
-            />
-            <div className="flex items-center gap-2">
-              <Badge
-                className={
-                  statusBadgeClassName[client.status] ??
-                  statusBadgeClassName.inactive
-                }
-              >
-                {t(`status.${client.status}`)}
-              </Badge>
-              <div className="opacity-0 group-hover:opacity-100">
-                <ArrowRight className="size-5 text-muted-foreground" />
+    <div className="relative">
+      <ClientQuickView
+        client={client}
+        options={options}
+        trigger={
+          <button
+            type="button"
+            className="group flex h-48 w-full cursor-pointer flex-col gap-4 rounded-lg border bg-white p-4 text-left transition-all outline-none hover:shadow-md focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-gray-800"
+          >
+            <div className="flex items-start justify-between gap-4">
+              <ClientLogo
+                companyName={client.companyName}
+                logoUrl={client.logoUrl}
+                logoWidth={client.logoWidth}
+                logoHeight={client.logoHeight}
+                size={64}
+              />
+              {/* Right padding leaves room for the status dropdown. */}
+              <div className="flex items-center gap-2 pr-28">
+                <div className="opacity-0 group-hover:opacity-100">
+                  <ArrowRight className="size-5 text-muted-foreground" />
+                </div>
               </div>
             </div>
-          </div>
-          <div className="min-h-0 flex-1 text-base">
-            <p className="truncate font-medium">{client.companyName}</p>
-            {client.description ? (
-              <p className="line-clamp-2 text-sm text-muted-foreground">
-                {client.description}
-              </p>
-            ) : null}
-          </div>
-        </button>
-      }
-    />
+            <div className="min-h-0 flex-1 text-base">
+              <p className="truncate font-medium">{client.companyName}</p>
+              {client.description ? (
+                <p className="line-clamp-2 text-sm text-muted-foreground">
+                  {client.description}
+                </p>
+              ) : null}
+            </div>
+          </button>
+        }
+      />
+      <ClientStatusSelect
+        clientId={client.id}
+        status={client.status}
+        className="absolute top-4 right-4"
+      />
+    </div>
   );
 };
 
 type ClientListProps = {
   clients: ClientListItem[];
+  options?: ClientFormOptions;
 };
 
-const ClientList = ({ clients }: ClientListProps) => {
+const ClientList = ({ clients, options }: ClientListProps) => {
   const t = useTranslations("Clients");
   if (clients.length === 0) {
-    return (
-      <p className="mt-8 text-sm text-muted-foreground">{t("empty")}</p>
-    );
+    return <p className="mt-8 text-sm text-muted-foreground">{t("empty")}</p>;
   }
 
   return (
     <ul className="mt-8 grid gap-4 sm:grid-cols-2 md:grid-cols-3">
       {clients.map((client) => (
         <li key={client.id}>
-          <ClientCard client={client} />
+          <ClientCard client={client} options={options} />
         </li>
       ))}
     </ul>

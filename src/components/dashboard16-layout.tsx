@@ -1,52 +1,21 @@
 "use client";
 
-import {
-  BookOpen,
-  CalendarCheck,
-  ChevronRight,
-  ChevronsUpDown,
-  Euro,
-  FileText,
-  Globe,
-  Handshake,
-  Images,
-  Languages,
-  LayoutDashboard,
-  LogOut,
-  Menu,
-  Palette,
-  SearchCheck,
-  Settings,
-  ShieldCheck,
-  User,
-  Users,
-} from "lucide-react";
-import Image from "next/image";
+import { ExternalLink } from "lucide-react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import type { ClientFormOptions } from "@/lib/client-form-schema";
 import type { NotificationFeed } from "@/lib/notifications";
-
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { routing } from "@/i18n/routing";
+import { isAppRoute } from "@/components/dashboard/nav-utils";
 import { NotificationsProvider } from "@/components/dashboard/notification-bell";
+import { SidebarIcon, type SidebarIconData } from "@/components/dashboard/sidebar-icon";
+import { sidebarIcons } from "@/components/dashboard/sidebar-icons";
+import { CommandMenuProvider } from "@/components/dashboard/command-menu";
+import { TopBar } from "@/components/dashboard/top-bar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Sidebar,
@@ -55,17 +24,11 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
-  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
   SidebarProvider,
   SidebarRail,
-  SidebarTrigger,
-  useSidebar,
 } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -76,16 +39,27 @@ import { Toaster } from "@/components/ui/sonner";
 // `key` names the item's label in the dashboard `Nav` messages.
 type NavItem = {
   key: string;
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  icon: SidebarIconData;
   href: string;
-  isActive?: boolean;
-  children?: NavItem[];
+  /** Only shown to admins and editors. */
+  adminOnly?: boolean;
+  /** A separate app (Payload's /admin): opens in a new tab. */
+  external?: boolean;
+};
+
+// Whether a nav item matches the current route. Section items also match
+// their sub-pages (/dashboard/leads/42 → Leads); the Overview and website
+// links only match exactly, or they'd light up everywhere.
+const isNavItemActive = (href: string, pathname: string) => {
+  const localePattern = new RegExp(`^/(${routing.locales.join("|")})(?=/|$)`);
+  const path = pathname.replace(localePattern, "") || "/";
+  if (href === "/" || href === "/dashboard") return path === href;
+  return path === href || path.startsWith(`${href}/`);
 };
 
 type NavGroup = {
   key: string;
   items: NavItem[];
-  defaultOpen?: boolean;
 };
 
 type UserData = {
@@ -114,35 +88,38 @@ const sidebarData: SidebarData = {
   navGroups: [
     {
       key: "frontOffice",
-      defaultOpen: true,
       items: [
-        {
-          key: "dashboard",
-          icon: LayoutDashboard,
-          href: "/dashboard",
-          isActive: true,
-        },
-        { key: "consultations", icon: CalendarCheck, href: "/dashboard/consultations" },
-        { key: "leads", icon: Handshake, href: "/dashboard/leads" },
-        { key: "clients", icon: Users, href: "/dashboard/clients" },
-        { key: "offers", icon: FileText, href: "/dashboard/offers" },
-        { key: "pricelist", icon: Euro, href: "/dashboard/pricelist" },
-        { key: "media", icon: Images, href: "/dashboard/media" },
-        { key: "website", icon: Globe, href: "/" },
+        { key: "dashboard", icon: sidebarIcons.dashboard, href: "/dashboard" },
+        { key: "admin", icon: sidebarIcons.admin, href: "/admin", adminOnly: true, external: true },
+        { key: "media", icon: sidebarIcons.media, href: "/dashboard/media" },
+      ],
+    },
+    {
+      key: "salesFunnel",
+      items: [
+        { key: "consultations", icon: sidebarIcons.consultations, href: "/dashboard/consultations" },
+        { key: "leads", icon: sidebarIcons.leads, href: "/dashboard/leads" },
+        { key: "clients", icon: sidebarIcons.clients, href: "/dashboard/clients" },
+      ],
+    },
+    {
+      key: "marketing",
+      items: [
+        { key: "offers", icon: sidebarIcons.offers, href: "/dashboard/offers" },
+        { key: "seo", icon: sidebarIcons.seo, href: "/dashboard/seo", adminOnly: true },
+        { key: "pricelist", icon: sidebarIcons.pricelist, href: "/dashboard/pricelist" },
       ],
     },
     {
       key: "administration",
-      defaultOpen: false,
       items: [
-        { key: "team", icon: ShieldCheck, href: "/dashboard/team" },
-        { key: "docs", icon: BookOpen, href: "/docs/getting-started" },
+        { key: "team", icon: sidebarIcons.team, href: "/dashboard/team" },
       ],
     },
   ],
   footerGroup: {
     key: "settings",
-    items: [{ key: "settings", icon: Settings, href: "/dashboard/settings" }],
+    items: [{ key: "settings", icon: sidebarIcons.settings, href: "/dashboard/settings" }],
   },
 };
 
@@ -150,198 +127,82 @@ const sidebarData: SidebarData = {
 // Sidebar sub-components
 // ---------------------------------------------------------------------------
 
-const SidebarLogo = ({ logo }: { logo: SidebarData["logo"] }) => {
-  const t = useTranslations("Nav");
+// Shared look for nav rows: roomy 40px rows, muted until hovered, and the
+// current page as a light-blue pill with bold text (tokens in tailwind.css,
+// `.dashboard-shell`).
+const navButtonClassName = cn(
+  "h-10 gap-3 rounded-lg px-2.5 text-[15px] font-medium text-sidebar-foreground/80 transition-colors",
+  "hover:bg-sidebar-accent hover:text-sidebar-foreground",
+  "data-active:bg-(--nav-active) data-active:font-semibold data-active:text-(--nav-active-foreground)",
+  "data-active:hover:bg-(--nav-active) data-active:hover:text-(--nav-active-foreground)",
+);
 
-  return (
-    <SidebarMenu>
-      <SidebarMenuItem>
-        <SidebarMenuButton
-          size="lg"
-          tooltip={logo.title}
-          render={<Link href="/dashboard" />}
-        >
-          <div className="flex aspect-square size-8 items-center justify-center rounded-sm border">
-            <Image
-              src={logo.src}
-              alt={logo.alt}
-              width={24}
-              height={24}
-              className="size-6"
-            />
-          </div>
-          <div className="flex flex-col gap-0.5 leading-none">
-            <span className="font-medium">{logo.title}</span>
-            <span className="text-xs text-muted-foreground">
-              {t("tagline")}
-            </span>
-          </div>
-        </SidebarMenuButton>
-      </SidebarMenuItem>
-    </SidebarMenu>
-  );
-};
+const navIconClassName = "size-5! group-data-[collapsible=icon]:size-4!";
+
+const NavLink = ({ href, ...props }: React.ComponentProps<"a"> & { href: string }) =>
+  isAppRoute(href) ? <Link href={href} {...props} /> : <a href={href} {...props} />;
 
 const NavMenuItem = ({ item }: { item: NavItem }) => {
   const t = useTranslations("Nav.items");
+  const tNav = useTranslations("Nav");
   const label = t(item.key);
-  const Icon = item.icon;
-  const hasChildren = item.children && item.children.length > 0;
-
-  if (!hasChildren) {
-    return (
-      <SidebarMenuItem>
-        <SidebarMenuButton isActive={item.isActive} tooltip={label} render={<a href={item.href} />}><Icon className="size-4" aria-hidden="true" /><span>{label}</span></SidebarMenuButton>
-      </SidebarMenuItem>
-    );
-  }
+  const pathname = usePathname();
+  const isActive = isNavItemActive(item.href, pathname);
 
   return (
-    <Collapsible defaultOpen className="group/collapsible" render={<SidebarMenuItem />}><CollapsibleTrigger render={<SidebarMenuButton isActive={item.isActive} tooltip={label} />}><Icon className="size-4" aria-hidden="true" /><span>{label}</span><ChevronRight
-                                  className="ml-auto size-4 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
-                                  aria-hidden="true"
-                                /></CollapsibleTrigger><CollapsibleContent>
-                <SidebarMenuSub>
-                  {item.children!.map((child) => (
-                    <SidebarMenuSubItem key={child.key}>
-                      <SidebarMenuSubButton isActive={child.isActive} render={<a href={child.href} />}>{t(child.key)}</SidebarMenuSubButton>
-                    </SidebarMenuSubItem>
-                  ))}
-                </SidebarMenuSub>
-              </CollapsibleContent></Collapsible>
+    <SidebarMenuItem>
+      <SidebarMenuButton
+        isActive={isActive}
+        tooltip={label}
+        className={navButtonClassName}
+        render={
+          item.external ? (
+            <a href={item.href} target="_blank" rel="noopener noreferrer" />
+          ) : (
+            <NavLink href={item.href} aria-current={isActive ? "page" : undefined} />
+          )
+        }
+      >
+        <SidebarIcon icon={item.icon} className={navIconClassName} />
+        <span className="min-w-0 truncate">{label}</span>
+        {item.external ? (
+          <>
+            <ExternalLink
+              className="ml-auto size-3.5! text-sidebar-foreground/50 group-data-[collapsible=icon]:hidden"
+              aria-hidden="true"
+            />
+            <span className="sr-only">{tNav("opensInNewTab")}</span>
+          </>
+        ) : null}
+      </SidebarMenuButton>
+    </SidebarMenuItem>
   );
 };
 
-const NavUser = ({ user }: { user: UserData }) => {
-  const t = useTranslations("Nav.user");
-  const router = useRouter();
-  const [isLoggingOut, setIsLoggingOut] = React.useState(false);
-
-  const handleLogout = async () => {
-    setIsLoggingOut(true);
-    try {
-      await fetch("/api/users/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-    } finally {
-      router.push("/login");
-      router.refresh();
-    }
-  };
-
-  return (
-    <SidebarMenu>
-      <SidebarMenuItem>
-        <DropdownMenu>
-          <DropdownMenuTrigger render={<SidebarMenuButton size="lg" className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground" />}><Avatar className="size-8 rounded-lg">
-                                  <AvatarImage src={user.avatar} alt={user.name} />
-                                  <AvatarFallback className="rounded-lg">
-                                    {user.name
-                                      .split(" ")
-                                      .map((n) => n[0])
-                                      .join("")}
-                                  </AvatarFallback>
-                                </Avatar><div className="grid flex-1 text-left text-sm leading-tight">
-                                  <span className="truncate font-medium">{user.name}</span>
-                                  <span className="truncate text-xs text-muted-foreground">
-                                    {user.email}
-                                  </span>
-                                </div><ChevronsUpDown className="ml-auto size-4" aria-hidden="true" /></DropdownMenuTrigger>
-          <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-            side="bottom"
-            align="end"
-            sideOffset={4}
-          >
-            <DropdownMenuGroup>
-            <DropdownMenuLabel className="p-0 font-normal">
-              <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="size-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">
-                    {user.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
-                  <span className="truncate text-xs text-muted-foreground">
-                    {user.email}
-                  </span>
-                </div>
-              </div>
-            </DropdownMenuLabel>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem render={<Link href="/dashboard/settings" />}>
-              <User className="mr-2 size-4" aria-hidden="true" />
-              {t("profile")}
-            </DropdownMenuItem>
-            <DropdownMenuItem render={<Link href="/dashboard/preferences" />}>
-              <Palette className="mr-2 size-4" aria-hidden="true" />
-              {t("preferences")}
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem disabled={isLoggingOut} onClick={handleLogout}>
-              <LogOut className="mr-2 size-4" aria-hidden="true" />
-              {isLoggingOut ? t("loggingOut") : t("logOut")}
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </SidebarMenuItem>
-    </SidebarMenu>
-  );
-};
-
+// The sidebar sits below the top bar (h-14), so its fixed panel starts
+// there instead of at the top of the viewport.
 const AppSidebar = ({
-  user,
-  isAdmin,
-  canManageTranslations,
+  navGroups,
   ...props
-}: React.ComponentProps<typeof Sidebar> & {
-  user?: UserData;
-  isAdmin?: boolean;
-  canManageTranslations?: boolean;
-}) => {
-  const t = useTranslations("Nav.groups");
-  const navGroups = React.useMemo(() => {
-    if (!isAdmin && !canManageTranslations) return sidebarData.navGroups;
-
-    return sidebarData.navGroups.map((group) => {
-      if (group.key !== "administration") return group;
-
-      return {
-        ...group,
-        items: [
-          ...group.items,
-          ...(isAdmin ? [{ key: "seo", icon: SearchCheck, href: "/dashboard/seo" }] : []),
-          ...(canManageTranslations
-            ? [{ key: "translations", icon: Languages, href: "/dashboard/translations" }]
-            : []),
-          ...(isAdmin ? [{ key: "admin", icon: ShieldCheck, href: "/admin" }] : []),
-        ],
-      };
-    });
-  }, [isAdmin, canManageTranslations]);
+}: React.ComponentProps<typeof Sidebar> & { navGroups: NavGroup[] }) => {
+  const tGroups = useTranslations("Nav.groups");
 
   return (
-    <Sidebar variant="inset" collapsible="icon" {...props}>
-      <SidebarHeader>
-        <div className="flex items-center gap-2 group-data-[collapsible=icon]:flex-col">
-          <SidebarLogo logo={sidebarData.logo} />
-          <SidebarTrigger className="ml-auto group-data-[collapsible=icon]:ml-0" />
-        </div>
-      </SidebarHeader>
+    <Sidebar
+      variant="inset"
+      collapsible="icon"
+      className="md:top-14 md:h-[calc(100svh-3.5rem)]"
+      {...props}
+    >
       <SidebarContent>
         <ScrollArea className="h-full">
           {navGroups.map((group) => (
             <SidebarGroup key={group.key}>
-              <SidebarGroupLabel>{t(group.key)}</SidebarGroupLabel>
+              <SidebarGroupLabel className="text-xs font-semibold tracking-wider text-sidebar-foreground/60 uppercase">
+                {tGroups(group.key)}
+              </SidebarGroupLabel>
               <SidebarGroupContent>
-                <SidebarMenu>
+                <SidebarMenu className="gap-0.5">
                   {group.items.map((item) => (
                     <NavMenuItem key={item.key} item={item} />
                   ))}
@@ -351,51 +212,29 @@ const AppSidebar = ({
           ))}
         </ScrollArea>
       </SidebarContent>
-      <SidebarFooter>{user && <NavUser user={user} />}</SidebarFooter>
+      <SidebarFooter>
+        <SidebarMenu className="gap-0.5">
+          {sidebarData.footerGroup.items.map((item) => (
+            <NavMenuItem key={item.key} item={item} />
+          ))}
+        </SidebarMenu>
+      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );
 };
 
-// ---------------------------------------------------------------------------
-// Mobile top bar — below `md` the sidebar is a closed sheet, and its own
-// trigger lives inside it, so this is the only way to open it.
-// ---------------------------------------------------------------------------
-
-const MobileTopBar = () => {
-  const t = useTranslations("Nav");
-  const { openMobile, setOpenMobile } = useSidebar();
-  const pathname = usePathname();
-  const { logo } = sidebarData;
-
-  // The logo and account links navigate client-side, which keeps the sheet
-  // mounted, so close it once the route changes.
-  React.useEffect(() => {
-    setOpenMobile(false);
-  }, [pathname, setOpenMobile]);
-
-  return (
-    <header className="flex shrink-0 items-center gap-3 border-b px-3 py-2 md:hidden">
-      <Button
-        variant="outline"
-        size="icon"
-        className="size-10"
-        aria-label={t("openMenu")}
-        aria-expanded={openMobile}
-        onClick={() => setOpenMobile(true)}
-      >
-        <Menu className="size-4" aria-hidden="true" />
-      </Button>
-      <Link href="/dashboard" className="flex min-w-0 items-center gap-2">
-        <Image src={logo.src} alt="" width={24} height={24} className="size-6" />
-        <span className="truncate text-sm font-medium">{logo.title}</span>
-      </Link>
-    </header>
-  );
-};
+// Nav groups for the user's role: SEO and Admin are for admins and editors.
+const visibleNavGroups = (isAdmin: boolean | undefined) =>
+  sidebarData.navGroups
+    .map((group) => ({
+      ...group,
+      items: group.items.filter((item) => isAdmin || !item.adminOnly),
+    }))
+    .filter((group) => group.items.length > 0);
 
 // ---------------------------------------------------------------------------
-// Dashboard shell — sidebar + chrome, wraps page content
+// Dashboard shell — top bar + sidebar + content card
 // ---------------------------------------------------------------------------
 
 const DashboardLayout = ({
@@ -403,48 +242,64 @@ const DashboardLayout = ({
   className,
   user,
   isAdmin,
-  canManageTranslations,
   notifications,
+  formOptions,
+  defaultSidebarOpen = true,
 }: {
   children: React.ReactNode;
   className?: string;
   user?: UserData;
-  /** Admins and editors: shows the link to /admin. */
+  /** Admins and editors: shows SEO and the link to /admin. */
   isAdmin?: boolean;
-  /** Admins only: shows Translations. */
-  canManageTranslations?: boolean;
   notifications?: NotificationFeed;
+  /** Services and team members for the top bar's "+" create drawer. */
+  formOptions?: ClientFormOptions;
+  /** Expanded/collapsed state from the `sidebar_state` cookie. */
+  defaultSidebarOpen?: boolean;
 }) => {
   const t = useTranslations("Nav");
+  const navGroups = React.useMemo(() => visibleNavGroups(isAdmin), [isAdmin]);
+  // Everything the search palette can jump to.
+  const searchGroups = React.useMemo(
+    () => [...navGroups, sidebarData.footerGroup],
+    [navGroups],
+  );
 
   return (
     <NotificationsProvider initialFeed={notifications}>
-      <SidebarProvider className={cn("bg-sidebar", className)}>
+      <CommandMenuProvider groups={searchGroups}>
+      <SidebarProvider
+        defaultOpen={defaultSidebarOpen}
+        className={cn("dashboard-shell flex-col bg-sidebar", className)}
+      >
         <a
           href="#dashboard-main"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-background focus:px-3 focus:py-2 focus:text-sm focus:text-foreground focus:ring-2 focus:ring-ring"
         >
           {t("skipToContent")}
         </a>
-        <AppSidebar user={user} isAdmin={isAdmin} canManageTranslations={canManageTranslations} />
-        <div className="h-svh w-full overflow-hidden lg:p-2">
-          <div className="flex h-full w-full flex-col bg-background lg:rounded-xl lg:border">
-            <MobileTopBar />
-            <div className="min-h-0 flex-1 overflow-hidden">
-              <ScrollArea className="h-full">
-                <div
-                  id="dashboard-main"
-                  tabIndex={-1}
-                  className="space-y-4 p-3 sm:space-y-6 sm:p-4 md:p-6"
-                >
-                  {children}
-                </div>
-              </ScrollArea>
+        <TopBar logo={sidebarData.logo} user={user} formOptions={formOptions} />
+        <div className="flex min-h-0 w-full flex-1">
+          <AppSidebar navGroups={navGroups} />
+          <div className="h-[calc(100svh-3.5rem)] w-full min-w-0 overflow-hidden lg:p-2">
+            <div className="flex h-full w-full flex-col overflow-hidden bg-white lg:rounded-xl lg:border dark:bg-background">
+              <div className="min-h-0 flex-1 overflow-hidden">
+                <ScrollArea className="h-full">
+                  <div
+                    id="dashboard-main"
+                    tabIndex={-1}
+                    className="space-y-4 p-3 sm:space-y-6 sm:p-4 md:p-6"
+                  >
+                    {children}
+                  </div>
+                </ScrollArea>
+              </div>
             </div>
           </div>
         </div>
         <Toaster position="bottom-right" />
       </SidebarProvider>
+      </CommandMenuProvider>
     </NotificationsProvider>
   );
 };

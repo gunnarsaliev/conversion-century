@@ -1,4 +1,3 @@
-import { ChevronRight, LayoutDashboard } from "lucide-react";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
@@ -6,13 +5,13 @@ import { PriceList } from "@/components/dashboard/price-list";
 import { requireDashboardUser } from "@/lib/dashboard-auth";
 import { getDashboardTranslations } from "@/lib/dashboard-locale";
 import { isAdmin } from "@/lib/roles";
+import { PageHeaderBanner } from "@/components/dashboard/page-header-banner";
 
 // Every service with its hourly rate (Services.price), the only thing
 // editable here. Offers are priced as hours × these rates.
 export default async function PriceListPage() {
   const payload = await getPayload({ config });
   const t = await getDashboardTranslations("PriceList");
-  const tCommon = await getDashboardTranslations("Common");
   const user = await requireDashboardUser();
 
   const { docs } = await payload.find({
@@ -36,25 +35,11 @@ export default async function PriceListPage() {
 
   return (
     <>
-      <section className="pb-4 sm:pb-5">
-        <div className="flex items-center gap-2 text-xs text-muted-foreground sm:text-sm">
-          <LayoutDashboard className="size-3.5" aria-hidden="true" />
-          <span>{tCommon("overview")}</span>
-          <ChevronRight className="size-3.5" aria-hidden="true" />
-          <span className="text-foreground">{t("title")}</span>
-        </div>
-        <div className="mt-3">
-          <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-            {t("title")}
-            <span className="ml-2 text-lg font-normal text-muted-foreground">
-              ({services.length})
-            </span>
-          </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            {t("description")}
-          </p>
-        </div>
-      </section>
+      <PageHeaderBanner
+        title={t("title")}
+        count={services.length}
+        description={t("description")}
+      />
 
       <PriceList services={services} canEdit={isAdmin(user)} />
     </>

@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { BannerStack } from "@/components/banner-standard-1";
 import { CelebrationBanner } from "@/components/dashboard/celebration-banners";
-import { NotificationBell } from "@/components/dashboard/notification-bell";
+import { PageHeaderBanner } from "@/components/dashboard/page-header-banner";
 import type { Celebration } from "@/lib/celebrations";
 import {
   getDashboardLocale,
@@ -19,7 +19,8 @@ import { cn } from "@/lib/utils";
 //
 // Stat tiles, two funnels (offers, client pipeline) and the latest
 // consultation requests. Server-rendered from counts; the only client JS is
-// the notification bell — the funnel tooltips are CSS hover/focus.
+// the page banner's Quick search button — the funnel tooltips are CSS
+// hover/focus.
 
 export type FunnelStage = { label: string; value: number; hint?: string };
 
@@ -177,13 +178,11 @@ function InquiryList({
 }
 
 export async function DashboardOverview({
-  userName,
   celebrations = [],
   offers,
   pipeline,
   inquiries,
 }: {
-  userName?: string;
   /** Today's birthdays and work anniversaries, shown as banners at the top. */
   celebrations?: Celebration[];
   offers: { created: number; sent: number; accepted: number; pending: number; declined: number };
@@ -195,6 +194,8 @@ export async function DashboardOverview({
 
   return (
     <div className="flex flex-col gap-6">
+      <PageHeaderBanner title={t("quickAccess")} />
+
       {celebrations.length > 0 && (
         <BannerStack>
           {celebrations.map((celebration) => (
@@ -205,16 +206,6 @@ export async function DashboardOverview({
           ))}
         </BannerStack>
       )}
-
-      <section className="flex items-start justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-            {userName ? t("welcome", { name: userName }) : t("title")}
-          </h1>
-          <p className="mt-1 text-sm text-muted-foreground">{t("description")}</p>
-        </div>
-        <NotificationBell />
-      </section>
 
       <div className={cn("grid gap-4", "grid-cols-2 lg:grid-cols-4")}>
         <StatTile label={t("stats.offersCreated")} value={offers.created} />

@@ -19,6 +19,7 @@ import {
 } from "@/components/dashboard/team-member-status-badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { drawerFooterActionClassName, drawerFooterClassName } from "@/components/dashboard/drawer-footer-action";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -30,6 +31,7 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -309,6 +311,17 @@ const TeamMemberQuickView = ({
             )}
           </div>
         </div>
+
+        <SheetFooter className={drawerFooterClassName}>
+          <Button
+            size="lg"
+            className={drawerFooterActionClassName}
+            nativeButton={false}
+            render={<Link href={`/dashboard/team/${member.id}`} />}
+          >
+            {t("viewDetails")}
+          </Button>
+        </SheetFooter>
       </SheetContent>
     </Sheet>
   );

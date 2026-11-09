@@ -2,7 +2,6 @@ import {
   Building2,
   ChevronRight,
   LayoutDashboard,
-  Search,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,7 +11,6 @@ import config from "@payload-config";
 
 import { ClientLogo } from "@/components/dashboard/client-logo";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -20,7 +18,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { clientSection } from "@/lib/client-status";
-import { NotificationBell } from "@/components/dashboard/notification-bell";
 import { getDashboardTranslations } from "@/lib/dashboard-locale";
 import { requireDashboardUser } from "@/lib/dashboard-auth";
 
@@ -70,17 +67,6 @@ export default async function ServicePage({ params }: ServicePageProps) {
           <span>{tCommon("overview")}</span>
           <ChevronRight className="size-3.5" aria-hidden="true" />
           <span className="text-foreground">{service.name}</span>
-        </div>
-        <div className="ml-auto flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="icon"
-            className="size-8"
-            aria-label={tCommon("search")}
-          >
-            <Search className="size-4" aria-hidden="true" />
-          </Button>
-          <NotificationBell />
         </div>
       </div>
 

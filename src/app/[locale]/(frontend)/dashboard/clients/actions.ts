@@ -5,37 +5,54 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 import { z } from "zod";
 
+import type { Client } from "../../../../../../payload-types";
 import { getDashboardUser } from "@/lib/dashboard-auth";
-import { getDashboardTranslations, type DashboardTranslator } from "@/lib/dashboard-locale";
+import { getDashboardTranslations } from "@/lib/dashboard-locale";
+import { clientFormSchema, type ClientFormValues } from "@/lib/client-form-schema";
+import { CLIENT_STATUSES, type ClientStatus } from "@/lib/client-status";
 import { upsertPrimaryContact } from "@/lib/primary-contact";
 
 // ---------------------------------------------------------------------------
 // Client create / update (Server Actions, Payload local API)
 // ---------------------------------------------------------------------------
 
-const clientFormSchema = (t: DashboardTranslator) =>
-  z.object({
-    companyName: z.string().trim().min(1, t("errors.companyName")),
-    contactName: z.string().trim().optional(),
-    email: z.string().trim().email(t("errors.email")).optional().or(z.literal("")),
-    phone: z.string().trim().optional(),
-    status: z.enum(["lead", "consultation", "active", "inactive"]),
-  });
-
-type ClientFormInput = z.infer<ReturnType<typeof clientFormSchema>>;
+type ClientFormInput = ClientFormValues;
 
 type ClientFormResult =
   | { success: true; id: string | number }
   | { success: false; error: string };
 
+const toLinks = (links: { url: string }[]) =>
+  links.map((link) => ({ url: link.url.trim() })).filter((link) => link.url);
+
 function toClientData(input: ClientFormInput) {
-  const { companyName, email, phone, status } = input;
   return {
-    companyName,
-    email: email || undefined,
-    phone: phone || undefined,
-    status,
+    companyName: input.companyName,
+    email: input.email || null,
+    phone: input.phone || null,
+    status: input.status,
+    notes: input.notes.trim() || null,
+    contractDate: input.contractDate
+      ? new Date(`${input.contractDate}T00:00:00.000Z`).toISOString()
+      : null,
+    region: input.region as NonNullable<Client["region"]>,
+    services: input.services,
+    "Account Manager": input.accountManagers,
+    Publisher: input.publishers,
+    Copywriter: input.copywriters,
+    websiteLinks: toLinks(input.websiteLinks),
+    reportUrls: toLinks(input.reportUrls),
+    "Link Building Docs": input.linkBuildingDocs || null,
+    "Blog Docs": input.blogDocs || null,
   };
+}
+
+// Every dashboard path that shows a client record, list and detail.
+function revalidateClientPaths(id?: string | number) {
+  for (const section of ["clients", "leads", "consultations"]) {
+    revalidatePath(`/dashboard/${section}`);
+    if (id !== undefined) revalidatePath(`/dashboard/${section}/${id}`);
+  }
 }
 
 async function createClient(
@@ -69,9 +86,7 @@ async function createClient(
       await upsertPrimaryContact(payload, client, { name: parsed.data.contactName });
     }
 
-    revalidatePath("/dashboard/clients");
-    revalidatePath("/dashboard/leads");
-    revalidatePath("/dashboard/consultations");
+    revalidateClientPaths();
 
     return { success: true, id: client.id };
   } catch {
@@ -115,12 +130,7 @@ async function updateClient(
       await upsertPrimaryContact(payload, client, { name: parsed.data.contactName });
     }
 
-    revalidatePath("/dashboard/clients");
-    revalidatePath("/dashboard/leads");
-    revalidatePath("/dashboard/consultations");
-    revalidatePath(`/dashboard/clients/${id}`);
-    revalidatePath(`/dashboard/leads/${id}`);
-    revalidatePath(`/dashboard/consultations/${id}`);
+    revalidateClientPaths(id);
 
     return { success: true, id: client.id };
   } catch {
@@ -153,9 +163,7 @@ async function deleteClient(
       id,
     });
 
-    revalidatePath("/dashboard/clients");
-    revalidatePath("/dashboard/leads");
-    revalidatePath("/dashboard/consultations");
+    revalidateClientPaths();
 
     return { success: true };
   } catch {
@@ -163,6 +171,47 @@ async function deleteClient(
       success: false,
       error: t("errors.delete"),
     };
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Status-only update (the status dropdown on badges)
+// ---------------------------------------------------------------------------
+
+type SetClientStatusResult =
+  | { success: true; status: ClientStatus }
+  | { success: false; error: string };
+
+async function setClientStatus(
+  id: string | number,
+  status: ClientStatus,
+): Promise<SetClientStatusResult> {
+  const t = await getDashboardTranslations("Clients");
+
+  // Any signed-in team member (proxy.ts only checks that a cookie exists).
+  if (!(await getDashboardUser())) {
+    return { success: false, error: t("errors.signedOut") };
+  }
+
+  const parsed = z.enum(CLIENT_STATUSES).safeParse(status);
+  if (!parsed.success) {
+    return { success: false, error: t("errors.invalid") };
+  }
+
+  try {
+    const payload = await getPayload({ config });
+
+    await payload.update({
+      collection: "clients",
+      id,
+      data: { status: parsed.data },
+    });
+
+    revalidateClientPaths(id);
+
+    return { success: true, status: parsed.data };
+  } catch {
+    return { success: false, error: t("errors.status") };
   }
 }
 
@@ -215,5 +264,6 @@ export {
   createClient,
   updateClient,
   deleteClient,
+  setClientStatus,
   setChecklistProgressDone,
 };

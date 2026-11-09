@@ -9,6 +9,7 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { updateTeamMember } from "@/app/[locale]/(frontend)/dashboard/team/actions";
+import { drawerFooterActionClassName, drawerFooterClassName } from "@/components/dashboard/drawer-footer-action";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -223,8 +224,10 @@ const TeamMemberFormDrawer = ({
           </form>
         </div>
 
-        <SheetFooter>
+        <SheetFooter className={drawerFooterClassName}>
           <Button
+            size="lg"
+            className={drawerFooterActionClassName}
             type="submit"
             form="form-team-member"
             loading={isSubmitting}

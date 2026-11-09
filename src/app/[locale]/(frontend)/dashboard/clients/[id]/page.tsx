@@ -4,10 +4,10 @@ import {
   Globe,
   Info,
   LayoutDashboard,
+  Pencil,
   Link as LinkIcon,
   Mail,
   Phone,
-  Search,
 } from "lucide-react";
 import { RichText } from "@/components/rich-text";
 import type { SerializedEditorState } from "lexical";
@@ -20,7 +20,11 @@ import config from "@payload-config";
 import { AccountManagerBadge } from "@/components/dashboard/account-manager-badge";
 import { ChecklistItemCheckbox } from "@/components/dashboard/checklist-item-checkbox";
 import { ChecklistProgressChart } from "@/components/dashboard/checklist-progress-chart";
+import { ClientFormDrawer } from "@/components/dashboard/client-form-drawer";
 import { ClientLogo } from "@/components/dashboard/client-logo";
+import { ClientStatusSelect } from "@/components/dashboard/client-status-select";
+import { getClientFormOptions } from "@/lib/client-form-options";
+import { toClientFormValues } from "@/lib/client-form-values";
 import { ServicesCountChart } from "@/components/dashboard/services-count-chart";
 import { toLookerStudioEmbedUrl } from "@/lib/looker-studio";
 import { regionLabel } from "@/lib/regions";
@@ -38,7 +42,6 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { isLeadStatus } from "@/lib/client-status";
-import { NotificationBell } from "@/components/dashboard/notification-bell";
 import {
   getDashboardLocale,
   getDashboardTranslations,
@@ -47,12 +50,6 @@ import {
 import { formatDashboardDate } from "@/lib/dashboard-locale-shared";
 import { clientContacts, primaryContactName } from "@/lib/primary-contact";
 import { requireDashboardUser } from "@/lib/dashboard-auth";
-
-const statusBadgeClassName: Record<string, string> = {
-  active: "bg-green-100 text-green-800",
-  lead: "bg-amber-100 text-amber-800",
-  inactive: "bg-muted text-muted-foreground",
-};
 
 const checklistStatusBadgeClassName: Record<string, string> = {
   "not-started": "bg-muted text-muted-foreground",
@@ -142,6 +139,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
   const locale = await getDashboardLocale();
 
   const payload = await getPayload({ config });
+  const formOptions = await getClientFormOptions();
 
   const client = await payload
     .findByID({
@@ -240,15 +238,18 @@ export default async function ClientPage({ params }: ClientPageProps) {
           <span className="text-foreground">{client.companyName}</span>
         </div>
         <div className="ml-auto flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="icon"
-            className="size-8"
-            aria-label={tCommon("search")}
-          >
-            <Search className="size-4" aria-hidden="true" />
-          </Button>
-          <NotificationBell />
+          <ClientFormDrawer
+            mode="edit"
+            client={{ id: client.id, values: toClientFormValues(client) }}
+            options={formOptions}
+            navigateOnSectionChange
+            trigger={
+              <Button variant="outline" size="sm" className="h-8">
+                <Pencil aria-hidden="true" />
+                {t("detail.edit")}
+              </Button>
+            }
+          />
         </div>
       </div>
 
@@ -278,15 +279,12 @@ export default async function ClientPage({ params }: ClientPageProps) {
               </div>
               <div className="flex-1 space-y-1">
                 <h1 className="text-2xl font-bold">{client.companyName}</h1>
-                <p className="text-muted-foreground">
-                  <Badge
-                    className={
-                      statusBadgeClassName[client.status] ??
-                      statusBadgeClassName.inactive
-                    }
-                  >
-                    {t(`status.${client.status}`)}
-                  </Badge>
+                <p className="flex flex-wrap items-center gap-1 text-muted-foreground">
+                  <ClientStatusSelect
+                    clientId={client.id}
+                    status={client.status}
+                    navigateOnSectionChange
+                  />
                   {primaryContactName(client) && (
                     <span>
                       {" "}

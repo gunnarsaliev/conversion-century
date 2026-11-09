@@ -5,6 +5,8 @@
     "openMenu": "Open menu",
     "groups": {
       "frontOffice": "Front Office",
+      "salesFunnel": "Sales Funnel",
+      "marketing": "Marketing",
       "administration": "Administration",
       "settings": "Settings"
     },
@@ -29,7 +31,13 @@
       "preferences": "Preferences",
       "logOut": "Log Out",
       "loggingOut": "Logging out…"
-    }
+    },
+    "search": "Search…",
+    "searchPlaceholder": "Jump to a page…",
+    "noResults": "No results",
+    "collapseSidebar": "Collapse sidebar ({shortcut})",
+    "expandSidebar": "Expand sidebar ({shortcut})",
+    "opensInNewTab": "(opens in a new tab)"
   },
   "Common": {
     "overview": "Overview",
@@ -107,6 +115,29 @@
         "description": "Download client logos for reports, decks and case studies",
         "empty": "No clients have a logo yet."
       }
+    },
+    "upload": {
+      "addNew": "Add new",
+      "title": "Add images",
+      "close": "Close",
+      "dropTitle": "Drop images here or click to browse",
+      "dropHint": "PNG, JPG, WebP, SVG or GIF · up to 4 MB each",
+      "selected": "Selected images",
+      "altPlaceholder": "Alt text (optional)",
+      "altLabel": "Alt text for {name}",
+      "remove": "Remove {name}",
+      "upload": "Upload",
+      "uploadCount": "Upload {count, plural, one {# image} other {# images}}",
+      "uploading": "Uploading…",
+      "done": "Uploaded",
+      "uploaded": "{count, plural, one {# image uploaded} other {# images uploaded}}",
+      "errors": {
+        "signedOut": "You must be signed in.",
+        "noFile": "Choose an image to upload.",
+        "type": "{name} isn't an image.",
+        "size": "{name} is larger than 4 MB.",
+        "upload": "Couldn't upload {name}. Try again."
+      }
     }
   },
   "Offers": {
@@ -156,7 +187,9 @@
       "description": "Consultation requests from the website",
       "all": "All leads",
       "empty": "No consultation requests yet."
-    }
+    },
+    "quickAccess": "Quickly access your clients, leads and offers",
+    "quickSearch": "Quick search"
   },
   "PriceList": {
     "title": "Price list",
@@ -237,6 +270,7 @@
     "view": "View"
   },
   "Team": {
+    "viewDetails": "View Details",
     "title": "Team",
     "description": "Everyone with access to the dashboard",
     "empty": "No team members yet.",
@@ -302,14 +336,16 @@
       "lead": "Lead",
       "consultation": "Consultation",
       "active": "Active",
-      "inactive": "Inactive"
+      "inactive": "Inactive",
+      "change": "Change status"
     },
     "quickView": {
       "title": "Client Quick View",
       "actions": "Client actions",
       "edit": "Edit",
       "delete": "Delete",
-      "deleting": "Deleting…"
+      "deleting": "Deleting…",
+      "viewDetails": "View Details"
     },
     "people": {
       "accountManagers": "Account Managers",
@@ -339,7 +375,8 @@
       "notes": "Notes",
       "contact": "Contact",
       "contacts": "{count, plural, one {Contact} other {Contacts}}",
-      "primary": "Primary"
+      "primary": "Primary",
+      "edit": "Edit"
     },
     "checklist": {
       "heading": "Checklist ({done}/{total} done)",
@@ -375,7 +412,15 @@
       "status": "Status",
       "create": "Create client",
       "creating": "Creating…",
-      "save": "Save changes"
+      "save": "Save changes",
+      "sectionDetails": "Details",
+      "sectionTeam": "Team",
+      "sectionLinks": "Links",
+      "contractDate": "Contract date",
+      "selectPlaceholder": "Select…",
+      "noResults": "No matches",
+      "addLink": "Add link",
+      "removeLink": "Remove link"
     },
     "errors": {
       "companyName": "Company name is required",
@@ -385,7 +430,8 @@
       "update": "Something went wrong while updating the client.",
       "delete": "Something went wrong while deleting the client.",
       "checklist": "Something went wrong while updating the checklist item.",
-      "signedOut": "You must be signed in."
+      "signedOut": "You must be signed in.",
+      "status": "Something went wrong while changing the status."
     }
   },
   "Leads": {
@@ -625,5 +671,19 @@
       "deleted": "Redirect deleted",
       "testOld": "Test old URL"
     }
+  },
+  "TopBar": {
+    "label": "Dashboard toolbar",
+    "search": "Search",
+    "account": "Account menu for {name}",
+    "product": "dashboard",
+    "actions": "Quick actions",
+    "invite": "Invite a team member",
+    "help": "Help & docs",
+    "create": "Create new",
+    "newConsultation": "New consultation",
+    "newLead": "New lead",
+    "newClient": "New client",
+    "newOffer": "New offer"
   }
 }
