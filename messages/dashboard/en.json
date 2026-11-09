@@ -35,8 +35,8 @@
     "search": "Search…",
     "searchPlaceholder": "Jump to a page…",
     "noResults": "No results",
-    "collapseSidebar": "Collapse sidebar ({shortcut})",
-    "expandSidebar": "Expand sidebar ({shortcut})",
+    "collapseSidebar": "Hide sidebar ({shortcut})",
+    "expandSidebar": "Show sidebar ({shortcut})",
     "opensInNewTab": "(opens in a new tab)"
   },
   "Common": {

@@ -187,7 +187,17 @@ const NotificationsProvider = ({
   return <NotificationsContext.Provider value={value}>{children}</NotificationsContext.Provider>;
 };
 
-const NotificationBell = ({ className }: { className?: string }) => {
+// Feed + open state for UI outside the bell (e.g. the mobile account menu).
+const useNotifications = () => React.useContext(NotificationsContext);
+
+const NotificationBell = ({
+  className,
+  anchor,
+}: {
+  className?: string;
+  /** Element to open the panel from instead of the bell (e.g. when the bell is hidden on mobile). */
+  anchor?: React.RefObject<Element | null>;
+}) => {
   const context = React.useContext(NotificationsContext);
   if (!context) throw new Error("NotificationBell must be used inside NotificationsProvider");
 
@@ -226,7 +236,7 @@ const NotificationBell = ({ className }: { className?: string }) => {
           </span>
         )}
       </PopoverTrigger>
-      <PopoverContent align="end" className="w-80 gap-0 p-0 sm:w-96">
+      <PopoverContent align="end" anchor={anchor} className="w-80 gap-0 p-0 sm:w-96">
         <div className="flex items-center justify-between gap-2 border-b px-3 py-2.5">
           <p className="text-sm font-medium">{t("title")}</p>
           {unreadCount > 0 && (
@@ -294,4 +304,4 @@ const NotificationBell = ({ className }: { className?: string }) => {
   );
 };
 
-export { NotificationBell, NotificationsProvider };
+export { NotificationBell, NotificationsProvider, useNotifications };

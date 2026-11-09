@@ -1,6 +1,6 @@
 "use client";
 
-import { CircleHelp, PanelLeftClose, PanelLeftOpen, Search, UserPlus } from "lucide-react";
+import { Bell, CircleHelp, Menu, Search, UserPlus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -8,14 +8,21 @@ import { useTranslations } from "next-intl";
 import * as React from "react";
 
 import { useOpenCommandMenu } from "@/components/dashboard/command-menu";
-import { CreateMenu } from "@/components/dashboard/create-menu";
-import { NotificationBell } from "@/components/dashboard/notification-bell";
+import { ClientFormDrawer } from "@/components/dashboard/client-form-drawer";
+import { CreateMenu, CreateMenuItems } from "@/components/dashboard/create-menu";
+import { NotificationBell, useNotifications } from "@/components/dashboard/notification-bell";
 import { useModKey } from "@/components/dashboard/nav-utils";
 import { UserMenu } from "@/components/dashboard/user-menu";
 import type { SidebarData, UserData } from "@/components/dashboard16-layout";
+import {
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 import { useSidebar } from "@/components/ui/sidebar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import type { ClientFormOptions } from "@/lib/client-form-schema";
+import type { ClientStatus } from "@/lib/client-status";
 import { cn } from "@/lib/utils";
 
 // ---------------------------------------------------------------------------
@@ -25,7 +32,8 @@ import { cn } from "@/lib/utils";
 // Sits on the same tinted surface as the sidebar, so the two read as one
 // frame around the content card. Left: sidebar toggle + brand. Right: a row
 // of quiet outline icons (each one does something), a divider, and the
-// account pill.
+// account pill. Below md the icon row is hidden and its actions move into
+// the account menu, so the bar fits a phone.
 
 // Quiet icon buttons: muted until hovered, rounded hover tile.
 const barButtonClassName = cn(
@@ -77,6 +85,20 @@ const TopBar = ({ logo, user, formOptions }: TopBarProps) => {
   const pathname = usePathname();
   const modKey = useModKey();
   const openCommandMenu = useOpenCommandMenu();
+  const tNotifications = useTranslations("Notifications");
+  const notifications = useNotifications();
+  const unreadCount = notifications?.feed.unreadCount ?? 0;
+  // The bell is hidden on mobile, so its panel opens from the account pill.
+  const accountRef = React.useRef<HTMLSpanElement>(null);
+
+  // One create drawer for both the "+" menu and the mobile account menu.
+  // Keyed by status so the form starts fresh with that status.
+  const [createStatus, setCreateStatus] = React.useState<ClientStatus>("lead");
+  const [createOpen, setCreateOpen] = React.useState(false);
+  const openCreate = React.useCallback((status: ClientStatus) => {
+    setCreateStatus(status);
+    setCreateOpen(true);
+  }, []);
 
   // Links navigate client-side, which keeps the mobile sheet mounted, so
   // close it once the route changes.
@@ -90,7 +112,6 @@ const TopBar = ({ logo, user, formOptions }: TopBarProps) => {
     : open
       ? tNav("collapseSidebar", { shortcut: `${modKey}B` })
       : tNav("expandSidebar", { shortcut: `${modKey}B` });
-  const ToggleIcon = sidebarIsOpen ? PanelLeftClose : PanelLeftOpen;
 
   return (
     <header
@@ -103,7 +124,7 @@ const TopBar = ({ logo, user, formOptions }: TopBarProps) => {
         aria-keyshortcuts={isMobile ? undefined : modKey === "⌘" ? "Meta+B" : "Control+B"}
         onClick={toggleSidebar}
       >
-        <ToggleIcon aria-hidden="true" />
+        <Menu aria-hidden="true" />
       </BarButton>
 
       {/* Brand: logo, bold name and a muted product line on one row. */}
@@ -120,9 +141,10 @@ const TopBar = ({ logo, user, formOptions }: TopBarProps) => {
         </span>
       </Link>
 
-      <nav aria-label={t("actions")} className="ml-auto flex items-center gap-0.5">
-        <CreateMenu triggerClassName={barButtonClassName} formOptions={formOptions} />
+      <nav aria-label={t("actions")} className="ml-auto hidden items-center gap-0.5 md:flex">
+        <CreateMenu triggerClassName={barButtonClassName} onCreate={openCreate} />
         <NotificationBell
+          anchor={isMobile ? accountRef : undefined}
           className={cn(
             barButtonClassName,
             "border-transparent bg-transparent shadow-none dark:border-transparent dark:bg-transparent dark:hover:bg-sidebar-accent",
@@ -147,10 +169,59 @@ const TopBar = ({ logo, user, formOptions }: TopBarProps) => {
 
       {user && (
         <>
-          <span aria-hidden="true" className="mx-1.5 h-6 w-px bg-sidebar-border" />
-          <UserMenu user={user} logoSrc={logo.src} />
+          <span aria-hidden="true" className="mx-1.5 hidden h-6 w-px bg-sidebar-border md:block" />
+          <span ref={accountRef} className="ml-auto flex md:ml-0">
+            <UserMenu
+              user={user}
+              logoSrc={logo.src}
+              showDot={unreadCount > 0}
+              mobileItems={
+                <>
+                  <DropdownMenuLabel>{t("create")}</DropdownMenuLabel>
+                  <CreateMenuItems onCreate={openCreate} />
+                  <DropdownMenuSeparator />
+                  {notifications ? (
+                    <DropdownMenuItem
+                      // Wait for the menu to close (and return focus) before
+                      // opening the panel, so its outside-press doesn't
+                      // dismiss it straight away.
+                      onClick={() => setTimeout(() => notifications.setOpen(true), 0)}
+                    >
+                      <Bell className="size-4" aria-hidden="true" />
+                      {tNotifications("title")}
+                      {unreadCount > 0 ? (
+                        <span className="ml-auto rounded-full bg-destructive px-1.5 text-[10px] leading-4 font-medium text-white tabular-nums">
+                          {unreadCount > 9 ? "9+" : unreadCount}
+                        </span>
+                      ) : null}
+                    </DropdownMenuItem>
+                  ) : null}
+                  <DropdownMenuItem onClick={openCommandMenu}>
+                    <Search className="size-4" aria-hidden="true" />
+                    {t("search")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem render={<Link href="/dashboard/team" />}>
+                    <UserPlus className="size-4" aria-hidden="true" />
+                    {t("invite")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem render={<Link href="/docs/getting-started" />}>
+                    <CircleHelp className="size-4" aria-hidden="true" />
+                    {t("help")}
+                  </DropdownMenuItem>
+                </>
+              }
+            />
+          </span>
         </>
       )}
+
+      <ClientFormDrawer
+        key={createStatus}
+        defaultStatus={createStatus}
+        options={formOptions}
+        open={createOpen}
+        onOpenChange={setCreateOpen}
+      />
     </header>
   );
 };

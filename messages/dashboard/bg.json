@@ -35,8 +35,8 @@
     "search": "Търсене…",
     "searchPlaceholder": "Отидете на страница…",
     "noResults": "Няма резултати",
-    "collapseSidebar": "Свий страничното меню ({shortcut})",
-    "expandSidebar": "Разгъни страничното меню ({shortcut})",
+    "collapseSidebar": "Скрий страничното меню ({shortcut})",
+    "expandSidebar": "Покажи страничното меню ({shortcut})",
     "opensInNewTab": "(отваря се в нов раздел)"
   },
   "Common": {

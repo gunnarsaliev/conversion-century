@@ -190,7 +190,7 @@ const AppSidebar = ({
   return (
     <Sidebar
       variant="inset"
-      collapsible="icon"
+      collapsible="offcanvas"
       className="md:top-14 md:h-[calc(100svh-3.5rem)]"
       {...props}
     >

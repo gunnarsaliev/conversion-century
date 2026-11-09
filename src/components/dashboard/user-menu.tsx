@@ -42,7 +42,20 @@ const UserAvatar = ({ user, round = false }: { user: UserData; round?: boolean }
 );
 
 // The trigger is a pill pairing the workspace logo with the user's avatar.
-const UserMenu = ({ user, logoSrc }: { user: UserData; logoSrc?: string }) => {
+// On mobile the logo is dropped to save room, and the top bar passes its
+// icon actions in as `mobileItems` (shown only below md).
+const UserMenu = ({
+  user,
+  logoSrc,
+  mobileItems,
+  showDot = false,
+}: {
+  user: UserData;
+  logoSrc?: string;
+  mobileItems?: React.ReactNode;
+  /** Unread-notifications dot on the avatar (mobile, where the bell is hidden). */
+  showDot?: boolean;
+}) => {
   const t = useTranslations("Nav.user");
   const tTopBar = useTranslations("TopBar");
   const router = useRouter();
@@ -65,12 +78,18 @@ const UserMenu = ({ user, logoSrc }: { user: UserData; logoSrc?: string }) => {
     <DropdownMenu>
       <DropdownMenuTrigger
         aria-label={tTopBar("account", { name: user.name })}
-        className="flex items-center gap-1.5 rounded-full border border-sidebar-border bg-background py-0.5 pr-0.5 pl-1.5 shadow-xs outline-none transition-colors hover:bg-sidebar-accent focus-visible:ring-2 focus-visible:ring-sidebar-ring data-popup-open:bg-sidebar-accent motion-reduce:transition-none dark:bg-sidebar-accent/60"
+        className="relative flex items-center gap-1.5 rounded-full border border-sidebar-border bg-background py-0.5 pr-0.5 pl-1.5 shadow-xs outline-none transition-colors hover:bg-sidebar-accent focus-visible:ring-2 focus-visible:ring-sidebar-ring data-popup-open:bg-sidebar-accent motion-reduce:transition-none dark:bg-sidebar-accent/60"
       >
         {logoSrc ? (
-          <Image src={logoSrc} alt="" width={20} height={20} className="size-5" />
+          <Image src={logoSrc} alt="" width={20} height={20} className="hidden size-5 md:block" />
         ) : null}
         <UserAvatar user={user} round />
+        {showDot ? (
+          <span
+            aria-hidden="true"
+            className="absolute -top-0.5 -right-0.5 size-2.5 rounded-full bg-destructive ring-2 ring-sidebar md:hidden"
+          />
+        ) : null}
       </DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-60 rounded-lg" side="bottom" align="end" sideOffset={8}>
         <DropdownMenuGroup>
@@ -85,6 +104,12 @@ const UserMenu = ({ user, logoSrc }: { user: UserData; logoSrc?: string }) => {
           </DropdownMenuLabel>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
+        {mobileItems ? (
+          <>
+            <DropdownMenuGroup className="md:hidden">{mobileItems}</DropdownMenuGroup>
+            <DropdownMenuSeparator className="md:hidden" />
+          </>
+        ) : null}
         <DropdownMenuItem render={<Link href="/dashboard/settings" />}>
           <User className="size-4" aria-hidden="true" />
           {t("profile")}
