@@ -88,6 +88,7 @@ export interface Config {
     notifications: Notification;
     'page-meta': PageMeta;
     redirects: Redirect;
+    'ai-chats': AiChat;
     exports: Export;
     imports: Import;
     'payload-mcp-api-keys': PayloadMcpApiKey;
@@ -131,6 +132,7 @@ export interface Config {
     notifications: NotificationsSelect<false> | NotificationsSelect<true>;
     'page-meta': PageMetaSelect<false> | PageMetaSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
+    'ai-chats': AiChatsSelect<false> | AiChatsSelect<true>;
     exports: ExportsSelect<false> | ExportsSelect<true>;
     imports: ImportsSelect<false> | ImportsSelect<true>;
     'payload-mcp-api-keys': PayloadMcpApiKeysSelect<false> | PayloadMcpApiKeysSelect<true>;
@@ -1436,6 +1438,39 @@ export interface Redirect {
   createdAt: string;
 }
 /**
+ * Dashboard AI search conversations. Each user sees only their own.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ai-chats".
+ */
+export interface AiChat {
+  id: number;
+  title: string;
+  owner: number | User;
+  lastMessageAt?: string | null;
+  sessionId: string;
+  session?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  events?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "exports".
  */
@@ -1840,6 +1875,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'redirects';
         value: number | Redirect;
+      } | null)
+    | ({
+        relationTo: 'ai-chats';
+        value: number | AiChat;
       } | null)
     | ({
         relationTo: 'payload-mcp-api-keys';
@@ -2721,6 +2760,20 @@ export interface RedirectsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ai-chats_select".
+ */
+export interface AiChatsSelect<T extends boolean = true> {
+  title?: T;
+  owner?: T;
+  lastMessageAt?: T;
+  sessionId?: T;
+  session?: T;
+  events?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "exports_select".
  */
 export interface ExportsSelect<T extends boolean = true> {
@@ -3020,6 +3073,7 @@ export interface TaskCreateCollectionExport {
       | 'notifications'
       | 'page-meta'
       | 'redirects'
+      | 'ai-chats'
       | 'exports'
       | 'imports';
     drafts?: ('yes' | 'no') | null;

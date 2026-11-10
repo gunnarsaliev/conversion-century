@@ -17,7 +17,8 @@ export default defineAgent({
       window.inputTokens - window.cacheReadTokens >= 400_000 ||
       window.outputTokens >= 40_000 ||
       (window.costUsd ?? 0) >= 2,
-    // Searches are short-lived; finish idle conversations after a day.
-    sessionTimeoutMs: 24 * 60 * 60 * 1_000,
+    // Saved chats (dashboard sidebar) can be continued for 30 idle days;
+    // after that they open read-only. Spend is capped by sessionUsage above.
+    sessionTimeoutMs: 30 * 24 * 60 * 60 * 1_000,
   },
 });

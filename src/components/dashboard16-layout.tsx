@@ -12,6 +12,7 @@ import type { NotificationFeed } from "@/lib/notifications";
 import { routing } from "@/i18n/routing";
 import { isAppRoute } from "@/components/dashboard/nav-utils";
 import { NotificationsProvider } from "@/components/dashboard/notification-bell";
+import { RecentChats } from "@/components/dashboard/recent-chats";
 import { SidebarIcon, type SidebarIconData } from "@/components/dashboard/sidebar-icon";
 import { sidebarIcons } from "@/components/dashboard/sidebar-icons";
 import { CommandMenuProvider } from "@/components/dashboard/command-menu";
@@ -196,19 +197,27 @@ const AppSidebar = ({
     >
       <SidebarContent>
         <ScrollArea className="h-full">
-          {navGroups.map((group) => (
-            <SidebarGroup key={group.key}>
-              <SidebarGroupLabel className="text-xs font-semibold tracking-wider text-sidebar-foreground/60 uppercase">
-                {tGroups(group.key)}
-              </SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu className="gap-0.5">
-                  {group.items.map((item) => (
-                    <NavMenuItem key={item.key} item={item} />
-                  ))}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
+          {navGroups.map((group, index) => (
+            <React.Fragment key={group.key}>
+              <SidebarGroup>
+                <SidebarGroupLabel className="text-xs font-semibold tracking-wider text-sidebar-foreground/60 uppercase">
+                  {tGroups(group.key)}
+                </SidebarGroupLabel>
+                <SidebarGroupContent>
+                  <SidebarMenu className="gap-0.5">
+                    {group.items.map((item) => (
+                      <NavMenuItem key={item.key} item={item} />
+                    ))}
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </SidebarGroup>
+              {/* The user's AI search chats, under the first group (Dashboard). */}
+              {index === 0 && (
+                <React.Suspense>
+                  <RecentChats />
+                </React.Suspense>
+              )}
+            </React.Fragment>
           ))}
         </ScrollArea>
       </SidebarContent>

@@ -127,7 +127,7 @@ const TopBar = ({ logo, user, formOptions }: TopBarProps) => {
         <Menu aria-hidden="true" />
       </BarButton>
 
-      {/* Brand: logo, bold name and a muted product line on one row. */}
+      {/* Brand: logo, bold name and a muted "AI", e.g. "Conversion Century AI". */}
       <Link
         href="/dashboard"
         className="flex min-w-0 items-center gap-2 rounded-lg py-1 pr-2 pl-1 outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring"
@@ -135,7 +135,7 @@ const TopBar = ({ logo, user, formOptions }: TopBarProps) => {
         <Image src={logo.src} alt="" width={28} height={28} className="size-7 shrink-0" />
         <span className="truncate text-[17px] leading-none tracking-tight">
           <span className="font-bold">{logo.title}</span>
-          <span className="ml-1.5 hidden font-normal text-sidebar-foreground/55 md:inline">
+          <span className="ml-1.5 font-normal text-sidebar-foreground/55">
             {t("product")}
           </span>
         </span>

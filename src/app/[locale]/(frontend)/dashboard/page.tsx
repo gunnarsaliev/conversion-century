@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import { AiSearch } from "@/components/dashboard/ai-search";
 import { requireDashboardUser } from "@/lib/dashboard-auth";
 
@@ -9,7 +11,10 @@ export default async function Dashboard() {
 
   return (
     <section aria-label="AI search" className="min-h-[50svh]">
-      <AiSearch />
+      {/* AiSearch reads ?chat= (useSearchParams). */}
+      <Suspense>
+        <AiSearch />
+      </Suspense>
     </section>
   );
 }

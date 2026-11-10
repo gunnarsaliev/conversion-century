@@ -676,7 +676,7 @@
     "label": "Dashboard toolbar",
     "search": "Search",
     "account": "Account menu for {name}",
-    "product": "dashboard",
+    "product": "AI",
     "actions": "Quick actions",
     "invite": "Invite a team member",
     "help": "Help & docs",
@@ -703,6 +703,15 @@
     "example1": "Which leads came in this week?",
     "example2": "How many offers are waiting for a reply?",
     "example3": "Who manages the most clients?",
-    "example4": "Show the latest consultations"
+    "example4": "Show the latest consultations",
+    "loading": "Opening chat…",
+    "expired": "This conversation has expired and can no longer be continued. You can still read it, or start a new search."
+  },
+  "RecentChats": {
+    "title": "Recent chats",
+    "newChat": "New chat",
+    "delete": "Delete chat",
+    "deleted": "Chat deleted",
+    "empty": "Your AI search chats will appear here."
   }
 }

@@ -30,6 +30,7 @@ import { Offers } from './src/collections/Offers'
 import { Notifications } from './src/collections/Notifications'
 import { PageMeta } from './src/collections/PageMeta'
 import { Redirects } from './src/collections/Redirects'
+import { AiChats } from './src/collections/AiChats'
 import { notifyContractRenewals } from './src/jobs/notifyContractRenewals'
 import { clearUploadedFileAfterProcessing } from './src/utilities/clearUploadedFile'
 import { exportAll } from './src/endpoints/exportAll'
@@ -80,6 +81,7 @@ export default buildConfig({
     Notifications,
     withCmsRevalidation(PageMeta),
     Redirects,
+    AiChats,
   ],
 
   plugins: [
