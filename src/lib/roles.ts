@@ -7,18 +7,23 @@ import type { ClientUser } from 'payload'
 //           and hidden from their admin sidebar (see `adminOnlyCollection`).
 // - user:   dashboard only, no /admin.
 
-type RoleUser = { role?: string | null } | null | undefined
-type AccessArgs = { req: { user?: RoleUser } }
+// `req.user` is a team member (`users`) or, for requests to the MCP server
+// (src/lib/mcp-plugin.ts), an MCP API key, which has no role — so these
+// accept any user object and treat a missing role as "no role".
+type MaybeUser = object | null | undefined
+type AccessArgs = { req: { user?: MaybeUser } }
 
-export const isAdmin = <T extends { role?: string | null }>(user?: T | null): user is T =>
-  user?.role === 'admin'
+const roleOf = (user: MaybeUser) =>
+  user && 'role' in user ? (user as { role?: unknown }).role : undefined
 
-export const isEditor = <T extends { role?: string | null }>(user?: T | null): user is T =>
-  user?.role === 'editor'
+export const isAdmin = <T extends object>(user?: T | null): user is T =>
+  roleOf(user) === 'admin'
 
-export const isAdminOrEditor = <T extends { role?: string | null }>(
-  user?: T | null,
-): user is T => isAdmin(user) || isEditor(user)
+export const isEditor = <T extends object>(user?: T | null): user is T =>
+  roleOf(user) === 'editor'
+
+export const isAdminOrEditor = <T extends object>(user?: T | null): user is T =>
+  isAdmin(user) || isEditor(user)
 
 // Access functions, for use directly in a collection's `access` config.
 export const adminOnly = ({ req: { user } }: AccessArgs) => isAdmin(user)
@@ -27,7 +32,7 @@ export const adminOrEditor = ({ req: { user } }: AccessArgs) => isAdminOrEditor(
 // `admin.hidden` for collections editors may read but not manage: removes
 // them from the editor's sidebar and admin routes.
 export const hiddenFromEditors = ({ user }: { user: ClientUser }) =>
-  isEditor(user as RoleUser)
+  isEditor(user)
 
 // Shared config for collections that only admins manage: writes are
 // admin-only and the collection is hidden from editors. Spread into a

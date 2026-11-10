@@ -1,8 +1,23 @@
+import { AiSearch } from "@/components/dashboard/ai-search";
+import { requireDashboardUser } from "@/lib/dashboard-auth";
+
+// Dashboard home: AI search over the CMS data (agent/, via Payload's MCP
+// server). The previous overview is kept commented out below.
+export default async function Dashboard() {
+  // Auth guard: keep this even while the page is empty.
+  await requireDashboardUser();
+
+  return (
+    <section aria-label="AI search" className="min-h-[50svh]">
+      <AiSearch />
+    </section>
+  );
+}
+
+/*
 import { getPayload, type Where } from "payload";
 import config from "@payload-config";
-
 import { DashboardOverview } from "@/components/dashboard/overview";
-import { requireDashboardUser } from "@/lib/dashboard-auth";
 import { getDismissedBanners } from "@/lib/banner-dismissal";
 import { getTeamCelebrations } from "@/lib/celebrations";
 import { LEAD_STATUSES } from "@/lib/client-status";
@@ -105,3 +120,4 @@ export default async function Dashboard() {
     />
   );
 }
+*/

@@ -1,6 +1,7 @@
 import withMarkdoc from '@markdoc/next.js'
 import { withPayload } from '@payloadcms/next/withPayload'
 import createNextIntlPlugin from 'next-intl/plugin'
+import { withEve } from 'eve/next'
 
 import withSearch from './src/markdoc/search.mjs'
 
@@ -108,11 +109,15 @@ const nextConfig = {
   },
 }
 
-export default withPayload(
-  withNextIntl(
-    withSearch(
-      withMarkdoc({ schemaPath: './src/markdoc', nextjsExports: [] })(
-        nextConfig,
+// withEve mounts the dashboard AI search agent (agent/) at /eve/v1/*: `next
+// dev` starts it, and on Vercel it deploys as its own service.
+export default withEve(
+  withPayload(
+    withNextIntl(
+      withSearch(
+        withMarkdoc({ schemaPath: './src/markdoc', nextjsExports: [] })(
+          nextConfig,
+        ),
       ),
     ),
   ),

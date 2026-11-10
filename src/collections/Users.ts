@@ -10,6 +10,18 @@ export const toSlug = (value: string) =>
 export const Users: CollectionConfig = {
   slug: 'users',
   auth: true,
+  hooks: {
+    afterRead: [
+      // The dashboard AI search reads users through the MCP plugin
+      // (src/lib/mcp-plugin.ts). Login sessions aren't team data — never
+      // hand them to the model.
+      ({ doc, req }) => {
+        if (req.payloadAPI !== 'MCP') return doc
+        const { sessions: _sessions, apiKey: _apiKey, ...rest } = doc
+        return rest
+      },
+    ],
+  },
   admin: {
     ...adminOnlyCollection.admin,
     useAsTitle: 'email',

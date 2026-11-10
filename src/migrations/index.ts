@@ -15,6 +15,7 @@ import * as migration_20261030_141347_testimonials_drop_client_type from './2026
 import * as migration_20261030_142041_testimonials_rating_default from './20261030_142041_testimonials_rating_default';
 import * as migration_20261102_125233_industries_content_fields from './20261102_125233_industries_content_fields';
 import * as migration_20261102_134333_industries_how_we_help_heading from './20261102_134333_industries_how_we_help_heading';
+import * as migration_20261109_153339_mcp_api_keys from './20261109_153339_mcp_api_keys';
 
 export const migrations = [
   {
@@ -100,6 +101,11 @@ export const migrations = [
   {
     up: migration_20261102_134333_industries_how_we_help_heading.up,
     down: migration_20261102_134333_industries_how_we_help_heading.down,
-    name: '20261102_134333_industries_how_we_help_heading'
+    name: '20261102_134333_industries_how_we_help_heading',
+  },
+  {
+    up: migration_20261109_153339_mcp_api_keys.up,
+    down: migration_20261109_153339_mcp_api_keys.down,
+    name: '20261109_153339_mcp_api_keys'
   },
 ];

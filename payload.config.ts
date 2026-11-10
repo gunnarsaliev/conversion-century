@@ -36,6 +36,7 @@ import { exportAll } from './src/endpoints/exportAll'
 import { backupToR2, isAuthorized } from './src/endpoints/backupToR2'
 import { seoRedirects } from './src/endpoints/seoRedirects'
 import { withCmsRevalidation } from './src/lib/cms/revalidate'
+import { payloadMcpPlugin } from './src/lib/mcp-plugin'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -187,6 +188,9 @@ export default buildConfig({
         },
       }),
     }),
+
+    // Read-only MCP server at /api/mcp for the dashboard AI search (agent/).
+    payloadMcpPlugin,
   ],
 
   // Admin panel UI language.

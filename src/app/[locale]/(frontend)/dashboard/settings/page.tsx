@@ -12,7 +12,9 @@ import { PageHeaderBanner } from "@/components/dashboard/page-header-banner";
 export default async function SettingsPage() {
   const headers = await getHeaders();
   const payload = await getPayload({ config });
-  const { user } = await payload.auth({ headers });
+  // Only team members (not MCP API keys, which Payload's types also allow).
+  const { user: authUser } = await payload.auth({ headers });
+  const user = authUser?.collection === "users" ? authUser : null;
   const locale = await getLocale();
   const t = await getDashboardTranslations("Settings");
 

@@ -180,9 +180,10 @@ export const config = {
   matcher: [
     // Match all pathnames except for
     // - … if they start with `/api`, `/admin`, `/tools`, `/_next` or `/_vercel`
+    // - … the eve agent's routes (`/eve/…`, `/_eve_internal`, see agent/)
     // - … `/apple-icon` (src/app/apple-icon.tsx, served without an extension)
     // - … the ones containing a dot (e.g. `favicon.ico`)
-    '/((?!api|admin|tools|_next|_vercel|apple-icon|.*\\..*).*)',
+    '/((?!api|admin|tools|eve/|_eve_internal|_next|_vercel|apple-icon|.*\\..*).*)',
 
     // However, always match the `robots.txt` doc page (a page slug, not a
     // static file) — it would otherwise be excluded by the dot above.
@@ -190,11 +191,11 @@ export const config = {
 
     // And legacy page URLs from older sites (/about.html, /index.php), so
     // CMS redirects can catch them; without a rule they get the site 404.
-    '/((?!api|admin|tools|_next|_vercel).*\\.(?:html?|php|aspx?))',
+    '/((?!api|admin|tools|eve/|_eve_internal|_next|_vercel).*\\.(?:html?|php|aspx?))',
 
     // And paths that can't be a page (see isNonPagePath): dotfiles such as
     // `/.env`, and dotted first segments such as `/.well-known/x`.
     '/(\\.[^/]*)',
-    '/((?!api|admin|tools|_next|_vercel)[^/]*\\.[^/]*/.*)',
+    '/((?!api|admin|tools|eve/|_eve_internal|_next|_vercel)[^/]*\\.[^/]*/.*)',
   ],
 }

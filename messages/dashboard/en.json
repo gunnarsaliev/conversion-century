@@ -685,5 +685,24 @@
     "newLead": "New lead",
     "newClient": "New client",
     "newOffer": "New offer"
+  },
+  "AiSearch": {
+    "title": "Ask about your data",
+    "description": "Search clients, leads, offers, the team and website content in plain language.",
+    "label": "Ask a question",
+    "placeholder": "e.g. Which leads came in this week?",
+    "followUp": "Ask a follow-up…",
+    "send": "Send",
+    "stop": "Stop",
+    "newSearch": "New search",
+    "thinking": "Thinking…",
+    "searching": "Searching the database…",
+    "searched": "Searched the database",
+    "error": "Something went wrong. Please try again.",
+    "readOnly": "AI search is read-only and can make mistakes. Check important details on the record.",
+    "example1": "Which leads came in this week?",
+    "example2": "How many offers are waiting for a reply?",
+    "example3": "Who manages the most clients?",
+    "example4": "Show the latest consultations"
   }
 }

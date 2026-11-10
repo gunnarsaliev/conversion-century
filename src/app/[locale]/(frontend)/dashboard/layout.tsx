@@ -43,7 +43,9 @@ async function DashboardWithUser({
   // first render matches (no flash of an expanded sidebar).
   const sidebarState = (await cookies()).get("sidebar_state")?.value;
   const payload = await getPayload({ config });
-  const { user } = await payload.auth({ headers });
+  // Only team members (not MCP API keys, which Payload's types also allow).
+  const { user: authUser } = await payload.auth({ headers });
+  const user = authUser?.collection === "users" ? authUser : null;
   const locale = await getDashboardLocale();
   const messages = await getDashboardMessages(locale);
 

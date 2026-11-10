@@ -64,6 +64,7 @@ export type SupportedTimezones =
 export interface Config {
   auth: {
     users: UserAuthOperations;
+    'payload-mcp-api-keys': PayloadMcpApiKeyAuthOperations;
   };
   blocks: {};
   collections: {
@@ -89,6 +90,7 @@ export interface Config {
     redirects: Redirect;
     exports: Export;
     imports: Import;
+    'payload-mcp-api-keys': PayloadMcpApiKey;
     'payload-kv': PayloadKv;
     'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
@@ -131,6 +133,7 @@ export interface Config {
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     exports: ExportsSelect<false> | ExportsSelect<true>;
     imports: ImportsSelect<false> | ImportsSelect<true>;
+    'payload-mcp-api-keys': PayloadMcpApiKeysSelect<false> | PayloadMcpApiKeysSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -151,7 +154,7 @@ export interface Config {
   widgets: {
     collections: CollectionsWidget;
   };
-  user: User;
+  user: User | PayloadMcpApiKey;
   jobs: {
     tasks: {
       notifyContractRenewals: TaskNotifyContractRenewals;
@@ -167,6 +170,24 @@ export interface Config {
   };
 }
 export interface UserAuthOperations {
+  forgotPassword: {
+    email: string;
+    password: string;
+  };
+  login: {
+    email: string;
+    password: string;
+  };
+  registerFirstUser: {
+    email: string;
+    password: string;
+  };
+  unlock: {
+    email: string;
+    password: string;
+  };
+}
+export interface PayloadMcpApiKeyAuthOperations {
   forgotPassword: {
     email: string;
     password: string;
@@ -1402,7 +1423,7 @@ export interface PageMeta {
 export interface Redirect {
   id: number;
   /**
-   * Old path, e.g. /old-page (matches with or without /bg).
+   * Old path, e.g. /old-page (also matches /bg/old-page, unless that has its own row).
    */
   from: string;
   /**
@@ -1488,6 +1509,129 @@ export interface Import {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+}
+/**
+ * API keys control which collections, resources, tools, and prompts MCP clients can access
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-mcp-api-keys".
+ */
+export interface PayloadMcpApiKey {
+  id: number;
+  /**
+   * The user that the API key is associated with.
+   */
+  user: number | User;
+  /**
+   * A useful label for the API key.
+   */
+  label?: string | null;
+  /**
+   * The purpose of the API key.
+   */
+  description?: string | null;
+  clients?: {
+    /**
+     * Allow clients to find clients.
+     */
+    find?: boolean | null;
+  };
+  contacts?: {
+    /**
+     * Allow clients to find contacts.
+     */
+    find?: boolean | null;
+  };
+  workChecklist?: {
+    /**
+     * Allow clients to find work-checklist.
+     */
+    find?: boolean | null;
+  };
+  clientChecklistProgress?: {
+    /**
+     * Allow clients to find client-checklist-progress.
+     */
+    find?: boolean | null;
+  };
+  offers?: {
+    /**
+     * Allow clients to find offers.
+     */
+    find?: boolean | null;
+  };
+  services?: {
+    /**
+     * Allow clients to find services.
+     */
+    find?: boolean | null;
+  };
+  users?: {
+    /**
+     * Allow clients to find users.
+     */
+    find?: boolean | null;
+  };
+  blog?: {
+    /**
+     * Allow clients to find blog.
+     */
+    find?: boolean | null;
+  };
+  caseStudies?: {
+    /**
+     * Allow clients to find case-studies.
+     */
+    find?: boolean | null;
+  };
+  solutions?: {
+    /**
+     * Allow clients to find solutions.
+     */
+    find?: boolean | null;
+  };
+  industries?: {
+    /**
+     * Allow clients to find industries.
+     */
+    find?: boolean | null;
+  };
+  testimonials?: {
+    /**
+     * Allow clients to find testimonials.
+     */
+    find?: boolean | null;
+  };
+  events?: {
+    /**
+     * Allow clients to find events.
+     */
+    find?: boolean | null;
+  };
+  jobListings?: {
+    /**
+     * Allow clients to find job-listings.
+     */
+    find?: boolean | null;
+  };
+  pageMeta?: {
+    /**
+     * Allow clients to find page-meta.
+     */
+    find?: boolean | null;
+  };
+  redirects?: {
+    /**
+     * Allow clients to find redirects.
+     */
+    find?: boolean | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
+  collection: 'payload-mcp-api-keys';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1696,12 +1840,21 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'redirects';
         value: number | Redirect;
+      } | null)
+    | ({
+        relationTo: 'payload-mcp-api-keys';
+        value: number | PayloadMcpApiKey;
       } | null);
   globalSlug?: string | null;
-  user: {
-    relationTo: 'users';
-    value: number | User;
-  };
+  user:
+    | {
+        relationTo: 'users';
+        value: number | User;
+      }
+    | {
+        relationTo: 'payload-mcp-api-keys';
+        value: number | PayloadMcpApiKey;
+      };
   updatedAt: string;
   createdAt: string;
 }
@@ -1711,10 +1864,15 @@ export interface PayloadLockedDocument {
  */
 export interface PayloadPreference {
   id: number;
-  user: {
-    relationTo: 'users';
-    value: number | User;
-  };
+  user:
+    | {
+        relationTo: 'users';
+        value: number | User;
+      }
+    | {
+        relationTo: 'payload-mcp-api-keys';
+        value: number | PayloadMcpApiKey;
+      };
   key?: string | null;
   value?:
     | {
@@ -2619,6 +2777,100 @@ export interface ImportsSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-mcp-api-keys_select".
+ */
+export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
+  user?: T;
+  label?: T;
+  description?: T;
+  clients?:
+    | T
+    | {
+        find?: T;
+      };
+  contacts?:
+    | T
+    | {
+        find?: T;
+      };
+  workChecklist?:
+    | T
+    | {
+        find?: T;
+      };
+  clientChecklistProgress?:
+    | T
+    | {
+        find?: T;
+      };
+  offers?:
+    | T
+    | {
+        find?: T;
+      };
+  services?:
+    | T
+    | {
+        find?: T;
+      };
+  users?:
+    | T
+    | {
+        find?: T;
+      };
+  blog?:
+    | T
+    | {
+        find?: T;
+      };
+  caseStudies?:
+    | T
+    | {
+        find?: T;
+      };
+  solutions?:
+    | T
+    | {
+        find?: T;
+      };
+  industries?:
+    | T
+    | {
+        find?: T;
+      };
+  testimonials?:
+    | T
+    | {
+        find?: T;
+      };
+  events?:
+    | T
+    | {
+        find?: T;
+      };
+  jobListings?:
+    | T
+    | {
+        find?: T;
+      };
+  pageMeta?:
+    | T
+    | {
+        find?: T;
+      };
+  redirects?:
+    | T
+    | {
+        find?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  enableAPIKey?: T;
+  apiKey?: T;
+  apiKeyIndex?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

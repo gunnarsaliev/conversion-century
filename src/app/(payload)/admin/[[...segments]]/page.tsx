@@ -22,3 +22,9 @@ const Page = ({ params, searchParams }: Args) =>
   RootPage({ config, params, searchParams, importMap })
 
 export default Page
+
+// LOCAL CHANGE (re-apply if Payload regenerates this file): the admin renders
+// entirely at request time (auth cookies, uncached DB reads, params in
+// generateMetadata), so opt it out of Cache Components' static-shell / instant
+// validation instead of tripping the "runtime data in generateMetadata" error.
+export const instant = false

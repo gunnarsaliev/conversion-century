@@ -37,3 +37,7 @@ next-env.d.ts
 
 # Pre-import Bulgarian values written by scripts/translations-import.ts
 /translations/backup/
+
+# eve agent build output
+/.eve/
+/.output/

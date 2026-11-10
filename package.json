@@ -17,6 +17,9 @@
     "icons:sidebar": "node scripts/generate-sidebar-icons.mjs"
   },
   "browserslist": "defaults, not ie <= 11",
+  "engines": {
+    "node": ">=24"
+  },
   "dependencies": {
     "@algolia/autocomplete-core": "^1.19.2",
     "@aws-sdk/client-s3": "3.1125.0",
@@ -31,12 +34,13 @@
     "@lexical/rich-text": "0.41.0",
     "@lexical/selection": "0.41.0",
     "@lexical/utils": "0.41.0",
-    "@markdoc/markdoc": "^0.5.4",
+    "@markdoc/markdoc": "0.5.9",
     "@markdoc/next.js": "^0.5.0",
     "@next/third-parties": "16.3.8",
     "@payloadcms/db-postgres": "^3.88.0",
     "@payloadcms/next": "^3.88.0",
     "@payloadcms/plugin-import-export": "^3.88.0",
+    "@payloadcms/plugin-mcp": "3.88.0",
     "@payloadcms/richtext-lexical": "^3.88.0",
     "@payloadcms/storage-s3": "3.88.0",
     "@payloadcms/translations": "^3.88.0",
@@ -47,6 +51,7 @@
     "@tailwindcss/typography": "^0.5.16",
     "@types/react-highlight-words": "^0.20.0",
     "@vercel/speed-insights": "^2.0.0",
+    "ai": "^7.0.166",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -55,6 +60,7 @@
     "embla-carousel-auto-scroll": "^8.6.0",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
+    "eve": "1.0.0-rc.6",
     "fast-glob": "^3.3.3",
     "fflate": "0.8.3",
     "flexsearch": "^0.8.205",
