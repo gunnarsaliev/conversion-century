@@ -713,5 +713,15 @@
     "delete": "Delete chat",
     "deleted": "Chat deleted",
     "empty": "Your AI search chats will appear here."
+  },
+  "AiCards": {
+    "consultation": "Consultation",
+    "contact": "Contact",
+    "email": "Email",
+    "phone": "Phone",
+    "website": "Website",
+    "received": "Received",
+    "opensInNewTab": "Opens in a new tab",
+    "notFound": "These consultations couldn't be found. They may have been converted to leads or deleted."
   }
 }

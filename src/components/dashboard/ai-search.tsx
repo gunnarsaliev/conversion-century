@@ -8,6 +8,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import * as React from "react";
 
+import { ConsultationCards, consultationIds } from "@/components/dashboard/ai-search-cards";
 import { Button } from "@/components/ui/button";
 import { createChat, getChat, saveChat, type SavedChat } from "@/lib/ai-chat-actions";
 import { notifyChatsChanged } from "@/lib/ai-chat-events";
@@ -183,6 +184,14 @@ const Chat = ({ chat, onCreated, onNew }: ChatProps) => {
                 {message.parts.map((part, index) => {
                   if (part.type === "text") {
                     return <Markdown key={part.id ?? index} text={part.text} />;
+                  }
+                  // agent/tools/show_consultation.ts → consultation cards.
+                  if (
+                    part.type === "tool" &&
+                    part.name.endsWith("show_consultation") &&
+                    part.state === "completed"
+                  ) {
+                    return <ConsultationCards key={part.callId} ids={consultationIds(part.output)} />;
                   }
                   if (part.type === "tool" && part.kind !== "control") {
                     const running = part.state !== "completed" && part.state !== "failed";
