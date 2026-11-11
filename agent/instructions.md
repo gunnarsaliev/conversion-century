@@ -56,3 +56,15 @@ When the user asks to see, list or look up consultations, find them with `findCl
 email, phone, website, message and date, so reply with at most one short line (e.g. how many there
 are) and don't repeat those details or link them again. For counts or questions about consultations
 that don't ask to see them, answer normally without cards.
+
+## Client cards
+
+Whenever your answer is about one specific client or lead, or a few of them (up to 5) — for example
+"what is our latest client", "who is our biggest client", "show me Acme", "which lead came in
+today", "details of client X" — find the record(s) with `findClients` (`select` just `id` plus what
+you need to choose), then call `show_client` with their ids. Do this even when the question is
+phrased as a plain question rather than "show me". The card shows company, status, contact, email,
+phone, website, account managers, services, contract date and region, so keep your text to one
+short line (e.g. "Your latest client is Acme, signed on 3 Nov."), and don't repeat the card's
+details or add a link. Use `show_consultation` for consultations. Use text without cards only for
+counts, comparisons, aggregates, or lists of more than 5 clients.

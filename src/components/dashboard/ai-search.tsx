@@ -4,12 +4,20 @@ import Markdoc, { type Config, type Node } from "@markdoc/markdoc";
 import { activeTurn, openInteractions } from "eve/events";
 import { useEveAgent } from "eve/react";
 import { ArrowUp, Loader2, RotateCcw, Sparkles, Square } from "lucide-react";
+import dynamic from "next/dynamic";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
+import { useTheme } from "next-themes";
 import * as React from "react";
 
-import { ConsultationCards, consultationIds } from "@/components/dashboard/ai-search-cards";
+import { cardIds, ClientCards, ConsultationCards } from "@/components/dashboard/ai-search-cards";
 import { Button } from "@/components/ui/button";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupTextarea,
+} from "@/components/ui/input-group";
 import { createChat, getChat, saveChat, type SavedChat } from "@/lib/ai-chat-actions";
 import { notifyChatsChanged } from "@/lib/ai-chat-events";
 import { cn } from "@/lib/utils";
@@ -56,6 +64,72 @@ const Markdown = ({ text }: { text: string }) => {
     </div>
   );
 };
+
+// Animated WebGL orb above the empty state: src/components/shader5.tsx in
+// light mode, shader9.tsx in dark mode. Loaded in the browser only, so
+// three.js stays out of the server render and the initial bundle; a soft
+// circle stands in while it loads (and before the theme is known).
+const orbPlaceholder = () => <div className="size-full rounded-full bg-primary/15" />;
+const Shader5 = dynamic(() => import("@/components/shader5").then((mod) => mod.Shader5), {
+  ssr: false,
+  loading: orbPlaceholder,
+});
+const Shader9 = dynamic(() => import("@/components/shader9").then((mod) => mod.Shader9), {
+  ssr: false,
+  loading: orbPlaceholder,
+});
+// Stable, so the shader's uniforms aren't rebuilt on every keystroke.
+const SHADER_UNIFORMS = {};
+
+const ShaderOrb = () => {
+  // undefined until next-themes knows the theme on the client.
+  const { resolvedTheme } = useTheme();
+  const Shader = resolvedTheme === "dark" ? Shader9 : Shader5;
+
+  return (
+    <div className="mx-auto mb-5 size-24 overflow-hidden rounded-full sm:size-28">
+      {resolvedTheme === undefined ? (
+        orbPlaceholder()
+      ) : (
+        <Shader
+          key={resolvedTheme}
+          uniforms={SHADER_UNIFORMS}
+          className="h-full max-h-none min-h-0"
+        />
+      )}
+    </div>
+  );
+};
+
+// The assistant's avatar beside each reply (application-shell21's round slot).
+// The Conversion Century mark from src/app/icon.svg, inlined.
+const BrandMark = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 54.81 78.65" className={className} aria-hidden="true">
+    <polygon fill="#f5b51a" points="31.93,72.02 22.88,72.02 21.82,66.55 32.98,66.55" />
+    <path
+      fill="#f5b51a"
+      d="M35.23,9.51C33.11,6.3,30.53,3.13,27.4,0c-3.13,3.13-5.71,6.3-7.83,9.51H35.23z"
+    />
+    <path
+      fill="#3cb486"
+      d="M36.8,12.05H18.01c-4.58,7.9-6.45,16.08-6.45,24.67c0,13.03,9.77,27.29,9.77,27.29h6.07h6.07c0,0,9.77-14.26,9.77-27.29C43.25,28.13,41.38,19.94,36.8,12.05z M27.4,35.86c-3.43,0-6.22-2.78-6.22-6.22s2.78-6.22,6.22-6.22s6.22,2.78,6.22,6.22S30.84,35.86,27.4,35.86z"
+    />
+    <path
+      fill="#f5b51a"
+      d="M11.17,50.55C4.4,55.38,0,63.15,0,71.91c0,2.33,0.31,4.59,0.9,6.74c3.42-6.79,9.38-12.08,16.63-14.64C15.87,61.26,13.15,56.32,11.17,50.55z"
+    />
+    <path
+      fill="#f5b51a"
+      d="M43.63,50.55c-1.98,5.77-4.7,10.71-6.36,13.46c7.25,2.56,13.21,7.85,16.63,14.64c0.58-2.15,0.9-4.41,0.9-6.74C54.81,63.15,50.41,55.38,43.63,50.55z"
+    />
+  </svg>
+);
+
+const AssistantAvatar = () => (
+  <div className="flex size-7 shrink-0 items-center justify-center">
+    <BrandMark className="h-4 w-auto rotate-90" />
+  </div>
+);
 
 type ChatProps = {
   /** A saved chat to resume, or undefined for a new one. */
@@ -164,53 +238,66 @@ const Chat = ({ chat, onCreated, onNew }: ChatProps) => {
     >
       {!hasConversation && (
         <div className="my-auto pt-6 text-center">
-          <Sparkles className="mx-auto mb-3 size-8 text-primary" aria-hidden="true" />
+          <div aria-hidden="true">
+            <ShaderOrb />
+          </div>
           <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">{t("title")}</h1>
           <p className="mt-2 text-sm text-muted-foreground">{t("description")}</p>
         </div>
       )}
 
       {hasConversation && (
-        <div className="flex flex-col gap-5 pt-6" aria-live="polite">
+        <div className="flex flex-col gap-8 pt-6" aria-live="polite">
           {agent.messages.map((message) =>
             message.role === "user" ? (
               <div key={message.id} className="flex justify-end">
-                <p className="max-w-[85%] rounded-2xl bg-muted px-4 py-2 text-sm whitespace-pre-wrap">
+                <p className="max-w-[85%] rounded-2xl bg-muted px-4 py-2.5 text-sm whitespace-pre-wrap sm:max-w-[75%]">
                   {message.parts.map((part) => (part.type === "text" ? part.text : "")).join("")}
                 </p>
               </div>
             ) : (
-              <div key={message.id} className="flex flex-col gap-2">
-                {message.parts.map((part, index) => {
-                  if (part.type === "text") {
-                    return <Markdown key={part.id ?? index} text={part.text} />;
-                  }
-                  // agent/tools/show_consultation.ts → consultation cards.
-                  if (
-                    part.type === "tool" &&
-                    part.name.endsWith("show_consultation") &&
-                    part.state === "completed"
-                  ) {
-                    return <ConsultationCards key={part.callId} ids={consultationIds(part.output)} />;
-                  }
-                  if (part.type === "tool" && part.kind !== "control") {
-                    const running = part.state !== "completed" && part.state !== "failed";
-                    return (
-                      <p
-                        key={part.callId}
-                        className="flex items-center gap-1.5 text-xs text-muted-foreground"
-                      >
-                        {running ? (
-                          <Loader2 className="size-3 animate-spin" aria-hidden="true" />
-                        ) : (
-                          <Sparkles className="size-3" aria-hidden="true" />
-                        )}
-                        {running ? t("searching") : t("searched")}
-                      </p>
-                    );
-                  }
-                  return null;
-                })}
+              <div key={message.id} className="flex gap-3">
+                <AssistantAvatar />
+                <div className="flex min-w-0 flex-1 flex-col gap-2.5 pt-1">
+                  {message.parts.map((part, index) => {
+                    if (part.type === "text") {
+                      return <Markdown key={part.id ?? index} text={part.text} />;
+                    }
+                    // agent/tools/show_consultation.ts → consultation cards.
+                    if (
+                      part.type === "tool" &&
+                      part.name.endsWith("show_consultation") &&
+                      part.state === "completed"
+                    ) {
+                      return <ConsultationCards key={part.callId} ids={cardIds(part.output)} />;
+                    }
+                    // agent/tools/show_client.ts → client detail cards.
+                    if (
+                      part.type === "tool" &&
+                      part.name.endsWith("show_client") &&
+                      part.state === "completed"
+                    ) {
+                      return <ClientCards key={part.callId} ids={cardIds(part.output)} />;
+                    }
+                    if (part.type === "tool" && part.kind !== "control") {
+                      const running = part.state !== "completed" && part.state !== "failed";
+                      return (
+                        <p
+                          key={part.callId}
+                          className="flex items-center gap-1.5 text-xs text-muted-foreground"
+                        >
+                          {running ? (
+                            <Loader2 className="size-3 animate-spin" aria-hidden="true" />
+                          ) : (
+                            <Sparkles className="size-3" aria-hidden="true" />
+                          )}
+                          {running ? t("searching") : t("searched")}
+                        </p>
+                      );
+                    }
+                    return null;
+                  })}
+                </div>
               </div>
             ),
           )}
@@ -235,10 +322,13 @@ const Chat = ({ chat, onCreated, onNew }: ChatProps) => {
           ))}
 
           {isBusy && agent.messages.at(-1)?.role === "user" && (
-            <p className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-              {t("thinking")}
-            </p>
+            <div className="flex gap-3">
+              <AssistantAvatar />
+              <p className="flex items-center gap-2 pt-1 text-sm text-muted-foreground">
+                <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+                {t("thinking")}
+              </p>
+            </div>
           )}
 
           {expired ? (
@@ -278,56 +368,70 @@ const Chat = ({ chat, onCreated, onNew }: ChatProps) => {
         )}
 
         <form
-          className={cn(
-            "flex items-end gap-2 rounded-2xl border bg-background p-2 shadow-sm",
-            "focus-within:ring-3 focus-within:ring-ring/40",
-          )}
           onSubmit={(event) => {
             event.preventDefault();
             submit(draft);
           }}
         >
-          <label htmlFor="ai-search-input" className="sr-only">
-            {t("label")}
-          </label>
-          <textarea
-            id="ai-search-input"
-            ref={inputRef}
-            autoFocus
-            rows={1}
-            value={draft}
-            disabled={isResuming || expired}
-            placeholder={hasConversation ? t("followUp") : t("placeholder")}
-            onChange={(event) => setDraft(event.target.value)}
-            onKeyDown={(event) => {
-              if (event.key === "Enter" && !event.shiftKey && !event.nativeEvent.isComposing) {
-                event.preventDefault();
-                submit(draft);
-              }
-              if (event.key === "Escape" && hasConversation && !isBusy) reset();
-            }}
-            className="max-h-40 min-h-10 flex-1 resize-none bg-transparent px-2 py-2 text-base outline-none field-sizing-content placeholder:text-muted-foreground"
-          />
-          {hasConversation && !isBusy && (
-            <Button type="button" size="icon" variant="ghost" aria-label={t("newSearch")} onClick={reset}>
-              <RotateCcw aria-hidden="true" />
-            </Button>
-          )}
-          {isBusy ? (
-            <Button
-              type="button"
-              size="icon"
-              variant="secondary"
-              aria-label={t("stop")}
-              onClick={() => void agent.cancel()}
-            >
-              <Square aria-hidden="true" />
-            </Button>
-          ) : (
-            <Button type="submit" size="icon" aria-label={t("send")} disabled={!draft.trim() || isResuming}>
-              <ArrowUp aria-hidden="true" />
-            </Button>
-          )}
+          <InputGroup className="rounded-2xl bg-background shadow-sm">
+            <label htmlFor="ai-search-input" className="sr-only">
+              {t("label")}
+            </label>
+            <InputGroupTextarea
+              id="ai-search-input"
+              ref={inputRef}
+              autoFocus
+              rows={1}
+              value={draft}
+              disabled={isResuming || expired}
+              placeholder={hasConversation ? t("followUp") : t("placeholder")}
+              onChange={(event) => setDraft(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" && !event.shiftKey && !event.nativeEvent.isComposing) {
+                  event.preventDefault();
+                  submit(draft);
+                }
+                if (event.key === "Escape" && hasConversation && !isBusy) reset();
+              }}
+              className="max-h-40 min-h-14 text-base field-sizing-content"
+            />
+            <InputGroupAddon align="block-end">
+              {hasConversation && !isBusy && (
+                <InputGroupButton
+                  type="button"
+                  variant="ghost"
+                  size="icon-sm"
+                  aria-label={t("newSearch")}
+                  onClick={reset}
+                >
+                  <RotateCcw aria-hidden="true" />
+                </InputGroupButton>
+              )}
+              {isBusy ? (
+                <InputGroupButton
+                  type="button"
+                  variant="secondary"
+                  size="icon-sm"
+                  className="ml-auto rounded-full"
+                  aria-label={t("stop")}
+                  onClick={() => void agent.cancel()}
+                >
+                  <Square aria-hidden="true" />
+                </InputGroupButton>
+              ) : (
+                <InputGroupButton
+                  type="submit"
+                  variant="default"
+                  size="icon-sm"
+                  className="ml-auto rounded-full"
+                  aria-label={t("send")}
+                  disabled={!draft.trim() || isResuming}
+                >
+                  <ArrowUp aria-hidden="true" />
+                </InputGroupButton>
+              )}
+            </InputGroupAddon>
+          </InputGroup>
         </form>
 
         <p className="text-center text-xs text-muted-foreground">{t("readOnly")}</p>

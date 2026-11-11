@@ -722,6 +722,26 @@
     "website": "Website",
     "received": "Received",
     "opensInNewTab": "Opens in a new tab",
-    "notFound": "These consultations couldn't be found. They may have been converted to leads or deleted."
+    "notFound": "These consultations couldn't be found. They may have been converted to leads or deleted.",
+    "accountManagers": "Account managers",
+    "contractDate": "Contract date",
+    "region": "Region",
+    "services": "Services",
+    "clientNotFound": "This client couldn't be found. It may have been deleted.",
+    "industries": "Industries",
+    "businessSize": "Business size",
+    "size": {
+      "small-business": "Small business",
+      "midmarket": "Midmarket",
+      "enterprise": "Enterprise"
+    },
+    "publishers": "Publishers",
+    "copywriters": "Copywriters",
+    "since": "Added",
+    "sinceValue": "Added {ago}",
+    "offers": "Offers",
+    "offersValue": "{total, plural, one {# offer} other {# offers}} · {accepted} accepted ({value}){pending, plural, =0 {} other { · # pending}}",
+    "checklist": "Checklist",
+    "checklistValue": "Checklist {done}/{total} ({percent}%)"
   }
 }

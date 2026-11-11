@@ -722,6 +722,26 @@
     "website": "Уебсайт",
     "received": "Получена",
     "opensInNewTab": "Отваря се в нов раздел",
-    "notFound": "Тези консултации не бяха намерени. Може да са превърнати в лийдове или изтрити."
+    "notFound": "Тези консултации не бяха намерени. Може да са превърнати в лийдове или изтрити.",
+    "accountManagers": "Акаунт мениджъри",
+    "contractDate": "Дата на договора",
+    "region": "Регион",
+    "services": "Услуги",
+    "clientNotFound": "Този клиент не беше намерен. Може да е изтрит.",
+    "industries": "Индустрии",
+    "businessSize": "Размер на бизнеса",
+    "size": {
+      "small-business": "Малък бизнес",
+      "midmarket": "Среден бизнес",
+      "enterprise": "Голямо предприятие"
+    },
+    "publishers": "Публикуващи",
+    "copywriters": "Копирайтъри",
+    "since": "Добавен",
+    "sinceValue": "Добавен {ago}",
+    "offers": "Оферти",
+    "offersValue": "{total, plural, one {# оферта} other {# оферти}} · {accepted} приети ({value}){pending, plural, =0 {} other { · # чакащи}}",
+    "checklist": "Чеклист",
+    "checklistValue": "Чеклист {done}/{total} ({percent}%)"
   }
 }

@@ -1,11 +1,36 @@
 "use client";
 
-import { ArrowUpRight, CalendarDays, Globe, Mail, Phone, UserRound } from "lucide-react";
+import {
+  ArrowUpRight,
+  Briefcase,
+  Building2,
+  CalendarDays,
+  CircleCheck,
+  FileText,
+  Factory,
+  PenLine,
+  Send,
+  FileSignature,
+  Globe,
+  Mail,
+  MapPin,
+  Phone,
+  UserRound,
+} from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import * as React from "react";
 
-import { getConsultationCards, type ConsultationCardData } from "@/lib/ai-card-actions";
-import { formatDashboardDate } from "@/lib/dashboard-locale-shared";
+import { Badge } from "@/components/ui/badge";
+import {
+  getClientCards,
+  getConsultationCards,
+  type ClientCardData,
+  type ConsultationCardData,
+} from "@/lib/ai-card-actions";
+import { clientStatusBadgeClassName, isClientStatus } from "@/lib/client-status";
+import { formatDashboardDate, formatDashboardTimeAgo } from "@/lib/dashboard-locale-shared";
+import { regionLabel } from "@/lib/regions";
+import { cn } from "@/lib/utils";
 
 // ---------------------------------------------------------------------------
 // Cards the AI search renders for the agent's display tools (agent/tools/)
@@ -15,8 +40,8 @@ import { formatDashboardDate } from "@/lib/dashboard-locale-shared";
 // the signed-in user's session (src/lib/ai-card-actions.ts). Like every link
 // in the chat, a card opens its record in a new tab.
 
-/** Ids from a `show_consultation` tool output ({ ids: number[] }), or []. */
-export const consultationIds = (output: unknown): number[] => {
+/** Ids from a card tool's output ({ ids: number[] }), or []. */
+export const cardIds = (output: unknown): number[] => {
   const ids = (output as { ids?: unknown } | null)?.ids;
   return Array.isArray(ids) ? ids.filter((id): id is number => Number.isInteger(id)) : [];
 };
@@ -89,15 +114,14 @@ const Detail = ({
   </div>
 );
 
-/** The `show_consultation` tool's cards: loads the records, then lists them. */
-const ConsultationCards = ({ ids }: { ids: number[] }) => {
-  const t = useTranslations("AiCards");
-  const [cards, setCards] = React.useState<ConsultationCardData[] | null>(null);
+/** Loads a card tool's records (null while loading). */
+function useCards<T>(ids: number[], load: (ids: number[]) => Promise<T[]>) {
+  const [cards, setCards] = React.useState<T[] | null>(null);
   const key = ids.join(",");
 
   React.useEffect(() => {
     let cancelled = false;
-    getConsultationCards(key.split(",").map(Number))
+    load(key.split(",").map(Number))
       .catch(() => [])
       .then((result) => {
         if (!cancelled) setCards(result);
@@ -105,8 +129,22 @@ const ConsultationCards = ({ ids }: { ids: number[] }) => {
     return () => {
       cancelled = true;
     };
-  }, [key]);
+  }, [key, load]);
 
+  return cards;
+}
+
+const CardList = <T extends { id: number }>({
+  ids,
+  cards,
+  notFound,
+  render,
+}: {
+  ids: number[];
+  cards: T[] | null;
+  notFound: string;
+  render: (card: T) => React.ReactNode;
+}) => {
   if (cards === null) {
     return (
       <div className="grid gap-3" aria-busy="true">
@@ -116,18 +154,192 @@ const ConsultationCards = ({ ids }: { ids: number[] }) => {
       </div>
     );
   }
+  if (cards.length === 0) return <p className="text-sm text-muted-foreground">{notFound}</p>;
+  return <div className="grid gap-3">{cards.map(render)}</div>;
+};
 
-  if (cards.length === 0) {
-    return <p className="text-sm text-muted-foreground">{t("notFound")}</p>;
-  }
-
+/** The `show_consultation` tool's cards. */
+const ConsultationCards = ({ ids }: { ids: number[] }) => {
+  const t = useTranslations("AiCards");
+  const cards = useCards(ids, getConsultationCards);
   return (
-    <div className="grid gap-3">
-      {cards.map((card) => (
-        <ConsultationCard key={card.id} card={card} />
-      ))}
-    </div>
+    <CardList
+      ids={ids}
+      cards={cards}
+      notFound={t("notFound")}
+      render={(card) => <ConsultationCard key={card.id} card={card} />}
+    />
   );
 };
 
-export { ConsultationCards };
+// ---------------------------------------------------------------------------
+// Client detail card (agent/tools/show_client.ts)
+// ---------------------------------------------------------------------------
+
+const ClientCard = ({ card }: { card: ClientCardData }) => {
+  const t = useTranslations("AiCards");
+  const tStatus = useTranslations("Clients.status");
+  const locale = useLocale();
+  const statusLabel = isClientStatus(card.status) ? tStatus(card.status) : card.status;
+  // Falls back to the initial if the logo URL fails to load.
+  const [logoFailed, setLogoFailed] = React.useState(false);
+
+  return (
+    <a
+      href={`/dashboard/${card.section}/${card.id}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group flex flex-col gap-3 rounded-xl border bg-yellow-50 p-4 text-sm shadow-xs transition-colors outline-none hover:border-yellow-300 hover:bg-yellow-100 focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-yellow-950/30 dark:hover:border-yellow-800 dark:hover:bg-yellow-950/50"
+    >
+      <div className="flex items-start gap-3">
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-base font-semibold group-hover:underline">
+            {card.companyName}
+          </p>
+          <Badge
+            variant="secondary"
+            className={cn("mt-1 border-0", clientStatusBadgeClassName(card.status))}
+          >
+            {statusLabel}
+          </Badge>
+        </div>
+        {card.logoUrl && !logoFailed ? (
+          // eslint-disable-next-line @next/next/no-img-element -- CMS media URL (R2)
+          <img
+            src={card.logoUrl}
+            alt=""
+            onError={() => setLogoFailed(true)}
+            className="size-16 shrink-0 overflow-hidden rounded-xl object-contain"
+          />
+        ) : (
+          <div
+            aria-hidden="true"
+            className="flex size-16 shrink-0 items-center justify-center rounded-xl bg-muted text-2xl font-semibold text-muted-foreground"
+          >
+            {card.companyName.charAt(0).toUpperCase()}
+          </div>
+        )}
+        <ArrowUpRight
+          className="size-4 shrink-0 text-muted-foreground transition-colors group-hover:text-foreground"
+          aria-hidden="true"
+        />
+        <span className="sr-only">{t("opensInNewTab")}</span>
+      </div>
+
+      <dl className="grid gap-1.5 text-muted-foreground sm:grid-cols-2">
+        {card.contactName && (
+          <Detail icon={UserRound} label={t("contact")} value={card.contactName} />
+        )}
+        {card.email && <Detail icon={Mail} label={t("email")} value={card.email} />}
+        {card.phone && <Detail icon={Phone} label={t("phone")} value={card.phone} />}
+        {card.website && <Detail icon={Globe} label={t("website")} value={card.website} />}
+        {card.accountManagers.length > 0 && (
+          <Detail
+            icon={Briefcase}
+            label={t("accountManagers")}
+            value={card.accountManagers.join(", ")}
+          />
+        )}
+        {card.contractDate && (
+          <Detail
+            icon={FileSignature}
+            label={t("contractDate")}
+            value={formatDashboardDate(card.contractDate, locale)}
+          />
+        )}
+        {card.regions.length > 0 && (
+          <Detail
+            icon={MapPin}
+            label={t("region")}
+            value={card.regions.map((region) => regionLabel(region, locale)).join(", ")}
+          />
+        )}
+        {card.industries.length > 0 && (
+          <Detail icon={Factory} label={t("industries")} value={card.industries.join(", ")} />
+        )}
+        {card.businessSize && (
+          <Detail
+            icon={Building2}
+            label={t("businessSize")}
+            value={t(`size.${card.businessSize}`)}
+          />
+        )}
+        {card.publishers.length > 0 && (
+          <Detail icon={Send} label={t("publishers")} value={card.publishers.join(", ")} />
+        )}
+        {card.copywriters.length > 0 && (
+          <Detail icon={PenLine} label={t("copywriters")} value={card.copywriters.join(", ")} />
+        )}
+        <Detail
+          icon={CalendarDays}
+          label={t("since")}
+          value={t("sinceValue", { ago: formatDashboardTimeAgo(card.createdAt, locale) })}
+        />
+        {card.offers.total > 0 && (
+          <Detail
+            icon={FileText}
+            label={t("offers")}
+            value={t("offersValue", {
+              total: card.offers.total,
+              accepted: card.offers.accepted,
+              pending: card.offers.pending,
+              value: new Intl.NumberFormat(locale, {
+                style: "currency",
+                currency: "EUR",
+                maximumFractionDigits: 0,
+              }).format(card.offers.acceptedValue),
+            })}
+          />
+        )}
+        {card.checklist.total > 0 && (
+          <Detail
+            icon={CircleCheck}
+            label={t("checklist")}
+            value={t("checklistValue", {
+              done: card.checklist.done,
+              total: card.checklist.total,
+              percent: Math.round((card.checklist.done / card.checklist.total) * 100),
+            })}
+          />
+        )}
+      </dl>
+
+      {card.notes && (
+        <p className="line-clamp-3 rounded-lg bg-white/60 px-3 py-2 text-foreground/80 dark:bg-black/20">
+          {card.notes}
+        </p>
+      )}
+
+      {card.services.length > 0 && (
+        <div>
+          <p className="sr-only">{t("services")}</p>
+          <ul className="flex flex-wrap gap-1.5">
+            {card.services.map((service) => (
+              <li key={service}>
+                <Badge variant="outline" className="font-normal">
+                  {service}
+                </Badge>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </a>
+  );
+};
+
+/** The `show_client` tool's cards. */
+const ClientCards = ({ ids }: { ids: number[] }) => {
+  const t = useTranslations("AiCards");
+  const cards = useCards(ids, getClientCards);
+  return (
+    <CardList
+      ids={ids}
+      cards={cards}
+      notFound={t("clientNotFound")}
+      render={(card) => <ClientCard key={card.id} card={card} />}
+    />
+  );
+};
+
+export { ClientCards, ConsultationCards };
