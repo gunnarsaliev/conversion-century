@@ -21,6 +21,7 @@ interface Logos35Props {
   footer?: string;
   /** Optional "see all clients" link shown under the grid. */
   viewAllHref?: string;
+  viewAllLabel?: string;
   logos?: BrandLogo[];
   className?: string;
 }
@@ -52,6 +53,7 @@ const Logos35 = (props: Props) => {
     heading = t("heading"),
     footer = t("footer"),
     viewAllHref,
+    viewAllLabel = t("viewAll"),
     logos = defaultProps.logos!,
     className,
   } = props;
@@ -105,7 +107,7 @@ const Logos35 = (props: Props) => {
             href={viewAllHref}
             className="mx-auto mt-8 flex w-fit items-center gap-1.5 text-sm font-medium transition-colors hover:text-primary"
           >
-            {t("viewAll")}
+            {viewAllLabel}
             <ArrowRight className="size-4" />
           </Link>
         )}

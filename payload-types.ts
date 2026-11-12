@@ -89,6 +89,8 @@ export interface Config {
     'page-meta': PageMeta;
     redirects: Redirect;
     'ai-chats': AiChat;
+    'home-page': HomePage;
+    'about-page': AboutPage;
     exports: Export;
     imports: Import;
     'payload-mcp-api-keys': PayloadMcpApiKey;
@@ -133,6 +135,8 @@ export interface Config {
     'page-meta': PageMetaSelect<false> | PageMetaSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     'ai-chats': AiChatsSelect<false> | AiChatsSelect<true>;
+    'home-page': HomePageSelect<false> | HomePageSelect<true>;
+    'about-page': AboutPageSelect<false> | AboutPageSelect<true>;
     exports: ExportsSelect<false> | ExportsSelect<true>;
     imports: ImportsSelect<false> | ImportsSelect<true>;
     'payload-mcp-api-keys': PayloadMcpApiKeysSelect<false> | PayloadMcpApiKeysSelect<true>;
@@ -1472,6 +1476,290 @@ export interface AiChat {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-page".
+ */
+export interface HomePage {
+  id: number;
+  /**
+   * Only shown in the admin panel.
+   */
+  title: string;
+  hero?: {
+    heading?: string | null;
+    description?: string | null;
+    secondaryDescription?: string | null;
+    primaryCta?: {
+      label?: string | null;
+      href?: string | null;
+    };
+    secondaryCta?: {
+      label?: string | null;
+      href?: string | null;
+    };
+    socialProof?: string | null;
+    /**
+     * Client logos next to the social proof line.
+     */
+    avatars?:
+      | {
+          image: number | Media;
+          alt?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    highlights?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+    image?: (number | null) | Media;
+    imageAlt?: string | null;
+  };
+  clients?: {
+    eyebrow?: string | null;
+    heading?: string | null;
+    footer?: string | null;
+    viewAll?: {
+      label?: string | null;
+      href?: string | null;
+    };
+  };
+  intro?: {
+    heading?: string | null;
+    /**
+     * Separate paragraphs with a blank line.
+     */
+    paragraphs?: string | null;
+    stats?:
+      | {
+          value: string;
+          label: string;
+          id?: string | null;
+        }[]
+      | null;
+    cta?: {
+      label?: string | null;
+      href?: string | null;
+    };
+  };
+  services?: {
+    heading?: string | null;
+    description?: string | null;
+    items?:
+      | {
+          title: string;
+          description?: string | null;
+          href?: string | null;
+          icon?:
+            | ('Search' | 'Wrench' | 'FileText' | 'Globe' | 'Bot' | 'Link2' | 'BarChart3' | 'MapPin' | 'GraduationCap')
+            | null;
+          id?: string | null;
+        }[]
+      | null;
+    viewAll?: {
+      label?: string | null;
+      href?: string | null;
+    };
+  };
+  caseStudies?: {
+    heading?: string | null;
+    description?: string | null;
+    viewAll?: {
+      label?: string | null;
+      href?: string | null;
+    };
+  };
+  industries?: {
+    eyebrow?: string | null;
+    heading?: string | null;
+    description?: string | null;
+    items?:
+      | {
+          title: string;
+          description?: string | null;
+          href?: string | null;
+          icon?:
+            | ('Zap' | 'Palette' | 'Layers' | 'Rocket' | 'Blocks' | 'Globe' | 'Briefcase' | 'Plane' | 'GraduationCap')
+            | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  whyUs?: {
+    badge?: string | null;
+    heading?: string | null;
+    subheading?: string | null;
+    image?: (number | null) | Media;
+    imageAlt?: string | null;
+    /**
+     * The first half is shown left of the image, the rest right of it.
+     */
+    points?:
+      | {
+          title: string;
+          description?: string | null;
+          icon?: ('Users' | 'UserCheck' | 'BarChart3' | 'ShieldCheck' | 'Sparkles' | 'Handshake') | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  founderLetter?: {
+    eyebrow?: string | null;
+    heading?: string | null;
+    portrait?: (number | null) | Media;
+    portraitAlt?: string | null;
+    /**
+     * Separate paragraphs with a blank line.
+     */
+    quote?: string | null;
+    name?: string | null;
+    role?: string | null;
+    cta?: {
+      label?: string | null;
+      href?: string | null;
+    };
+  };
+  testimonials?: {
+    heading?: string | null;
+    viewAll?: {
+      label?: string | null;
+      href?: string | null;
+    };
+  };
+  blog?: {
+    badge?: string | null;
+    heading?: string | null;
+    description?: string | null;
+    viewAll?: {
+      label?: string | null;
+      href?: string | null;
+    };
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-page".
+ */
+export interface AboutPage {
+  id: number;
+  /**
+   * Only shown in the admin panel.
+   */
+  title: string;
+  hero?: {
+    eyebrow?: string | null;
+    heading?: string | null;
+    /**
+     * Separate paragraphs with a blank line.
+     */
+    paragraphs?: string | null;
+    cta?: {
+      label?: string | null;
+      href?: string | null;
+    };
+    image?: (number | null) | Media;
+    imageAlt?: string | null;
+  };
+  story?: {
+    eyebrow?: string | null;
+    heading?: string | null;
+    years?:
+      | {
+          year: string;
+          title: string;
+          /**
+           * Separate paragraphs with a blank line.
+           */
+          content?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  people?: {
+    eyebrow?: string | null;
+    heading?: string | null;
+    lead?: string | null;
+    /**
+     * Separate paragraphs with a blank line.
+     */
+    paragraphs?: string | null;
+  };
+  leadership?: {
+    eyebrow?: string | null;
+    heading?: string | null;
+    /**
+     * Separate paragraphs with a blank line.
+     */
+    intro?: string | null;
+    portrait?: (number | null) | Media;
+    portraitAlt?: string | null;
+    /**
+     * Separate paragraphs with a blank line.
+     */
+    quote?: string | null;
+    name?: string | null;
+    role?: string | null;
+  };
+  markets?: {
+    eyebrow?: string | null;
+    heading?: string | null;
+    lead?: string | null;
+    /**
+     * Line above the country list.
+     */
+    spans?: string | null;
+    countries?:
+      | {
+          /**
+           * Two-letter ISO 3166 country code (e.g. "de"). The flag and the translated name come from it.
+           */
+          code: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  partners?: {
+    eyebrow?: string | null;
+    heading?: string | null;
+    description?: string | null;
+  };
+  collaboration?: {
+    eyebrow?: string | null;
+    heading?: string | null;
+    lead?: string | null;
+    /**
+     * Separate paragraphs with a blank line.
+     */
+    paragraphs?: string | null;
+  };
+  mission?: {
+    eyebrow?: string | null;
+    statement?: string | null;
+    /**
+     * Separate paragraphs with a blank line.
+     */
+    paragraphs?: string | null;
+  };
+  principles?: {
+    eyebrow?: string | null;
+    heading?: string | null;
+    items?:
+      | {
+          title: string;
+          content?: string | null;
+          icon?: ('Search' | 'ShieldCheck' | 'MessagesSquare' | 'Sprout' | 'FlaskConical' | 'Handshake') | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "exports".
  */
 export interface Export {
@@ -1604,6 +1892,18 @@ export interface PayloadMcpApiKey {
   users?: {
     /**
      * Allow clients to find users.
+     */
+    find?: boolean | null;
+  };
+  homePage?: {
+    /**
+     * Allow clients to find home-page.
+     */
+    find?: boolean | null;
+  };
+  aboutPage?: {
+    /**
+     * Allow clients to find about-page.
      */
     find?: boolean | null;
   };
@@ -1879,6 +2179,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'ai-chats';
         value: number | AiChat;
+      } | null)
+    | ({
+        relationTo: 'home-page';
+        value: number | HomePage;
+      } | null)
+    | ({
+        relationTo: 'about-page';
+        value: number | AboutPage;
       } | null)
     | ({
         relationTo: 'payload-mcp-api-keys';
@@ -2774,6 +3082,297 @@ export interface AiChatsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-page_select".
+ */
+export interface HomePageSelect<T extends boolean = true> {
+  title?: T;
+  hero?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        secondaryDescription?: T;
+        primaryCta?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+        secondaryCta?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+        socialProof?: T;
+        avatars?:
+          | T
+          | {
+              image?: T;
+              alt?: T;
+              id?: T;
+            };
+        highlights?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        image?: T;
+        imageAlt?: T;
+      };
+  clients?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+        footer?: T;
+        viewAll?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+      };
+  intro?:
+    | T
+    | {
+        heading?: T;
+        paragraphs?: T;
+        stats?:
+          | T
+          | {
+              value?: T;
+              label?: T;
+              id?: T;
+            };
+        cta?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+      };
+  services?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        items?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              href?: T;
+              icon?: T;
+              id?: T;
+            };
+        viewAll?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+      };
+  caseStudies?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        viewAll?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+      };
+  industries?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+        description?: T;
+        items?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              href?: T;
+              icon?: T;
+              id?: T;
+            };
+      };
+  whyUs?:
+    | T
+    | {
+        badge?: T;
+        heading?: T;
+        subheading?: T;
+        image?: T;
+        imageAlt?: T;
+        points?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              icon?: T;
+              id?: T;
+            };
+      };
+  founderLetter?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+        portrait?: T;
+        portraitAlt?: T;
+        quote?: T;
+        name?: T;
+        role?: T;
+        cta?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+      };
+  testimonials?:
+    | T
+    | {
+        heading?: T;
+        viewAll?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+      };
+  blog?:
+    | T
+    | {
+        badge?: T;
+        heading?: T;
+        description?: T;
+        viewAll?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-page_select".
+ */
+export interface AboutPageSelect<T extends boolean = true> {
+  title?: T;
+  hero?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+        paragraphs?: T;
+        cta?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+        image?: T;
+        imageAlt?: T;
+      };
+  story?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+        years?:
+          | T
+          | {
+              year?: T;
+              title?: T;
+              content?: T;
+              id?: T;
+            };
+      };
+  people?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+        lead?: T;
+        paragraphs?: T;
+      };
+  leadership?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+        intro?: T;
+        portrait?: T;
+        portraitAlt?: T;
+        quote?: T;
+        name?: T;
+        role?: T;
+      };
+  markets?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+        lead?: T;
+        spans?: T;
+        countries?:
+          | T
+          | {
+              code?: T;
+              id?: T;
+            };
+      };
+  partners?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+        description?: T;
+      };
+  collaboration?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+        lead?: T;
+        paragraphs?: T;
+      };
+  mission?:
+    | T
+    | {
+        eyebrow?: T;
+        statement?: T;
+        paragraphs?: T;
+      };
+  principles?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+        items?:
+          | T
+          | {
+              title?: T;
+              content?: T;
+              icon?: T;
+              id?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "exports_select".
  */
 export interface ExportsSelect<T extends boolean = true> {
@@ -2870,6 +3469,16 @@ export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
         find?: T;
       };
   users?:
+    | T
+    | {
+        find?: T;
+      };
+  homePage?:
+    | T
+    | {
+        find?: T;
+      };
+  aboutPage?:
     | T
     | {
         find?: T;
@@ -3074,6 +3683,8 @@ export interface TaskCreateCollectionExport {
       | 'page-meta'
       | 'redirects'
       | 'ai-chats'
+      | 'home-page'
+      | 'about-page'
       | 'exports'
       | 'imports';
     drafts?: ('yes' | 'no') | null;

@@ -18,6 +18,7 @@ import { useState } from "react";
 import { cn } from "cn";
 
 import { Link } from "@/i18n/navigation";
+import type { CmsLink } from "@/lib/page-content";
 
 interface FeatureIconListItem {
   title: string;
@@ -33,7 +34,20 @@ interface FeatureIconListProps {
   className?: string;
 }
 
+// A card from the CMS; `icon` is a key of ICONS.
+interface Feature278Item {
+  title: string;
+  description?: string | null;
+  href?: string | null;
+  icon?: string | null;
+}
+
 interface Feature278Props extends FeatureIconListProps {
+  // Cards from the CMS, replacing the default ones. Their hrefs go through
+  // hiddenHrefs / localizedHrefs like the defaults.
+  items?: Feature278Item[];
+  // The "view all services" link under the cards.
+  viewAll?: CmsLink;
   // Default feature hrefs whose page isn't translated into the current
   // locale; those cards link to the services list instead.
   hiddenHrefs?: string[];
@@ -42,17 +56,30 @@ interface Feature278Props extends FeatureIconListProps {
 }
 type Props = Partial<Feature278Props>;
 
+// The icons a card can use, by the name stored in the CMS.
+const ICONS = {
+  Search,
+  Wrench,
+  FileText,
+  Globe,
+  Bot,
+  Link2,
+  BarChart3,
+  MapPin,
+  GraduationCap,
+};
+
 // Default copy lives in the `Feature278` messages, keyed like the icons.
 const DEFAULT_FEATURES = [
-  { key: "ongoingSeo", icon: <Search className="size-5" />, href: "/services/ongoing-seo-management" },
-  { key: "technicalSeo", icon: <Wrench className="size-5" />, href: "/services/technical-seo" },
-  { key: "contentStrategy", icon: <FileText className="size-5" />, href: "/services/content-strategy-and-copywriting" },
-  { key: "internationalSeo", icon: <Globe className="size-5" />, href: "/services/international-seo" },
-  { key: "aiSearch", icon: <Bot className="size-5" />, href: "/services/ai-search-optimization" },
-  { key: "digitalPr", icon: <Link2 className="size-5" />, href: "/services/link-building-and-digital-pr" },
-  { key: "audits", icon: <BarChart3 className="size-5" />, href: "/services/seo-audit" },
-  { key: "localSeo", icon: <MapPin className="size-5" />, href: "/services/local-seo" },
-  { key: "training", icon: <GraduationCap className="size-5" />, href: "/services/organic-search-training" },
+  { key: "ongoingSeo", icon: "Search", href: "/services/ongoing-seo-management" },
+  { key: "technicalSeo", icon: "Wrench", href: "/services/technical-seo" },
+  { key: "contentStrategy", icon: "FileText", href: "/services/content-strategy-and-copywriting" },
+  { key: "internationalSeo", icon: "Globe", href: "/services/international-seo" },
+  { key: "aiSearch", icon: "Bot", href: "/services/ai-search-optimization" },
+  { key: "digitalPr", icon: "Link2", href: "/services/link-building-and-digital-pr" },
+  { key: "audits", icon: "BarChart3", href: "/services/seo-audit" },
+  { key: "localSeo", icon: "MapPin", href: "/services/local-seo" },
+  { key: "training", icon: "GraduationCap", href: "/services/organic-search-training" },
 ] as const;
 
 const MAX_FEATURES = 9;
@@ -76,14 +103,30 @@ const Feature278 = (props: Props) => {
     description = t("description"),
     hiddenHrefs = [],
     localizedHrefs = {},
-    features = DEFAULT_FEATURES.map(({ key, icon, href }) => ({
-      icon,
-      href: hiddenHrefs.includes(href) ? undefined : (localizedHrefs[href] ?? href),
-      title: t(`features.${key}.title`),
-      description: t(`features.${key}.description`),
-    })),
+    items: cmsItems,
+    viewAll,
     className,
   } = props;
+  const cards: Feature278Item[] =
+    cmsItems && cmsItems.length > 0
+      ? cmsItems
+      : DEFAULT_FEATURES.map(({ key, icon, href }) => ({
+          icon,
+          href,
+          title: t(`features.${key}.title`),
+          description: t(`features.${key}.description`),
+        }));
+  const features =
+    props.features ??
+    cards.map(({ title, description, href, icon }): FeatureIconListItem => {
+      const Icon = ICONS[icon as keyof typeof ICONS];
+      return {
+        title,
+        description: description ?? "",
+        icon: Icon && <Icon className="size-5" />,
+        href: !href || hiddenHrefs.includes(href) ? undefined : (localizedHrefs[href] ?? href),
+      };
+    });
   const items = (features ?? []).slice(0, MAX_FEATURES);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
@@ -154,10 +197,10 @@ const Feature278 = (props: Props) => {
             })}
           </div>
           <Link
-            href="/services"
+            href={viewAll?.href || "/services"}
             className="mt-10 flex items-center gap-1.5 font-medium transition-colors hover:text-primary"
           >
-            {t("viewAll")}
+            {viewAll?.label || t("viewAll")}
             <ArrowRight className="size-4" />
           </Link>
         </div>

@@ -15,9 +15,12 @@ import { PartnerBadges } from "@/components/partner-badges";
 import { Button } from "@/components/ui/button";
 import type { TeamMember } from "@/lib/team-members";
 import { CmsImage } from "@/components/cms-image";
+import { mediaUrl } from "@/lib/client-testimonials";
+import type { AboutPage } from "../../payload-types";
 
-// Content of the About page (copy from "About US.md"), in the `About`
-// messages.
+// The sections of the About page. Each takes its tab of the `about-page`
+// collection as `content`; whatever is empty there (or all of it, without
+// `content`) falls back to the `About` messages and the defaults below.
 
 const HERO_IMAGE =
   "https://media.cc-hub.online/Cosmic%20Teamwork%20Around%20a%20Futuristic%20Table.png";
@@ -30,13 +33,16 @@ const STORY_YEARS = [
 const COUNTRY_CODES = ["us", "gb", "de", "ro", "gr", "hu", "fr", "es", "pt"] as const;
 
 const PRINCIPLES = [
-  { key: "understand", icon: Search },
-  { key: "ownership", icon: ShieldCheck },
-  { key: "communicate", icon: MessagesSquare },
-  { key: "longTerm", icon: Sprout },
-  { key: "learning", icon: FlaskConical },
-  { key: "partners", icon: Handshake },
+  { key: "understand", icon: "Search" },
+  { key: "ownership", icon: "ShieldCheck" },
+  { key: "communicate", icon: "MessagesSquare" },
+  { key: "longTerm", icon: "Sprout" },
+  { key: "learning", icon: "FlaskConical" },
+  { key: "partners", icon: "Handshake" },
 ] as const;
+
+// The icons a principle can use, by the name stored in the CMS.
+const PRINCIPLE_ICONS = { Search, ShieldCheck, MessagesSquare, Sprout, FlaskConical, Handshake };
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
@@ -64,32 +70,32 @@ function Paragraphs({ text, className }: { text: string; className?: string }) {
   );
 }
 
-export function AboutHero() {
+export function AboutHero({ content }: { content?: AboutPage["hero"] }) {
   const t = useTranslations("About.hero");
 
   return (
     <section className="container mx-auto grid items-center gap-12 py-16 lg:grid-cols-2 lg:gap-16 lg:py-24">
       <div>
-        <Eyebrow>{t("eyebrow")}</Eyebrow>
+        <Eyebrow>{content?.eyebrow || t("eyebrow")}</Eyebrow>
         <h1 className="mt-4 text-3xl leading-tight font-semibold tracking-[-1px] text-balance sm:text-5xl lg:text-6xl">
-          {t("heading")}
+          {content?.heading || t("heading")}
         </h1>
         <div className="mt-8 max-w-3xl space-y-4 text-lg text-muted-foreground">
-          <Paragraphs text={t("body")} />
+          <Paragraphs text={content?.paragraphs || t("body")} />
         </div>
         <Button
           className="mt-10 h-12 rounded-full px-6 text-[15px]"
-          render={<a href="#team" />}
+          render={<a href={content?.cta?.href || "#team"} />}
           nativeButton={false}
         >
-          {t("cta")}
+          {content?.cta?.label || t("cta")}
           <ArrowRight className="size-4" />
         </Button>
       </div>
       {/* The page's largest image above the fold, so it's preloaded. */}
       <Image
-        src={HERO_IMAGE}
-        alt={t("imageAlt")}
+        src={mediaUrl(content?.image) ?? HERO_IMAGE}
+        alt={content?.imageAlt || t("imageAlt")}
         width={1536}
         height={1024}
         sizes="(min-width: 1024px) 50vw, 100vw"
@@ -100,29 +106,36 @@ export function AboutHero() {
   );
 }
 
-export function AboutStory() {
+export function AboutStory({ content }: { content?: AboutPage["story"] }) {
   const t = useTranslations("About.story");
+  const years = content?.years?.length
+    ? content.years
+    : STORY_YEARS.map((year) => ({
+        year,
+        title: t(`years.${year}.title`),
+        content: t(`years.${year}.content`),
+      }));
 
   return (
     <section className="border-t border-border">
       <div className="container mx-auto grid gap-12 py-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-16 lg:py-24">
         <div className="lg:sticky lg:top-24 lg:self-start">
-          <Eyebrow>{t("eyebrow")}</Eyebrow>
+          <Eyebrow>{content?.eyebrow || t("eyebrow")}</Eyebrow>
           <div className="mt-3">
-            <SectionHeading>{t("heading")}</SectionHeading>
+            <SectionHeading>{content?.heading || t("heading")}</SectionHeading>
           </div>
         </div>
         <ol className="relative space-y-10 border-l border-border pl-8">
-          {STORY_YEARS.map((year) => (
+          {years.map(({ year, title, content: text }) => (
             <li key={year} className="relative">
               <span
                 aria-hidden="true"
                 className="absolute top-1.5 -left-[37px] size-[9px] rounded-full bg-primary ring-4 ring-background"
               />
               <p className="text-sm font-semibold text-primary">{year}</p>
-              <h3 className="mt-1 text-xl font-semibold tracking-tight">{t(`years.${year}.title`)}</h3>
+              <h3 className="mt-1 text-xl font-semibold tracking-tight">{title}</h3>
               <div className="mt-3 space-y-3 text-base leading-relaxed text-muted-foreground">
-                <Paragraphs text={t(`years.${year}.content`)} />
+                <Paragraphs text={text ?? ""} />
               </div>
             </li>
           ))}
@@ -132,7 +145,13 @@ export function AboutStory() {
   );
 }
 
-export function AboutPeople({ members }: { members: TeamMember[] }) {
+export function AboutPeople({
+  members,
+  content,
+}: {
+  members: TeamMember[];
+  content?: AboutPage["people"];
+}) {
   const t = useTranslations("About.people");
 
   return (
@@ -140,16 +159,16 @@ export function AboutPeople({ members }: { members: TeamMember[] }) {
       <div className="container mx-auto py-16 lg:py-24">
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-16">
           <div>
-            <Eyebrow>{t("eyebrow")}</Eyebrow>
+            <Eyebrow>{content?.eyebrow || t("eyebrow")}</Eyebrow>
             <div className="mt-3">
-              <SectionHeading>{t("heading")}</SectionHeading>
+              <SectionHeading>{content?.heading || t("heading")}</SectionHeading>
             </div>
             <p className="mt-6 text-lg text-muted-foreground">
-              {t("lead")}
+              {content?.lead || t("lead")}
             </p>
           </div>
           <div className="space-y-4 text-base leading-relaxed text-muted-foreground lg:pt-10">
-            <Paragraphs text={t("body")} />
+            <Paragraphs text={content?.paragraphs || t("body")} />
           </div>
         </div>
 
@@ -174,26 +193,31 @@ export function AboutPeople({ members }: { members: TeamMember[] }) {
   );
 }
 
-export function AboutMarkets() {
+export function AboutMarkets({ content }: { content?: AboutPage["markets"] }) {
   const t = useTranslations("About.markets");
   const locale = useLocale();
+  const countryCodes = content?.countries?.length
+    ? content.countries.map(({ code }) => code.toLowerCase())
+    : COUNTRY_CODES;
   const regionNames = new Intl.DisplayNames([locale], { type: "region" });
 
   return (
     <section className="border-t border-border">
       <div className="container mx-auto py-16 text-center lg:py-24">
         <div className="mx-auto max-w-3xl">
-          <Eyebrow>{t("eyebrow")}</Eyebrow>
+          <Eyebrow>{content?.eyebrow || t("eyebrow")}</Eyebrow>
           <div className="mt-3">
-            <SectionHeading>{t("heading")}</SectionHeading>
+            <SectionHeading>{content?.heading || t("heading")}</SectionHeading>
           </div>
           <p className="mt-6 text-lg text-muted-foreground">
-            {t("lead")}
+            {content?.lead || t("lead")}
           </p>
-          <p className="mt-8 text-sm font-medium text-foreground/80">{t("spans")}</p>
+          <p className="mt-8 text-sm font-medium text-foreground/80">
+            {content?.spans || t("spans")}
+          </p>
         </div>
         <ul className="mx-auto mt-4 flex max-w-4xl flex-wrap justify-center gap-2">
-          {COUNTRY_CODES.map((code) => (
+          {countryCodes.map((code) => (
             <li
               key={code}
               className="inline-flex items-center gap-2 rounded-full border border-border bg-muted/50 py-1.5 pr-4 pl-2 text-sm"
@@ -214,42 +238,42 @@ export function AboutMarkets() {
   );
 }
 
-export function AboutCollaboration() {
+export function AboutCollaboration({ content }: { content?: AboutPage["collaboration"] }) {
   const t = useTranslations("About.collaboration");
 
   return (
     <section className="border-t border-border">
       <div className="container mx-auto grid gap-8 py-16 lg:grid-cols-2 lg:gap-16 lg:py-24">
         <div>
-          <Eyebrow>{t("eyebrow")}</Eyebrow>
+          <Eyebrow>{content?.eyebrow || t("eyebrow")}</Eyebrow>
           <div className="mt-3">
-            <SectionHeading>{t("heading")}</SectionHeading>
+            <SectionHeading>{content?.heading || t("heading")}</SectionHeading>
           </div>
           <p className="mt-6 text-xl font-medium text-balance">
-            {t("lead")}
+            {content?.lead || t("lead")}
           </p>
         </div>
         <div className="space-y-4 text-base leading-relaxed text-muted-foreground lg:pt-10">
-          <Paragraphs text={t("body")} />
+          <Paragraphs text={content?.paragraphs || t("body")} />
         </div>
       </div>
     </section>
   );
 }
 
-export function AboutPartners() {
+export function AboutPartners({ content }: { content?: AboutPage["partners"] }) {
   const t = useTranslations("About.partners");
 
   return (
     <section className="border-t border-border">
       <div className="container mx-auto grid items-center gap-8 py-16 lg:grid-cols-2 lg:gap-16 lg:py-24">
         <div>
-          <Eyebrow>{t("eyebrow")}</Eyebrow>
+          <Eyebrow>{content?.eyebrow || t("eyebrow")}</Eyebrow>
           <div className="mt-3">
-            <SectionHeading>{t("heading")}</SectionHeading>
+            <SectionHeading>{content?.heading || t("heading")}</SectionHeading>
           </div>
           <p className="mt-6 text-base leading-relaxed text-muted-foreground">
-            {t("body")}
+            {content?.description || t("body")}
           </p>
         </div>
         <PartnerBadges
@@ -261,45 +285,55 @@ export function AboutPartners() {
   );
 }
 
-export function AboutMission() {
+export function AboutMission({ content }: { content?: AboutPage["mission"] }) {
   const t = useTranslations("About.mission");
 
   return (
     <section className="container mx-auto py-8 lg:py-12">
       <div className="rounded-3xl bg-muted/60 px-6 py-12 sm:px-12 lg:px-16 lg:py-16">
-        <Eyebrow>{t("eyebrow")}</Eyebrow>
+        <Eyebrow>{content?.eyebrow || t("eyebrow")}</Eyebrow>
         <p className="mt-4 max-w-4xl text-3xl leading-tight font-semibold tracking-tight text-balance lg:text-4xl">
-          {t("statement")}
+          {content?.statement || t("statement")}
         </p>
         <div className="mt-8 grid gap-6 text-base leading-relaxed text-muted-foreground md:grid-cols-2 md:gap-12">
-          <Paragraphs text={t("body")} />
+          <Paragraphs text={content?.paragraphs || t("body")} />
         </div>
       </div>
     </section>
   );
 }
 
-export function AboutPrinciples() {
+export function AboutPrinciples({ content }: { content?: AboutPage["principles"] }) {
   const t = useTranslations("About.principles");
+  const items = content?.items?.length
+    ? content.items
+    : PRINCIPLES.map(({ key, icon }) => ({
+        icon,
+        title: t(`items.${key}.title`),
+        content: t(`items.${key}.content`),
+      }));
 
   return (
     <section className="container mx-auto py-16 lg:py-24">
       <div className="max-w-3xl">
-        <Eyebrow>{t("eyebrow")}</Eyebrow>
+        <Eyebrow>{content?.eyebrow || t("eyebrow")}</Eyebrow>
         <div className="mt-3">
-          <SectionHeading>{t("heading")}</SectionHeading>
+          <SectionHeading>{content?.heading || t("heading")}</SectionHeading>
         </div>
       </div>
       <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {PRINCIPLES.map(({ key, icon: Icon }) => (
-          <li key={key} className="rounded-2xl border border-border bg-card p-6">
-            <span className="inline-flex size-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
-              <Icon className="size-5" />
-            </span>
-            <h3 className="mt-5 text-lg font-semibold tracking-tight">{t(`items.${key}.title`)}</h3>
-            <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{t(`items.${key}.content`)}</p>
-          </li>
-        ))}
+        {items.map(({ title, content: text, icon }) => {
+          const Icon = PRINCIPLE_ICONS[icon as keyof typeof PRINCIPLE_ICONS];
+          return (
+            <li key={title} className="rounded-2xl border border-border bg-card p-6">
+              <span className="inline-flex size-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                {Icon && <Icon className="size-5" />}
+              </span>
+              <h3 className="mt-5 text-lg font-semibold tracking-tight">{title}</h3>
+              <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{text}</p>
+            </li>
+          );
+        })}
       </ul>
     </section>
   );

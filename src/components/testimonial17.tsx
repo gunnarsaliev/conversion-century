@@ -14,6 +14,7 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { LogoImage } from "@/components/logo-image";
+import type { CmsLink } from "@/lib/page-content";
 
 export interface Testimonial17Item {
   quote: string;
@@ -27,6 +28,8 @@ interface Testimonial17Props {
   className?: string;
   heading?: string;
   testimonials?: Testimonial17Item[];
+  // The "read all reviews" link under the heading.
+  viewAll?: CmsLink;
 }
 
 const defaultTestimonials: Testimonial17Item[] = [
@@ -75,6 +78,7 @@ const Testimonial17 = ({
   className,
   heading,
   testimonials,
+  viewAll,
 }: Testimonial17Props) => {
   const t = useTranslations("Testimonial17");
   const [api, setApi] = useState<CarouselApi>();
@@ -110,10 +114,10 @@ const Testimonial17 = ({
               {heading ?? t("heading")}
             </h2>
             <Link
-              href="/reviews"
+              href={viewAll?.href || "/reviews"}
               className="flex items-center gap-1.5 font-medium transition-colors hover:text-primary"
             >
-              {t("viewAll")}
+              {viewAll?.label || t("viewAll")}
               <ArrowRight className="size-4" />
             </Link>
           </div>

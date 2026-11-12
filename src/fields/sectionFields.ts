@@ -18,6 +18,28 @@ export const paragraphs: Field = {
   admin: { description: 'Separate paragraphs with a blank line.' },
 }
 
+// `paragraphs` under another name (e.g. a quote or a statement).
+export const paragraphsField = (name: string): Field => ({
+  name,
+  type: 'textarea',
+  localized: true,
+  admin: { description: 'Separate paragraphs with a blank line.' },
+})
+
+// An image and its alt text: `<name>` and `<name>Alt`. Leave the alt empty
+// for decorative images.
+export const imageFields = (name: string): Field[] => [
+  { name, type: 'upload', relationTo: 'media' },
+  { name: `${name}Alt`, label: 'Alt text', type: 'text', localized: true },
+]
+
+// Icon picker for card lists; `icons` are lucide-react component names.
+export const iconField = (icons: readonly string[]): Field => ({
+  name: 'icon',
+  type: 'select',
+  options: icons.map((icon) => ({ label: icon, value: icon })),
+})
+
 // Payload arrays can't hold plain strings, so each list item is `{ text }`.
 export const listField = (name: string): Field => ({
   name,

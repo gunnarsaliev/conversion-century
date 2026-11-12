@@ -8,6 +8,7 @@ import { routing } from "@/i18n/routing";
 import { cmsCache } from "@/lib/cms/cache";
 import { Hero104 } from "@/components/hero104";
 import { getHomeHero } from "@/lib/home-hero";
+import { cmsImage, filled, getHomePage } from "@/lib/page-content";
 import { ClientLogos } from "@/components/client-logos";
 import type { Client, Media } from "../../../../payload-types";
 import { Feature13 } from "@/components/feature13";
@@ -116,11 +117,14 @@ export default async function WebsitePage({
 
   setRequestLocale(locale);
 
-  const [links, content, clientTestimonials, tCommon] = await Promise.all([
+  const [links, content, clientTestimonials, tCommon, home] = await Promise.all([
     menuLinks(locale),
     getHomeContent(locale),
     getClientTestimonials(),
     getTranslations("Common"),
+    // Section copy and images (the `home-page` collection). A field left
+    // empty there is passed as undefined, so the section's messages apply.
+    getHomePage(locale),
   ]);
   const { industryCards, caseStudyItems } = content;
 
@@ -143,21 +147,76 @@ export default async function WebsitePage({
           // the coefficients track the column width at each breakpoint.
           headingClassName="text-[length:calc(6.9vw-4px)] sm:text-[length:min(calc(6.9vw-6px),3.25rem)] md:text-[length:min(calc(6.9vw-6px),3.25rem)] lg:text-[length:min(calc(4.6vw-6.5px),3.25rem)]"
         />
-        <ClientLogos className={SECTION_SPACING} />
-        <Hero262 className={SECTION_SPACING} />
-        <Feature278 {...links} className={SECTION_SPACING} />
+        <ClientLogos
+          className={SECTION_SPACING}
+          eyebrow={filled(home?.clients?.eyebrow)}
+          heading={filled(home?.clients?.heading)}
+          footer={filled(home?.clients?.footer)}
+          viewAllHref={filled(home?.clients?.viewAll?.href)}
+          viewAllLabel={filled(home?.clients?.viewAll?.label)}
+        />
+        <Hero262
+          className={SECTION_SPACING}
+          heading={filled(home?.intro?.heading)}
+          description={filled(home?.intro?.paragraphs)}
+          stats={home?.intro?.stats?.length ? home.intro.stats : undefined}
+          ctaText={filled(home?.intro?.cta?.label)}
+          ctaUrl={filled(home?.intro?.cta?.href)}
+        />
+        <Feature278
+          {...links}
+          className={SECTION_SPACING}
+          heading={filled(home?.services?.heading)}
+          description={filled(home?.services?.description)}
+          items={home?.services?.items ?? undefined}
+          viewAll={home?.services?.viewAll}
+        />
         <CaseStudies8
           className={SECTION_SPACING}
+          title={filled(home?.caseStudies?.heading)}
+          description={filled(home?.caseStudies?.description)}
+          viewAll={home?.caseStudies?.viewAll}
           items={caseStudyItems.length > 0 ? caseStudyItems : undefined}
         />
-        <Feature13 {...links} className={SECTION_SPACING} industries={industryCards} />
-        <Feature104 className={SECTION_SPACING} />
-        <FounderLetter contentClassName={SECTION_SPACING} />
+        <Feature13
+          {...links}
+          className={SECTION_SPACING}
+          eyebrow={filled(home?.industries?.eyebrow)}
+          heading={filled(home?.industries?.heading)}
+          description={filled(home?.industries?.description)}
+          items={home?.industries?.items ?? undefined}
+          industries={industryCards}
+        />
+        <Feature104
+          className={SECTION_SPACING}
+          badge={filled(home?.whyUs?.badge)}
+          heading={filled(home?.whyUs?.heading)}
+          subheading={filled(home?.whyUs?.subheading)}
+          image={cmsImage(home?.whyUs?.image, home?.whyUs?.imageAlt)}
+          points={home?.whyUs?.points ?? undefined}
+        />
+        <FounderLetter
+          contentClassName={SECTION_SPACING}
+          eyebrow={filled(home?.founderLetter?.eyebrow)}
+          heading={filled(home?.founderLetter?.heading)}
+          portrait={cmsImage(home?.founderLetter?.portrait, home?.founderLetter?.portraitAlt)}
+          quote={filled(home?.founderLetter?.quote)}
+          name={filled(home?.founderLetter?.name)}
+          role={filled(home?.founderLetter?.role)}
+          ctaText={filled(home?.founderLetter?.cta?.label)}
+          ctaUrl={filled(home?.founderLetter?.cta?.href)}
+        />
         <Testimonial17
           className={SECTION_SPACING}
+          heading={filled(home?.testimonials?.heading)}
+          viewAll={home?.testimonials?.viewAll}
           testimonials={testimonials.length > 0 ? testimonials : undefined}
         />
-        <Blog12 className={SECTION_SPACING} posts={blogItems.length > 0 ? blogItems : undefined} />
+        <Blog12
+          className={SECTION_SPACING}
+          content={home?.blog}
+          posts={blogItems.length > 0 ? blogItems : undefined}
+        />
       </div>
     </>
   );

@@ -17,6 +17,7 @@ import * as migration_20261102_125233_industries_content_fields from './20261102
 import * as migration_20261102_134333_industries_how_we_help_heading from './20261102_134333_industries_how_we_help_heading';
 import * as migration_20261109_153339_mcp_api_keys from './20261109_153339_mcp_api_keys';
 import * as migration_20261110_120512_ai_chats from './20261110_120512_ai_chats';
+import * as migration_20261112_111449_home_about_pages from './20261112_111449_home_about_pages';
 
 export const migrations = [
   {
@@ -112,6 +113,11 @@ export const migrations = [
   {
     up: migration_20261110_120512_ai_chats.up,
     down: migration_20261110_120512_ai_chats.down,
-    name: '20261110_120512_ai_chats'
+    name: '20261110_120512_ai_chats',
+  },
+  {
+    up: migration_20261112_111449_home_about_pages.up,
+    down: migration_20261112_111449_home_about_pages.down,
+    name: '20261112_111449_home_about_pages'
   },
 ];

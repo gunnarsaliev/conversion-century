@@ -37,7 +37,18 @@ interface FeatureCardListProps {
   className?: string;
 }
 
+// A card from the CMS; `icon` is a key of ICONS.
+interface Feature13Item {
+  title: string;
+  description?: string | null;
+  href?: string | null;
+  icon?: string | null;
+}
+
 interface Feature13Props extends FeatureCardListProps {
+  // Cards from the CMS, replacing the default ones. They are filtered and
+  // linked like the defaults (see `industries`).
+  items?: Feature13Item[];
   // Default feature hrefs whose page isn't translated into the current
   // locale; those cards link to the industries list instead.
   hiddenHrefs?: string[];
@@ -52,16 +63,23 @@ type Props = Partial<Feature13Props>;
 
 // Default copy lives in the `Feature13` messages (`features.<key>`).
 const DEFAULT_FEATURES = [
-  { key: "b2b", icon: <Zap className="size-5" />, image: "saas-card-detail-1-4x3.svg", href: "/industries/b2b" },
-  { key: "ecommerce", icon: <Palette className="size-5" />, image: "saas-card-detail-2-4x3.svg", href: "/industries/ecommerce" },
-  { key: "professionalServices", icon: <Layers className="size-5" />, image: "saas-card-detail-3-4x3.svg", href: "/industries/professional-services" },
-  { key: "financialServices", icon: <Rocket className="size-5" />, image: "saas-card-detail-4-4x3.svg", href: "/industries/financial-sector" },
-  { key: "realEstate", icon: <Blocks className="size-5" />, image: "saas-card-detail-5-4x3.svg", href: "/industries/real-estate" },
-  { key: "healthcare", icon: <Globe className="size-5" />, image: "saas-card-detail-6-4x3.svg", href: "/industries/healthcare" },
-  { key: "legal", icon: <Briefcase className="size-5" />, image: "saas-card-detail-1-4x3.svg", href: "/industries" },
-  { key: "travel", icon: <Plane className="size-5" />, image: "saas-card-detail-2-4x3.svg", href: "/industries" },
-  { key: "education", icon: <GraduationCap className="size-5" />, image: "saas-card-detail-3-4x3.svg", href: "/industries" },
+  { key: "b2b", icon: "Zap", href: "/industries/b2b" },
+  { key: "ecommerce", icon: "Palette", href: "/industries/ecommerce" },
+  { key: "professionalServices", icon: "Layers", href: "/industries/professional-services" },
+  { key: "financialServices", icon: "Rocket", href: "/industries/financial-sector" },
+  { key: "realEstate", icon: "Blocks", href: "/industries/real-estate" },
+  { key: "healthcare", icon: "Globe", href: "/industries/healthcare" },
+  { key: "legal", icon: "Briefcase", href: "/industries" },
+  { key: "travel", icon: "Plane", href: "/industries" },
+  { key: "education", icon: "GraduationCap", href: "/industries" },
 ] as const;
+
+// The icons a card can use, by the name stored in the CMS.
+const ICONS = { Zap, Palette, Layers, Rocket, Blocks, Globe, Briefcase, Plane, GraduationCap };
+
+// Placeholder images (template art) for cards whose industry has none, by
+// card position.
+const PLACEHOLDER_IMAGES = [1, 2, 3, 4, 5, 6].map((n) => `saas-card-detail-${n}-4x3.svg`);
 
 const IMAGE_BASE =
   "https://deifkwefumgah.cloudfront.net/shadcnblocks/image-set/modern/saas-details/";
@@ -75,21 +93,40 @@ const Feature13 = (props: Props) => {
     hiddenHrefs = [],
     localizedHrefs = {},
     industries,
-    features = DEFAULT_FEATURES.flatMap(({ key, icon, image, href }): FeatureCardListItem[] => {
-      const industry = industries?.find((item) => item.href === href);
-      if (industries && (!industry || hiddenHrefs.includes(href))) return [];
-      return [
-        {
-          icon,
-          href: hiddenHrefs.includes(href) ? "/industries" : (localizedHrefs[href] ?? href),
-          title: t(`features.${key}.title`),
-          description: t(`features.${key}.description`),
-          image: { src: industry?.image ?? IMAGE_BASE + image, alt: t(`features.${key}.title`) },
-        },
-      ];
-    }),
+    items,
     className,
   } = props;
+  const cards: Feature13Item[] =
+    items && items.length > 0
+      ? items
+      : DEFAULT_FEATURES.map(({ key, icon, href }) => ({
+          icon,
+          href,
+          title: t(`features.${key}.title`),
+          description: t(`features.${key}.description`),
+        }));
+  const features =
+    props.features ??
+    cards.flatMap((card, index): FeatureCardListItem[] => {
+      const href = card.href || "/industries";
+      const industry = industries?.find((item) => item.href === href);
+      if (industries && (!industry || hiddenHrefs.includes(href))) return [];
+      const Icon = ICONS[card.icon as keyof typeof ICONS];
+      return [
+        {
+          icon: Icon && <Icon className="size-5" />,
+          href: hiddenHrefs.includes(href) ? "/industries" : (localizedHrefs[href] ?? href),
+          title: card.title,
+          description: card.description ?? "",
+          image: {
+            src:
+              industry?.image ??
+              IMAGE_BASE + PLACEHOLDER_IMAGES[index % PLACEHOLDER_IMAGES.length],
+            alt: card.title,
+          },
+        },
+      ];
+    });
 
   return (
     <section className={cn("py-32", className)}>

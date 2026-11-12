@@ -1,4 +1,4 @@
-import type { ClientUser } from 'payload'
+import type { ClientUser, CollectionSlug, PayloadRequest } from 'payload'
 
 // User roles:
 // - admin:  full access to everything.
@@ -33,6 +33,19 @@ export const adminOrEditor = ({ req: { user } }: AccessArgs) => isAdminOrEditor(
 // them from the editor's sidebar and admin routes.
 export const hiddenFromEditors = ({ user }: { user: ClientUser }) =>
   isEditor(user)
+
+// Access for a collection that holds a single document (the content of one
+// page): admins may create it only while the collection is empty, and nobody
+// deletes it. Spread into `access` and keep the collection's own `read`.
+export const singletonAccess = (slug: string) => ({
+  create: async ({ req }: { req: PayloadRequest }) => {
+    if (!isAdmin(req.user)) return false
+    const { totalDocs } = await req.payload.count({ collection: slug as CollectionSlug })
+    return totalDocs === 0
+  },
+  update: adminOnly,
+  delete: () => false,
+})
 
 // Shared config for collections that only admins manage: writes are
 // admin-only and the collection is hidden from editors. Spread into a

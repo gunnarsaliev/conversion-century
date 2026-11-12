@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { CmsImage } from "@/components/cms-image";
+import type { CmsLink } from "@/lib/page-content";
 
 export interface Blog12Post {
   title: string;
@@ -25,6 +26,13 @@ interface Blog12Props {
   posts?: Blog12Post[];
   /** Replaces the default heading and drops the badge and description. */
   heading?: string;
+  /** Section copy from the CMS; unlike `heading`, keeps badge and description. */
+  content?: {
+    badge?: string | null;
+    heading?: string | null;
+    description?: string | null;
+    viewAll?: CmsLink;
+  };
 }
 
 const defaultPosts: Blog12Post[] = [
@@ -75,7 +83,7 @@ const initials = (name: string) =>
     .join("")
     .toUpperCase();
 
-const Blog12 = ({ className, posts, heading }: Blog12Props) => {
+const Blog12 = ({ className, posts, heading, content }: Blog12Props) => {
   const items = posts && posts.length > 0 ? posts : defaultPosts;
   const t = useTranslations("Blog12");
 
@@ -85,15 +93,15 @@ const Blog12 = ({ className, posts, heading }: Blog12Props) => {
         <div className="mx-auto flex max-w-3xl flex-col items-center gap-4 text-center">
           {!heading && (
             <Badge variant="outline" className="gap-1 py-1">
-              <FileText className="h-full w-4" /> {t("badge")}
+              <FileText className="h-full w-4" /> {content?.badge || t("badge")}
             </Badge>
           )}
           <h2 className="text-3xl font-semibold text-balance md:text-4xl">
-            {heading ?? t("heading")}
+            {heading ?? (content?.heading || t("heading"))}
           </h2>
           {!heading && (
             <p className="text-muted-foreground">
-              {t("description")}
+              {content?.description || t("description")}
             </p>
           )}
         </div>
@@ -143,10 +151,10 @@ const Blog12 = ({ className, posts, heading }: Blog12Props) => {
             variant="outline"
             data-cta="blog"
             data-cta-location="latest_posts"
-            render={<Link href="/blog" />}
+            render={<Link href={content?.viewAll?.href || "/blog"} />}
             nativeButton={false}
           >
-            {t("viewAll")} <ArrowRight className="ml-2 h-full w-4" />
+            {content?.viewAll?.label || t("viewAll")} <ArrowRight className="ml-2 h-full w-4" />
           </Button>
         </div>
       </div>

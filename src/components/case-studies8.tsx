@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/carousel";
 import { CmsImage } from "@/components/cms-image";
 import { LogoImage } from "@/components/logo-image";
+import type { CmsLink } from "@/lib/page-content";
 
 interface CaseStudiesCarouselItem {
   id: string;
@@ -36,7 +37,10 @@ interface CaseStudiesCarouselProps {
 
 export type CaseStudies8Item = CaseStudiesCarouselItem;
 
-interface CaseStudies8Props extends CaseStudiesCarouselProps {}
+interface CaseStudies8Props extends CaseStudiesCarouselProps {
+  // The "view all case studies" link under the description.
+  viewAll?: CmsLink;
+}
 type Props = Partial<CaseStudies8Props>;
 
 // Placeholder items (template demo data) until real case studies are passed in.
@@ -109,6 +113,7 @@ const CaseStudies8 = (props: Props) => {
     title = t("title"),
     description = t("description"),
     items = defaultItems,
+    viewAll,
     className,
   } = props;
 
@@ -143,10 +148,10 @@ const CaseStudies8 = (props: Props) => {
             </h2>
             <p className="max-w-xl text-muted-foreground">{description}</p>
             <Link
-              href="/case-studies"
+              href={viewAll?.href || "/case-studies"}
               className="flex w-fit items-center gap-1.5 font-medium transition-colors hover:text-primary"
             >
-              {t("viewAll")}
+              {viewAll?.label || t("viewAll")}
               <ArrowRight className="size-4" />
             </Link>
           </div>

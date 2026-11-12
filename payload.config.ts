@@ -31,6 +31,8 @@ import { Notifications } from './src/collections/Notifications'
 import { PageMeta } from './src/collections/PageMeta'
 import { Redirects } from './src/collections/Redirects'
 import { AiChats } from './src/collections/AiChats'
+import { HomePage } from './src/collections/HomePage'
+import { AboutPage } from './src/collections/AboutPage'
 import { notifyContractRenewals } from './src/jobs/notifyContractRenewals'
 import { clearUploadedFileAfterProcessing } from './src/utilities/clearUploadedFile'
 import { exportAll } from './src/endpoints/exportAll'
@@ -82,6 +84,8 @@ export default buildConfig({
     withCmsRevalidation(PageMeta),
     Redirects,
     AiChats,
+    withCmsRevalidation(HomePage),
+    withCmsRevalidation(AboutPage),
   ],
 
   plugins: [

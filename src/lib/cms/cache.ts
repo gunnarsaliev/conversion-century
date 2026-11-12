@@ -3,11 +3,13 @@ import { cacheLife, cacheTag } from "next/cache";
 // Payload collections the public site reads. Each one is also the cache tag
 // that src/lib/cms/revalidate.ts expires when a doc in it changes.
 export type CmsCollection =
+  | "about-page"
   | "blog"
   | "case-studies"
   | "clients"
   | "contacts"
   | "events"
+  | "home-page"
   | "industries"
   | "job-listings"
   | "media"

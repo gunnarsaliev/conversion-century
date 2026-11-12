@@ -30,6 +30,8 @@ const collections: Record<string, string> = {
   // Team
   users: 'Team members: names, job titles, roles, status, birthdays and work anniversaries.',
   // Website content
+  'home-page': 'Copy and images of the home page (one document, a tab per section).',
+  'about-page': 'Copy and images of the About page (one document, a tab per section).',
   blog: 'Blog posts on the public website.',
   'case-studies': 'Case studies on the public website.',
   solutions: 'Solution pages on the public website.',

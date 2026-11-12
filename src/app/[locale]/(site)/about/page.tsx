@@ -13,6 +13,7 @@ import {
 import { FounderLetter } from "@/components/founder-letter";
 import { StaticPageJsonLd } from "@/components/static-page-json-ld";
 import { staticPageMetadata } from "@/lib/seo/pages";
+import { cmsImage, filled, getAboutPage } from "@/lib/page-content";
 import { getTeamMembers } from "@/lib/team-members";
 
 export async function generateMetadata() {
@@ -24,30 +25,39 @@ export default async function AboutPage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  setRequestLocale((await params).locale);
-  const members = await getTeamMembers(undefined, true);
-  const t = await getTranslations("About.leadership");
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const [members, t, about] = await Promise.all([
+    getTeamMembers(undefined, true),
+    getTranslations("About.leadership"),
+    // Section copy and images (the `about-page` collection); each section
+    // falls back to the `About` messages for whatever is empty there.
+    getAboutPage(locale),
+  ]);
+  const leadership = about?.leadership;
 
   return (
     <>
       <StaticPageJsonLd page="about" />
-      <AboutHero />
-      <AboutStory />
-      <AboutPeople members={members} />
+      <AboutHero content={about?.hero} />
+      <AboutStory content={about?.story} />
+      <AboutPeople members={members} content={about?.people} />
       <FounderLetter
         className="border-t border-border"
-        eyebrow={t("eyebrow")}
-        heading={t("heading")}
-        intro={t("intro")}
-        quote={t("quote")}
-        role={t("role")}
+        eyebrow={leadership?.eyebrow || t("eyebrow")}
+        heading={leadership?.heading || t("heading")}
+        intro={leadership?.intro || t("intro")}
+        portrait={cmsImage(leadership?.portrait, leadership?.portraitAlt)}
+        quote={leadership?.quote || t("quote")}
+        name={filled(leadership?.name)}
+        role={leadership?.role || t("role")}
         ctaText=""
       />
-      <AboutMarkets />
-      <AboutPartners />
-      <AboutCollaboration />
-      <AboutMission />
-      <AboutPrinciples />
+      <AboutMarkets content={about?.markets} />
+      <AboutPartners content={about?.partners} />
+      <AboutCollaboration content={about?.collaboration} />
+      <AboutMission content={about?.mission} />
+      <AboutPrinciples content={about?.principles} />
     </>
   );
 }

@@ -12,6 +12,7 @@
     "migrate:create": "node scripts/payload-esm.mjs migrate:create",
     "seed:solutions": "node scripts/payload-esm.mjs run scripts/seed-solutions.ts",
     "seed:offers": "node scripts/payload-esm.mjs run scripts/seed-offers.ts",
+    "seed:pages": "node scripts/payload-esm.mjs run scripts/seed-pages.ts",
     "translations:export": "node scripts/payload-esm.mjs run scripts/translations-export.ts",
     "translations:import": "node scripts/payload-esm.mjs run scripts/translations-import.ts",
     "icons:sidebar": "node scripts/generate-sidebar-icons.mjs"
