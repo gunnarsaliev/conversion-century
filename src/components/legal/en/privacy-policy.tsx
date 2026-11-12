@@ -44,7 +44,7 @@ export function PrivacyPolicyEn() {
           <br />
           VAT No. BG203901347
           <br />
-          Registered address and headquarters: Yakubitsa 19, Sofia, Bulgaria
+          Registered address and headquarters: Boulevard Nikola Vaptsarov 6, Sofia, Bulgaria
           <br />
           Tel. <a href="tel:+359896150980">+359 896 150 980</a>
           <br />

@@ -23,7 +23,7 @@ import type { ClientStatus } from "@/lib/client-status";
 //
 // Consultations, leads and clients are all Clients records, so each opens
 // the same create drawer with its status preselected. Offers are created in
-// their own editor at /offers/new. The drawer itself lives in the top bar,
+// their own editor at /dashboard/offers/new. The drawer itself lives in the top bar,
 // so the mobile account menu can open it too.
 
 const createClientEntries: { status: ClientStatus; key: string; icon: keyof typeof sidebarIcons }[] = [
@@ -32,7 +32,7 @@ const createClientEntries: { status: ClientStatus; key: string; icon: keyof type
   { status: "active", key: "newClient", icon: "clients" },
 ];
 
-const NEW_OFFER_HREF = "/offers/new";
+const NEW_OFFER_HREF = "/dashboard/offers/new";
 
 // The create entries as menu items, for any dropdown menu. Items open the
 // drawer from a plain onClick rather than nesting a dialog trigger, which

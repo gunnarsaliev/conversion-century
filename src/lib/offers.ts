@@ -149,7 +149,7 @@ export type OfferListItem = {
   offer: Offer;
 };
 
-// Every offer, newest first, for the /offers index.
+// Every offer, newest first, for the /dashboard/offers index.
 export const getOffers = cache(async (): Promise<OfferListItem[]> => {
   const payload = await getPayload({ config });
   const { docs } = await payload.find({

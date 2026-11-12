@@ -14,15 +14,8 @@ import { cn } from "@/lib/utils";
 const fileName = (response: Response, fallback: string) =>
   response.headers.get("content-disposition")?.match(/filename="?([^";]+)"?/)?.[1] ?? fallback;
 
-function PdfDownloadButton({
-  href,
-  children = "Изтегли офертата (PDF)",
-  className,
-}: {
-  href: string;
-  children?: React.ReactNode;
-  className?: string;
-}) {
+/** Downloads the PDF at `href`; `loading` until the file arrives. */
+function usePdfDownload(href: string) {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(false);
 
@@ -44,6 +37,20 @@ function PdfDownloadButton({
       setLoading(false);
     }
   };
+
+  return { download, loading, error };
+}
+
+function PdfDownloadButton({
+  href,
+  children = "Изтегли офертата (PDF)",
+  className,
+}: {
+  href: string;
+  children?: React.ReactNode;
+  className?: string;
+}) {
+  const { download, loading, error } = usePdfDownload(href);
 
   return (
     <div className="flex flex-col gap-2">
@@ -68,4 +75,4 @@ function PdfDownloadButton({
   );
 }
 
-export { PdfDownloadButton };
+export { PdfDownloadButton, usePdfDownload };

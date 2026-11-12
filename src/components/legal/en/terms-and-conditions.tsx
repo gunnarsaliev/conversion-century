@@ -11,7 +11,7 @@ export function TermsAndConditionsEn() {
         <p>
           <strong>Art. 1.</strong> (1) The current general terms define the
           conditions, under which Conversion Century Ltd., with registered
-          address and headquarters Yakubitsa 19, Sofia, Bulgaria, VAT No.
+          address and headquarters Boulevard Nikola Vaptsarov 6, Sofia, Bulgaria, VAT No.
           BG203901347 (referred hereinafter to as “Company”), provides
           service to its clients.
         </p>

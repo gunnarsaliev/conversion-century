@@ -19,8 +19,7 @@ export default async function OffersPage() {
         count={offers.length}
         description={t("description")}
         actions={
-          // Offers are edited in the admin panel.
-          <Link href="/offers/new" className={bannerPrimaryActionClassName}>
+          <Link href="/dashboard/offers/new" className={bannerPrimaryActionClassName}>
             <Plus className="size-4" aria-hidden="true" />
             {t("new")}
           </Link>

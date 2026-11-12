@@ -13,7 +13,7 @@ import {
   type FieldPath,
 } from "react-hook-form";
 
-import { createOffer, updateOffer } from "@/app/[locale]/(site)/offers/actions";
+import { createOffer, updateOffer } from "@/app/[locale]/(frontend)/dashboard/offers/actions";
 import { ComboboxRichContent } from "@/components/combobox-rich-content-4";
 import {
   fieldClassName,

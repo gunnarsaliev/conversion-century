@@ -154,6 +154,12 @@
     "legal": "Legal",
     "cookieSettings": "Cookie settings"
   },
+  "Contact": {
+    "phone": "Phone",
+    "email": "Email",
+    "address": "Address",
+    "officeAddress": "Boulevard Nikola Vaptsarov 6, Sofia, Bulgaria"
+  },
   "Forms": {
     "invalidInput": "Invalid input",
     "genericError": "Something went wrong. Please try again."

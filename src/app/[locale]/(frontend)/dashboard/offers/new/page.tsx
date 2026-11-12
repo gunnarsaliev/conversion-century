@@ -1,29 +1,24 @@
-import { Suspense } from "react";
-import type { Metadata } from "next";
 import { headers as getHeaders } from "next/headers";
 import { notFound } from "next/navigation";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
+import { PageHeaderBanner } from "@/components/dashboard/page-header-banner";
 import { OfferForm } from "@/components/offer/offer-form";
+import { getDashboardTranslations } from "@/lib/dashboard-locale";
 import type { OfferFormOptions } from "@/lib/offer-form";
 import { isAdmin } from "@/lib/roles";
 import { primaryContactName } from "@/lib/primary-contact";
-import { ArticleSkeleton } from "@/components/skeletons";
-
-export const metadata: Metadata = {
-  title: "Нова оферта",
-  robots: { index: false, follow: false },
-};
 
 // Offers are written in Bulgarian, so service names are read in `bg`.
 const OFFER_LOCALE = "bg";
 
 // Creates a record in the `offers` collection (admins only, like the admin panel).
-async function NewOfferPage() {
+export default async function NewOfferPage() {
   const payload = await getPayload({ config });
   const { user } = await payload.auth({ headers: await getHeaders() });
   if (!isAdmin(user)) notFound();
+  const t = await getDashboardTranslations("Offers");
 
   const [clients, services] = await Promise.all([
     payload.find({
@@ -63,27 +58,17 @@ async function NewOfferPage() {
   };
 
   return (
-    <section className="py-16">
-      <div className="container mx-auto max-w-3xl">
-        <h1 className="mb-4 text-4xl font-bold">Нова оферта</h1>
-        <p className="mb-10 text-muted-foreground">
-          Текстовете, общи за всички оферти, са в шаблона; тук попълвате само данните за клиента.
-        </p>
-        <OfferForm
-          options={options}
-          className="rounded-lg border bg-white p-6 shadow-xs sm:p-8 dark:bg-gray-800"
-        />
-      </div>
-    </section>
-  );
-}
+    <>
+      <PageHeaderBanner
+        title={t("new")}
+        description={t("newDescription")}
+        parent={{ label: t("title"), href: "/dashboard/offers" }}
+      />
 
-// Private and per user (session cookie), so it renders per request; the
-// layout and this skeleton show immediately.
-export default function NewOfferPageRoute() {
-  return (
-    <Suspense fallback={<ArticleSkeleton />}>
-      <NewOfferPage />
-    </Suspense>
+      <OfferForm
+        options={options}
+        className="mx-auto mt-4 w-full max-w-3xl rounded-lg border bg-white p-6 shadow-xs sm:mt-6 sm:p-8 dark:bg-gray-800"
+      />
+    </>
   );
 }

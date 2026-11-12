@@ -10,6 +10,7 @@ import { Logo, LogoImage } from "@/components/shadcnblocks/logo";
 import { NewsletterForm } from "@/components/newsletter-form";
 import { FooterLanguageSwitcher } from "@/components/footer-language-switcher";
 import { PartnerBadges } from "@/components/partner-badges";
+import { ContactDetails } from "@/components/contact-details";
 import { SeoCta } from "./cta-seo";
 
 // Link text lives in the `Footer` messages, keyed by section and link.
@@ -146,6 +147,7 @@ const Footer3 = ({
               </div>
             ))}
             <div className="sm:col-span-2">
+              <ContactDetails className="mb-8" />
               <ul className="mb-10 flex items-center gap-2 text-muted-foreground">
                 <li className="font-medium">
                   <a

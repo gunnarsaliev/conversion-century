@@ -5,6 +5,7 @@ import config from "@payload-config";
 
 import { clientSection } from "@/lib/client-status";
 import { getDashboardUser } from "@/lib/dashboard-auth";
+import { getOffer } from "@/lib/offers";
 import { primaryContactName } from "@/lib/primary-contact";
 
 // ---------------------------------------------------------------------------
@@ -248,4 +249,34 @@ export async function getClientCards(ids: number[]): Promise<ClientCardData[]> {
       },
     ];
   });
+}
+
+export type OfferCardData = {
+  id: number;
+  clientName: string;
+  /** Hours per service. */
+  lines: { service: string; hours: number }[];
+  /** Price in EUR after any discount; undefined when the offer has no price yet. */
+  total?: number;
+  discount?: number;
+  validUntil: string;
+};
+
+/** The offer the `create_offer` tool just created (agent/tools/create_offer.ts). */
+export async function getOfferCard(id: number): Promise<OfferCardData | null> {
+  const user = await getDashboardUser();
+  if (!user || !Number.isInteger(id) || id <= 0) return null;
+
+  const offer = await getOffer(String(id));
+  if (!offer) return null;
+
+  const pkg = offer.packages[0];
+  return {
+    id,
+    clientName: offer.client.name,
+    lines: pkg?.lines ?? [],
+    total: pkg ? pkg.price - (pkg.discount ? Math.round(pkg.price * pkg.discount) / 100 : 0) : undefined,
+    discount: pkg?.discount || undefined,
+    validUntil: offer.validUntil,
+  };
 }

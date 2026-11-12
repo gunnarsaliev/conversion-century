@@ -18,7 +18,8 @@ export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || DEFAULT_SITE_URL).r
 
 export const SITE_NAME = "Conversion Century";
 
-// Company details as published in the legal pages (src/components/legal).
+// Company details as published in the legal pages (src/components/legal),
+// the footer and the consultation page (`Contact.officeAddress` in the messages).
 export const ORGANIZATION = {
   name: SITE_NAME,
   legalName: "Conversion Century Ltd.",
@@ -26,7 +27,7 @@ export const ORGANIZATION = {
   email: "info@conversion-century.com",
   telephone: "+359 896 150 980",
   address: {
-    streetAddress: "Yakubitsa 19",
+    streetAddress: "Boulevard Nikola Vaptsarov 6",
     addressLocality: "Sofia",
     addressCountry: "BG",
   },

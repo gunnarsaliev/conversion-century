@@ -64,7 +64,6 @@ async function updateServicePrices(
 
     revalidatePath("/dashboard/pricelist");
     revalidatePath("/dashboard/offers");
-    revalidatePath("/offers");
 
     return { success: true };
   } catch {

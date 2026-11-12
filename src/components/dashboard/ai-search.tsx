@@ -10,7 +10,13 @@ import { useLocale, useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import * as React from "react";
 
-import { cardIds, ClientCards, ConsultationCards } from "@/components/dashboard/ai-search-cards";
+import {
+  cardIds,
+  ClientCards,
+  ConsultationCards,
+  createdOfferId,
+  OfferCreatedCard,
+} from "@/components/dashboard/ai-search-cards";
 import { Button } from "@/components/ui/button";
 import {
   InputGroup,
@@ -26,8 +32,9 @@ import { cn } from "@/lib/utils";
 // Dashboard AI search — talks to the eve agent in agent/ (/eve/v1/*)
 // ---------------------------------------------------------------------------
 //
-// Read-only questions about the Payload database. The agent answers in
-// markdown with relative links to dashboard records.
+// Questions about the Payload database, answered in markdown with relative
+// links to dashboard records. The agent only reads, except that it can
+// create an offer once the user approves it here (agent/tools/create_offer.ts).
 //
 // Chat history: each conversation is saved per user in Payload (`ai-chats`,
 // src/lib/ai-chat-actions.ts) and lives at `?chat=<id>`. The sidebar's
@@ -279,6 +286,28 @@ const Chat = ({ chat, onCreated, onNew }: ChatProps) => {
                     ) {
                       return <ClientCards key={part.callId} ids={cardIds(part.output)} />;
                     }
+                    // agent/tools/create_offer.ts → the new offer, with its PDF.
+                    // While it waits for approval, the prompt below stands in.
+                    if (part.type === "tool" && part.name.endsWith("create_offer")) {
+                      const offerId =
+                        part.state === "completed" ? createdOfferId(part.output) : null;
+                      if (offerId !== null) {
+                        return <OfferCreatedCard key={part.callId} id={offerId} />;
+                      }
+                      if (part.state === "approval") return null;
+                      const creating = part.state === "requested" || part.state === "running";
+                      return (
+                        <p
+                          key={part.callId}
+                          className="flex items-center gap-1.5 text-xs text-muted-foreground"
+                        >
+                          {creating && (
+                            <Loader2 className="size-3 animate-spin" aria-hidden="true" />
+                          )}
+                          {creating ? t("creatingOffer") : t("offerNotCreated")}
+                        </p>
+                      );
+                    }
                     if (part.type === "tool" && part.kind !== "control") {
                       const running = part.state !== "completed" && part.state !== "failed";
                       return (
@@ -304,7 +333,7 @@ const Chat = ({ chat, onCreated, onNew }: ChatProps) => {
 
           {pending.map(({ interactionId, request }) => (
             <div key={interactionId} className="rounded-lg border p-3 text-sm">
-              <p className="mb-2">{request.prompt}</p>
+              <p className="mb-2 whitespace-pre-line">{request.prompt}</p>
               <div className="flex flex-wrap gap-2">
                 {request.options?.map((option) => (
                   <Button

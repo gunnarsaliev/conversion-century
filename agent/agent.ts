@@ -2,7 +2,8 @@ import { defineAgent } from "eve";
 
 // Dashboard AI search: answers questions about the Payload database through
 // the read-only MCP connection in connections/payload.ts. No sandbox, shell
-// or file tools — the Payload tools are its only capability.
+// or file tools. Its one write is tools/create_offer.ts, which the user
+// approves in the chat before the app saves the offer.
 export default defineAgent({
   // Strongest tool-use model the AI Gateway free tier allows (Anthropic
   // models are plan-restricted there). With paid credits, consider

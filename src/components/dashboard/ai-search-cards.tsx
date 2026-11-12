@@ -6,12 +6,14 @@ import {
   Building2,
   CalendarDays,
   CircleCheck,
+  Download,
   FileText,
   Factory,
   PenLine,
   Send,
   FileSignature,
   Globe,
+  Loader2,
   Mail,
   MapPin,
   Phone,
@@ -20,12 +22,16 @@ import {
 import { useLocale, useTranslations } from "next-intl";
 import * as React from "react";
 
+import { usePdfDownload } from "@/components/offer/pdf-download-button";
 import { Badge } from "@/components/ui/badge";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   getClientCards,
   getConsultationCards,
+  getOfferCard,
   type ClientCardData,
   type ConsultationCardData,
+  type OfferCardData,
 } from "@/lib/ai-card-actions";
 import { clientStatusBadgeClassName, isClientStatus } from "@/lib/client-status";
 import { formatDashboardDate, formatDashboardTimeAgo } from "@/lib/dashboard-locale-shared";
@@ -342,4 +348,113 @@ const ClientCards = ({ ids }: { ids: number[] }) => {
   );
 };
 
-export { ClientCards, ConsultationCards };
+// ---------------------------------------------------------------------------
+// Created offer card (agent/tools/create_offer.ts)
+// ---------------------------------------------------------------------------
+
+/** The new offer's id from the `create_offer` tool's output, or null if it failed. */
+export const createdOfferId = (output: unknown): number | null => {
+  const id = (output as { id?: unknown } | null)?.id;
+  return typeof id === "number" && Number.isInteger(id) && id > 0 ? id : null;
+};
+
+/** The offer the agent just created, with its PDF download and a link to it. */
+const OfferCreatedCard = ({ id }: { id: number }) => {
+  const t = useTranslations("AiCards");
+  const locale = useLocale();
+  // undefined while loading, null when the offer can't be read (deleted).
+  const [card, setCard] = React.useState<OfferCardData | null | undefined>(undefined);
+  const pdf = usePdfDownload(`/offers/${id}/pdf`);
+
+  React.useEffect(() => {
+    let cancelled = false;
+    getOfferCard(id)
+      .catch(() => null)
+      .then((result) => {
+        if (!cancelled) setCard(result);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [id]);
+
+  if (card === undefined) {
+    return <div className="h-36 animate-pulse rounded-xl border bg-muted/40" aria-busy="true" />;
+  }
+  if (card === null) return <p className="text-sm text-muted-foreground">{t("offerNotFound")}</p>;
+
+  return (
+    <div className="flex flex-col gap-3 rounded-xl border bg-card p-4 text-sm shadow-xs">
+      <div className="min-w-0">
+        <p className="flex items-center gap-1.5 text-xs font-medium tracking-wide text-primary uppercase">
+          <CircleCheck className="size-3.5" aria-hidden="true" />
+          {t("offerCreated")}
+        </p>
+        <p className="truncate text-base font-semibold">{card.clientName}</p>
+      </div>
+
+      {card.lines.length > 0 && (
+        <ul className="flex flex-col gap-1 text-muted-foreground">
+          {card.lines.map((line, index) => (
+            <li key={index} className="flex justify-between gap-4">
+              <span className="min-w-0 truncate">{line.service}</span>
+              <span className="shrink-0 tabular-nums">
+                {t("serviceHours", { hours: line.hours })}
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <dl className="flex flex-wrap justify-between gap-x-6 gap-y-1 border-t pt-3">
+        <div className="flex gap-1.5">
+          <dt className="text-muted-foreground">{t("validUntil")}</dt>
+          <dd>{formatDashboardDate(card.validUntil, locale)}</dd>
+        </div>
+        {card.total !== undefined && (
+          <div className="flex gap-1.5">
+            <dt className="text-muted-foreground">{t("price")}</dt>
+            <dd className="font-semibold tabular-nums">
+              {new Intl.NumberFormat(locale, {
+                style: "currency",
+                currency: "EUR",
+                maximumFractionDigits: 2,
+              }).format(card.total)}
+              {card.discount ? (
+                <span className="font-normal text-muted-foreground"> (−{card.discount}%)</span>
+              ) : null}
+            </dd>
+          </div>
+        )}
+      </dl>
+
+      <div className="flex flex-wrap gap-2">
+        <Button type="button" size="lg" disabled={pdf.loading} onClick={pdf.download}>
+          {pdf.loading ? (
+            <Loader2 className="animate-spin motion-reduce:animate-none" aria-hidden="true" />
+          ) : (
+            <Download aria-hidden="true" />
+          )}
+          {t("downloadPdf")}
+        </Button>
+        <a
+          href={`/offers/${id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={buttonVariants({ variant: "outline", size: "lg" })}
+        >
+          {t("openOffer")}
+          <ArrowUpRight aria-hidden="true" />
+          <span className="sr-only">({t("opensInNewTab")})</span>
+        </a>
+      </div>
+      {pdf.error && (
+        <p role="alert" className="text-sm text-destructive">
+          {t("pdfFailed")}
+        </p>
+      )}
+    </div>
+  );
+};
+
+export { ClientCards, ConsultationCards, OfferCreatedCard };

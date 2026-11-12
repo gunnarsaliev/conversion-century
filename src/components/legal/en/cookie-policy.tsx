@@ -12,7 +12,7 @@ export function CookiePolicyEn() {
 
         <p>
           This Cookie Policy explains how Conversion Century Ltd. (VAT No.
-          BG203901347, Yakubitsa 19, Sofia, Bulgaria) uses cookies and similar
+          BG203901347, Boulevard Nikola Vaptsarov 6, Sofia, Bulgaria) uses cookies and similar
           technologies on its website.
         </p>
 

@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { ContactDetails } from "@/components/contact-details";
 import {
   checkboxClassName,
   fieldClassName,
@@ -107,6 +108,8 @@ const BookADemo2Header = ({ heading, description, avatars }: Header) => {
           description.text
         )}
       </p>
+
+      <ContactDetails className="items-center text-sm sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-6 sm:text-base" />
 
       <div className="pointer-events-none absolute inset-0 hidden lg:block">
         <BookADemo2Avatar
