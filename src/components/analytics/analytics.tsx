@@ -1,7 +1,9 @@
 import { Suspense } from 'react'
+import Script from 'next/script'
 import { GoogleTagManager } from '@next/third-parties/google'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
+import { CookieConsentBanner } from './cookie-consent'
 import { CtaClickTracker } from './cta-click-tracker'
 import { RouteChangeTracker } from './route-change-tracker'
 
@@ -9,11 +11,12 @@ import { RouteChangeTracker } from './route-change-tracker'
 // dashboard, docs and tools aren't tracked).
 //
 // GTM loads after hydration (next/script afterInteractive), off the critical
-// path. Cookiebot is loaded by GTM itself (Cookiebot CMP template on the
-// Consent Initialization trigger), which sets Consent Mode v2 defaults to
-// denied before any tag runs. Consent Mode runs in advanced mode: without
-// consent, Google tags still send cookieless pings (no identifiers), which
-// the cookie and privacy policies describe.
+// path. Just before it, CONSENT_DEFAULTS sets the Consent Mode v2 defaults:
+// denied, or what a returning visitor's consent cookie (`cc_cookie`, written
+// by our banner in cookie-consent.tsx) already allows. The banner sends the
+// update when the visitor answers. Consent Mode runs in advanced mode:
+// without consent, Google tags still send cookieless pings (no identifiers),
+// which the cookie and privacy policies describe.
 //
 // NEXT_PUBLIC_GTM_SCRIPT_URL: the script URL from Stape's Custom Loader
 // snippet (loads gtm.js from our sGTM subdomain, so ad blockers and ITP
@@ -21,6 +24,35 @@ import { RouteChangeTracker } from './route-change-tracker'
 // NEXT_PUBLIC_GTM_ID.
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID
 const GTM_SCRIPT_URL = process.env.NEXT_PUBLIC_GTM_SCRIPT_URL
+
+const CONSENT_DEFAULTS = `
+(function(w){
+  w.dataLayer=w.dataLayer||[];
+  function gtag(){w.dataLayer.push(arguments)}
+  var c=[];
+  try{
+    var m=document.cookie.match(/(?:^|; )cc_cookie=([^;]*)/);
+    if(m)c=JSON.parse(decodeURIComponent(m[1])).categories||[];
+  }catch(e){}
+  function s(n){return c.indexOf(n)>-1?'granted':'denied'}
+  var p=s('preferences'),a=s('analytics'),k=s('marketing');
+  // Same categories, mapping and defaults as Cookiebot.
+  gtag('consent','default',{
+    // "Necessary" in the banner: always allowed.
+    security_storage:'granted',
+    // "Preferences".
+    functionality_storage:p,personalization_storage:p,
+    // "Statistics".
+    analytics_storage:a,
+    // "Marketing".
+    ad_storage:k,ad_user_data:k,ad_personalization:k,
+    // How long tags wait for the banner's answer before using these.
+    wait_for_update:500
+  });
+  // Without marketing consent, ad requests carry no click identifiers.
+  gtag('set','ads_data_redaction',true);
+  gtag('set','url_passthrough',false);
+})(window);`
 
 export function Analytics() {
   // On whenever a GTM env var is set, independent of SITE_INDEXABLE, so the
@@ -32,6 +64,10 @@ export function Analytics() {
     <>
       {gtmEnabled && (
         <>
+          {/* Must stay above GoogleTagManager: scripts run in this order. */}
+          <Script id="consent-defaults" strategy="afterInteractive">
+            {CONSENT_DEFAULTS}
+          </Script>
           {GTM_SCRIPT_URL ? (
             // A Stape loader URL already encodes the container.
             <GoogleTagManager gtmScriptUrl={GTM_SCRIPT_URL} />
@@ -46,6 +82,7 @@ export function Analytics() {
           <CtaClickTracker />
         </>
       )}
+      <CookieConsentBanner />
       {/* Real-user Core Web Vitals (cookieless). */}
       <SpeedInsights />
     </>

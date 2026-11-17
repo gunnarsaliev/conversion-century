@@ -221,6 +221,9 @@ importers:
       typescript:
         specifier: ^5.8.3
         version: 5.9.3
+      vanilla-cookieconsent:
+        specifier: 3.3.0
+        version: 3.3.0
       zod:
         specifier: ^4.5.4
         version: 4.5.4
@@ -6585,6 +6588,9 @@ packages:
   validate-npm-package-name@7.0.2:
     resolution: {integrity: sha512-hVDIBwsRruT73PbK7uP5ebUt+ezEtCmzZz3F59BSr2F6OVFnJ/6h8liuvdLrQ88Xmnk6/+xGGuq+pG9WwTuy3A==}
     engines: {node: ^20.17.0 || >=22.9.0}
+
+  vanilla-cookieconsent@3.3.0:
+    resolution: {integrity: sha512-KkFJL9W9MAOC7ipSmk1CqTY1PHBViDU81jRBRWGw1Zhx5Y3nyAQ2COYwMpEG2z2SM75HNUIOwM7NnkSJe775Tw==}
 
   vary@1.1.2:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
@@ -13463,6 +13469,8 @@ snapshots:
   uuid@13.0.2: {}
 
   validate-npm-package-name@7.0.2: {}
+
+  vanilla-cookieconsent@3.3.0: {}
 
   vary@1.1.2: {}
 

@@ -24,7 +24,7 @@ const nextConfig = {
       './src/app/**/offer/*.png',
     ],
   },
-  // Security headers on every response. No full CSP yet: GTM/Cookiebot load
+  // Security headers on every response. No full CSP yet: GTM loads
   // third-party scripts, so a script-src policy needs testing against them.
   async headers() {
     return [

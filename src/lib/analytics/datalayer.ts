@@ -60,6 +60,36 @@ export function track(data: AnalyticsEvent) {
   )
 }
 
+// Consent Mode v2 update, sent by the cookie banner when the visitor answers
+// or changes their choice. The defaults are set in analytics.tsx before GTM
+// loads. Consent commands only work as an `arguments` object, which is why
+// this doesn't go through sendGTMEvent.
+export function updateConsent({
+  preferences,
+  analytics,
+  marketing,
+}: {
+  preferences: boolean
+  analytics: boolean
+  marketing: boolean
+}) {
+  if (typeof window === 'undefined') return
+  const w = window as unknown as { dataLayer?: unknown[] }
+  w.dataLayer = w.dataLayer || []
+  const ads = marketing ? 'granted' : 'denied'
+  const prefs = preferences ? 'granted' : 'denied'
+  ;(function gtag(..._args: unknown[]) {
+    w.dataLayer!.push(arguments)
+  })('consent', 'update', {
+    analytics_storage: analytics ? 'granted' : 'denied',
+    ad_storage: ads,
+    ad_user_data: ads,
+    ad_personalization: ads,
+    functionality_storage: prefs,
+    personalization_storage: prefs,
+  })
+}
+
 // First path segment after the locale prefix, used to group pages in
 // reports: "/bg/blog/foo" → "blog", "/" → "home".
 export function pageType(pathname: string) {

@@ -374,12 +374,12 @@ export function PrivacyPolicyEn() {
 
         <h3>Consent management</h3>
         <p>
-          We use Cookiebot (Usercentrics A/S, Havnegade 39, 1058 Copenhagen,
-          Denmark) to ask for and record your cookie choices. Cookiebot
-          stores your choice, an anonymous consent ID, the date and time of
-          consent and your anonymised IP address, as proof of consent
-          required by law (Art. 6(1)(c) and Art. 7(1) GDPR). Consent records
-          are kept for 12 months. You can withdraw your consent at any time
+          We ask for and record your cookie choices with a cookie banner
+          that runs on our own systems. We store your choice, a random
+          consent ID, the page you were on and the date and time of consent,
+          without your IP address, as proof of consent required by law (Art.
+          6(1)(c) and Art. 7(1) GDPR). Consent records are kept for as long
+          as we need to demonstrate your consent. You can withdraw your consent at any time
           with the &quot;Cookie settings&quot; link at the bottom of every
           page; withdrawal doesn&apos;t affect the lawfulness of processing
           before it.

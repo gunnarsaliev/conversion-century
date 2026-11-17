@@ -1,4 +1,3 @@
-import { CookieDeclaration } from "@/components/analytics/cookie-declaration";
 import { CookieSettingsButton } from "@/components/analytics/cookie-settings-button";
 import { Link } from "@/i18n/navigation";
 import { EXTERNAL_LINK_REL } from "@/lib/external-link";
@@ -9,7 +8,7 @@ export function CookiePolicyBg() {
       <div className="prose dark:prose-invert max-w-none">
         <h1>Политика за бисквитките</h1>
         <p className="text-muted-foreground">
-          Последна актуализация: 29 октомври 2026 г.
+          Последна актуализация: 12 ноември 2026 г.
         </p>
 
         <p>
@@ -44,9 +43,9 @@ export function CookiePolicyBg() {
             се само с вашето съгласие.
           </li>
           <li>
-            <strong>Маркетинг</strong> – в момента не използваме маркетингови
-            или рекламни бисквитки. Ако започнем, първо ще поискаме съгласието
-            ви.
+            <strong>Маркетинг</strong> – използват се, за да измерваме
+            рекламата си и да ви показваме реклами според интересите ви.
+            Записват се само с вашето съгласие.
           </li>
         </ul>
 
@@ -54,12 +53,12 @@ export function CookiePolicyBg() {
         <p>
           При първото ви посещение банер за бисквитки ви пита кои незадължителни
           бисквитки разрешавате. Докато не направите избор, се записват само
-          необходимите бисквитки. Банерът се предоставя от Cookiebot
-          (Usercentrics A/S, Havnegade 39, 1058 Копенхаген, Дания), който
-          съхранява избора ви в бисквитката <code>CookieConsent</code> за 12
-          месеца и пази анонимен запис за него като доказателство за
-          съгласието. Можете да промените или оттеглите съгласието си по
-          всяко време:
+          необходимите бисквитки. Банерът работи на нашите собствени системи.
+          Той съхранява избора ви в бисквитката <code>cc_cookie</code> за 6
+          месеца, а ние пазим анонимен запис за него (случаен идентификатор,
+          какво сте избрали, страницата и часа, без вашия IP адрес) като
+          доказателство за съгласието. Можете да промените или оттеглите
+          съгласието си по всяко време:
         </p>
         <p>
           <CookieSettingsButton label="Промяна или оттегляне на съгласието" />
@@ -76,12 +75,12 @@ export function CookiePolicyBg() {
             </thead>
             <tbody className="align-top">
               <tr className="border-b">
-                <td className="py-2 pr-4 font-mono">CookieConsent</td>
+                <td className="py-2 pr-4 font-mono">cc_cookie</td>
                 <td className="py-2 pr-4">
-                  Съхранява избора ви за бисквитките (Cookiebot).
+                  Съхранява избора ви за бисквитките.
                 </td>
                 <td className="py-2 pr-4">Бисквитка, необходима</td>
-                <td className="py-2">12 месеца</td>
+                <td className="py-2">6 месеца</td>
               </tr>
               <tr className="border-b">
                 <td className="py-2 pr-4 font-mono">NEXT_LOCALE</td>
@@ -137,11 +136,6 @@ export function CookiePolicyBg() {
             </tbody>
           </table>
         </div>
-        <p>
-          Списъкът по-долу се поддържа актуален автоматично от Cookiebot,
-          който редовно сканира уебсайта:
-        </p>
-        <CookieDeclaration locale="bg" />
 
         <h2>Анализ на уебсайта</h2>
         <p>
