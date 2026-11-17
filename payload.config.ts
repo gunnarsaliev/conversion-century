@@ -135,6 +135,8 @@ export default buildConfig({
         'events',
         'testimonials',
         'offers',
+        'home-page',
+        'about-page',
       ].map((slug) => ({
         slug: slug as CollectionSlug,
         export: { disableJobsQueue: true },
