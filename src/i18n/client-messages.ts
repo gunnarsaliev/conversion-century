@@ -12,6 +12,7 @@ const CLIENT_NAMESPACES = [
   'CaseStudies8',
   'Common',
   'Consultation',
+  'Contact',
   'Faq28',
   'Feature278',
   'Logos35',
