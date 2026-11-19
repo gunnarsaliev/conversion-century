@@ -737,7 +737,8 @@
     "related": "Related articles",
     "updatedOn": "updated <time>{date}</time>",
     "categories": "Categories",
-    "latest": "Latest blog posts"
+    "latest": "Latest blog posts",
+    "faq": "Frequently asked questions"
   },
   "SolutionHero": {
     "secondaryCta": "Explore Our Results",

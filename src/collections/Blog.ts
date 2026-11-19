@@ -110,6 +110,23 @@ export const Blog: CollectionConfig = {
       localized: true,
     },
     {
+      name: 'faqs',
+      label: 'FAQs',
+      type: 'array',
+      labels: { singular: 'FAQ', plural: 'FAQs' },
+      admin: { initCollapsed: true },
+      fields: [
+        { name: 'question', type: 'text', required: true, localized: true },
+        {
+          name: 'answer',
+          type: 'richText',
+          editor: lexicalEditor(),
+          required: true,
+          localized: true,
+        },
+      ],
+    },
+    {
       name: 'meta',
       label: 'SEO',
       type: 'group',

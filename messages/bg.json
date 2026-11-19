@@ -192,17 +192,17 @@
     "services": {
       "label": "Услуги",
       "intro": "Разгледайте SEO услугите, които предлагаме",
-      "viewAll": "Всички услуги",
+      "viewAll": "Всички SEO услуги",
       "items": {
-        "ongoingSeoManagement": "Цялостно SEO управление",
+        "ongoingSeoManagement": "Месечна SEO оптимизация",
         "aiSearchOptimization": "Оптимизация за AI търсене",
         "seoAudit": "SEO одит",
         "internationalSeo": "Международно SEO",
-        "localSeo": "Локално SEO",
+        "localSeo": "Локална SEO оптимизация",
         "technicalSeo": "Техническо SEO",
-        "contentStrategy": "Съдържателна стратегия и копирайтинг",
+        "contentStrategy": "SEO съдържание и копирайтинг",
         "linkBuilding": "Линк билдинг и дигитален PR",
-        "organicSearchTraining": "Обучение по органично търсене"
+        "organicSearchTraining": "SEO обучение за екипи"
       },
       "descriptions": {
         "ongoingSeoManagement": "Посветен екип, който движи органичния ви растеж всеки месец.",
@@ -219,16 +219,16 @@
     "solutions": {
       "label": "Решения",
       "intro": "Намерете решението, което отговаря на вашата цел",
-      "viewAll": "Всички решения",
+      "viewAll": "Всички SEO решения",
       "items": {
-        "growOrganicRevenue": "Увеличете органичните приходи",
-        "enterNewMarkets": "Навлезте на нови пазари",
-        "recoverLostTraffic": "Възстановете изгубен трафик",
-        "migrateWithoutLosingSeo": "Миграция без загуба на SEO",
-        "improveVisibilityInAi": "Видимост в AI търсенето",
-        "outsourcedSeoDepartment": "Изнесен SEO отдел",
-        "reduceAdDependence": "По-малка зависимост от реклами",
-        "launchSeoReadyWebsite": "Стартирайте SEO-готов уебсайт"
+        "growOrganicRevenue": "Увеличаване приходите от органичен трафик",
+        "enterNewMarkets": "Навлизане на нови пазари",
+        "recoverLostTraffic": "Възстановяване на органичен трафик",
+        "migrateWithoutLosingSeo": "Миграция на сайт",
+        "improveVisibilityInAi": "Подобряване видимостта в AI",
+        "outsourcedSeoDepartment": "Изграждане на външен SEO екип",
+        "reduceAdDependence": "Намаляване зависимостта от реклами",
+        "launchSeoReadyWebsite": "Цялостно SEO за нов сайт"
       }
     },
     "industries": {
@@ -236,21 +236,21 @@
       "intro": "Разгледайте решения, съобразени с вашата индустрия",
       "viewAll": "Всички индустрии",
       "items": {
-        "b2b": "B2B",
-        "ecommerce": "Електронна търговия",
-        "professionalServices": "Професионални услуги",
-        "financialSector": "Финансов сектор",
-        "realEstate": "Недвижими имоти",
-        "healthcare": "Здравеопазване"
+        "b2b": "SEO за B2B компании",
+        "ecommerce": "SEO за онлайн магазини",
+        "professionalServices": "SEO за професионални услуги",
+        "financialSector": "SEO за финансови компании",
+        "realEstate": "SEO за недвижими имоти",
+        "healthcare": "SEO за здравеопазване"
       }
     },
     "proof": {
-      "label": "Доказателства",
+      "label": "Резултати",
       "intro": "Резултати и отзиви от бизнесите, с които работим",
       "items": {
-        "clients": "Клиенти",
-        "caseStudies": "Казуси",
-        "reviews": "Отзиви"
+        "clients": "Нашите клиенти",
+        "caseStudies": "SEO резултати",
+        "reviews": "Отзиви от клиенти"
       }
     },
     "about": {
@@ -266,12 +266,12 @@
       "intro": "Най-новите анализи, ръководства и добри практики в индустрията."
     },
     "insights": {
-      "label": "Знания",
+      "label": "Ресурси",
       "intro": "Ръководства, чеклисти и събития, които да изострят вашето SEO.",
       "items": {
         "blog": "Блог",
         "checklists": "Чеклисти",
-        "eventsAndMedia": "Събития и медии"
+        "eventsAndMedia": "Медии и събития"
       }
     },
     "cta": "Запазете БЕЗПЛАТНА консултация",
@@ -737,7 +737,8 @@
     "related": "Свързани статии",
     "updatedOn": "обновено на <time>{date}</time>",
     "categories": "Категории",
-    "latest": "Последни статии от блога"
+    "latest": "Последни статии от блога",
+    "faq": "Често задавани въпроси"
   },
   "SolutionHero": {
     "secondaryCta": "Вижте нашите резултати",

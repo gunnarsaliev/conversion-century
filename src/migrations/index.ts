@@ -18,6 +18,8 @@ import * as migration_20261102_134333_industries_how_we_help_heading from './202
 import * as migration_20261109_153339_mcp_api_keys from './20261109_153339_mcp_api_keys';
 import * as migration_20261110_120512_ai_chats from './20261110_120512_ai_chats';
 import * as migration_20261112_111449_home_about_pages from './20261112_111449_home_about_pages';
+import * as migration_20261119_144523_blog_faqs from './20261119_144523_blog_faqs';
+import * as migration_20261119_150743_blog_faq_answer_richtext from './20261119_150743_blog_faq_answer_richtext';
 
 export const migrations = [
   {
@@ -118,6 +120,16 @@ export const migrations = [
   {
     up: migration_20261112_111449_home_about_pages.up,
     down: migration_20261112_111449_home_about_pages.down,
-    name: '20261112_111449_home_about_pages'
+    name: '20261112_111449_home_about_pages',
+  },
+  {
+    up: migration_20261119_144523_blog_faqs.up,
+    down: migration_20261119_144523_blog_faqs.down,
+    name: '20261119_144523_blog_faqs',
+  },
+  {
+    up: migration_20261119_150743_blog_faq_answer_richtext.up,
+    down: migration_20261119_150743_blog_faq_answer_richtext.down,
+    name: '20261119_150743_blog_faq_answer_richtext'
   },
 ];

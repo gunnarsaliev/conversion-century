@@ -9,7 +9,9 @@ import { Blogpost5, type RelatedPost } from "@/components/blogpost5";
 import { JsonLd } from "@/components/json-ld";
 import { buildMetadata, mediaImage, truncate } from "@/lib/seo/metadata";
 import { localizedDocPath, pageBreadcrumbs } from "@/lib/seo/pages";
-import { blogPostingSchema, graph, personSchema } from "@/lib/seo/schema";
+import { blogPostingSchema, faqSchema, graph, personSchema } from "@/lib/seo/schema";
+import { richTextToPlainText } from "@/lib/rich-text-to-plain-text";
+import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 import { authorPath, localizedUrl, toLocale } from "@/lib/seo/site";
 import { findByLocalizedSlug, translated } from "@/utilities/findByLocalizedSlug";
 import { BLOG_CATEGORIES, blogCategoryPath, isBlogCategory } from "@/lib/blog-categories";
@@ -221,6 +223,18 @@ export default async function BlogPostPage({
     href: blogCategoryPath(category),
   }));
 
+  // Rows missing a question or answer in this locale are skipped.
+  const faqs = (post.faqs ?? []).flatMap((faq) =>
+    faq.question && faq.answer && richTextToPlainText(faq.answer)
+      ? [{ id: faq.id, question: faq.question, answer: faq.answer as SerializedEditorState }]
+      : [],
+  );
+  // Structured data needs the answers as plain text.
+  const faqSchemaItems = faqs.map((faq) => ({
+    question: faq.question,
+    answer: richTextToPlainText(faq.answer),
+  }));
+
   const seoLocale = toLocale(locale);
   const path = await localizedDocPath("blog", post.id, "/blog");
   const [relatedPosts, usedCategories, latest, tCommon] = await Promise.all([
@@ -272,6 +286,7 @@ export default async function BlogPostPage({
                   })
                 : null,
           }),
+          faqSchema(faqSchemaItems),
         )}
       />
       <Blogpost5
@@ -289,6 +304,7 @@ export default async function BlogPostPage({
         allCategories={allCategories}
         featuredImage={featuredImage?.url ?? undefined}
         content={post.content ?? undefined}
+        faqs={faqs}
         locale={locale as "en" | "bg"}
       />
       {latestPosts.length > 0 && (

@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { ShareButtons } from "@/components/share-buttons";
 import { PostRichText } from "@/components/blog-rich-text";
+import { Faq1, type FaqItem } from "@/components/faq1";
 import { TableOfContents } from "@/components/table-of-contents";
 import { CmsImage } from "@/components/cms-image";
 
@@ -47,6 +48,8 @@ interface Blogpost5Props {
   allCategories?: { label: string; href: string }[];
   featuredImage?: string;
   content?: SerializedEditorState;
+  // Shown after the article.
+  faqs?: FaqItem[];
   locale?: "en" | "bg";
   className?: string;
 }
@@ -66,6 +69,7 @@ const Blogpost5 = ({
   allCategories = [],
   featuredImage,
   content,
+  faqs = [],
   locale = "en",
   className,
 }: Blogpost5Props) => {
@@ -188,6 +192,7 @@ const Blogpost5 = ({
                 <PostRichText data={content} locale={locale} />
               </div>
             )}
+            <Faq1 heading={t("faq")} items={faqs} className="pt-12 pb-0" />
           </div>
           {/* Below the article on mobile, beside it on desktop. */}
           <div className="order-2 flex h-fit flex-col text-sm lg:sticky lg:top-8 lg:order-none lg:col-span-3 lg:col-start-10 lg:text-xs">
