@@ -1,5 +1,6 @@
 import { type Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { locale as rootLocale } from 'next/root-params'
 import { Montserrat } from 'next/font/google'
 import clsx from 'clsx'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
@@ -30,13 +31,13 @@ export function generateStaticParams() {
 
 type Props = {
   children: React.ReactNode
-  params: Promise<{ locale: string }>
 }
 
-export async function generateMetadata({
-  params,
-}: Omit<Props, 'children'>): Promise<Metadata> {
-  const { locale } = await params
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await rootLocale()
+  if (!hasLocale(routing.locales, locale)) {
+    notFound()
+  }
   const t = await getTranslations({ locale, namespace: 'LocaleLayout' })
 
   return {
@@ -57,8 +58,12 @@ export async function generateMetadata({
   }
 }
 
-export default async function LocaleLayout({ children, params }: Props) {
-  const { locale } = await params
+export default async function LocaleLayout({ children }: Props) {
+  // From next/root-params rather than the `params` prop: awaiting `params` at
+  // the top of the root layout trips Cache Components' "runtime data during
+  // prerendering" check, and the locale can't go in <Suspense> (it sets
+  // <html lang>).
+  const locale = await rootLocale()
   if (!hasLocale(routing.locales, locale)) {
     notFound()
   }

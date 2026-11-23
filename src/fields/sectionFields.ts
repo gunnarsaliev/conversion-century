@@ -109,7 +109,9 @@ export const metaExtraFields: Field[] = [
   },
 ]
 
-export const metaFields: Field[] = [
+// Meta title + description only, for collections that place the social
+// image elsewhere and don't offer noindex.
+export const metaTextFields: Field[] = [
   { name: 'title', label: 'Meta title', type: 'text', localized: true },
   {
     name: 'description',
@@ -117,5 +119,6 @@ export const metaFields: Field[] = [
     type: 'textarea',
     localized: true,
   },
-  ...metaExtraFields,
 ]
+
+export const metaFields: Field[] = [...metaTextFields, ...metaExtraFields]

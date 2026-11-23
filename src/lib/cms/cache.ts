@@ -9,6 +9,8 @@ export type CmsCollection =
   | "clients"
   | "contacts"
   | "events"
+  | "faq-categories"
+  | "faqs"
   | "home-page"
   | "industries"
   | "job-listings"

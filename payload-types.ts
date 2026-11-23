@@ -91,6 +91,8 @@ export interface Config {
     'ai-chats': AiChat;
     'home-page': HomePage;
     'about-page': AboutPage;
+    faqs: Faq;
+    'faq-categories': FaqCategory;
     exports: Export;
     imports: Import;
     'payload-mcp-api-keys': PayloadMcpApiKey;
@@ -111,6 +113,9 @@ export interface Config {
     };
     'work-checklist': {
       clientUsage: 'client-checklist-progress';
+    };
+    'faq-categories': {
+      faqs: 'faqs';
     };
   };
   collectionsSelect: {
@@ -137,6 +142,8 @@ export interface Config {
     'ai-chats': AiChatsSelect<false> | AiChatsSelect<true>;
     'home-page': HomePageSelect<false> | HomePageSelect<true>;
     'about-page': AboutPageSelect<false> | AboutPageSelect<true>;
+    faqs: FaqsSelect<false> | FaqsSelect<true>;
+    'faq-categories': FaqCategoriesSelect<false> | FaqCategoriesSelect<true>;
     exports: ExportsSelect<false> | ExportsSelect<true>;
     imports: ImportsSelect<false> | ImportsSelect<true>;
     'payload-mcp-api-keys': PayloadMcpApiKeysSelect<false> | PayloadMcpApiKeysSelect<true>;
@@ -1780,6 +1787,103 @@ export interface AboutPage {
   createdAt: string;
 }
 /**
+ * Frequently asked questions, grouped by category.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs".
+ */
+export interface Faq {
+  id: number;
+  title?: string | null;
+  category: number | FaqCategory;
+  /**
+   * Shown when the page is shared (Open Graph / X). Best at 1200×630.
+   */
+  image?: (number | null) | Media;
+  shortDescription?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  questions?:
+    | {
+        question: string;
+        answer: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Categories that group the FAQs.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faq-categories".
+ */
+export interface FaqCategory {
+  id: number;
+  name: string;
+  /**
+   * Shown when the page is shared (Open Graph / X). Best at 1200×630.
+   */
+  image?: (number | null) | Media;
+  shortDescription?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  faqs?: {
+    docs?: (number | Faq)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "exports".
  */
@@ -2208,6 +2312,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'about-page';
         value: number | AboutPage;
+      } | null)
+    | ({
+        relationTo: 'faqs';
+        value: number | Faq;
+      } | null)
+    | ({
+        relationTo: 'faq-categories';
+        value: number | FaqCategory;
       } | null)
     | ({
         relationTo: 'payload-mcp-api-keys';
@@ -3401,6 +3513,49 @@ export interface AboutPageSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs_select".
+ */
+export interface FaqsSelect<T extends boolean = true> {
+  title?: T;
+  category?: T;
+  image?: T;
+  shortDescription?: T;
+  questions?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faq-categories_select".
+ */
+export interface FaqCategoriesSelect<T extends boolean = true> {
+  name?: T;
+  image?: T;
+  shortDescription?: T;
+  faqs?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "exports_select".
  */
 export interface ExportsSelect<T extends boolean = true> {
@@ -3713,6 +3868,8 @@ export interface TaskCreateCollectionExport {
       | 'ai-chats'
       | 'home-page'
       | 'about-page'
+      | 'faqs'
+      | 'faq-categories'
       | 'exports'
       | 'imports';
     drafts?: ('yes' | 'no') | null;

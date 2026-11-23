@@ -20,6 +20,12 @@ import * as migration_20261110_120512_ai_chats from './20261110_120512_ai_chats'
 import * as migration_20261112_111449_home_about_pages from './20261112_111449_home_about_pages';
 import * as migration_20261119_144523_blog_faqs from './20261119_144523_blog_faqs';
 import * as migration_20261119_150743_blog_faq_answer_richtext from './20261119_150743_blog_faq_answer_richtext';
+import * as migration_20261123_104630_faqs from './20261123_104630_faqs';
+import * as migration_20261123_110210_faq_categories from './20261123_110210_faq_categories';
+import * as migration_20261123_110645_faqs_questions_array from './20261123_110645_faqs_questions_array';
+import * as migration_20261123_110948_faq_remove_order from './20261123_110948_faq_remove_order';
+import * as migration_20261123_111438_faq_description_meta from './20261123_111438_faq_description_meta';
+import * as migration_20261123_112520_faq_image_seo_tab from './20261123_112520_faq_image_seo_tab';
 
 export const migrations = [
   {
@@ -130,6 +136,36 @@ export const migrations = [
   {
     up: migration_20261119_150743_blog_faq_answer_richtext.up,
     down: migration_20261119_150743_blog_faq_answer_richtext.down,
-    name: '20261119_150743_blog_faq_answer_richtext'
+    name: '20261119_150743_blog_faq_answer_richtext',
+  },
+  {
+    up: migration_20261123_104630_faqs.up,
+    down: migration_20261123_104630_faqs.down,
+    name: '20261123_104630_faqs',
+  },
+  {
+    up: migration_20261123_110210_faq_categories.up,
+    down: migration_20261123_110210_faq_categories.down,
+    name: '20261123_110210_faq_categories',
+  },
+  {
+    up: migration_20261123_110645_faqs_questions_array.up,
+    down: migration_20261123_110645_faqs_questions_array.down,
+    name: '20261123_110645_faqs_questions_array',
+  },
+  {
+    up: migration_20261123_110948_faq_remove_order.up,
+    down: migration_20261123_110948_faq_remove_order.down,
+    name: '20261123_110948_faq_remove_order',
+  },
+  {
+    up: migration_20261123_111438_faq_description_meta.up,
+    down: migration_20261123_111438_faq_description_meta.down,
+    name: '20261123_111438_faq_description_meta',
+  },
+  {
+    up: migration_20261123_112520_faq_image_seo_tab.up,
+    down: migration_20261123_112520_faq_image_seo_tab.down,
+    name: '20261123_112520_faq_image_seo_tab'
   },
 ];

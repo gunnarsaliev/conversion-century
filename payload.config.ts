@@ -33,6 +33,8 @@ import { Redirects } from './src/collections/Redirects'
 import { AiChats } from './src/collections/AiChats'
 import { HomePage } from './src/collections/HomePage'
 import { AboutPage } from './src/collections/AboutPage'
+import { Faqs } from './src/collections/Faqs'
+import { FaqCategories } from './src/collections/FaqCategories'
 import { notifyContractRenewals } from './src/jobs/notifyContractRenewals'
 import { clearUploadedFileAfterProcessing } from './src/utilities/clearUploadedFile'
 import { exportAll } from './src/endpoints/exportAll'
@@ -86,6 +88,8 @@ export default buildConfig({
     AiChats,
     withCmsRevalidation(HomePage),
     withCmsRevalidation(AboutPage),
+    withCmsRevalidation(Faqs),
+    withCmsRevalidation(FaqCategories),
   ],
 
   plugins: [
