@@ -72,8 +72,6 @@ const nextConfig = {
     ]
   },
   experimental: {
-    // `next/root-params`: src/i18n/request.ts reads the locale from it.
-    rootParams: true,
     // src/app/global-not-found.tsx: 404 page for URLs outside [locale]
     // (e.g. /old-page.php, which the locale proxy doesn't match).
     globalNotFound: true,
