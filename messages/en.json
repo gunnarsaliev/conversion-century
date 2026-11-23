@@ -39,6 +39,11 @@
       "title": "SEO blog",
       "description": "Practical articles on technical SEO, content, link building and AI search from the Conversion Century team."
     },
+    "faqs": {
+      "name": "FAQ",
+      "title": "SEO FAQ",
+      "description": "Answers to the questions we hear most about SEO, pricing and working with Conversion Century, grouped by topic."
+    },
     "clients": {
       "name": "Clients",
       "title": "Our clients",
@@ -271,7 +276,8 @@
       "items": {
         "blog": "Blog",
         "checklists": "Checklists",
-        "eventsAndMedia": "Events and Media"
+        "eventsAndMedia": "Events and Media",
+        "faqs": "FAQ"
       }
     },
     "cta": "Book a FREE Consultation",
@@ -662,6 +668,16 @@
     "learnMore": "Learn more",
     "breadcrumb": "Services",
     "otherServices": "Check other services"
+  },
+  "FaqsPage": {
+    "heading": "Frequently asked questions",
+    "description": "Answers to the questions we hear most, grouped by topic.",
+    "empty": "No questions have been published yet.",
+    "breadcrumb": "FAQ",
+    "questions": "Questions",
+    "questionCount": "{count, plural, one {# question} other {# questions}}",
+    "viewQuestions": "View questions",
+    "otherCategories": "Other topics"
   },
   "SolutionsPage": {
     "heading": "Our Solutions",

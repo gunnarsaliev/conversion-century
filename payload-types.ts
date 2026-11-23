@@ -92,7 +92,6 @@ export interface Config {
     'home-page': HomePage;
     'about-page': AboutPage;
     faqs: Faq;
-    'faq-categories': FaqCategory;
     exports: Export;
     imports: Import;
     'payload-mcp-api-keys': PayloadMcpApiKey;
@@ -113,9 +112,6 @@ export interface Config {
     };
     'work-checklist': {
       clientUsage: 'client-checklist-progress';
-    };
-    'faq-categories': {
-      faqs: 'faqs';
     };
   };
   collectionsSelect: {
@@ -143,7 +139,6 @@ export interface Config {
     'home-page': HomePageSelect<false> | HomePageSelect<true>;
     'about-page': AboutPageSelect<false> | AboutPageSelect<true>;
     faqs: FaqsSelect<false> | FaqsSelect<true>;
-    'faq-categories': FaqCategoriesSelect<false> | FaqCategoriesSelect<true>;
     exports: ExportsSelect<false> | ExportsSelect<true>;
     imports: ImportsSelect<false> | ImportsSelect<true>;
     'payload-mcp-api-keys': PayloadMcpApiKeysSelect<false> | PayloadMcpApiKeysSelect<true>;
@@ -1436,6 +1431,7 @@ export interface PageMeta {
     | 'industries'
     | 'caseStudies'
     | 'blog'
+    | 'faqs'
     | 'clients'
     | 'reviews'
     | 'openPositions'
@@ -1787,15 +1783,19 @@ export interface AboutPage {
   createdAt: string;
 }
 /**
- * Frequently asked questions, grouped by category.
+ * Frequently asked questions, one page per topic.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "faqs".
  */
 export interface Faq {
   id: number;
-  title?: string | null;
-  category: number | FaqCategory;
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
   /**
    * Shown when the page is shared (Open Graph / X). Best at 1200×630.
    */
@@ -1836,51 +1836,6 @@ export interface Faq {
         id?: string | null;
       }[]
     | null;
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * Categories that group the FAQs.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "faq-categories".
- */
-export interface FaqCategory {
-  id: number;
-  name: string;
-  /**
-   * When enabled, the slug will auto-generate from the title field on save and autosave.
-   */
-  generateSlug?: boolean | null;
-  slug: string;
-  /**
-   * Shown when the page is shared (Open Graph / X). Best at 1200×630.
-   */
-  image?: (number | null) | Media;
-  shortDescription?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  faqs?: {
-    docs?: (number | Faq)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -2321,10 +2276,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'faqs';
         value: number | Faq;
-      } | null)
-    | ({
-        relationTo: 'faq-categories';
-        value: number | FaqCategory;
       } | null)
     | ({
         relationTo: 'payload-mcp-api-keys';
@@ -3522,7 +3473,8 @@ export interface AboutPageSelect<T extends boolean = true> {
  */
 export interface FaqsSelect<T extends boolean = true> {
   title?: T;
-  category?: T;
+  generateSlug?: T;
+  slug?: T;
   image?: T;
   shortDescription?: T;
   questions?:
@@ -3532,26 +3484,6 @@ export interface FaqsSelect<T extends boolean = true> {
         answer?: T;
         id?: T;
       };
-  meta?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "faq-categories_select".
- */
-export interface FaqCategoriesSelect<T extends boolean = true> {
-  name?: T;
-  generateSlug?: T;
-  slug?: T;
-  image?: T;
-  shortDescription?: T;
-  faqs?: T;
   meta?:
     | T
     | {
@@ -3876,7 +3808,6 @@ export interface TaskCreateCollectionExport {
       | 'home-page'
       | 'about-page'
       | 'faqs'
-      | 'faq-categories'
       | 'exports'
       | 'imports';
     drafts?: ('yes' | 'no') | null;

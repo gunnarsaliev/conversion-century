@@ -36,7 +36,7 @@ async function safely<T>(label: string, fn: () => Promise<T[]>): Promise<T[]> {
 // with versions enabled, and expired job listings (a function, as it reads
 // the clock when the sitemap is generated).
 const DETAIL_COLLECTIONS: Array<{
-  collection: 'blog' | 'events' | 'services' | 'solutions' | 'industries' | 'case-studies' | 'job-listings'
+  collection: 'blog' | 'events' | 'faqs' | 'services' | 'solutions' | 'industries' | 'case-studies' | 'job-listings'
   basePath: string
   where?: Where | (() => Where)
 }> = [
@@ -54,6 +54,7 @@ const DETAIL_COLLECTIONS: Array<{
     where: published,
   },
   { collection: 'case-studies', basePath: '/case-studies' },
+  { collection: 'faqs', basePath: '/faqs' },
   { collection: 'job-listings', basePath: '/careers', where: openJobListings },
 ]
 
@@ -93,11 +94,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           select: {
             slug: true,
             updatedAt: true,
-            ...(collection !== 'job-listings' && { meta: { noindex: true } }),
+            ...(collection !== 'job-listings' &&
+              collection !== 'faqs' && { meta: { noindex: true } }),
           },
         })
         return docs
-          // Job listings have no SEO group.
+          // Job listings have no SEO group; FAQs have no noindex.
           .filter(
             (doc) =>
               !('meta' in doc && (doc.meta as { noindex?: boolean | null } | undefined)?.noindex),

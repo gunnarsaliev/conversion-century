@@ -29,7 +29,9 @@ const Faq1 = ({ heading, items, className }: Faq1Props) => {
       <h2 className="mb-4 text-2xl font-semibold md:mb-8 md:text-3xl">
         {heading}
       </h2>
-      <Accordion>
+      {/* hiddenUntilFound keeps closed answers in the HTML for crawlers;
+          Base UI unmounts them by default. */}
+      <Accordion hiddenUntilFound>
         {items.map((item, index) => (
           <AccordionItem key={item.id ?? index} value={`item-${index}`}>
             <AccordionTrigger className="text-base font-semibold hover:no-underline">

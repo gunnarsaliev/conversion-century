@@ -11,6 +11,7 @@ type SluggedCollection =
   | 'blog'
   | 'case-studies'
   | 'events'
+  | 'faqs'
   | 'industries'
   | 'job-listings'
   | 'services'

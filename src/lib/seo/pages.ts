@@ -100,6 +100,7 @@ type SluggedCollection =
   | "industries"
   | "case-studies"
   | "events"
+  | "faqs"
   | "job-listings";
 
 // Slugs are localized, so a detail page has a different URL per locale.

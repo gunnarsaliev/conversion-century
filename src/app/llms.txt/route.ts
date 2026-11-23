@@ -2,6 +2,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 
 import { cmsCache } from '@/lib/cms/cache'
+import { richTextToPlainText } from '@/lib/rich-text-to-plain-text'
 import { IS_INDEXABLE, ORGANIZATION, SITE_NAME, localizedUrl } from '@/lib/seo/site'
 import { translated } from '@/utilities/findByLocalizedSlug'
 
@@ -16,11 +17,11 @@ type Entry = { name: string; path: string; summary?: string | null }
 
 async function getEntries() {
   'use cache'
-  cmsCache('services', 'solutions', 'industries', 'case-studies', 'blog')
+  cmsCache('services', 'solutions', 'industries', 'case-studies', 'blog', 'faqs')
   const payload = await getPayload({ config })
   const published = { ...translated, _status: { equals: 'published' } }
 
-  const [services, solutions, industries, caseStudies, posts] = await Promise.all([
+  const [services, solutions, industries, caseStudies, posts, faqDocs] = await Promise.all([
     payload.find({
       collection: 'services',
       locale: 'en',
@@ -66,6 +67,15 @@ async function getEntries() {
       sort: '-publishedAt',
       select: { title: true, slug: true, excerpt: true, meta: { description: true } },
     }),
+    payload.find({
+      collection: 'faqs',
+      locale: 'en',
+      where: translated,
+      depth: 0,
+      pagination: false,
+      sort: 'title',
+      select: { title: true, slug: true, shortDescription: true, meta: { description: true } },
+    }),
   ])
 
   return {
@@ -94,6 +104,11 @@ async function getEntries() {
       path: `/blog/${doc.slug}`,
       summary: doc.meta?.description || doc.excerpt,
     })),
+    faqs: faqDocs.docs.map<Entry>((doc) => ({
+      name: doc.title,
+      path: `/faqs/${doc.slug}`,
+      summary: doc.meta?.description || richTextToPlainText(doc.shortDescription),
+    })),
   }
 }
 
@@ -109,7 +124,7 @@ function section(heading: string, entries: Entry[]) {
 export async function GET() {
   if (!IS_INDEXABLE) return new Response('Not found', { status: 404 })
 
-  const { services, solutions, industries, caseStudies, posts } = await getEntries()
+  const { services, solutions, industries, caseStudies, posts, faqs } = await getEntries()
   const page = (path: string) => localizedUrl(path, 'en')
 
   const body = [
@@ -124,6 +139,7 @@ export async function GET() {
     section('Industries', industries),
     section('Case studies', caseStudies),
     section('Latest blog posts', posts),
+    section('Frequently asked questions', faqs),
     '## Company',
     '',
     `- [About](${page('/about')})`,

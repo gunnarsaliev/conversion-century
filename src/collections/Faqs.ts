@@ -1,37 +1,17 @@
-import type { CollectionBeforeChangeHook, CollectionConfig } from 'payload'
+import type { CollectionConfig } from 'payload'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { adminOrEditor } from '../lib/roles'
 import { metaTextFields } from '../fields/sectionFields'
-import type { Faq } from '../../payload-types'
+import { localizedSlugField } from '../utilities/localizedSlugField'
 
-const relationId = (value: unknown) =>
-  value && typeof value === 'object' && 'id' in value
-    ? (value as { id: number }).id
-    : (value as number | null | undefined)
-
-// Keeps `title` (the admin list title) in sync with the linked category's name.
-const setTitle: CollectionBeforeChangeHook<Faq> = async ({ data, req }) => {
-  const categoryId = relationId(data.category)
-  if (categoryId) {
-    const category = await req.payload.findByID({
-      collection: 'faq-categories',
-      id: categoryId,
-      depth: 0,
-      req,
-    })
-    data.title = category.name
-  }
-  return data
-}
-
-// A set of questions and answers, linked to a category in `faq-categories`.
+// A topic page of questions and answers, shown at /faqs/<slug>.
 export const Faqs: CollectionConfig = {
   slug: 'faqs',
   labels: { singular: 'FAQ', plural: 'FAQs' },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'category', 'updatedAt'],
-    description: 'Frequently asked questions, grouped by category.',
+    defaultColumns: ['title', 'slug', 'updatedAt'],
+    description: 'Frequently asked questions, one page per topic.',
   },
   access: {
     read: () => true,
@@ -39,25 +19,15 @@ export const Faqs: CollectionConfig = {
     update: adminOrEditor,
     delete: adminOrEditor,
   },
-  hooks: {
-    beforeChange: [setTitle],
-  },
   fields: [
     {
       name: 'title',
+      label: 'Title',
       type: 'text',
-      admin: {
-        hidden: true,
-      },
-    },
-    {
-      name: 'category',
-      type: 'relationship',
-      relationTo: 'faq-categories',
       required: true,
-      index: true,
-      admin: { position: 'sidebar' },
+      localized: true,
     },
+    localizedSlugField('title'),
     {
       name: 'image',
       label: 'Image',

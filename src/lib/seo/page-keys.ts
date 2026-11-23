@@ -10,6 +10,7 @@ export const STATIC_PAGES = {
   industries: "/industries",
   caseStudies: "/case-studies",
   blog: "/blog",
+  faqs: "/faqs",
   clients: "/clients",
   reviews: "/reviews",
   openPositions: "/open-positions",

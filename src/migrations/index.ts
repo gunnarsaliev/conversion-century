@@ -27,6 +27,8 @@ import * as migration_20261123_110948_faq_remove_order from './20261123_110948_f
 import * as migration_20261123_111438_faq_description_meta from './20261123_111438_faq_description_meta';
 import * as migration_20261123_112520_faq_image_seo_tab from './20261123_112520_faq_image_seo_tab';
 import * as migration_20261123_120327_faq_category_slug from './20261123_120327_faq_category_slug';
+import * as migration_20261123_122020_faqs_page_meta from './20261123_122020_faqs_page_meta';
+import * as migration_20261123_123805_faqs_slug_remove_categories from './20261123_123805_faqs_slug_remove_categories';
 
 export const migrations = [
   {
@@ -172,6 +174,16 @@ export const migrations = [
   {
     up: migration_20261123_120327_faq_category_slug.up,
     down: migration_20261123_120327_faq_category_slug.down,
-    name: '20261123_120327_faq_category_slug'
+    name: '20261123_120327_faq_category_slug',
+  },
+  {
+    up: migration_20261123_122020_faqs_page_meta.up,
+    down: migration_20261123_122020_faqs_page_meta.down,
+    name: '20261123_122020_faqs_page_meta',
+  },
+  {
+    up: migration_20261123_123805_faqs_slug_remove_categories.up,
+    down: migration_20261123_123805_faqs_slug_remove_categories.down,
+    name: '20261123_123805_faqs_slug_remove_categories'
   },
 ];

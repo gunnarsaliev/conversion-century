@@ -10,6 +10,7 @@ import {
   CalendarClock,
   ChevronLeft,
   ChevronRight,
+  CircleHelp,
   ClipboardList,
   Compass,
   FileSearch,
@@ -107,6 +108,7 @@ const aboutLinks = [
 
 const resourceLinks = [
   { key: "blog", href: "/blog", icon: Newspaper },
+  { key: "faqs", href: "/faqs", icon: CircleHelp },
   // { key: "checklists", href: "/docs/getting-started", icon: ListChecks },
   { key: "eventsAndMedia", href: "/events-and-media", icon: Calendar },
 ] as const;

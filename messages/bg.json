@@ -39,6 +39,11 @@
       "title": "SEO блог",
       "description": "Практични статии за техническо SEO, съдържание, линкбилдинг и AI търсене от екипа на Conversion Century."
     },
+    "faqs": {
+      "name": "Въпроси",
+      "title": "Често задавани въпроси за SEO",
+      "description": "Отговори на най-честите въпроси за SEO, цените и работата с Conversion Century, групирани по теми."
+    },
     "clients": {
       "name": "Клиенти",
       "title": "Нашите клиенти",
@@ -271,7 +276,8 @@
       "items": {
         "blog": "Блог",
         "checklists": "Чеклисти",
-        "eventsAndMedia": "Медии и събития"
+        "eventsAndMedia": "Медии и събития",
+        "faqs": "Често задавани въпроси"
       }
     },
     "cta": "Запазете БЕЗПЛАТНА консултация",
@@ -662,6 +668,16 @@
     "learnMore": "Научете повече",
     "breadcrumb": "Услуги",
     "otherServices": "Вижте други услуги"
+  },
+  "FaqsPage": {
+    "heading": "Често задавани въпроси",
+    "description": "Отговори на най-честите въпроси, групирани по теми.",
+    "empty": "Все още няма публикувани въпроси.",
+    "breadcrumb": "Въпроси",
+    "questions": "Въпроси",
+    "questionCount": "{count, plural, one {# въпрос} other {# въпроса}}",
+    "viewQuestions": "Вижте въпросите",
+    "otherCategories": "Други теми"
   },
   "SolutionsPage": {
     "heading": "Нашите решения",
