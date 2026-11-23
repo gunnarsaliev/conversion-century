@@ -7,6 +7,7 @@ import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server'
 
 import { Providers } from '@/app/[locale]/providers'
+import { CookieBanner } from '@/components/CookieBanner'
 import { pickClientMessages } from '@/i18n/client-messages'
 import { routing } from '@/i18n/routing'
 import { IS_INDEXABLE, SITE_NAME, SITE_URL } from '@/lib/seo/site'
@@ -72,6 +73,15 @@ export default async function LocaleLayout({ children }: Props) {
   // Explicit locale: without it next-intl may fall back to reading request
   // headers, which would make every page dynamic.
   const messages = pickClientMessages(await getMessages({ locale }))
+  // The cookie banner loads every language up front and switches in place.
+  const privacyLinkLabel = Object.fromEntries(
+    await Promise.all(
+      routing.locales.map(async (code) => {
+        const t = await getTranslations({ locale: code, namespace: 'Footer' })
+        return [code, t('privacy')] as const
+      }),
+    ),
+  )
 
   return (
     <html
@@ -85,6 +95,13 @@ export default async function LocaleLayout({ children }: Props) {
         <NextIntlClientProvider messages={messages}>
           <Providers>{children}</Providers>
         </NextIntlClientProvider>
+        <CookieBanner
+          apiUrl={process.env.NEXT_PUBLIC_CMS_URL!}
+          tenant="conversion-century"
+          locale={locale}
+          locales={[...routing.locales]}
+          privacyLinkLabel={privacyLinkLabel}
+        />
       </body>
     </html>
   )
