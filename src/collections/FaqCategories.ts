@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { adminOrEditor } from '../lib/roles'
 import { metaTextFields } from '../fields/sectionFields'
+import { localizedSlugField } from '../utilities/localizedSlugField'
 
 // Groups FAQs (e.g. "Pricing", "SEO"). Each FAQ points at one category.
 export const FaqCategories: CollectionConfig = {
@@ -9,7 +10,7 @@ export const FaqCategories: CollectionConfig = {
   labels: { singular: 'FAQ Category', plural: 'FAQ Categories' },
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'updatedAt'],
+    defaultColumns: ['name', 'slug', 'updatedAt'],
     description: 'Categories that group the FAQs.',
   },
   access: {
@@ -25,6 +26,7 @@ export const FaqCategories: CollectionConfig = {
       required: true,
       localized: true,
     },
+    localizedSlugField('name'),
     {
       name: 'image',
       label: 'Image',

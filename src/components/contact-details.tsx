@@ -6,7 +6,13 @@ import { ORGANIZATION } from "@/lib/seo/site";
 
 // Phone, email and office address, shown in the footer and on the
 // consultation page. The address text is localized in the `Contact` messages.
-const ContactDetails = ({ className }: { className?: string }) => {
+const ContactDetails = ({
+  className,
+  phoneClassName,
+}: {
+  className?: string;
+  phoneClassName?: string;
+}) => {
   const t = useTranslations("Contact");
 
   return (
@@ -18,7 +24,10 @@ const ContactDetails = ({ className }: { className?: string }) => {
     >
       <a
         href={`tel:${ORGANIZATION.telephone.replace(/\s/g, "")}`}
-        className="flex items-center gap-2 hover:text-primary"
+        className={cn(
+          "flex items-center gap-2 hover:text-primary",
+          phoneClassName,
+        )}
       >
         <Phone className="size-4 shrink-0" aria-hidden="true" />
         <span className="sr-only">{t("phone")}:</span>

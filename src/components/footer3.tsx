@@ -147,7 +147,10 @@ const Footer3 = ({
               </div>
             ))}
             <div className="sm:col-span-2">
-              <ContactDetails className="mb-8" />
+              <ContactDetails
+                className="mb-8"
+                phoneClassName="text-2xl font-extrabold tracking-tight text-primary hover:text-primary/80 sm:text-3xl [&_svg]:size-6"
+              />
               <ul className="mb-10 flex items-center gap-2 text-muted-foreground">
                 <li className="font-medium">
                   <a

@@ -1853,6 +1853,11 @@ export interface FaqCategory {
   id: number;
   name: string;
   /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  /**
    * Shown when the page is shared (Open Graph / X). Best at 1200×630.
    */
   image?: (number | null) | Media;
@@ -3542,6 +3547,8 @@ export interface FaqsSelect<T extends boolean = true> {
  */
 export interface FaqCategoriesSelect<T extends boolean = true> {
   name?: T;
+  generateSlug?: T;
+  slug?: T;
   image?: T;
   shortDescription?: T;
   faqs?: T;
