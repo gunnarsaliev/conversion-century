@@ -6,7 +6,7 @@ export function PrivacyPolicyEn() {
     <div className="max-w-[48rem] pb-16 md:pb-24">
       <div className="prose dark:prose-invert max-w-none">
         <h1>Privacy Policy</h1>
-        <p className="text-muted-foreground">Last updated: October 29, 2026</p>
+        <p className="text-muted-foreground">Last updated: November 25, 2026</p>
         <p className="lead">
           Processing and protection of personal data concerning partners of
           Conversion Century Ltd.
@@ -374,12 +374,10 @@ export function PrivacyPolicyEn() {
 
         <h3>Consent management</h3>
         <p>
-          We use Cookiebot (Usercentrics A/S, Havnegade 39, 1058 Copenhagen,
-          Denmark) to ask for and record your cookie choices. Cookiebot
-          stores your choice, an anonymous consent ID, the date and time of
-          consent and your anonymised IP address, as proof of consent
-          required by law (Art. 6(1)(c) and Art. 7(1) GDPR). Consent records
-          are kept for 12 months. You can withdraw your consent at any time
+          A cookie banner on the website asks for your cookie choices. Your
+          choice is stored only in the <code>cc_cookie</code> cookie on your
+          device for 6 months; no consent data is sent to us or to third
+          parties. You can withdraw your consent at any time
           with the &quot;Cookie settings&quot; link at the bottom of every
           page; withdrawal doesn&apos;t affect the lawfulness of processing
           before it.

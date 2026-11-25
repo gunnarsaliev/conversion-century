@@ -959,5 +959,23 @@
     "home": "Go back home",
     "services": "Explore our services",
     "blog": "Read the blog"
+  },
+  "CookieBanner": {
+    "title": "We use cookies",
+    "description": "We use cookies to make the site work and, with your consent, for preferences, statistics and marketing.",
+    "acceptAll": "Accept all",
+    "rejectAll": "Reject all",
+    "manage": "Manage preferences",
+    "save": "Save my choices",
+    "preferencesTitle": "Cookie preferences",
+    "privacyLink": "Privacy Policy",
+    "necessaryLabel": "Necessary",
+    "necessaryDescription": "Needed for the site to work. They cannot be switched off.",
+    "preferencesLabel": "Preferences",
+    "preferencesDescription": "Remember choices you make, such as language or region, so you do not have to set them again.",
+    "analyticsLabel": "Statistics",
+    "analyticsDescription": "Help us understand how the site is used so we can improve it.",
+    "marketingLabel": "Marketing",
+    "marketingDescription": "Used to show ads that match your interests."
   }
 }

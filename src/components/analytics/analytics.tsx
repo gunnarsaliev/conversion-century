@@ -9,9 +9,9 @@ import { RouteChangeTracker } from './route-change-tracker'
 // dashboard, docs and tools aren't tracked).
 //
 // GTM loads after hydration (next/script afterInteractive), off the critical
-// path. Cookiebot is loaded by GTM itself (Cookiebot CMP template on the
-// Consent Initialization trigger), which sets Consent Mode v2 defaults to
-// denied before any tag runs. Consent Mode runs in advanced mode: without
+// path. Consent Mode v2 defaults (denied) are set earlier by an inline script
+// in the root layout, and the cookie banner sends updates (see
+// lib/analytics/consent.ts). Consent Mode runs in advanced mode: without
 // consent, Google tags still send cookieless pings (no identifiers), which
 // the cookie and privacy policies describe.
 //

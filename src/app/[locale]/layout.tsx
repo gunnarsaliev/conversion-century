@@ -4,11 +4,18 @@ import { locale as rootLocale } from 'next/root-params'
 import { Montserrat } from 'next/font/google'
 import clsx from 'clsx'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
-import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server'
+import {
+  getMessages,
+  getTranslations,
+  setRequestLocale,
+} from 'next-intl/server'
+import type { Translation } from 'vanilla-cookieconsent'
 
 import { Providers } from '@/app/[locale]/providers'
 import { CookieBanner } from '@/components/CookieBanner'
 import { pickClientMessages } from '@/i18n/client-messages'
+import { getPathname } from '@/i18n/navigation'
+import { CONSENT_DEFAULT_SCRIPT } from '@/lib/analytics/consent'
 import { routing } from '@/i18n/routing'
 import { IS_INDEXABLE, SITE_NAME, SITE_URL } from '@/lib/seo/site'
 
@@ -74,11 +81,47 @@ export default async function LocaleLayout({ children }: Props) {
   // headers, which would make every page dynamic.
   const messages = pickClientMessages(await getMessages({ locale }))
   // The cookie banner loads every language up front and switches in place.
-  const privacyLinkLabel = Object.fromEntries(
+  const cookieBannerTranslations = Object.fromEntries(
     await Promise.all(
       routing.locales.map(async (code) => {
-        const t = await getTranslations({ locale: code, namespace: 'Footer' })
-        return [code, t('privacy')] as const
+        const t = await getTranslations({
+          locale: code,
+          namespace: 'CookieBanner',
+        })
+        const privacyUrl = getPathname({
+          href: '/legal/privacy-policy',
+          locale: code,
+        })
+        const section = (
+          name: 'necessary' | 'preferences' | 'analytics' | 'marketing',
+        ) => ({
+          title: t(`${name}Label`),
+          description: t(`${name}Description`),
+          linkedCategory: name,
+        })
+        const translation: Translation = {
+          consentModal: {
+            title: t('title'),
+            description: t('description'),
+            acceptAllBtn: t('acceptAll'),
+            acceptNecessaryBtn: t('rejectAll'),
+            showPreferencesBtn: t('manage'),
+            footer: `<a href="${privacyUrl}">${t('privacyLink')}</a>`,
+          },
+          preferencesModal: {
+            title: t('preferencesTitle'),
+            acceptAllBtn: t('acceptAll'),
+            acceptNecessaryBtn: t('rejectAll'),
+            savePreferencesBtn: t('save'),
+            sections: [
+              section('necessary'),
+              section('preferences'),
+              section('analytics'),
+              section('marketing'),
+            ],
+          },
+        }
+        return [code, translation] as const
       }),
     ),
   )
@@ -89,19 +132,17 @@ export default async function LocaleLayout({ children }: Props) {
       className={clsx('h-full antialiased', montserrat.variable)}
       suppressHydrationWarning
     >
+      <head>
+        {/* Consent Mode defaults (denied) must be set before GTM loads. */}
+        <script dangerouslySetInnerHTML={{ __html: CONSENT_DEFAULT_SCRIPT }} />
+      </head>
       <body className="isolate flex min-h-full bg-white dark:bg-slate-900">
         {/* Shared by every route group, so the theme provider (and its inline
             script) isn't remounted when navigating between them. */}
         <NextIntlClientProvider messages={messages}>
           <Providers>{children}</Providers>
         </NextIntlClientProvider>
-        <CookieBanner
-          apiUrl={process.env.NEXT_PUBLIC_CMS_URL!}
-          tenant="conversion-century"
-          locale={locale}
-          locales={[...routing.locales]}
-          privacyLinkLabel={privacyLinkLabel}
-        />
+        <CookieBanner locale={locale} translations={cookieBannerTranslations} />
       </body>
     </html>
   )

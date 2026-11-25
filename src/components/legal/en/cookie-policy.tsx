@@ -1,4 +1,3 @@
-import { CookieDeclaration } from "@/components/analytics/cookie-declaration";
 import { CookieSettingsButton } from "@/components/analytics/cookie-settings-button";
 import { Link } from "@/i18n/navigation";
 import { EXTERNAL_LINK_REL } from "@/lib/external-link";
@@ -8,7 +7,7 @@ export function CookiePolicyEn() {
     <div className="max-w-[48rem] pb-16 md:pb-24">
       <div className="prose dark:prose-invert max-w-none">
         <h1>Cookie Policy</h1>
-        <p className="text-muted-foreground">Last updated: October 29, 2026</p>
+        <p className="text-muted-foreground">Last updated: November 25, 2026</p>
 
         <p>
           This Cookie Policy explains how Conversion Century Ltd. (VAT No.
@@ -51,11 +50,10 @@ export function CookiePolicyEn() {
         <p>
           When you first visit the website, a cookie banner asks which
           optional cookies you allow. Nothing except necessary cookies is set
-          until you choose. The banner is provided by Cookiebot (Usercentrics
-          A/S, Havnegade 39, 1058 Copenhagen, Denmark), which stores your
-          choice in the <code>CookieConsent</code> cookie for 12 months and
-          keeps an anonymous record of it as proof of consent. You can change
-          or withdraw your consent at any time:
+          until you choose. Your choice is stored in the{" "}
+          <code>cc_cookie</code> cookie in your browser for 6 months; it
+          isn&apos;t sent to us or to anyone else. You can change or withdraw
+          your consent at any time:
         </p>
         <p>
           <CookieSettingsButton label="Change or withdraw your consent" />
@@ -72,12 +70,10 @@ export function CookiePolicyEn() {
             </thead>
             <tbody className="align-top">
               <tr className="border-b">
-                <td className="py-2 pr-4 font-mono">CookieConsent</td>
-                <td className="py-2 pr-4">
-                  Stores your cookie choices (Cookiebot).
-                </td>
+                <td className="py-2 pr-4 font-mono">cc_cookie</td>
+                <td className="py-2 pr-4">Stores your cookie choices.</td>
                 <td className="py-2 pr-4">Cookie, necessary</td>
-                <td className="py-2">12 months</td>
+                <td className="py-2">6 months</td>
               </tr>
               <tr className="border-b">
                 <td className="py-2 pr-4 font-mono">NEXT_LOCALE</td>
@@ -132,11 +128,6 @@ export function CookiePolicyEn() {
             </tbody>
           </table>
         </div>
-        <p>
-          The list below is kept up to date automatically by Cookiebot, which
-          regularly scans the website:
-        </p>
-        <CookieDeclaration locale="en" />
 
         <h2>Website analytics</h2>
         <p>
