@@ -132,13 +132,16 @@ export function CookieBanner({
 
   useEffect(() => {
     let cancelled = false
+    // A trailing slash makes `//api/...`, which the CMS answers with a redirect that has no CORS
+    // headers, so the browser blocks it and the banner never shows.
+    const base = apiUrl.replace(/\/+$/, '')
     const codes = localesKey.split(',')
     const labels: Record<string, string> | string = JSON.parse(labelKey)
     const labelFor = (code: string) =>
       typeof labels === 'string' ? labels : (labels[code] ?? Object.values(labels)[0] ?? '')
 
     const log = (cookie: CookieConsent.CookieValue) => {
-      void fetch(`${apiUrl}/api/consent/log`, {
+      void fetch(`${base}/api/consent/log`, {
         body: JSON.stringify({
           analytics: cookie.categories.includes('analytics'),
           consentId: cookie.consentId,
@@ -157,7 +160,7 @@ export function CookieBanner({
 
     const fetchConfig = async (code: string): Promise<ConsentConfig | null> => {
       const response = await fetch(
-        `${apiUrl}/api/consent/config?${new URLSearchParams({ locale: code, tenant })}`,
+        `${base}/api/consent/config?${new URLSearchParams({ locale: code, tenant })}`,
       )
 
       return response.ok ? response.json() : null
